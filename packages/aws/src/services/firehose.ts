@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -1369,6 +1370,7 @@ export const createDeliveryStream: API.OperationMethod<
     LimitExceededException,
     ResourceInUseException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeliveryStream",
@@ -1407,6 +1409,7 @@ export const deleteDeliveryStream: API.OperationMethod<
   input: __S(608, __c19, 0) as any as S.Schema<DeleteDeliveryStreamInput>,
   output: __S(640, __c20, 0) as any as S.Schema<DeleteDeliveryStreamOutput>,
   errors: [ResourceInUseException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliveryStream",
@@ -1434,6 +1437,7 @@ export const describeDeliveryStream: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<DescribeDeliveryStreamInput>,
   output: __S(24, __c0, 24) as any as S.Schema<DescribeDeliveryStreamOutput>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeliveryStream",
@@ -1462,6 +1466,7 @@ export const listDeliveryStreams: API.OperationMethod<
   input: __S(32, __c1, 0) as any as S.Schema<ListDeliveryStreamsInput>,
   output: __S(33, __c1, 1) as any as S.Schema<ListDeliveryStreamsOutput>,
   errors: [],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeliveryStreams",
@@ -1487,6 +1492,7 @@ export const listTagsForDeliveryStream: API.OperationMethod<
   input: __S(64, __c2, 0) as any as S.Schema<ListTagsForDeliveryStreamInput>,
   output: __S(65, __c2, 1) as any as S.Schema<ListTagsForDeliveryStreamOutput>,
   errors: [InvalidArgumentException, LimitExceededException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForDeliveryStream",
@@ -1567,6 +1573,7 @@ export const putRecord: API.OperationMethod<
     ResourceNotFoundException,
     ServiceUnavailableException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
@@ -1668,6 +1675,7 @@ export const putRecordBatch: API.OperationMethod<
     ResourceNotFoundException,
     ServiceUnavailableException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecordBatch",
@@ -1745,6 +1753,7 @@ export const startDeliveryStreamEncryption: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeliveryStreamEncryption",
@@ -1797,6 +1806,7 @@ export const stopDeliveryStreamEncryption: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDeliveryStreamEncryption",
@@ -1838,6 +1848,7 @@ export const tagDeliveryStream: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagDeliveryStream",
@@ -1873,6 +1884,7 @@ export const untagDeliveryStream: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagDeliveryStream",
@@ -1930,6 +1942,7 @@ export const updateDestination: API.OperationMethod<
     ResourceInUseException,
     ResourceNotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDestination",

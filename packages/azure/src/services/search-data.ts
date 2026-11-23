@@ -4,7 +4,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -179,7 +179,7 @@ export interface AzureActiveDirectoryApplicationCredentials {
   /** An AAD Application ID that was granted the required access permissions to the Azure Key Vault that is to be used when encrypting your data at rest. The Application ID should not be confused with the Object ID for your AAD Application. */
   applicationId: string;
   /** The authentication key of the specified AAD application. */
-  applicationSecret?: string | undefined;
+  applicationSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be used to encrypt or decrypt data-at-rest, such as indexes and synonym maps. */
 export interface SearchResourceEncryptionKey {
@@ -1244,7 +1244,7 @@ export interface ShingleTokenFilter {
   /** The string to use when joining adjacent tokens to form a shingle. Default is a single space (" "). */
   tokenSeparator?: string | undefined;
   /** The string to insert for each position at which there is no token. Default is an underscore ("_"). */
-  filterToken?: string | undefined;
+  filterToken?: string | Redacted.Redacted<string> | undefined;
 }
 /** The discriminator for derived types. */
 export type SnowballTokenFilterOdataType = "#Microsoft.Azure.Search.SnowballTokenFilter";
@@ -3887,7 +3887,7 @@ export type SearchIndexerKnowledgeStoreProjectionsList =
 /** Definition of additional projections to azure blob, table, or files, of enriched data. */
 export interface SearchIndexerKnowledgeStore {
   /** The connection string to the storage account projections will be stored in. */
-  storageConnectionString: string;
+  storageConnectionString: string | Redacted.Redacted<string>;
   /** A list of additional projections to perform during indexing. */
   projections: SearchIndexerKnowledgeStoreProjectionsList;
   /** The user-assigned managed identity used for connections to Azure Storage when writing knowledge store projections. If the connection string indicates an identity (ResourceId) and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
@@ -4248,7 +4248,7 @@ export interface DocumentsSearchGetRequest {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   xMsClientRequestId?: string | undefined;
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
-  xMsQuerySourceAuthorization?: string | undefined;
+  xMsQuerySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** A value that enables elevated read that bypass document level permission checks for the query operation. */
   xMsEnableElevatedRead?: boolean | undefined;
 }
@@ -4517,7 +4517,7 @@ export interface DocumentsSearchPostRequest {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   xMsClientRequestId?: string | undefined;
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
-  xMsQuerySourceAuthorization?: string | undefined;
+  xMsQuerySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** A value that enables elevated read that bypass document level permission checks for the query operation. */
   xMsEnableElevatedRead?: boolean | undefined;
   /** A value that specifies whether to fetch the total count of results. Default is false. Setting this value to true may have a performance impact. Note that the count returned is an approximation. */
@@ -4608,7 +4608,7 @@ export interface GetDocumentRequest {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   xMsClientRequestId?: string | undefined;
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
-  xMsQuerySourceAuthorization?: string | undefined;
+  xMsQuerySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** A value that enables elevated read that bypass document level permission checks for the query operation. */
   xMsEnableElevatedRead?: boolean | undefined;
 }
@@ -5115,7 +5115,7 @@ export interface GetKnowledgeRetrievalRequest {
   /** The name of the knowledge base. */
   knowledgeBaseName: string;
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
-  xMsQuerySourceAuthorization?: string | undefined;
+  xMsQuerySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   xMsClientRequestId?: string | undefined;
   /** A list of chat message style input. */
@@ -5713,7 +5713,7 @@ export interface GetKnowledgeRetrievalStreamRequest {
   /** The name of the knowledge base. */
   knowledgeBaseName: string;
   /** Token identifying the user for which the query is being executed. This token is used to enforce security restrictions on documents. */
-  xMsQuerySourceAuthorization?: string | undefined;
+  xMsQuerySourceAuthorization?: string | Redacted.Redacted<string> | undefined;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   xMsClientRequestId?: string | undefined;
   /** A list of chat message style input. */
@@ -6009,7 +6009,7 @@ export interface IndexesAnalyzeRequest {
 /** Information about a token returned by an analyzer. */
 export interface AnalyzedTokenInfo {
   /** The token returned by the analyzer. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The index of the first character of the token in the input text. */
   startOffset: number;
   /** The index of the last character of the token in the input text. */
@@ -6695,7 +6695,8 @@ export const AliasesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AliasesCreateOrUpdateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SearchAlias>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6712,7 +6713,8 @@ export const CreateAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<CreateAliasRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SearchAlias>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6729,7 +6731,8 @@ export const CreateDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<CreateDataSourceRequest>,
   output: __S(582, __c18, 6) as any as S.Schema<SearchIndexerDataSource>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6746,7 +6749,8 @@ export const CreateIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<CreateIndexRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<SearchIndex>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6763,7 +6767,8 @@ export const CreateIndexer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<CreateIndexerRequest>,
   output: __S(1669, __c52, 5) as any as S.Schema<SearchIndexer>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6780,7 +6785,8 @@ export const CreateKnowledgeBase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<CreateKnowledgeBaseRequest>,
   output: __S(2145, __c67, 1) as any as S.Schema<KnowledgeBase>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6797,7 +6803,8 @@ export const CreateKnowledgeSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<CreateKnowledgeSourceRequest>,
   output: __S(2624, __c82, 0) as any as S.Schema<CreateKnowledgeSourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6814,7 +6821,8 @@ export const CreateSkillset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<CreateSkillsetRequest>,
   output: __S(2932, __c91, 20) as any as S.Schema<SearchIndexerSkillset>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6831,7 +6839,8 @@ export const CreateSynonymMap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<CreateSynonymMapRequest>,
   output: __S(2976, __c93, 0) as any as S.Schema<SynonymMap>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6848,7 +6857,8 @@ export const DataSourcesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<DataSourcesCreateOrUpdateRequest>,
   output: __S(582, __c18, 6) as any as S.Schema<SearchIndexerDataSource>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6865,7 +6875,8 @@ export const DeleteAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DeleteAliasRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteAliasResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6882,7 +6893,8 @@ export const DeleteDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeleteDataSourceRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteDataSourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6899,7 +6911,8 @@ export const DeleteIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DeleteIndexRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteIndexResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6916,7 +6929,8 @@ export const DeleteIndexer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DeleteIndexerRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteIndexerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6933,7 +6947,8 @@ export const DeleteKnowledgeBase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<DeleteKnowledgeBaseRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteKnowledgeBaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6950,7 +6965,8 @@ export const DeleteKnowledgeSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<DeleteKnowledgeSourceRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteKnowledgeSourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6967,7 +6983,8 @@ export const DeleteKnowledgeSourceFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<DeleteKnowledgeSourceFileRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteKnowledgeSourceFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6984,7 +7001,8 @@ export const DeleteSkillset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DeleteSkillsetRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteSkillsetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7001,7 +7019,8 @@ export const DeleteSynonymMap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<DeleteSynonymMapRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<DeleteSynonymMapResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7018,7 +7037,8 @@ export const DocumentsCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DocumentsCountRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<DocumentsCountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7035,7 +7055,8 @@ export const DocumentsSearchGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DocumentsSearchGetRequest>,
   output: __S(663, __c20, 23) as any as S.Schema<SearchDocumentsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7052,7 +7073,8 @@ export const DocumentsSearchPost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DocumentsSearchPostRequest>,
   output: __S(663, __c20, 23) as any as S.Schema<SearchDocumentsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7069,7 +7091,8 @@ export const GetAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GetAliasRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SearchAlias>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7086,7 +7109,8 @@ export const GetDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<GetDataSourceRequest>,
   output: __S(582, __c18, 6) as any as S.Schema<SearchIndexerDataSource>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7103,7 +7127,8 @@ export const GetDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetDocumentRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<GetDocumentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7120,7 +7145,8 @@ export const GetDocumentsAutocomplete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetDocumentsAutocompleteRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<AutocompleteResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7137,7 +7163,8 @@ export const GetDocumentsSuggest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetDocumentsSuggestRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<SuggestDocumentsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7154,7 +7181,8 @@ export const GetIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetIndexRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<SearchIndex>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7171,7 +7199,8 @@ export const GetIndexer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetIndexerRequest>,
   output: __S(1669, __c52, 5) as any as S.Schema<SearchIndexer>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7188,7 +7217,8 @@ export const GetIndexerStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetIndexerStatusRequest>,
   output: __S(1000, __c31, 8) as any as S.Schema<SearchIndexerStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7205,7 +7235,8 @@ export const GetIndexStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetIndexStatisticsRequest>,
   output: __S(1281, __c40, 1) as any as S.Schema<GetIndexStatisticsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7223,7 +7254,8 @@ export const GetIndexStatsSummary: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetIndexStatsSummaryRequest>,
   output: __S(1315, __c41, 3) as any as S.Schema<ListIndexStatsSummary>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7246,7 +7278,8 @@ export const GetKnowledgeBase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetKnowledgeBaseRequest>,
   output: __S(2145, __c67, 1) as any as S.Schema<KnowledgeBase>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7263,7 +7296,8 @@ export const GetKnowledgeRetrieval: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetKnowledgeRetrievalRequest>,
   output: __S(1403, __c43, 27) as any as S.Schema<KnowledgeBaseRetrievalResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7280,7 +7314,8 @@ export const GetKnowledgeRetrievalStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetKnowledgeRetrievalStreamRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<GetKnowledgeRetrievalStreamResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7297,7 +7332,8 @@ export const GetKnowledgeSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetKnowledgeSourceRequest>,
   output: __S(2624, __c82, 0) as any as S.Schema<GetKnowledgeSourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7314,7 +7350,8 @@ export const GetKnowledgeSourceStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetKnowledgeSourceStatusRequest>,
   output: __S(1511, __c47, 7) as any as S.Schema<KnowledgeSourceStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7331,7 +7368,8 @@ export const GetServiceStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetServiceStatisticsRequest>,
   output: __S(1540, __c48, 4) as any as S.Schema<SearchServiceStatistics>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7348,7 +7386,8 @@ export const GetSkillset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetSkillsetRequest>,
   output: __S(2932, __c91, 20) as any as S.Schema<SearchIndexerSkillset>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7365,7 +7404,8 @@ export const GetSynonymMap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetSynonymMapRequest>,
   output: __S(2976, __c93, 0) as any as S.Schema<SynonymMap>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7382,7 +7422,8 @@ export const IndexersCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<IndexersCreateOrUpdateRequest>,
   output: __S(1669, __c52, 5) as any as S.Schema<SearchIndexer>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7399,7 +7440,8 @@ export const IndexersResync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<IndexersResyncRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<IndexersResyncResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7416,7 +7458,8 @@ export const IndexesAnalyze: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<IndexesAnalyzeRequest>,
   output: __S(1827, __c57, 3) as any as S.Schema<AnalyzeResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7433,7 +7476,8 @@ export const IndexesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<IndexesCreateOrUpdateRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<SearchIndex>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7450,7 +7494,8 @@ export const KnowledgeBasesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<KnowledgeBasesCreateOrUpdateRequest>,
   output: __S(2145, __c67, 1) as any as S.Schema<KnowledgeBase>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7467,7 +7512,8 @@ export const KnowledgeSourcesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<KnowledgeSourcesCreateOrUpdateRequest>,
   output: __S(2624, __c82, 0) as any as S.Schema<KnowledgeSourcesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7485,7 +7531,8 @@ export const ListAliases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListAliasesRequest>,
   output: __S(1954, __c61, 2) as any as S.Schema<ListAliasesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7509,7 +7556,8 @@ export const ListDataSources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListDataSourcesRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<ListDataSourcesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7532,7 +7580,8 @@ export const ListDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2018, __c63, 2) as any as S.Schema<ListDocumentsRequest>,
   output: __S(2021, __c63, 5) as any as S.Schema<IndexDocumentsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7550,7 +7599,8 @@ export const ListIndexers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListIndexersRequest>,
   output: __S(2050, __c64, 2) as any as S.Schema<ListIndexersResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7574,7 +7624,8 @@ export const ListIndexes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListIndexesRequest>,
   output: __S(2242, __c70, 2) as any as S.Schema<ListIndexesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7598,7 +7649,8 @@ export const ListIndexWithSelectedProperties: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListIndexWithSelectedPropertiesRequest>,
   output: __S(2275, __c71, 3) as any as S.Schema<ListIndexesSelectedResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7622,7 +7674,8 @@ export const ListKnowledgeBases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListKnowledgeBasesRequest>,
   output: __S(2306, __c72, 2) as any as S.Schema<ListKnowledgeBasesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7646,7 +7699,8 @@ export const ListKnowledgeSourceFiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListKnowledgeSourceFilesRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<ListKnowledgeSourceFilesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7670,7 +7724,8 @@ export const ListKnowledgeSources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ListKnowledgeSourcesRequest>,
   output: __S(2402, __c75, 2) as any as S.Schema<ListKnowledgeSourcesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7694,7 +7749,8 @@ export const ListSkillsets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ListSkillsetsRequest>,
   output: __S(2434, __c76, 2) as any as S.Schema<ListSkillsetsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7718,7 +7774,8 @@ export const ListSynonymMaps: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<ListSynonymMapsRequest>,
   output: __S(2466, __c77, 2) as any as S.Schema<ListSynonymMapsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7741,7 +7798,8 @@ export const PostDocumentsAutocomplete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<PostDocumentsAutocompleteRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<AutocompleteResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7758,7 +7816,8 @@ export const PostDocumentsSuggest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<PostDocumentsSuggestRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<SuggestDocumentsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7775,7 +7834,8 @@ export const ResetIndexer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ResetIndexerRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<ResetIndexerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7792,7 +7852,8 @@ export const RunIndexer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<RunIndexerRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<RunIndexerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7809,7 +7870,8 @@ export const SkillsetsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<SkillsetsCreateOrUpdateRequest>,
   output: __S(2932, __c91, 20) as any as S.Schema<SearchIndexerSkillset>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7826,7 +7888,8 @@ export const SynonymMapsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<SynonymMapsCreateOrUpdateRequest>,
   output: __S(2976, __c93, 0) as any as S.Schema<SynonymMap>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7843,7 +7906,8 @@ export const UpdateKnowledgeSourceFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<UpdateKnowledgeSourceFileRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<KnowledgeSourceFile>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7860,7 +7924,8 @@ export const UploadKnowledgeSourceFileMultipart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<UploadKnowledgeSourceFileMultipartRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<KnowledgeSourceFile>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8239,7 +8304,7 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationId: S.String,
-          applicationSecret: S.optional(S.String),
+          applicationSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AzureActiveDirectoryApplicationCredentials" });
     case 4:
@@ -8348,7 +8413,7 @@ function __c19(j: number): any {
           debug: S.optional(S.String.pipe(T.Query())),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           xMsQuerySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-query-source-authorization")),
+            S.String.pipe(T.Header("x-ms-query-source-authorization"), T.SensitiveValue({})),
           ),
           xMsEnableElevatedRead: S.optional(S.Boolean.pipe(T.Header("x-ms-enable-elevated-read"))),
         }).pipe(
@@ -8564,7 +8629,7 @@ function __c21(j: number): any {
           indexName: S.String.pipe(T.Label()),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           xMsQuerySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-query-source-authorization")),
+            S.String.pipe(T.Header("x-ms-query-source-authorization"), T.SensitiveValue({})),
           ),
           xMsEnableElevatedRead: S.optional(S.Boolean.pipe(T.Header("x-ms-enable-elevated-read"))),
           count: S.optional(S.Boolean),
@@ -8665,7 +8730,7 @@ function __c24(j: number): any {
           _select: S.optional(__S(64, __c2, 0).pipe(T.Query("$select"), T.CommaDelimited({}))),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           xMsQuerySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-query-source-authorization")),
+            S.String.pipe(T.Header("x-ms-query-source-authorization"), T.SensitiveValue({})),
           ),
           xMsEnableElevatedRead: S.optional(S.Boolean.pipe(T.Header("x-ms-enable-elevated-read"))),
         }).pipe(
@@ -9403,7 +9468,7 @@ function __c36(j: number): any {
           outputUnigrams: S.optional(S.Boolean),
           outputUnigramsIfNoShingles: S.optional(S.Boolean),
           tokenSeparator: S.optional(S.String),
-          filterToken: S.optional(S.String),
+          filterToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ShingleTokenFilter" });
     case 16:
@@ -9840,7 +9905,7 @@ function __c43(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           knowledgeBaseName: S.String.pipe(T.Label()),
           xMsQuerySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-query-source-authorization")),
+            S.String.pipe(T.Header("x-ms-query-source-authorization"), T.SensitiveValue({})),
           ),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           messages: S.optional(__S(1414, __c44, 6)),
@@ -10266,7 +10331,7 @@ function __c45(j: number): any {
           endpoint: S.String.pipe(T.HostLabel()),
           knowledgeBaseName: S.String.pipe(T.Label()),
           xMsQuerySourceAuthorization: S.optional(
-            S.String.pipe(T.Header("x-ms-query-source-authorization")),
+            S.String.pipe(T.Header("x-ms-query-source-authorization"), T.SensitiveValue({})),
           ),
           xMsClientRequestId: S.optional(S.String.pipe(T.Header("x-ms-client-request-id"))),
           messages: S.optional(__S(1414, __c44, 6)),
@@ -10720,7 +10785,7 @@ function __c57(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           startOffset: S.Number,
           endOffset: S.Number,
           position: S.Number,
@@ -12386,7 +12451,7 @@ function __c91(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          storageConnectionString: S.String,
+          storageConnectionString: S.String.pipe(T.SensitiveValue({})),
           projections: __S(2926, __c91, 14),
           identity: S.optional(S.NullOr(__S(514, __c16, 2))),
         }),

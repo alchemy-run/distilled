@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -419,6 +420,7 @@ export const deleteSession: API.OperationMethod<
     LimitExceededException,
     NotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSession",
@@ -450,6 +452,7 @@ export const getSession: API.OperationMethod<
     LimitExceededException,
     NotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
@@ -552,6 +555,7 @@ export const postContent: API.OperationMethod<
     RequestTimeoutException,
     UnsupportedMediaTypeException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostContent",
@@ -645,6 +649,7 @@ export const postText: API.OperationMethod<
     LoopDetectedException,
     NotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostText",
@@ -688,6 +693,7 @@ export const putSession: API.OperationMethod<
     NotAcceptableException,
     NotFoundException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSession",

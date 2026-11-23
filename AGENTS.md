@@ -11,7 +11,10 @@ number.
 
 1. **Fix a spec with a patch.** Typed errors, nullability, sensitive marks,
    missing fields and pagination go in `packages/<pkg>/patches/`, then
-   `pnpm generate <pkg>`. Example: a Clerk error code is a body matcher,
+   `pnpm generate <pkg>`. A typed error that any operation of the SDK can
+   return goes in the `<Sdk>ServiceErrors` list in
+   `packages/<pkg>/src/errors.ts`, as a class with a matcher and the evidence
+   of rule 7. Example: a Clerk error code is a body matcher,
    `{ "status": 404, "body": { "/errors/0/code": "resource_not_found" } }`.
 2. **Do not edit generated files.** `packages/*/src/services/` comes only from
    `pnpm generate`. Example: a `NotFound` added by hand to
@@ -85,14 +88,17 @@ number.
     the only way. Example: `S3.getObject({ Bucket, Key, region })` and
     `Effect.provide(Region.of("eu-west-1"))` both work; #1047 removed R2's
     `jurisdiction` members for a layer and #1063 put them back.
-16. **Concurrent calls share one token refresh.** A credentials layer that
-    caches a token or credentials until they expire mints them once for all
-    callers waiting on a cold or stale cache. Check the cache, take a
-    one-permit `Semaphore`, and check again inside it, as
-    `createRefreshingProvider` in `gcp/src/credentials-service.ts` does.
-    Create the cache once per layer value. Example: 20 parallel calls on a
-    cold cache run one STS request or credential process, and all 20 get
-    the same keys.
+16. **Cache tokens with core `refreshing`.** A credentials layer that
+    caches a token or credentials until they expire uses `refreshing` from
+    `@distilled.cloud/core/token-cache`, created once per layer value.
+    Concurrent calls on a cold or stale cache then share one mint, and no
+    call waits on another call's fiber. Pass `onTimeout` with an error the
+    layer already fails with, and `timeoutMs` when the mint's own retries
+    can run past the 60 s default. Do not share a `Semaphore`,
+    `Deferred`, `SynchronizedRef` or `Effect.cachedWithTTL` between calls:
+    in workerd one request never wakes another, and workerd cancels the
+    waiting request as hung. Example: 20 parallel calls on a cold cache run
+    one STS request or credential process, and all 20 get the same keys.
 17. **An agent signs what it writes on GitHub.** When a coding agent writes
     a pull request body, a review, or a comment on a pull request or issue,
     it ends that text with this note. Fill in the GitHub username of the
@@ -135,9 +141,10 @@ uninitialised, and every `packages/*/specs/spec-mirror-*/` directory is empty.
 
 ## You probably do not need the specs
 
-CI never checks out a submodule and never runs the generator. The generated
-SDKs are committed, so `pnpm install && pnpm typecheck` is a complete,
-working checkout for anything that is not a codegen change.
+CI fetches only the turso and npm mirrors: the Lint job regenerates those two
+SDKs and fails if the committed code differs. The generated SDKs are
+committed, so `pnpm install && pnpm typecheck` is a complete, working
+checkout for anything that is not a codegen change.
 
 Fetch specs only when you are going to regenerate:
 

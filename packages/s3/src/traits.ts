@@ -27,12 +27,9 @@ import { blob, timestamp } from "./lite.ts";
 
 /**
  * One of this package's modules, loaded on first use. A failed load is an
- * {@link SdkError}; the protocol, middleware and codec effects that load
- * modules are typed `never`, and SdkError is in every operation's declared
- * error channel (`CommonErrors`).
+ * {@link SdkError}, which the protocol declares.
  */
-const loadOwnModule = <A>(load: () => PromiseLike<A>): Effect.Effect<A> =>
-  loadModule(load) as Effect.Effect<A, never>;
+const loadOwnModule: <A>(load: () => PromiseLike<A>) => Effect.Effect<A, SdkError> = loadModule;
 
 /**
  * A protocol whose implementation module loads on the first request.
@@ -361,7 +358,7 @@ export const AwsProtocolsRestXml = (trait?: AwsProtocolsRestXmlTrait) =>
 export type MiddlewareFn = (
   schema: S.Top,
   request: ProtocolRequest,
-) => Effect.Effect<ProtocolRequest, InvalidInput>;
+) => Effect.Effect<ProtocolRequest, InvalidInput | SdkError>;
 
 /** Middleware annotation value - includes trait data and implementation */
 export interface MiddlewareAnnotationValue {
@@ -751,25 +748,28 @@ const loadEventStreamCodec = (): Promise<EventStreamCodec> =>
     import("./eventstream/serializer.ts"),
   ]).then(([parser, serializer]) => ({ ...parser, ...serializer })));
 
-const codecFor = (eventSchema: unknown): Effect.Effect<EventStreamCodec> => {
+const codecFor = (eventSchema: unknown): Effect.Effect<EventStreamCodec, SdkError> => {
   const load =
     eventSchema && (typeof eventSchema === "object" || typeof eventSchema === "function")
       ? eventStreamCodecs.get(eventSchema)
       : undefined;
   return load
     ? loadOwnModule(load)
-    : (Effect.fail(
+    : Effect.fail(
         new SdkError({
           message: "event stream member without an EventStream / InputEventStream schema",
         }),
-      ) as Effect.Effect<never>);
+      );
 };
 
-/** A stream built by the event stream codec registered for `eventSchema`. */
+/**
+ * A stream built by the event stream codec registered for `eventSchema`. A
+ * codec that does not load fails the stream with its `SdkError`.
+ */
 export const eventStreamWith = <A, E>(
   eventSchema: unknown,
   f: (codec: EventStreamCodec) => Stream.Stream<A, E>,
-): Stream.Stream<A, E> => Stream.unwrap(Effect.map(codecFor(eventSchema), f));
+): Stream.Stream<A, E | SdkError> => Stream.unwrap(Effect.map(codecFor(eventSchema), f));
 
 /**
  * A request body built by the event stream codec registered for
@@ -779,7 +779,8 @@ export const eventStreamWith = <A, E>(
 export const eventStreamBody = (
   eventSchema: unknown,
   f: (codec: EventStreamCodec) => Stream.Stream<Uint8Array, unknown>,
-): Effect.Effect<Stream.Stream<Uint8Array, unknown>> => Effect.map(codecFor(eventSchema), f);
+): Effect.Effect<Stream.Stream<Uint8Array, unknown>, SdkError> =>
+  Effect.map(codecFor(eventSchema), f);
 
 export const EventStream = <A>(
   eventSchema: S.Schema<A>,

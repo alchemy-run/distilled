@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { ConvexServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { ConvexDeploymentProtocol, type ConvexOpError, type ConvexOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -317,7 +318,7 @@ export type CreateLogStreamResponseCase0LogStreamType = "webhook";
 export interface CreateLogStreamResponseCase0 {
   id: string;
   /** Use this secret to verify webhook signatures. */
-  hmacSecret: string;
+  hmacSecret: Redacted.Redacted<string>;
   logStreamType: CreateLogStreamResponseCase0LogStreamType;
 }
 export type CreateLogStreamResponseCase1LogStreamType = "datadog";
@@ -567,7 +568,7 @@ export interface LogStreamConfigCase1 {
   /** Format for the webhook payload. JSONL sends one object per line of request, JSON sends one array per request. */
   format: WebhookFormat;
   /** Use this secret to verify webhook signatures. */
-  hmacSecret: string;
+  hmacSecret: Redacted.Redacted<string>;
   /** The topics this log stream is subscribed to. `null` means subscribed to all topics, including ones added in the future. */
   topics?: LogStreamConfigCase1TopicsList | null | undefined;
   logStreamType: LogStreamConfigCase1LogStreamType;
@@ -1009,6 +1010,7 @@ export const createIntegration: API.OperationMethod<
     LogStreamingNotEnabled,
     LogStreamAlreadyExists,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1031,6 +1033,7 @@ export const createUsageLimit: API.OperationMethod<
   input: __S(8, __c1, 0) as any as S.Schema<CreateUsageLimitRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<UsageLimitResponse>,
   errors: [DuplicateUsageLimit, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1060,6 +1063,7 @@ export const deleteIntegration: API.OperationMethod<
     InvalidLogStreamId,
     LogStreamDoesntExist,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1089,6 +1093,7 @@ export const deleteUsageLimit: API.OperationMethod<
     BadDeployKey,
     OperationNotPermitted,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1111,6 +1116,7 @@ export const getActiveSync: API.OperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<GetActiveSyncRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<ActiveDataSync>,
   errors: [StreamingExportNotEnabled, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1132,6 +1138,7 @@ export const getCanonicalUrls: API.OperationMethod<
   input: __S(72, __c9, 0) as any as S.Schema<GetCanonicalUrlsRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<GetCanonicalUrlsResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1153,6 +1160,7 @@ export const getCurrentUsage: API.OperationMethod<
   input: __S(80, __c10, 0) as any as S.Schema<GetCurrentUsageRequest>,
   output: __S(84, __c10, 4) as any as S.Schema<GetCurrentUsageResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1174,6 +1182,7 @@ export const getDeploymentInfo: API.OperationMethod<
   input: __S(88, __c11, 0) as any as S.Schema<GetDeploymentInfoRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<GetDeploymentInfoResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1203,6 +1212,7 @@ export const getIntegration: API.OperationMethod<
     InvalidLogStreamId,
     LogStreamDoesntExist,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1225,6 +1235,7 @@ export const listActiveSyncs: API.OperationMethod<
   input: __S(104, __c13, 0) as any as S.Schema<ListActiveSyncsRequest>,
   output: __S(106, __c13, 2) as any as S.Schema<ListActiveSyncsResponse>,
   errors: [StreamingExportNotEnabled, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1249,6 +1260,7 @@ export const listAuditLogEvents: API.PaginatedOperationMethod<
     input: __S(120, __c15, 0) as any as S.Schema<ListAuditLogEventsRequest>,
     output: __S(123, __c15, 3) as any as S.Schema<ListDeploymentAuditLogEventsResponse>,
     errors: [AuditLogsTooOld, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+    serviceErrors: ConvexServiceErrors,
     protocol: ConvexDeploymentProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1279,6 +1291,7 @@ export const listEnvironmentVariables: API.OperationMethod<
   input: __S(129, __c16, 1) as any as S.Schema<ListEnvironmentVariablesRequest>,
   output: __S(130, __c16, 2) as any as S.Schema<ListEnvVarsResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1300,6 +1313,7 @@ export const listIntegrations: API.OperationMethod<
   input: __S(136, __c17, 0) as any as S.Schema<ListIntegrationsRequest>,
   output: __S(138, __c17, 2) as any as S.Schema<ListIntegrationsResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1321,6 +1335,7 @@ export const listUsageLimits: API.OperationMethod<
   input: __S(144, __c18, 0) as any as S.Schema<ListUsageLimitsRequest>,
   output: __S(146, __c18, 2) as any as S.Schema<ListUsageLimitsResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1342,6 +1357,7 @@ export const pauseDeployment: API.OperationMethod<
   input: __S(152, __c19, 0) as any as S.Schema<PauseDeploymentRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<PauseDeploymentResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1373,6 +1389,7 @@ export const rotateIntegrationWebhookSecret: API.OperationMethod<
     InvalidLogStreamId,
     LogStreamDoesntExist,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1395,6 +1412,7 @@ export const startDataSync: API.OperationMethod<
   input: __S(169, __c21, 1) as any as S.Schema<StartDataSyncRequest>,
   output: __S(174, __c21, 6) as any as S.Schema<DataSyncResponse>,
   errors: [StreamingExportNotEnabled, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1417,6 +1435,7 @@ export const unpauseDeployment: API.OperationMethod<
   input: __S(176, __c22, 0) as any as S.Schema<UnpauseDeploymentRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<UnpauseDeploymentResponse>,
   errors: [UnpauseDeploymentFailed, MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1438,6 +1457,7 @@ export const updateCanonicalUrl: API.OperationMethod<
   input: __S(184, __c23, 0) as any as S.Schema<UpdateCanonicalUrlRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<UpdateCanonicalUrlResponse>,
   errors: [MalformedAccessToken, BadDeployKey, OperationNotPermitted],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1467,6 +1487,7 @@ export const updateEnvironmentVariables: API.OperationMethod<
     BadDeployKey,
     OperationNotPermitted,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1496,6 +1517,7 @@ export const updateIntegration: API.OperationMethod<
     InvalidLogStreamId,
     LogStreamDoesntExist,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1525,6 +1547,7 @@ export const updateUsageLimit: API.OperationMethod<
     BadDeployKey,
     OperationNotPermitted,
   ],
+  serviceErrors: ConvexServiceErrors,
   protocol: ConvexDeploymentProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

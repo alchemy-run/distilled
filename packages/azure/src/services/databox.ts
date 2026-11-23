@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -341,7 +341,7 @@ export interface ImportDiskDetailsInput {
   /** The Base16-encoded MD5 hash of the manifest file on the disk. */
   manifestHash: string;
   /** BitLocker key used to encrypt the disk. */
-  bitLockerKey: string;
+  bitLockerKey: string | Redacted.Redacted<string>;
 }
 /** Contains the map of disk serial number to the disk details for import jobs. */
 export type DataBoxCustomerDiskJobDetailsInputImportDiskDetailsCollectionMap = {
@@ -350,7 +350,7 @@ export type DataBoxCustomerDiskJobDetailsInputImportDiskDetailsCollectionMap = {
 /** Package carrier details. */
 export interface PackageCarrierDetails {
   /** Carrier Account Number of customer for customer disk. */
-  carrierAccountNumber?: string | undefined;
+  carrierAccountNumber?: string | Redacted.Redacted<string> | undefined;
   /** Name of the carrier. */
   carrierName?: string | undefined;
   /** Tracking Id of shipment. */
@@ -965,7 +965,7 @@ export interface ImportDiskDetails {
   /** The Base16-encoded MD5 hash of the manifest file on the disk. */
   manifestHash: string;
   /** BitLocker key used to encrypt the disk. */
-  bitLockerKey: string;
+  bitLockerKey: string | Redacted.Redacted<string>;
   /** Path to backed up manifest, only returned if enableManifestBackup is true. */
   backupManifestCloudPath?: string | undefined;
 }
@@ -1683,7 +1683,7 @@ export interface CustomerDiskJobSecrets {
   /** Contains the list of secrets object for that device. */
   diskSecrets?: CustomerDiskJobSecretsDiskSecretsList | undefined;
   /** Carrier Account Number of the customer */
-  carrierAccountNumber?: string | undefined;
+  carrierAccountNumber?: string | Redacted.Redacted<string> | undefined;
 }
 /** Used to indicate what type of job secrets object. */
 export type DataBoxDiskJobSecretsJobSecretsType = "DataBoxDisk";
@@ -1749,7 +1749,7 @@ export interface AccountCredentialDetails {
   /** Type of the account. */
   dataAccountType?: DataAccountType | undefined;
   /** Connection string of the account endpoint to use the account as a storage endpoint on the device. */
-  accountConnectionString?: string | undefined;
+  accountConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Per share level unencrypted access credentials. */
   shareCredentialDetails?: AccountCredentialDetailsShareCredentialDetailsList | undefined;
 }
@@ -2436,7 +2436,8 @@ export const CancelJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CancelJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2453,7 +2454,8 @@ export const CreateJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(71, __c2, 7) as any as S.Schema<CreateJobRequest>,
   output: __S(99, __c3, 3) as any as S.Schema<CreateJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2470,7 +2472,8 @@ export const DeleteJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<DeleteJobRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<DeleteJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2487,7 +2490,8 @@ export const GetJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetJobRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<GetJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2504,7 +2508,8 @@ export const JobsBookShipmentPickUp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<JobsBookShipmentPickUpRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<ShipmentPickUpResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2521,7 +2526,8 @@ export const JobsMarkDevicesShipped: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<JobsMarkDevicesShippedRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<JobsMarkDevicesShippedResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2539,7 +2545,8 @@ export const ListJobByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListJobByResourceGroupRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<JobResourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2563,7 +2570,8 @@ export const ListJobCredentials: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListJobCredentialsRequest>,
   output: __S(979, __c30, 19) as any as S.Schema<UnencryptedCredentialsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2587,7 +2595,8 @@ export const ListJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListJobsRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<JobResourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2611,7 +2620,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1028, __c32, 4) as any as S.Schema<OperationList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2635,7 +2645,8 @@ export const ListServiceAvailableSkusByResourceGroup: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ListServiceAvailableSkusByResourceGroupRequest>,
   output: __S(457, __c14, 9) as any as S.Schema<AvailableSkusResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2658,7 +2669,8 @@ export const Mitigate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(481, __c15, 1) as any as S.Schema<MitigateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<MitigateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2675,7 +2687,8 @@ export const ServiceRegionConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<ServiceRegionConfigurationRequest>,
   output: __S(556, __c17, 12) as any as S.Schema<RegionConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2692,7 +2705,8 @@ export const ServiceRegionConfigurationByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<ServiceRegionConfigurationByResourceGroupRequest>,
   output: __S(556, __c17, 12) as any as S.Schema<RegionConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2709,7 +2723,8 @@ export const UpdateJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(610, __c19, 2) as any as S.Schema<UpdateJobRequest>,
   output: __S(99, __c3, 3) as any as S.Schema<UpdateJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2726,7 +2741,8 @@ export const ValidateServiceInputs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ValidateServiceInputsRequest>,
   output: __S(687, __c21, 15) as any as S.Schema<ValidationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2743,7 +2759,8 @@ export const ValidateServiceInputsByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ValidateServiceInputsByResourceGroupRequest>,
   output: __S(687, __c21, 15) as any as S.Schema<ValidationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2784,7 +2801,7 @@ function __c2(j: number): any {
         S.Struct({
           manifestFile: S.String,
           manifestHash: S.String,
-          bitLockerKey: S.String,
+          bitLockerKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ImportDiskDetailsInput" });
     case 1:
@@ -3083,7 +3100,7 @@ function __c11(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          carrierAccountNumber: S.optional(S.String),
+          carrierAccountNumber: S.optional(S.String.pipe(T.SensitiveValue({}))),
           carrierName: S.optional(S.String),
           trackingId: S.optional(S.String),
         }),
@@ -3231,7 +3248,7 @@ function __c11(j: number): any {
         S.Struct({
           manifestFile: S.String,
           manifestHash: S.String,
-          bitLockerKey: S.String,
+          bitLockerKey: S.String.pipe(T.SensitiveValue({})),
           backupManifestCloudPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "ImportDiskDetails" });
@@ -4211,7 +4228,7 @@ function __c30(j: number): any {
           dcAccessSecurityCode: S.optional(__S(961, __c30, 1)),
           error: S.optional(__S(228, __c7, 4)),
           diskSecrets: S.optional(__S(963, __c30, 3)),
-          carrierAccountNumber: S.optional(S.String),
+          carrierAccountNumber: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CustomerDiskJobSecrets" });
     case 5:
@@ -4251,7 +4268,7 @@ function __c30(j: number): any {
         S.Struct({
           accountName: S.optional(S.String),
           dataAccountType: S.optional(S.String),
-          accountConnectionString: S.optional(S.String),
+          accountConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shareCredentialDetails: S.optional(__S(969, __c30, 9)),
         }),
       ).annotate({ identifier: "AccountCredentialDetails" });

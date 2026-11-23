@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownElasticsearchError } from "../errors.ts";
+import { ElasticsearchServiceErrors } from "../errors.ts";
 import {
   ElasticsearchProtocol,
   type ElasticsearchOpError,
@@ -12422,7 +12422,7 @@ export interface TypesAnalysisShingleTokenFilter {
   version?: string | undefined;
   type: TypesAnalysisShingleTokenFilterType;
   /** String used in shingles as a replacement for empty positions that do not contain a token. This filler token is only used in shingles, not original unigrams. Defaults to an underscore (`_`). */
-  filler_token?: string | undefined;
+  filler_token?: string | Redacted.Redacted<string> | undefined;
   /** Maximum number of tokens to concatenate when creating shingles. Defaults to `2`. */
   max_shingle_size?: SpecUtilsStringifiedinteger | undefined;
   /** Minimum number of tokens to concatenate when creating shingles. Defaults to `2`. */
@@ -15591,7 +15591,7 @@ export interface ClusterRemoteInfoClusterRemoteProxyInfo {
   /** The maximum number of socket connections to the remote cluster when proxy mode is configured. */
   max_proxy_socket_connections: number;
   /** This field is present and has a value of `::es_redacted::` only when the remote cluster is configured with the API key based model. Otherwise, the field is not present. */
-  cluster_credentials?: string | undefined;
+  cluster_credentials?: string | Redacted.Redacted<string> | undefined;
 }
 export type ClusterRemoteInfoClusterRemoteInfo =
   | ClusterRemoteInfoClusterRemoteSniffInfo
@@ -20762,7 +20762,7 @@ export interface IndicesAnalyzeExplainAnalyzeToken {
   positionLength: number;
   start_offset: number;
   termFrequency: number;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: string;
 }
 export type IndicesAnalyzeAnalyzerDetailTokensList = Array<IndicesAnalyzeExplainAnalyzeToken>;
@@ -20794,7 +20794,7 @@ export interface IndicesAnalyzeAnalyzeToken {
   position: number;
   positionLength?: number | undefined;
   start_offset: number;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: string;
 }
 export type IndicesAnalyzeResponseTokensList = Array<IndicesAnalyzeAnalyzeToken>;
@@ -28689,7 +28689,7 @@ export interface ListTasksRequest {
 }
 export interface LogoutSecurityOidcRequest {
   /** The access token to be invalidated. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The refresh token to be invalidated. */
   refresh_token?: string | Redacted.Redacted<string> | undefined;
 }
@@ -28699,7 +28699,7 @@ export interface LogoutSecurityOidcResponse {
 }
 export interface LogoutSecuritySamlRequest {
   /** The access token that was returned as a response to calling the SAML authenticate API. Alternatively, the most recent token that was received after refreshing the original one by using a `refresh_token`. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The refresh token that was returned as a response to calling the SAML authenticate API. Alternatively, the most recent refresh token that was received after refreshing the original access token. */
   refresh_token?: string | Redacted.Redacted<string> | undefined;
 }
@@ -31639,7 +31639,7 @@ export interface MlTypesZeroShotClassificationInferenceOptions {
 /** Fill mask inference options */
 export interface MlTypesFillMaskInferenceOptions {
   /** The string/token which will be removed from incoming documents and replaced with the inference prediction(s). In a response, this field contains the mask token for the specified model/tokenizer. Each model and tokenizer has a predefined mask token which cannot be changed. Thus, it is recommended not to set this value in requests. However, if this field is present in a request, its value must match the predefined value for that model/tokenizer, otherwise the request will fail. */
-  mask_token?: string | undefined;
+  mask_token?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the number of top class predictions to return. Defaults to 0. */
   num_top_classes?: number | undefined;
   /** The tokenization options to update when inferring */
@@ -34229,7 +34229,7 @@ export interface NodesReloadSecureSettingsRequest {
   /** Period to wait for a response. If no response is received before the timeout expires, the request fails and returns an error. */
   timeout?: TypesDuration | undefined;
   /** The password for the Elasticsearch keystore. */
-  secure_settings_password?: string | undefined;
+  secure_settings_password?: string | Redacted.Redacted<string> | undefined;
 }
 /** The names of the secure settings that were reloaded. */
 export type NodesTypesNodeReloadResultSecureSettingNamesList = Array<string>;
@@ -34260,7 +34260,7 @@ export interface NodesReloadSecureSettings1Request {
   /** Period to wait for a response. If no response is received before the timeout expires, the request fails and returns an error. */
   timeout?: TypesDuration | undefined;
   /** The password for the Elasticsearch keystore. */
-  secure_settings_password?: string | undefined;
+  secure_settings_password?: string | Redacted.Redacted<string> | undefined;
 }
 export type NodesReloadSecureSettings1ResponseNodesMap = {
   [key: string]: NodesTypesNodeReloadResult | undefined;
@@ -35898,7 +35898,7 @@ export interface GlobalReindexRemoteSource {
   /** The username to use for authentication with the remote host (required when using basic auth). */
   username?: string | undefined;
   /** The password to use for authentication with the remote host (required when using basic auth). */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The API key to use for authentication with the remote host (as an alternative to basic auth when the remote cluster is in Elastic Cloud). (It is not permitted to set this and also to set an `Authorization` header via `headers`.) */
   api_key?: string | Redacted.Redacted<string> | undefined;
   /** The remote socket read timeout. */
@@ -38204,7 +38204,7 @@ export interface SecurityChangePasswordRequest {
   /** If `true` (the default) then refresh the affected shards to make this operation visible to search, if `wait_for` then wait for a refresh to make this operation visible to search, if `false` then do nothing with refreshes. */
   refresh?: TypesRefresh | (string & {}) | undefined;
   /** The new password value. Passwords must be at least 6 characters long. */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** A hash of the new password value. This must be produced using the same hashing algorithm as has been configured for password storage. For more details, see the explanation of the `xpack.security.authc.password_hashing.algorithm` setting. */
   password_hash?: string | Redacted.Redacted<string> | undefined;
 }
@@ -38215,7 +38215,7 @@ export interface SecurityChangePassword1Request {
   /** If `true` (the default) then refresh the affected shards to make this operation visible to search, if `wait_for` then wait for a refresh to make this operation visible to search, if `false` then do nothing with refreshes. */
   refresh?: TypesRefresh | (string & {}) | undefined;
   /** The new password value. Passwords must be at least 6 characters long. */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** A hash of the new password value. This must be produced using the same hashing algorithm as has been configured for password storage. For more details, see the explanation of the `xpack.security.authc.password_hashing.algorithm` setting. */
   password_hash?: string | Redacted.Redacted<string> | undefined;
 }
@@ -38224,7 +38224,7 @@ export interface SecurityChangePassword2Request {
   /** If `true` (the default) then refresh the affected shards to make this operation visible to search, if `wait_for` then wait for a refresh to make this operation visible to search, if `false` then do nothing with refreshes. */
   refresh?: TypesRefresh | (string & {}) | undefined;
   /** The new password value. Passwords must be at least 6 characters long. */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** A hash of the new password value. This must be produced using the same hashing algorithm as has been configured for password storage. For more details, see the explanation of the `xpack.security.authc.password_hashing.algorithm` setting. */
   password_hash?: string | Redacted.Redacted<string> | undefined;
 }
@@ -38233,7 +38233,7 @@ export interface SecurityChangePassword3Request {
   /** If `true` (the default) then refresh the affected shards to make this operation visible to search, if `wait_for` then wait for a refresh to make this operation visible to search, if `false` then do nothing with refreshes. */
   refresh?: TypesRefresh | (string & {}) | undefined;
   /** The new password value. Passwords must be at least 6 characters long. */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** A hash of the new password value. This must be produced using the same hashing algorithm as has been configured for password storage. For more details, see the explanation of the `xpack.security.authc.password_hashing.algorithm` setting. */
   password_hash?: string | Redacted.Redacted<string> | undefined;
 }
@@ -38328,7 +38328,7 @@ export interface SecurityCloneApiKeyResponse {
   /** The name of the cloned API key. */
   name: string;
   /** API key credentials which is the base64-encoding of the UTF-8 representation of `id` and `api_key` joined by a colon (`:`). */
-  encoded: string;
+  encoded: string | Redacted.Redacted<string>;
 }
 export interface SecurityCloneApiKey1Request {
   /** If `true` (the default) then refresh the affected shards to make this operation visible to search, if `wait_for` then wait for a refresh to make this operation visible to search, if `false` then do nothing with refreshes. */
@@ -38380,7 +38380,7 @@ export interface SecurityCreateApiKeyResponse {
   /** Specifies the name for this API key. */
   name: string;
   /** API key credentials which is the base64-encoding of the UTF-8 representation of `id` and `api_key` joined by a colon (`:`). */
-  encoded: string;
+  encoded: string | Redacted.Redacted<string>;
 }
 /** An array of role descriptors for this API key. When it is not specified or it is an empty array, the API key will have a point in time snapshot of permissions of the authenticated user. If you supply role descriptors, the resultant permissions are an intersection of API keys permissions and the authenticated user's permissions thereby limiting the access scope for API keys. The structure of role descriptor is the same as the request for the create role API. For more details, refer to the create or update roles API. NOTE: Due to the way in which this permission intersection is calculated, it is not possible to create an API key that is a child of another API key, unless the derived key is created without any privileges. In this case, you must explicitly specify a role descriptor with no privileges. The derived API key can be used for authentication; it will not have authority to call Elasticsearch APIs. */
 export type SecurityCreateApiKey1RequestRoleDescriptorsMap = {
@@ -38466,7 +38466,7 @@ export interface SecurityCreateCrossClusterApiKeyResponse {
   /** Specifies the name for this API key. */
   name: string;
   /** API key credentials which is the base64-encoding of the UTF-8 representation of `id` and `api_key` joined by a colon (`:`). */
-  encoded: string;
+  encoded: string | Redacted.Redacted<string>;
 }
 export interface SecurityCreateServiceTokenRequest {
   /** The name of the namespace, which is a top-level grouping of service accounts. */
@@ -38480,7 +38480,7 @@ export interface SecurityCreateServiceTokenRequest {
 }
 export interface SecurityCreateServiceTokenToken {
   name: string;
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface SecurityCreateServiceTokenResponse {
   created: boolean;
@@ -38519,13 +38519,17 @@ export interface SecurityDelegatePkiRequest {
   x509_certificate_chain: SecurityDelegatePkiRequestX509CertificateChainList;
 }
 export type SecurityDelegatePkiAuthenticationRolesList = Array<string>;
-export type SecurityDelegatePkiAuthenticationTokenMap = { [key: string]: string | undefined };
+export type SecurityDelegatePkiAuthenticationTokenMap = {
+  [key: string]: string | Redacted.Redacted<string> | undefined;
+};
 export interface SecurityDelegatePkiAuthenticationRealm {
   name: string;
   type: string;
   domain?: string | undefined;
 }
-export type SecurityDelegatePkiAuthenticationApiKeyMap = { [key: string]: string | undefined };
+export type SecurityDelegatePkiAuthenticationApiKeyMap = {
+  [key: string]: string | Redacted.Redacted<string> | undefined;
+};
 export interface SecurityDelegatePkiAuthentication {
   username: string;
   roles: SecurityDelegatePkiAuthenticationRolesList;
@@ -38681,7 +38685,7 @@ export interface SecurityEnrollKibanaToken {
   /** The name of the bearer token for the `elastic/kibana` service account. */
   name: string;
   /** The value of the bearer token for the `elastic/kibana` service account. Use this value to authenticate the service account with Elasticsearch. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface SecurityEnrollKibanaResponse {
   token: SecurityEnrollKibanaToken;
@@ -39173,13 +39177,13 @@ export interface SecurityGetTokenRequest {
   /** The scope of the token. Currently tokens are only issued for a scope of FULL regardless of the value sent with the request. */
   scope?: string | undefined;
   /** The user's password. If you specify the `password` grant type, this parameter is required. This parameter is not valid with any other supported grant type. */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The base64 encoded kerberos ticket. If you specify the `_kerberos` grant type, this parameter is required. This parameter is not valid with any other supported grant type. */
   kerberos_ticket?: string | undefined;
   /** The string that was returned when you created the token, which enables you to extend its life. If you specify the `refresh_token` grant type, this parameter is required. This parameter is not valid with any other supported grant type. */
   refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** The service account token of a user-managed service account, as returned by the create service account token API. If you specify the `_user_managed_service_account` grant type, this parameter is required. This parameter is not valid with any other supported grant type. */
-  service_account_token?: string | undefined;
+  service_account_token?: string | Redacted.Redacted<string> | undefined;
   /** The username that identifies the user. If you specify the `password` grant type, this parameter is required. This parameter is not valid with any other supported grant type. */
   username?: string | undefined;
 }
@@ -39212,7 +39216,7 @@ export interface SecurityGetTokenResponse {
   scope?: string | undefined;
   type: string;
   refresh_token?: string | Redacted.Redacted<string> | undefined;
-  kerberos_authentication_response_token?: string | undefined;
+  kerberos_authentication_response_token?: string | Redacted.Redacted<string> | undefined;
   authentication: SecurityGetTokenAuthenticatedUser;
 }
 export interface SecurityGetUserRequest {
@@ -39390,11 +39394,11 @@ export interface SecurityGrantApiKeyRequest {
   /** The client authentication for a JWT that requires it, which is what is normally sent in the `ES-Client-Authentication` request header. It is valid only with the `access_token` grant type, when the access token is a JWT. */
   client_authentication?: SecurityGrantApiKeyGrantApiKeyClientAuthentication | undefined;
   /** The service account token of a user-managed service account, as returned by the create service account token API. If you specify the `_user_managed_service_account` grant type, this parameter is required. It is not valid with other grant types. */
-  service_account_token?: string | undefined;
+  service_account_token?: string | Redacted.Redacted<string> | undefined;
   /** The user name that identifies the user. If you specify the `password` grant type, this parameter is required. It is not valid with other grant types. */
   username?: string | undefined;
   /** The user's password. If you specify the `password` grant type, this parameter is required. It is not valid with other grant types. */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The name of the user to be impersonated. It is not valid with the `_user_managed_service_account` grant type. */
   run_as?: string | undefined;
 }
@@ -39403,7 +39407,7 @@ export interface SecurityGrantApiKeyResponse {
   id: string;
   name: string;
   expiration?: number | undefined;
-  encoded: string;
+  encoded: string | Redacted.Redacted<string>;
 }
 /** A list of the privileges that you want to check for the specified resources. It may be either application privilege names or the names of actions that are granted by those privileges */
 export type SecurityHasPrivilegesApplicationPrivilegesCheckPrivilegesList = Array<string>;
@@ -39616,7 +39620,7 @@ export interface SecurityInvalidateApiKeyResponse {
 }
 export interface SecurityInvalidateTokenRequest {
   /** An access token. This parameter cannot be used if any of `refresh_token`, `realm_name`, or `username` are used. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** A refresh token. This parameter cannot be used if any of `refresh_token`, `realm_name`, or `username` are used. */
   refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** The name of an authentication realm. This parameter cannot be used with either `refresh_token` or `token`. */
@@ -39852,7 +39856,7 @@ export interface SecurityPutUserRequest {
   /** Arbitrary metadata that you want to associate with the user. */
   metadata?: TypesMetadata | undefined;
   /** The user's password. Passwords must be at least 6 characters long. When adding a user, one of `password` or `password_hash` is required. When updating an existing user, the password is optional, so that other fields on the user (such as their roles) may be updated without modifying the user's password */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** A hash of the user's password. This must be produced using the same hashing algorithm as has been configured for password storage. For more details, see the explanation of the `xpack.security.authc.password_hashing.algorithm` setting in the user cache and password hash algorithm documentation. Using this parameter allows the client to pre-hash the password for performance and/or confidentiality reasons. The `password` parameter and the `password_hash` parameter cannot be used in the same request. */
   password_hash?: string | Redacted.Redacted<string> | undefined;
   /** A set of roles the user has. The roles determine the user's access permissions. To create a user without any roles, specify an empty list (`[]`). */
@@ -39878,7 +39882,7 @@ export interface SecurityPutUser1Request {
   /** Arbitrary metadata that you want to associate with the user. */
   metadata?: TypesMetadata | undefined;
   /** The user's password. Passwords must be at least 6 characters long. When adding a user, one of `password` or `password_hash` is required. When updating an existing user, the password is optional, so that other fields on the user (such as their roles) may be updated without modifying the user's password */
-  password?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** A hash of the user's password. This must be produced using the same hashing algorithm as has been configured for password storage. For more details, see the explanation of the `xpack.security.authc.password_hashing.algorithm` setting in the user cache and password hash algorithm documentation. Using this parameter allows the client to pre-hash the password for performance and/or confidentiality reasons. The `password` parameter and the `password_hash` parameter cannot be used in the same request. */
   password_hash?: string | Redacted.Redacted<string> | undefined;
   /** A set of roles the user has. The roles determine the user's access permissions. To create a user without any roles, specify an empty list (`[]`). */
@@ -43214,7 +43218,7 @@ export type WatcherTypesEmailActionReplyTo = string | WatcherTypesEmailActionRep
 export type WatcherTypesEmailActionToCase1List = Array<string>;
 export type WatcherTypesEmailActionTo = string | WatcherTypesEmailActionToCase1List;
 export interface WatcherTypesHttpInputBasicAuthentication {
-  password: string;
+  password: string | Redacted.Redacted<string>;
   username: string;
 }
 export interface WatcherTypesHttpInputAuthentication {
@@ -44775,7 +44779,8 @@ export const archiveNodesClearRepositoriesMetering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11072, __c346, 0) as any as S.Schema<ArchiveNodesClearRepositoriesMeteringRequest>,
   output: __S(11172, __c349, 4) as any as S.Schema<ArchiveNodesClearRepositoriesMeteringResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44792,7 +44797,8 @@ export const asyncSearchDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16032, __c501, 0) as any as S.Schema<AsyncSearchDeleteRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44809,7 +44815,8 @@ export const asyncSearchGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21216, __c663, 0) as any as S.Schema<AsyncSearchGetRequest>,
   output: __S(21248, __c664, 0) as any as S.Schema<AsyncSearchGetResponse>,
-  errors: [BadRequest, NotFound, UnknownElasticsearchError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44826,7 +44833,8 @@ export const asyncSearchStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25664, __c802, 0) as any as S.Schema<AsyncSearchStatusRequest>,
   output: __S(25665, __c802, 1) as any as S.Schema<AsyncSearchStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44841,9 +44849,10 @@ export const asyncSearchSubmit: API.OperationMethod<
   AsyncSearchSubmitError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30560, __c955, 0) as any as S.Schema<AsyncSearchSubmitRequest>,
+  input: __S(30592, __c956, 0) as any as S.Schema<AsyncSearchSubmitRequest>,
   output: __S(21248, __c664, 0) as any as S.Schema<AsyncSearchSubmitResponse>,
-  errors: [BadRequest, NotFound, UnknownElasticsearchError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44858,9 +44867,10 @@ export const asyncSearchSubmit1: API.OperationMethod<
   AsyncSearchSubmit1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35040, __c1095, 0) as any as S.Schema<AsyncSearchSubmit1Request>,
+  input: __S(35072, __c1096, 0) as any as S.Schema<AsyncSearchSubmit1Request>,
   output: __S(21248, __c664, 0) as any as S.Schema<AsyncSearchSubmit1Response>,
-  errors: [BadRequest, NotFound, UnknownElasticsearchError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44875,9 +44885,10 @@ export const authenticateSecurity: API.OperationMethod<
   AuthenticateSecurityError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37024, __c1157, 0) as any as S.Schema<AuthenticateSecurityRequest>,
-  output: __S(37025, __c1157, 1) as any as S.Schema<AuthenticateSecurityResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(37056, __c1158, 0) as any as S.Schema<AuthenticateSecurityRequest>,
+  output: __S(37057, __c1158, 1) as any as S.Schema<AuthenticateSecurityResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44894,7 +44905,8 @@ export const authenticateSecurityOidc: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<AuthenticateSecurityOidcRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<AuthenticateSecurityOidcResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44911,7 +44923,8 @@ export const authenticateSecuritySaml: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<AuthenticateSecuritySamlRequest>,
   output: __S(1697, __c53, 1) as any as S.Schema<AuthenticateSecuritySamlResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44928,7 +44941,8 @@ export const bulk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2209, __c69, 1) as any as S.Schema<BulkRequest>,
   output: __S(2244, __c70, 4) as any as S.Schema<BulkResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44945,7 +44959,8 @@ export const bulk1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2721, __c85, 1) as any as S.Schema<Bulk1Request>,
   output: __S(2244, __c70, 4) as any as S.Schema<Bulk1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44962,7 +44977,8 @@ export const bulk2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3169, __c99, 1) as any as S.Schema<Bulk2Request>,
   output: __S(2244, __c70, 4) as any as S.Schema<Bulk2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44979,7 +44995,8 @@ export const bulk3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3649, __c114, 1) as any as S.Schema<Bulk3Request>,
   output: __S(2244, __c70, 4) as any as S.Schema<Bulk3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -44996,7 +45013,8 @@ export const cancelConnectorSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<CancelConnectorSyncJobRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<CancelConnectorSyncJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45013,7 +45031,8 @@ export const cancelReindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<CancelReindexRequest>,
   output: __S(4737, __c148, 1) as any as S.Schema<CancelReindexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45030,7 +45049,8 @@ export const cancelTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<CancelTaskRequest>,
   output: __S(5410, __c169, 2) as any as S.Schema<TasksTypesTaskListResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45047,7 +45067,8 @@ export const catAliases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<CatAliasesRequest>,
   output: __S(5986, __c187, 2) as any as S.Schema<CatAliasesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45064,7 +45085,8 @@ export const catAliases1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<CatAliases1Request>,
   output: __S(5986, __c187, 2) as any as S.Schema<CatAliases1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45081,7 +45103,8 @@ export const catAllocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<CatAllocationRequest>,
   output: __S(7106, __c222, 2) as any as S.Schema<CatAllocationResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45098,7 +45121,8 @@ export const catAllocation1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<CatAllocation1Request>,
   output: __S(7106, __c222, 2) as any as S.Schema<CatAllocation1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45115,7 +45139,8 @@ export const catCircuitBreaker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<CatCircuitBreakerRequest>,
   output: __S(8194, __c256, 2) as any as S.Schema<CatCircuitBreakerResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45132,7 +45157,8 @@ export const catCircuitBreaker1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<CatCircuitBreaker1Request>,
   output: __S(8194, __c256, 2) as any as S.Schema<CatCircuitBreaker1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45149,7 +45175,8 @@ export const catComponentTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<CatComponentTemplatesRequest>,
   output: __S(9026, __c282, 2) as any as S.Schema<CatComponentTemplatesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45166,7 +45193,8 @@ export const catComponentTemplates1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<CatComponentTemplates1Request>,
   output: __S(9026, __c282, 2) as any as S.Schema<CatComponentTemplates1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45183,7 +45211,8 @@ export const catCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9856, __c308, 0) as any as S.Schema<CatCountRequest>,
   output: __S(9890, __c309, 2) as any as S.Schema<CatCountResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45200,7 +45229,8 @@ export const catCount1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10336, __c323, 0) as any as S.Schema<CatCount1Request>,
   output: __S(9890, __c309, 2) as any as S.Schema<CatCount1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45217,7 +45247,8 @@ export const catCount2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<CatCount2Request>,
   output: __S(9890, __c309, 2) as any as S.Schema<CatCount2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45234,7 +45265,8 @@ export const catCount3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11200, __c350, 0) as any as S.Schema<CatCount3Request>,
   output: __S(9890, __c309, 2) as any as S.Schema<CatCount3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45251,7 +45283,8 @@ export const catFielddata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11680, __c365, 0) as any as S.Schema<CatFielddataRequest>,
   output: __S(11714, __c366, 2) as any as S.Schema<CatFielddataResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45268,7 +45301,8 @@ export const catFielddata1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12256, __c383, 0) as any as S.Schema<CatFielddata1Request>,
   output: __S(11714, __c366, 2) as any as S.Schema<CatFielddata1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45285,7 +45319,8 @@ export const catHealth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12704, __c397, 0) as any as S.Schema<CatHealthRequest>,
   output: __S(12707, __c397, 3) as any as S.Schema<CatHealthResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45302,7 +45337,8 @@ export const catHelp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13152, __c411, 0) as any as S.Schema<CatHelpRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<CatHelpResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45319,7 +45355,8 @@ export const catIndices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13760, __c430, 0) as any as S.Schema<CatIndicesRequest>,
   output: __S(13794, __c431, 2) as any as S.Schema<CatIndicesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45336,7 +45373,8 @@ export const catIndices1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14176, __c443, 0) as any as S.Schema<CatIndices1Request>,
   output: __S(13794, __c431, 2) as any as S.Schema<CatIndices1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45353,7 +45391,8 @@ export const catMaster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14560, __c455, 0) as any as S.Schema<CatMasterRequest>,
   output: __S(14563, __c455, 3) as any as S.Schema<CatMasterResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45370,7 +45409,8 @@ export const catMlDatafeeds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14912, __c466, 0) as any as S.Schema<CatMlDatafeedsRequest>,
   output: __S(14946, __c467, 2) as any as S.Schema<CatMlDatafeedsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45387,7 +45427,8 @@ export const catMlDatafeeds1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15584, __c487, 0) as any as S.Schema<CatMlDatafeeds1Request>,
   output: __S(14946, __c467, 2) as any as S.Schema<CatMlDatafeeds1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45404,7 +45445,8 @@ export const catMlDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16096, __c503, 0) as any as S.Schema<CatMlDataFrameAnalyticsRequest>,
   output: __S(16130, __c504, 2) as any as S.Schema<CatMlDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45421,7 +45463,8 @@ export const catMlDataFrameAnalytics1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16512, __c516, 0) as any as S.Schema<CatMlDataFrameAnalytics1Request>,
   output: __S(16130, __c504, 2) as any as S.Schema<CatMlDataFrameAnalytics1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45438,7 +45481,8 @@ export const catMlJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16992, __c531, 0) as any as S.Schema<CatMlJobsRequest>,
   output: __S(17026, __c532, 2) as any as S.Schema<CatMlJobsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45455,7 +45499,8 @@ export const catMlJobs1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17440, __c545, 0) as any as S.Schema<CatMlJobs1Request>,
   output: __S(17026, __c532, 2) as any as S.Schema<CatMlJobs1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45472,7 +45517,8 @@ export const catMlTrainedModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17824, __c557, 0) as any as S.Schema<CatMlTrainedModelsRequest>,
   output: __S(17858, __c558, 2) as any as S.Schema<CatMlTrainedModelsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45489,7 +45535,8 @@ export const catMlTrainedModels1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18464, __c577, 0) as any as S.Schema<CatMlTrainedModels1Request>,
   output: __S(17858, __c558, 2) as any as S.Schema<CatMlTrainedModels1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45506,7 +45553,8 @@ export const catNodeattrs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18912, __c591, 0) as any as S.Schema<CatNodeattrsRequest>,
   output: __S(18915, __c591, 3) as any as S.Schema<CatNodeattrsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45523,7 +45571,8 @@ export const catNodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19552, __c611, 0) as any as S.Schema<CatNodesRequest>,
   output: __S(19555, __c611, 3) as any as S.Schema<CatNodesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45540,7 +45589,8 @@ export const catPendingTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20192, __c631, 0) as any as S.Schema<CatPendingTasksRequest>,
   output: __S(20195, __c631, 3) as any as S.Schema<CatPendingTasksResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45557,7 +45607,8 @@ export const catPlugins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20704, __c647, 0) as any as S.Schema<CatPluginsRequest>,
   output: __S(20707, __c647, 3) as any as S.Schema<CatPluginsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45574,7 +45625,8 @@ export const catRecovery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21280, __c665, 0) as any as S.Schema<CatRecoveryRequest>,
   output: __S(21314, __c666, 2) as any as S.Schema<CatRecoveryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45591,7 +45643,8 @@ export const catRecovery1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21824, __c682, 0) as any as S.Schema<CatRecovery1Request>,
   output: __S(21314, __c666, 2) as any as S.Schema<CatRecovery1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45608,7 +45661,8 @@ export const catRepositories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22208, __c694, 0) as any as S.Schema<CatRepositoriesRequest>,
   output: __S(22211, __c694, 3) as any as S.Schema<CatRepositoriesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45625,7 +45679,8 @@ export const catSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22592, __c706, 0) as any as S.Schema<CatSegmentsRequest>,
   output: __S(22626, __c707, 2) as any as S.Schema<CatSegmentsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45642,7 +45697,8 @@ export const catSegments1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23104, __c722, 0) as any as S.Schema<CatSegments1Request>,
   output: __S(22626, __c707, 2) as any as S.Schema<CatSegments1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45659,7 +45715,8 @@ export const catShards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23552, __c736, 0) as any as S.Schema<CatShardsRequest>,
   output: __S(23586, __c737, 2) as any as S.Schema<CatShardsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45676,7 +45733,8 @@ export const catShards1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24032, __c751, 0) as any as S.Schema<CatShards1Request>,
   output: __S(23586, __c737, 2) as any as S.Schema<CatShards1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45693,7 +45751,8 @@ export const catSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24384, __c762, 0) as any as S.Schema<CatSnapshotsRequest>,
   output: __S(24418, __c763, 2) as any as S.Schema<CatSnapshotsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45710,7 +45769,8 @@ export const catSnapshots1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24832, __c776, 0) as any as S.Schema<CatSnapshots1Request>,
   output: __S(24418, __c763, 2) as any as S.Schema<CatSnapshots1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45727,7 +45787,8 @@ export const catTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25280, __c790, 0) as any as S.Schema<CatTasksRequest>,
   output: __S(25283, __c790, 3) as any as S.Schema<CatTasksResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45744,7 +45805,8 @@ export const catTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25696, __c803, 0) as any as S.Schema<CatTemplatesRequest>,
   output: __S(25730, __c804, 2) as any as S.Schema<CatTemplatesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45761,7 +45823,8 @@ export const catTemplates1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26112, __c816, 0) as any as S.Schema<CatTemplates1Request>,
   output: __S(25730, __c804, 2) as any as S.Schema<CatTemplates1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45778,7 +45841,8 @@ export const catThreadPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26528, __c829, 0) as any as S.Schema<CatThreadPoolRequest>,
   output: __S(26562, __c830, 2) as any as S.Schema<CatThreadPoolResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45795,7 +45859,8 @@ export const catThreadPool1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26944, __c842, 0) as any as S.Schema<CatThreadPool1Request>,
   output: __S(26562, __c830, 2) as any as S.Schema<CatThreadPool1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45812,7 +45877,8 @@ export const catTransforms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27680, __c865, 0) as any as S.Schema<CatTransformsRequest>,
   output: __S(27714, __c866, 2) as any as S.Schema<CatTransformsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45827,9 +45893,10 @@ export const catTransforms1: API.OperationMethod<
   CatTransforms1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28160, __c880, 0) as any as S.Schema<CatTransforms1Request>,
+  input: __S(28192, __c881, 0) as any as S.Schema<CatTransforms1Request>,
   output: __S(27714, __c866, 2) as any as S.Schema<CatTransforms1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45844,9 +45911,10 @@ export const ccrDeleteAutoFollowPattern: API.OperationMethod<
   CcrDeleteAutoFollowPatternError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28640, __c895, 0) as any as S.Schema<CcrDeleteAutoFollowPatternRequest>,
+  input: __S(28672, __c896, 0) as any as S.Schema<CcrDeleteAutoFollowPatternRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45861,9 +45929,10 @@ export const ccrFollowInfo: API.OperationMethod<
   CcrFollowInfoError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28992, __c906, 0) as any as S.Schema<CcrFollowInfoRequest>,
-  output: __S(28996, __c906, 4) as any as S.Schema<CcrFollowInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29024, __c907, 0) as any as S.Schema<CcrFollowInfoRequest>,
+  output: __S(29028, __c907, 4) as any as S.Schema<CcrFollowInfoResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45878,9 +45947,10 @@ export const ccrFollowStats: API.OperationMethod<
   CcrFollowStatsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29504, __c922, 0) as any as S.Schema<CcrFollowStatsRequest>,
-  output: __S(29542, __c923, 6) as any as S.Schema<CcrFollowStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29536, __c923, 0) as any as S.Schema<CcrFollowStatsRequest>,
+  output: __S(29574, __c924, 6) as any as S.Schema<CcrFollowStatsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45895,9 +45965,10 @@ export const ccrForgetFollower: API.OperationMethod<
   CcrForgetFollowerError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30080, __c940, 0) as any as S.Schema<CcrForgetFollowerRequest>,
-  output: __S(30112, __c941, 0) as any as S.Schema<CcrForgetFollowerResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30112, __c941, 0) as any as S.Schema<CcrForgetFollowerRequest>,
+  output: __S(30144, __c942, 0) as any as S.Schema<CcrForgetFollowerResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45912,9 +45983,10 @@ export const ccrGetAutoFollowPattern: API.OperationMethod<
   CcrGetAutoFollowPatternError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30592, __c956, 0) as any as S.Schema<CcrGetAutoFollowPatternRequest>,
-  output: __S(30627, __c957, 3) as any as S.Schema<CcrGetAutoFollowPatternResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30624, __c957, 0) as any as S.Schema<CcrGetAutoFollowPatternRequest>,
+  output: __S(30659, __c958, 3) as any as S.Schema<CcrGetAutoFollowPatternResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45929,9 +46001,10 @@ export const ccrGetAutoFollowPattern1: API.OperationMethod<
   CcrGetAutoFollowPattern1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31104, __c972, 0) as any as S.Schema<CcrGetAutoFollowPattern1Request>,
-  output: __S(30627, __c957, 3) as any as S.Schema<CcrGetAutoFollowPattern1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31136, __c973, 0) as any as S.Schema<CcrGetAutoFollowPattern1Request>,
+  output: __S(30659, __c958, 3) as any as S.Schema<CcrGetAutoFollowPattern1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45946,9 +46019,10 @@ export const ccrPauseAutoFollowPattern: API.OperationMethod<
   CcrPauseAutoFollowPatternError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31584, __c987, 0) as any as S.Schema<CcrPauseAutoFollowPatternRequest>,
+  input: __S(31616, __c988, 0) as any as S.Schema<CcrPauseAutoFollowPatternRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45963,9 +46037,10 @@ export const ccrPutAutoFollowPattern: API.OperationMethod<
   CcrPutAutoFollowPatternError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32032, __c1001, 0) as any as S.Schema<CcrPutAutoFollowPatternRequest>,
+  input: __S(32064, __c1002, 0) as any as S.Schema<CcrPutAutoFollowPatternRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45980,9 +46055,10 @@ export const ccrResumeAutoFollowPattern: API.OperationMethod<
   CcrResumeAutoFollowPatternError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32480, __c1015, 0) as any as S.Schema<CcrResumeAutoFollowPatternRequest>,
+  input: __S(32512, __c1016, 0) as any as S.Schema<CcrResumeAutoFollowPatternRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -45997,9 +46073,10 @@ export const ccrResumeFollow: API.OperationMethod<
   CcrResumeFollowError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32896, __c1028, 0) as any as S.Schema<CcrResumeFollowRequest>,
+  input: __S(32928, __c1029, 0) as any as S.Schema<CcrResumeFollowRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46014,9 +46091,10 @@ export const ccrStats: API.OperationMethod<
   CcrStatsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33344, __c1042, 0) as any as S.Schema<CcrStatsRequest>,
-  output: __S(33348, __c1042, 4) as any as S.Schema<CcrStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33376, __c1043, 0) as any as S.Schema<CcrStatsRequest>,
+  output: __S(33380, __c1043, 4) as any as S.Schema<CcrStatsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46031,9 +46109,10 @@ export const claimConnectorSyncJob: API.OperationMethod<
   ClaimConnectorSyncJobError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33696, __c1053, 0) as any as S.Schema<ClaimConnectorSyncJobRequest>,
+  input: __S(33728, __c1054, 0) as any as S.Schema<ClaimConnectorSyncJobRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<ClaimConnectorSyncJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46048,9 +46127,10 @@ export const clearScroll: API.OperationMethod<
   ClearScrollError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34176, __c1068, 0) as any as S.Schema<ClearScrollRequest>,
+  input: __S(34208, __c1069, 0) as any as S.Schema<ClearScrollRequest>,
   output: __S(6528, __c204, 0) as any as S.Schema<ClearScrollResponse>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46065,9 +46145,10 @@ export const clearScroll1: API.OperationMethod<
   ClearScroll1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34592, __c1081, 0) as any as S.Schema<ClearScroll1Request>,
+  input: __S(34624, __c1082, 0) as any as S.Schema<ClearScroll1Request>,
   output: __S(6528, __c204, 0) as any as S.Schema<ClearScroll1Response>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46082,9 +46163,10 @@ export const cloneIndex: API.OperationMethod<
   CloneIndexError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35072, __c1096, 0) as any as S.Schema<CloneIndexRequest>,
-  output: __S(35104, __c1097, 0) as any as S.Schema<CloneIndexResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35104, __c1097, 0) as any as S.Schema<CloneIndexRequest>,
+  output: __S(35136, __c1098, 0) as any as S.Schema<CloneIndexResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46099,9 +46181,10 @@ export const cloneSnapshot: API.OperationMethod<
   CloneSnapshotError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35648, __c1114, 0) as any as S.Schema<CloneSnapshotRequest>,
+  input: __S(35680, __c1115, 0) as any as S.Schema<CloneSnapshotRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46116,9 +46199,10 @@ export const closePointInTime: API.OperationMethod<
   ClosePointInTimeError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36096, __c1128, 0) as any as S.Schema<ClosePointInTimeRequest>,
+  input: __S(36128, __c1129, 0) as any as S.Schema<ClosePointInTimeRequest>,
   output: __S(6528, __c204, 0) as any as S.Schema<ClosePointInTimeResponse>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46133,9 +46217,10 @@ export const clusterAllocationExplain: API.OperationMethod<
   ClusterAllocationExplainError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36256, __c1133, 0) as any as S.Schema<ClusterAllocationExplainRequest>,
-  output: __S(36300, __c1134, 12) as any as S.Schema<ClusterAllocationExplainResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(36288, __c1134, 0) as any as S.Schema<ClusterAllocationExplainRequest>,
+  output: __S(36332, __c1135, 12) as any as S.Schema<ClusterAllocationExplainResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46150,9 +46235,10 @@ export const clusterAllocationExplain1: API.OperationMethod<
   ClusterAllocationExplain1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36384, __c1137, 0) as any as S.Schema<ClusterAllocationExplain1Request>,
-  output: __S(36300, __c1134, 12) as any as S.Schema<ClusterAllocationExplain1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(36416, __c1138, 0) as any as S.Schema<ClusterAllocationExplain1Request>,
+  output: __S(36332, __c1135, 12) as any as S.Schema<ClusterAllocationExplain1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46167,9 +46253,10 @@ export const clusterDeleteComponentTemplate: API.OperationMethod<
   ClusterDeleteComponentTemplateError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36416, __c1138, 0) as any as S.Schema<ClusterDeleteComponentTemplateRequest>,
+  input: __S(36448, __c1139, 0) as any as S.Schema<ClusterDeleteComponentTemplateRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46184,9 +46271,10 @@ export const clusterDeleteVotingConfigExclusions: API.OperationMethod<
   ClusterDeleteVotingConfigExclusionsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36448, __c1139, 0) as any as S.Schema<ClusterDeleteVotingConfigExclusionsRequest>,
+  input: __S(36480, __c1140, 0) as any as S.Schema<ClusterDeleteVotingConfigExclusionsRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<ClusterDeleteVotingConfigExclusionsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46201,9 +46289,10 @@ export const clusterGetComponentTemplate: API.OperationMethod<
   ClusterGetComponentTemplateError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36480, __c1140, 0) as any as S.Schema<ClusterGetComponentTemplateRequest>,
-  output: __S(36516, __c1141, 4) as any as S.Schema<ClusterGetComponentTemplateResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(36512, __c1141, 0) as any as S.Schema<ClusterGetComponentTemplateRequest>,
+  output: __S(36548, __c1142, 4) as any as S.Schema<ClusterGetComponentTemplateResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46218,9 +46307,10 @@ export const clusterGetComponentTemplate1: API.OperationMethod<
   ClusterGetComponentTemplate1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36960, __c1155, 0) as any as S.Schema<ClusterGetComponentTemplate1Request>,
-  output: __S(36516, __c1141, 4) as any as S.Schema<ClusterGetComponentTemplate1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(36992, __c1156, 0) as any as S.Schema<ClusterGetComponentTemplate1Request>,
+  output: __S(36548, __c1142, 4) as any as S.Schema<ClusterGetComponentTemplate1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46235,9 +46325,10 @@ export const clusterGetSettings: API.OperationMethod<
   ClusterGetSettingsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36992, __c1156, 0) as any as S.Schema<ClusterGetSettingsRequest>,
-  output: __S(36993, __c1156, 1) as any as S.Schema<ClusterGetSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(37024, __c1157, 0) as any as S.Schema<ClusterGetSettingsRequest>,
+  output: __S(37025, __c1157, 1) as any as S.Schema<ClusterGetSettingsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46252,9 +46343,10 @@ export const clusterHealth: API.OperationMethod<
   ClusterHealthError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37120, __c1160, 0) as any as S.Schema<ClusterHealthRequest>,
-  output: __S(37156, __c1161, 4) as any as S.Schema<ClusterHealthHealthResponseBody>,
-  errors: [UnknownElasticsearchError],
+  input: __S(37152, __c1161, 0) as any as S.Schema<ClusterHealthRequest>,
+  output: __S(37188, __c1162, 4) as any as S.Schema<ClusterHealthHealthResponseBody>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46269,9 +46361,10 @@ export const clusterHealth1: API.OperationMethod<
   ClusterHealth1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37184, __c1162, 0) as any as S.Schema<ClusterHealth1Request>,
-  output: __S(37156, __c1161, 4) as any as S.Schema<ClusterHealthHealthResponseBody>,
-  errors: [UnknownElasticsearchError],
+  input: __S(37216, __c1163, 0) as any as S.Schema<ClusterHealth1Request>,
+  output: __S(37188, __c1162, 4) as any as S.Schema<ClusterHealthHealthResponseBody>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46286,9 +46379,10 @@ export const clusterInfo: API.OperationMethod<
   ClusterInfoError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37216, __c1163, 0) as any as S.Schema<ClusterInfoRequest>,
-  output: __S(37217, __c1163, 1) as any as S.Schema<ClusterInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(37248, __c1164, 0) as any as S.Schema<ClusterInfoRequest>,
+  output: __S(37249, __c1164, 1) as any as S.Schema<ClusterInfoResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46303,9 +46397,10 @@ export const clusterPendingTasks: API.OperationMethod<
   ClusterPendingTasksError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37312, __c1166, 0) as any as S.Schema<ClusterPendingTasksRequest>,
-  output: __S(37315, __c1166, 3) as any as S.Schema<ClusterPendingTasksResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(37344, __c1167, 0) as any as S.Schema<ClusterPendingTasksRequest>,
+  output: __S(37347, __c1167, 3) as any as S.Schema<ClusterPendingTasksResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46320,9 +46415,10 @@ export const clusterPostVotingConfigExclusions: API.OperationMethod<
   ClusterPostVotingConfigExclusionsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37344, __c1167, 0) as any as S.Schema<ClusterPostVotingConfigExclusionsRequest>,
+  input: __S(37376, __c1168, 0) as any as S.Schema<ClusterPostVotingConfigExclusionsRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<ClusterPostVotingConfigExclusionsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46337,9 +46433,10 @@ export const clusterPutComponentTemplate: API.OperationMethod<
   ClusterPutComponentTemplateError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37376, __c1168, 0) as any as S.Schema<ClusterPutComponentTemplateRequest>,
+  input: __S(37408, __c1169, 0) as any as S.Schema<ClusterPutComponentTemplateRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46354,9 +46451,10 @@ export const clusterPutComponentTemplate1: API.OperationMethod<
   ClusterPutComponentTemplate1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37472, __c1171, 0) as any as S.Schema<ClusterPutComponentTemplate1Request>,
+  input: __S(37504, __c1172, 0) as any as S.Schema<ClusterPutComponentTemplate1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46371,9 +46469,10 @@ export const clusterPutSettings: API.OperationMethod<
   ClusterPutSettingsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37504, __c1172, 0) as any as S.Schema<ClusterPutSettingsRequest>,
-  output: __S(37505, __c1172, 1) as any as S.Schema<ClusterPutSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(37536, __c1173, 0) as any as S.Schema<ClusterPutSettingsRequest>,
+  output: __S(37537, __c1173, 1) as any as S.Schema<ClusterPutSettingsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46388,9 +46487,10 @@ export const clusterRemoteInfo: API.OperationMethod<
   ClusterRemoteInfoError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37536, __c1173, 0) as any as S.Schema<ClusterRemoteInfoRequest>,
-  output: __S(37538, __c1173, 2) as any as S.Schema<ClusterRemoteInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(37568, __c1174, 0) as any as S.Schema<ClusterRemoteInfoRequest>,
+  output: __S(37570, __c1174, 2) as any as S.Schema<ClusterRemoteInfoResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46405,9 +46505,10 @@ export const clusterReroute: API.OperationMethod<
   ClusterRerouteError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37574, __c1174, 6) as any as S.Schema<ClusterRerouteRequest>,
-  output: __S(37580, __c1174, 12) as any as S.Schema<ClusterRerouteResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(37606, __c1175, 6) as any as S.Schema<ClusterRerouteRequest>,
+  output: __S(37612, __c1175, 12) as any as S.Schema<ClusterRerouteResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46424,7 +46525,8 @@ export const clusterState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ClusterStateRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<ClusterStateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46441,7 +46543,8 @@ export const clusterState1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ClusterState1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<ClusterState1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46458,7 +46561,8 @@ export const clusterState2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ClusterState2Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<ClusterState2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46475,7 +46579,8 @@ export const clusterStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ClusterStatsRequest>,
   output: __S(1335, __c41, 23) as any as S.Schema<ClusterStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46492,7 +46597,8 @@ export const clusterStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<ClusterStats1Request>,
   output: __S(1335, __c41, 23) as any as S.Schema<ClusterStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46509,7 +46615,8 @@ export const connectorCheckIn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<ConnectorCheckInRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorCheckInResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46526,7 +46633,8 @@ export const connectorPut1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<ConnectorPut1Request>,
   output: __S(1568, __c49, 0) as any as S.Schema<ConnectorPut1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46543,7 +46651,8 @@ export const connectorSyncJobCheckIn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<ConnectorSyncJobCheckInRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<ConnectorSyncJobCheckInResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46560,7 +46669,8 @@ export const connectorSyncJobError: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<ConnectorSyncJobErrorRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<ConnectorSyncJobErrorResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46577,7 +46687,8 @@ export const connectorSyncJobUpdateStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ConnectorSyncJobUpdateStatsRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<ConnectorSyncJobUpdateStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46594,7 +46705,8 @@ export const connectorUpdateActiveFiltering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ConnectorUpdateActiveFilteringRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateActiveFilteringResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46611,7 +46723,8 @@ export const connectorUpdateApiKeyId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<ConnectorUpdateApiKeyIdRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateApiKeyIdResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46628,7 +46741,8 @@ export const connectorUpdateConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ConnectorUpdateConfigurationRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateConfigurationResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46645,7 +46759,8 @@ export const connectorUpdateError: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ConnectorUpdateErrorRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateErrorResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46662,7 +46777,8 @@ export const connectorUpdateFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ConnectorUpdateFeaturesRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateFeaturesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46679,7 +46795,8 @@ export const connectorUpdateFiltering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ConnectorUpdateFilteringRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateFilteringResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46696,7 +46813,8 @@ export const connectorUpdateFilteringValidation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ConnectorUpdateFilteringValidationRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateFilteringValidationResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46713,7 +46831,8 @@ export const connectorUpdateIndexName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ConnectorUpdateIndexNameRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateIndexNameResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46730,7 +46849,8 @@ export const connectorUpdateName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ConnectorUpdateNameRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateNameResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46747,7 +46867,8 @@ export const connectorUpdateNative: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ConnectorUpdateNativeRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateNativeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46764,7 +46885,8 @@ export const connectorUpdatePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ConnectorUpdatePipelineRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdatePipelineResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46781,7 +46903,8 @@ export const connectorUpdateScheduling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ConnectorUpdateSchedulingRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateSchedulingResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46798,7 +46921,8 @@ export const connectorUpdateServiceType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ConnectorUpdateServiceTypeRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateServiceTypeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46815,7 +46939,8 @@ export const connectorUpdateStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ConnectorUpdateStatusRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<ConnectorUpdateStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46832,7 +46957,8 @@ export const count: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<CountRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<CountResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46849,7 +46975,8 @@ export const count1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<Count1Request>,
   output: __S(2496, __c78, 0) as any as S.Schema<Count1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46866,7 +46993,8 @@ export const count2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<Count2Request>,
   output: __S(2496, __c78, 0) as any as S.Schema<Count2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46883,7 +47011,8 @@ export const count3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<Count3Request>,
   output: __S(2496, __c78, 0) as any as S.Schema<Count3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46900,7 +47029,8 @@ export const create: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<CreateRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<TypesWriteResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46917,7 +47047,8 @@ export const create1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<Create1Request>,
   output: __S(2656, __c83, 0) as any as S.Schema<TypesWriteResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46934,7 +47065,8 @@ export const createIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<CreateIndexRequest>,
   output: __S(2753, __c86, 1) as any as S.Schema<CreateIndexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46951,7 +47083,8 @@ export const createSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<CreateSnapshotRequest>,
   output: __S(2848, __c89, 0) as any as S.Schema<CreateSnapshotResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46968,7 +47101,8 @@ export const danglingIndicesDeleteDanglingIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<DanglingIndicesDeleteDanglingIndexRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -46985,7 +47119,8 @@ export const danglingIndicesImportDanglingIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<DanglingIndicesImportDanglingIndexRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47002,7 +47137,8 @@ export const danglingIndicesListDanglingIndices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<DanglingIndicesListDanglingIndicesRequest>,
   output: __S(2947, __c92, 3) as any as S.Schema<DanglingIndicesListDanglingIndicesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47019,7 +47155,8 @@ export const Delete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<DeleteRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<TypesWriteResponseBase>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47036,7 +47173,8 @@ export const deleteByQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<DeleteByQueryRequest>,
   output: __S(3009, __c94, 1) as any as S.Schema<DeleteByQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47053,7 +47191,8 @@ export const deleteByQueryRethrottle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<DeleteByQueryRethrottleRequest>,
   output: __S(5410, __c169, 2) as any as S.Schema<TasksTypesTaskListResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47070,7 +47209,8 @@ export const deleteConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<DeleteConnectorRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47087,7 +47227,8 @@ export const deleteConnectorSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<DeleteConnectorSyncJobRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47104,7 +47245,8 @@ export const deleteEql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<DeleteEqlRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47121,7 +47263,8 @@ export const deleteEsqlAsyncQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<DeleteEsqlAsyncQueryRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47138,7 +47281,8 @@ export const deleteIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<DeleteIndexRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<DeleteIndexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47155,7 +47299,8 @@ export const deleteIndexTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<DeleteIndexTemplateRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47172,7 +47317,8 @@ export const deleteInference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<DeleteInferenceRequest>,
   output: __S(3392, __c106, 0) as any as S.Schema<DeleteInferenceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47189,7 +47335,8 @@ export const deleteLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<DeleteLicenseRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47206,7 +47353,8 @@ export const deleteScript: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<DeleteScriptRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47223,7 +47371,8 @@ export const deleteSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<DeleteSnapshotRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47240,7 +47389,8 @@ export const deleteSynonym: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<DeleteSynonymRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47257,7 +47407,8 @@ export const deleteSynonymRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<DeleteSynonymRuleRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<SynonymsTypesSynonymsUpdateResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47274,7 +47425,8 @@ export const deleteTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<DeleteTransformRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47291,7 +47443,8 @@ export const disableStreamsLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<DisableStreamsLogRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47308,7 +47461,8 @@ export const enableStreamsLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<EnableStreamsLogRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [Conflict, UnknownElasticsearchError],
+  errors: [Conflict],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47325,7 +47479,8 @@ export const enrichDeletePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<EnrichDeletePolicyRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47342,7 +47497,8 @@ export const enrichExecutePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<EnrichExecutePolicyRequest>,
   output: __S(3810, __c119, 2) as any as S.Schema<EnrichExecutePolicyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47359,7 +47515,8 @@ export const enrichGetPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<EnrichGetPolicyRequest>,
   output: __S(3875, __c121, 3) as any as S.Schema<EnrichGetPolicyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47376,7 +47533,8 @@ export const enrichGetPolicy1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<EnrichGetPolicy1Request>,
   output: __S(3875, __c121, 3) as any as S.Schema<EnrichGetPolicy1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47393,7 +47551,8 @@ export const enrichPutPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<EnrichPutPolicyRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47410,7 +47569,8 @@ export const enrichStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<EnrichStatsRequest>,
   output: __S(4007, __c125, 7) as any as S.Schema<EnrichStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47427,7 +47587,8 @@ export const eqlGetStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<EqlGetStatusRequest>,
   output: __S(4033, __c126, 1) as any as S.Schema<EqlGetStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47444,7 +47605,8 @@ export const eqlSearch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<EqlSearch1Request>,
   output: __S(4166, __c130, 6) as any as S.Schema<EqlTypesEqlSearchResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47461,7 +47623,8 @@ export const esqlAsyncQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<EsqlAsyncQueryRequest>,
   output: __S(4320, __c135, 0) as any as S.Schema<EsqlAsyncQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47478,7 +47641,8 @@ export const esqlDeleteDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<EsqlDeleteDatasetRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47495,7 +47659,8 @@ export const esqlDeleteDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<EsqlDeleteDataSourceRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47512,7 +47677,8 @@ export const esqlDeleteView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<EsqlDeleteViewRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47529,7 +47695,8 @@ export const esqlGetDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<EsqlGetDatasetRequest>,
   output: __S(4482, __c140, 2) as any as S.Schema<EsqlGetDatasetResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47546,7 +47713,8 @@ export const esqlGetDataset1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<EsqlGetDataset1Request>,
   output: __S(4482, __c140, 2) as any as S.Schema<EsqlGetDataset1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47563,7 +47731,8 @@ export const esqlGetDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<EsqlGetDataSourceRequest>,
   output: __S(4642, __c145, 2) as any as S.Schema<EsqlGetDataSourceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47580,7 +47749,8 @@ export const esqlGetDataSource1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<EsqlGetDataSource1Request>,
   output: __S(4642, __c145, 2) as any as S.Schema<EsqlGetDataSource1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47597,7 +47767,8 @@ export const esqlGetQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<EsqlGetQueryRequest>,
   output: __S(4705, __c147, 1) as any as S.Schema<EsqlGetQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47614,7 +47785,8 @@ export const esqlGetView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<EsqlGetViewRequest>,
   output: __S(4898, __c153, 2) as any as S.Schema<EsqlGetViewResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47631,7 +47803,8 @@ export const esqlGetView1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<EsqlGetView1Request>,
   output: __S(4898, __c153, 2) as any as S.Schema<EsqlGetView1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47648,7 +47821,8 @@ export const esqlListQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<EsqlListQueriesRequest>,
   output: __S(4963, __c155, 3) as any as S.Schema<EsqlListQueriesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47665,7 +47839,8 @@ export const esqlPutDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<EsqlPutDatasetRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47682,7 +47857,8 @@ export const esqlPutDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<EsqlPutDataSourceRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47699,7 +47875,8 @@ export const esqlPutView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<EsqlPutViewRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47716,7 +47893,8 @@ export const esqlQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<EsqlQueryRequest>,
   output: __S(5089, __c159, 1) as any as S.Schema<EsqlTypesEsqlResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47733,7 +47911,8 @@ export const executeScriptsPainless: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<ExecuteScriptsPainlessRequest>,
   output: __S(5153, __c161, 1) as any as S.Schema<ExecuteScriptsPainlessResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47750,7 +47929,8 @@ export const explain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<ExplainRequest>,
   output: __S(5216, __c163, 0) as any as S.Schema<ExplainResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47767,7 +47947,8 @@ export const explain1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<Explain1Request>,
   output: __S(5216, __c163, 0) as any as S.Schema<Explain1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47784,7 +47965,8 @@ export const fieldCaps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<FieldCapsRequest>,
   output: __S(5507, __c172, 3) as any as S.Schema<FieldCapsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47801,7 +47983,8 @@ export const fieldCaps1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<FieldCaps1Request>,
   output: __S(5507, __c172, 3) as any as S.Schema<FieldCaps1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47818,7 +48001,8 @@ export const fieldCaps2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<FieldCaps2Request>,
   output: __S(5507, __c172, 3) as any as S.Schema<FieldCaps2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47835,7 +48019,8 @@ export const fieldCaps3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<FieldCaps3Request>,
   output: __S(5507, __c172, 3) as any as S.Schema<FieldCaps3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47852,7 +48037,8 @@ export const fleetGlobalCheckpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<FleetGlobalCheckpointsRequest>,
   output: __S(5633, __c176, 1) as any as S.Schema<FleetGlobalCheckpointsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47869,7 +48055,8 @@ export const fleetMsearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<FleetMsearchRequest>,
   output: __S(5696, __c178, 0) as any as S.Schema<FleetMsearchResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47886,7 +48073,8 @@ export const fleetMsearch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<FleetMsearch1Request>,
   output: __S(5696, __c178, 0) as any as S.Schema<FleetMsearch1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47903,7 +48091,8 @@ export const fleetMsearch2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<FleetMsearch2Request>,
   output: __S(5696, __c178, 0) as any as S.Schema<FleetMsearch2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47920,7 +48109,8 @@ export const fleetMsearch3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<FleetMsearch3Request>,
   output: __S(5696, __c178, 0) as any as S.Schema<FleetMsearch3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47937,7 +48127,8 @@ export const fleetSearch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<FleetSearch1Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<FleetSearch1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47954,7 +48145,8 @@ export const flushIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<FlushIndexRequest>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47971,7 +48163,8 @@ export const followCcr: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<FollowCcrRequest>,
   output: __S(6081, __c190, 1) as any as S.Schema<FollowCcrResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -47988,7 +48181,8 @@ export const followCcrPause: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<FollowCcrPauseRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48005,7 +48199,8 @@ export const get: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<GetRequest>,
   output: __S(6145, __c192, 1) as any as S.Schema<GlobalGetGetResult>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48022,7 +48217,8 @@ export const getConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<GetConnectorRequest>,
   output: __S(6211, __c194, 3) as any as S.Schema<ConnectorTypesConnector>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48039,7 +48235,8 @@ export const getConnectorSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<GetConnectorSyncJobRequest>,
   output: __S(6273, __c196, 1) as any as S.Schema<ConnectorTypesConnectorSyncJob>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48056,7 +48253,8 @@ export const getEql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<GetEqlRequest>,
   output: __S(4166, __c130, 6) as any as S.Schema<EqlTypesEqlSearchResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48073,7 +48271,8 @@ export const getEsqlAsyncQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<GetEsqlAsyncQueryRequest>,
   output: __S(4320, __c135, 0) as any as S.Schema<GetEsqlAsyncQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48090,7 +48289,8 @@ export const getFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<GetFeaturesRequest>,
   output: __S(6402, __c200, 2) as any as S.Schema<GetFeaturesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48107,7 +48307,8 @@ export const getIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<GetIndexRequest>,
   output: __S(6465, __c202, 1) as any as S.Schema<GetIndexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48124,7 +48325,8 @@ export const getIndexTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<GetIndexTemplateRequest>,
   output: __S(6628, __c207, 4) as any as S.Schema<GetIndexTemplateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48141,7 +48343,8 @@ export const getIndexTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<GetIndexTemplate1Request>,
   output: __S(6628, __c207, 4) as any as S.Schema<GetIndexTemplate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48158,7 +48361,8 @@ export const getInference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<GetInferenceRequest>,
   output: __S(6753, __c211, 1) as any as S.Schema<GetInferenceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48175,7 +48379,8 @@ export const getLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<GetLicenseRequest>,
   output: __S(6818, __c213, 2) as any as S.Schema<GetLicenseResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48192,7 +48397,8 @@ export const getReindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<GetReindexRequest>,
   output: __S(6849, __c214, 1) as any as S.Schema<GetReindexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48209,7 +48415,8 @@ export const getScript: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<GetScriptRequest>,
   output: __S(6881, __c215, 1) as any as S.Schema<GetScriptResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48226,7 +48433,8 @@ export const getScriptContext: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<GetScriptContextRequest>,
   output: __S(6949, __c217, 5) as any as S.Schema<GetScriptContextResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48243,7 +48451,8 @@ export const getScriptLanguages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6976, __c218, 0) as any as S.Schema<GetScriptLanguagesRequest>,
   output: __S(6979, __c218, 3) as any as S.Schema<GetScriptLanguagesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48260,7 +48469,8 @@ export const getSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<GetSnapshotRequest>,
   output: __S(7012, __c219, 4) as any as S.Schema<GetSnapshotResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48277,7 +48487,8 @@ export const getSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<GetSourceRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<GetSourceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48294,7 +48505,8 @@ export const getSynonym: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<GetSynonymRequest>,
   output: __S(7138, __c223, 2) as any as S.Schema<GetSynonymResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48311,7 +48523,8 @@ export const getSynonymRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<GetSynonymRuleRequest>,
   output: __S(7168, __c224, 0) as any as S.Schema<SynonymsTypesSynonymRuleRead>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48328,7 +48541,8 @@ export const getSynonymsSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<GetSynonymsSetsRequest>,
   output: __S(7235, __c226, 3) as any as S.Schema<GetSynonymsSetsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48345,7 +48559,8 @@ export const getTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<GetTaskRequest>,
   output: __S(7265, __c227, 1) as any as S.Schema<GetTaskResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48362,7 +48577,8 @@ export const getTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<GetTransformRequest>,
   output: __S(7330, __c229, 2) as any as S.Schema<GetTransformResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48379,7 +48595,8 @@ export const getTransform1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<GetTransform1Request>,
   output: __S(7330, __c229, 2) as any as S.Schema<GetTransform1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48396,7 +48613,8 @@ export const getTransformStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<GetTransformStatsRequest>,
   output: __S(7498, __c234, 10) as any as S.Schema<GetTransformStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48413,7 +48631,8 @@ export const graphExplore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<GraphExploreRequest>,
   output: __S(7595, __c237, 11) as any as S.Schema<GraphExploreResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48430,7 +48649,8 @@ export const graphExplore1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<GraphExplore1Request>,
   output: __S(7595, __c237, 11) as any as S.Schema<GraphExplore1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48447,7 +48667,8 @@ export const healthReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<HealthReportRequest>,
   output: __S(7719, __c241, 7) as any as S.Schema<HealthReportResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48464,7 +48685,8 @@ export const healthReport1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<HealthReport1Request>,
   output: __S(7719, __c241, 7) as any as S.Schema<HealthReport1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48481,7 +48703,8 @@ export const ilmDeleteLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<IlmDeleteLifecycleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48498,7 +48721,8 @@ export const ilmExplainLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<IlmExplainLifecycleRequest>,
   output: __S(7842, __c245, 2) as any as S.Schema<IlmExplainLifecycleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48515,7 +48739,8 @@ export const ilmGetLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<IlmGetLifecycleRequest>,
   output: __S(7920, __c247, 16) as any as S.Schema<IlmGetLifecycleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48532,7 +48757,8 @@ export const ilmGetLifecycle1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<IlmGetLifecycle1Request>,
   output: __S(7920, __c247, 16) as any as S.Schema<IlmGetLifecycle1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48549,7 +48775,8 @@ export const ilmGetStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<IlmGetStatusRequest>,
   output: __S(8000, __c250, 0) as any as S.Schema<IlmGetStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48566,7 +48793,8 @@ export const ilmMigrateToDataTiers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<IlmMigrateToDataTiersRequest>,
   output: __S(8033, __c251, 1) as any as S.Schema<IlmMigrateToDataTiersResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48583,7 +48811,8 @@ export const ilmMoveToStep: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8065, __c252, 1) as any as S.Schema<IlmMoveToStepRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48600,7 +48829,8 @@ export const ilmPutLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8096, __c253, 0) as any as S.Schema<IlmPutLifecycleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48617,7 +48847,8 @@ export const ilmRemovePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<IlmRemovePolicyRequest>,
   output: __S(8129, __c254, 1) as any as S.Schema<IlmRemovePolicyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48634,7 +48865,8 @@ export const indicesAddBlock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<IndicesAddBlockRequest>,
   output: __S(8227, __c257, 3) as any as S.Schema<IndicesAddBlockResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48651,7 +48883,8 @@ export const indicesAnalyze: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<IndicesAnalyzeRequest>,
   output: __S(8299, __c259, 11) as any as S.Schema<IndicesAnalyzeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48668,7 +48901,8 @@ export const indicesAnalyze1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<IndicesAnalyze1Request>,
   output: __S(8299, __c259, 11) as any as S.Schema<IndicesAnalyze1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48685,7 +48919,8 @@ export const indicesAnalyze2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<IndicesAnalyze2Request>,
   output: __S(8299, __c259, 11) as any as S.Schema<IndicesAnalyze2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48702,7 +48937,8 @@ export const indicesAnalyze3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<IndicesAnalyze3Request>,
   output: __S(8299, __c259, 11) as any as S.Schema<IndicesAnalyze3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48719,7 +48955,8 @@ export const indicesCancelMigrateReindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<IndicesCancelMigrateReindexRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48736,7 +48973,8 @@ export const indicesClearCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<IndicesClearCacheRequest>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48753,7 +48991,8 @@ export const indicesClearCache1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<IndicesClearCache1Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48769,8 +49008,9 @@ export const indicesClone1: API.OperationMethod<
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<IndicesClone1Request>,
-  output: __S(35104, __c1097, 0) as any as S.Schema<IndicesClone1Response>,
-  errors: [UnknownElasticsearchError],
+  output: __S(35136, __c1098, 0) as any as S.Schema<IndicesClone1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48787,7 +49027,8 @@ export const indicesClose: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<IndicesCloseRequest>,
   output: __S(8549, __c267, 5) as any as S.Schema<IndicesCloseResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48804,7 +49045,8 @@ export const indicesCreateDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<IndicesCreateDataStreamRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48820,8 +49062,9 @@ export const indicesCreateFrom: API.OperationMethod<
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<IndicesCreateFromRequest>,
-  output: __S(35104, __c1097, 0) as any as S.Schema<IndicesCreateFromResponse>,
-  errors: [UnknownElasticsearchError],
+  output: __S(35136, __c1098, 0) as any as S.Schema<IndicesCreateFromResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48837,8 +49080,9 @@ export const indicesCreateFrom1: API.OperationMethod<
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<IndicesCreateFrom1Request>,
-  output: __S(35104, __c1097, 0) as any as S.Schema<IndicesCreateFrom1Response>,
-  errors: [UnknownElasticsearchError],
+  output: __S(35136, __c1098, 0) as any as S.Schema<IndicesCreateFrom1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48855,7 +49099,8 @@ export const indicesDataStreamsStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<IndicesDataStreamsStatsRequest>,
   output: __S(8738, __c273, 2) as any as S.Schema<IndicesDataStreamsStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48872,7 +49117,8 @@ export const indicesDataStreamsStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8768, __c274, 0) as any as S.Schema<IndicesDataStreamsStats1Request>,
   output: __S(8738, __c273, 2) as any as S.Schema<IndicesDataStreamsStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48889,7 +49135,8 @@ export const indicesDeleteAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<IndicesDeleteAliasRequest>,
   output: __S(8832, __c276, 0) as any as S.Schema<IndicesDeleteAliasResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48906,7 +49153,8 @@ export const indicesDeleteAlias1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<IndicesDeleteAlias1Request>,
   output: __S(8832, __c276, 0) as any as S.Schema<IndicesDeleteAlias1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48923,7 +49171,8 @@ export const indicesDeleteDataLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<IndicesDeleteDataLifecycleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48940,7 +49189,8 @@ export const indicesDeleteDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<IndicesDeleteDataStreamRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48957,7 +49207,8 @@ export const indicesDeleteDataStreamOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<IndicesDeleteDataStreamOptionsRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48974,7 +49225,8 @@ export const indicesDiskUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9056, __c283, 0) as any as S.Schema<IndicesDiskUsageRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<IndicesDiskUsageResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -48991,7 +49243,8 @@ export const indicesDownsample: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9088, __c284, 0) as any as S.Schema<IndicesDownsampleRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<IndicesDownsampleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49008,7 +49261,8 @@ export const indicesExplainDataLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<IndicesExplainDataLifecycleRequest>,
   output: __S(9123, __c285, 3) as any as S.Schema<IndicesExplainDataLifecycleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49024,8 +49278,9 @@ export const indicesFieldUsageStats: API.OperationMethod<
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<IndicesFieldUsageStatsRequest>,
-  output: __S(30112, __c941, 0) as any as S.Schema<IndicesFieldUsageStatsFieldsUsageBody>,
-  errors: [UnknownElasticsearchError],
+  output: __S(30144, __c942, 0) as any as S.Schema<IndicesFieldUsageStatsFieldsUsageBody>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49042,7 +49297,8 @@ export const indicesFlush1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<IndicesFlush1Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49059,7 +49315,8 @@ export const indicesFlush2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<IndicesFlush2Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49076,7 +49333,8 @@ export const indicesFlush3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<IndicesFlush3Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49093,7 +49351,8 @@ export const indicesForcemerge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<IndicesForcemergeRequest>,
   output: __S(9312, __c291, 0) as any as S.Schema<IndicesForcemergeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49110,7 +49369,8 @@ export const indicesForcemerge1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<IndicesForcemerge1Request>,
   output: __S(9312, __c291, 0) as any as S.Schema<IndicesForcemerge1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49127,7 +49387,8 @@ export const indicesGetAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9376, __c293, 0) as any as S.Schema<IndicesGetAliasRequest>,
   output: __S(9410, __c294, 2) as any as S.Schema<IndicesGetAliasResponse>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49144,7 +49405,8 @@ export const indicesGetAlias1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<IndicesGetAlias1Request>,
   output: __S(9410, __c294, 2) as any as S.Schema<IndicesGetAlias1Response>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49161,7 +49423,8 @@ export const indicesGetAlias2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<IndicesGetAlias2Request>,
   output: __S(9410, __c294, 2) as any as S.Schema<IndicesGetAlias2Response>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49178,7 +49441,8 @@ export const indicesGetAlias3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<IndicesGetAlias3Request>,
   output: __S(9410, __c294, 2) as any as S.Schema<IndicesGetAlias3Response>,
-  errors: [NotFound, UnknownElasticsearchError],
+  errors: [NotFound],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49195,7 +49459,8 @@ export const indicesGetDataLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<IndicesGetDataLifecycleRequest>,
   output: __S(9572, __c299, 4) as any as S.Schema<IndicesGetDataLifecycleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49212,7 +49477,8 @@ export const indicesGetDataLifecycleStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9600, __c300, 0) as any as S.Schema<IndicesGetDataLifecycleStatsRequest>,
   output: __S(9603, __c300, 3) as any as S.Schema<IndicesGetDataLifecycleStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49229,7 +49495,8 @@ export const indicesGetDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<IndicesGetDataStreamRequest>,
   output: __S(9669, __c302, 5) as any as S.Schema<IndicesGetDataStreamResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49246,7 +49513,8 @@ export const indicesGetDataStream1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<IndicesGetDataStream1Request>,
   output: __S(9669, __c302, 5) as any as S.Schema<IndicesGetDataStream1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49263,7 +49531,8 @@ export const indicesGetDataStreamMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9760, __c305, 0) as any as S.Schema<IndicesGetDataStreamMappingsRequest>,
   output: __S(9763, __c305, 3) as any as S.Schema<IndicesGetDataStreamMappingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49280,7 +49549,8 @@ export const indicesGetDataStreamOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<IndicesGetDataStreamOptionsRequest>,
   output: __S(9795, __c306, 3) as any as S.Schema<IndicesGetDataStreamOptionsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49297,7 +49567,8 @@ export const indicesGetDataStreamSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<IndicesGetDataStreamSettingsRequest>,
   output: __S(9827, __c307, 3) as any as S.Schema<IndicesGetDataStreamSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49314,7 +49585,8 @@ export const indicesGetFieldMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9920, __c310, 0) as any as S.Schema<IndicesGetFieldMappingRequest>,
   output: __S(9956, __c311, 4) as any as S.Schema<IndicesGetFieldMappingResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49331,7 +49603,8 @@ export const indicesGetFieldMapping1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<IndicesGetFieldMapping1Request>,
   output: __S(9956, __c311, 4) as any as S.Schema<IndicesGetFieldMapping1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49348,7 +49621,8 @@ export const indicesGetMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<IndicesGetMappingRequest>,
   output: __S(10050, __c314, 2) as any as S.Schema<IndicesGetMappingResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49365,7 +49639,8 @@ export const indicesGetMapping1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10080, __c315, 0) as any as S.Schema<IndicesGetMapping1Request>,
   output: __S(10050, __c314, 2) as any as S.Schema<IndicesGetMapping1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49382,7 +49657,8 @@ export const indicesGetMigrateReindexStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10112, __c316, 0) as any as S.Schema<IndicesGetMigrateReindexStatusRequest>,
   output: __S(10117, __c316, 5) as any as S.Schema<IndicesGetMigrateReindexStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49399,7 +49675,8 @@ export const indicesGetSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10144, __c317, 0) as any as S.Schema<IndicesGetSettingsRequest>,
   output: __S(6465, __c202, 1) as any as S.Schema<IndicesGetSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49416,7 +49693,8 @@ export const indicesGetSettings1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10176, __c318, 0) as any as S.Schema<IndicesGetSettings1Request>,
   output: __S(6465, __c202, 1) as any as S.Schema<IndicesGetSettings1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49433,7 +49711,8 @@ export const indicesGetSettings2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10208, __c319, 0) as any as S.Schema<IndicesGetSettings2Request>,
   output: __S(6465, __c202, 1) as any as S.Schema<IndicesGetSettings2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49450,7 +49729,8 @@ export const indicesGetSettings3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10240, __c320, 0) as any as S.Schema<IndicesGetSettings3Request>,
   output: __S(6465, __c202, 1) as any as S.Schema<IndicesGetSettings3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49467,7 +49747,8 @@ export const indicesMigrateReindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<IndicesMigrateReindexRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49484,7 +49765,8 @@ export const indicesMigrateToDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10368, __c324, 0) as any as S.Schema<IndicesMigrateToDataStreamRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49501,7 +49783,8 @@ export const indicesModifyDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10403, __c325, 3) as any as S.Schema<IndicesModifyDataStreamRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49518,7 +49801,8 @@ export const indicesOpen: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10432, __c326, 0) as any as S.Schema<IndicesOpenRequest>,
   output: __S(10433, __c326, 1) as any as S.Schema<IndicesOpenResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49535,7 +49819,8 @@ export const indicesPromoteDataStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10464, __c327, 0) as any as S.Schema<IndicesPromoteDataStreamRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<IndicesPromoteDataStreamResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49552,7 +49837,8 @@ export const indicesPutAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<IndicesPutAliasRequest>,
   output: __S(8832, __c276, 0) as any as S.Schema<IndicesPutAliasResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49569,7 +49855,8 @@ export const indicesPutAlias1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<IndicesPutAlias1Request>,
   output: __S(8832, __c276, 0) as any as S.Schema<IndicesPutAlias1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49586,7 +49873,8 @@ export const indicesPutAlias2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10560, __c330, 0) as any as S.Schema<IndicesPutAlias2Request>,
   output: __S(8832, __c276, 0) as any as S.Schema<IndicesPutAlias2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49603,7 +49891,8 @@ export const indicesPutAlias3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<IndicesPutAlias3Request>,
   output: __S(8832, __c276, 0) as any as S.Schema<IndicesPutAlias3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49620,7 +49909,8 @@ export const indicesPutDataLifecycle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10624, __c332, 0) as any as S.Schema<IndicesPutDataLifecycleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49637,7 +49927,8 @@ export const indicesPutDataStreamMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<IndicesPutDataStreamMappingsRequest>,
   output: __S(10659, __c333, 3) as any as S.Schema<IndicesPutDataStreamMappingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49654,7 +49945,8 @@ export const indicesPutDataStreamOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<IndicesPutDataStreamOptionsRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49671,7 +49963,8 @@ export const indicesPutDataStreamSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<IndicesPutDataStreamSettingsRequest>,
   output: __S(10758, __c336, 6) as any as S.Schema<IndicesPutDataStreamSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49688,7 +49981,8 @@ export const indicesPutMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10784, __c337, 0) as any as S.Schema<IndicesPutMappingRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<IndicesPutMappingResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49705,7 +49999,8 @@ export const indicesPutMapping1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10816, __c338, 0) as any as S.Schema<IndicesPutMapping1Request>,
   output: __S(3296, __c103, 0) as any as S.Schema<IndicesPutMapping1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49722,7 +50017,8 @@ export const indicesPutSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<IndicesPutSettingsRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49739,7 +50035,8 @@ export const indicesPutSettings1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10880, __c340, 0) as any as S.Schema<IndicesPutSettings1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49756,7 +50053,8 @@ export const indicesRecovery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10912, __c341, 0) as any as S.Schema<IndicesRecoveryRequest>,
   output: __S(10956, __c342, 12) as any as S.Schema<IndicesRecoveryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49773,7 +50071,8 @@ export const indicesRecovery1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10976, __c343, 0) as any as S.Schema<IndicesRecovery1Request>,
   output: __S(10956, __c342, 12) as any as S.Schema<IndicesRecovery1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49790,7 +50089,8 @@ export const indicesRefresh1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11008, __c344, 0) as any as S.Schema<IndicesRefresh1Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49807,7 +50107,8 @@ export const indicesRefresh2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11040, __c345, 0) as any as S.Schema<IndicesRefresh2Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49824,7 +50125,8 @@ export const indicesRefresh3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11232, __c351, 0) as any as S.Schema<IndicesRefresh3Request>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49841,7 +50143,8 @@ export const indicesReloadSearchAnalyzers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11264, __c352, 0) as any as S.Schema<IndicesReloadSearchAnalyzersRequest>,
   output: __S(3586, __c112, 2) as any as S.Schema<IndicesReloadSearchAnalyzersReloadResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49858,7 +50161,8 @@ export const indicesReloadSearchAnalyzers1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<IndicesReloadSearchAnalyzers1Request>,
   output: __S(3586, __c112, 2) as any as S.Schema<IndicesReloadSearchAnalyzersReloadResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49875,7 +50179,8 @@ export const indicesRemoveBlock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<IndicesRemoveBlockRequest>,
   output: __S(11331, __c354, 3) as any as S.Schema<IndicesRemoveBlockResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49892,7 +50197,8 @@ export const indicesResolveCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11360, __c355, 0) as any as S.Schema<IndicesResolveClusterRequest>,
   output: __S(11395, __c356, 3) as any as S.Schema<IndicesResolveClusterResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49909,7 +50215,8 @@ export const indicesResolveCluster1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11424, __c357, 0) as any as S.Schema<IndicesResolveCluster1Request>,
   output: __S(11395, __c356, 3) as any as S.Schema<IndicesResolveCluster1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49926,7 +50233,8 @@ export const indicesResolveIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11456, __c358, 0) as any as S.Schema<IndicesResolveIndexRequest>,
   output: __S(11494, __c359, 6) as any as S.Schema<IndicesResolveIndexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49943,7 +50251,8 @@ export const indicesResolveIndex1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<IndicesResolveIndex1Request>,
   output: __S(11494, __c359, 6) as any as S.Schema<IndicesResolveIndex1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49960,7 +50269,8 @@ export const indicesRollover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11552, __c361, 0) as any as S.Schema<IndicesRolloverRequest>,
   output: __S(11585, __c362, 1) as any as S.Schema<IndicesRolloverResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49977,7 +50287,8 @@ export const indicesRollover1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11648, __c364, 0) as any as S.Schema<IndicesRollover1Request>,
   output: __S(11585, __c362, 1) as any as S.Schema<IndicesRollover1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -49994,7 +50305,8 @@ export const indicesSegments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11744, __c367, 0) as any as S.Schema<IndicesSegmentsRequest>,
   output: __S(11779, __c368, 3) as any as S.Schema<IndicesSegmentsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50011,7 +50323,8 @@ export const indicesSegments1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11808, __c369, 0) as any as S.Schema<IndicesSegments1Request>,
   output: __S(11779, __c368, 3) as any as S.Schema<IndicesSegments1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50028,7 +50341,8 @@ export const indicesShardStores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11840, __c370, 0) as any as S.Schema<IndicesShardStoresRequest>,
   output: __S(11879, __c371, 7) as any as S.Schema<IndicesShardStoresResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50045,7 +50359,8 @@ export const indicesShardStores1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11904, __c372, 0) as any as S.Schema<IndicesShardStores1Request>,
   output: __S(11879, __c371, 7) as any as S.Schema<IndicesShardStores1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50062,7 +50377,8 @@ export const indicesShrink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11936, __c373, 0) as any as S.Schema<IndicesShrinkRequest>,
   output: __S(11968, __c374, 0) as any as S.Schema<IndicesShrinkResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50079,7 +50395,8 @@ export const indicesShrink1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12000, __c375, 0) as any as S.Schema<IndicesShrink1Request>,
   output: __S(11968, __c374, 0) as any as S.Schema<IndicesShrink1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50096,7 +50413,8 @@ export const indicesSimulateIndexTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12032, __c376, 0) as any as S.Schema<IndicesSimulateIndexTemplateRequest>,
   output: __S(12067, __c377, 3) as any as S.Schema<IndicesSimulateIndexTemplateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50113,7 +50431,8 @@ export const indicesSimulateTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12128, __c379, 0) as any as S.Schema<IndicesSimulateTemplateRequest>,
   output: __S(12067, __c377, 3) as any as S.Schema<IndicesSimulateTemplateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50130,7 +50449,8 @@ export const indicesSimulateTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12192, __c381, 0) as any as S.Schema<IndicesSimulateTemplate1Request>,
   output: __S(12067, __c377, 3) as any as S.Schema<IndicesSimulateTemplate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50147,7 +50467,8 @@ export const indicesSplit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12224, __c382, 0) as any as S.Schema<IndicesSplitRequest>,
   output: __S(11968, __c374, 0) as any as S.Schema<IndicesSplitResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50164,7 +50485,8 @@ export const indicesSplit1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12288, __c384, 0) as any as S.Schema<IndicesSplit1Request>,
   output: __S(11968, __c374, 0) as any as S.Schema<IndicesSplit1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50181,7 +50503,8 @@ export const indicesStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12320, __c385, 0) as any as S.Schema<IndicesStatsRequest>,
   output: __S(12357, __c386, 5) as any as S.Schema<IndicesStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50198,7 +50521,8 @@ export const indicesStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12416, __c388, 0) as any as S.Schema<IndicesStats1Request>,
   output: __S(12357, __c386, 5) as any as S.Schema<IndicesStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50215,7 +50539,8 @@ export const indicesStats2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12448, __c389, 0) as any as S.Schema<IndicesStats2Request>,
   output: __S(12357, __c386, 5) as any as S.Schema<IndicesStats2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50232,7 +50557,8 @@ export const indicesStats3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12480, __c390, 0) as any as S.Schema<IndicesStats3Request>,
   output: __S(12357, __c386, 5) as any as S.Schema<IndicesStats3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50249,7 +50575,8 @@ export const indicesUpdateAliases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12517, __c391, 5) as any as S.Schema<IndicesUpdateAliasesRequest>,
   output: __S(12521, __c391, 9) as any as S.Schema<IndicesUpdateAliasesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50266,7 +50593,8 @@ export const indicesValidateQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12544, __c392, 0) as any as S.Schema<IndicesValidateQueryRequest>,
   output: __S(12578, __c393, 2) as any as S.Schema<IndicesValidateQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50283,7 +50611,8 @@ export const indicesValidateQuery1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<IndicesValidateQuery1Request>,
   output: __S(12578, __c393, 2) as any as S.Schema<IndicesValidateQuery1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50300,7 +50629,8 @@ export const indicesValidateQuery2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12640, __c395, 0) as any as S.Schema<IndicesValidateQuery2Request>,
   output: __S(12578, __c393, 2) as any as S.Schema<IndicesValidateQuery2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50317,7 +50647,8 @@ export const indicesValidateQuery3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<IndicesValidateQuery3Request>,
   output: __S(12578, __c393, 2) as any as S.Schema<IndicesValidateQuery3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50334,7 +50665,8 @@ export const inferenceChatCompletionUnified: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12736, __c398, 0) as any as S.Schema<InferenceChatCompletionUnifiedRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<InferenceChatCompletionUnifiedResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50351,7 +50683,8 @@ export const inferenceCompletion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12800, __c400, 0) as any as S.Schema<InferenceCompletionRequest>,
   output: __S(12801, __c400, 1) as any as S.Schema<InferenceTypesCompletionInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50368,7 +50701,8 @@ export const inferenceDecision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12866, __c402, 2) as any as S.Schema<InferenceDecisionRequest>,
   output: __S(12869, __c402, 5) as any as S.Schema<InferenceTypesDecisionInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50385,7 +50719,8 @@ export const inferenceDelete1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12896, __c403, 0) as any as S.Schema<InferenceDelete1Request>,
   output: __S(3392, __c106, 0) as any as S.Schema<InferenceDelete1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50402,7 +50737,8 @@ export const inferenceDeleteRegionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12928, __c404, 0) as any as S.Schema<InferenceDeleteRegionPolicyRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50419,7 +50755,8 @@ export const inferenceDocumentExtraction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12961, __c405, 1) as any as S.Schema<InferenceDocumentExtractionRequest>,
   output: __S(12964, __c405, 4) as any as S.Schema<InferenceTypesDocumentExtractionInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50436,7 +50773,8 @@ export const inferenceEmbedding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12992, __c406, 0) as any as S.Schema<InferenceEmbeddingRequest>,
   output: __S(12993, __c406, 1) as any as S.Schema<InferenceTypesEmbeddingInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50453,7 +50791,8 @@ export const inferenceGet1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13056, __c408, 0) as any as S.Schema<InferenceGet1Request>,
   output: __S(6753, __c211, 1) as any as S.Schema<InferenceGet1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50470,7 +50809,8 @@ export const inferenceGet2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13088, __c409, 0) as any as S.Schema<InferenceGet2Request>,
   output: __S(6753, __c211, 1) as any as S.Schema<InferenceGet2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50487,7 +50827,8 @@ export const inferenceGet3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13120, __c410, 0) as any as S.Schema<InferenceGet3Request>,
   output: __S(6753, __c211, 1) as any as S.Schema<InferenceGet3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50504,7 +50845,8 @@ export const inferenceGetRegionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13216, __c413, 0) as any as S.Schema<InferenceGetRegionPolicyRequest>,
   output: __S(13251, __c414, 3) as any as S.Schema<InferenceTypesRegionPolicyDoc>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50521,7 +50863,8 @@ export const inferenceInference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13280, __c415, 0) as any as S.Schema<InferenceInferenceRequest>,
   output: __S(13312, __c416, 0) as any as S.Schema<InferenceTypesInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50538,7 +50881,8 @@ export const inferenceInference1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13408, __c419, 0) as any as S.Schema<InferenceInference1Request>,
   output: __S(13312, __c416, 0) as any as S.Schema<InferenceTypesInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50555,7 +50899,8 @@ export const inferenceNonStreamingChatCompletion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13440, __c420, 0) as any as S.Schema<InferenceNonStreamingChatCompletionRequest>,
   output: __S(13450, __c420, 10) as any as S.Schema<InferenceTypesChatCompletionInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50572,7 +50917,8 @@ export const inferencePut1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13472, __c421, 0) as any as S.Schema<InferencePut1Request>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePut1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50589,7 +50935,8 @@ export const inferencePutAi21: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13504, __c422, 0) as any as S.Schema<InferencePutAi21Request>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAi21Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50606,7 +50953,8 @@ export const inferencePutAlibabacloud: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13602, __c425, 2) as any as S.Schema<InferencePutAlibabacloudRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAlibabacloudResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50623,7 +50971,8 @@ export const inferencePutAmazonbedrock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13634, __c426, 2) as any as S.Schema<InferencePutAmazonbedrockRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAmazonbedrockResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50640,7 +50989,8 @@ export const inferencePutAmazonsagemaker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13666, __c427, 2) as any as S.Schema<InferencePutAmazonsagemakerRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAmazonsagemakerResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50657,7 +51007,8 @@ export const inferencePutAnthropic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13697, __c428, 1) as any as S.Schema<InferencePutAnthropicRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAnthropicResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50674,7 +51025,8 @@ export const inferencePutAzureaistudio: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13826, __c432, 2) as any as S.Schema<InferencePutAzureaistudioRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAzureaistudioResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50691,7 +51043,8 @@ export const inferencePutAzureopenai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13857, __c433, 1) as any as S.Schema<InferencePutAzureopenaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutAzureopenaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50708,7 +51061,8 @@ export const inferencePutCohere: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13922, __c435, 2) as any as S.Schema<InferencePutCohereRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutCohereResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50725,7 +51079,8 @@ export const inferencePutContextualai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13953, __c436, 1) as any as S.Schema<InferencePutContextualaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutContextualaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50742,7 +51097,8 @@ export const inferencePutCustom: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13990, __c437, 6) as any as S.Schema<InferencePutCustomRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutCustomResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50759,7 +51115,8 @@ export const inferencePutDeepseek: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14017, __c438, 1) as any as S.Schema<InferencePutDeepseekRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutDeepseekResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50776,7 +51133,8 @@ export const inferencePutElasticsearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14051, __c439, 3) as any as S.Schema<InferencePutElasticsearchRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutElasticsearchResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50793,7 +51151,8 @@ export const inferencePutFireworksai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14081, __c440, 1) as any as S.Schema<InferencePutFireworksaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutFireworksaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50810,7 +51169,8 @@ export const inferencePutGoogleaistudio: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14112, __c441, 0) as any as S.Schema<InferencePutGoogleaistudioRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutGoogleaistudioResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50827,7 +51187,8 @@ export const inferencePutGooglevertexai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14147, __c442, 3) as any as S.Schema<InferencePutGooglevertexaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutGooglevertexaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50844,7 +51205,8 @@ export const inferencePutGroq: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14208, __c444, 0) as any as S.Schema<InferencePutGroqRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutGroqResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50861,7 +51223,8 @@ export const inferencePutHuggingFace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14241, __c445, 1) as any as S.Schema<InferencePutHuggingFaceRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutHuggingFaceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50878,7 +51241,8 @@ export const inferencePutJinaai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14306, __c447, 2) as any as S.Schema<InferencePutJinaaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutJinaaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50895,7 +51259,8 @@ export const inferencePutLlama: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14337, __c448, 1) as any as S.Schema<InferencePutLlamaRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutLlamaResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50912,7 +51277,8 @@ export const inferencePutMistral: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14369, __c449, 1) as any as S.Schema<InferencePutMistralRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutMistralResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50929,7 +51295,8 @@ export const inferencePutNvidia: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14402, __c450, 2) as any as S.Schema<InferencePutNvidiaRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutNvidiaResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50946,7 +51313,8 @@ export const inferencePutOpenai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14433, __c451, 1) as any as S.Schema<InferencePutOpenaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutOpenaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50963,7 +51331,8 @@ export const inferencePutOpenshiftAi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14465, __c452, 1) as any as S.Schema<InferencePutOpenshiftAiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutOpenshiftAiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50980,7 +51349,8 @@ export const inferencePutRegionPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14496, __c453, 0) as any as S.Schema<InferencePutRegionPolicyRequest>,
   output: __S(13251, __c414, 3) as any as S.Schema<InferenceTypesRegionPolicyDoc>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -50997,7 +51367,8 @@ export const inferencePutVoyageai: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14530, __c454, 2) as any as S.Schema<InferencePutVoyageaiRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutVoyageaiResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51014,7 +51385,8 @@ export const inferencePutWatsonx: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14593, __c456, 1) as any as S.Schema<InferencePutWatsonxRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferencePutWatsonxResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51031,7 +51403,8 @@ export const inferenceRerank: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14624, __c457, 0) as any as S.Schema<InferenceRerankRequest>,
   output: __S(14625, __c457, 1) as any as S.Schema<InferenceTypesRerankedInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51048,7 +51421,8 @@ export const inferenceSparseEmbedding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14656, __c458, 0) as any as S.Schema<InferenceSparseEmbeddingRequest>,
   output: __S(14657, __c458, 1) as any as S.Schema<InferenceTypesSparseEmbeddingInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51065,7 +51439,8 @@ export const inferenceStreamCompletion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14688, __c459, 0) as any as S.Schema<InferenceStreamCompletionRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<InferenceStreamCompletionResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51082,7 +51457,8 @@ export const inferenceTextEmbedding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14720, __c460, 0) as any as S.Schema<InferenceTextEmbeddingRequest>,
   output: __S(14721, __c460, 1) as any as S.Schema<InferenceTypesTextEmbeddingInferenceResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51099,7 +51475,8 @@ export const inferenceUpdate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14752, __c461, 0) as any as S.Schema<InferenceUpdate1Request>,
   output: __S(6785, __c212, 1) as any as S.Schema<InferenceUpdate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51116,7 +51493,8 @@ export const info: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14784, __c462, 0) as any as S.Schema<InfoRequest>,
   output: __S(14786, __c462, 2) as any as S.Schema<InfoResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51133,7 +51511,8 @@ export const ingestDeleteGeoipDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14816, __c463, 0) as any as S.Schema<IngestDeleteGeoipDatabaseRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51150,7 +51529,8 @@ export const ingestDeleteIpLocationDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14848, __c464, 0) as any as S.Schema<IngestDeleteIpLocationDatabaseRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51167,7 +51547,8 @@ export const ingestDeletePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14880, __c465, 0) as any as S.Schema<IngestDeletePipelineRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51184,7 +51565,8 @@ export const ingestGeoIpStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14976, __c468, 0) as any as S.Schema<IngestGeoIpStatsRequest>,
   output: __S(14981, __c468, 5) as any as S.Schema<IngestGeoIpStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51201,7 +51583,8 @@ export const ingestGetGeoipDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15008, __c469, 0) as any as S.Schema<IngestGetGeoipDatabaseRequest>,
   output: __S(15043, __c470, 3) as any as S.Schema<IngestGetGeoipDatabaseResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51218,7 +51601,8 @@ export const ingestGetGeoipDatabase1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15104, __c472, 0) as any as S.Schema<IngestGetGeoipDatabase1Request>,
   output: __S(15043, __c470, 3) as any as S.Schema<IngestGetGeoipDatabase1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51235,7 +51619,8 @@ export const ingestGetIpLocationDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15136, __c473, 0) as any as S.Schema<IngestGetIpLocationDatabaseRequest>,
   output: __S(15171, __c474, 3) as any as S.Schema<IngestGetIpLocationDatabaseResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51252,7 +51637,8 @@ export const ingestGetIpLocationDatabase1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15232, __c476, 0) as any as S.Schema<IngestGetIpLocationDatabase1Request>,
   output: __S(15171, __c474, 3) as any as S.Schema<IngestGetIpLocationDatabase1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51269,7 +51655,8 @@ export const ingestGetPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15264, __c477, 0) as any as S.Schema<IngestGetPipelineRequest>,
   output: __S(15296, __c478, 0) as any as S.Schema<IngestGetPipelineResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51286,7 +51673,8 @@ export const ingestGetPipeline1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15456, __c483, 0) as any as S.Schema<IngestGetPipeline1Request>,
   output: __S(15296, __c478, 0) as any as S.Schema<IngestGetPipeline1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51303,7 +51691,8 @@ export const ingestProcessorGrok: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15488, __c484, 0) as any as S.Schema<IngestProcessorGrokRequest>,
   output: __S(15489, __c484, 1) as any as S.Schema<IngestProcessorGrokResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51320,7 +51709,8 @@ export const ingestPutGeoipDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15520, __c485, 0) as any as S.Schema<IngestPutGeoipDatabaseRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51337,7 +51727,8 @@ export const ingestPutIpLocationDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15552, __c486, 0) as any as S.Schema<IngestPutIpLocationDatabaseRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51354,7 +51745,8 @@ export const ingestPutPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15616, __c488, 0) as any as S.Schema<IngestPutPipelineRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51371,7 +51763,8 @@ export const ingestSimulate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15648, __c489, 0) as any as S.Schema<IngestSimulateRequest>,
   output: __S(15687, __c490, 7) as any as S.Schema<IngestSimulateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51388,7 +51781,8 @@ export const ingestSimulate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15744, __c492, 0) as any as S.Schema<IngestSimulate1Request>,
   output: __S(15687, __c490, 7) as any as S.Schema<IngestSimulate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51405,7 +51799,8 @@ export const ingestSimulate2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15776, __c493, 0) as any as S.Schema<IngestSimulate2Request>,
   output: __S(15687, __c490, 7) as any as S.Schema<IngestSimulate2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51422,7 +51817,8 @@ export const ingestSimulate3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15808, __c494, 0) as any as S.Schema<IngestSimulate3Request>,
   output: __S(15687, __c490, 7) as any as S.Schema<IngestSimulate3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51439,7 +51835,8 @@ export const invalidateSecuritySaml: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15840, __c495, 0) as any as S.Schema<InvalidateSecuritySamlRequest>,
   output: __S(15841, __c495, 1) as any as S.Schema<InvalidateSecuritySamlResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51456,7 +51853,8 @@ export const knnEval: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15872, __c496, 0) as any as S.Schema<KnnEvalRequest>,
   output: __S(15912, __c497, 8) as any as S.Schema<KnnEvalResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51473,7 +51871,8 @@ export const knnEval1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15936, __c498, 0) as any as S.Schema<KnnEval1Request>,
   output: __S(15912, __c497, 8) as any as S.Schema<KnnEval1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51490,7 +51889,8 @@ export const licenseGetBasicStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15968, __c499, 0) as any as S.Schema<LicenseGetBasicStatusRequest>,
   output: __S(15969, __c499, 1) as any as S.Schema<LicenseGetBasicStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51507,7 +51907,8 @@ export const licenseGetTrialStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16000, __c500, 0) as any as S.Schema<LicenseGetTrialStatusRequest>,
   output: __S(16001, __c500, 1) as any as S.Schema<LicenseGetTrialStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51524,7 +51925,8 @@ export const licensePost1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16160, __c505, 0) as any as S.Schema<LicensePost1Request>,
   output: __S(16195, __c506, 3) as any as S.Schema<LicensePost1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51541,7 +51943,8 @@ export const licensePostStartBasic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16224, __c507, 0) as any as S.Schema<LicensePostStartBasicRequest>,
   output: __S(16226, __c507, 2) as any as S.Schema<LicensePostStartBasicResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51558,7 +51961,8 @@ export const licensePostStartTrial: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16256, __c508, 0) as any as S.Schema<LicensePostStartTrialRequest>,
   output: __S(16257, __c508, 1) as any as S.Schema<LicensePostStartTrialResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51575,7 +51979,8 @@ export const list: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16288, __c509, 0) as any as S.Schema<ListRequest>,
   output: __S(2656, __c83, 0) as any as S.Schema<TypesWriteResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51592,7 +51997,8 @@ export const list1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16320, __c510, 0) as any as S.Schema<List1Request>,
   output: __S(2656, __c83, 0) as any as S.Schema<TypesWriteResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51609,7 +52015,8 @@ export const list2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16352, __c511, 0) as any as S.Schema<List2Request>,
   output: __S(2656, __c83, 0) as any as S.Schema<TypesWriteResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51626,7 +52033,8 @@ export const listConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16384, __c512, 0) as any as S.Schema<ListConnectorRequest>,
   output: __S(16386, __c512, 2) as any as S.Schema<ListConnectorResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51643,7 +52051,8 @@ export const listConnectorSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16416, __c513, 0) as any as S.Schema<ListConnectorSyncJobRequest>,
   output: __S(16418, __c513, 2) as any as S.Schema<ListConnectorSyncJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51660,7 +52069,8 @@ export const listReindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16448, __c514, 0) as any as S.Schema<ListReindexRequest>,
   output: __S(16451, __c514, 3) as any as S.Schema<ListReindexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51677,7 +52087,8 @@ export const listTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16480, __c515, 0) as any as S.Schema<ListTasksRequest>,
   output: __S(5410, __c169, 2) as any as S.Schema<TasksTypesTaskListResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51694,7 +52105,8 @@ export const logoutSecurityOidc: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16544, __c517, 0) as any as S.Schema<LogoutSecurityOidcRequest>,
   output: __S(16576, __c518, 0) as any as S.Schema<LogoutSecurityOidcResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51711,7 +52123,8 @@ export const logoutSecuritySaml: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16608, __c519, 0) as any as S.Schema<LogoutSecuritySamlRequest>,
   output: __S(16576, __c518, 0) as any as S.Schema<LogoutSecuritySamlResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51728,7 +52141,8 @@ export const logoutSecuritySamlComplete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16640, __c520, 0) as any as S.Schema<LogoutSecuritySamlCompleteRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<LogoutSecuritySamlCompleteResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51745,7 +52159,8 @@ export const logstashDeletePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16672, __c521, 0) as any as S.Schema<LogstashDeletePipelineRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<LogstashDeletePipelineResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51762,7 +52177,8 @@ export const logstashGetPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16704, __c522, 0) as any as S.Schema<LogstashGetPipelineRequest>,
   output: __S(16738, __c523, 2) as any as S.Schema<LogstashGetPipelineResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51779,7 +52195,8 @@ export const logstashGetPipeline1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16800, __c525, 0) as any as S.Schema<LogstashGetPipeline1Request>,
   output: __S(16738, __c523, 2) as any as S.Schema<LogstashGetPipeline1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51796,7 +52213,8 @@ export const logstashPutPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16832, __c526, 0) as any as S.Schema<LogstashPutPipelineRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<LogstashPutPipelineResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51813,7 +52231,8 @@ export const mget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16864, __c527, 0) as any as S.Schema<MgetRequest>,
   output: __S(16899, __c528, 3) as any as S.Schema<MgetResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51830,7 +52249,8 @@ export const mget1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16928, __c529, 0) as any as S.Schema<Mget1Request>,
   output: __S(16899, __c528, 3) as any as S.Schema<Mget1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51847,7 +52267,8 @@ export const mget2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16960, __c530, 0) as any as S.Schema<Mget2Request>,
   output: __S(16899, __c528, 3) as any as S.Schema<Mget2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51864,7 +52285,8 @@ export const mget3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17056, __c533, 0) as any as S.Schema<Mget3Request>,
   output: __S(16899, __c528, 3) as any as S.Schema<Mget3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51881,7 +52303,8 @@ export const migrationDeprecations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17088, __c534, 0) as any as S.Schema<MigrationDeprecationsRequest>,
   output: __S(17123, __c535, 3) as any as S.Schema<MigrationDeprecationsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51898,7 +52321,8 @@ export const migrationDeprecations1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17152, __c536, 0) as any as S.Schema<MigrationDeprecations1Request>,
   output: __S(17123, __c535, 3) as any as S.Schema<MigrationDeprecations1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51915,7 +52339,8 @@ export const migrationGetFeatureUpgradeStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17184, __c537, 0) as any as S.Schema<MigrationGetFeatureUpgradeStatusRequest>,
   output: __S(17189, __c537, 5) as any as S.Schema<MigrationGetFeatureUpgradeStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51932,7 +52357,8 @@ export const migrationPostFeatureUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17216, __c538, 0) as any as S.Schema<MigrationPostFeatureUpgradeRequest>,
   output: __S(17219, __c538, 3) as any as S.Schema<MigrationPostFeatureUpgradeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51949,7 +52375,8 @@ export const mlClearTrainedModelDeploymentCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17248, __c539, 0) as any as S.Schema<MlClearTrainedModelDeploymentCacheRequest>,
   output: __S(17249, __c539, 1) as any as S.Schema<MlClearTrainedModelDeploymentCacheResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51966,7 +52393,8 @@ export const mlCloseJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17280, __c540, 0) as any as S.Schema<MlCloseJobRequest>,
   output: __S(17281, __c540, 1) as any as S.Schema<MlCloseJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51983,7 +52411,8 @@ export const mlDeleteCalendar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17312, __c541, 0) as any as S.Schema<MlDeleteCalendarRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52000,7 +52429,8 @@ export const mlDeleteCalendarEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17344, __c542, 0) as any as S.Schema<MlDeleteCalendarEventRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52017,7 +52447,8 @@ export const mlDeleteCalendarJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17376, __c543, 0) as any as S.Schema<MlDeleteCalendarJobRequest>,
   output: __S(17408, __c544, 0) as any as S.Schema<MlDeleteCalendarJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52034,7 +52465,8 @@ export const mlDeleteDatafeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17472, __c546, 0) as any as S.Schema<MlDeleteDatafeedRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52051,7 +52483,8 @@ export const mlDeleteDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17504, __c547, 0) as any as S.Schema<MlDeleteDataFrameAnalyticsRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52068,7 +52501,8 @@ export const mlDeleteExpiredData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17536, __c548, 0) as any as S.Schema<MlDeleteExpiredDataRequest>,
   output: __S(17568, __c549, 0) as any as S.Schema<MlDeleteExpiredDataResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52085,7 +52519,8 @@ export const mlDeleteExpiredData1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17600, __c550, 0) as any as S.Schema<MlDeleteExpiredData1Request>,
   output: __S(17568, __c549, 0) as any as S.Schema<MlDeleteExpiredData1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52102,7 +52537,8 @@ export const mlDeleteFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17632, __c551, 0) as any as S.Schema<MlDeleteFilterRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52119,7 +52555,8 @@ export const mlDeleteForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17664, __c552, 0) as any as S.Schema<MlDeleteForecastRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52136,7 +52573,8 @@ export const mlDeleteForecast1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17696, __c553, 0) as any as S.Schema<MlDeleteForecast1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52153,7 +52591,8 @@ export const mlDeleteJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17728, __c554, 0) as any as S.Schema<MlDeleteJobRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52170,7 +52609,8 @@ export const mlDeleteModelSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17760, __c555, 0) as any as S.Schema<MlDeleteModelSnapshotRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52187,7 +52627,8 @@ export const mlDeleteTrainedModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17792, __c556, 0) as any as S.Schema<MlDeleteTrainedModelRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52204,7 +52645,8 @@ export const mlDeleteTrainedModelAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17888, __c559, 0) as any as S.Schema<MlDeleteTrainedModelAliasRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52221,7 +52663,8 @@ export const mlEstimateModelMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17920, __c560, 0) as any as S.Schema<MlEstimateModelMemoryRequest>,
   output: __S(17921, __c560, 1) as any as S.Schema<MlEstimateModelMemoryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52238,7 +52681,8 @@ export const mlEvaluateDataFrame: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18026, __c563, 10) as any as S.Schema<MlEvaluateDataFrameRequest>,
   output: __S(18046, __c563, 30) as any as S.Schema<MlEvaluateDataFrameResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52255,7 +52699,8 @@ export const mlExplainDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18048, __c564, 0) as any as S.Schema<MlExplainDataFrameAnalyticsRequest>,
   output: __S(18083, __c565, 3) as any as S.Schema<MlExplainDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52272,7 +52717,8 @@ export const mlExplainDataFrameAnalytics1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18208, __c569, 0) as any as S.Schema<MlExplainDataFrameAnalytics1Request>,
   output: __S(18083, __c565, 3) as any as S.Schema<MlExplainDataFrameAnalytics1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52289,7 +52735,8 @@ export const mlExplainDataFrameAnalytics2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18240, __c570, 0) as any as S.Schema<MlExplainDataFrameAnalytics2Request>,
   output: __S(18083, __c565, 3) as any as S.Schema<MlExplainDataFrameAnalytics2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52306,7 +52753,8 @@ export const mlExplainDataFrameAnalytics3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18272, __c571, 0) as any as S.Schema<MlExplainDataFrameAnalytics3Request>,
   output: __S(18083, __c565, 3) as any as S.Schema<MlExplainDataFrameAnalytics3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52323,7 +52771,8 @@ export const mlForecast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18304, __c572, 0) as any as S.Schema<MlForecastRequest>,
   output: __S(18305, __c572, 1) as any as S.Schema<MlForecastResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52340,7 +52789,8 @@ export const mlGetBuckets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18336, __c573, 0) as any as S.Schema<MlGetBucketsRequest>,
   output: __S(18372, __c574, 4) as any as S.Schema<MlGetBucketsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52357,7 +52807,8 @@ export const mlGetBuckets1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18432, __c576, 0) as any as S.Schema<MlGetBuckets1Request>,
   output: __S(18372, __c574, 4) as any as S.Schema<MlGetBuckets1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52374,7 +52825,8 @@ export const mlGetBuckets2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18496, __c578, 0) as any as S.Schema<MlGetBuckets2Request>,
   output: __S(18372, __c574, 4) as any as S.Schema<MlGetBuckets2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52391,7 +52843,8 @@ export const mlGetBuckets3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18528, __c579, 0) as any as S.Schema<MlGetBuckets3Request>,
   output: __S(18372, __c574, 4) as any as S.Schema<MlGetBuckets3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52408,7 +52861,8 @@ export const mlGetCalendarEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18560, __c580, 0) as any as S.Schema<MlGetCalendarEventsRequest>,
   output: __S(18561, __c580, 1) as any as S.Schema<MlGetCalendarEventsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52425,7 +52879,8 @@ export const mlGetCalendars: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18624, __c582, 0) as any as S.Schema<MlGetCalendarsRequest>,
   output: __S(18658, __c583, 2) as any as S.Schema<MlGetCalendarsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52442,7 +52897,8 @@ export const mlGetCalendars1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18688, __c584, 0) as any as S.Schema<MlGetCalendars1Request>,
   output: __S(18658, __c583, 2) as any as S.Schema<MlGetCalendars1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52459,7 +52915,8 @@ export const mlGetCalendars2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18720, __c585, 0) as any as S.Schema<MlGetCalendars2Request>,
   output: __S(18658, __c583, 2) as any as S.Schema<MlGetCalendars2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52476,7 +52933,8 @@ export const mlGetCalendars3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18752, __c586, 0) as any as S.Schema<MlGetCalendars3Request>,
   output: __S(18658, __c583, 2) as any as S.Schema<MlGetCalendars3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52493,7 +52951,8 @@ export const mlGetCategories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18784, __c587, 0) as any as S.Schema<MlGetCategoriesRequest>,
   output: __S(18818, __c588, 2) as any as S.Schema<MlGetCategoriesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52510,7 +52969,8 @@ export const mlGetCategories1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18848, __c589, 0) as any as S.Schema<MlGetCategories1Request>,
   output: __S(18818, __c588, 2) as any as S.Schema<MlGetCategories1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52527,7 +52987,8 @@ export const mlGetCategories2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18880, __c590, 0) as any as S.Schema<MlGetCategories2Request>,
   output: __S(18818, __c588, 2) as any as S.Schema<MlGetCategories2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52544,7 +53005,8 @@ export const mlGetCategories3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18944, __c592, 0) as any as S.Schema<MlGetCategories3Request>,
   output: __S(18818, __c588, 2) as any as S.Schema<MlGetCategories3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52561,7 +53023,8 @@ export const mlGetDatafeeds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18976, __c593, 0) as any as S.Schema<MlGetDatafeedsRequest>,
   output: __S(19009, __c594, 1) as any as S.Schema<MlGetDatafeedsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52578,7 +53041,8 @@ export const mlGetDatafeeds1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19136, __c598, 0) as any as S.Schema<MlGetDatafeeds1Request>,
   output: __S(19009, __c594, 1) as any as S.Schema<MlGetDatafeeds1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52595,7 +53059,8 @@ export const mlGetDatafeedStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19168, __c599, 0) as any as S.Schema<MlGetDatafeedStatsRequest>,
   output: __S(19206, __c600, 6) as any as S.Schema<MlGetDatafeedStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52612,7 +53077,8 @@ export const mlGetDatafeedStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19264, __c602, 0) as any as S.Schema<MlGetDatafeedStats1Request>,
   output: __S(19206, __c600, 6) as any as S.Schema<MlGetDatafeedStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52629,7 +53095,8 @@ export const mlGetDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19296, __c603, 0) as any as S.Schema<MlGetDataFrameAnalyticsRequest>,
   output: __S(19330, __c604, 2) as any as S.Schema<MlGetDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52646,7 +53113,8 @@ export const mlGetDataFrameAnalytics1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19360, __c605, 0) as any as S.Schema<MlGetDataFrameAnalytics1Request>,
   output: __S(19330, __c604, 2) as any as S.Schema<MlGetDataFrameAnalytics1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52663,7 +53131,8 @@ export const mlGetDataFrameAnalyticsStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19392, __c606, 0) as any as S.Schema<MlGetDataFrameAnalyticsStatsRequest>,
   output: __S(19436, __c607, 12) as any as S.Schema<MlGetDataFrameAnalyticsStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52680,7 +53149,8 @@ export const mlGetDataFrameAnalyticsStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19456, __c608, 0) as any as S.Schema<MlGetDataFrameAnalyticsStats1Request>,
   output: __S(19436, __c607, 12) as any as S.Schema<MlGetDataFrameAnalyticsStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52697,7 +53167,8 @@ export const mlGetFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19488, __c609, 0) as any as S.Schema<MlGetFiltersRequest>,
   output: __S(19522, __c610, 2) as any as S.Schema<MlGetFiltersResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52714,7 +53185,8 @@ export const mlGetFilters1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19584, __c612, 0) as any as S.Schema<MlGetFilters1Request>,
   output: __S(19522, __c610, 2) as any as S.Schema<MlGetFilters1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52731,7 +53203,8 @@ export const mlGetInfluencers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19616, __c613, 0) as any as S.Schema<MlGetInfluencersRequest>,
   output: __S(19650, __c614, 2) as any as S.Schema<MlGetInfluencersResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52748,7 +53221,8 @@ export const mlGetInfluencers1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19680, __c615, 0) as any as S.Schema<MlGetInfluencers1Request>,
   output: __S(19650, __c614, 2) as any as S.Schema<MlGetInfluencers1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52765,7 +53239,8 @@ export const mlGetJobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19712, __c616, 0) as any as S.Schema<MlGetJobsRequest>,
   output: __S(19747, __c617, 3) as any as S.Schema<MlGetJobsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52782,7 +53257,8 @@ export const mlGetJobs1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19808, __c619, 0) as any as S.Schema<MlGetJobs1Request>,
   output: __S(19747, __c617, 3) as any as S.Schema<MlGetJobs1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52799,7 +53275,8 @@ export const mlGetJobStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19840, __c620, 0) as any as S.Schema<MlGetJobStatsRequest>,
   output: __S(19877, __c621, 5) as any as S.Schema<MlGetJobStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52816,7 +53293,8 @@ export const mlGetJobStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19968, __c624, 0) as any as S.Schema<MlGetJobStats1Request>,
   output: __S(19877, __c621, 5) as any as S.Schema<MlGetJobStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52833,7 +53311,8 @@ export const mlGetMemoryStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20000, __c625, 0) as any as S.Schema<MlGetMemoryStatsRequest>,
   output: __S(20037, __c626, 5) as any as S.Schema<MlGetMemoryStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52850,7 +53329,8 @@ export const mlGetMemoryStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20064, __c627, 0) as any as S.Schema<MlGetMemoryStats1Request>,
   output: __S(20037, __c626, 5) as any as S.Schema<MlGetMemoryStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52867,7 +53347,8 @@ export const mlGetModelSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20096, __c628, 0) as any as S.Schema<MlGetModelSnapshotsRequest>,
   output: __S(20129, __c629, 1) as any as S.Schema<MlGetModelSnapshotsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52884,7 +53365,8 @@ export const mlGetModelSnapshots1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20224, __c632, 0) as any as S.Schema<MlGetModelSnapshots1Request>,
   output: __S(20129, __c629, 1) as any as S.Schema<MlGetModelSnapshots1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52901,7 +53383,8 @@ export const mlGetModelSnapshots2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20256, __c633, 0) as any as S.Schema<MlGetModelSnapshots2Request>,
   output: __S(20129, __c629, 1) as any as S.Schema<MlGetModelSnapshots2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52918,7 +53401,8 @@ export const mlGetModelSnapshots3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20288, __c634, 0) as any as S.Schema<MlGetModelSnapshots3Request>,
   output: __S(20129, __c629, 1) as any as S.Schema<MlGetModelSnapshots3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52935,7 +53419,8 @@ export const mlGetModelSnapshotUpgradeStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20320, __c635, 0) as any as S.Schema<MlGetModelSnapshotUpgradeStatsRequest>,
   output: __S(20323, __c635, 3) as any as S.Schema<MlGetModelSnapshotUpgradeStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52952,7 +53437,8 @@ export const mlGetOverallBuckets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20384, __c637, 0) as any as S.Schema<MlGetOverallBucketsRequest>,
   output: __S(20420, __c638, 4) as any as S.Schema<MlGetOverallBucketsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52969,7 +53455,8 @@ export const mlGetOverallBuckets1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20448, __c639, 0) as any as S.Schema<MlGetOverallBuckets1Request>,
   output: __S(20420, __c638, 4) as any as S.Schema<MlGetOverallBuckets1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -52986,7 +53473,8 @@ export const mlGetRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20480, __c640, 0) as any as S.Schema<MlGetRecordsRequest>,
   output: __S(20520, __c641, 8) as any as S.Schema<MlGetRecordsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53003,7 +53491,8 @@ export const mlGetRecords1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20544, __c642, 0) as any as S.Schema<MlGetRecords1Request>,
   output: __S(20520, __c641, 8) as any as S.Schema<MlGetRecords1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53020,7 +53509,8 @@ export const mlGetTrainedModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20576, __c643, 0) as any as S.Schema<MlGetTrainedModelsRequest>,
   output: __S(20609, __c644, 1) as any as S.Schema<MlGetTrainedModelsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53037,7 +53527,8 @@ export const mlGetTrainedModels1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20672, __c646, 0) as any as S.Schema<MlGetTrainedModels1Request>,
   output: __S(20609, __c644, 1) as any as S.Schema<MlGetTrainedModels1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53054,7 +53545,8 @@ export const mlGetTrainedModelsStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20736, __c648, 0) as any as S.Schema<MlGetTrainedModelsStatsRequest>,
   output: __S(20777, __c649, 9) as any as S.Schema<MlGetTrainedModelsStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53071,7 +53563,8 @@ export const mlGetTrainedModelsStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20832, __c651, 0) as any as S.Schema<MlGetTrainedModelsStats1Request>,
   output: __S(20777, __c649, 9) as any as S.Schema<MlGetTrainedModelsStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53088,7 +53581,8 @@ export const mlInferTrainedModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20876, __c652, 12) as any as S.Schema<MlInferTrainedModelRequest>,
   output: __S(20883, __c652, 19) as any as S.Schema<MlInferTrainedModelResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53105,7 +53599,8 @@ export const mlInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20896, __c653, 0) as any as S.Schema<MlInfoRequest>,
   output: __S(20901, __c653, 5) as any as S.Schema<MlInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53122,7 +53617,8 @@ export const mlOpenJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20960, __c655, 0) as any as S.Schema<MlOpenJobRequest>,
   output: __S(20961, __c655, 1) as any as S.Schema<MlOpenJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53139,7 +53635,8 @@ export const mlPostCalendarEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20992, __c656, 0) as any as S.Schema<MlPostCalendarEventsRequest>,
   output: __S(20993, __c656, 1) as any as S.Schema<MlPostCalendarEventsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53156,7 +53653,8 @@ export const mlPreviewDatafeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21024, __c657, 0) as any as S.Schema<MlPreviewDatafeedRequest>,
   output: __S(21057, __c658, 1) as any as S.Schema<MlPreviewDatafeedResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53173,7 +53671,8 @@ export const mlPreviewDatafeed1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21120, __c660, 0) as any as S.Schema<MlPreviewDatafeed1Request>,
   output: __S(21057, __c658, 1) as any as S.Schema<MlPreviewDatafeed1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53190,7 +53689,8 @@ export const mlPreviewDatafeed2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21152, __c661, 0) as any as S.Schema<MlPreviewDatafeed2Request>,
   output: __S(21057, __c658, 1) as any as S.Schema<MlPreviewDatafeed2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53207,7 +53707,8 @@ export const mlPreviewDatafeed3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21184, __c662, 0) as any as S.Schema<MlPreviewDatafeed3Request>,
   output: __S(21057, __c658, 1) as any as S.Schema<MlPreviewDatafeed3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53224,7 +53725,8 @@ export const mlPreviewDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21344, __c667, 0) as any as S.Schema<MlPreviewDataFrameAnalyticsRequest>,
   output: __S(21377, __c668, 1) as any as S.Schema<MlPreviewDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53241,7 +53743,8 @@ export const mlPreviewDataFrameAnalytics1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21440, __c670, 0) as any as S.Schema<MlPreviewDataFrameAnalytics1Request>,
   output: __S(21377, __c668, 1) as any as S.Schema<MlPreviewDataFrameAnalytics1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53258,7 +53761,8 @@ export const mlPreviewDataFrameAnalytics2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21472, __c671, 0) as any as S.Schema<MlPreviewDataFrameAnalytics2Request>,
   output: __S(21377, __c668, 1) as any as S.Schema<MlPreviewDataFrameAnalytics2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53275,7 +53779,8 @@ export const mlPreviewDataFrameAnalytics3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21504, __c672, 0) as any as S.Schema<MlPreviewDataFrameAnalytics3Request>,
   output: __S(21377, __c668, 1) as any as S.Schema<MlPreviewDataFrameAnalytics3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53292,7 +53797,8 @@ export const mlPutCalendar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21536, __c673, 0) as any as S.Schema<MlPutCalendarRequest>,
   output: __S(17408, __c544, 0) as any as S.Schema<MlPutCalendarResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53309,7 +53815,8 @@ export const mlPutCalendarJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21568, __c674, 0) as any as S.Schema<MlPutCalendarJobRequest>,
   output: __S(17408, __c544, 0) as any as S.Schema<MlPutCalendarJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53326,7 +53833,8 @@ export const mlPutDatafeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21600, __c675, 0) as any as S.Schema<MlPutDatafeedRequest>,
   output: __S(21601, __c675, 1) as any as S.Schema<MlPutDatafeedResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53343,7 +53851,8 @@ export const mlPutDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21664, __c677, 0) as any as S.Schema<MlPutDataFrameAnalyticsRequest>,
   output: __S(21665, __c677, 1) as any as S.Schema<MlPutDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53360,7 +53869,8 @@ export const mlPutFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21696, __c678, 0) as any as S.Schema<MlPutFilterRequest>,
   output: __S(21728, __c679, 0) as any as S.Schema<MlPutFilterResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53377,7 +53887,8 @@ export const mlPutJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21760, __c680, 0) as any as S.Schema<MlPutJobRequest>,
   output: __S(21761, __c680, 1) as any as S.Schema<MlPutJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53394,7 +53905,8 @@ export const mlPutTrainedModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21871, __c683, 15) as any as S.Schema<MlPutTrainedModelRequest>,
   output: __S(20668, __c645, 28) as any as S.Schema<MlTypesTrainedModelConfig>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53411,7 +53923,8 @@ export const mlPutTrainedModelAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21888, __c684, 0) as any as S.Schema<MlPutTrainedModelAliasRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53428,7 +53941,8 @@ export const mlPutTrainedModelDefinitionPart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21920, __c685, 0) as any as S.Schema<MlPutTrainedModelDefinitionPartRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53445,7 +53959,8 @@ export const mlPutTrainedModelVocabulary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21952, __c686, 0) as any as S.Schema<MlPutTrainedModelVocabularyRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53462,7 +53977,8 @@ export const mlResetJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21984, __c687, 0) as any as S.Schema<MlResetJobRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53479,7 +53995,8 @@ export const mlRevertModelSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22016, __c688, 0) as any as S.Schema<MlRevertModelSnapshotRequest>,
   output: __S(22017, __c688, 1) as any as S.Schema<MlRevertModelSnapshotResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53496,7 +54013,8 @@ export const mlSetUpgradeMode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22048, __c689, 0) as any as S.Schema<MlSetUpgradeModeRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53513,7 +54031,8 @@ export const mlStartDatafeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22080, __c690, 0) as any as S.Schema<MlStartDatafeedRequest>,
   output: __S(22081, __c690, 1) as any as S.Schema<MlStartDatafeedResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53530,7 +54049,8 @@ export const mlStartDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22112, __c691, 0) as any as S.Schema<MlStartDataFrameAnalyticsRequest>,
   output: __S(22113, __c691, 1) as any as S.Schema<MlStartDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53547,7 +54067,8 @@ export const mlStartTrainedModelDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22144, __c692, 0) as any as S.Schema<MlStartTrainedModelDeploymentRequest>,
   output: __S(22180, __c693, 4) as any as S.Schema<MlStartTrainedModelDeploymentResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53564,7 +54085,8 @@ export const mlStopDatafeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22240, __c695, 0) as any as S.Schema<MlStopDatafeedRequest>,
   output: __S(22272, __c696, 0) as any as S.Schema<MlStopDatafeedResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53581,7 +54103,8 @@ export const mlStopDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22304, __c697, 0) as any as S.Schema<MlStopDataFrameAnalyticsRequest>,
   output: __S(22272, __c696, 0) as any as S.Schema<MlStopDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53598,7 +54121,8 @@ export const mlStopTrainedModelDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22336, __c698, 0) as any as S.Schema<MlStopTrainedModelDeploymentRequest>,
   output: __S(22272, __c696, 0) as any as S.Schema<MlStopTrainedModelDeploymentResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53615,7 +54139,8 @@ export const mlUpdateDatafeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22368, __c699, 0) as any as S.Schema<MlUpdateDatafeedRequest>,
   output: __S(22369, __c699, 1) as any as S.Schema<MlUpdateDatafeedResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53632,7 +54157,8 @@ export const mlUpdateDataFrameAnalytics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22400, __c700, 0) as any as S.Schema<MlUpdateDataFrameAnalyticsRequest>,
   output: __S(22401, __c700, 1) as any as S.Schema<MlUpdateDataFrameAnalyticsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53649,7 +54175,8 @@ export const mlUpdateFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22432, __c701, 0) as any as S.Schema<MlUpdateFilterRequest>,
   output: __S(21728, __c679, 0) as any as S.Schema<MlUpdateFilterResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53666,7 +54193,8 @@ export const mlUpdateJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22465, __c702, 1) as any as S.Schema<MlUpdateJobRequest>,
   output: __S(22466, __c702, 2) as any as S.Schema<MlUpdateJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53683,7 +54211,8 @@ export const mlUpdateModelSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22496, __c703, 0) as any as S.Schema<MlUpdateModelSnapshotRequest>,
   output: __S(22497, __c703, 1) as any as S.Schema<MlUpdateModelSnapshotResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53700,7 +54229,8 @@ export const mlUpdateTrainedModelDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22528, __c704, 0) as any as S.Schema<MlUpdateTrainedModelDeploymentRequest>,
   output: __S(22180, __c693, 4) as any as S.Schema<MlUpdateTrainedModelDeploymentResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53717,7 +54247,8 @@ export const mlUpgradeJobSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22560, __c705, 0) as any as S.Schema<MlUpgradeJobSnapshotRequest>,
   output: __S(22561, __c705, 1) as any as S.Schema<MlUpgradeJobSnapshotResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53734,7 +54265,8 @@ export const msearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22656, __c708, 0) as any as S.Schema<MsearchRequest>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53751,7 +54283,8 @@ export const msearch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22720, __c710, 0) as any as S.Schema<Msearch1Request>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53768,7 +54301,8 @@ export const msearch2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22752, __c711, 0) as any as S.Schema<Msearch2Request>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53785,7 +54319,8 @@ export const msearch3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22784, __c712, 0) as any as S.Schema<Msearch3Request>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53802,7 +54337,8 @@ export const msearchTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22816, __c713, 0) as any as S.Schema<MsearchTemplateRequest>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53819,7 +54355,8 @@ export const msearchTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22880, __c715, 0) as any as S.Schema<MsearchTemplate1Request>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53836,7 +54373,8 @@ export const msearchTemplate2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22912, __c716, 0) as any as S.Schema<MsearchTemplate2Request>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53853,7 +54391,8 @@ export const msearchTemplate3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22944, __c717, 0) as any as S.Schema<MsearchTemplate3Request>,
   output: __S(22688, __c709, 0) as any as S.Schema<GlobalMsearchMultiSearchResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53870,7 +54409,8 @@ export const mtermvectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22976, __c718, 0) as any as S.Schema<MtermvectorsRequest>,
   output: __S(23012, __c719, 4) as any as S.Schema<MtermvectorsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53887,7 +54427,8 @@ export const mtermvectors1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23072, __c721, 0) as any as S.Schema<Mtermvectors1Request>,
   output: __S(23012, __c719, 4) as any as S.Schema<Mtermvectors1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53904,7 +54445,8 @@ export const mtermvectors2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23136, __c723, 0) as any as S.Schema<Mtermvectors2Request>,
   output: __S(23012, __c719, 4) as any as S.Schema<Mtermvectors2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53921,7 +54463,8 @@ export const mtermvectors3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23168, __c724, 0) as any as S.Schema<Mtermvectors3Request>,
   output: __S(23012, __c719, 4) as any as S.Schema<Mtermvectors3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53938,7 +54481,8 @@ export const nodesGetRepositoriesMeteringInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23200, __c725, 0) as any as S.Schema<NodesGetRepositoriesMeteringInfoRequest>,
   output: __S(11172, __c349, 4) as any as S.Schema<NodesGetRepositoriesMeteringInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53955,7 +54499,8 @@ export const nodesHotThreads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23232, __c726, 0) as any as S.Schema<NodesHotThreadsRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<NodesHotThreadsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53972,7 +54517,8 @@ export const nodesHotThreads1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23264, __c727, 0) as any as S.Schema<NodesHotThreads1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<NodesHotThreads1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -53989,7 +54535,8 @@ export const nodesInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23296, __c728, 0) as any as S.Schema<NodesInfoRequest>,
   output: __S(23376, __c730, 16) as any as S.Schema<NodesInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54006,7 +54553,8 @@ export const nodesInfo1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23392, __c731, 0) as any as S.Schema<NodesInfo1Request>,
   output: __S(23376, __c730, 16) as any as S.Schema<NodesInfo1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54023,7 +54571,8 @@ export const nodesInfo2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23424, __c732, 0) as any as S.Schema<NodesInfo2Request>,
   output: __S(23376, __c730, 16) as any as S.Schema<NodesInfo2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54040,7 +54589,8 @@ export const nodesInfo3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23456, __c733, 0) as any as S.Schema<NodesInfo3Request>,
   output: __S(23376, __c730, 16) as any as S.Schema<NodesInfo3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54057,7 +54607,8 @@ export const nodesReloadSecureSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23488, __c734, 0) as any as S.Schema<NodesReloadSecureSettingsRequest>,
   output: __S(23522, __c735, 2) as any as S.Schema<NodesReloadSecureSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54074,7 +54625,8 @@ export const nodesReloadSecureSettings1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23616, __c738, 0) as any as S.Schema<NodesReloadSecureSettings1Request>,
   output: __S(23522, __c735, 2) as any as S.Schema<NodesReloadSecureSettings1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54091,7 +54643,8 @@ export const nodesStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23648, __c739, 0) as any as S.Schema<NodesStatsRequest>,
   output: __S(23735, __c741, 23) as any as S.Schema<NodesStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54108,7 +54661,8 @@ export const nodesStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23744, __c742, 0) as any as S.Schema<NodesStats1Request>,
   output: __S(23735, __c741, 23) as any as S.Schema<NodesStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54125,7 +54679,8 @@ export const nodesStats2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23776, __c743, 0) as any as S.Schema<NodesStats2Request>,
   output: __S(23735, __c741, 23) as any as S.Schema<NodesStats2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54142,7 +54697,8 @@ export const nodesStats3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23808, __c744, 0) as any as S.Schema<NodesStats3Request>,
   output: __S(23735, __c741, 23) as any as S.Schema<NodesStats3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54159,7 +54715,8 @@ export const nodesStats4: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23840, __c745, 0) as any as S.Schema<NodesStats4Request>,
   output: __S(23735, __c741, 23) as any as S.Schema<NodesStats4Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54176,7 +54733,8 @@ export const nodesStats5: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23872, __c746, 0) as any as S.Schema<NodesStats5Request>,
   output: __S(23735, __c741, 23) as any as S.Schema<NodesStats5Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54193,7 +54751,8 @@ export const nodesUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23904, __c747, 0) as any as S.Schema<NodesUsageRequest>,
   output: __S(23938, __c748, 2) as any as S.Schema<NodesUsageResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54210,7 +54769,8 @@ export const nodesUsage1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23968, __c749, 0) as any as S.Schema<NodesUsage1Request>,
   output: __S(23938, __c748, 2) as any as S.Schema<NodesUsage1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54227,7 +54787,8 @@ export const nodesUsage2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24000, __c750, 0) as any as S.Schema<NodesUsage2Request>,
   output: __S(23938, __c748, 2) as any as S.Schema<NodesUsage2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54244,7 +54805,8 @@ export const nodesUsage3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24064, __c752, 0) as any as S.Schema<NodesUsage3Request>,
   output: __S(23938, __c748, 2) as any as S.Schema<NodesUsage3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54261,7 +54823,8 @@ export const openPointInTime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24096, __c753, 0) as any as S.Schema<OpenPointInTimeRequest>,
   output: __S(24097, __c753, 1) as any as S.Schema<OpenPointInTimeResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54278,7 +54841,8 @@ export const postConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24128, __c754, 0) as any as S.Schema<PostConnectorRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<PostConnectorResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54295,7 +54859,8 @@ export const postConnectorSyncJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24160, __c755, 0) as any as S.Schema<PostConnectorSyncJobRequest>,
   output: __S(24161, __c755, 1) as any as S.Schema<PostConnectorSyncJobResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54312,7 +54877,8 @@ export const postLicense: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24192, __c756, 0) as any as S.Schema<PostLicenseRequest>,
   output: __S(16195, __c506, 3) as any as S.Schema<PostLicenseResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54329,7 +54895,8 @@ export const putConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24224, __c757, 0) as any as S.Schema<PutConnectorRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<PutConnectorResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54346,7 +54913,8 @@ export const putIndexTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24256, __c758, 0) as any as S.Schema<PutIndexTemplateRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54363,7 +54931,8 @@ export const putIndexTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24288, __c759, 0) as any as S.Schema<PutIndexTemplate1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54380,7 +54949,8 @@ export const putInference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24320, __c760, 0) as any as S.Schema<PutInferenceRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<PutInferenceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54397,7 +54967,8 @@ export const putScript: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24352, __c761, 0) as any as S.Schema<PutScriptRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54414,7 +54985,8 @@ export const putScript1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24448, __c764, 0) as any as S.Schema<PutScript1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54431,7 +55003,8 @@ export const putScript2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24480, __c765, 0) as any as S.Schema<PutScript2Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54448,7 +55021,8 @@ export const putScript3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24512, __c766, 0) as any as S.Schema<PutScript3Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54465,7 +55039,8 @@ export const putSynonym: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24544, __c767, 0) as any as S.Schema<PutSynonymRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<PutSynonymResponse>,
-  errors: [BadRequest, UnknownElasticsearchError],
+  errors: [BadRequest],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54482,7 +55057,8 @@ export const putSynonymRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24576, __c768, 0) as any as S.Schema<PutSynonymRuleRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<SynonymsTypesSynonymsUpdateResult>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54499,7 +55075,8 @@ export const putTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24608, __c769, 0) as any as S.Schema<PutTransformRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54516,7 +55093,8 @@ export const queryRulesDeleteRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24640, __c770, 0) as any as S.Schema<QueryRulesDeleteRuleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54533,7 +55111,8 @@ export const queryRulesDeleteRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24672, __c771, 0) as any as S.Schema<QueryRulesDeleteRulesetRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54550,7 +55129,8 @@ export const queryRulesGetRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24704, __c772, 0) as any as S.Schema<QueryRulesGetRuleRequest>,
   output: __S(24736, __c773, 0) as any as S.Schema<QueryRulesTypesQueryRule>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54567,7 +55147,8 @@ export const queryRulesGetRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24800, __c775, 0) as any as S.Schema<QueryRulesGetRulesetRequest>,
   output: __S(24802, __c775, 2) as any as S.Schema<QueryRulesTypesQueryRuleset>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54584,7 +55165,8 @@ export const queryRulesListRulesets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24864, __c777, 0) as any as S.Schema<QueryRulesListRulesetsRequest>,
   output: __S(24867, __c777, 3) as any as S.Schema<QueryRulesListRulesetsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54601,7 +55183,8 @@ export const queryRulesPutRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24896, __c778, 0) as any as S.Schema<QueryRulesPutRuleRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<QueryRulesPutRuleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54618,7 +55201,8 @@ export const queryRulesPutRuleset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24928, __c779, 0) as any as S.Schema<QueryRulesPutRulesetRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<QueryRulesPutRulesetResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54635,7 +55219,8 @@ export const queryRulesTest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24960, __c780, 0) as any as S.Schema<QueryRulesTestRequest>,
   output: __S(24963, __c780, 3) as any as S.Schema<QueryRulesTestResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54652,7 +55237,8 @@ export const rankEval: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24992, __c781, 0) as any as S.Schema<RankEvalRequest>,
   output: __S(25043, __c782, 19) as any as S.Schema<RankEvalResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54669,7 +55255,8 @@ export const rankEval1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25088, __c784, 0) as any as S.Schema<RankEval1Request>,
   output: __S(25043, __c782, 19) as any as S.Schema<RankEval1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54686,7 +55273,8 @@ export const rankEval2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25120, __c785, 0) as any as S.Schema<RankEval2Request>,
   output: __S(25043, __c782, 19) as any as S.Schema<RankEval2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54703,7 +55291,8 @@ export const rankEval3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25152, __c786, 0) as any as S.Schema<RankEval3Request>,
   output: __S(25043, __c782, 19) as any as S.Schema<RankEval3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54720,7 +55309,8 @@ export const refreshIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25184, __c787, 0) as any as S.Schema<RefreshIndexRequest>,
   output: __S(6048, __c189, 0) as any as S.Schema<TypesShardsOperationResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54737,7 +55327,8 @@ export const reindex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25217, __c788, 1) as any as S.Schema<ReindexRequest>,
   output: __S(25218, __c788, 2) as any as S.Schema<ReindexResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54754,7 +55345,8 @@ export const reindexRethrottle: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25312, __c791, 0) as any as S.Schema<ReindexRethrottleRequest>,
   output: __S(25318, __c791, 6) as any as S.Schema<ReindexRethrottleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54771,7 +55363,8 @@ export const renderSearchTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25344, __c792, 0) as any as S.Schema<RenderSearchTemplateRequest>,
   output: __S(25376, __c793, 0) as any as S.Schema<RenderSearchTemplateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54788,7 +55381,8 @@ export const renderSearchTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25408, __c794, 0) as any as S.Schema<RenderSearchTemplate1Request>,
   output: __S(25376, __c793, 0) as any as S.Schema<RenderSearchTemplate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54805,7 +55399,8 @@ export const renderSearchTemplate2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25440, __c795, 0) as any as S.Schema<RenderSearchTemplate2Request>,
   output: __S(25376, __c793, 0) as any as S.Schema<RenderSearchTemplate2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54822,7 +55417,8 @@ export const renderSearchTemplate3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25472, __c796, 0) as any as S.Schema<RenderSearchTemplate3Request>,
   output: __S(25376, __c793, 0) as any as S.Schema<RenderSearchTemplate3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54839,7 +55435,8 @@ export const resetEncryption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25504, __c797, 0) as any as S.Schema<ResetEncryptionRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54856,7 +55453,8 @@ export const resetFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25536, __c798, 0) as any as S.Schema<ResetFeaturesRequest>,
   output: __S(6402, __c200, 2) as any as S.Schema<ResetFeaturesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54873,7 +55471,8 @@ export const resetTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25568, __c799, 0) as any as S.Schema<ResetTransformRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54890,7 +55489,8 @@ export const restoreSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25600, __c800, 0) as any as S.Schema<RestoreSnapshotRequest>,
   output: __S(25602, __c800, 2) as any as S.Schema<RestoreSnapshotResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54907,7 +55507,8 @@ export const retryIlm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25632, __c801, 0) as any as S.Schema<RetryIlmRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54924,7 +55525,8 @@ export const scriptsPainlessExecute1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25760, __c805, 0) as any as S.Schema<ScriptsPainlessExecute1Request>,
   output: __S(5153, __c161, 1) as any as S.Schema<ScriptsPainlessExecute1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54941,7 +55543,8 @@ export const scroll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25792, __c806, 0) as any as S.Schema<ScrollRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54958,7 +55561,8 @@ export const scroll1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25824, __c807, 0) as any as S.Schema<Scroll1Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54975,7 +55579,8 @@ export const scroll2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25856, __c808, 0) as any as S.Schema<Scroll2Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -54992,7 +55597,8 @@ export const scroll3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25888, __c809, 0) as any as S.Schema<Scroll3Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55009,7 +55615,8 @@ export const search: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25920, __c810, 0) as any as S.Schema<SearchRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55026,7 +55633,8 @@ export const search1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25952, __c811, 0) as any as S.Schema<Search1Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55043,7 +55651,8 @@ export const search2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25984, __c812, 0) as any as S.Schema<Search2Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55060,7 +55669,8 @@ export const search3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26016, __c813, 0) as any as S.Schema<Search3Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55077,7 +55687,8 @@ export const searchableSnapshotsCacheStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26048, __c814, 0) as any as S.Schema<SearchableSnapshotsCacheStatsRequest>,
   output: __S(26083, __c815, 3) as any as S.Schema<SearchableSnapshotsCacheStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55094,7 +55705,8 @@ export const searchableSnapshotsCacheStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26144, __c817, 0) as any as S.Schema<SearchableSnapshotsCacheStats1Request>,
   output: __S(26083, __c815, 3) as any as S.Schema<SearchableSnapshotsCacheStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55111,7 +55723,8 @@ export const searchableSnapshotsClearCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26176, __c818, 0) as any as S.Schema<SearchableSnapshotsClearCacheRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SearchableSnapshotsClearCacheResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55128,7 +55741,8 @@ export const searchableSnapshotsClearCache1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26208, __c819, 0) as any as S.Schema<SearchableSnapshotsClearCache1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SearchableSnapshotsClearCache1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55145,7 +55759,8 @@ export const searchableSnapshotsMount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26240, __c820, 0) as any as S.Schema<SearchableSnapshotsMountRequest>,
   output: __S(26242, __c820, 2) as any as S.Schema<SearchableSnapshotsMountResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55162,7 +55777,8 @@ export const searchableSnapshotsStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26272, __c821, 0) as any as S.Schema<SearchableSnapshotsStatsRequest>,
   output: __S(26304, __c822, 0) as any as S.Schema<SearchableSnapshotsStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55179,7 +55795,8 @@ export const searchableSnapshotsStats1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26336, __c823, 0) as any as S.Schema<SearchableSnapshotsStats1Request>,
   output: __S(26304, __c822, 0) as any as S.Schema<SearchableSnapshotsStats1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55196,7 +55813,8 @@ export const searchApplicationDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26368, __c824, 0) as any as S.Schema<SearchApplicationDeleteRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55213,7 +55831,8 @@ export const searchApplicationGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26400, __c825, 0) as any as S.Schema<SearchApplicationGetRequest>,
   output: __S(26432, __c826, 0) as any as S.Schema<SearchApplicationGetResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55230,7 +55849,8 @@ export const searchApplicationList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26464, __c827, 0) as any as S.Schema<SearchApplicationListRequest>,
   output: __S(26466, __c827, 2) as any as S.Schema<SearchApplicationListResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55247,7 +55867,8 @@ export const searchApplicationPut: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26496, __c828, 0) as any as S.Schema<SearchApplicationPutRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<SearchApplicationPutResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55264,7 +55885,8 @@ export const searchApplicationRenderQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26592, __c831, 0) as any as S.Schema<SearchApplicationRenderQueryRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SearchApplicationRenderQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55281,7 +55903,8 @@ export const searchApplicationSearch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26624, __c832, 0) as any as S.Schema<SearchApplicationSearchRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55298,7 +55921,8 @@ export const searchApplicationSearch1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26656, __c833, 0) as any as S.Schema<SearchApplicationSearch1Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<GlobalSearchResponseBody>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55315,7 +55939,8 @@ export const searchEql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26688, __c834, 0) as any as S.Schema<SearchEqlRequest>,
   output: __S(4166, __c130, 6) as any as S.Schema<EqlTypesEqlSearchResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55332,7 +55957,8 @@ export const searchFleet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26720, __c835, 0) as any as S.Schema<SearchFleetRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<SearchFleetResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55349,7 +55975,8 @@ export const searchMvt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26752, __c836, 0) as any as S.Schema<SearchMvtRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SearchMvtResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55366,7 +55993,8 @@ export const searchMvt1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26784, __c837, 0) as any as S.Schema<SearchMvt1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SearchMvt1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55383,7 +56011,8 @@ export const searchShards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26816, __c838, 0) as any as S.Schema<SearchShardsRequest>,
   output: __S(26856, __c839, 8) as any as S.Schema<SearchShardsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55400,7 +56029,8 @@ export const searchShards1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26880, __c840, 0) as any as S.Schema<SearchShards1Request>,
   output: __S(26856, __c839, 8) as any as S.Schema<SearchShards1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55417,7 +56047,8 @@ export const searchShards2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26912, __c841, 0) as any as S.Schema<SearchShards2Request>,
   output: __S(26856, __c839, 8) as any as S.Schema<SearchShards2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55434,7 +56065,8 @@ export const searchShards3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26976, __c843, 0) as any as S.Schema<SearchShards3Request>,
   output: __S(26856, __c839, 8) as any as S.Schema<SearchShards3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55451,7 +56083,8 @@ export const searchTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27008, __c844, 0) as any as S.Schema<SearchTemplateRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<SearchTemplateResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55468,7 +56101,8 @@ export const searchTemplate1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27040, __c845, 0) as any as S.Schema<SearchTemplate1Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<SearchTemplate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55485,7 +56119,8 @@ export const searchTemplate2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27072, __c846, 0) as any as S.Schema<SearchTemplate2Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<SearchTemplate2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55502,7 +56137,8 @@ export const searchTemplate3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27104, __c847, 0) as any as S.Schema<SearchTemplate3Request>,
   output: __S(5920, __c185, 0) as any as S.Schema<SearchTemplate3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55519,7 +56155,8 @@ export const securityActivateUserProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27136, __c848, 0) as any as S.Schema<SecurityActivateUserProfileRequest>,
   output: __S(27169, __c849, 1) as any as S.Schema<SecurityActivateUserProfileResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55536,7 +56173,8 @@ export const securityBulkDeleteRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27232, __c851, 0) as any as S.Schema<SecurityBulkDeleteRoleRequest>,
   output: __S(27233, __c851, 1) as any as S.Schema<SecurityBulkDeleteRoleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55553,7 +56191,8 @@ export const securityBulkPutRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27296, __c853, 0) as any as S.Schema<SecurityBulkPutRoleRequest>,
   output: __S(27297, __c853, 1) as any as S.Schema<SecurityBulkPutRoleResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55570,7 +56209,8 @@ export const securityBulkUpdateApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27616, __c863, 0) as any as S.Schema<SecurityBulkUpdateApiKeysRequest>,
   output: __S(27617, __c863, 1) as any as S.Schema<SecurityBulkUpdateApiKeysResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55587,7 +56227,8 @@ export const securityChangePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27648, __c864, 0) as any as S.Schema<SecurityChangePasswordRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityChangePasswordResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55604,7 +56245,8 @@ export const securityChangePassword1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27744, __c867, 0) as any as S.Schema<SecurityChangePassword1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityChangePassword1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55621,7 +56263,8 @@ export const securityChangePassword2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27776, __c868, 0) as any as S.Schema<SecurityChangePassword2Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityChangePassword2Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55638,7 +56281,8 @@ export const securityChangePassword3: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27808, __c869, 0) as any as S.Schema<SecurityChangePassword3Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityChangePassword3Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55655,7 +56299,8 @@ export const securityClearApiKeyCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27840, __c870, 0) as any as S.Schema<SecurityClearApiKeyCacheRequest>,
   output: __S(27872, __c871, 0) as any as S.Schema<SecurityClearApiKeyCacheResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55672,7 +56317,8 @@ export const securityClearCachedPrivileges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27936, __c873, 0) as any as S.Schema<SecurityClearCachedPrivilegesRequest>,
   output: __S(27872, __c871, 0) as any as S.Schema<SecurityClearCachedPrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55689,7 +56335,8 @@ export const securityClearCachedRealms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27968, __c874, 0) as any as S.Schema<SecurityClearCachedRealmsRequest>,
   output: __S(27872, __c871, 0) as any as S.Schema<SecurityClearCachedRealmsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55706,7 +56353,8 @@ export const securityClearCachedRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28000, __c875, 0) as any as S.Schema<SecurityClearCachedRolesRequest>,
   output: __S(27872, __c871, 0) as any as S.Schema<SecurityClearCachedRolesResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55723,7 +56371,8 @@ export const securityClearCachedServiceTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28032, __c876, 0) as any as S.Schema<SecurityClearCachedServiceTokensRequest>,
   output: __S(27872, __c871, 0) as any as S.Schema<SecurityClearCachedServiceTokensResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55740,7 +56389,8 @@ export const securityCloneApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28064, __c877, 0) as any as S.Schema<SecurityCloneApiKeyRequest>,
   output: __S(28096, __c878, 0) as any as S.Schema<SecurityCloneApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55756,8 +56406,9 @@ export const securityCloneApiKey1: API.OperationMethod<
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28128, __c879, 0) as any as S.Schema<SecurityCloneApiKey1Request>,
-  output: __S(28096, __c878, 0) as any as S.Schema<SecurityCloneApiKey1Response>,
-  errors: [UnknownElasticsearchError],
+  output: __S(28160, __c880, 0) as any as S.Schema<SecurityCloneApiKey1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55772,9 +56423,10 @@ export const securityCreateApiKey: API.OperationMethod<
   SecurityCreateApiKeyError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28192, __c881, 0) as any as S.Schema<SecurityCreateApiKeyRequest>,
+  input: __S(28224, __c882, 0) as any as S.Schema<SecurityCreateApiKeyRequest>,
   output: __S(28096, __c878, 0) as any as S.Schema<SecurityCreateApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55789,9 +56441,10 @@ export const securityCreateApiKey1: API.OperationMethod<
   SecurityCreateApiKey1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28224, __c882, 0) as any as S.Schema<SecurityCreateApiKey1Request>,
-  output: __S(28096, __c878, 0) as any as S.Schema<SecurityCreateApiKey1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(28256, __c883, 0) as any as S.Schema<SecurityCreateApiKey1Request>,
+  output: __S(28160, __c880, 0) as any as S.Schema<SecurityCreateApiKey1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55806,9 +56459,10 @@ export const securityCreateCrossClusterApiKey: API.OperationMethod<
   SecurityCreateCrossClusterApiKeyError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28256, __c883, 0) as any as S.Schema<SecurityCreateCrossClusterApiKeyRequest>,
+  input: __S(28288, __c884, 0) as any as S.Schema<SecurityCreateCrossClusterApiKeyRequest>,
   output: __S(28096, __c878, 0) as any as S.Schema<SecurityCreateCrossClusterApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55823,9 +56477,10 @@ export const securityCreateServiceToken: API.OperationMethod<
   SecurityCreateServiceTokenError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28320, __c885, 0) as any as S.Schema<SecurityCreateServiceTokenRequest>,
-  output: __S(28352, __c886, 0) as any as S.Schema<SecurityCreateServiceTokenResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(28352, __c886, 0) as any as S.Schema<SecurityCreateServiceTokenRequest>,
+  output: __S(28384, __c887, 0) as any as S.Schema<SecurityCreateServiceTokenResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55840,9 +56495,10 @@ export const securityCreateServiceToken1: API.OperationMethod<
   SecurityCreateServiceToken1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28416, __c888, 0) as any as S.Schema<SecurityCreateServiceToken1Request>,
-  output: __S(28352, __c886, 0) as any as S.Schema<SecurityCreateServiceToken1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(28448, __c889, 0) as any as S.Schema<SecurityCreateServiceToken1Request>,
+  output: __S(28384, __c887, 0) as any as S.Schema<SecurityCreateServiceToken1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55857,9 +56513,10 @@ export const securityCreateServiceToken2: API.OperationMethod<
   SecurityCreateServiceToken2Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28448, __c889, 0) as any as S.Schema<SecurityCreateServiceToken2Request>,
-  output: __S(28352, __c886, 0) as any as S.Schema<SecurityCreateServiceToken2Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(28480, __c890, 0) as any as S.Schema<SecurityCreateServiceToken2Request>,
+  output: __S(28384, __c887, 0) as any as S.Schema<SecurityCreateServiceToken2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55874,9 +56531,10 @@ export const securityDelegatePki: API.OperationMethod<
   SecurityDelegatePkiError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28480, __c890, 0) as any as S.Schema<SecurityDelegatePkiRequest>,
-  output: __S(28483, __c890, 3) as any as S.Schema<SecurityDelegatePkiResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(28512, __c891, 0) as any as S.Schema<SecurityDelegatePkiRequest>,
+  output: __S(28516, __c891, 4) as any as S.Schema<SecurityDelegatePkiResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55891,9 +56549,10 @@ export const securityDeletePrivileges: API.OperationMethod<
   SecurityDeletePrivilegesError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28512, __c891, 0) as any as S.Schema<SecurityDeletePrivilegesRequest>,
-  output: __S(28515, __c891, 3) as any as S.Schema<SecurityDeletePrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(28544, __c892, 0) as any as S.Schema<SecurityDeletePrivilegesRequest>,
+  output: __S(28547, __c892, 3) as any as S.Schema<SecurityDeletePrivilegesResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55908,9 +56567,10 @@ export const securityDeleteRole: API.OperationMethod<
   SecurityDeleteRoleError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28576, __c893, 0) as any as S.Schema<SecurityDeleteRoleRequest>,
-  output: __S(28544, __c892, 0) as any as S.Schema<SecurityDeleteRoleResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(28608, __c894, 0) as any as S.Schema<SecurityDeleteRoleRequest>,
+  output: __S(28576, __c893, 0) as any as S.Schema<SecurityDeleteRoleResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55925,9 +56585,10 @@ export const securityDeleteRoleMapping: API.OperationMethod<
   SecurityDeleteRoleMappingError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28608, __c894, 0) as any as S.Schema<SecurityDeleteRoleMappingRequest>,
-  output: __S(28544, __c892, 0) as any as S.Schema<SecurityDeleteRoleMappingResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(28640, __c895, 0) as any as S.Schema<SecurityDeleteRoleMappingRequest>,
+  output: __S(28576, __c893, 0) as any as S.Schema<SecurityDeleteRoleMappingResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55942,9 +56603,10 @@ export const securityDeleteServiceToken: API.OperationMethod<
   SecurityDeleteServiceTokenError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28672, __c896, 0) as any as S.Schema<SecurityDeleteServiceTokenRequest>,
-  output: __S(28544, __c892, 0) as any as S.Schema<SecurityDeleteServiceTokenResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(28704, __c897, 0) as any as S.Schema<SecurityDeleteServiceTokenRequest>,
+  output: __S(28576, __c893, 0) as any as S.Schema<SecurityDeleteServiceTokenResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55959,9 +56621,10 @@ export const securityDeleteUser: API.OperationMethod<
   SecurityDeleteUserError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28704, __c897, 0) as any as S.Schema<SecurityDeleteUserRequest>,
-  output: __S(28544, __c892, 0) as any as S.Schema<SecurityDeleteUserResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(28736, __c898, 0) as any as S.Schema<SecurityDeleteUserRequest>,
+  output: __S(28576, __c893, 0) as any as S.Schema<SecurityDeleteUserResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55976,9 +56639,10 @@ export const securityDeleteUserManagedServiceAccount: API.OperationMethod<
   SecurityDeleteUserManagedServiceAccountError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28736, __c898, 0) as any as S.Schema<SecurityDeleteUserManagedServiceAccountRequest>,
-  output: __S(28544, __c892, 0) as any as S.Schema<SecurityDeleteUserManagedServiceAccountResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(28768, __c899, 0) as any as S.Schema<SecurityDeleteUserManagedServiceAccountRequest>,
+  output: __S(28576, __c893, 0) as any as S.Schema<SecurityDeleteUserManagedServiceAccountResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -55993,9 +56657,10 @@ export const securityDisableUser: API.OperationMethod<
   SecurityDisableUserError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28768, __c899, 0) as any as S.Schema<SecurityDisableUserRequest>,
+  input: __S(28800, __c900, 0) as any as S.Schema<SecurityDisableUserRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityDisableUserResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56010,9 +56675,10 @@ export const securityDisableUser1: API.OperationMethod<
   SecurityDisableUser1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28800, __c900, 0) as any as S.Schema<SecurityDisableUser1Request>,
+  input: __S(28832, __c901, 0) as any as S.Schema<SecurityDisableUser1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityDisableUser1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56027,9 +56693,10 @@ export const securityDisableUserProfile: API.OperationMethod<
   SecurityDisableUserProfileError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28832, __c901, 0) as any as S.Schema<SecurityDisableUserProfileRequest>,
+  input: __S(28864, __c902, 0) as any as S.Schema<SecurityDisableUserProfileRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56044,9 +56711,10 @@ export const securityDisableUserProfile1: API.OperationMethod<
   SecurityDisableUserProfile1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28864, __c902, 0) as any as S.Schema<SecurityDisableUserProfile1Request>,
+  input: __S(28896, __c903, 0) as any as S.Schema<SecurityDisableUserProfile1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56061,9 +56729,10 @@ export const securityEnableUser: API.OperationMethod<
   SecurityEnableUserError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28896, __c903, 0) as any as S.Schema<SecurityEnableUserRequest>,
+  input: __S(28928, __c904, 0) as any as S.Schema<SecurityEnableUserRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityEnableUserResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56078,9 +56747,10 @@ export const securityEnableUser1: API.OperationMethod<
   SecurityEnableUser1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28928, __c904, 0) as any as S.Schema<SecurityEnableUser1Request>,
+  input: __S(28960, __c905, 0) as any as S.Schema<SecurityEnableUser1Request>,
   output: __S(13184, __c412, 0) as any as S.Schema<SecurityEnableUser1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56095,9 +56765,10 @@ export const securityEnableUserProfile: API.OperationMethod<
   SecurityEnableUserProfileError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28960, __c905, 0) as any as S.Schema<SecurityEnableUserProfileRequest>,
+  input: __S(28992, __c906, 0) as any as S.Schema<SecurityEnableUserProfileRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56112,9 +56783,10 @@ export const securityEnableUserProfile1: API.OperationMethod<
   SecurityEnableUserProfile1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29024, __c907, 0) as any as S.Schema<SecurityEnableUserProfile1Request>,
+  input: __S(29056, __c908, 0) as any as S.Schema<SecurityEnableUserProfile1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56129,9 +56801,10 @@ export const securityEnrollKibana: API.OperationMethod<
   SecurityEnrollKibanaError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29056, __c908, 0) as any as S.Schema<SecurityEnrollKibanaRequest>,
-  output: __S(29057, __c908, 1) as any as S.Schema<SecurityEnrollKibanaResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29088, __c909, 0) as any as S.Schema<SecurityEnrollKibanaRequest>,
+  output: __S(29089, __c909, 1) as any as S.Schema<SecurityEnrollKibanaResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56146,9 +56819,10 @@ export const securityEnrollNode: API.OperationMethod<
   SecurityEnrollNodeError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29088, __c909, 0) as any as S.Schema<SecurityEnrollNodeRequest>,
-  output: __S(29089, __c909, 1) as any as S.Schema<SecurityEnrollNodeResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29120, __c910, 0) as any as S.Schema<SecurityEnrollNodeRequest>,
+  output: __S(29121, __c910, 1) as any as S.Schema<SecurityEnrollNodeResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56163,9 +56837,10 @@ export const securityGetApiKey: API.OperationMethod<
   SecurityGetApiKeyError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29120, __c910, 0) as any as S.Schema<SecurityGetApiKeyRequest>,
-  output: __S(29121, __c910, 1) as any as S.Schema<SecurityGetApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29152, __c911, 0) as any as S.Schema<SecurityGetApiKeyRequest>,
+  output: __S(29153, __c911, 1) as any as S.Schema<SecurityGetApiKeyResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56180,9 +56855,10 @@ export const securityGetBuiltinPrivileges: API.OperationMethod<
   SecurityGetBuiltinPrivilegesError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29184, __c912, 0) as any as S.Schema<SecurityGetBuiltinPrivilegesRequest>,
-  output: __S(29185, __c912, 1) as any as S.Schema<SecurityGetBuiltinPrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29216, __c913, 0) as any as S.Schema<SecurityGetBuiltinPrivilegesRequest>,
+  output: __S(29217, __c913, 1) as any as S.Schema<SecurityGetBuiltinPrivilegesResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56197,9 +56873,10 @@ export const securityGetPrivileges: API.OperationMethod<
   SecurityGetPrivilegesError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29216, __c913, 0) as any as S.Schema<SecurityGetPrivilegesRequest>,
-  output: __S(29248, __c914, 0) as any as S.Schema<SecurityGetPrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29248, __c914, 0) as any as S.Schema<SecurityGetPrivilegesRequest>,
+  output: __S(29280, __c915, 0) as any as S.Schema<SecurityGetPrivilegesResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56214,9 +56891,10 @@ export const securityGetPrivileges1: API.OperationMethod<
   SecurityGetPrivileges1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29312, __c916, 0) as any as S.Schema<SecurityGetPrivileges1Request>,
-  output: __S(29248, __c914, 0) as any as S.Schema<SecurityGetPrivileges1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29344, __c917, 0) as any as S.Schema<SecurityGetPrivileges1Request>,
+  output: __S(29280, __c915, 0) as any as S.Schema<SecurityGetPrivileges1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56231,9 +56909,10 @@ export const securityGetPrivileges2: API.OperationMethod<
   SecurityGetPrivileges2Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29344, __c917, 0) as any as S.Schema<SecurityGetPrivileges2Request>,
-  output: __S(29248, __c914, 0) as any as S.Schema<SecurityGetPrivileges2Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29376, __c918, 0) as any as S.Schema<SecurityGetPrivileges2Request>,
+  output: __S(29280, __c915, 0) as any as S.Schema<SecurityGetPrivileges2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56248,9 +56927,10 @@ export const securityGetRole: API.OperationMethod<
   SecurityGetRoleError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29376, __c918, 0) as any as S.Schema<SecurityGetRoleRequest>,
-  output: __S(29412, __c919, 4) as any as S.Schema<SecurityGetRoleResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29408, __c919, 0) as any as S.Schema<SecurityGetRoleRequest>,
+  output: __S(29444, __c920, 4) as any as S.Schema<SecurityGetRoleResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56265,9 +56945,10 @@ export const securityGetRole1: API.OperationMethod<
   SecurityGetRole1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29472, __c921, 0) as any as S.Schema<SecurityGetRole1Request>,
-  output: __S(29412, __c919, 4) as any as S.Schema<SecurityGetRole1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29504, __c922, 0) as any as S.Schema<SecurityGetRole1Request>,
+  output: __S(29444, __c920, 4) as any as S.Schema<SecurityGetRole1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56282,9 +56963,10 @@ export const securityGetRoleMapping: API.OperationMethod<
   SecurityGetRoleMappingError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29568, __c924, 0) as any as S.Schema<SecurityGetRoleMappingRequest>,
-  output: __S(29602, __c925, 2) as any as S.Schema<SecurityGetRoleMappingResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29600, __c925, 0) as any as S.Schema<SecurityGetRoleMappingRequest>,
+  output: __S(29634, __c926, 2) as any as S.Schema<SecurityGetRoleMappingResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56299,9 +56981,10 @@ export const securityGetRoleMapping1: API.OperationMethod<
   SecurityGetRoleMapping1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29664, __c927, 0) as any as S.Schema<SecurityGetRoleMapping1Request>,
-  output: __S(29602, __c925, 2) as any as S.Schema<SecurityGetRoleMapping1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29696, __c928, 0) as any as S.Schema<SecurityGetRoleMapping1Request>,
+  output: __S(29634, __c926, 2) as any as S.Schema<SecurityGetRoleMapping1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56316,9 +56999,10 @@ export const securityGetServiceAccounts: API.OperationMethod<
   SecurityGetServiceAccountsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29696, __c928, 0) as any as S.Schema<SecurityGetServiceAccountsRequest>,
-  output: __S(29729, __c929, 1) as any as S.Schema<SecurityGetServiceAccountsResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29728, __c929, 0) as any as S.Schema<SecurityGetServiceAccountsRequest>,
+  output: __S(29761, __c930, 1) as any as S.Schema<SecurityGetServiceAccountsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56333,9 +57017,10 @@ export const securityGetServiceAccounts1: API.OperationMethod<
   SecurityGetServiceAccounts1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29760, __c930, 0) as any as S.Schema<SecurityGetServiceAccounts1Request>,
-  output: __S(29729, __c929, 1) as any as S.Schema<SecurityGetServiceAccounts1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29792, __c931, 0) as any as S.Schema<SecurityGetServiceAccounts1Request>,
+  output: __S(29761, __c930, 1) as any as S.Schema<SecurityGetServiceAccounts1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56350,9 +57035,10 @@ export const securityGetServiceAccounts2: API.OperationMethod<
   SecurityGetServiceAccounts2Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29792, __c931, 0) as any as S.Schema<SecurityGetServiceAccounts2Request>,
-  output: __S(29729, __c929, 1) as any as S.Schema<SecurityGetServiceAccounts2Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29824, __c932, 0) as any as S.Schema<SecurityGetServiceAccounts2Request>,
+  output: __S(29761, __c930, 1) as any as S.Schema<SecurityGetServiceAccounts2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56367,9 +57053,10 @@ export const securityGetServiceCredentials: API.OperationMethod<
   SecurityGetServiceCredentialsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29824, __c932, 0) as any as S.Schema<SecurityGetServiceCredentialsRequest>,
-  output: __S(29828, __c932, 4) as any as S.Schema<SecurityGetServiceCredentialsResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29856, __c933, 0) as any as S.Schema<SecurityGetServiceCredentialsRequest>,
+  output: __S(29860, __c933, 4) as any as S.Schema<SecurityGetServiceCredentialsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56384,9 +57071,10 @@ export const securityGetSettings: API.OperationMethod<
   SecurityGetSettingsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29856, __c933, 0) as any as S.Schema<SecurityGetSettingsRequest>,
-  output: __S(29857, __c933, 1) as any as S.Schema<SecurityGetSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29888, __c934, 0) as any as S.Schema<SecurityGetSettingsRequest>,
+  output: __S(29889, __c934, 1) as any as S.Schema<SecurityGetSettingsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56401,9 +57089,10 @@ export const securityGetStats: API.OperationMethod<
   SecurityGetStatsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29920, __c935, 0) as any as S.Schema<SecurityGetStatsRequest>,
-  output: __S(29924, __c935, 4) as any as S.Schema<SecurityGetStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(29952, __c936, 0) as any as S.Schema<SecurityGetStatsRequest>,
+  output: __S(29956, __c936, 4) as any as S.Schema<SecurityGetStatsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56418,9 +57107,10 @@ export const securityGetToken: API.OperationMethod<
   SecurityGetTokenError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29984, __c937, 0) as any as S.Schema<SecurityGetTokenRequest>,
-  output: __S(29987, __c937, 3) as any as S.Schema<SecurityGetTokenResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30016, __c938, 0) as any as S.Schema<SecurityGetTokenRequest>,
+  output: __S(30019, __c938, 3) as any as S.Schema<SecurityGetTokenResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56435,9 +57125,10 @@ export const securityGetUser: API.OperationMethod<
   SecurityGetUserError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30016, __c938, 0) as any as S.Schema<SecurityGetUserRequest>,
-  output: __S(30050, __c939, 2) as any as S.Schema<SecurityGetUserResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30048, __c939, 0) as any as S.Schema<SecurityGetUserRequest>,
+  output: __S(30082, __c940, 2) as any as S.Schema<SecurityGetUserResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56452,9 +57143,10 @@ export const securityGetUser1: API.OperationMethod<
   SecurityGetUser1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30144, __c942, 0) as any as S.Schema<SecurityGetUser1Request>,
-  output: __S(30050, __c939, 2) as any as S.Schema<SecurityGetUser1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30176, __c943, 0) as any as S.Schema<SecurityGetUser1Request>,
+  output: __S(30082, __c940, 2) as any as S.Schema<SecurityGetUser1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56469,9 +57161,10 @@ export const securityGetUserPrivileges: API.OperationMethod<
   SecurityGetUserPrivilegesError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30176, __c943, 0) as any as S.Schema<SecurityGetUserPrivilegesRequest>,
-  output: __S(30184, __c943, 8) as any as S.Schema<SecurityGetUserPrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30208, __c944, 0) as any as S.Schema<SecurityGetUserPrivilegesRequest>,
+  output: __S(30216, __c944, 8) as any as S.Schema<SecurityGetUserPrivilegesResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56486,9 +57179,10 @@ export const securityGetUserProfile: API.OperationMethod<
   SecurityGetUserProfileError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30208, __c944, 0) as any as S.Schema<SecurityGetUserProfileRequest>,
-  output: __S(30210, __c944, 2) as any as S.Schema<SecurityGetUserProfileResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30240, __c945, 0) as any as S.Schema<SecurityGetUserProfileRequest>,
+  output: __S(30242, __c945, 2) as any as S.Schema<SecurityGetUserProfileResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56503,9 +57197,10 @@ export const securityGrantApiKey: API.OperationMethod<
   SecurityGrantApiKeyError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30242, __c945, 2) as any as S.Schema<SecurityGrantApiKeyRequest>,
-  output: __S(30243, __c945, 3) as any as S.Schema<SecurityGrantApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30274, __c946, 2) as any as S.Schema<SecurityGrantApiKeyRequest>,
+  output: __S(30275, __c946, 3) as any as S.Schema<SecurityGrantApiKeyResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56520,9 +57215,10 @@ export const securityHasPrivileges: API.OperationMethod<
   SecurityHasPrivilegesError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30272, __c946, 0) as any as S.Schema<SecurityHasPrivilegesRequest>,
-  output: __S(30306, __c947, 2) as any as S.Schema<SecurityHasPrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30304, __c947, 0) as any as S.Schema<SecurityHasPrivilegesRequest>,
+  output: __S(30338, __c948, 2) as any as S.Schema<SecurityHasPrivilegesResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56537,9 +57233,10 @@ export const securityHasPrivileges1: API.OperationMethod<
   SecurityHasPrivileges1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30368, __c949, 0) as any as S.Schema<SecurityHasPrivileges1Request>,
-  output: __S(30306, __c947, 2) as any as S.Schema<SecurityHasPrivileges1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30400, __c950, 0) as any as S.Schema<SecurityHasPrivileges1Request>,
+  output: __S(30338, __c948, 2) as any as S.Schema<SecurityHasPrivileges1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56554,9 +57251,10 @@ export const securityHasPrivileges2: API.OperationMethod<
   SecurityHasPrivileges2Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30400, __c950, 0) as any as S.Schema<SecurityHasPrivileges2Request>,
-  output: __S(30306, __c947, 2) as any as S.Schema<SecurityHasPrivileges2Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30432, __c951, 0) as any as S.Schema<SecurityHasPrivileges2Request>,
+  output: __S(30338, __c948, 2) as any as S.Schema<SecurityHasPrivileges2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56571,9 +57269,10 @@ export const securityHasPrivileges3: API.OperationMethod<
   SecurityHasPrivileges3Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30432, __c951, 0) as any as S.Schema<SecurityHasPrivileges3Request>,
-  output: __S(30306, __c947, 2) as any as S.Schema<SecurityHasPrivileges3Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30464, __c952, 0) as any as S.Schema<SecurityHasPrivileges3Request>,
+  output: __S(30338, __c948, 2) as any as S.Schema<SecurityHasPrivileges3Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56588,9 +57287,10 @@ export const securityHasPrivilegesUserProfile: API.OperationMethod<
   SecurityHasPrivilegesUserProfileError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30464, __c952, 0) as any as S.Schema<SecurityHasPrivilegesUserProfileRequest>,
-  output: __S(30497, __c953, 1) as any as S.Schema<SecurityHasPrivilegesUserProfileResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30496, __c953, 0) as any as S.Schema<SecurityHasPrivilegesUserProfileRequest>,
+  output: __S(30529, __c954, 1) as any as S.Schema<SecurityHasPrivilegesUserProfileResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56605,9 +57305,10 @@ export const securityHasPrivilegesUserProfile1: API.OperationMethod<
   SecurityHasPrivilegesUserProfile1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30528, __c954, 0) as any as S.Schema<SecurityHasPrivilegesUserProfile1Request>,
-  output: __S(30497, __c953, 1) as any as S.Schema<SecurityHasPrivilegesUserProfile1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30560, __c955, 0) as any as S.Schema<SecurityHasPrivilegesUserProfile1Request>,
+  output: __S(30529, __c954, 1) as any as S.Schema<SecurityHasPrivilegesUserProfile1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56622,9 +57323,10 @@ export const securityInvalidateApiKey: API.OperationMethod<
   SecurityInvalidateApiKeyError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30656, __c958, 0) as any as S.Schema<SecurityInvalidateApiKeyRequest>,
-  output: __S(30657, __c958, 1) as any as S.Schema<SecurityInvalidateApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30688, __c959, 0) as any as S.Schema<SecurityInvalidateApiKeyRequest>,
+  output: __S(30689, __c959, 1) as any as S.Schema<SecurityInvalidateApiKeyResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56639,9 +57341,10 @@ export const securityInvalidateToken: API.OperationMethod<
   SecurityInvalidateTokenError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30688, __c959, 0) as any as S.Schema<SecurityInvalidateTokenRequest>,
-  output: __S(30689, __c959, 1) as any as S.Schema<SecurityInvalidateTokenResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30720, __c960, 0) as any as S.Schema<SecurityInvalidateTokenRequest>,
+  output: __S(30721, __c960, 1) as any as S.Schema<SecurityInvalidateTokenResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56656,9 +57359,10 @@ export const securityOidcPrepareAuthentication: API.OperationMethod<
   SecurityOidcPrepareAuthenticationError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30720, __c960, 0) as any as S.Schema<SecurityOidcPrepareAuthenticationRequest>,
-  output: __S(30721, __c960, 1) as any as S.Schema<SecurityOidcPrepareAuthenticationResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30752, __c961, 0) as any as S.Schema<SecurityOidcPrepareAuthenticationRequest>,
+  output: __S(30753, __c961, 1) as any as S.Schema<SecurityOidcPrepareAuthenticationResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56673,9 +57377,10 @@ export const securityPutPrivileges: API.OperationMethod<
   SecurityPutPrivilegesError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30752, __c961, 0) as any as S.Schema<SecurityPutPrivilegesRequest>,
-  output: __S(30786, __c962, 2) as any as S.Schema<SecurityPutPrivilegesResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30784, __c962, 0) as any as S.Schema<SecurityPutPrivilegesRequest>,
+  output: __S(30818, __c963, 2) as any as S.Schema<SecurityPutPrivilegesResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56690,9 +57395,10 @@ export const securityPutPrivileges1: API.OperationMethod<
   SecurityPutPrivileges1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30848, __c964, 0) as any as S.Schema<SecurityPutPrivileges1Request>,
-  output: __S(30786, __c962, 2) as any as S.Schema<SecurityPutPrivileges1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30880, __c965, 0) as any as S.Schema<SecurityPutPrivileges1Request>,
+  output: __S(30818, __c963, 2) as any as S.Schema<SecurityPutPrivileges1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56707,9 +57413,10 @@ export const securityPutRole: API.OperationMethod<
   SecurityPutRoleError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30880, __c965, 0) as any as S.Schema<SecurityPutRoleRequest>,
-  output: __S(30912, __c966, 0) as any as S.Schema<SecurityPutRoleResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30912, __c966, 0) as any as S.Schema<SecurityPutRoleRequest>,
+  output: __S(30944, __c967, 0) as any as S.Schema<SecurityPutRoleResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56724,9 +57431,10 @@ export const securityPutRole1: API.OperationMethod<
   SecurityPutRole1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30944, __c967, 0) as any as S.Schema<SecurityPutRole1Request>,
-  output: __S(30912, __c966, 0) as any as S.Schema<SecurityPutRole1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(30976, __c968, 0) as any as S.Schema<SecurityPutRole1Request>,
+  output: __S(30944, __c967, 0) as any as S.Schema<SecurityPutRole1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56741,9 +57449,10 @@ export const securityPutRoleMapping: API.OperationMethod<
   SecurityPutRoleMappingError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30976, __c968, 0) as any as S.Schema<SecurityPutRoleMappingRequest>,
-  output: __S(31008, __c969, 0) as any as S.Schema<SecurityPutRoleMappingResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31008, __c969, 0) as any as S.Schema<SecurityPutRoleMappingRequest>,
+  output: __S(31040, __c970, 0) as any as S.Schema<SecurityPutRoleMappingResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56758,9 +57467,10 @@ export const securityPutRoleMapping1: API.OperationMethod<
   SecurityPutRoleMapping1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31040, __c970, 0) as any as S.Schema<SecurityPutRoleMapping1Request>,
-  output: __S(31008, __c969, 0) as any as S.Schema<SecurityPutRoleMapping1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31072, __c971, 0) as any as S.Schema<SecurityPutRoleMapping1Request>,
+  output: __S(31040, __c970, 0) as any as S.Schema<SecurityPutRoleMapping1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56775,9 +57485,10 @@ export const securityPutUser: API.OperationMethod<
   SecurityPutUserError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31072, __c971, 0) as any as S.Schema<SecurityPutUserRequest>,
-  output: __S(30816, __c963, 0) as any as S.Schema<SecurityPutUserResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31104, __c972, 0) as any as S.Schema<SecurityPutUserRequest>,
+  output: __S(30848, __c964, 0) as any as S.Schema<SecurityPutUserResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56792,9 +57503,10 @@ export const securityPutUser1: API.OperationMethod<
   SecurityPutUser1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31136, __c973, 0) as any as S.Schema<SecurityPutUser1Request>,
-  output: __S(30816, __c963, 0) as any as S.Schema<SecurityPutUser1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31168, __c974, 0) as any as S.Schema<SecurityPutUser1Request>,
+  output: __S(30848, __c964, 0) as any as S.Schema<SecurityPutUser1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56809,9 +57521,10 @@ export const securityPutUserManagedServiceAccount: API.OperationMethod<
   SecurityPutUserManagedServiceAccountError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31168, __c974, 0) as any as S.Schema<SecurityPutUserManagedServiceAccountRequest>,
-  output: __S(30816, __c963, 0) as any as S.Schema<SecurityPutUserManagedServiceAccountResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31200, __c975, 0) as any as S.Schema<SecurityPutUserManagedServiceAccountRequest>,
+  output: __S(30848, __c964, 0) as any as S.Schema<SecurityPutUserManagedServiceAccountResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56826,9 +57539,10 @@ export const securityQueryApiKeys: API.OperationMethod<
   SecurityQueryApiKeysError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31200, __c975, 0) as any as S.Schema<SecurityQueryApiKeysRequest>,
-  output: __S(31237, __c976, 5) as any as S.Schema<SecurityQueryApiKeysResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31232, __c976, 0) as any as S.Schema<SecurityQueryApiKeysRequest>,
+  output: __S(31269, __c977, 5) as any as S.Schema<SecurityQueryApiKeysResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56843,9 +57557,10 @@ export const securityQueryApiKeys1: API.OperationMethod<
   SecurityQueryApiKeys1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31296, __c978, 0) as any as S.Schema<SecurityQueryApiKeys1Request>,
-  output: __S(31237, __c976, 5) as any as S.Schema<SecurityQueryApiKeys1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31328, __c979, 0) as any as S.Schema<SecurityQueryApiKeys1Request>,
+  output: __S(31269, __c977, 5) as any as S.Schema<SecurityQueryApiKeys1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56860,9 +57575,10 @@ export const securityQueryRole: API.OperationMethod<
   SecurityQueryRoleError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31328, __c979, 0) as any as S.Schema<SecurityQueryRoleRequest>,
-  output: __S(31362, __c980, 2) as any as S.Schema<SecurityQueryRoleResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31360, __c980, 0) as any as S.Schema<SecurityQueryRoleRequest>,
+  output: __S(31394, __c981, 2) as any as S.Schema<SecurityQueryRoleResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56877,9 +57593,10 @@ export const securityQueryRole1: API.OperationMethod<
   SecurityQueryRole1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31392, __c981, 0) as any as S.Schema<SecurityQueryRole1Request>,
-  output: __S(31362, __c980, 2) as any as S.Schema<SecurityQueryRole1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31424, __c982, 0) as any as S.Schema<SecurityQueryRole1Request>,
+  output: __S(31394, __c981, 2) as any as S.Schema<SecurityQueryRole1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56894,9 +57611,10 @@ export const securityQueryUser: API.OperationMethod<
   SecurityQueryUserError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31424, __c982, 0) as any as S.Schema<SecurityQueryUserRequest>,
-  output: __S(31459, __c983, 3) as any as S.Schema<SecurityQueryUserResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31456, __c983, 0) as any as S.Schema<SecurityQueryUserRequest>,
+  output: __S(31491, __c984, 3) as any as S.Schema<SecurityQueryUserResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56911,9 +57629,10 @@ export const securityQueryUser1: API.OperationMethod<
   SecurityQueryUser1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31488, __c984, 0) as any as S.Schema<SecurityQueryUser1Request>,
-  output: __S(31459, __c983, 3) as any as S.Schema<SecurityQueryUser1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31520, __c985, 0) as any as S.Schema<SecurityQueryUser1Request>,
+  output: __S(31491, __c984, 3) as any as S.Schema<SecurityQueryUser1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56928,9 +57647,10 @@ export const securitySamlPrepareAuthentication: API.OperationMethod<
   SecuritySamlPrepareAuthenticationError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31520, __c985, 0) as any as S.Schema<SecuritySamlPrepareAuthenticationRequest>,
-  output: __S(31521, __c985, 1) as any as S.Schema<SecuritySamlPrepareAuthenticationResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31552, __c986, 0) as any as S.Schema<SecuritySamlPrepareAuthenticationRequest>,
+  output: __S(31553, __c986, 1) as any as S.Schema<SecuritySamlPrepareAuthenticationResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56945,9 +57665,10 @@ export const securitySamlServiceProviderMetadata: API.OperationMethod<
   SecuritySamlServiceProviderMetadataError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31552, __c986, 0) as any as S.Schema<SecuritySamlServiceProviderMetadataRequest>,
-  output: __S(31553, __c986, 1) as any as S.Schema<SecuritySamlServiceProviderMetadataResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31584, __c987, 0) as any as S.Schema<SecuritySamlServiceProviderMetadataRequest>,
+  output: __S(31585, __c987, 1) as any as S.Schema<SecuritySamlServiceProviderMetadataResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56962,9 +57683,10 @@ export const securitySuggestUserProfiles: API.OperationMethod<
   SecuritySuggestUserProfilesError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31616, __c988, 0) as any as S.Schema<SecuritySuggestUserProfilesRequest>,
-  output: __S(31653, __c989, 5) as any as S.Schema<SecuritySuggestUserProfilesResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31648, __c989, 0) as any as S.Schema<SecuritySuggestUserProfilesRequest>,
+  output: __S(31685, __c990, 5) as any as S.Schema<SecuritySuggestUserProfilesResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56979,9 +57701,10 @@ export const securitySuggestUserProfiles1: API.OperationMethod<
   SecuritySuggestUserProfiles1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31680, __c990, 0) as any as S.Schema<SecuritySuggestUserProfiles1Request>,
-  output: __S(31653, __c989, 5) as any as S.Schema<SecuritySuggestUserProfiles1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31712, __c991, 0) as any as S.Schema<SecuritySuggestUserProfiles1Request>,
+  output: __S(31685, __c990, 5) as any as S.Schema<SecuritySuggestUserProfiles1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -56996,9 +57719,10 @@ export const securityUpdateApiKey: API.OperationMethod<
   SecurityUpdateApiKeyError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31712, __c991, 0) as any as S.Schema<SecurityUpdateApiKeyRequest>,
-  output: __S(31744, __c992, 0) as any as S.Schema<SecurityUpdateApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31744, __c992, 0) as any as S.Schema<SecurityUpdateApiKeyRequest>,
+  output: __S(31776, __c993, 0) as any as S.Schema<SecurityUpdateApiKeyResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57013,9 +57737,10 @@ export const securityUpdateCrossClusterApiKey: API.OperationMethod<
   SecurityUpdateCrossClusterApiKeyError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31776, __c993, 0) as any as S.Schema<SecurityUpdateCrossClusterApiKeyRequest>,
-  output: __S(31744, __c992, 0) as any as S.Schema<SecurityUpdateCrossClusterApiKeyResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31808, __c994, 0) as any as S.Schema<SecurityUpdateCrossClusterApiKeyRequest>,
+  output: __S(31776, __c993, 0) as any as S.Schema<SecurityUpdateCrossClusterApiKeyResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57030,9 +57755,10 @@ export const securityUpdateSettings: API.OperationMethod<
   SecurityUpdateSettingsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31808, __c994, 0) as any as S.Schema<SecurityUpdateSettingsRequest>,
+  input: __S(31840, __c995, 0) as any as S.Schema<SecurityUpdateSettingsRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<SecurityUpdateSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57047,9 +57773,10 @@ export const securityUpdateUserProfileData: API.OperationMethod<
   SecurityUpdateUserProfileDataError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31840, __c995, 0) as any as S.Schema<SecurityUpdateUserProfileDataRequest>,
+  input: __S(31872, __c996, 0) as any as S.Schema<SecurityUpdateUserProfileDataRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57064,9 +57791,10 @@ export const securityUpdateUserProfileData1: API.OperationMethod<
   SecurityUpdateUserProfileData1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31872, __c996, 0) as any as S.Schema<SecurityUpdateUserProfileData1Request>,
+  input: __S(31904, __c997, 0) as any as S.Schema<SecurityUpdateUserProfileData1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57081,9 +57809,10 @@ export const simulateIngest: API.OperationMethod<
   SimulateIngestError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31904, __c997, 0) as any as S.Schema<SimulateIngestRequest>,
-  output: __S(31944, __c998, 8) as any as S.Schema<SimulateIngestResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(31936, __c998, 0) as any as S.Schema<SimulateIngestRequest>,
+  output: __S(31976, __c999, 8) as any as S.Schema<SimulateIngestResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57098,9 +57827,10 @@ export const simulateIngest1: API.OperationMethod<
   SimulateIngest1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31968, __c999, 0) as any as S.Schema<SimulateIngest1Request>,
-  output: __S(31944, __c998, 8) as any as S.Schema<SimulateIngest1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32000, __c1000, 0) as any as S.Schema<SimulateIngest1Request>,
+  output: __S(31976, __c999, 8) as any as S.Schema<SimulateIngest1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57115,9 +57845,10 @@ export const simulateIngest2: API.OperationMethod<
   SimulateIngest2Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32000, __c1000, 0) as any as S.Schema<SimulateIngest2Request>,
-  output: __S(31944, __c998, 8) as any as S.Schema<SimulateIngest2Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32032, __c1001, 0) as any as S.Schema<SimulateIngest2Request>,
+  output: __S(31976, __c999, 8) as any as S.Schema<SimulateIngest2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57132,9 +57863,10 @@ export const simulateIngest3: API.OperationMethod<
   SimulateIngest3Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32064, __c1002, 0) as any as S.Schema<SimulateIngest3Request>,
-  output: __S(31944, __c998, 8) as any as S.Schema<SimulateIngest3Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32096, __c1003, 0) as any as S.Schema<SimulateIngest3Request>,
+  output: __S(31976, __c999, 8) as any as S.Schema<SimulateIngest3Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57149,9 +57881,10 @@ export const slmDeleteLifecycle: API.OperationMethod<
   SlmDeleteLifecycleError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32096, __c1003, 0) as any as S.Schema<SlmDeleteLifecycleRequest>,
+  input: __S(32128, __c1004, 0) as any as S.Schema<SlmDeleteLifecycleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57166,9 +57899,10 @@ export const slmExecuteLifecycle: API.OperationMethod<
   SlmExecuteLifecycleError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32128, __c1004, 0) as any as S.Schema<SlmExecuteLifecycleRequest>,
-  output: __S(32129, __c1004, 1) as any as S.Schema<SlmExecuteLifecycleResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32160, __c1005, 0) as any as S.Schema<SlmExecuteLifecycleRequest>,
+  output: __S(32161, __c1005, 1) as any as S.Schema<SlmExecuteLifecycleResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57183,9 +57917,10 @@ export const slmExecuteRetention: API.OperationMethod<
   SlmExecuteRetentionError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32160, __c1005, 0) as any as S.Schema<SlmExecuteRetentionRequest>,
+  input: __S(32192, __c1006, 0) as any as S.Schema<SlmExecuteRetentionRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57200,9 +57935,10 @@ export const slmGetLifecycle: API.OperationMethod<
   SlmGetLifecycleError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32192, __c1006, 0) as any as S.Schema<SlmGetLifecycleRequest>,
-  output: __S(32229, __c1007, 5) as any as S.Schema<SlmGetLifecycleResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32224, __c1007, 0) as any as S.Schema<SlmGetLifecycleRequest>,
+  output: __S(32261, __c1008, 5) as any as S.Schema<SlmGetLifecycleResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57217,9 +57953,10 @@ export const slmGetLifecycle1: API.OperationMethod<
   SlmGetLifecycle1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32320, __c1010, 0) as any as S.Schema<SlmGetLifecycle1Request>,
-  output: __S(32229, __c1007, 5) as any as S.Schema<SlmGetLifecycle1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32352, __c1011, 0) as any as S.Schema<SlmGetLifecycle1Request>,
+  output: __S(32261, __c1008, 5) as any as S.Schema<SlmGetLifecycle1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57234,9 +57971,10 @@ export const slmGetStats: API.OperationMethod<
   SlmGetStatsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32352, __c1011, 0) as any as S.Schema<SlmGetStatsRequest>,
-  output: __S(32355, __c1011, 3) as any as S.Schema<SlmGetStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32384, __c1012, 0) as any as S.Schema<SlmGetStatsRequest>,
+  output: __S(32387, __c1012, 3) as any as S.Schema<SlmGetStatsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57251,9 +57989,10 @@ export const slmGetStatus: API.OperationMethod<
   SlmGetStatusError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32384, __c1012, 0) as any as S.Schema<SlmGetStatusRequest>,
+  input: __S(32416, __c1013, 0) as any as S.Schema<SlmGetStatusRequest>,
   output: __S(8000, __c250, 0) as any as S.Schema<SlmGetStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57268,9 +58007,10 @@ export const slmPutLifecycle: API.OperationMethod<
   SlmPutLifecycleError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32416, __c1013, 0) as any as S.Schema<SlmPutLifecycleRequest>,
+  input: __S(32448, __c1014, 0) as any as S.Schema<SlmPutLifecycleRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57285,9 +58025,10 @@ export const snapshotCleanupRepository: API.OperationMethod<
   SnapshotCleanupRepositoryError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32448, __c1014, 0) as any as S.Schema<SnapshotCleanupRepositoryRequest>,
-  output: __S(32450, __c1014, 2) as any as S.Schema<SnapshotCleanupRepositoryResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32480, __c1015, 0) as any as S.Schema<SnapshotCleanupRepositoryRequest>,
+  output: __S(32482, __c1015, 2) as any as S.Schema<SnapshotCleanupRepositoryResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57302,9 +58043,10 @@ export const snapshotCreate1: API.OperationMethod<
   SnapshotCreate1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32512, __c1016, 0) as any as S.Schema<SnapshotCreate1Request>,
+  input: __S(32544, __c1017, 0) as any as S.Schema<SnapshotCreate1Request>,
   output: __S(2848, __c89, 0) as any as S.Schema<SnapshotCreate1Response>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57319,9 +58061,10 @@ export const snapshotCreateRepository: API.OperationMethod<
   SnapshotCreateRepositoryError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32544, __c1017, 0) as any as S.Schema<SnapshotCreateRepositoryRequest>,
+  input: __S(32576, __c1018, 0) as any as S.Schema<SnapshotCreateRepositoryRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57336,9 +58079,10 @@ export const snapshotCreateRepository1: API.OperationMethod<
   SnapshotCreateRepository1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32576, __c1018, 0) as any as S.Schema<SnapshotCreateRepository1Request>,
+  input: __S(32608, __c1019, 0) as any as S.Schema<SnapshotCreateRepository1Request>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57353,9 +58097,10 @@ export const snapshotDeleteRepository: API.OperationMethod<
   SnapshotDeleteRepositoryError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32608, __c1019, 0) as any as S.Schema<SnapshotDeleteRepositoryRequest>,
+  input: __S(32640, __c1020, 0) as any as S.Schema<SnapshotDeleteRepositoryRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57370,9 +58115,10 @@ export const snapshotGetRepository: API.OperationMethod<
   SnapshotGetRepositoryError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32640, __c1020, 0) as any as S.Schema<SnapshotGetRepositoryRequest>,
-  output: __S(32673, __c1021, 1) as any as S.Schema<SnapshotGetRepositoryResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32672, __c1021, 0) as any as S.Schema<SnapshotGetRepositoryRequest>,
+  output: __S(32705, __c1022, 1) as any as S.Schema<SnapshotGetRepositoryResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57387,9 +58133,10 @@ export const snapshotGetRepository1: API.OperationMethod<
   SnapshotGetRepository1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32704, __c1022, 0) as any as S.Schema<SnapshotGetRepository1Request>,
-  output: __S(32673, __c1021, 1) as any as S.Schema<SnapshotGetRepository1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32736, __c1023, 0) as any as S.Schema<SnapshotGetRepository1Request>,
+  output: __S(32705, __c1022, 1) as any as S.Schema<SnapshotGetRepository1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57404,9 +58151,10 @@ export const snapshotRepositoryAnalyze: API.OperationMethod<
   SnapshotRepositoryAnalyzeError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32736, __c1023, 0) as any as S.Schema<SnapshotRepositoryAnalyzeRequest>,
-  output: __S(32743, __c1023, 7) as any as S.Schema<SnapshotRepositoryAnalyzeResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32768, __c1024, 0) as any as S.Schema<SnapshotRepositoryAnalyzeRequest>,
+  output: __S(32775, __c1024, 7) as any as S.Schema<SnapshotRepositoryAnalyzeResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57421,9 +58169,10 @@ export const snapshotRepositoryVerifyIntegrity: API.OperationMethod<
   SnapshotRepositoryVerifyIntegrityError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32768, __c1024, 0) as any as S.Schema<SnapshotRepositoryVerifyIntegrityRequest>,
+  input: __S(32800, __c1025, 0) as any as S.Schema<SnapshotRepositoryVerifyIntegrityRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<SnapshotRepositoryVerifyIntegrityResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57438,9 +58187,10 @@ export const snapshotStatus: API.OperationMethod<
   SnapshotStatusError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32800, __c1025, 0) as any as S.Schema<SnapshotStatusRequest>,
-  output: __S(32842, __c1026, 10) as any as S.Schema<SnapshotStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32832, __c1026, 0) as any as S.Schema<SnapshotStatusRequest>,
+  output: __S(32874, __c1027, 10) as any as S.Schema<SnapshotStatusResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57455,9 +58205,10 @@ export const snapshotStatus1: API.OperationMethod<
   SnapshotStatus1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32864, __c1027, 0) as any as S.Schema<SnapshotStatus1Request>,
-  output: __S(32842, __c1026, 10) as any as S.Schema<SnapshotStatus1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32896, __c1028, 0) as any as S.Schema<SnapshotStatus1Request>,
+  output: __S(32874, __c1027, 10) as any as S.Schema<SnapshotStatus1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57472,9 +58223,10 @@ export const snapshotStatus2: API.OperationMethod<
   SnapshotStatus2Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32928, __c1029, 0) as any as S.Schema<SnapshotStatus2Request>,
-  output: __S(32842, __c1026, 10) as any as S.Schema<SnapshotStatus2Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32960, __c1030, 0) as any as S.Schema<SnapshotStatus2Request>,
+  output: __S(32874, __c1027, 10) as any as S.Schema<SnapshotStatus2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57489,9 +58241,10 @@ export const snapshotVerifyRepository: API.OperationMethod<
   SnapshotVerifyRepositoryError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32960, __c1030, 0) as any as S.Schema<SnapshotVerifyRepositoryRequest>,
-  output: __S(32961, __c1030, 1) as any as S.Schema<SnapshotVerifyRepositoryResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(32992, __c1031, 0) as any as S.Schema<SnapshotVerifyRepositoryRequest>,
+  output: __S(32993, __c1031, 1) as any as S.Schema<SnapshotVerifyRepositoryResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57506,9 +58259,10 @@ export const sqlClearCursor: API.OperationMethod<
   SqlClearCursorError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32992, __c1031, 0) as any as S.Schema<SqlClearCursorRequest>,
-  output: __S(32993, __c1031, 1) as any as S.Schema<SqlClearCursorResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33024, __c1032, 0) as any as S.Schema<SqlClearCursorRequest>,
+  output: __S(33025, __c1032, 1) as any as S.Schema<SqlClearCursorResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57523,9 +58277,10 @@ export const sqlDeleteAsync: API.OperationMethod<
   SqlDeleteAsyncError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33024, __c1032, 0) as any as S.Schema<SqlDeleteAsyncRequest>,
+  input: __S(33056, __c1033, 0) as any as S.Schema<SqlDeleteAsyncRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57540,9 +58295,10 @@ export const sqlGetAsync: API.OperationMethod<
   SqlGetAsyncError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33056, __c1033, 0) as any as S.Schema<SqlGetAsyncRequest>,
-  output: __S(33057, __c1033, 1) as any as S.Schema<SqlGetAsyncResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33088, __c1034, 0) as any as S.Schema<SqlGetAsyncRequest>,
+  output: __S(33089, __c1034, 1) as any as S.Schema<SqlGetAsyncResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57557,9 +58313,10 @@ export const sqlGetAsyncStatus: API.OperationMethod<
   SqlGetAsyncStatusError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33120, __c1035, 0) as any as S.Schema<SqlGetAsyncStatusRequest>,
-  output: __S(33121, __c1035, 1) as any as S.Schema<SqlGetAsyncStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33152, __c1036, 0) as any as S.Schema<SqlGetAsyncStatusRequest>,
+  output: __S(33153, __c1036, 1) as any as S.Schema<SqlGetAsyncStatusResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57574,9 +58331,10 @@ export const sqlQuery: API.OperationMethod<
   SqlQueryError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33152, __c1036, 0) as any as S.Schema<SqlQueryRequest>,
-  output: __S(33184, __c1037, 0) as any as S.Schema<SqlQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33184, __c1037, 0) as any as S.Schema<SqlQueryRequest>,
+  output: __S(33216, __c1038, 0) as any as S.Schema<SqlQueryResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57591,9 +58349,10 @@ export const sqlQuery1: API.OperationMethod<
   SqlQuery1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33216, __c1038, 0) as any as S.Schema<SqlQuery1Request>,
-  output: __S(33184, __c1037, 0) as any as S.Schema<SqlQuery1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33248, __c1039, 0) as any as S.Schema<SqlQuery1Request>,
+  output: __S(33216, __c1038, 0) as any as S.Schema<SqlQuery1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57608,9 +58367,10 @@ export const sqlTranslate: API.OperationMethod<
   SqlTranslateError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33248, __c1039, 0) as any as S.Schema<SqlTranslateRequest>,
-  output: __S(33280, __c1040, 0) as any as S.Schema<SqlTranslateResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33280, __c1040, 0) as any as S.Schema<SqlTranslateRequest>,
+  output: __S(33312, __c1041, 0) as any as S.Schema<SqlTranslateResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57625,9 +58385,10 @@ export const sqlTranslate1: API.OperationMethod<
   SqlTranslate1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33312, __c1041, 0) as any as S.Schema<SqlTranslate1Request>,
-  output: __S(33280, __c1040, 0) as any as S.Schema<SqlTranslate1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33344, __c1042, 0) as any as S.Schema<SqlTranslate1Request>,
+  output: __S(33312, __c1041, 0) as any as S.Schema<SqlTranslate1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57642,9 +58403,10 @@ export const sslCertificates: API.OperationMethod<
   SslCertificatesError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33376, __c1043, 0) as any as S.Schema<SslCertificatesRequest>,
-  output: __S(33379, __c1043, 3) as any as S.Schema<SslCertificatesResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33408, __c1044, 0) as any as S.Schema<SslCertificatesRequest>,
+  output: __S(33411, __c1044, 3) as any as S.Schema<SslCertificatesResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57659,9 +58421,10 @@ export const startIlm: API.OperationMethod<
   StartIlmError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33408, __c1044, 0) as any as S.Schema<StartIlmRequest>,
+  input: __S(33440, __c1045, 0) as any as S.Schema<StartIlmRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57676,9 +58439,10 @@ export const startSlm: API.OperationMethod<
   StartSlmError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33440, __c1045, 0) as any as S.Schema<StartSlmRequest>,
+  input: __S(33472, __c1046, 0) as any as S.Schema<StartSlmRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57693,9 +58457,10 @@ export const startTransform: API.OperationMethod<
   StartTransformError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33472, __c1046, 0) as any as S.Schema<StartTransformRequest>,
+  input: __S(33504, __c1047, 0) as any as S.Schema<StartTransformRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57710,9 +58475,10 @@ export const startWatcher: API.OperationMethod<
   StartWatcherError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33504, __c1047, 0) as any as S.Schema<StartWatcherRequest>,
+  input: __S(33536, __c1048, 0) as any as S.Schema<StartWatcherRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57727,9 +58493,10 @@ export const stopEsqlAsyncQuery: API.OperationMethod<
   StopEsqlAsyncQueryError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33536, __c1048, 0) as any as S.Schema<StopEsqlAsyncQueryRequest>,
+  input: __S(33568, __c1049, 0) as any as S.Schema<StopEsqlAsyncQueryRequest>,
   output: __S(4320, __c135, 0) as any as S.Schema<StopEsqlAsyncQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57744,9 +58511,10 @@ export const stopIlm: API.OperationMethod<
   StopIlmError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33568, __c1049, 0) as any as S.Schema<StopIlmRequest>,
+  input: __S(33600, __c1050, 0) as any as S.Schema<StopIlmRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57761,9 +58529,10 @@ export const stopSlm: API.OperationMethod<
   StopSlmError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33600, __c1050, 0) as any as S.Schema<StopSlmRequest>,
+  input: __S(33632, __c1051, 0) as any as S.Schema<StopSlmRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57778,9 +58547,10 @@ export const stopTransform: API.OperationMethod<
   StopTransformError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33632, __c1051, 0) as any as S.Schema<StopTransformRequest>,
+  input: __S(33664, __c1052, 0) as any as S.Schema<StopTransformRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57795,9 +58565,10 @@ export const stopWatcher: API.OperationMethod<
   StopWatcherError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33664, __c1052, 0) as any as S.Schema<StopWatcherRequest>,
+  input: __S(33696, __c1053, 0) as any as S.Schema<StopWatcherRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57812,9 +58583,10 @@ export const streamsStatus: API.OperationMethod<
   StreamsStatusError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33728, __c1054, 0) as any as S.Schema<StreamsStatusRequest>,
-  output: __S(33729, __c1054, 1) as any as S.Schema<StreamsStatusResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33760, __c1055, 0) as any as S.Schema<StreamsStatusRequest>,
+  output: __S(33761, __c1055, 1) as any as S.Schema<StreamsStatusResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57829,9 +58601,10 @@ export const tasksCancel1: API.OperationMethod<
   TasksCancel1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33760, __c1055, 0) as any as S.Schema<TasksCancel1Request>,
+  input: __S(33792, __c1056, 0) as any as S.Schema<TasksCancel1Request>,
   output: __S(5410, __c169, 2) as any as S.Schema<TasksTypesTaskListResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57846,9 +58619,10 @@ export const termsEnum: API.OperationMethod<
   TermsEnumError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33792, __c1056, 0) as any as S.Schema<TermsEnumRequest>,
-  output: __S(33824, __c1057, 0) as any as S.Schema<TermsEnumResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33824, __c1057, 0) as any as S.Schema<TermsEnumRequest>,
+  output: __S(33856, __c1058, 0) as any as S.Schema<TermsEnumResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57863,9 +58637,10 @@ export const termsEnum1: API.OperationMethod<
   TermsEnum1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33856, __c1058, 0) as any as S.Schema<TermsEnum1Request>,
-  output: __S(33824, __c1057, 0) as any as S.Schema<TermsEnum1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33888, __c1059, 0) as any as S.Schema<TermsEnum1Request>,
+  output: __S(33856, __c1058, 0) as any as S.Schema<TermsEnum1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57880,9 +58655,10 @@ export const termvectors: API.OperationMethod<
   TermvectorsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33888, __c1059, 0) as any as S.Schema<TermvectorsRequest>,
-  output: __S(33920, __c1060, 0) as any as S.Schema<TermvectorsResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33920, __c1060, 0) as any as S.Schema<TermvectorsRequest>,
+  output: __S(33952, __c1061, 0) as any as S.Schema<TermvectorsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57897,9 +58673,10 @@ export const termvectors1: API.OperationMethod<
   Termvectors1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33952, __c1061, 0) as any as S.Schema<Termvectors1Request>,
-  output: __S(33920, __c1060, 0) as any as S.Schema<Termvectors1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(33984, __c1062, 0) as any as S.Schema<Termvectors1Request>,
+  output: __S(33952, __c1061, 0) as any as S.Schema<Termvectors1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57914,9 +58691,10 @@ export const termvectors2: API.OperationMethod<
   Termvectors2Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33984, __c1062, 0) as any as S.Schema<Termvectors2Request>,
-  output: __S(33920, __c1060, 0) as any as S.Schema<Termvectors2Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34016, __c1063, 0) as any as S.Schema<Termvectors2Request>,
+  output: __S(33952, __c1061, 0) as any as S.Schema<Termvectors2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57931,9 +58709,10 @@ export const termvectors3: API.OperationMethod<
   Termvectors3Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34016, __c1063, 0) as any as S.Schema<Termvectors3Request>,
-  output: __S(33920, __c1060, 0) as any as S.Schema<Termvectors3Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34048, __c1064, 0) as any as S.Schema<Termvectors3Request>,
+  output: __S(33952, __c1061, 0) as any as S.Schema<Termvectors3Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57948,9 +58727,10 @@ export const textStructureFindFieldStructure: API.OperationMethod<
   TextStructureFindFieldStructureError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34048, __c1064, 0) as any as S.Schema<TextStructureFindFieldStructureRequest>,
-  output: __S(34080, __c1065, 0) as any as S.Schema<TextStructureFindFieldStructureResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34080, __c1065, 0) as any as S.Schema<TextStructureFindFieldStructureRequest>,
+  output: __S(34112, __c1066, 0) as any as S.Schema<TextStructureFindFieldStructureResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57965,9 +58745,10 @@ export const textStructureFindMessageStructure: API.OperationMethod<
   TextStructureFindMessageStructureError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34144, __c1067, 0) as any as S.Schema<TextStructureFindMessageStructureRequest>,
-  output: __S(34080, __c1065, 0) as any as S.Schema<TextStructureFindMessageStructureResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34176, __c1068, 0) as any as S.Schema<TextStructureFindMessageStructureRequest>,
+  output: __S(34112, __c1066, 0) as any as S.Schema<TextStructureFindMessageStructureResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57982,9 +58763,10 @@ export const textStructureFindMessageStructure1: API.OperationMethod<
   TextStructureFindMessageStructure1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34208, __c1069, 0) as any as S.Schema<TextStructureFindMessageStructure1Request>,
-  output: __S(34080, __c1065, 0) as any as S.Schema<TextStructureFindMessageStructure1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34240, __c1070, 0) as any as S.Schema<TextStructureFindMessageStructure1Request>,
+  output: __S(34112, __c1066, 0) as any as S.Schema<TextStructureFindMessageStructure1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -57999,9 +58781,10 @@ export const textStructureFindStructure: API.OperationMethod<
   TextStructureFindStructureError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34240, __c1070, 0) as any as S.Schema<TextStructureFindStructureRequest>,
-  output: __S(34241, __c1070, 1) as any as S.Schema<TextStructureFindStructureResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34272, __c1071, 0) as any as S.Schema<TextStructureFindStructureRequest>,
+  output: __S(34273, __c1071, 1) as any as S.Schema<TextStructureFindStructureResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58016,9 +58799,10 @@ export const textStructureTestGrokPattern: API.OperationMethod<
   TextStructureTestGrokPatternError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34272, __c1071, 0) as any as S.Schema<TextStructureTestGrokPatternRequest>,
-  output: __S(34309, __c1072, 5) as any as S.Schema<TextStructureTestGrokPatternResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34304, __c1072, 0) as any as S.Schema<TextStructureTestGrokPatternRequest>,
+  output: __S(34341, __c1073, 5) as any as S.Schema<TextStructureTestGrokPatternResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58033,9 +58817,10 @@ export const textStructureTestGrokPattern1: API.OperationMethod<
   TextStructureTestGrokPattern1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34336, __c1073, 0) as any as S.Schema<TextStructureTestGrokPattern1Request>,
-  output: __S(34309, __c1072, 5) as any as S.Schema<TextStructureTestGrokPattern1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34368, __c1074, 0) as any as S.Schema<TextStructureTestGrokPattern1Request>,
+  output: __S(34341, __c1073, 5) as any as S.Schema<TextStructureTestGrokPattern1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58050,9 +58835,10 @@ export const transformGetNodeStats: API.OperationMethod<
   TransformGetNodeStatsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34368, __c1074, 0) as any as S.Schema<TransformGetNodeStatsRequest>,
-  output: __S(34371, __c1074, 3) as any as S.Schema<TransformGetNodeStatsTransformNodeFullStats>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34400, __c1075, 0) as any as S.Schema<TransformGetNodeStatsRequest>,
+  output: __S(34403, __c1075, 3) as any as S.Schema<TransformGetNodeStatsTransformNodeFullStats>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58067,9 +58853,10 @@ export const transformPreviewTransform: API.OperationMethod<
   TransformPreviewTransformError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34400, __c1075, 0) as any as S.Schema<TransformPreviewTransformRequest>,
-  output: __S(34432, __c1076, 0) as any as S.Schema<TransformPreviewTransformResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34432, __c1076, 0) as any as S.Schema<TransformPreviewTransformRequest>,
+  output: __S(34464, __c1077, 0) as any as S.Schema<TransformPreviewTransformResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58084,9 +58871,10 @@ export const transformPreviewTransform1: API.OperationMethod<
   TransformPreviewTransform1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34464, __c1077, 0) as any as S.Schema<TransformPreviewTransform1Request>,
-  output: __S(34432, __c1076, 0) as any as S.Schema<TransformPreviewTransform1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34496, __c1078, 0) as any as S.Schema<TransformPreviewTransform1Request>,
+  output: __S(34464, __c1077, 0) as any as S.Schema<TransformPreviewTransform1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58101,9 +58889,10 @@ export const transformPreviewTransform2: API.OperationMethod<
   TransformPreviewTransform2Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34496, __c1078, 0) as any as S.Schema<TransformPreviewTransform2Request>,
-  output: __S(34432, __c1076, 0) as any as S.Schema<TransformPreviewTransform2Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34528, __c1079, 0) as any as S.Schema<TransformPreviewTransform2Request>,
+  output: __S(34464, __c1077, 0) as any as S.Schema<TransformPreviewTransform2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58118,9 +58907,10 @@ export const transformPreviewTransform3: API.OperationMethod<
   TransformPreviewTransform3Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34528, __c1079, 0) as any as S.Schema<TransformPreviewTransform3Request>,
-  output: __S(34432, __c1076, 0) as any as S.Schema<TransformPreviewTransform3Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34560, __c1080, 0) as any as S.Schema<TransformPreviewTransform3Request>,
+  output: __S(34464, __c1077, 0) as any as S.Schema<TransformPreviewTransform3Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58135,9 +58925,10 @@ export const transformScheduleNowTransform: API.OperationMethod<
   TransformScheduleNowTransformError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34560, __c1080, 0) as any as S.Schema<TransformScheduleNowTransformRequest>,
+  input: __S(34592, __c1081, 0) as any as S.Schema<TransformScheduleNowTransformRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58152,9 +58943,10 @@ export const transformSetUpgradeMode: API.OperationMethod<
   TransformSetUpgradeModeError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34624, __c1082, 0) as any as S.Schema<TransformSetUpgradeModeRequest>,
+  input: __S(34656, __c1083, 0) as any as S.Schema<TransformSetUpgradeModeRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58169,9 +58961,10 @@ export const transformUpgradeTransforms: API.OperationMethod<
   TransformUpgradeTransformsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34656, __c1083, 0) as any as S.Schema<TransformUpgradeTransformsRequest>,
-  output: __S(34657, __c1083, 1) as any as S.Schema<TransformUpgradeTransformsResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34688, __c1084, 0) as any as S.Schema<TransformUpgradeTransformsRequest>,
+  output: __S(34689, __c1084, 1) as any as S.Schema<TransformUpgradeTransformsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58186,9 +58979,10 @@ export const unfollowCcr: API.OperationMethod<
   UnfollowCcrError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34688, __c1084, 0) as any as S.Schema<UnfollowCcrRequest>,
+  input: __S(34720, __c1085, 0) as any as S.Schema<UnfollowCcrRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<TypesAcknowledgedResponseBase>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58203,9 +58997,10 @@ export const update: API.OperationMethod<
   UpdateError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34720, __c1085, 0) as any as S.Schema<UpdateRequest>,
-  output: __S(34721, __c1085, 1) as any as S.Schema<UpdateResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34752, __c1086, 0) as any as S.Schema<UpdateRequest>,
+  output: __S(34753, __c1086, 1) as any as S.Schema<UpdateResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58220,9 +59015,10 @@ export const updateByQuery: API.OperationMethod<
   UpdateByQueryError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34752, __c1086, 0) as any as S.Schema<UpdateByQueryRequest>,
-  output: __S(34753, __c1086, 1) as any as S.Schema<UpdateByQueryResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34784, __c1087, 0) as any as S.Schema<UpdateByQueryRequest>,
+  output: __S(34785, __c1087, 1) as any as S.Schema<UpdateByQueryResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58237,9 +59033,10 @@ export const updateByQueryRethrottle: API.OperationMethod<
   UpdateByQueryRethrottleError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34784, __c1087, 0) as any as S.Schema<UpdateByQueryRethrottleRequest>,
-  output: __S(34787, __c1087, 3) as any as S.Schema<UpdateByQueryRethrottleResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34816, __c1088, 0) as any as S.Schema<UpdateByQueryRethrottleRequest>,
+  output: __S(34819, __c1088, 3) as any as S.Schema<UpdateByQueryRethrottleResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58254,9 +59051,10 @@ export const updateInference: API.OperationMethod<
   UpdateInferenceError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34816, __c1088, 0) as any as S.Schema<UpdateInferenceRequest>,
+  input: __S(34848, __c1089, 0) as any as S.Schema<UpdateInferenceRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<UpdateInferenceResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58271,9 +59069,10 @@ export const updateTransform: API.OperationMethod<
   UpdateTransformError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34848, __c1089, 0) as any as S.Schema<UpdateTransformRequest>,
-  output: __S(34849, __c1089, 1) as any as S.Schema<UpdateTransformResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34880, __c1090, 0) as any as S.Schema<UpdateTransformRequest>,
+  output: __S(34881, __c1090, 1) as any as S.Schema<UpdateTransformResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58288,9 +59087,10 @@ export const watcherAckWatch1: API.OperationMethod<
   WatcherAckWatch1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34880, __c1090, 0) as any as S.Schema<WatcherAckWatch1Request>,
-  output: __S(34976, __c1093, 0) as any as S.Schema<WatcherAckWatch1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(34912, __c1091, 0) as any as S.Schema<WatcherAckWatch1Request>,
+  output: __S(35008, __c1094, 0) as any as S.Schema<WatcherAckWatch1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58305,9 +59105,10 @@ export const watcherAckWatch2: API.OperationMethod<
   WatcherAckWatch2Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35008, __c1094, 0) as any as S.Schema<WatcherAckWatch2Request>,
-  output: __S(34976, __c1093, 0) as any as S.Schema<WatcherAckWatch2Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35040, __c1095, 0) as any as S.Schema<WatcherAckWatch2Request>,
+  output: __S(35008, __c1094, 0) as any as S.Schema<WatcherAckWatch2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58322,9 +59123,10 @@ export const watcherAckWatch3: API.OperationMethod<
   WatcherAckWatch3Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35168, __c1099, 0) as any as S.Schema<WatcherAckWatch3Request>,
-  output: __S(34976, __c1093, 0) as any as S.Schema<WatcherAckWatch3Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35200, __c1100, 0) as any as S.Schema<WatcherAckWatch3Request>,
+  output: __S(35008, __c1094, 0) as any as S.Schema<WatcherAckWatch3Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58339,9 +59141,10 @@ export const watcherActivateWatch: API.OperationMethod<
   WatcherActivateWatchError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35200, __c1100, 0) as any as S.Schema<WatcherActivateWatchRequest>,
-  output: __S(35233, __c1101, 1) as any as S.Schema<WatcherActivateWatchResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35232, __c1101, 0) as any as S.Schema<WatcherActivateWatchRequest>,
+  output: __S(35265, __c1102, 1) as any as S.Schema<WatcherActivateWatchResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58356,9 +59159,10 @@ export const watcherActivateWatch1: API.OperationMethod<
   WatcherActivateWatch1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35264, __c1102, 0) as any as S.Schema<WatcherActivateWatch1Request>,
-  output: __S(35233, __c1101, 1) as any as S.Schema<WatcherActivateWatch1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35296, __c1103, 0) as any as S.Schema<WatcherActivateWatch1Request>,
+  output: __S(35265, __c1102, 1) as any as S.Schema<WatcherActivateWatch1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58373,9 +59177,10 @@ export const watcherDeactivateWatch: API.OperationMethod<
   WatcherDeactivateWatchError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35296, __c1103, 0) as any as S.Schema<WatcherDeactivateWatchRequest>,
-  output: __S(35233, __c1101, 1) as any as S.Schema<WatcherDeactivateWatchResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35328, __c1104, 0) as any as S.Schema<WatcherDeactivateWatchRequest>,
+  output: __S(35265, __c1102, 1) as any as S.Schema<WatcherDeactivateWatchResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58390,9 +59195,10 @@ export const watcherDeactivateWatch1: API.OperationMethod<
   WatcherDeactivateWatch1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35328, __c1104, 0) as any as S.Schema<WatcherDeactivateWatch1Request>,
-  output: __S(35233, __c1101, 1) as any as S.Schema<WatcherDeactivateWatch1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35360, __c1105, 0) as any as S.Schema<WatcherDeactivateWatch1Request>,
+  output: __S(35265, __c1102, 1) as any as S.Schema<WatcherDeactivateWatch1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58407,9 +59213,10 @@ export const watcherDeleteWatch: API.OperationMethod<
   WatcherDeleteWatchError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35360, __c1105, 0) as any as S.Schema<WatcherDeleteWatchRequest>,
-  output: __S(35361, __c1105, 1) as any as S.Schema<WatcherDeleteWatchResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35392, __c1106, 0) as any as S.Schema<WatcherDeleteWatchRequest>,
+  output: __S(35393, __c1106, 1) as any as S.Schema<WatcherDeleteWatchResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58424,9 +59231,10 @@ export const watcherExecuteWatch: API.OperationMethod<
   WatcherExecuteWatchError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35392, __c1106, 0) as any as S.Schema<WatcherExecuteWatchRequest>,
-  output: __S(35450, __c1107, 26) as any as S.Schema<WatcherExecuteWatchResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35424, __c1107, 0) as any as S.Schema<WatcherExecuteWatchRequest>,
+  output: __S(35482, __c1108, 26) as any as S.Schema<WatcherExecuteWatchResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58441,9 +59249,10 @@ export const watcherExecuteWatch1: API.OperationMethod<
   WatcherExecuteWatch1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35552, __c1111, 0) as any as S.Schema<WatcherExecuteWatch1Request>,
-  output: __S(35450, __c1107, 26) as any as S.Schema<WatcherExecuteWatch1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35584, __c1112, 0) as any as S.Schema<WatcherExecuteWatch1Request>,
+  output: __S(35482, __c1108, 26) as any as S.Schema<WatcherExecuteWatch1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58458,9 +59267,10 @@ export const watcherExecuteWatch2: API.OperationMethod<
   WatcherExecuteWatch2Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35584, __c1112, 0) as any as S.Schema<WatcherExecuteWatch2Request>,
-  output: __S(35450, __c1107, 26) as any as S.Schema<WatcherExecuteWatch2Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35616, __c1113, 0) as any as S.Schema<WatcherExecuteWatch2Request>,
+  output: __S(35482, __c1108, 26) as any as S.Schema<WatcherExecuteWatch2Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58475,9 +59285,10 @@ export const watcherExecuteWatch3: API.OperationMethod<
   WatcherExecuteWatch3Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35616, __c1113, 0) as any as S.Schema<WatcherExecuteWatch3Request>,
-  output: __S(35450, __c1107, 26) as any as S.Schema<WatcherExecuteWatch3Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35648, __c1114, 0) as any as S.Schema<WatcherExecuteWatch3Request>,
+  output: __S(35482, __c1108, 26) as any as S.Schema<WatcherExecuteWatch3Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58492,9 +59303,10 @@ export const watcherGetSettings: API.OperationMethod<
   WatcherGetSettingsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35680, __c1115, 0) as any as S.Schema<WatcherGetSettingsRequest>,
-  output: __S(35681, __c1115, 1) as any as S.Schema<WatcherGetSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35712, __c1116, 0) as any as S.Schema<WatcherGetSettingsRequest>,
+  output: __S(35713, __c1116, 1) as any as S.Schema<WatcherGetSettingsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58509,9 +59321,10 @@ export const watcherGetWatch: API.OperationMethod<
   WatcherGetWatchError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35712, __c1116, 0) as any as S.Schema<WatcherGetWatchRequest>,
-  output: __S(35713, __c1116, 1) as any as S.Schema<WatcherGetWatchResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35744, __c1117, 0) as any as S.Schema<WatcherGetWatchRequest>,
+  output: __S(35745, __c1117, 1) as any as S.Schema<WatcherGetWatchResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58526,9 +59339,10 @@ export const watcherPutWatch: API.OperationMethod<
   WatcherPutWatchError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35744, __c1117, 0) as any as S.Schema<WatcherPutWatchRequest>,
-  output: __S(35776, __c1118, 0) as any as S.Schema<WatcherPutWatchResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35776, __c1118, 0) as any as S.Schema<WatcherPutWatchRequest>,
+  output: __S(35808, __c1119, 0) as any as S.Schema<WatcherPutWatchResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58543,9 +59357,10 @@ export const watcherPutWatch1: API.OperationMethod<
   WatcherPutWatch1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35808, __c1119, 0) as any as S.Schema<WatcherPutWatch1Request>,
-  output: __S(35776, __c1118, 0) as any as S.Schema<WatcherPutWatch1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35840, __c1120, 0) as any as S.Schema<WatcherPutWatch1Request>,
+  output: __S(35808, __c1119, 0) as any as S.Schema<WatcherPutWatch1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58560,9 +59375,10 @@ export const watcherQueryWatches: API.OperationMethod<
   WatcherQueryWatchesError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35840, __c1120, 0) as any as S.Schema<WatcherQueryWatchesRequest>,
-  output: __S(35874, __c1121, 2) as any as S.Schema<WatcherQueryWatchesResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35872, __c1121, 0) as any as S.Schema<WatcherQueryWatchesRequest>,
+  output: __S(35906, __c1122, 2) as any as S.Schema<WatcherQueryWatchesResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58577,9 +59393,10 @@ export const watcherQueryWatches1: API.OperationMethod<
   WatcherQueryWatches1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35904, __c1122, 0) as any as S.Schema<WatcherQueryWatches1Request>,
-  output: __S(35874, __c1121, 2) as any as S.Schema<WatcherQueryWatches1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35936, __c1123, 0) as any as S.Schema<WatcherQueryWatches1Request>,
+  output: __S(35906, __c1122, 2) as any as S.Schema<WatcherQueryWatches1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58594,9 +59411,10 @@ export const watcherStats: API.OperationMethod<
   WatcherStatsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35936, __c1123, 0) as any as S.Schema<WatcherStatsRequest>,
-  output: __S(35975, __c1124, 7) as any as S.Schema<WatcherStatsResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(35968, __c1124, 0) as any as S.Schema<WatcherStatsRequest>,
+  output: __S(36007, __c1125, 7) as any as S.Schema<WatcherStatsResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58611,9 +59429,10 @@ export const watcherStats1: API.OperationMethod<
   WatcherStats1Error,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36000, __c1125, 0) as any as S.Schema<WatcherStats1Request>,
-  output: __S(35975, __c1124, 7) as any as S.Schema<WatcherStats1Response>,
-  errors: [UnknownElasticsearchError],
+  input: __S(36032, __c1126, 0) as any as S.Schema<WatcherStats1Request>,
+  output: __S(36007, __c1125, 7) as any as S.Schema<WatcherStats1Response>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58628,9 +59447,10 @@ export const watcherUpdateSettings: API.OperationMethod<
   WatcherUpdateSettingsError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36032, __c1126, 0) as any as S.Schema<WatcherUpdateSettingsRequest>,
+  input: __S(36064, __c1127, 0) as any as S.Schema<WatcherUpdateSettingsRequest>,
   output: __S(16064, __c502, 0) as any as S.Schema<WatcherUpdateSettingsResponse>,
-  errors: [UnknownElasticsearchError],
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58645,9 +59465,10 @@ export const watchWatcherAck: API.OperationMethod<
   WatchWatcherAckError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36064, __c1127, 0) as any as S.Schema<WatchWatcherAckRequest>,
-  output: __S(34976, __c1093, 0) as any as S.Schema<WatchWatcherAckResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(36096, __c1128, 0) as any as S.Schema<WatchWatcherAckRequest>,
+  output: __S(35008, __c1094, 0) as any as S.Schema<WatchWatcherAckResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58662,9 +59483,10 @@ export const xpackInfo: API.OperationMethod<
   XpackInfoError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36128, __c1129, 0) as any as S.Schema<XpackInfoRequest>,
-  output: __S(36133, __c1129, 5) as any as S.Schema<XpackInfoResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(36160, __c1130, 0) as any as S.Schema<XpackInfoRequest>,
+  output: __S(36165, __c1130, 5) as any as S.Schema<XpackInfoResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -58679,9 +59501,10 @@ export const xpackUsage: API.OperationMethod<
   XpackUsageError,
   ElasticsearchOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36160, __c1130, 0) as any as S.Schema<XpackUsageRequest>,
-  output: __S(36244, __c1132, 20) as any as S.Schema<XpackUsageResponse>,
-  errors: [UnknownElasticsearchError],
+  input: __S(36192, __c1131, 0) as any as S.Schema<XpackUsageRequest>,
+  output: __S(36276, __c1133, 20) as any as S.Schema<XpackUsageResponse>,
+  errors: [],
+  serviceErrors: ElasticsearchServiceErrors,
   protocol: ElasticsearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -61987,7 +62810,7 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "ClusterStatsIndexingPressure" });
     case 21:
-      return S.Record(S.String, __S(37248, __c1164, 0));
+      return S.Record(S.String, __S(37280, __c1165, 0));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -62783,16 +63606,16 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          advanced: S.optional(__S(36704, __c1147, 0)),
-          basic: S.optional(__S(36704, __c1147, 0)),
+          advanced: S.optional(__S(36736, __c1148, 0)),
+          basic: S.optional(__S(36736, __c1148, 0)),
         }),
       ).annotate({ identifier: "ConnectorTypesSyncRulesFeature" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          document_level_security: S.optional(__S(36704, __c1147, 0)),
-          incremental_sync: S.optional(__S(36704, __c1147, 0)),
-          native_connector_api_keys: S.optional(__S(36704, __c1147, 0)),
+          document_level_security: S.optional(__S(36736, __c1148, 0)),
+          incremental_sync: S.optional(__S(36736, __c1148, 0)),
+          native_connector_api_keys: S.optional(__S(36736, __c1148, 0)),
           sync_rules: S.optional(__S(1920, __c60, 0)),
         }),
       ).annotate({ identifier: "ConnectorTypesConnectorFeatures" });
@@ -63288,9 +64111,9 @@ function __c86(j: number): any {
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
           wait_for_active_shards: S.optional(S.Unknown.pipe(T.Query())),
-          aliases: S.optional(__S(35137, __c1098, 1)),
-          mappings: S.optional(__S(36897, __c1153, 1)),
-          settings: S.optional(__S(36806, __c1150, 6)),
+          aliases: S.optional(__S(35169, __c1099, 1)),
+          mappings: S.optional(__S(36929, __c1154, 1)),
+          settings: S.optional(__S(36838, __c1151, 6)),
         }).pipe(T.Http({ method: "PUT", uri: "/{index}", code: 200 })),
       ).annotate({ identifier: "CreateIndexRequest" });
     case 1:
@@ -64190,7 +65013,7 @@ function __c132(j: number): any {
 function __c133(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(37056, __c1158, 0));
+      return S.Array(__S(37088, __c1159, 0));
   }
 }
 function __c134(j: number): any {
@@ -65290,7 +66113,7 @@ function __c190(j: number): any {
           max_write_request_size: S.optional(S.Unknown),
           read_poll_timeout: S.optional(S.Unknown),
           remote_cluster: S.String,
-          settings: S.optional(__S(36806, __c1150, 6)),
+          settings: S.optional(__S(36838, __c1151, 6)),
         }).pipe(T.Http({ method: "PUT", uri: "/{index}/_ccr/follow", code: 200 })),
       ).annotate({ identifier: "FollowCcrRequest" });
     case 1:
@@ -65568,12 +66391,12 @@ function __c203(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          aliases: S.optional(__S(35137, __c1098, 1)),
-          mappings: S.optional(__S(36897, __c1153, 1)),
-          settings: S.optional(__S(36806, __c1150, 6)),
-          defaults: S.optional(__S(36806, __c1150, 6)),
+          aliases: S.optional(__S(35169, __c1099, 1)),
+          mappings: S.optional(__S(36929, __c1154, 1)),
+          settings: S.optional(__S(36838, __c1151, 6)),
+          defaults: S.optional(__S(36838, __c1151, 6)),
           data_stream: S.optional(S.String),
-          lifecycle: S.optional(__S(37408, __c1169, 0)),
+          lifecycle: S.optional(__S(37440, __c1170, 0)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexState" });
   }
@@ -65626,11 +66449,11 @@ function __c207(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          lifecycle: S.optional(__S(36545, __c1142, 1)),
-          aliases: S.optional(__S(35137, __c1098, 1)),
-          mappings: S.optional(__S(36897, __c1153, 1)),
-          settings: S.optional(__S(36806, __c1150, 6)),
-          data_stream_options: S.optional(__S(36608, __c1144, 0)),
+          lifecycle: S.optional(__S(36577, __c1143, 1)),
+          aliases: S.optional(__S(35169, __c1099, 1)),
+          mappings: S.optional(__S(36929, __c1154, 1)),
+          settings: S.optional(__S(36838, __c1151, 6)),
+          data_stream_options: S.optional(__S(36640, __c1145, 0)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexTemplateSummaryWithRollover" });
     case 1:
@@ -66530,7 +67353,7 @@ function __c240(j: number): any {
         S.Struct({
           description: S.String,
           id: S.String,
-          impact_areas: __S(36320, __c1135, 0),
+          impact_areas: __S(36352, __c1136, 0),
           severity: S.Number,
         }),
       ).annotate({ identifier: "GlobalHealthReportImpact" });
@@ -67292,7 +68115,7 @@ function __c259(j: number): any {
           positionLength: S.Number,
           start_offset: S.Number,
           termFrequency: S.Number,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
         }),
       ).annotate({ identifier: "IndicesAnalyzeExplainAnalyzeToken" });
@@ -67333,7 +68156,7 @@ function __c259(j: number): any {
           position: S.Number,
           positionLength: S.optional(S.Number),
           start_offset: S.Number,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
         }),
       ).annotate({ identifier: "IndicesAnalyzeAnalyzeToken" });
@@ -67459,7 +68282,7 @@ function __c266(j: number): any {
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
           wait_for_active_shards: S.optional(S.Unknown.pipe(T.Query())),
-          aliases: S.optional(__S(35137, __c1098, 1)),
+          aliases: S.optional(__S(35169, __c1099, 1)),
           settings: S.optional(__S(1056, __c33, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/{index}/_clone/{target}", code: 200 })),
       ).annotate({ identifier: "IndicesClone1Request" });
@@ -67550,8 +68373,8 @@ function __c270(j: number): any {
         S.Struct({
           source: S.String.pipe(T.Label()),
           dest: S.String.pipe(T.Label()),
-          mappings_override: S.optional(__S(36897, __c1153, 1)),
-          settings_override: S.optional(__S(36806, __c1150, 6)),
+          mappings_override: S.optional(__S(36929, __c1154, 1)),
+          settings_override: S.optional(__S(36838, __c1151, 6)),
           remove_index_blocks: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PUT", uri: "/_create_from/{source}/{dest}", code: 200 })),
       ).annotate({ identifier: "IndicesCreateFromRequest" });
@@ -67564,8 +68387,8 @@ function __c271(j: number): any {
         S.Struct({
           source: S.String.pipe(T.Label()),
           dest: S.String.pipe(T.Label()),
-          mappings_override: S.optional(__S(36897, __c1153, 1)),
-          settings_override: S.optional(__S(36806, __c1150, 6)),
+          mappings_override: S.optional(__S(36929, __c1154, 1)),
+          settings_override: S.optional(__S(36838, __c1151, 6)),
           remove_index_blocks: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/_create_from/{source}/{dest}", code: 200 })),
       ).annotate({ identifier: "IndicesCreateFrom1Request" });
@@ -67781,7 +68604,7 @@ function __c285(j: number): any {
           time_since_index_creation: S.optional(S.Unknown),
           rollover_date_millis: S.optional(S.Number),
           time_since_rollover: S.optional(S.Unknown),
-          lifecycle: S.optional(__S(36545, __c1142, 1)),
+          lifecycle: S.optional(__S(36577, __c1143, 1)),
           generation_time: S.optional(S.Unknown),
           error: S.optional(S.String),
           frozen_transition_status: S.optional(S.String),
@@ -67918,7 +68741,7 @@ function __c294(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          aliases: __S(36641, __c1145, 1),
+          aliases: __S(36673, __c1146, 1),
         }),
       ).annotate({ identifier: "IndicesGetAliasTypesIndexAliases" });
     case 1:
@@ -68006,7 +68829,7 @@ function __c299(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          lifecycle: S.optional(__S(36545, __c1142, 1)),
+          lifecycle: S.optional(__S(36577, __c1143, 1)),
         }),
       ).annotate({ identifier: "IndicesGetDataLifecycleDataStreamWithLifecycle" });
     case 2:
@@ -68102,12 +68925,12 @@ function __c302(j: number): any {
           next_generation_managed_by: S.String,
           prefer_ilm: S.Boolean,
           indices: __S(9665, __c302, 1),
-          lifecycle: S.optional(__S(36545, __c1142, 1)),
+          lifecycle: S.optional(__S(36577, __c1143, 1)),
           name: S.String,
           replicated: S.optional(S.Boolean),
           rollover_on_write: S.Boolean,
-          settings: __S(36806, __c1150, 6),
-          mappings: S.optional(__S(36897, __c1153, 1)),
+          settings: __S(36838, __c1151, 6),
+          mappings: S.optional(__S(36929, __c1154, 1)),
           status: S.String,
           system: S.optional(S.Boolean),
           template: S.String,
@@ -68162,8 +68985,8 @@ function __c305(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          mappings: __S(36897, __c1153, 1),
-          effective_mappings: __S(36897, __c1153, 1),
+          mappings: __S(36929, __c1154, 1),
+          effective_mappings: __S(36929, __c1154, 1),
         }),
       ).annotate({ identifier: "IndicesGetDataStreamMappingsDataStreamMappings" });
     case 2:
@@ -68190,7 +69013,7 @@ function __c306(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          options: S.optional(__S(36608, __c1144, 0)),
+          options: S.optional(__S(36640, __c1145, 0)),
         }),
       ).annotate({ identifier: "IndicesGetDataStreamOptionsDataStreamWithOptions" });
     case 2:
@@ -68216,8 +69039,8 @@ function __c307(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          settings: __S(36806, __c1150, 6),
-          effective_settings: __S(36806, __c1150, 6),
+          settings: __S(36838, __c1151, 6),
+          effective_settings: __S(36838, __c1151, 6),
         }),
       ).annotate({ identifier: "IndicesGetDataStreamSettingsDataStreamSettings" });
     case 2:
@@ -68284,7 +69107,7 @@ function __c311(j: number): any {
       return S.suspend(() =>
         S.Struct({
           full_name: S.String,
-          mapping: __S(36832, __c1151, 0),
+          mapping: __S(36864, __c1152, 0),
         }),
       ).annotate({ identifier: "TypesMappingFieldMapping" });
     case 1:
@@ -68337,8 +69160,8 @@ function __c314(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          item: S.optional(__S(36897, __c1153, 1)),
-          mappings: __S(36897, __c1153, 1),
+          item: S.optional(__S(36929, __c1154, 1)),
+          mappings: __S(36929, __c1154, 1),
         }),
       ).annotate({ identifier: "IndicesGetMappingIndexMappingRecord" });
     case 1:
@@ -68668,7 +69491,7 @@ function __c332(j: number): any {
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
           data_retention: S.optional(S.Unknown),
-          downsampling: S.optional(__S(36929, __c1154, 1)),
+          downsampling: S.optional(__S(36961, __c1155, 1)),
           downsampling_method: S.optional(S.String),
           enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PUT", uri: "/_data_stream/{name}/_lifecycle", code: 200 })),
@@ -68684,23 +69507,23 @@ function __c333(j: number): any {
           dry_run: S.optional(S.Boolean.pipe(T.Query())),
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
-          all_field: S.optional(__S(36896, __c1153, 0)),
+          all_field: S.optional(__S(36928, __c1154, 0)),
           date_detection: S.optional(S.Boolean),
           dynamic: S.optional(S.String),
           dynamic_date_formats: S.optional(__S(1088, __c34, 0)),
-          dynamic_templates: S.optional(__S(36866, __c1152, 2)),
-          _field_names: S.optional(__S(36704, __c1147, 0)),
-          index_field: S.optional(__S(36704, __c1147, 0)),
+          dynamic_templates: S.optional(__S(36898, __c1153, 2)),
+          _field_names: S.optional(__S(36736, __c1148, 0)),
+          index_field: S.optional(__S(36736, __c1148, 0)),
           _meta: S.optional(__S(1056, __c33, 0)),
           numeric_detection: S.optional(S.Boolean),
-          properties: S.optional(__S(36832, __c1151, 0)),
-          _routing: S.optional(__S(36867, __c1152, 3)),
-          _size: S.optional(__S(36704, __c1147, 0)),
-          _source: S.optional(__S(36868, __c1152, 4)),
+          properties: S.optional(__S(36864, __c1152, 0)),
+          _routing: S.optional(__S(36899, __c1153, 3)),
+          _size: S.optional(__S(36736, __c1148, 0)),
+          _source: S.optional(__S(36900, __c1153, 4)),
           runtime: S.optional(__S(1029, __c32, 5)),
           enabled: S.optional(S.Boolean),
           subobjects: S.optional(S.Boolean.pipe(T.StringEncoded())),
-          _data_stream_timestamp: S.optional(__S(36704, __c1147, 0)),
+          _data_stream_timestamp: S.optional(__S(36736, __c1148, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/_data_stream/{name}/_mappings", code: 200 })),
       ).annotate({ identifier: "IndicesPutDataStreamMappingsRequest" });
     case 1:
@@ -68709,8 +69532,8 @@ function __c333(j: number): any {
           name: S.String,
           applied_to_data_stream: S.Boolean,
           error: S.optional(S.String),
-          mappings: S.optional(__S(36897, __c1153, 1)),
-          effective_mappings: S.optional(__S(36897, __c1153, 1)),
+          mappings: S.optional(__S(36929, __c1154, 1)),
+          effective_mappings: S.optional(__S(36929, __c1154, 1)),
         }),
       ).annotate({ identifier: "IndicesPutDataStreamMappingsUpdatedDataStreamMappings" });
     case 2:
@@ -68749,7 +69572,7 @@ function __c335(j: number): any {
           expand_wildcards: S.optional(S.Unknown.pipe(T.Query())),
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
-          failure_store: S.optional(__S(36577, __c1143, 1)),
+          failure_store: S.optional(__S(36609, __c1144, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/_data_stream/{name}/_options", code: 200 })),
       ).annotate({ identifier: "IndicesPutDataStreamOptionsRequest" });
   }
@@ -68763,11 +69586,11 @@ function __c336(j: number): any {
           dry_run: S.optional(S.Boolean.pipe(T.Query())),
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
-          index: S.optional(__S(36806, __c1150, 6)),
+          index: S.optional(__S(36838, __c1151, 6)),
           mode: S.optional(S.String),
           routing_path: S.optional(S.Unknown),
-          soft_deletes: S.optional(__S(36769, __c1149, 1)),
-          sort: S.optional(__S(36770, __c1149, 2)),
+          soft_deletes: S.optional(__S(36801, __c1150, 1)),
+          sort: S.optional(__S(36802, __c1150, 2)),
           number_of_shards: S.optional(S.Unknown),
           number_of_replicas: S.optional(S.Unknown),
           number_of_routing_shards: S.optional(S.Number),
@@ -68777,8 +69600,8 @@ function __c336(j: number): any {
           load_fixed_bitset_filters_eagerly: S.optional(S.Boolean),
           hidden: S.optional(S.Unknown),
           auto_expand_replicas: S.optional(S.String),
-          merge: S.optional(__S(36772, __c1149, 4)),
-          search: S.optional(__S(36777, __c1149, 9)),
+          merge: S.optional(__S(36804, __c1150, 4)),
+          search: S.optional(__S(36809, __c1150, 9)),
           refresh_interval: S.optional(S.Unknown),
           max_result_window: S.optional(S.Unknown),
           max_inner_result_window: S.optional(S.Number),
@@ -68787,39 +69610,39 @@ function __c336(j: number): any {
           max_script_fields: S.optional(S.Number),
           max_ngram_diff: S.optional(S.Number),
           max_shingle_diff: S.optional(S.Number),
-          blocks: S.optional(__S(36778, __c1149, 10)),
+          blocks: S.optional(__S(36810, __c1150, 10)),
           max_refresh_listeners: S.optional(S.Number),
-          analyze: S.optional(__S(36779, __c1149, 11)),
-          highlight: S.optional(__S(36780, __c1149, 12)),
+          analyze: S.optional(__S(36811, __c1150, 11)),
+          highlight: S.optional(__S(36812, __c1150, 12)),
           max_terms_count: S.optional(S.Number),
           max_regex_length: S.optional(S.Number),
-          routing: S.optional(__S(36742, __c1148, 6)),
-          unassigned: S.optional(__S(36782, __c1149, 14)),
+          routing: S.optional(__S(36774, __c1149, 6)),
+          unassigned: S.optional(__S(36814, __c1150, 14)),
           gc_deletes: S.optional(S.Unknown),
           default_pipeline: S.optional(S.String),
           final_pipeline: S.optional(S.String),
-          lifecycle: S.optional(__S(36784, __c1149, 16)),
+          lifecycle: S.optional(__S(36816, __c1150, 16)),
           provided_name: S.optional(S.String),
           creation_date: S.optional(S.Unknown),
           creation_date_string: S.optional(S.Unknown),
           uuid: S.optional(S.String),
-          version: S.optional(__S(36785, __c1149, 17)),
+          version: S.optional(__S(36817, __c1150, 17)),
           verified_before_close: S.optional(S.Unknown),
           format: S.optional(S.Unknown),
           max_slices_per_scroll: S.optional(S.Number),
-          translog: S.optional(__S(36787, __c1149, 19)),
-          query_string: S.optional(__S(36788, __c1149, 20)),
+          translog: S.optional(__S(36819, __c1150, 19)),
+          query_string: S.optional(__S(36820, __c1150, 20)),
           priority: S.optional(S.Unknown),
           top_metrics_max_size: S.optional(S.Number),
-          analysis: S.optional(__S(36794, __c1149, 26)),
-          settings: S.optional(__S(36806, __c1150, 6)),
-          time_series: S.optional(__S(36795, __c1149, 27)),
-          queries: S.optional(__S(36796, __c1149, 28)),
-          similarity: S.optional(__S(36797, __c1149, 29)),
-          mapping: S.optional(__S(36801, __c1150, 1)),
-          indexing_slowlog: S.optional(__S(36803, __c1150, 3).pipe(T.Body("indexing.slowlog"))),
-          indexing_pressure: S.optional(__S(36804, __c1150, 4)),
-          store: S.optional(__S(36805, __c1150, 5)),
+          analysis: S.optional(__S(36826, __c1150, 26)),
+          settings: S.optional(__S(36838, __c1151, 6)),
+          time_series: S.optional(__S(36827, __c1150, 27)),
+          queries: S.optional(__S(36828, __c1150, 28)),
+          similarity: S.optional(__S(36829, __c1150, 29)),
+          mapping: S.optional(__S(36833, __c1151, 1)),
+          indexing_slowlog: S.optional(__S(36835, __c1151, 3).pipe(T.Body("indexing.slowlog"))),
+          indexing_pressure: S.optional(__S(36836, __c1151, 4)),
+          store: S.optional(__S(36837, __c1151, 5)),
         }).pipe(T.Http({ method: "PUT", uri: "/_data_stream/{name}/_settings", code: 200 })),
       ).annotate({ identifier: "IndicesPutDataStreamSettingsRequest" });
     case 1:
@@ -68845,8 +69668,8 @@ function __c336(j: number): any {
           name: S.String,
           applied_to_data_stream: S.Boolean,
           error: S.optional(S.String),
-          settings: __S(36806, __c1150, 6),
-          effective_settings: __S(36806, __c1150, 6),
+          settings: __S(36838, __c1151, 6),
+          effective_settings: __S(36838, __c1151, 6),
           index_settings_results: __S(10755, __c336, 3),
         }),
       ).annotate({ identifier: "IndicesPutDataStreamSettingsUpdatedDataStreamSettings" });
@@ -68875,13 +69698,13 @@ function __c337(j: number): any {
           date_detection: S.optional(S.Boolean),
           dynamic: S.optional(S.String),
           dynamic_date_formats: S.optional(__S(1088, __c34, 0)),
-          dynamic_templates: S.optional(__S(36866, __c1152, 2)),
-          _field_names: S.optional(__S(36704, __c1147, 0)),
+          dynamic_templates: S.optional(__S(36898, __c1153, 2)),
+          _field_names: S.optional(__S(36736, __c1148, 0)),
           _meta: S.optional(__S(1056, __c33, 0)),
           numeric_detection: S.optional(S.Boolean),
-          properties: S.optional(__S(36832, __c1151, 0)),
-          _routing: S.optional(__S(36867, __c1152, 3)),
-          _source: S.optional(__S(36868, __c1152, 4)),
+          properties: S.optional(__S(36864, __c1152, 0)),
+          _routing: S.optional(__S(36899, __c1153, 3)),
+          _source: S.optional(__S(36900, __c1153, 4)),
           runtime: S.optional(__S(1029, __c32, 5)),
         }).pipe(T.Http({ method: "PUT", uri: "/{index}/_mapping", code: 200 })),
       ).annotate({ identifier: "IndicesPutMappingRequest" });
@@ -68902,13 +69725,13 @@ function __c338(j: number): any {
           date_detection: S.optional(S.Boolean),
           dynamic: S.optional(S.String),
           dynamic_date_formats: S.optional(__S(1088, __c34, 0)),
-          dynamic_templates: S.optional(__S(36866, __c1152, 2)),
-          _field_names: S.optional(__S(36704, __c1147, 0)),
+          dynamic_templates: S.optional(__S(36898, __c1153, 2)),
+          _field_names: S.optional(__S(36736, __c1148, 0)),
           _meta: S.optional(__S(1056, __c33, 0)),
           numeric_detection: S.optional(S.Boolean),
-          properties: S.optional(__S(36832, __c1151, 0)),
-          _routing: S.optional(__S(36867, __c1152, 3)),
-          _source: S.optional(__S(36868, __c1152, 4)),
+          properties: S.optional(__S(36864, __c1152, 0)),
+          _routing: S.optional(__S(36899, __c1153, 3)),
+          _source: S.optional(__S(36900, __c1153, 4)),
           runtime: S.optional(__S(1029, __c32, 5)),
         }).pipe(T.Http({ method: "POST", uri: "/{index}/_mapping", code: 200 })),
       ).annotate({ identifier: "IndicesPutMapping1Request" });
@@ -68927,11 +69750,11 @@ function __c339(j: number): any {
           preserve_existing: S.optional(S.Boolean.pipe(T.Query())),
           reopen: S.optional(S.Boolean.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
-          index: S.optional(__S(36806, __c1150, 6)),
+          index: S.optional(__S(36838, __c1151, 6)),
           mode: S.optional(S.String),
           routing_path: S.optional(S.Unknown),
-          soft_deletes: S.optional(__S(36769, __c1149, 1)),
-          sort: S.optional(__S(36770, __c1149, 2)),
+          soft_deletes: S.optional(__S(36801, __c1150, 1)),
+          sort: S.optional(__S(36802, __c1150, 2)),
           number_of_shards: S.optional(S.Unknown),
           number_of_replicas: S.optional(S.Unknown),
           number_of_routing_shards: S.optional(S.Number),
@@ -68941,8 +69764,8 @@ function __c339(j: number): any {
           load_fixed_bitset_filters_eagerly: S.optional(S.Boolean),
           hidden: S.optional(S.Unknown),
           auto_expand_replicas: S.optional(S.String),
-          merge: S.optional(__S(36772, __c1149, 4)),
-          search: S.optional(__S(36777, __c1149, 9)),
+          merge: S.optional(__S(36804, __c1150, 4)),
+          search: S.optional(__S(36809, __c1150, 9)),
           refresh_interval: S.optional(S.Unknown),
           max_result_window: S.optional(S.Unknown),
           max_inner_result_window: S.optional(S.Number),
@@ -68951,39 +69774,39 @@ function __c339(j: number): any {
           max_script_fields: S.optional(S.Number),
           max_ngram_diff: S.optional(S.Number),
           max_shingle_diff: S.optional(S.Number),
-          blocks: S.optional(__S(36778, __c1149, 10)),
+          blocks: S.optional(__S(36810, __c1150, 10)),
           max_refresh_listeners: S.optional(S.Number),
-          analyze: S.optional(__S(36779, __c1149, 11)),
-          highlight: S.optional(__S(36780, __c1149, 12)),
+          analyze: S.optional(__S(36811, __c1150, 11)),
+          highlight: S.optional(__S(36812, __c1150, 12)),
           max_terms_count: S.optional(S.Number),
           max_regex_length: S.optional(S.Number),
-          routing: S.optional(__S(36742, __c1148, 6)),
-          unassigned: S.optional(__S(36782, __c1149, 14)),
+          routing: S.optional(__S(36774, __c1149, 6)),
+          unassigned: S.optional(__S(36814, __c1150, 14)),
           gc_deletes: S.optional(S.Unknown),
           default_pipeline: S.optional(S.String),
           final_pipeline: S.optional(S.String),
-          lifecycle: S.optional(__S(36784, __c1149, 16)),
+          lifecycle: S.optional(__S(36816, __c1150, 16)),
           provided_name: S.optional(S.String),
           creation_date: S.optional(S.Unknown),
           creation_date_string: S.optional(S.Unknown),
           uuid: S.optional(S.String),
-          version: S.optional(__S(36785, __c1149, 17)),
+          version: S.optional(__S(36817, __c1150, 17)),
           verified_before_close: S.optional(S.Unknown),
           format: S.optional(S.Unknown),
           max_slices_per_scroll: S.optional(S.Number),
-          translog: S.optional(__S(36787, __c1149, 19)),
-          query_string: S.optional(__S(36788, __c1149, 20)),
+          translog: S.optional(__S(36819, __c1150, 19)),
+          query_string: S.optional(__S(36820, __c1150, 20)),
           priority: S.optional(S.Unknown),
           top_metrics_max_size: S.optional(S.Number),
-          analysis: S.optional(__S(36794, __c1149, 26)),
-          settings: S.optional(__S(36806, __c1150, 6)),
-          time_series: S.optional(__S(36795, __c1149, 27)),
-          queries: S.optional(__S(36796, __c1149, 28)),
-          similarity: S.optional(__S(36797, __c1149, 29)),
-          mapping: S.optional(__S(36801, __c1150, 1)),
-          indexing_slowlog: S.optional(__S(36803, __c1150, 3).pipe(T.Body("indexing.slowlog"))),
-          indexing_pressure: S.optional(__S(36804, __c1150, 4)),
-          store: S.optional(__S(36805, __c1150, 5)),
+          analysis: S.optional(__S(36826, __c1150, 26)),
+          settings: S.optional(__S(36838, __c1151, 6)),
+          time_series: S.optional(__S(36827, __c1150, 27)),
+          queries: S.optional(__S(36828, __c1150, 28)),
+          similarity: S.optional(__S(36829, __c1150, 29)),
+          mapping: S.optional(__S(36833, __c1151, 1)),
+          indexing_slowlog: S.optional(__S(36835, __c1151, 3).pipe(T.Body("indexing.slowlog"))),
+          indexing_pressure: S.optional(__S(36836, __c1151, 4)),
+          store: S.optional(__S(36837, __c1151, 5)),
         }).pipe(T.Http({ method: "PUT", uri: "/_settings", code: 200 })),
       ).annotate({ identifier: "IndicesPutSettingsRequest" });
   }
@@ -69004,8 +69827,8 @@ function __c340(j: number): any {
           timeout: S.optional(S.Unknown.pipe(T.Query())),
           mode: S.optional(S.String),
           routing_path: S.optional(S.Unknown),
-          soft_deletes: S.optional(__S(36769, __c1149, 1)),
-          sort: S.optional(__S(36770, __c1149, 2)),
+          soft_deletes: S.optional(__S(36801, __c1150, 1)),
+          sort: S.optional(__S(36802, __c1150, 2)),
           number_of_shards: S.optional(S.Unknown),
           number_of_replicas: S.optional(S.Unknown),
           number_of_routing_shards: S.optional(S.Number),
@@ -69015,8 +69838,8 @@ function __c340(j: number): any {
           load_fixed_bitset_filters_eagerly: S.optional(S.Boolean),
           hidden: S.optional(S.Unknown),
           auto_expand_replicas: S.optional(S.String),
-          merge: S.optional(__S(36772, __c1149, 4)),
-          search: S.optional(__S(36777, __c1149, 9)),
+          merge: S.optional(__S(36804, __c1150, 4)),
+          search: S.optional(__S(36809, __c1150, 9)),
           refresh_interval: S.optional(S.Unknown),
           max_result_window: S.optional(S.Unknown),
           max_inner_result_window: S.optional(S.Number),
@@ -69025,39 +69848,39 @@ function __c340(j: number): any {
           max_script_fields: S.optional(S.Number),
           max_ngram_diff: S.optional(S.Number),
           max_shingle_diff: S.optional(S.Number),
-          blocks: S.optional(__S(36778, __c1149, 10)),
+          blocks: S.optional(__S(36810, __c1150, 10)),
           max_refresh_listeners: S.optional(S.Number),
-          analyze: S.optional(__S(36779, __c1149, 11)),
-          highlight: S.optional(__S(36780, __c1149, 12)),
+          analyze: S.optional(__S(36811, __c1150, 11)),
+          highlight: S.optional(__S(36812, __c1150, 12)),
           max_terms_count: S.optional(S.Number),
           max_regex_length: S.optional(S.Number),
-          routing: S.optional(__S(36742, __c1148, 6)),
-          unassigned: S.optional(__S(36782, __c1149, 14)),
+          routing: S.optional(__S(36774, __c1149, 6)),
+          unassigned: S.optional(__S(36814, __c1150, 14)),
           gc_deletes: S.optional(S.Unknown),
           default_pipeline: S.optional(S.String),
           final_pipeline: S.optional(S.String),
-          lifecycle: S.optional(__S(36784, __c1149, 16)),
+          lifecycle: S.optional(__S(36816, __c1150, 16)),
           provided_name: S.optional(S.String),
           creation_date: S.optional(S.Unknown),
           creation_date_string: S.optional(S.Unknown),
           uuid: S.optional(S.String),
-          version: S.optional(__S(36785, __c1149, 17)),
+          version: S.optional(__S(36817, __c1150, 17)),
           verified_before_close: S.optional(S.Unknown),
           format: S.optional(S.Unknown),
           max_slices_per_scroll: S.optional(S.Number),
-          translog: S.optional(__S(36787, __c1149, 19)),
-          query_string: S.optional(__S(36788, __c1149, 20)),
+          translog: S.optional(__S(36819, __c1150, 19)),
+          query_string: S.optional(__S(36820, __c1150, 20)),
           priority: S.optional(S.Unknown),
           top_metrics_max_size: S.optional(S.Number),
-          analysis: S.optional(__S(36794, __c1149, 26)),
-          settings: S.optional(__S(36806, __c1150, 6)),
-          time_series: S.optional(__S(36795, __c1149, 27)),
-          queries: S.optional(__S(36796, __c1149, 28)),
-          similarity: S.optional(__S(36797, __c1149, 29)),
-          mapping: S.optional(__S(36801, __c1150, 1)),
-          indexing_slowlog: S.optional(__S(36803, __c1150, 3).pipe(T.Body("indexing.slowlog"))),
-          indexing_pressure: S.optional(__S(36804, __c1150, 4)),
-          store: S.optional(__S(36805, __c1150, 5)),
+          analysis: S.optional(__S(36826, __c1150, 26)),
+          settings: S.optional(__S(36838, __c1151, 6)),
+          time_series: S.optional(__S(36827, __c1150, 27)),
+          queries: S.optional(__S(36828, __c1150, 28)),
+          similarity: S.optional(__S(36829, __c1150, 29)),
+          mapping: S.optional(__S(36833, __c1151, 1)),
+          indexing_slowlog: S.optional(__S(36835, __c1151, 3).pipe(T.Body("indexing.slowlog"))),
+          indexing_pressure: S.optional(__S(36836, __c1151, 4)),
+          store: S.optional(__S(36837, __c1151, 5)),
         }).pipe(T.Http({ method: "PUT", uri: "/{index}/_settings", code: 200 })),
       ).annotate({ identifier: "IndicesPutSettings1Request" });
   }
@@ -69563,9 +70386,9 @@ function __c361(j: number): any {
           timeout: S.optional(S.Unknown.pipe(T.Query())),
           wait_for_active_shards: S.optional(S.Unknown.pipe(T.Query())),
           lazy: S.optional(S.Boolean.pipe(T.Query())),
-          aliases: S.optional(__S(35137, __c1098, 1)),
+          aliases: S.optional(__S(35169, __c1099, 1)),
           conditions: S.optional(__S(11584, __c362, 0)),
-          mappings: S.optional(__S(36897, __c1153, 1)),
+          mappings: S.optional(__S(36929, __c1154, 1)),
           settings: S.optional(__S(1056, __c33, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/{alias}/_rollover", code: 200 })),
       ).annotate({ identifier: "IndicesRolloverRequest" });
@@ -69625,9 +70448,9 @@ function __c364(j: number): any {
           timeout: S.optional(S.Unknown.pipe(T.Query())),
           wait_for_active_shards: S.optional(S.Unknown.pipe(T.Query())),
           lazy: S.optional(S.Boolean.pipe(T.Query())),
-          aliases: S.optional(__S(35137, __c1098, 1)),
+          aliases: S.optional(__S(35169, __c1099, 1)),
           conditions: S.optional(__S(11584, __c362, 0)),
-          mappings: S.optional(__S(36897, __c1153, 1)),
+          mappings: S.optional(__S(36929, __c1154, 1)),
           settings: S.optional(__S(1056, __c33, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/{alias}/_rollover/{new_index}", code: 200 })),
       ).annotate({ identifier: "IndicesRollover1Request" });
@@ -69801,7 +70624,7 @@ function __c373(j: number): any {
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
           wait_for_active_shards: S.optional(S.Unknown.pipe(T.Query())),
-          aliases: S.optional(__S(35137, __c1098, 1)),
+          aliases: S.optional(__S(35169, __c1099, 1)),
           settings: S.optional(__S(1056, __c33, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/{index}/_shrink/{target}", code: 200 })),
       ).annotate({ identifier: "IndicesShrinkRequest" });
@@ -69829,7 +70652,7 @@ function __c375(j: number): any {
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
           wait_for_active_shards: S.optional(S.Unknown.pipe(T.Query())),
-          aliases: S.optional(__S(35137, __c1098, 1)),
+          aliases: S.optional(__S(35169, __c1099, 1)),
           settings: S.optional(__S(1056, __c33, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/{index}/_shrink/{target}", code: 200 })),
       ).annotate({ identifier: "IndicesShrink1Request" });
@@ -69879,9 +70702,9 @@ function __c377(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          aliases: __S(35137, __c1098, 1),
-          mappings: __S(36897, __c1153, 1),
-          settings: __S(36806, __c1150, 6),
+          aliases: __S(35169, __c1099, 1),
+          mappings: __S(36929, __c1154, 1),
+          settings: __S(36838, __c1151, 6),
         }),
       ).annotate({ identifier: "IndicesSimulateTemplateTemplate" });
     case 3:
@@ -69898,11 +70721,11 @@ function __c378(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          aliases: S.optional(__S(35137, __c1098, 1)),
-          mappings: S.optional(__S(36897, __c1153, 1)),
-          settings: S.optional(__S(36806, __c1150, 6)),
-          lifecycle: S.optional(__S(37408, __c1169, 0)),
-          data_stream_options: S.optional(__S(36608, __c1144, 0)),
+          aliases: S.optional(__S(35169, __c1099, 1)),
+          mappings: S.optional(__S(36929, __c1154, 1)),
+          settings: S.optional(__S(36838, __c1151, 6)),
+          lifecycle: S.optional(__S(37440, __c1170, 0)),
+          data_stream_options: S.optional(__S(36640, __c1145, 0)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexTemplateSummary" });
   }
@@ -69919,7 +70742,7 @@ function __c379(j: number): any {
           allow_auto_create: S.optional(S.Boolean),
           index_patterns: S.optional(S.Unknown),
           composed_of: S.optional(__S(1088, __c34, 0)),
-          template: S.optional(__S(37440, __c1170, 0)),
+          template: S.optional(__S(37472, __c1171, 0)),
           data_stream: S.optional(__S(12160, __c380, 0)),
           priority: S.optional(S.Number),
           version: S.optional(S.Number),
@@ -69955,7 +70778,7 @@ function __c381(j: number): any {
           allow_auto_create: S.optional(S.Boolean),
           index_patterns: S.optional(S.Unknown),
           composed_of: S.optional(__S(1088, __c34, 0)),
-          template: S.optional(__S(37440, __c1170, 0)),
+          template: S.optional(__S(37472, __c1171, 0)),
           data_stream: S.optional(__S(12160, __c380, 0)),
           priority: S.optional(S.Number),
           version: S.optional(S.Number),
@@ -69976,7 +70799,7 @@ function __c382(j: number): any {
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
           wait_for_active_shards: S.optional(S.Unknown.pipe(T.Query())),
-          aliases: S.optional(__S(35137, __c1098, 1)),
+          aliases: S.optional(__S(35169, __c1099, 1)),
           settings: S.optional(__S(1056, __c33, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/{index}/_split/{target}", code: 200 })),
       ).annotate({ identifier: "IndicesSplitRequest" });
@@ -70009,7 +70832,7 @@ function __c384(j: number): any {
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
           wait_for_active_shards: S.optional(S.Unknown.pipe(T.Query())),
-          aliases: S.optional(__S(35137, __c1098, 1)),
+          aliases: S.optional(__S(35169, __c1099, 1)),
           settings: S.optional(__S(1056, __c33, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/{index}/_split/{target}", code: 200 })),
       ).annotate({ identifier: "IndicesSplit1Request" });
@@ -73459,7 +74282,7 @@ function __c480(j: number): any {
           ignore_missing: S.optional(S.Boolean),
           regex_file: S.optional(S.String),
           target_field: S.optional(S.String),
-          properties: S.optional(__S(36320, __c1135, 0)),
+          properties: S.optional(__S(36352, __c1136, 0)),
           extract_device_type: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IngestTypesUserAgentProcessor" });
@@ -74271,7 +75094,7 @@ function __c517(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/_security/oidc/logout", code: 200 })),
       ).annotate({ identifier: "LogoutSecurityOidcRequest" });
@@ -74292,7 +75115,7 @@ function __c519(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/_security/saml/logout", code: 200 })),
       ).annotate({ identifier: "LogoutSecuritySamlRequest" });
@@ -75132,7 +75955,7 @@ function __c562(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(36320, __c1135, 0)),
+          actions: S.optional(__S(36352, __c1136, 0)),
           conditions: S.optional(__S(17985, __c562, 1)),
           scope: S.optional(__S(17987, __c562, 3)),
         }),
@@ -77597,7 +78420,7 @@ function __c645(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          mask_token: S.optional(S.String),
+          mask_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           num_top_classes: S.optional(S.Number),
           tokenization: S.optional(__S(20642, __c645, 2)),
           results_field: S.optional(S.String),
@@ -80018,7 +80841,7 @@ function __c729(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          routing: S.optional(__S(36742, __c1148, 6)),
+          routing: S.optional(__S(36774, __c1149, 6)),
           election: __S(23335, __c729, 7),
           initial_master_nodes: S.optional(S.Unknown),
           deprecation_indexing: S.optional(__S(23336, __c729, 8)),
@@ -80323,7 +81146,7 @@ function __c730(j: number): any {
           os: S.optional(__S(23333, __c729, 5)),
           plugins: S.optional(__S(1377, __c43, 1)),
           process: S.optional(__S(23334, __c729, 6)),
-          roles: __S(36320, __c1135, 0),
+          roles: __S(36352, __c1136, 0),
           settings: S.optional(__S(23365, __c730, 5)),
           thread_pool: S.optional(__S(23367, __c730, 7)),
           total_indexing_buffer: S.optional(S.Number),
@@ -80393,7 +81216,7 @@ function __c734(j: number): any {
       return S.suspend(() =>
         S.Struct({
           timeout: S.optional(S.Unknown.pipe(T.Query())),
-          secure_settings_password: S.optional(S.String),
+          secure_settings_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/_nodes/reload_secure_settings", code: 200 })),
       ).annotate({ identifier: "NodesReloadSecureSettingsRequest" });
   }
@@ -80545,7 +81368,7 @@ function __c738(j: number): any {
         S.Struct({
           node_id: S.String.pipe(T.Label()),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
-          secure_settings_password: S.optional(S.String),
+          secure_settings_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({ method: "POST", uri: "/_nodes/{node_id}/reload_secure_settings", code: 200 }),
         ),
@@ -80908,7 +81731,7 @@ function __c741(j: number): any {
           count: S.Number,
           total_size: S.optional(S.Unknown),
           total_size_in_bytes: S.Number,
-          histogram: __S(37283, __c1165, 3),
+          histogram: __S(37315, __c1166, 3),
         }),
       ).annotate({ identifier: "NodesTypesTransportActionMessageStats" });
     case 5:
@@ -81053,17 +81876,17 @@ function __c741(j: number): any {
           breakers: S.optional(__S(23684, __c740, 4)),
           fs: S.optional(__S(23691, __c740, 11)),
           host: S.optional(S.String),
-          http: S.optional(__S(37290, __c1165, 10)),
-          ingest: S.optional(__S(37297, __c1165, 17)),
+          http: S.optional(__S(37322, __c1166, 10)),
+          ingest: S.optional(__S(37329, __c1166, 17)),
           ip: S.optional(S.Unknown),
           jvm: S.optional(__S(23702, __c740, 22)),
           name: S.optional(S.String),
           os: S.optional(__S(23711, __c740, 31)),
           process: S.optional(__S(23712, __c741, 0)),
-          roles: S.optional(__S(36320, __c1135, 0)),
-          script: S.optional(__S(37302, __c1165, 22)),
+          roles: S.optional(__S(36352, __c1136, 0)),
+          script: S.optional(__S(37334, __c1166, 22)),
           script_cache: S.optional(__S(23713, __c741, 1)),
-          thread_pool: S.optional(__S(37299, __c1165, 19)),
+          thread_pool: S.optional(__S(37331, __c1166, 19)),
           timestamp: S.optional(S.Number),
           transport: S.optional(__S(23719, __c741, 7)),
           transport_address: S.optional(S.String),
@@ -81376,7 +82199,7 @@ function __c758(j: number): any {
           cause: S.optional(S.String.pipe(T.Query())),
           index_patterns: S.optional(S.Unknown),
           composed_of: S.optional(__S(1088, __c34, 0)),
-          template: S.optional(__S(37440, __c1170, 0)),
+          template: S.optional(__S(37472, __c1171, 0)),
           data_stream: S.optional(__S(12160, __c380, 0)),
           priority: S.optional(S.Number),
           version: S.optional(S.Number),
@@ -81399,7 +82222,7 @@ function __c759(j: number): any {
           cause: S.optional(S.String.pipe(T.Query())),
           index_patterns: S.optional(S.Unknown),
           composed_of: S.optional(__S(1088, __c34, 0)),
-          template: S.optional(__S(37440, __c1170, 0)),
+          template: S.optional(__S(37472, __c1171, 0)),
           data_stream: S.optional(__S(12160, __c380, 0)),
           priority: S.optional(S.Number),
           version: S.optional(S.Number),
@@ -82037,7 +82860,7 @@ function __c789(j: number): any {
           headers: S.optional(__S(160, __c5, 0)),
           host: S.String,
           username: S.optional(S.String),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           socket_timeout: S.optional(S.Unknown),
         }),
@@ -82162,7 +82985,7 @@ function __c791(j: number): any {
           host: S.String,
           ip: S.String,
           name: S.String,
-          roles: S.optional(__S(36320, __c1135, 0)),
+          roles: S.optional(__S(36352, __c1136, 0)),
           transport_address: S.String,
           tasks: __S(25315, __c791, 3),
         }),
@@ -82290,7 +83113,7 @@ function __c800(j: number): any {
           ignore_unavailable: S.optional(S.Boolean),
           include_aliases: S.optional(S.Boolean),
           include_global_state: S.optional(S.Boolean),
-          index_settings: S.optional(__S(36806, __c1150, 6)),
+          index_settings: S.optional(__S(36838, __c1151, 6)),
           indices: S.optional(S.Unknown),
           partial: S.optional(S.Boolean),
           rename_pattern: S.optional(S.String),
@@ -83277,7 +84100,7 @@ function __c839(j: number): any {
           transport_address: S.String,
           external_id: S.String,
           attributes: __S(160, __c5, 0),
-          roles: __S(36320, __c1135, 0),
+          roles: __S(36352, __c1136, 0),
           version: S.String,
           min_index_version: S.Number,
           max_index_version: S.Number,
@@ -83301,7 +84124,7 @@ function __c839(j: number): any {
           index: S.String,
           allocation_id: S.optional(__S(160, __c5, 0)),
           recovery_source: S.optional(__S(160, __c5, 0)),
-          unassigned_info: S.optional(__S(36352, __c1136, 0)),
+          unassigned_info: S.optional(__S(36384, __c1137, 0)),
           relocating_node: S.optional(S.String),
           relocation_failure_info: S.optional(__S(26850, __c839, 2)),
         }),
@@ -83644,7 +84467,7 @@ function __c857(j: number): any {
       return S.suspend(() =>
         S.Struct({
           clusters: S.Unknown,
-          privileges: __S(36320, __c1135, 0),
+          privileges: __S(36352, __c1136, 0),
         }),
       ).annotate({ identifier: "SecurityTypesRemoteClusterPrivileges" });
     case 1:
@@ -83809,7 +84632,7 @@ function __c864(j: number): any {
         S.Struct({
           username: S.String.pipe(T.Label()),
           refresh: S.optional(S.String.pipe(T.Query())),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           password_hash: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "PUT", uri: "/_security/user/{username}/_password", code: 200 })),
       ).annotate({ identifier: "SecurityChangePasswordRequest" });
@@ -83889,7 +84712,7 @@ function __c867(j: number): any {
         S.Struct({
           username: S.String.pipe(T.Label()),
           refresh: S.optional(S.String.pipe(T.Query())),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           password_hash: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/_security/user/{username}/_password", code: 200 })),
       ).annotate({ identifier: "SecurityChangePassword1Request" });
@@ -83901,7 +84724,7 @@ function __c868(j: number): any {
       return S.suspend(() =>
         S.Struct({
           refresh: S.optional(S.String.pipe(T.Query())),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           password_hash: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "PUT", uri: "/_security/user/_password", code: 200 })),
       ).annotate({ identifier: "SecurityChangePassword2Request" });
@@ -83913,7 +84736,7 @@ function __c869(j: number): any {
       return S.suspend(() =>
         S.Struct({
           refresh: S.optional(S.String.pipe(T.Query())),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           password_hash: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/_security/user/_password", code: 200 })),
       ).annotate({ identifier: "SecurityChangePassword3Request" });
@@ -84029,7 +84852,7 @@ function __c878(j: number): any {
           expiration: S.optional(S.Number),
           id: S.String,
           name: S.String,
-          encoded: S.String,
+          encoded: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "SecurityCloneApiKeyResponse" });
   }
@@ -84053,6 +84876,20 @@ function __c880(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          api_key: S.String.pipe(T.SensitiveValue({})),
+          expiration: S.optional(S.Number),
+          id: S.String,
+          name: S.String,
+          encoded: S.String,
+        }),
+      ).annotate({ identifier: "SecurityCloneApiKey1Response" });
+  }
+}
+function __c881(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           transform_id: S.String.pipe(T.Label()),
           allow_no_match: S.optional(S.Boolean.pipe(T.Query())),
           from: S.optional(S.Number.pipe(T.Query())),
@@ -84068,7 +84905,7 @@ function __c880(j: number): any {
       ).annotate({ identifier: "CatTransforms1Request" });
   }
 }
-function __c881(j: number): any {
+function __c882(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84082,7 +84919,7 @@ function __c881(j: number): any {
       ).annotate({ identifier: "SecurityCreateApiKeyRequest" });
   }
 }
-function __c882(j: number): any {
+function __c883(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84096,12 +84933,12 @@ function __c882(j: number): any {
       ).annotate({ identifier: "SecurityCreateApiKey1Request" });
   }
 }
-function __c883(j: number): any {
+function __c884(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          access: __S(28292, __c884, 4),
+          access: __S(28324, __c885, 4),
           expiration: S.optional(S.Unknown),
           metadata: S.optional(__S(1056, __c33, 0)),
           name: S.String,
@@ -84110,7 +84947,7 @@ function __c883(j: number): any {
       ).annotate({ identifier: "SecurityCreateCrossClusterApiKeyRequest" });
   }
 }
-function __c884(j: number): any {
+function __c885(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84120,7 +84957,7 @@ function __c884(j: number): any {
         }),
       ).annotate({ identifier: "SecurityTypesReplicationAccess" });
     case 1:
-      return S.Array(__S(28288, __c884, 0));
+      return S.Array(__S(28320, __c885, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -84131,17 +84968,17 @@ function __c884(j: number): any {
         }),
       ).annotate({ identifier: "SecurityTypesSearchAccess" });
     case 3:
-      return S.Array(__S(28290, __c884, 2));
+      return S.Array(__S(28322, __c885, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          replication: S.optional(__S(28289, __c884, 1)),
-          search: S.optional(__S(28291, __c884, 3)),
+          replication: S.optional(__S(28321, __c885, 1)),
+          search: S.optional(__S(28323, __c885, 3)),
         }),
       ).annotate({ identifier: "SecurityTypesAccess" });
   }
 }
-function __c885(j: number): any {
+function __c886(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84160,29 +84997,29 @@ function __c885(j: number): any {
       ).annotate({ identifier: "SecurityCreateServiceTokenRequest" });
   }
 }
-function __c886(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.Boolean,
-          token: __S(28384, __c887, 0),
-        }),
-      ).annotate({ identifier: "SecurityCreateServiceTokenResponse" });
-  }
-}
 function __c887(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          created: S.Boolean,
+          token: __S(28416, __c888, 0),
+        }),
+      ).annotate({ identifier: "SecurityCreateServiceTokenResponse" });
+  }
+}
+function __c888(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "SecurityCreateServiceTokenToken" });
   }
 }
-function __c888(j: number): any {
+function __c889(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84201,7 +85038,7 @@ function __c888(j: number): any {
       ).annotate({ identifier: "SecurityCreateServiceToken1Request" });
   }
 }
-function __c889(j: number): any {
+function __c890(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84219,7 +85056,7 @@ function __c889(j: number): any {
       ).annotate({ identifier: "SecurityCreateServiceToken2Request" });
   }
 }
-function __c890(j: number): any {
+function __c891(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84228,6 +85065,8 @@ function __c890(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/_security/delegate_pki", code: 200 })),
       ).annotate({ identifier: "SecurityDelegatePkiRequest" });
     case 1:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -84235,34 +85074,34 @@ function __c890(j: number): any {
           domain: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecurityDelegatePkiAuthenticationRealm" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           username: S.String,
           roles: __S(1088, __c34, 0),
           full_name: S.String,
           email: S.String,
-          token: S.optional(__S(160, __c5, 0)),
+          token: S.optional(__S(28513, __c891, 1)),
           metadata: __S(1056, __c33, 0),
           enabled: S.Boolean,
-          authentication_realm: __S(28481, __c890, 1),
-          lookup_realm: __S(28481, __c890, 1),
+          authentication_realm: __S(28514, __c891, 2),
+          lookup_realm: __S(28514, __c891, 2),
           authentication_type: S.String,
-          api_key: S.optional(__S(160, __c5, 0)),
+          api_key: S.optional(__S(28513, __c891, 1)),
         }),
       ).annotate({ identifier: "SecurityDelegatePkiAuthentication" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           access_token: S.String.pipe(T.SensitiveValue({})),
           expires_in: S.Number,
           type: S.String,
-          authentication: S.optional(__S(28482, __c890, 2)),
+          authentication: S.optional(__S(28515, __c891, 3)),
         }),
       ).annotate({ identifier: "SecurityDelegatePkiResponse" });
   }
 }
-function __c891(j: number): any {
+function __c892(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84275,16 +85114,16 @@ function __c891(j: number): any {
         ),
       ).annotate({ identifier: "SecurityDeletePrivilegesRequest" });
     case 1:
-      return S.Record(S.String, __S(28544, __c892, 0));
+      return S.Record(S.String, __S(28576, __c893, 0));
     case 2:
-      return S.Record(S.String, __S(28513, __c891, 1));
+      return S.Record(S.String, __S(28545, __c892, 1));
     case 3:
-      return S.suspend(() => __S(28514, __c891, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(28546, __c892, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SecurityDeletePrivilegesResponse",
       });
   }
 }
-function __c892(j: number): any {
+function __c893(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84294,7 +85133,7 @@ function __c892(j: number): any {
       ).annotate({ identifier: "SecurityDeletePrivilegesFoundStatus" });
   }
 }
-function __c893(j: number): any {
+function __c894(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84305,7 +85144,7 @@ function __c893(j: number): any {
       ).annotate({ identifier: "SecurityDeleteRoleRequest" });
   }
 }
-function __c894(j: number): any {
+function __c895(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84316,7 +85155,7 @@ function __c894(j: number): any {
       ).annotate({ identifier: "SecurityDeleteRoleMappingRequest" });
   }
 }
-function __c895(j: number): any {
+function __c896(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84327,7 +85166,7 @@ function __c895(j: number): any {
       ).annotate({ identifier: "CcrDeleteAutoFollowPatternRequest" });
   }
 }
-function __c896(j: number): any {
+function __c897(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84346,7 +85185,7 @@ function __c896(j: number): any {
       ).annotate({ identifier: "SecurityDeleteServiceTokenRequest" });
   }
 }
-function __c897(j: number): any {
+function __c898(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84357,7 +85196,7 @@ function __c897(j: number): any {
       ).annotate({ identifier: "SecurityDeleteUserRequest" });
   }
 }
-function __c898(j: number): any {
+function __c899(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84372,7 +85211,7 @@ function __c898(j: number): any {
       ).annotate({ identifier: "SecurityDeleteUserManagedServiceAccountRequest" });
   }
 }
-function __c899(j: number): any {
+function __c900(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84383,7 +85222,7 @@ function __c899(j: number): any {
       ).annotate({ identifier: "SecurityDisableUserRequest" });
   }
 }
-function __c900(j: number): any {
+function __c901(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84394,7 +85233,7 @@ function __c900(j: number): any {
       ).annotate({ identifier: "SecurityDisableUser1Request" });
   }
 }
-function __c901(j: number): any {
+function __c902(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84405,7 +85244,7 @@ function __c901(j: number): any {
       ).annotate({ identifier: "SecurityDisableUserProfileRequest" });
   }
 }
-function __c902(j: number): any {
+function __c903(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84416,7 +85255,7 @@ function __c902(j: number): any {
       ).annotate({ identifier: "SecurityDisableUserProfile1Request" });
   }
 }
-function __c903(j: number): any {
+function __c904(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84427,7 +85266,7 @@ function __c903(j: number): any {
       ).annotate({ identifier: "SecurityEnableUserRequest" });
   }
 }
-function __c904(j: number): any {
+function __c905(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84438,7 +85277,7 @@ function __c904(j: number): any {
       ).annotate({ identifier: "SecurityEnableUser1Request" });
   }
 }
-function __c905(j: number): any {
+function __c906(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84449,7 +85288,7 @@ function __c905(j: number): any {
       ).annotate({ identifier: "SecurityEnableUserProfileRequest" });
   }
 }
-function __c906(j: number): any {
+function __c907(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84478,22 +85317,22 @@ function __c906(j: number): any {
         S.Struct({
           follower_index: S.String,
           leader_index: S.String,
-          parameters: S.optional(__S(28993, __c906, 1)),
+          parameters: S.optional(__S(29025, __c907, 1)),
           remote_cluster: S.String,
           status: S.String,
         }),
       ).annotate({ identifier: "CcrFollowInfoFollowerIndex" });
     case 3:
-      return S.Array(__S(28994, __c906, 2));
+      return S.Array(__S(29026, __c907, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          follower_indices: __S(28995, __c906, 3),
+          follower_indices: __S(29027, __c907, 3),
         }),
       ).annotate({ identifier: "CcrFollowInfoResponse" });
   }
 }
-function __c907(j: number): any {
+function __c908(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84504,7 +85343,7 @@ function __c907(j: number): any {
       ).annotate({ identifier: "SecurityEnableUserProfile1Request" });
   }
 }
-function __c908(j: number): any {
+function __c909(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84513,13 +85352,13 @@ function __c908(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: __S(28384, __c887, 0),
+          token: __S(28416, __c888, 0),
           http_ca: S.String,
         }),
       ).annotate({ identifier: "SecurityEnrollKibanaResponse" });
   }
 }
-function __c909(j: number): any {
+function __c910(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84538,7 +85377,7 @@ function __c909(j: number): any {
       ).annotate({ identifier: "SecurityEnrollNodeResponse" });
   }
 }
-function __c910(j: number): any {
+function __c911(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84556,12 +85395,12 @@ function __c910(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          api_keys: __S(29154, __c911, 2),
+          api_keys: __S(29186, __c912, 2),
         }),
       ).annotate({ identifier: "SecurityGetApiKeyResponse" });
   }
 }
-function __c911(j: number): any {
+function __c912(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(27585, __c862, 1));
@@ -84580,18 +85419,18 @@ function __c911(j: number): any {
           realm_type: S.optional(S.String),
           metadata: __S(1056, __c33, 0),
           role_descriptors: S.optional(__S(27585, __c862, 1)),
-          limited_by: S.optional(__S(29152, __c911, 0)),
-          access: S.optional(__S(28292, __c884, 4)),
+          limited_by: S.optional(__S(29184, __c912, 0)),
+          access: S.optional(__S(28324, __c885, 4)),
           certificate_identity: S.optional(S.String),
           profile_uid: S.optional(S.String),
           _sort: S.optional(__S(320, __c10, 0)),
         }),
       ).annotate({ identifier: "SecurityTypesApiKey" });
     case 2:
-      return S.Array(__S(29153, __c911, 1));
+      return S.Array(__S(29185, __c912, 1));
   }
 }
-function __c912(j: number): any {
+function __c913(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84604,12 +85443,12 @@ function __c912(j: number): any {
         S.Struct({
           cluster: __S(27360, __c855, 0),
           index: __S(1088, __c34, 0),
-          remote_cluster: __S(36320, __c1135, 0),
+          remote_cluster: __S(36352, __c1136, 0),
         }),
       ).annotate({ identifier: "SecurityGetBuiltinPrivilegesResponse" });
   }
 }
-function __c913(j: number): any {
+function __c914(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84617,15 +85456,15 @@ function __c913(j: number): any {
       ).annotate({ identifier: "SecurityGetPrivilegesRequest" });
   }
 }
-function __c914(j: number): any {
+function __c915(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(29282, __c915, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(29314, __c916, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SecurityGetPrivilegesResponse",
       });
   }
 }
-function __c915(j: number): any {
+function __c916(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84637,12 +85476,12 @@ function __c915(j: number): any {
         }),
       ).annotate({ identifier: "SecurityPutPrivilegesActions" });
     case 1:
-      return S.Record(S.String, __S(29280, __c915, 0));
+      return S.Record(S.String, __S(29312, __c916, 0));
     case 2:
-      return S.Record(S.String, __S(29281, __c915, 1));
+      return S.Record(S.String, __S(29313, __c916, 1));
   }
 }
-function __c916(j: number): any {
+function __c917(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84652,7 +85491,7 @@ function __c916(j: number): any {
       ).annotate({ identifier: "SecurityGetPrivileges1Request" });
   }
 }
-function __c917(j: number): any {
+function __c918(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84665,7 +85504,7 @@ function __c917(j: number): any {
       ).annotate({ identifier: "SecurityGetPrivileges2Request" });
   }
 }
-function __c918(j: number): any {
+function __c919(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84676,7 +85515,7 @@ function __c918(j: number): any {
       ).annotate({ identifier: "SecurityGetRoleRequest" });
   }
 }
-function __c919(j: number): any {
+function __c920(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84690,12 +85529,12 @@ function __c919(j: number): any {
         }),
       ).annotate({ identifier: "SecurityGetRoleIndicesPrivilegesRead" });
     case 1:
-      return S.Array(__S(29408, __c919, 0));
+      return S.Array(__S(29440, __c920, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           cluster: __S(27360, __c855, 0),
-          indices: __S(29409, __c919, 1),
+          indices: __S(29441, __c920, 1),
           remote_indices: S.optional(__S(27489, __c859, 1)),
           remote_cluster: S.optional(__S(27425, __c857, 1)),
           metadata: __S(1056, __c33, 0),
@@ -84703,19 +85542,19 @@ function __c919(j: number): any {
           run_as: S.optional(__S(1088, __c34, 0)),
           transient_metadata: S.optional(__S(1056, __c33, 0)),
           applications: __S(27394, __c856, 2),
-          role_templates: S.optional(__S(29441, __c920, 1)),
+          role_templates: S.optional(__S(29473, __c921, 1)),
           global: S.optional(__S(27466, __c858, 10)),
         }),
       ).annotate({ identifier: "SecurityGetRoleRole" });
     case 3:
-      return S.Record(S.String, __S(29410, __c919, 2));
+      return S.Record(S.String, __S(29442, __c920, 2));
     case 4:
-      return S.suspend(() => __S(29411, __c919, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(29443, __c920, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "SecurityGetRoleResponse",
       });
   }
 }
-function __c920(j: number): any {
+function __c921(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84725,10 +85564,10 @@ function __c920(j: number): any {
         }),
       ).annotate({ identifier: "SecurityTypesRoleTemplate" });
     case 1:
-      return S.Array(__S(29440, __c920, 0));
+      return S.Array(__S(29472, __c921, 0));
   }
 }
-function __c921(j: number): any {
+function __c922(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84738,7 +85577,7 @@ function __c921(j: number): any {
       ).annotate({ identifier: "SecurityGetRole1Request" });
   }
 }
-function __c922(j: number): any {
+function __c923(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84749,7 +85588,7 @@ function __c922(j: number): any {
       ).annotate({ identifier: "CcrFollowStatsRequest" });
   }
 }
-function __c923(j: number): any {
+function __c924(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84760,7 +85599,7 @@ function __c923(j: number): any {
         }),
       ).annotate({ identifier: "CcrTypesReadException" });
     case 1:
-      return S.Array(__S(29536, __c923, 0));
+      return S.Array(__S(29568, __c924, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -84782,7 +85621,7 @@ function __c923(j: number): any {
           operations_written: S.Number,
           outstanding_read_requests: S.Number,
           outstanding_write_requests: S.Number,
-          read_exceptions: __S(29537, __c923, 1),
+          read_exceptions: __S(29569, __c924, 1),
           remote_cluster: S.String,
           shard_id: S.Number,
           successful_read_requests: S.Number,
@@ -84800,25 +85639,25 @@ function __c923(j: number): any {
         }),
       ).annotate({ identifier: "CcrTypesShardStats" });
     case 3:
-      return S.Array(__S(29538, __c923, 2));
+      return S.Array(__S(29570, __c924, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           index: S.String,
-          shards: __S(29539, __c923, 3),
+          shards: __S(29571, __c924, 3),
         }),
       ).annotate({ identifier: "CcrTypesFollowIndexStats" });
     case 5:
-      return S.Array(__S(29540, __c923, 4));
+      return S.Array(__S(29572, __c924, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          indices: __S(29541, __c923, 5),
+          indices: __S(29573, __c924, 5),
         }),
       ).annotate({ identifier: "CcrFollowStatsResponse" });
   }
 }
-function __c924(j: number): any {
+function __c925(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84828,7 +85667,7 @@ function __c924(j: number): any {
       ).annotate({ identifier: "SecurityGetRoleMappingRequest" });
   }
 }
-function __c925(j: number): any {
+function __c926(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84836,36 +85675,36 @@ function __c925(j: number): any {
           enabled: S.Boolean,
           metadata: __S(1056, __c33, 0),
           roles: S.optional(__S(1088, __c34, 0)),
-          role_templates: S.optional(__S(29441, __c920, 1)),
-          rules: __S(29634, __c926, 2),
+          role_templates: S.optional(__S(29473, __c921, 1)),
+          rules: __S(29666, __c927, 2),
         }),
       ).annotate({ identifier: "SecurityTypesRoleMapping" });
     case 1:
-      return S.Record(S.String, __S(29600, __c925, 0));
+      return S.Record(S.String, __S(29632, __c926, 0));
     case 2:
-      return S.suspend(() => __S(29601, __c925, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(29633, __c926, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "SecurityGetRoleMappingResponse",
       });
   }
 }
-function __c926(j: number): any {
+function __c927(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(29634, __c926, 2)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(29666, __c927, 2)));
     case 1:
       return S.Record(S.String, S.Unknown);
     case 2:
       return S.suspend(() =>
         S.Struct({
-          any: S.optional(__S(29632, __c926, 0)),
-          all: S.optional(__S(29632, __c926, 0)),
-          field: S.optional(__S(29633, __c926, 1)),
-          except: S.optional(__S(29634, __c926, 2)),
+          any: S.optional(__S(29664, __c927, 0)),
+          all: S.optional(__S(29664, __c927, 0)),
+          field: S.optional(__S(29665, __c927, 1)),
+          except: S.optional(__S(29666, __c927, 2)),
         }),
       ).annotate({ identifier: "SecurityTypesRoleMappingRule" });
   }
 }
-function __c927(j: number): any {
+function __c928(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84873,7 +85712,7 @@ function __c927(j: number): any {
       ).annotate({ identifier: "SecurityGetRoleMapping1Request" });
   }
 }
-function __c928(j: number): any {
+function __c929(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84888,17 +85727,17 @@ function __c928(j: number): any {
       ).annotate({ identifier: "SecurityGetServiceAccountsRequest" });
   }
 }
-function __c929(j: number): any {
+function __c930(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.suspend(() => __S(29728, __c929, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(29760, __c930, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "SecurityGetServiceAccountsResponse",
       });
   }
 }
-function __c930(j: number): any {
+function __c931(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84910,7 +85749,7 @@ function __c930(j: number): any {
       ).annotate({ identifier: "SecurityGetServiceAccounts1Request" });
   }
 }
-function __c931(j: number): any {
+function __c932(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84921,7 +85760,7 @@ function __c931(j: number): any {
       ).annotate({ identifier: "SecurityGetServiceAccounts2Request" });
   }
 }
-function __c932(j: number): any {
+function __c933(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84943,12 +85782,12 @@ function __c932(j: number): any {
         }),
       ).annotate({ identifier: "SecurityGetServiceCredentialsNodesCredentialsFileToken" });
     case 2:
-      return S.Record(S.String, __S(29825, __c932, 1));
+      return S.Record(S.String, __S(29857, __c933, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           _nodes: __S(11104, __c347, 0),
-          file_tokens: __S(29826, __c932, 2),
+          file_tokens: __S(29858, __c933, 2),
         }),
       ).annotate({ identifier: "SecurityGetServiceCredentialsNodesCredentials" });
     case 4:
@@ -84957,12 +85796,12 @@ function __c932(j: number): any {
           service_account: S.String,
           count: S.Number,
           tokens: __S(25056, __c783, 0),
-          nodes_credentials: __S(29827, __c932, 3),
+          nodes_credentials: __S(29859, __c933, 3),
         }),
       ).annotate({ identifier: "SecurityGetServiceCredentialsResponse" });
   }
 }
-function __c933(j: number): any {
+function __c934(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84973,24 +85812,24 @@ function __c933(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          security: __S(29888, __c934, 0),
-          security_profile: __S(29888, __c934, 0).pipe(T.Body("security-profile")),
-          security_tokens: __S(29888, __c934, 0).pipe(T.Body("security-tokens")),
+          security: __S(29920, __c935, 0),
+          security_profile: __S(29920, __c935, 0).pipe(T.Body("security-profile")),
+          security_tokens: __S(29920, __c935, 0).pipe(T.Body("security-tokens")),
         }),
       ).annotate({ identifier: "SecurityGetSettingsResponse" });
   }
 }
-function __c934(j: number): any {
+function __c935(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          index: S.optional(__S(36806, __c1150, 6)),
+          index: S.optional(__S(36838, __c1151, 6)),
         }),
       ).annotate({ identifier: "SecurityTypesSecuritySettings" });
   }
 }
-function __c935(j: number): any {
+function __c936(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -84999,26 +85838,26 @@ function __c935(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dls: __S(29953, __c936, 1),
+          dls: __S(29985, __c937, 1),
         }),
       ).annotate({ identifier: "SecurityTypesRolesStats" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          roles: __S(29921, __c935, 1),
+          roles: __S(29953, __c936, 1),
         }),
       ).annotate({ identifier: "SecurityTypesNodeSecurityStats" });
     case 3:
-      return S.Record(S.String, __S(29922, __c935, 2));
+      return S.Record(S.String, __S(29954, __c936, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          nodes: __S(29923, __c935, 3),
+          nodes: __S(29955, __c936, 3),
         }),
       ).annotate({ identifier: "SecurityGetStatsResponse" });
   }
 }
-function __c936(j: number): any {
+function __c937(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85036,22 +85875,22 @@ function __c936(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          bit_set_cache: __S(29952, __c936, 0),
+          bit_set_cache: __S(29984, __c937, 0),
         }),
       ).annotate({ identifier: "XpackUsageSecurityRolesDls" });
   }
 }
-function __c937(j: number): any {
+function __c938(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           grant_type: S.optional(S.String),
           scope: S.optional(S.String),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           kerberos_ticket: S.optional(S.String),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          service_account_token: S.optional(S.String),
+          service_account_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/_security/oauth2/token", code: 200 })),
       ).annotate({ identifier: "SecurityGetTokenRequest" });
@@ -85072,12 +85911,12 @@ function __c937(j: number): any {
           username: S.String,
           enabled: S.Boolean,
           profile_uid: S.optional(S.String),
-          authentication_realm: __S(37056, __c1158, 0),
-          lookup_realm: __S(37056, __c1158, 0),
-          authentication_provider: S.optional(__S(29985, __c937, 1)),
+          authentication_realm: __S(37088, __c1159, 0),
+          lookup_realm: __S(37088, __c1159, 0),
+          authentication_provider: S.optional(__S(30017, __c938, 1)),
           authentication_type: S.String,
-          api_key: S.optional(__S(37088, __c1159, 0)),
-          token: S.optional(__S(37089, __c1159, 1)),
+          api_key: S.optional(__S(37120, __c1160, 0)),
+          token: S.optional(__S(37121, __c1160, 1)),
         }),
       ).annotate({ identifier: "SecurityGetTokenAuthenticatedUser" });
     case 3:
@@ -85088,13 +85927,13 @@ function __c937(j: number): any {
           scope: S.optional(S.String),
           type: S.String,
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          kerberos_authentication_response_token: S.optional(S.String),
-          authentication: __S(29986, __c937, 2),
+          kerberos_authentication_response_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          authentication: __S(30018, __c938, 2),
         }),
       ).annotate({ identifier: "SecurityGetTokenResponse" });
   }
 }
-function __c938(j: number): any {
+function __c939(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85105,7 +85944,7 @@ function __c938(j: number): any {
       ).annotate({ identifier: "SecurityGetUserRequest" });
   }
 }
-function __c939(j: number): any {
+function __c940(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85120,14 +85959,14 @@ function __c939(j: number): any {
         }),
       ).annotate({ identifier: "SecurityTypesUser" });
     case 1:
-      return S.Record(S.String, __S(30048, __c939, 0));
+      return S.Record(S.String, __S(30080, __c940, 0));
     case 2:
-      return S.suspend(() => __S(30049, __c939, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(30081, __c940, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "SecurityGetUserResponse",
       });
   }
 }
-function __c940(j: number): any {
+function __c941(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85142,7 +85981,7 @@ function __c940(j: number): any {
       ).annotate({ identifier: "CcrForgetFollowerRequest" });
   }
 }
-function __c941(j: number): any {
+function __c942(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85152,7 +85991,7 @@ function __c941(j: number): any {
       ).annotate({ identifier: "CcrForgetFollowerResponse" });
   }
 }
-function __c942(j: number): any {
+function __c943(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85162,7 +86001,7 @@ function __c942(j: number): any {
       ).annotate({ identifier: "SecurityGetUser1Request" });
   }
 }
-function __c943(j: number): any {
+function __c944(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85177,43 +86016,43 @@ function __c943(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          field_security: S.optional(__S(30178, __c943, 2)),
+          field_security: S.optional(__S(30210, __c944, 2)),
           names: S.Unknown,
           privileges: __S(27392, __c856, 0),
-          query: S.optional(__S(30179, __c943, 3)),
+          query: S.optional(__S(30211, __c944, 3)),
           allow_restricted_indices: S.Boolean,
         }),
       ).annotate({ identifier: "SecurityTypesUserIndicesPrivileges" });
     case 5:
-      return S.Array(__S(30180, __c943, 4));
+      return S.Array(__S(30212, __c944, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           clusters: __S(1088, __c34, 0),
-          field_security: S.optional(__S(30178, __c943, 2)),
+          field_security: S.optional(__S(30210, __c944, 2)),
           names: S.Unknown,
           privileges: __S(27392, __c856, 0),
-          query: S.optional(__S(30179, __c943, 3)),
+          query: S.optional(__S(30211, __c944, 3)),
           allow_restricted_indices: S.Boolean,
         }),
       ).annotate({ identifier: "SecurityTypesRemoteUserIndicesPrivileges" });
     case 7:
-      return S.Array(__S(30182, __c943, 6));
+      return S.Array(__S(30214, __c944, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           applications: __S(27394, __c856, 2),
           cluster: __S(1088, __c34, 0),
           remote_cluster: S.optional(__S(27425, __c857, 1)),
-          global: __S(30177, __c943, 1),
-          indices: __S(30181, __c943, 5),
-          remote_indices: S.optional(__S(30183, __c943, 7)),
+          global: __S(30209, __c944, 1),
+          indices: __S(30213, __c944, 5),
+          remote_indices: S.optional(__S(30215, __c944, 7)),
           run_as: __S(1088, __c34, 0),
         }),
       ).annotate({ identifier: "SecurityGetUserPrivilegesResponse" });
   }
 }
-function __c944(j: number): any {
+function __c945(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85227,13 +86066,13 @@ function __c944(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          profiles: __S(30209, __c944, 1),
+          profiles: __S(30241, __c945, 1),
           errors: S.optional(__S(27265, __c852, 1)),
         }),
       ).annotate({ identifier: "SecurityGetUserProfileResponse" });
   }
 }
-function __c945(j: number): any {
+function __c946(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85255,13 +86094,13 @@ function __c945(j: number): any {
       return S.suspend(() =>
         S.Struct({
           refresh: S.optional(S.String.pipe(T.Query())),
-          api_key: __S(30240, __c945, 0),
+          api_key: __S(30272, __c946, 0),
           grant_type: S.String,
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          client_authentication: S.optional(__S(30241, __c945, 1)),
-          service_account_token: S.optional(S.String),
+          client_authentication: S.optional(__S(30273, __c946, 1)),
+          service_account_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.optional(S.String),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           run_as: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/_security/api_key/grant", code: 200 })),
       ).annotate({ identifier: "SecurityGrantApiKeyRequest" });
@@ -85272,42 +86111,42 @@ function __c945(j: number): any {
           id: S.String,
           name: S.String,
           expiration: S.optional(S.Number),
-          encoded: S.String,
+          encoded: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "SecurityGrantApiKeyResponse" });
   }
 }
-function __c946(j: number): any {
+function __c947(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           application: S.optional(__S(27394, __c856, 2)),
           cluster: S.optional(__S(27360, __c855, 0)),
-          index: S.optional(__S(30337, __c948, 1)),
+          index: S.optional(__S(30369, __c949, 1)),
         }).pipe(T.Http({ method: "GET", uri: "/_security/user/_has_privileges", code: 200 })),
       ).annotate({ identifier: "SecurityHasPrivilegesRequest" });
   }
 }
-function __c947(j: number): any {
+function __c948(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, __S(11616, __c363, 0));
     case 1:
-      return S.Record(S.String, __S(30304, __c947, 0));
+      return S.Record(S.String, __S(30336, __c948, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          application: __S(30305, __c947, 1),
+          application: __S(30337, __c948, 1),
           cluster: __S(11616, __c363, 0),
           has_all_requested: S.Boolean,
-          index: __S(30304, __c947, 0),
+          index: __S(30336, __c948, 0),
           username: S.String,
         }),
       ).annotate({ identifier: "SecurityHasPrivilegesResponse" });
   }
 }
-function __c948(j: number): any {
+function __c949(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85318,19 +86157,7 @@ function __c948(j: number): any {
         }),
       ).annotate({ identifier: "SecurityHasPrivilegesIndexPrivilegesCheck" });
     case 1:
-      return S.Array(__S(30336, __c948, 0));
-  }
-}
-function __c949(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          application: S.optional(__S(27394, __c856, 2)),
-          cluster: S.optional(__S(27360, __c855, 0)),
-          index: S.optional(__S(30337, __c948, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/_security/user/_has_privileges", code: 200 })),
-      ).annotate({ identifier: "SecurityHasPrivileges1Request" });
+      return S.Array(__S(30368, __c949, 0));
   }
 }
 function __c950(j: number): any {
@@ -85338,14 +86165,11 @@ function __c950(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user: S.String.pipe(T.Label()),
           application: S.optional(__S(27394, __c856, 2)),
           cluster: S.optional(__S(27360, __c855, 0)),
-          index: S.optional(__S(30337, __c948, 1)),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/_security/user/{user}/_has_privileges", code: 200 }),
-        ),
-      ).annotate({ identifier: "SecurityHasPrivileges2Request" });
+          index: S.optional(__S(30369, __c949, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/_security/user/_has_privileges", code: 200 })),
+      ).annotate({ identifier: "SecurityHasPrivileges1Request" });
   }
 }
 function __c951(j: number): any {
@@ -85356,11 +86180,11 @@ function __c951(j: number): any {
           user: S.String.pipe(T.Label()),
           application: S.optional(__S(27394, __c856, 2)),
           cluster: S.optional(__S(27360, __c855, 0)),
-          index: S.optional(__S(30337, __c948, 1)),
+          index: S.optional(__S(30369, __c949, 1)),
         }).pipe(
-          T.Http({ method: "POST", uri: "/_security/user/{user}/_has_privileges", code: 200 }),
+          T.Http({ method: "GET", uri: "/_security/user/{user}/_has_privileges", code: 200 }),
         ),
-      ).annotate({ identifier: "SecurityHasPrivileges3Request" });
+      ).annotate({ identifier: "SecurityHasPrivileges2Request" });
   }
 }
 function __c952(j: number): any {
@@ -85368,10 +86192,14 @@ function __c952(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uids: __S(1088, __c34, 0),
-          privileges: __S(30496, __c953, 0),
-        }).pipe(T.Http({ method: "GET", uri: "/_security/profile/_has_privileges", code: 200 })),
-      ).annotate({ identifier: "SecurityHasPrivilegesUserProfileRequest" });
+          user: S.String.pipe(T.Label()),
+          application: S.optional(__S(27394, __c856, 2)),
+          cluster: S.optional(__S(27360, __c855, 0)),
+          index: S.optional(__S(30369, __c949, 1)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/_security/user/{user}/_has_privileges", code: 200 }),
+        ),
+      ).annotate({ identifier: "SecurityHasPrivileges3Request" });
   }
 }
 function __c953(j: number): any {
@@ -85379,9 +86207,20 @@ function __c953(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          uids: __S(1088, __c34, 0),
+          privileges: __S(30528, __c954, 0),
+        }).pipe(T.Http({ method: "GET", uri: "/_security/profile/_has_privileges", code: 200 })),
+      ).annotate({ identifier: "SecurityHasPrivilegesUserProfileRequest" });
+  }
+}
+function __c954(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           application: S.optional(__S(27394, __c856, 2)),
           cluster: S.optional(__S(27360, __c855, 0)),
-          index: S.optional(__S(30337, __c948, 1)),
+          index: S.optional(__S(30369, __c949, 1)),
         }),
       ).annotate({ identifier: "SecurityHasPrivilegesUserProfilePrivilegesCheck" });
     case 1:
@@ -85393,18 +86232,18 @@ function __c953(j: number): any {
       ).annotate({ identifier: "SecurityHasPrivilegesUserProfileResponse" });
   }
 }
-function __c954(j: number): any {
+function __c955(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uids: __S(1088, __c34, 0),
-          privileges: __S(30496, __c953, 0),
+          privileges: __S(30528, __c954, 0),
         }).pipe(T.Http({ method: "POST", uri: "/_security/profile/_has_privileges", code: 200 })),
       ).annotate({ identifier: "SecurityHasPrivilegesUserProfile1Request" });
   }
 }
-function __c955(j: number): any {
+function __c956(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85474,7 +86313,7 @@ function __c955(j: number): any {
       ).annotate({ identifier: "AsyncSearchSubmitRequest" });
   }
 }
-function __c956(j: number): any {
+function __c957(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85484,7 +86323,7 @@ function __c956(j: number): any {
       ).annotate({ identifier: "CcrGetAutoFollowPatternRequest" });
   }
 }
-function __c957(j: number): any {
+function __c958(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85501,20 +86340,20 @@ function __c957(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          pattern: __S(30624, __c957, 0),
+          pattern: __S(30656, __c958, 0),
         }),
       ).annotate({ identifier: "CcrGetAutoFollowPatternAutoFollowPattern" });
     case 2:
-      return S.Array(__S(30625, __c957, 1));
+      return S.Array(__S(30657, __c958, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          patterns: __S(30626, __c957, 2),
+          patterns: __S(30658, __c958, 2),
         }),
       ).annotate({ identifier: "CcrGetAutoFollowPatternResponse" });
   }
 }
-function __c958(j: number): any {
+function __c959(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85538,12 +86377,12 @@ function __c958(j: number): any {
       ).annotate({ identifier: "SecurityInvalidateApiKeyResponse" });
   }
 }
-function __c959(j: number): any {
+function __c960(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           realm_name: S.optional(S.String),
           username: S.optional(S.String),
@@ -85560,7 +86399,7 @@ function __c959(j: number): any {
       ).annotate({ identifier: "SecurityInvalidateTokenResponse" });
   }
 }
-function __c960(j: number): any {
+function __c961(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85583,30 +86422,30 @@ function __c960(j: number): any {
       ).annotate({ identifier: "SecurityOidcPrepareAuthenticationResponse" });
   }
 }
-function __c961(j: number): any {
+function __c962(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           refresh: S.optional(S.String.pipe(T.Query())),
-          body: __S(29282, __c915, 2).pipe(T.HttpBody()),
+          body: __S(29314, __c916, 2).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PUT", uri: "/_security/privilege", code: 200 })),
       ).annotate({ identifier: "SecurityPutPrivilegesRequest" });
   }
 }
-function __c962(j: number): any {
+function __c963(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(30816, __c963, 0));
+      return S.Record(S.String, __S(30848, __c964, 0));
     case 1:
-      return S.Record(S.String, __S(30784, __c962, 0));
+      return S.Record(S.String, __S(30816, __c963, 0));
     case 2:
-      return S.suspend(() => __S(30785, __c962, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(30817, __c963, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "SecurityPutPrivilegesResponse",
       });
   }
 }
-function __c963(j: number): any {
+function __c964(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85616,18 +86455,18 @@ function __c963(j: number): any {
       ).annotate({ identifier: "SecurityTypesCreatedStatus" });
   }
 }
-function __c964(j: number): any {
+function __c965(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           refresh: S.optional(S.String.pipe(T.Query())),
-          body: __S(29282, __c915, 2).pipe(T.HttpBody()),
+          body: __S(29314, __c916, 2).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/_security/privilege", code: 200 })),
       ).annotate({ identifier: "SecurityPutPrivileges1Request" });
   }
 }
-function __c965(j: number): any {
+function __c966(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85648,17 +86487,17 @@ function __c965(j: number): any {
       ).annotate({ identifier: "SecurityPutRoleRequest" });
   }
 }
-function __c966(j: number): any {
+function __c967(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          role: __S(30816, __c963, 0),
+          role: __S(30848, __c964, 0),
         }),
       ).annotate({ identifier: "SecurityPutRoleResponse" });
   }
 }
-function __c967(j: number): any {
+function __c968(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85679,7 +86518,7 @@ function __c967(j: number): any {
       ).annotate({ identifier: "SecurityPutRole1Request" });
   }
 }
-function __c968(j: number): any {
+function __c969(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85689,22 +86528,11 @@ function __c968(j: number): any {
           enabled: S.optional(S.Boolean),
           metadata: S.optional(__S(1056, __c33, 0)),
           roles: S.optional(__S(1088, __c34, 0)),
-          role_templates: S.optional(__S(29441, __c920, 1)),
-          rules: S.optional(__S(29634, __c926, 2)),
+          role_templates: S.optional(__S(29473, __c921, 1)),
+          rules: S.optional(__S(29666, __c927, 2)),
           run_as: S.optional(__S(1088, __c34, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/_security/role_mapping/{name}", code: 200 })),
       ).annotate({ identifier: "SecurityPutRoleMappingRequest" });
-  }
-}
-function __c969(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.optional(S.Boolean),
-          role_mapping: __S(30816, __c963, 0),
-        }),
-      ).annotate({ identifier: "SecurityPutRoleMappingResponse" });
   }
 }
 function __c970(j: number): any {
@@ -85712,19 +86540,30 @@ function __c970(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          created: S.optional(S.Boolean),
+          role_mapping: __S(30848, __c964, 0),
+        }),
+      ).annotate({ identifier: "SecurityPutRoleMappingResponse" });
+  }
+}
+function __c971(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.String.pipe(T.Label()),
           refresh: S.optional(S.String.pipe(T.Query())),
           enabled: S.optional(S.Boolean),
           metadata: S.optional(__S(1056, __c33, 0)),
           roles: S.optional(__S(1088, __c34, 0)),
-          role_templates: S.optional(__S(29441, __c920, 1)),
-          rules: S.optional(__S(29634, __c926, 2)),
+          role_templates: S.optional(__S(29473, __c921, 1)),
+          rules: S.optional(__S(29666, __c927, 2)),
           run_as: S.optional(__S(1088, __c34, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/_security/role_mapping/{name}", code: 200 })),
       ).annotate({ identifier: "SecurityPutRoleMapping1Request" });
   }
 }
-function __c971(j: number): any {
+function __c972(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85734,7 +86573,7 @@ function __c971(j: number): any {
           email: S.optional(S.String),
           full_name: S.optional(S.String),
           metadata: S.optional(__S(1056, __c33, 0)),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           password_hash: S.optional(S.String.pipe(T.SensitiveValue({}))),
           roles: S.optional(__S(1088, __c34, 0)),
           enabled: S.optional(S.Boolean),
@@ -85742,7 +86581,7 @@ function __c971(j: number): any {
       ).annotate({ identifier: "SecurityPutUserRequest" });
   }
 }
-function __c972(j: number): any {
+function __c973(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85753,7 +86592,7 @@ function __c972(j: number): any {
       ).annotate({ identifier: "CcrGetAutoFollowPattern1Request" });
   }
 }
-function __c973(j: number): any {
+function __c974(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85763,7 +86602,7 @@ function __c973(j: number): any {
           email: S.optional(S.String),
           full_name: S.optional(S.String),
           metadata: S.optional(__S(1056, __c33, 0)),
-          password: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           password_hash: S.optional(S.String.pipe(T.SensitiveValue({}))),
           roles: S.optional(__S(1088, __c34, 0)),
           enabled: S.optional(S.Boolean),
@@ -85771,7 +86610,7 @@ function __c973(j: number): any {
       ).annotate({ identifier: "SecurityPutUser1Request" });
   }
 }
-function __c974(j: number): any {
+function __c975(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85788,7 +86627,7 @@ function __c974(j: number): any {
       ).annotate({ identifier: "SecurityPutUserManagedServiceAccountRequest" });
   }
 }
-function __c975(j: number): any {
+function __c976(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85796,8 +86635,8 @@ function __c975(j: number): any {
           with_limited_by: S.optional(S.Boolean.pipe(T.Query())),
           with_profile_uid: S.optional(S.Boolean.pipe(T.Query())),
           typed_keys: S.optional(S.Boolean.pipe(T.Query())),
-          aggregations: S.optional(__S(31235, __c976, 3)),
-          query: S.optional(__S(31264, __c977, 0)),
+          aggregations: S.optional(__S(31267, __c977, 3)),
+          query: S.optional(__S(31296, __c978, 0)),
           from: S.optional(S.Number),
           sort: S.optional(S.Unknown),
           size: S.optional(S.Number),
@@ -85806,12 +86645,12 @@ function __c975(j: number): any {
       ).annotate({ identifier: "SecurityQueryApiKeysRequest" });
   }
 }
-function __c976(j: number): any {
+function __c977(j: number): any {
   switch (j) {
     case 0:
       return S.Record(
         S.String,
-        /*@__PURE__*/ S.suspend(() => __S(31234, __c976, 2)),
+        /*@__PURE__*/ S.suspend(() => __S(31266, __c977, 2)),
       );
     case 1:
       return S.suspend(() =>
@@ -85825,13 +86664,13 @@ function __c976(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          aggregations: S.optional(__S(31232, __c976, 0)),
+          aggregations: S.optional(__S(31264, __c977, 0)),
           meta: S.optional(__S(1056, __c33, 0)),
           cardinality: S.optional(__S(770, __c24, 2)),
           composite: S.optional(__S(778, __c24, 10)),
           date_range: S.optional(__S(781, __c24, 13)),
-          filter: S.optional(__S(31264, __c977, 0)),
-          filters: S.optional(__S(31233, __c976, 1)),
+          filter: S.optional(__S(31296, __c978, 0)),
+          filters: S.optional(__S(31265, __c977, 1)),
           missing: S.optional(__S(784, __c24, 16)),
           range: S.optional(__S(785, __c24, 17)),
           terms: S.optional(__S(786, __c24, 18)),
@@ -85839,7 +86678,7 @@ function __c976(j: number): any {
         }),
       ).annotate({ identifier: "SecurityQueryApiKeysApiKeyAggregationContainer" });
     case 3:
-      return S.Record(S.String, __S(31234, __c976, 2));
+      return S.Record(S.String, __S(31266, __c977, 2));
     case 4:
       return S.Record(S.String, S.Unknown);
     case 5:
@@ -85847,13 +86686,13 @@ function __c976(j: number): any {
         S.Struct({
           total: S.Number,
           count: S.Number,
-          api_keys: __S(29154, __c911, 2),
-          aggregations: S.optional(__S(31236, __c976, 4)),
+          api_keys: __S(29186, __c912, 2),
+          aggregations: S.optional(__S(31268, __c977, 4)),
         }),
       ).annotate({ identifier: "SecurityQueryApiKeysResponse" });
   }
 }
-function __c977(j: number): any {
+function __c978(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85873,7 +86712,7 @@ function __c977(j: number): any {
       ).annotate({ identifier: "SecurityQueryApiKeysApiKeyQueryContainer" });
   }
 }
-function __c978(j: number): any {
+function __c979(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85881,8 +86720,8 @@ function __c978(j: number): any {
           with_limited_by: S.optional(S.Boolean.pipe(T.Query())),
           with_profile_uid: S.optional(S.Boolean.pipe(T.Query())),
           typed_keys: S.optional(S.Boolean.pipe(T.Query())),
-          aggregations: S.optional(__S(31235, __c976, 3)),
-          query: S.optional(__S(31264, __c977, 0)),
+          aggregations: S.optional(__S(31267, __c977, 3)),
+          query: S.optional(__S(31296, __c978, 0)),
           from: S.optional(S.Number),
           sort: S.optional(S.Unknown),
           size: S.optional(S.Number),
@@ -85891,12 +86730,12 @@ function __c978(j: number): any {
       ).annotate({ identifier: "SecurityQueryApiKeys1Request" });
   }
 }
-function __c979(j: number): any {
+function __c980(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(__S(31264, __c977, 0)),
+          query: S.optional(__S(31296, __c978, 0)),
           from: S.optional(S.Number),
           sort: S.optional(S.Unknown),
           size: S.optional(S.Number),
@@ -85905,7 +86744,7 @@ function __c979(j: number): any {
       ).annotate({ identifier: "SecurityQueryRoleRequest" });
   }
 }
-function __c980(j: number): any {
+function __c981(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85926,23 +86765,23 @@ function __c980(j: number): any {
         }),
       ).annotate({ identifier: "SecurityQueryRoleQueryRole" });
     case 1:
-      return S.Array(__S(31360, __c980, 0));
+      return S.Array(__S(31392, __c981, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
           count: S.Number,
-          roles: __S(31361, __c980, 1),
+          roles: __S(31393, __c981, 1),
         }),
       ).annotate({ identifier: "SecurityQueryRoleResponse" });
   }
 }
-function __c981(j: number): any {
+function __c982(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(__S(31264, __c977, 0)),
+          query: S.optional(__S(31296, __c978, 0)),
           from: S.optional(S.Number),
           sort: S.optional(S.Unknown),
           size: S.optional(S.Number),
@@ -85951,13 +86790,13 @@ function __c981(j: number): any {
       ).annotate({ identifier: "SecurityQueryRole1Request" });
   }
 }
-function __c982(j: number): any {
+function __c983(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           with_profile_uid: S.optional(S.Boolean.pipe(T.Query())),
-          query: S.optional(__S(31456, __c983, 0)),
+          query: S.optional(__S(31488, __c984, 0)),
           from: S.optional(S.Number),
           sort: S.optional(S.Unknown),
           size: S.optional(S.Number),
@@ -85966,7 +86805,7 @@ function __c982(j: number): any {
       ).annotate({ identifier: "SecurityQueryUserRequest" });
   }
 }
-function __c983(j: number): any {
+function __c984(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -85998,24 +86837,24 @@ function __c983(j: number): any {
         }),
       ).annotate({ identifier: "SecurityQueryUserQueryUser" });
     case 2:
-      return S.Array(__S(31457, __c983, 1));
+      return S.Array(__S(31489, __c984, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           total: S.Number,
           count: S.Number,
-          users: __S(31458, __c983, 2),
+          users: __S(31490, __c984, 2),
         }),
       ).annotate({ identifier: "SecurityQueryUserResponse" });
   }
 }
-function __c984(j: number): any {
+function __c985(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           with_profile_uid: S.optional(S.Boolean.pipe(T.Query())),
-          query: S.optional(__S(31456, __c983, 0)),
+          query: S.optional(__S(31488, __c984, 0)),
           from: S.optional(S.Number),
           sort: S.optional(S.Unknown),
           size: S.optional(S.Number),
@@ -86024,7 +86863,7 @@ function __c984(j: number): any {
       ).annotate({ identifier: "SecurityQueryUser1Request" });
   }
 }
-function __c985(j: number): any {
+function __c986(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86044,7 +86883,7 @@ function __c985(j: number): any {
       ).annotate({ identifier: "SecuritySamlPrepareAuthenticationResponse" });
   }
 }
-function __c986(j: number): any {
+function __c987(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86060,7 +86899,7 @@ function __c986(j: number): any {
       ).annotate({ identifier: "SecuritySamlServiceProviderMetadataResponse" });
   }
 }
-function __c987(j: number): any {
+function __c988(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86071,7 +86910,7 @@ function __c987(j: number): any {
       ).annotate({ identifier: "CcrPauseAutoFollowPatternRequest" });
   }
 }
-function __c988(j: number): any {
+function __c989(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86079,12 +86918,12 @@ function __c988(j: number): any {
           data: S.optional(S.Unknown.pipe(T.Query())),
           name: S.optional(S.String),
           size: S.optional(S.Number),
-          hint: S.optional(__S(31649, __c989, 1)),
+          hint: S.optional(__S(31681, __c990, 1)),
         }).pipe(T.Http({ method: "GET", uri: "/_security/profile/_suggest", code: 200 })),
       ).annotate({ identifier: "SecuritySuggestUserProfilesRequest" });
   }
 }
-function __c989(j: number): any {
+function __c990(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
@@ -86092,7 +86931,7 @@ function __c989(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uids: S.optional(__S(1088, __c34, 0)),
-          labels: S.optional(__S(31648, __c989, 0)),
+          labels: S.optional(__S(31680, __c990, 0)),
         }),
       ).annotate({ identifier: "SecuritySuggestUserProfilesHint" });
     case 2:
@@ -86113,18 +86952,18 @@ function __c989(j: number): any {
         }),
       ).annotate({ identifier: "SecurityTypesUserProfile" });
     case 4:
-      return S.Array(__S(31651, __c989, 3));
+      return S.Array(__S(31683, __c990, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          total: __S(31650, __c989, 2),
+          total: __S(31682, __c990, 2),
           took: S.Number,
-          profiles: __S(31652, __c989, 4),
+          profiles: __S(31684, __c990, 4),
         }),
       ).annotate({ identifier: "SecuritySuggestUserProfilesResponse" });
   }
 }
-function __c990(j: number): any {
+function __c991(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86132,12 +86971,12 @@ function __c990(j: number): any {
           data: S.optional(S.Unknown.pipe(T.Query())),
           name: S.optional(S.String),
           size: S.optional(S.Number),
-          hint: S.optional(__S(31649, __c989, 1)),
+          hint: S.optional(__S(31681, __c990, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/_security/profile/_suggest", code: 200 })),
       ).annotate({ identifier: "SecuritySuggestUserProfiles1Request" });
   }
 }
-function __c991(j: number): any {
+function __c992(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86150,7 +86989,7 @@ function __c991(j: number): any {
       ).annotate({ identifier: "SecurityUpdateApiKeyRequest" });
   }
 }
-function __c992(j: number): any {
+function __c993(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86160,13 +86999,13 @@ function __c992(j: number): any {
       ).annotate({ identifier: "SecurityUpdateApiKeyResponse" });
   }
 }
-function __c993(j: number): any {
+function __c994(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          access: __S(28292, __c884, 4),
+          access: __S(28324, __c885, 4),
           expiration: S.optional(S.Unknown),
           metadata: S.optional(__S(1056, __c33, 0)),
           certificate_identity: S.optional(S.String),
@@ -86174,21 +87013,21 @@ function __c993(j: number): any {
       ).annotate({ identifier: "SecurityUpdateCrossClusterApiKeyRequest" });
   }
 }
-function __c994(j: number): any {
+function __c995(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
-          security: S.optional(__S(29888, __c934, 0)),
-          security_profile: S.optional(__S(29888, __c934, 0).pipe(T.Body("security-profile"))),
-          security_tokens: S.optional(__S(29888, __c934, 0).pipe(T.Body("security-tokens"))),
+          security: S.optional(__S(29920, __c935, 0)),
+          security_profile: S.optional(__S(29920, __c935, 0).pipe(T.Body("security-profile"))),
+          security_tokens: S.optional(__S(29920, __c935, 0).pipe(T.Body("security-tokens"))),
         }).pipe(T.Http({ method: "PUT", uri: "/_security/settings", code: 200 })),
       ).annotate({ identifier: "SecurityUpdateSettingsRequest" });
   }
 }
-function __c995(j: number): any {
+function __c996(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86203,7 +87042,7 @@ function __c995(j: number): any {
       ).annotate({ identifier: "SecurityUpdateUserProfileDataRequest" });
   }
 }
-function __c996(j: number): any {
+function __c997(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86218,7 +87057,7 @@ function __c996(j: number): any {
       ).annotate({ identifier: "SecurityUpdateUserProfileData1Request" });
   }
 }
-function __c997(j: number): any {
+function __c998(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86226,32 +87065,32 @@ function __c997(j: number): any {
           pipeline: S.optional(S.String.pipe(T.Query())),
           merge_type: S.optional(S.String.pipe(T.Query())),
           docs: __S(15713, __c491, 1),
-          component_template_substitutions: S.optional(__S(31938, __c998, 2)),
-          index_template_substitutions: S.optional(__S(31940, __c998, 4)),
-          mapping_addition: S.optional(__S(36897, __c1153, 1)),
+          component_template_substitutions: S.optional(__S(31970, __c999, 2)),
+          index_template_substitutions: S.optional(__S(31972, __c999, 4)),
+          mapping_addition: S.optional(__S(36929, __c1154, 1)),
           pipeline_substitutions: S.optional(__S(15424, __c482, 0)),
         }).pipe(T.Http({ method: "GET", uri: "/_ingest/_simulate", code: 200 })),
       ).annotate({ identifier: "SimulateIngestRequest" });
   }
 }
-function __c998(j: number): any {
+function __c999(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           _meta: S.optional(__S(1056, __c33, 0)),
           version: S.optional(S.Number),
-          settings: S.optional(__S(36672, __c1146, 0)),
-          mappings: S.optional(__S(36897, __c1153, 1)),
-          aliases: S.optional(__S(36641, __c1145, 1)),
-          lifecycle: S.optional(__S(37408, __c1169, 0)),
-          data_stream_options: S.optional(__S(36608, __c1144, 0)),
+          settings: S.optional(__S(36704, __c1147, 0)),
+          mappings: S.optional(__S(36929, __c1154, 1)),
+          aliases: S.optional(__S(36673, __c1146, 1)),
+          lifecycle: S.optional(__S(37440, __c1170, 0)),
+          data_stream_options: S.optional(__S(36640, __c1145, 0)),
         }),
       ).annotate({ identifier: "ClusterTypesComponentTemplateSummary" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          template: __S(31936, __c998, 0),
+          template: __S(31968, __c999, 0),
           version: S.optional(S.Number),
           _meta: S.optional(__S(1056, __c33, 0)),
           deprecated: S.optional(S.Boolean),
@@ -86262,7 +87101,7 @@ function __c998(j: number): any {
         }),
       ).annotate({ identifier: "ClusterTypesComponentTemplateNode" });
     case 2:
-      return S.Record(S.String, __S(31937, __c998, 1));
+      return S.Record(S.String, __S(31969, __c999, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -86283,7 +87122,7 @@ function __c998(j: number): any {
         }),
       ).annotate({ identifier: "IndicesTypesIndexTemplate" });
     case 4:
-      return S.Record(S.String, __S(31939, __c998, 3));
+      return S.Record(S.String, __S(31971, __c999, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -86294,26 +87133,26 @@ function __c998(j: number): any {
           executed_pipelines: __S(1088, __c34, 0),
           ignored_fields: S.optional(__S(21408, __c669, 0)),
           error: S.optional(__S(1, __c0, 1)),
-          effective_mapping: S.optional(__S(36897, __c1153, 1)),
+          effective_mapping: S.optional(__S(36929, __c1154, 1)),
         }),
       ).annotate({ identifier: "SimulateIngestIngestDocumentSimulation" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          doc: S.optional(__S(31941, __c998, 5)),
+          doc: S.optional(__S(31973, __c999, 5)),
         }),
       ).annotate({ identifier: "SimulateIngestSimulateIngestDocumentResult" });
     case 7:
-      return S.Array(__S(31942, __c998, 6));
+      return S.Array(__S(31974, __c999, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          docs: __S(31943, __c998, 7),
+          docs: __S(31975, __c999, 7),
         }),
       ).annotate({ identifier: "SimulateIngestResponse" });
   }
 }
-function __c999(j: number): any {
+function __c1000(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86321,15 +87160,15 @@ function __c999(j: number): any {
           pipeline: S.optional(S.String.pipe(T.Query())),
           merge_type: S.optional(S.String.pipe(T.Query())),
           docs: __S(15713, __c491, 1),
-          component_template_substitutions: S.optional(__S(31938, __c998, 2)),
-          index_template_substitutions: S.optional(__S(31940, __c998, 4)),
-          mapping_addition: S.optional(__S(36897, __c1153, 1)),
+          component_template_substitutions: S.optional(__S(31970, __c999, 2)),
+          index_template_substitutions: S.optional(__S(31972, __c999, 4)),
+          mapping_addition: S.optional(__S(36929, __c1154, 1)),
           pipeline_substitutions: S.optional(__S(15424, __c482, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/_ingest/_simulate", code: 200 })),
       ).annotate({ identifier: "SimulateIngest1Request" });
   }
 }
-function __c1000(j: number): any {
+function __c1001(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86338,15 +87177,15 @@ function __c1000(j: number): any {
           pipeline: S.optional(S.String.pipe(T.Query())),
           merge_type: S.optional(S.String.pipe(T.Query())),
           docs: __S(15713, __c491, 1),
-          component_template_substitutions: S.optional(__S(31938, __c998, 2)),
-          index_template_substitutions: S.optional(__S(31940, __c998, 4)),
-          mapping_addition: S.optional(__S(36897, __c1153, 1)),
+          component_template_substitutions: S.optional(__S(31970, __c999, 2)),
+          index_template_substitutions: S.optional(__S(31972, __c999, 4)),
+          mapping_addition: S.optional(__S(36929, __c1154, 1)),
           pipeline_substitutions: S.optional(__S(15424, __c482, 0)),
         }).pipe(T.Http({ method: "GET", uri: "/_ingest/{index}/_simulate", code: 200 })),
       ).annotate({ identifier: "SimulateIngest2Request" });
   }
 }
-function __c1001(j: number): any {
+function __c1002(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86372,7 +87211,7 @@ function __c1001(j: number): any {
       ).annotate({ identifier: "CcrPutAutoFollowPatternRequest" });
   }
 }
-function __c1002(j: number): any {
+function __c1003(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86381,15 +87220,15 @@ function __c1002(j: number): any {
           pipeline: S.optional(S.String.pipe(T.Query())),
           merge_type: S.optional(S.String.pipe(T.Query())),
           docs: __S(15713, __c491, 1),
-          component_template_substitutions: S.optional(__S(31938, __c998, 2)),
-          index_template_substitutions: S.optional(__S(31940, __c998, 4)),
-          mapping_addition: S.optional(__S(36897, __c1153, 1)),
+          component_template_substitutions: S.optional(__S(31970, __c999, 2)),
+          index_template_substitutions: S.optional(__S(31972, __c999, 4)),
+          mapping_addition: S.optional(__S(36929, __c1154, 1)),
           pipeline_substitutions: S.optional(__S(15424, __c482, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/_ingest/{index}/_simulate", code: 200 })),
       ).annotate({ identifier: "SimulateIngest3Request" });
   }
 }
-function __c1003(j: number): any {
+function __c1004(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86401,7 +87240,7 @@ function __c1003(j: number): any {
       ).annotate({ identifier: "SlmDeleteLifecycleRequest" });
   }
 }
-function __c1004(j: number): any {
+function __c1005(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86419,7 +87258,7 @@ function __c1004(j: number): any {
       ).annotate({ identifier: "SlmExecuteLifecycleResponse" });
   }
 }
-function __c1005(j: number): any {
+function __c1006(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86430,7 +87269,7 @@ function __c1005(j: number): any {
       ).annotate({ identifier: "SlmExecuteRetentionRequest" });
   }
 }
-function __c1006(j: number): any {
+function __c1007(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86442,7 +87281,7 @@ function __c1006(j: number): any {
       ).annotate({ identifier: "SlmGetLifecycleRequest" });
   }
 }
-function __c1007(j: number): any {
+function __c1008(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86463,37 +87302,37 @@ function __c1007(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(32256, __c1008, 0)),
+          config: S.optional(__S(32288, __c1009, 0)),
           name: S.String,
           repository: S.String,
-          retention: S.optional(__S(32257, __c1008, 1)),
+          retention: S.optional(__S(32289, __c1009, 1)),
           schedule: S.String,
         }),
       ).annotate({ identifier: "SlmTypesPolicy" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          in_progress: S.optional(__S(32224, __c1007, 0)),
-          last_failure: S.optional(__S(32225, __c1007, 1)),
-          last_success: S.optional(__S(32225, __c1007, 1)),
+          in_progress: S.optional(__S(32256, __c1008, 0)),
+          last_failure: S.optional(__S(32257, __c1008, 1)),
+          last_success: S.optional(__S(32257, __c1008, 1)),
           modified_date: S.optional(S.Unknown),
           modified_date_millis: S.Number,
           next_execution: S.optional(S.Unknown),
           next_execution_millis: S.Number,
-          policy: __S(32226, __c1007, 2),
+          policy: __S(32258, __c1008, 2),
           version: S.Number,
-          stats: __S(32288, __c1009, 0),
+          stats: __S(32320, __c1010, 0),
         }),
       ).annotate({ identifier: "SlmTypesSnapshotLifecycle" });
     case 4:
-      return S.Record(S.String, __S(32227, __c1007, 3));
+      return S.Record(S.String, __S(32259, __c1008, 3));
     case 5:
-      return S.suspend(() => __S(32228, __c1007, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(32260, __c1008, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "SlmGetLifecycleResponse",
       });
   }
 }
-function __c1008(j: number): any {
+function __c1009(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86516,7 +87355,7 @@ function __c1008(j: number): any {
       ).annotate({ identifier: "SlmTypesRetention" });
   }
 }
-function __c1009(j: number): any {
+function __c1010(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86535,7 +87374,7 @@ function __c1009(j: number): any {
       ).annotate({ identifier: "SlmTypesStatistics" });
   }
 }
-function __c1010(j: number): any {
+function __c1011(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86546,7 +87385,7 @@ function __c1010(j: number): any {
       ).annotate({ identifier: "SlmGetLifecycle1Request" });
   }
 }
-function __c1011(j: number): any {
+function __c1012(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86566,7 +87405,7 @@ function __c1011(j: number): any {
         }),
       ).annotate({ identifier: "SlmTypesSnapshotPolicyStats" });
     case 2:
-      return S.Array(__S(32353, __c1011, 1));
+      return S.Array(__S(32385, __c1012, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -86579,12 +87418,12 @@ function __c1011(j: number): any {
           total_snapshot_deletion_failures: S.Number,
           total_snapshots_failed: S.Number,
           total_snapshots_taken: S.Number,
-          policy_stats: __S(32354, __c1011, 2),
+          policy_stats: __S(32386, __c1012, 2),
         }),
       ).annotate({ identifier: "SlmGetStatsResponse" });
   }
 }
-function __c1012(j: number): any {
+function __c1013(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86595,7 +87434,7 @@ function __c1012(j: number): any {
       ).annotate({ identifier: "SlmGetStatusRequest" });
   }
 }
-function __c1013(j: number): any {
+function __c1014(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86603,16 +87442,16 @@ function __c1013(j: number): any {
           policy_id: S.String.pipe(T.Label()),
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
-          config: S.optional(__S(32256, __c1008, 0)),
+          config: S.optional(__S(32288, __c1009, 0)),
           name: S.optional(S.String),
           repository: S.optional(S.String),
-          retention: S.optional(__S(32257, __c1008, 1)),
+          retention: S.optional(__S(32289, __c1009, 1)),
           schedule: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/_slm/policy/{policy_id}", code: 200 })),
       ).annotate({ identifier: "SlmPutLifecycleRequest" });
   }
 }
-function __c1014(j: number): any {
+function __c1015(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86632,12 +87471,12 @@ function __c1014(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          results: __S(32449, __c1014, 1),
+          results: __S(32481, __c1015, 1),
         }),
       ).annotate({ identifier: "SnapshotCleanupRepositoryResponse" });
   }
 }
-function __c1015(j: number): any {
+function __c1016(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86648,7 +87487,7 @@ function __c1015(j: number): any {
       ).annotate({ identifier: "CcrResumeAutoFollowPatternRequest" });
   }
 }
-function __c1016(j: number): any {
+function __c1017(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86668,7 +87507,7 @@ function __c1016(j: number): any {
       ).annotate({ identifier: "SnapshotCreate1Request" });
   }
 }
-function __c1017(j: number): any {
+function __c1018(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86682,7 +87521,7 @@ function __c1017(j: number): any {
       ).annotate({ identifier: "SnapshotCreateRepositoryRequest" });
   }
 }
-function __c1018(j: number): any {
+function __c1019(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86696,7 +87535,7 @@ function __c1018(j: number): any {
       ).annotate({ identifier: "SnapshotCreateRepository1Request" });
   }
 }
-function __c1019(j: number): any {
+function __c1020(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86708,7 +87547,7 @@ function __c1019(j: number): any {
       ).annotate({ identifier: "SnapshotDeleteRepositoryRequest" });
   }
 }
-function __c1020(j: number): any {
+function __c1021(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86719,17 +87558,17 @@ function __c1020(j: number): any {
       ).annotate({ identifier: "SnapshotGetRepositoryRequest" });
   }
 }
-function __c1021(j: number): any {
+function __c1022(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.suspend(() => __S(32672, __c1021, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(32704, __c1022, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "SnapshotGetRepositoryResponse",
       });
   }
 }
-function __c1022(j: number): any {
+function __c1023(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86741,7 +87580,7 @@ function __c1022(j: number): any {
       ).annotate({ identifier: "SnapshotGetRepository1Request" });
   }
 }
-function __c1023(j: number): any {
+function __c1024(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86784,7 +87623,7 @@ function __c1023(j: number): any {
           read_early: S.Boolean,
           read_end: S.Number,
           read_start: S.Number,
-          reads: __S(32737, __c1023, 1),
+          reads: __S(32769, __c1024, 1),
           size: S.Unknown,
           size_bytes: S.Number,
         }),
@@ -86792,7 +87631,7 @@ function __c1023(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          blob: __S(32738, __c1023, 2),
+          blob: __S(32770, __c1024, 2),
           overwrite_elapsed: S.optional(S.Unknown),
           overwrite_elapsed_nanos: S.optional(S.Number),
           write_elapsed: S.Unknown,
@@ -86833,8 +87672,8 @@ function __c1023(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          read: __S(32740, __c1023, 4),
-          write: __S(32741, __c1023, 5),
+          read: __S(32772, __c1024, 4),
+          write: __S(32773, __c1024, 5),
         }),
       ).annotate({ identifier: "SnapshotRepositoryAnalyzeSummaryInfo" });
     case 7:
@@ -86846,7 +87685,7 @@ function __c1023(j: number): any {
           coordinating_node: __S(7360, __c230, 0),
           delete_elapsed: S.Unknown,
           delete_elapsed_nanos: S.Number,
-          details: __S(32739, __c1023, 3),
+          details: __S(32771, __c1024, 3),
           early_read_node_count: S.Number,
           issues_detected: __S(1088, __c34, 0),
           listing_elapsed: S.Unknown,
@@ -86859,12 +87698,12 @@ function __c1023(j: number): any {
           read_node_count: S.Number,
           repository: S.String,
           seed: S.Number,
-          summary: __S(32742, __c1023, 6),
+          summary: __S(32774, __c1024, 6),
         }),
       ).annotate({ identifier: "SnapshotRepositoryAnalyzeResponse" });
   }
 }
-function __c1024(j: number): any {
+function __c1025(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86884,7 +87723,7 @@ function __c1024(j: number): any {
       ).annotate({ identifier: "SnapshotRepositoryVerifyIntegrityRequest" });
   }
 }
-function __c1025(j: number): any {
+function __c1026(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86895,7 +87734,7 @@ function __c1025(j: number): any {
       ).annotate({ identifier: "SnapshotStatusRequest" });
   }
 }
-function __c1026(j: number): any {
+function __c1027(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86907,8 +87746,8 @@ function __c1026(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          incremental: __S(32832, __c1026, 0),
-          total: __S(32832, __c1026, 0),
+          incremental: __S(32864, __c1027, 0),
+          total: __S(32864, __c1027, 0),
           start_time_in_millis: S.Number,
           time: S.optional(S.Unknown),
           time_in_millis: S.Number,
@@ -86918,11 +87757,11 @@ function __c1026(j: number): any {
       return S.suspend(() =>
         S.Struct({
           stage: S.String,
-          stats: __S(32833, __c1026, 1),
+          stats: __S(32865, __c1027, 1),
         }),
       ).annotate({ identifier: "SnapshotTypesSnapshotShardsStatus" });
     case 3:
-      return S.Record(S.String, __S(32834, __c1026, 2));
+      return S.Record(S.String, __S(32866, __c1027, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -86937,47 +87776,47 @@ function __c1026(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          incremental: __S(32832, __c1026, 0),
+          incremental: __S(32864, __c1027, 0),
           start_time_in_millis: S.Number,
           time: S.optional(S.Unknown),
           time_in_millis: S.Number,
-          total: __S(32832, __c1026, 0),
+          total: __S(32864, __c1027, 0),
         }),
       ).annotate({ identifier: "SnapshotTypesSnapshotStats" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          shards: __S(32835, __c1026, 3),
-          shards_stats: __S(32836, __c1026, 4),
-          stats: __S(32837, __c1026, 5),
+          shards: __S(32867, __c1027, 3),
+          shards_stats: __S(32868, __c1027, 4),
+          stats: __S(32869, __c1027, 5),
         }),
       ).annotate({ identifier: "SnapshotTypesSnapshotIndexStats" });
     case 7:
-      return S.Record(S.String, __S(32838, __c1026, 6));
+      return S.Record(S.String, __S(32870, __c1027, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           include_global_state: S.Boolean,
-          indices: __S(32839, __c1026, 7),
+          indices: __S(32871, __c1027, 7),
           repository: S.String,
-          shards_stats: __S(32836, __c1026, 4),
+          shards_stats: __S(32868, __c1027, 4),
           snapshot: S.String,
           state: S.String,
-          stats: __S(32837, __c1026, 5),
+          stats: __S(32869, __c1027, 5),
           uuid: S.String,
         }),
       ).annotate({ identifier: "SnapshotTypesStatus" });
     case 9:
-      return S.Array(__S(32840, __c1026, 8));
+      return S.Array(__S(32872, __c1027, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          snapshots: __S(32841, __c1026, 9),
+          snapshots: __S(32873, __c1027, 9),
         }),
       ).annotate({ identifier: "SnapshotStatusResponse" });
   }
 }
-function __c1027(j: number): any {
+function __c1028(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -86989,7 +87828,7 @@ function __c1027(j: number): any {
       ).annotate({ identifier: "SnapshotStatus1Request" });
   }
 }
-function __c1028(j: number): any {
+function __c1029(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87010,7 +87849,7 @@ function __c1028(j: number): any {
       ).annotate({ identifier: "CcrResumeFollowRequest" });
   }
 }
-function __c1029(j: number): any {
+function __c1030(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87025,7 +87864,7 @@ function __c1029(j: number): any {
       ).annotate({ identifier: "SnapshotStatus2Request" });
   }
 }
-function __c1030(j: number): any {
+function __c1031(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87043,7 +87882,7 @@ function __c1030(j: number): any {
       ).annotate({ identifier: "SnapshotVerifyRepositoryResponse" });
   }
 }
-function __c1031(j: number): any {
+function __c1032(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87059,7 +87898,7 @@ function __c1031(j: number): any {
       ).annotate({ identifier: "SqlClearCursorResponse" });
   }
 }
-function __c1032(j: number): any {
+function __c1033(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87069,7 +87908,7 @@ function __c1032(j: number): any {
       ).annotate({ identifier: "SqlDeleteAsyncRequest" });
   }
 }
-function __c1033(j: number): any {
+function __c1034(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87089,18 +87928,18 @@ function __c1033(j: number): any {
           is_partial: S.Boolean,
           columns: S.optional(__S(4256, __c133, 0)),
           cursor: S.optional(S.String),
-          rows: __S(33088, __c1034, 0),
+          rows: __S(33120, __c1035, 0),
         }),
       ).annotate({ identifier: "SqlGetAsyncResponse" });
   }
 }
-function __c1034(j: number): any {
+function __c1035(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(256, __c8, 0));
   }
 }
-function __c1035(j: number): any {
+function __c1036(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87121,7 +87960,7 @@ function __c1035(j: number): any {
       ).annotate({ identifier: "SqlGetAsyncStatusResponse" });
   }
 }
-function __c1036(j: number): any {
+function __c1037(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87148,7 +87987,7 @@ function __c1036(j: number): any {
       ).annotate({ identifier: "SqlQueryRequest" });
   }
 }
-function __c1037(j: number): any {
+function __c1038(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87158,12 +87997,12 @@ function __c1037(j: number): any {
           id: S.optional(S.String),
           is_running: S.optional(S.Boolean),
           is_partial: S.optional(S.Boolean),
-          rows: __S(33088, __c1034, 0),
+          rows: __S(33120, __c1035, 0),
         }),
       ).annotate({ identifier: "SqlQueryResponse" });
   }
 }
-function __c1038(j: number): any {
+function __c1039(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87190,7 +88029,7 @@ function __c1038(j: number): any {
       ).annotate({ identifier: "SqlQuery1Request" });
   }
 }
-function __c1039(j: number): any {
+function __c1040(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87203,7 +88042,7 @@ function __c1039(j: number): any {
       ).annotate({ identifier: "SqlTranslateRequest" });
   }
 }
-function __c1040(j: number): any {
+function __c1041(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87219,7 +88058,7 @@ function __c1040(j: number): any {
       ).annotate({ identifier: "SqlTranslateResponse" });
   }
 }
-function __c1041(j: number): any {
+function __c1042(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87232,7 +88071,7 @@ function __c1041(j: number): any {
       ).annotate({ identifier: "SqlTranslate1Request" });
   }
 }
-function __c1042(j: number): any {
+function __c1043(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87250,11 +88089,11 @@ function __c1042(j: number): any {
         }),
       ).annotate({ identifier: "CcrStatsAutoFollowedCluster" });
     case 2:
-      return S.Array(__S(33345, __c1042, 1));
+      return S.Array(__S(33377, __c1043, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          auto_followed_clusters: __S(33346, __c1042, 2),
+          auto_followed_clusters: __S(33378, __c1043, 2),
           number_of_failed_follow_indices: S.Number,
           number_of_failed_remote_cluster_state_requests: S.Number,
           number_of_successful_follow_indices: S.Number,
@@ -87264,13 +88103,13 @@ function __c1042(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          auto_follow_stats: __S(33347, __c1042, 3),
-          follow_stats: __S(29542, __c923, 6),
+          auto_follow_stats: __S(33379, __c1043, 3),
+          follow_stats: __S(29574, __c924, 6),
         }),
       ).annotate({ identifier: "CcrStatsResponse" });
   }
 }
-function __c1043(j: number): any {
+function __c1044(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87290,14 +88129,14 @@ function __c1043(j: number): any {
         }),
       ).annotate({ identifier: "SslCertificatesCertificateInformation" });
     case 2:
-      return S.Array(__S(33377, __c1043, 1));
+      return S.Array(__S(33409, __c1044, 1));
     case 3:
-      return S.suspend(() => __S(33378, __c1043, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(33410, __c1044, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SslCertificatesResponse",
       });
   }
 }
-function __c1044(j: number): any {
+function __c1045(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87308,7 +88147,7 @@ function __c1044(j: number): any {
       ).annotate({ identifier: "StartIlmRequest" });
   }
 }
-function __c1045(j: number): any {
+function __c1046(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87319,7 +88158,7 @@ function __c1045(j: number): any {
       ).annotate({ identifier: "StartSlmRequest" });
   }
 }
-function __c1046(j: number): any {
+function __c1047(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87332,7 +88171,7 @@ function __c1046(j: number): any {
       ).annotate({ identifier: "StartTransformRequest" });
   }
 }
-function __c1047(j: number): any {
+function __c1048(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87342,7 +88181,7 @@ function __c1047(j: number): any {
       ).annotate({ identifier: "StartWatcherRequest" });
   }
 }
-function __c1048(j: number): any {
+function __c1049(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87353,7 +88192,7 @@ function __c1048(j: number): any {
       ).annotate({ identifier: "StopEsqlAsyncQueryRequest" });
   }
 }
-function __c1049(j: number): any {
+function __c1050(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87364,7 +88203,7 @@ function __c1049(j: number): any {
       ).annotate({ identifier: "StopIlmRequest" });
   }
 }
-function __c1050(j: number): any {
+function __c1051(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87375,7 +88214,7 @@ function __c1050(j: number): any {
       ).annotate({ identifier: "StopSlmRequest" });
   }
 }
-function __c1051(j: number): any {
+function __c1052(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87390,7 +88229,7 @@ function __c1051(j: number): any {
       ).annotate({ identifier: "StopTransformRequest" });
   }
 }
-function __c1052(j: number): any {
+function __c1053(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87400,7 +88239,7 @@ function __c1052(j: number): any {
       ).annotate({ identifier: "StopWatcherRequest" });
   }
 }
-function __c1053(j: number): any {
+function __c1054(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87418,7 +88257,7 @@ function __c1053(j: number): any {
       ).annotate({ identifier: "ClaimConnectorSyncJobRequest" });
   }
 }
-function __c1054(j: number): any {
+function __c1055(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87429,14 +88268,14 @@ function __c1054(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          logs: __S(36704, __c1147, 0),
-          logs_otel: __S(36704, __c1147, 0).pipe(T.Body("logs.otel")),
-          logs_ecs: __S(36704, __c1147, 0).pipe(T.Body("logs.ecs")),
+          logs: __S(36736, __c1148, 0),
+          logs_otel: __S(36736, __c1148, 0).pipe(T.Body("logs.otel")),
+          logs_ecs: __S(36736, __c1148, 0).pipe(T.Body("logs.ecs")),
         }),
       ).annotate({ identifier: "StreamsStatusResponse" });
   }
 }
-function __c1055(j: number): any {
+function __c1056(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87450,7 +88289,7 @@ function __c1055(j: number): any {
       ).annotate({ identifier: "TasksCancel1Request" });
   }
 }
-function __c1056(j: number): any {
+function __c1057(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87467,7 +88306,7 @@ function __c1056(j: number): any {
       ).annotate({ identifier: "TermsEnumRequest" });
   }
 }
-function __c1057(j: number): any {
+function __c1058(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87479,7 +88318,7 @@ function __c1057(j: number): any {
       ).annotate({ identifier: "TermsEnumResponse" });
   }
 }
-function __c1058(j: number): any {
+function __c1059(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87496,7 +88335,7 @@ function __c1058(j: number): any {
       ).annotate({ identifier: "TermsEnum1Request" });
   }
 }
-function __c1059(j: number): any {
+function __c1060(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87521,7 +88360,7 @@ function __c1059(j: number): any {
       ).annotate({ identifier: "TermvectorsRequest" });
   }
 }
-function __c1060(j: number): any {
+function __c1061(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87536,7 +88375,7 @@ function __c1060(j: number): any {
       ).annotate({ identifier: "TermvectorsResponse" });
   }
 }
-function __c1061(j: number): any {
+function __c1062(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87561,7 +88400,7 @@ function __c1061(j: number): any {
       ).annotate({ identifier: "Termvectors1Request" });
   }
 }
-function __c1062(j: number): any {
+function __c1063(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87585,7 +88424,7 @@ function __c1062(j: number): any {
       ).annotate({ identifier: "Termvectors2Request" });
   }
 }
-function __c1063(j: number): any {
+function __c1064(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87609,7 +88448,7 @@ function __c1063(j: number): any {
       ).annotate({ identifier: "Termvectors3Request" });
   }
 }
-function __c1064(j: number): any {
+function __c1065(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87633,20 +88472,20 @@ function __c1064(j: number): any {
       ).annotate({ identifier: "TextStructureFindFieldStructureRequest" });
   }
 }
-function __c1065(j: number): any {
+function __c1066(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           charset: S.String,
           ecs_compatibility: S.optional(S.String),
-          field_stats: __S(34115, __c1066, 3),
+          field_stats: __S(34147, __c1067, 3),
           format: S.String,
           grok_pattern: S.optional(S.String),
           java_timestamp_formats: S.optional(__S(1088, __c34, 0)),
           joda_timestamp_formats: S.optional(__S(1088, __c34, 0)),
-          ingest_pipeline: __S(34116, __c1066, 4),
-          mappings: __S(36897, __c1153, 1),
+          ingest_pipeline: __S(34148, __c1067, 4),
+          mappings: __S(36929, __c1154, 1),
           multiline_start_pattern: S.optional(S.String),
           need_client_timezone: S.Boolean,
           num_lines_analyzed: S.Number,
@@ -87657,7 +88496,7 @@ function __c1065(j: number): any {
       ).annotate({ identifier: "TextStructureFindFieldStructureResponse" });
   }
 }
-function __c1066(j: number): any {
+function __c1067(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87667,13 +88506,13 @@ function __c1066(j: number): any {
         }),
       ).annotate({ identifier: "TextStructureTypesTopHit" });
     case 1:
-      return S.Array(__S(34112, __c1066, 0));
+      return S.Array(__S(34144, __c1067, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           cardinality: S.Number,
-          top_hits: __S(34113, __c1066, 1),
+          top_hits: __S(34145, __c1067, 1),
           mean_value: S.optional(S.Number),
           median_value: S.optional(S.Number),
           max_value: S.optional(S.Number),
@@ -87683,7 +88522,7 @@ function __c1066(j: number): any {
         }),
       ).annotate({ identifier: "TextStructureTypesFieldStat" });
     case 3:
-      return S.Record(S.String, __S(34114, __c1066, 2));
+      return S.Record(S.String, __S(34146, __c1067, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -87694,7 +88533,7 @@ function __c1066(j: number): any {
       ).annotate({ identifier: "IngestTypesPipelineConfig" });
   }
 }
-function __c1067(j: number): any {
+function __c1068(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87718,7 +88557,7 @@ function __c1067(j: number): any {
       ).annotate({ identifier: "TextStructureFindMessageStructureRequest" });
   }
 }
-function __c1068(j: number): any {
+function __c1069(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87728,7 +88567,7 @@ function __c1068(j: number): any {
       ).annotate({ identifier: "ClearScrollRequest" });
   }
 }
-function __c1069(j: number): any {
+function __c1070(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87752,7 +88591,7 @@ function __c1069(j: number): any {
       ).annotate({ identifier: "TextStructureFindMessageStructure1Request" });
   }
 }
-function __c1070(j: number): any {
+function __c1071(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87783,10 +88622,10 @@ function __c1070(j: number): any {
           has_header_row: S.optional(S.Boolean),
           has_byte_order_marker: S.Boolean,
           format: S.String,
-          field_stats: __S(34115, __c1066, 3),
+          field_stats: __S(34147, __c1067, 3),
           sample_start: S.String,
           num_messages_analyzed: S.Number,
-          mappings: __S(36897, __c1153, 1),
+          mappings: __S(36929, __c1154, 1),
           quote: S.optional(S.String),
           delimiter: S.optional(S.String),
           need_client_timezone: S.Boolean,
@@ -87800,12 +88639,12 @@ function __c1070(j: number): any {
           joda_timestamp_formats: S.optional(__S(1088, __c34, 0)),
           timestamp_field: S.optional(S.String),
           should_trim_fields: S.optional(S.Boolean),
-          ingest_pipeline: __S(34116, __c1066, 4),
+          ingest_pipeline: __S(34148, __c1067, 4),
         }),
       ).annotate({ identifier: "TextStructureFindStructureResponse" });
   }
 }
-function __c1071(j: number): any {
+function __c1072(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87817,7 +88656,7 @@ function __c1071(j: number): any {
       ).annotate({ identifier: "TextStructureTestGrokPatternRequest" });
   }
 }
-function __c1072(j: number): any {
+function __c1073(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87828,27 +88667,27 @@ function __c1072(j: number): any {
         }),
       ).annotate({ identifier: "TextStructureTestGrokPatternMatchedField" });
     case 1:
-      return S.Array(__S(34304, __c1072, 0));
+      return S.Array(__S(34336, __c1073, 0));
     case 2:
-      return S.Record(S.String, __S(34305, __c1072, 1));
+      return S.Record(S.String, __S(34337, __c1073, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           matched: S.Boolean,
-          fields: S.optional(__S(34306, __c1072, 2)),
+          fields: S.optional(__S(34338, __c1073, 2)),
         }),
       ).annotate({ identifier: "TextStructureTestGrokPatternMatchedText" });
     case 4:
-      return S.Array(__S(34307, __c1072, 3));
+      return S.Array(__S(34339, __c1073, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          matches: __S(34308, __c1072, 4),
+          matches: __S(34340, __c1073, 4),
         }),
       ).annotate({ identifier: "TextStructureTestGrokPatternResponse" });
   }
 }
-function __c1073(j: number): any {
+function __c1074(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87860,7 +88699,7 @@ function __c1073(j: number): any {
       ).annotate({ identifier: "TextStructureTestGrokPattern1Request" });
   }
 }
-function __c1074(j: number): any {
+function __c1075(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87876,18 +88715,18 @@ function __c1074(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          scheduler: __S(34369, __c1074, 1),
+          scheduler: __S(34401, __c1075, 1),
         }),
       ).annotate({ identifier: "TransformGetNodeStatsTransformNodeStats" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          total: __S(34370, __c1074, 2),
+          total: __S(34402, __c1075, 2),
         }),
       ).annotate({ identifier: "TransformGetNodeStatsTransformNodeFullStats" });
   }
 }
-function __c1075(j: number): any {
+function __c1076(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87907,7 +88746,7 @@ function __c1075(j: number): any {
       ).annotate({ identifier: "TransformPreviewTransformRequest" });
   }
 }
-function __c1076(j: number): any {
+function __c1077(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87918,7 +88757,7 @@ function __c1076(j: number): any {
       ).annotate({ identifier: "TransformPreviewTransformResponse" });
   }
 }
-function __c1077(j: number): any {
+function __c1078(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87938,7 +88777,7 @@ function __c1077(j: number): any {
       ).annotate({ identifier: "TransformPreviewTransform1Request" });
   }
 }
-function __c1078(j: number): any {
+function __c1079(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87957,7 +88796,7 @@ function __c1078(j: number): any {
       ).annotate({ identifier: "TransformPreviewTransform2Request" });
   }
 }
-function __c1079(j: number): any {
+function __c1080(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87976,7 +88815,7 @@ function __c1079(j: number): any {
       ).annotate({ identifier: "TransformPreviewTransform3Request" });
   }
 }
-function __c1080(j: number): any {
+function __c1081(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -87990,7 +88829,7 @@ function __c1080(j: number): any {
       ).annotate({ identifier: "TransformScheduleNowTransformRequest" });
   }
 }
-function __c1081(j: number): any {
+function __c1082(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88000,7 +88839,7 @@ function __c1081(j: number): any {
       ).annotate({ identifier: "ClearScroll1Request" });
   }
 }
-function __c1082(j: number): any {
+function __c1083(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88011,7 +88850,7 @@ function __c1082(j: number): any {
       ).annotate({ identifier: "TransformSetUpgradeModeRequest" });
   }
 }
-function __c1083(j: number): any {
+function __c1084(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88030,7 +88869,7 @@ function __c1083(j: number): any {
       ).annotate({ identifier: "TransformUpgradeTransformsResponse" });
   }
 }
-function __c1084(j: number): any {
+function __c1085(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88041,7 +88880,7 @@ function __c1084(j: number): any {
       ).annotate({ identifier: "UnfollowCcrRequest" });
   }
 }
-function __c1085(j: number): any {
+function __c1086(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88086,7 +88925,7 @@ function __c1085(j: number): any {
       ).annotate({ identifier: "UpdateResponse" });
   }
 }
-function __c1086(j: number): any {
+function __c1087(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88153,7 +88992,7 @@ function __c1086(j: number): any {
       ).annotate({ identifier: "UpdateByQueryResponse" });
   }
 }
-function __c1087(j: number): any {
+function __c1088(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88171,22 +89010,22 @@ function __c1087(j: number): any {
           host: S.String,
           ip: S.String,
           name: S.String,
-          roles: S.optional(__S(36320, __c1135, 0)),
+          roles: S.optional(__S(36352, __c1136, 0)),
           transport_address: S.String,
           tasks: __S(5440, __c170, 0),
         }),
       ).annotate({ identifier: "GlobalUpdateByQueryRethrottleUpdateByQueryRethrottleNode" });
     case 2:
-      return S.Record(S.String, __S(34785, __c1087, 1));
+      return S.Record(S.String, __S(34817, __c1088, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nodes: __S(34786, __c1087, 2),
+          nodes: __S(34818, __c1088, 2),
         }),
       ).annotate({ identifier: "UpdateByQueryRethrottleResponse" });
   }
 }
-function __c1088(j: number): any {
+function __c1089(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88201,7 +89040,7 @@ function __c1088(j: number): any {
       ).annotate({ identifier: "UpdateInferenceRequest" });
   }
 }
-function __c1089(j: number): any {
+function __c1090(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88240,7 +89079,7 @@ function __c1089(j: number): any {
       ).annotate({ identifier: "UpdateTransformResponse" });
   }
 }
-function __c1090(j: number): any {
+function __c1091(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88250,7 +89089,7 @@ function __c1090(j: number): any {
       ).annotate({ identifier: "WatcherAckWatch1Request" });
   }
 }
-function __c1091(j: number): any {
+function __c1092(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88277,14 +89116,14 @@ function __c1091(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ack: __S(34912, __c1091, 0),
-          last_execution: S.optional(__S(34913, __c1091, 1)),
-          last_successful_execution: S.optional(__S(34913, __c1091, 1)),
-          last_throttle: S.optional(__S(34914, __c1091, 2)),
+          ack: __S(34944, __c1092, 0),
+          last_execution: S.optional(__S(34945, __c1092, 1)),
+          last_successful_execution: S.optional(__S(34945, __c1092, 1)),
+          last_throttle: S.optional(__S(34946, __c1092, 2)),
         }),
       ).annotate({ identifier: "WatcherTypesActionStatus" });
     case 4:
-      return S.Record(S.String, __S(34915, __c1091, 3));
+      return S.Record(S.String, __S(34947, __c1092, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -88294,32 +89133,32 @@ function __c1091(j: number): any {
       ).annotate({ identifier: "WatcherTypesActivationState" });
   }
 }
-function __c1092(j: number): any {
+function __c1093(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(34916, __c1091, 4),
+          actions: __S(34948, __c1092, 4),
           last_checked: S.optional(S.Unknown),
           last_met_condition: S.optional(S.Unknown),
-          state: __S(34917, __c1091, 5),
+          state: __S(34949, __c1092, 5),
           version: S.Number,
           execution_state: S.optional(S.String),
         }),
       ).annotate({ identifier: "WatcherTypesWatchStatus" });
   }
 }
-function __c1093(j: number): any {
+function __c1094(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          status: __S(34944, __c1092, 0),
+          status: __S(34976, __c1093, 0),
         }),
       ).annotate({ identifier: "WatcherAckWatch1Response" });
   }
 }
-function __c1094(j: number): any {
+function __c1095(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88332,7 +89171,7 @@ function __c1094(j: number): any {
       ).annotate({ identifier: "WatcherAckWatch2Request" });
   }
 }
-function __c1095(j: number): any {
+function __c1096(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88403,7 +89242,7 @@ function __c1095(j: number): any {
       ).annotate({ identifier: "AsyncSearchSubmit1Request" });
   }
 }
-function __c1096(j: number): any {
+function __c1097(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88413,13 +89252,13 @@ function __c1096(j: number): any {
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
           wait_for_active_shards: S.optional(S.Unknown.pipe(T.Query())),
-          aliases: S.optional(__S(35137, __c1098, 1)),
+          aliases: S.optional(__S(35169, __c1099, 1)),
           settings: S.optional(__S(1056, __c33, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/{index}/_clone/{target}", code: 200 })),
       ).annotate({ identifier: "CloneIndexRequest" });
   }
 }
-function __c1097(j: number): any {
+function __c1098(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88431,7 +89270,7 @@ function __c1097(j: number): any {
       ).annotate({ identifier: "CloneIndexResponse" });
   }
 }
-function __c1098(j: number): any {
+function __c1099(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88445,10 +89284,10 @@ function __c1098(j: number): any {
         }),
       ).annotate({ identifier: "IndicesTypesAlias" });
     case 1:
-      return S.Record(S.String, __S(35136, __c1098, 0));
+      return S.Record(S.String, __S(35168, __c1099, 0));
   }
 }
-function __c1099(j: number): any {
+function __c1100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88461,7 +89300,7 @@ function __c1099(j: number): any {
       ).annotate({ identifier: "WatcherAckWatch3Request" });
   }
 }
-function __c1100(j: number): any {
+function __c1101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88471,25 +89310,25 @@ function __c1100(j: number): any {
       ).annotate({ identifier: "WatcherActivateWatchRequest" });
   }
 }
-function __c1101(j: number): any {
+function __c1102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(34916, __c1091, 4),
-          state: __S(34917, __c1091, 5),
+          actions: __S(34948, __c1092, 4),
+          state: __S(34949, __c1092, 5),
           version: S.Number,
         }),
       ).annotate({ identifier: "WatcherTypesActivationStatus" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          status: __S(35232, __c1101, 0),
+          status: __S(35264, __c1102, 0),
         }),
       ).annotate({ identifier: "WatcherActivateWatchResponse" });
   }
 }
-function __c1102(j: number): any {
+function __c1103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88499,7 +89338,7 @@ function __c1102(j: number): any {
       ).annotate({ identifier: "WatcherActivateWatch1Request" });
   }
 }
-function __c1103(j: number): any {
+function __c1104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88511,7 +89350,7 @@ function __c1103(j: number): any {
       ).annotate({ identifier: "WatcherDeactivateWatchRequest" });
   }
 }
-function __c1104(j: number): any {
+function __c1105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88523,7 +89362,7 @@ function __c1104(j: number): any {
       ).annotate({ identifier: "WatcherDeactivateWatch1Request" });
   }
 }
-function __c1105(j: number): any {
+function __c1106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -88541,25 +89380,25 @@ function __c1105(j: number): any {
       ).annotate({ identifier: "WatcherDeleteWatchResponse" });
   }
 }
-function __c1106(j: number): any {
+function __c1107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           debug: S.optional(S.Boolean.pipe(T.Query())),
-          action_modes: S.optional(__S(35424, __c1107, 0)),
+          action_modes: S.optional(__S(35456, __c1108, 0)),
           alternative_input: S.optional(__S(1056, __c33, 0)),
           ignore_condition: S.optional(S.Boolean),
           record_execution: S.optional(S.Boolean),
-          simulated_actions: S.optional(__S(35425, __c1107, 1)),
-          trigger_data: S.optional(__S(35426, __c1107, 2)),
-          watch: S.optional(__S(35520, __c1110, 0)),
+          simulated_actions: S.optional(__S(35457, __c1108, 1)),
+          trigger_data: S.optional(__S(35458, __c1108, 2)),
+          watch: S.optional(__S(35552, __c1111, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/_watcher/watch/{id}/_execute", code: 200 })),
       ).annotate({ identifier: "WatcherExecuteWatchRequest" });
   }
 }
-function __c1107(j: number): any {
+function __c1108(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -88567,7 +89406,7 @@ function __c1107(j: number): any {
       return S.suspend(() =>
         S.Struct({
           actions: __S(1088, __c34, 0),
-          all: __S(35425, __c1107, 1),
+          all: __S(35457, __c1108, 1),
           use_all: S.Boolean,
         }),
       ).annotate({ identifier: "WatcherTypesSimulatedActions" });
@@ -88581,13 +89420,13 @@ function __c1107(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          schedule: S.optional(__S(35426, __c1107, 2)),
+          schedule: S.optional(__S(35458, __c1108, 2)),
         }),
       ).annotate({ identifier: "WatcherTypesTriggerEventContainer" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          manual: __S(35427, __c1107, 3),
+          manual: __S(35459, __c1108, 3),
           triggered_time: S.Unknown,
           type: S.String,
         }),
@@ -88597,7 +89436,7 @@ function __c1107(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           bcc: S.optional(S.Unknown),
-          body: S.optional(__S(35468, __c1108, 12)),
+          body: S.optional(__S(35500, __c1109, 12)),
           cc: S.optional(S.Unknown),
           from: S.optional(S.String),
           priority: S.optional(S.String),
@@ -88605,14 +89444,14 @@ function __c1107(j: number): any {
           sent_date: S.optional(S.Unknown),
           subject: S.String,
           to: S.Unknown,
-          attachments: S.optional(__S(35477, __c1108, 21)),
+          attachments: S.optional(__S(35509, __c1109, 21)),
         }),
       ).annotate({ identifier: "WatcherTypesEmail" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           account: S.optional(S.String),
-          message: __S(35429, __c1107, 5),
+          message: __S(35461, __c1108, 5),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "WatcherTypesEmailResult" });
@@ -88629,7 +89468,7 @@ function __c1107(j: number): any {
       return S.suspend(() =>
         S.Struct({
           response: S.optional(S.Unknown),
-          request: S.optional(__S(35431, __c1107, 7)),
+          request: S.optional(__S(35463, __c1108, 7)),
         }),
       ).annotate({ identifier: "WatcherTypesIndexResult" });
     case 9:
@@ -88649,17 +89488,17 @@ function __c1107(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          event: __S(35482, __c1108, 26),
+          event: __S(35514, __c1109, 26),
           reason: S.optional(S.String),
-          request: S.optional(__S(35472, __c1108, 16)),
-          response: S.optional(__S(35434, __c1107, 10)),
+          request: S.optional(__S(35504, __c1109, 16)),
+          response: S.optional(__S(35466, __c1108, 10)),
         }),
       ).annotate({ identifier: "WatcherTypesPagerDutyResult" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          request: __S(35472, __c1108, 16),
-          response: S.optional(__S(35434, __c1107, 10)),
+          request: __S(35504, __c1109, 16),
+          response: S.optional(__S(35466, __c1108, 10)),
         }),
       ).annotate({ identifier: "WatcherTypesWebhookResult" });
     case 13:
@@ -88674,14 +89513,14 @@ function __c1107(j: number): any {
           met: S.Boolean,
           status: S.String,
           type: S.String,
-          compare: S.optional(__S(35437, __c1107, 13)),
-          array_compare: S.optional(__S(35437, __c1107, 13)),
+          compare: S.optional(__S(35469, __c1108, 13)),
+          array_compare: S.optional(__S(35469, __c1108, 13)),
         }),
       ).annotate({ identifier: "WatcherTypesExecutionResultCondition" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          request: __S(35463, __c1108, 7),
+          request: __S(35495, __c1109, 7),
         }),
       ).annotate({ identifier: "WatcherTypesExecutionResultSearchInput" });
     case 16:
@@ -88690,7 +89529,7 @@ function __c1107(j: number): any {
           payload: S.optional(__S(1056, __c33, 0)),
           status: S.String,
           type: S.String,
-          search: S.optional(__S(35439, __c1107, 15)),
+          search: S.optional(__S(35471, __c1108, 15)),
           error: S.optional(__S(1, __c0, 1)),
           reason: S.optional(S.String),
         }),
@@ -88698,52 +89537,52 @@ function __c1107(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          email: S.optional(__S(35430, __c1107, 6)),
-          index: S.optional(__S(35432, __c1107, 8)),
-          logging: S.optional(__S(35433, __c1107, 9)),
-          pagerduty: S.optional(__S(35435, __c1107, 11)),
-          slack: S.optional(__S(35489, __c1109, 1)),
-          webhook: S.optional(__S(35436, __c1107, 12)),
+          email: S.optional(__S(35462, __c1108, 6)),
+          index: S.optional(__S(35464, __c1108, 8)),
+          logging: S.optional(__S(35465, __c1108, 9)),
+          pagerduty: S.optional(__S(35467, __c1108, 11)),
+          slack: S.optional(__S(35521, __c1110, 1)),
+          webhook: S.optional(__S(35468, __c1108, 12)),
           error: S.optional(__S(1, __c0, 1)),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "WatcherTypesExecutionResultForeachAction" });
     case 18:
-      return S.Array(__S(35441, __c1107, 17));
+      return S.Array(__S(35473, __c1108, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          email: S.optional(__S(35430, __c1107, 6)),
-          index: S.optional(__S(35432, __c1107, 8)),
-          logging: S.optional(__S(35433, __c1107, 9)),
-          pagerduty: S.optional(__S(35435, __c1107, 11)),
-          slack: S.optional(__S(35489, __c1109, 1)),
-          webhook: S.optional(__S(35436, __c1107, 12)),
+          email: S.optional(__S(35462, __c1108, 6)),
+          index: S.optional(__S(35464, __c1108, 8)),
+          logging: S.optional(__S(35465, __c1108, 9)),
+          pagerduty: S.optional(__S(35467, __c1108, 11)),
+          slack: S.optional(__S(35521, __c1110, 1)),
+          webhook: S.optional(__S(35468, __c1108, 12)),
           error: S.optional(__S(1, __c0, 1)),
           reason: S.optional(S.String),
           id: S.String,
           type: S.String,
           status: S.String,
-          condition: S.optional(__S(35438, __c1107, 14)),
-          transform: S.optional(__S(35440, __c1107, 16)),
-          foreach: S.optional(__S(35442, __c1107, 18)),
+          condition: S.optional(__S(35470, __c1108, 14)),
+          transform: S.optional(__S(35472, __c1108, 16)),
+          foreach: S.optional(__S(35474, __c1108, 18)),
           max_iterations: S.optional(S.Number),
           number_of_actions_executed: S.optional(S.Number),
         }),
       ).annotate({ identifier: "WatcherTypesExecutionResultAction" });
     case 20:
-      return S.Array(__S(35443, __c1107, 19));
+      return S.Array(__S(35475, __c1108, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          request: __S(35472, __c1108, 16),
+          request: __S(35504, __c1109, 16),
           status_code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "WatcherTypesExecutionResultHttpInput" });
     case 22:
       return S.Record(
         S.String,
-        /*@__PURE__*/ S.suspend(() => __S(35447, __c1107, 23)),
+        /*@__PURE__*/ S.suspend(() => __S(35479, __c1108, 23)),
       );
     case 23:
       return S.suspend(() =>
@@ -88751,21 +89590,21 @@ function __c1107(j: number): any {
           payload: S.optional(__S(1056, __c33, 0)),
           status: S.String,
           type: S.String,
-          search: S.optional(__S(35439, __c1107, 15)),
-          http: S.optional(__S(35445, __c1107, 21)),
-          chain: S.optional(__S(35446, __c1107, 22)),
+          search: S.optional(__S(35471, __c1108, 15)),
+          http: S.optional(__S(35477, __c1108, 21)),
+          chain: S.optional(__S(35478, __c1108, 22)),
           error: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "WatcherTypesExecutionResultInput" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(35444, __c1107, 20),
-          condition: S.optional(__S(35438, __c1107, 14)),
+          actions: __S(35476, __c1108, 20),
+          condition: S.optional(__S(35470, __c1108, 14)),
           execution_duration: S.Number,
           execution_time: S.Unknown,
-          input: S.optional(__S(35447, __c1107, 23)),
-          transform: S.optional(__S(35440, __c1107, 16)),
+          input: S.optional(__S(35479, __c1108, 23)),
+          transform: S.optional(__S(35472, __c1108, 16)),
         }),
       ).annotate({ identifier: "WatcherTypesExecutionResult" });
     case 25:
@@ -88774,14 +89613,14 @@ function __c1107(j: number): any {
           _timestamp: S.Unknown.pipe(T.Body("@timestamp")),
           node: S.String,
           state: S.String,
-          trigger_event: __S(35428, __c1107, 4),
+          trigger_event: __S(35460, __c1108, 4),
           watch_id: S.String,
-          condition: S.optional(__S(35459, __c1108, 3)),
-          input: S.optional(__S(35497, __c1109, 9)),
+          condition: S.optional(__S(35491, __c1109, 3)),
+          input: S.optional(__S(35529, __c1110, 9)),
           metadata: S.optional(__S(1056, __c33, 0)),
-          result: S.optional(__S(35448, __c1107, 24)),
+          result: S.optional(__S(35480, __c1108, 24)),
           user: S.optional(S.String),
-          status: S.optional(__S(34944, __c1092, 0)),
+          status: S.optional(__S(34976, __c1093, 0)),
           messages: S.optional(__S(1088, __c34, 0)),
           vars: S.optional(__S(1056, __c33, 0)),
           exception: S.optional(__S(1, __c0, 1)),
@@ -88791,12 +89630,12 @@ function __c1107(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
-          watch_record: __S(35449, __c1107, 25),
+          watch_record: __S(35481, __c1108, 25),
         }),
       ).annotate({ identifier: "WatcherExecuteWatchResponse" });
   }
 }
-function __c1108(j: number): any {
+function __c1109(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, __S(4544, __c142, 0));
@@ -88815,14 +89654,14 @@ function __c1108(j: number): any {
       return S.suspend(() =>
         S.Struct({
           always: S.optional(S.Unknown),
-          array_compare: S.optional(__S(35456, __c1108, 0)),
-          compare: S.optional(__S(35457, __c1108, 1)),
+          array_compare: S.optional(__S(35488, __c1109, 0)),
+          compare: S.optional(__S(35489, __c1109, 1)),
           never: S.optional(S.Unknown),
-          script: S.optional(__S(35458, __c1108, 2)),
+          script: S.optional(__S(35490, __c1109, 2)),
         }),
       ).annotate({ identifier: "WatcherTypesConditionContainer" });
     case 4:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(35465, __c1108, 9)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(35497, __c1109, 9)));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -88850,23 +89689,23 @@ function __c1108(j: number): any {
           indices: S.optional(S.Unknown),
           indices_options: S.optional(__S(19072, __c596, 0)),
           search_type: S.optional(S.String),
-          template: S.optional(__S(35462, __c1108, 6)),
+          template: S.optional(__S(35494, __c1109, 6)),
           rest_total_hits_as_int: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "WatcherTypesSearchInputRequestDefinition" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          request: __S(35463, __c1108, 7),
+          request: __S(35495, __c1109, 7),
           timeout: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "TypesSearchTransform" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          chain: S.optional(__S(35460, __c1108, 4)),
-          script: S.optional(__S(35461, __c1108, 5)),
-          search: S.optional(__S(35464, __c1108, 8)),
+          chain: S.optional(__S(35492, __c1109, 4)),
+          script: S.optional(__S(35493, __c1109, 5)),
+          search: S.optional(__S(35496, __c1109, 8)),
         }),
       ).annotate({ identifier: "TypesTransformContainer" });
     case 10:
@@ -88898,14 +89737,14 @@ function __c1108(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          password: S.String,
+          password: S.String.pipe(T.SensitiveValue({})),
           username: S.String,
         }),
       ).annotate({ identifier: "WatcherTypesHttpInputBasicAuthentication" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          basic: __S(35469, __c1108, 13),
+          basic: __S(35501, __c1109, 13),
         }),
       ).annotate({ identifier: "WatcherTypesHttpInputAuthentication" });
     case 15:
@@ -88918,7 +89757,7 @@ function __c1108(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          auth: S.optional(__S(35470, __c1108, 14)),
+          auth: S.optional(__S(35502, __c1109, 14)),
           body: S.optional(S.String),
           connection_timeout: S.optional(S.Unknown),
           headers: S.optional(__S(160, __c5, 0)),
@@ -88927,7 +89766,7 @@ function __c1108(j: number): any {
           params: S.optional(__S(160, __c5, 0)),
           path: S.optional(S.String),
           port: S.optional(S.Number),
-          proxy: S.optional(__S(35471, __c1108, 15)),
+          proxy: S.optional(__S(35503, __c1109, 15)),
           read_timeout: S.optional(S.Unknown),
           scheme: S.optional(S.String),
           url: S.optional(S.String),
@@ -88938,7 +89777,7 @@ function __c1108(j: number): any {
         S.Struct({
           content_type: S.optional(S.String),
           inline: S.optional(S.Boolean),
-          request: S.optional(__S(35472, __c1108, 16)),
+          request: S.optional(__S(35504, __c1109, 16)),
         }),
       ).annotate({ identifier: "WatcherTypesHttpEmailAttachment" });
     case 18:
@@ -88948,7 +89787,7 @@ function __c1108(j: number): any {
           inline: S.optional(S.Boolean),
           retries: S.optional(S.Number),
           interval: S.optional(S.Unknown),
-          request: S.optional(__S(35472, __c1108, 16)),
+          request: S.optional(__S(35504, __c1109, 16)),
         }),
       ).annotate({ identifier: "WatcherTypesReportingEmailAttachment" });
     case 19:
@@ -88960,19 +89799,19 @@ function __c1108(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          http: S.optional(__S(35473, __c1108, 17)),
-          reporting: S.optional(__S(35474, __c1108, 18)),
-          data: S.optional(__S(35475, __c1108, 19)),
+          http: S.optional(__S(35505, __c1109, 17)),
+          reporting: S.optional(__S(35506, __c1109, 18)),
+          data: S.optional(__S(35507, __c1109, 19)),
         }),
       ).annotate({ identifier: "WatcherTypesEmailAttachmentContainer" });
     case 21:
-      return S.Record(S.String, __S(35476, __c1108, 20));
+      return S.Record(S.String, __S(35508, __c1109, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           bcc: S.optional(S.Unknown),
-          body: S.optional(__S(35468, __c1108, 12)),
+          body: S.optional(__S(35500, __c1109, 12)),
           cc: S.optional(S.Unknown),
           from: S.optional(S.String),
           priority: S.optional(S.String),
@@ -88980,7 +89819,7 @@ function __c1108(j: number): any {
           sent_date: S.optional(S.Unknown),
           subject: S.String,
           to: S.Unknown,
-          attachments: S.optional(__S(35477, __c1108, 21)),
+          attachments: S.optional(__S(35509, __c1109, 21)),
         }),
       ).annotate({ identifier: "WatcherTypesEmailAction" });
     case 23:
@@ -88992,7 +89831,7 @@ function __c1108(j: number): any {
         }),
       ).annotate({ identifier: "WatcherTypesPagerDutyContext" });
     case 24:
-      return S.Array(__S(35479, __c1108, 23));
+      return S.Array(__S(35511, __c1109, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
@@ -89007,11 +89846,11 @@ function __c1108(j: number): any {
           attach_payload: S.Boolean,
           client: S.optional(S.String),
           client_url: S.optional(S.String),
-          contexts: S.optional(__S(35480, __c1108, 24)),
+          contexts: S.optional(__S(35512, __c1109, 24)),
           description: S.String,
           event_type: S.optional(S.String),
           incident_key: S.String,
-          proxy: S.optional(__S(35481, __c1108, 25)),
+          proxy: S.optional(__S(35513, __c1109, 25)),
         }),
       ).annotate({ identifier: "WatcherTypesPagerDutyAction" });
     case 27:
@@ -89023,7 +89862,7 @@ function __c1108(j: number): any {
         }),
       ).annotate({ identifier: "WatcherTypesSlackAttachmentField" });
     case 28:
-      return S.Array(__S(35483, __c1108, 27));
+      return S.Array(__S(35515, __c1109, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
@@ -89032,7 +89871,7 @@ function __c1108(j: number): any {
           author_name: S.String,
           color: S.optional(S.String),
           fallback: S.optional(S.String),
-          fields: S.optional(__S(35484, __c1108, 28)),
+          fields: S.optional(__S(35516, __c1109, 28)),
           footer: S.optional(S.String),
           footer_icon: S.optional(S.String),
           image_url: S.optional(S.String),
@@ -89045,23 +89884,23 @@ function __c1108(j: number): any {
         }),
       ).annotate({ identifier: "WatcherTypesSlackAttachment" });
     case 30:
-      return S.Array(__S(35485, __c1108, 29));
+      return S.Array(__S(35517, __c1109, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          attachment_template: __S(35485, __c1108, 29),
+          attachment_template: __S(35517, __c1109, 29),
           list_path: S.String,
         }),
       ).annotate({ identifier: "WatcherTypesSlackDynamicAttachment" });
   }
 }
-function __c1109(j: number): any {
+function __c1110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          attachments: __S(35486, __c1108, 30),
-          dynamic_attachments: S.optional(__S(35487, __c1108, 31)),
+          attachments: __S(35518, __c1109, 30),
+          dynamic_attachments: S.optional(__S(35519, __c1109, 31)),
           from: S.String,
           icon: S.optional(S.String),
           text: S.String,
@@ -89072,48 +89911,48 @@ function __c1109(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account: S.optional(S.String),
-          message: __S(35488, __c1109, 0),
+          message: __S(35520, __c1110, 0),
         }),
       ).annotate({ identifier: "WatcherTypesSlackAction" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           action_type: S.optional(S.String),
-          condition: S.optional(__S(35459, __c1108, 3)),
+          condition: S.optional(__S(35491, __c1109, 3)),
           foreach: S.optional(S.String),
           max_iterations: S.optional(S.Number),
           name: S.optional(S.String),
           throttle_period: S.optional(S.Unknown),
           throttle_period_in_millis: S.optional(S.Number),
-          transform: S.optional(__S(35465, __c1108, 9)),
-          index: S.optional(__S(35466, __c1108, 10)),
-          logging: S.optional(__S(35467, __c1108, 11)),
-          email: S.optional(__S(35478, __c1108, 22)),
-          pagerduty: S.optional(__S(35482, __c1108, 26)),
-          slack: S.optional(__S(35489, __c1109, 1)),
-          webhook: S.optional(__S(35472, __c1108, 16)),
+          transform: S.optional(__S(35497, __c1109, 9)),
+          index: S.optional(__S(35498, __c1109, 10)),
+          logging: S.optional(__S(35499, __c1109, 11)),
+          email: S.optional(__S(35510, __c1109, 22)),
+          pagerduty: S.optional(__S(35514, __c1109, 26)),
+          slack: S.optional(__S(35521, __c1110, 1)),
+          webhook: S.optional(__S(35504, __c1109, 16)),
         }),
       ).annotate({ identifier: "WatcherTypesAction" });
     case 3:
-      return S.Record(S.String, __S(35490, __c1109, 2));
+      return S.Record(S.String, __S(35522, __c1110, 2));
     case 4:
       return S.Record(
         S.String,
-        /*@__PURE__*/ S.suspend(() => __S(35497, __c1109, 9)),
+        /*@__PURE__*/ S.suspend(() => __S(35529, __c1110, 9)),
       );
     case 5:
-      return S.Array(__S(35492, __c1109, 4));
+      return S.Array(__S(35524, __c1110, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          inputs: __S(35493, __c1109, 5),
+          inputs: __S(35525, __c1110, 5),
         }),
       ).annotate({ identifier: "WatcherTypesChainInput" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           extract: S.optional(__S(1088, __c34, 0)),
-          request: S.optional(__S(35472, __c1108, 16)),
+          request: S.optional(__S(35504, __c1109, 16)),
           response_content_type: S.optional(S.String),
         }),
       ).annotate({ identifier: "WatcherTypesHttpInput" });
@@ -89121,18 +89960,18 @@ function __c1109(j: number): any {
       return S.suspend(() =>
         S.Struct({
           extract: S.optional(__S(1088, __c34, 0)),
-          request: __S(35463, __c1108, 7),
+          request: __S(35495, __c1109, 7),
           timeout: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "WatcherTypesSearchInput" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          chain: S.optional(__S(35494, __c1109, 6)),
-          http: S.optional(__S(35495, __c1109, 7)),
-          search: S.optional(__S(35496, __c1109, 8)),
+          chain: S.optional(__S(35526, __c1110, 6)),
+          http: S.optional(__S(35527, __c1110, 7)),
+          search: S.optional(__S(35528, __c1110, 8)),
           simple: S.optional(__S(1056, __c33, 0)),
-          transform: S.optional(__S(35465, __c1108, 9)),
+          transform: S.optional(__S(35497, __c1109, 9)),
         }),
       ).annotate({ identifier: "WatcherTypesInputContainer" });
     case 10:
@@ -89140,7 +89979,7 @@ function __c1109(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          at: __S(35498, __c1109, 10),
+          at: __S(35530, __c1110, 10),
         }),
       ).annotate({ identifier: "WatcherTypesDailySchedule" });
     case 12:
@@ -89154,8 +89993,8 @@ function __c1109(j: number): any {
         S.Struct({
           timezone: S.optional(S.String),
           cron: S.optional(S.String),
-          daily: S.optional(__S(35499, __c1109, 11)),
-          hourly: S.optional(__S(35500, __c1109, 12)),
+          daily: S.optional(__S(35531, __c1110, 11)),
+          hourly: S.optional(__S(35532, __c1110, 12)),
           interval: S.optional(S.Unknown),
           monthly: S.optional(S.Unknown),
           weekly: S.optional(S.Unknown),
@@ -89165,27 +90004,9 @@ function __c1109(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          schedule: S.optional(__S(35501, __c1109, 13)),
+          schedule: S.optional(__S(35533, __c1110, 13)),
         }),
       ).annotate({ identifier: "WatcherTypesTriggerContainer" });
-  }
-}
-function __c1110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          actions: __S(35491, __c1109, 3),
-          condition: S.optional(__S(35459, __c1108, 3)),
-          input: __S(35497, __c1109, 9),
-          metadata: S.optional(__S(1056, __c33, 0)),
-          status: S.optional(__S(34944, __c1092, 0)),
-          throttle_period: S.optional(S.Unknown),
-          throttle_period_in_millis: S.optional(S.Number),
-          transform: S.optional(__S(35465, __c1108, 9)),
-          trigger: __S(35502, __c1109, 14),
-        }),
-      ).annotate({ identifier: "WatcherTypesWatch" });
   }
 }
 function __c1111(j: number): any {
@@ -89193,17 +90014,17 @@ function __c1111(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-          debug: S.optional(S.Boolean.pipe(T.Query())),
-          action_modes: S.optional(__S(35424, __c1107, 0)),
-          alternative_input: S.optional(__S(1056, __c33, 0)),
-          ignore_condition: S.optional(S.Boolean),
-          record_execution: S.optional(S.Boolean),
-          simulated_actions: S.optional(__S(35425, __c1107, 1)),
-          trigger_data: S.optional(__S(35426, __c1107, 2)),
-          watch: S.optional(__S(35520, __c1110, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/_watcher/watch/{id}/_execute", code: 200 })),
-      ).annotate({ identifier: "WatcherExecuteWatch1Request" });
+          actions: __S(35523, __c1110, 3),
+          condition: S.optional(__S(35491, __c1109, 3)),
+          input: __S(35529, __c1110, 9),
+          metadata: S.optional(__S(1056, __c33, 0)),
+          status: S.optional(__S(34976, __c1093, 0)),
+          throttle_period: S.optional(S.Unknown),
+          throttle_period_in_millis: S.optional(S.Number),
+          transform: S.optional(__S(35497, __c1109, 9)),
+          trigger: __S(35534, __c1110, 14),
+        }),
+      ).annotate({ identifier: "WatcherTypesWatch" });
   }
 }
 function __c1112(j: number): any {
@@ -89211,16 +90032,17 @@ function __c1112(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String.pipe(T.Label()),
           debug: S.optional(S.Boolean.pipe(T.Query())),
-          action_modes: S.optional(__S(35424, __c1107, 0)),
+          action_modes: S.optional(__S(35456, __c1108, 0)),
           alternative_input: S.optional(__S(1056, __c33, 0)),
           ignore_condition: S.optional(S.Boolean),
           record_execution: S.optional(S.Boolean),
-          simulated_actions: S.optional(__S(35425, __c1107, 1)),
-          trigger_data: S.optional(__S(35426, __c1107, 2)),
-          watch: S.optional(__S(35520, __c1110, 0)),
-        }).pipe(T.Http({ method: "PUT", uri: "/_watcher/watch/_execute", code: 200 })),
-      ).annotate({ identifier: "WatcherExecuteWatch2Request" });
+          simulated_actions: S.optional(__S(35457, __c1108, 1)),
+          trigger_data: S.optional(__S(35458, __c1108, 2)),
+          watch: S.optional(__S(35552, __c1111, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/_watcher/watch/{id}/_execute", code: 200 })),
+      ).annotate({ identifier: "WatcherExecuteWatch1Request" });
   }
 }
 function __c1113(j: number): any {
@@ -89229,18 +90051,35 @@ function __c1113(j: number): any {
       return S.suspend(() =>
         S.Struct({
           debug: S.optional(S.Boolean.pipe(T.Query())),
-          action_modes: S.optional(__S(35424, __c1107, 0)),
+          action_modes: S.optional(__S(35456, __c1108, 0)),
           alternative_input: S.optional(__S(1056, __c33, 0)),
           ignore_condition: S.optional(S.Boolean),
           record_execution: S.optional(S.Boolean),
-          simulated_actions: S.optional(__S(35425, __c1107, 1)),
-          trigger_data: S.optional(__S(35426, __c1107, 2)),
-          watch: S.optional(__S(35520, __c1110, 0)),
+          simulated_actions: S.optional(__S(35457, __c1108, 1)),
+          trigger_data: S.optional(__S(35458, __c1108, 2)),
+          watch: S.optional(__S(35552, __c1111, 0)),
+        }).pipe(T.Http({ method: "PUT", uri: "/_watcher/watch/_execute", code: 200 })),
+      ).annotate({ identifier: "WatcherExecuteWatch2Request" });
+  }
+}
+function __c1114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          debug: S.optional(S.Boolean.pipe(T.Query())),
+          action_modes: S.optional(__S(35456, __c1108, 0)),
+          alternative_input: S.optional(__S(1056, __c33, 0)),
+          ignore_condition: S.optional(S.Boolean),
+          record_execution: S.optional(S.Boolean),
+          simulated_actions: S.optional(__S(35457, __c1108, 1)),
+          trigger_data: S.optional(__S(35458, __c1108, 2)),
+          watch: S.optional(__S(35552, __c1111, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/_watcher/watch/_execute", code: 200 })),
       ).annotate({ identifier: "WatcherExecuteWatch3Request" });
   }
 }
-function __c1114(j: number): any {
+function __c1115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89260,7 +90099,7 @@ function __c1114(j: number): any {
       ).annotate({ identifier: "CloneSnapshotRequest" });
   }
 }
-function __c1115(j: number): any {
+function __c1116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89271,12 +90110,12 @@ function __c1115(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          index: __S(36806, __c1150, 6),
+          index: __S(36838, __c1151, 6),
         }),
       ).annotate({ identifier: "WatcherGetSettingsResponse" });
   }
 }
-function __c1116(j: number): any {
+function __c1117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89289,8 +90128,8 @@ function __c1116(j: number): any {
         S.Struct({
           found: S.Boolean,
           _id: S.String,
-          status: S.optional(__S(34944, __c1092, 0)),
-          watch: S.optional(__S(35520, __c1110, 0)),
+          status: S.optional(__S(34976, __c1093, 0)),
+          watch: S.optional(__S(35552, __c1111, 0)),
           _primary_term: S.optional(S.Number),
           _seq_no: S.optional(S.Number),
           _version: S.optional(S.Number),
@@ -89298,7 +90137,7 @@ function __c1116(j: number): any {
       ).annotate({ identifier: "WatcherGetWatchResponse" });
   }
 }
-function __c1117(j: number): any {
+function __c1118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89308,19 +90147,19 @@ function __c1117(j: number): any {
           if_primary_term: S.optional(S.Number.pipe(T.Query())),
           if_seq_no: S.optional(S.Number.pipe(T.Query())),
           version: S.optional(S.Number.pipe(T.Query())),
-          actions: S.optional(__S(35491, __c1109, 3)),
-          condition: S.optional(__S(35459, __c1108, 3)),
-          input: S.optional(__S(35497, __c1109, 9)),
+          actions: S.optional(__S(35523, __c1110, 3)),
+          condition: S.optional(__S(35491, __c1109, 3)),
+          input: S.optional(__S(35529, __c1110, 9)),
           metadata: S.optional(__S(1056, __c33, 0)),
           throttle_period: S.optional(S.Unknown),
           throttle_period_in_millis: S.optional(S.Number),
-          transform: S.optional(__S(35465, __c1108, 9)),
-          trigger: S.optional(__S(35502, __c1109, 14)),
+          transform: S.optional(__S(35497, __c1109, 9)),
+          trigger: S.optional(__S(35534, __c1110, 14)),
         }).pipe(T.Http({ method: "PUT", uri: "/_watcher/watch/{id}", code: 200 })),
       ).annotate({ identifier: "WatcherPutWatchRequest" });
   }
 }
-function __c1118(j: number): any {
+function __c1119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89334,7 +90173,7 @@ function __c1118(j: number): any {
       ).annotate({ identifier: "WatcherPutWatchResponse" });
   }
 }
-function __c1119(j: number): any {
+function __c1120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89344,19 +90183,19 @@ function __c1119(j: number): any {
           if_primary_term: S.optional(S.Number.pipe(T.Query())),
           if_seq_no: S.optional(S.Number.pipe(T.Query())),
           version: S.optional(S.Number.pipe(T.Query())),
-          actions: S.optional(__S(35491, __c1109, 3)),
-          condition: S.optional(__S(35459, __c1108, 3)),
-          input: S.optional(__S(35497, __c1109, 9)),
+          actions: S.optional(__S(35523, __c1110, 3)),
+          condition: S.optional(__S(35491, __c1109, 3)),
+          input: S.optional(__S(35529, __c1110, 9)),
           metadata: S.optional(__S(1056, __c33, 0)),
           throttle_period: S.optional(S.Unknown),
           throttle_period_in_millis: S.optional(S.Number),
-          transform: S.optional(__S(35465, __c1108, 9)),
-          trigger: S.optional(__S(35502, __c1109, 14)),
+          transform: S.optional(__S(35497, __c1109, 9)),
+          trigger: S.optional(__S(35534, __c1110, 14)),
         }).pipe(T.Http({ method: "POST", uri: "/_watcher/watch/{id}", code: 200 })),
       ).annotate({ identifier: "WatcherPutWatch1Request" });
   }
 }
-function __c1120(j: number): any {
+function __c1121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89370,30 +90209,30 @@ function __c1120(j: number): any {
       ).annotate({ identifier: "WatcherQueryWatchesRequest" });
   }
 }
-function __c1121(j: number): any {
+function __c1122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           _id: S.String,
-          status: S.optional(__S(34944, __c1092, 0)),
-          watch: S.optional(__S(35520, __c1110, 0)),
+          status: S.optional(__S(34976, __c1093, 0)),
+          watch: S.optional(__S(35552, __c1111, 0)),
           _primary_term: S.optional(S.Number),
           _seq_no: S.optional(S.Number),
         }),
       ).annotate({ identifier: "WatcherTypesQueryWatch" });
     case 1:
-      return S.Array(__S(35872, __c1121, 0));
+      return S.Array(__S(35904, __c1122, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
-          watches: __S(35873, __c1121, 1),
+          watches: __S(35905, __c1122, 1),
         }),
       ).annotate({ identifier: "WatcherQueryWatchesResponse" });
   }
 }
-function __c1122(j: number): any {
+function __c1123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89407,7 +90246,7 @@ function __c1122(j: number): any {
       ).annotate({ identifier: "WatcherQueryWatches1Request" });
   }
 }
-function __c1123(j: number): any {
+function __c1124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89418,7 +90257,7 @@ function __c1123(j: number): any {
       ).annotate({ identifier: "WatcherStatsRequest" });
   }
 }
-function __c1124(j: number): any {
+function __c1125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89432,7 +90271,7 @@ function __c1124(j: number): any {
         }),
       ).annotate({ identifier: "WatcherStatsWatchRecordStats" });
     case 1:
-      return S.Array(__S(35968, __c1124, 0));
+      return S.Array(__S(36000, __c1125, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -89447,32 +90286,32 @@ function __c1124(j: number): any {
         }),
       ).annotate({ identifier: "WatcherStatsWatchRecordQueuedStats" });
     case 4:
-      return S.Array(__S(35971, __c1124, 3));
+      return S.Array(__S(36003, __c1125, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          current_watches: S.optional(__S(35969, __c1124, 1)),
-          execution_thread_pool: __S(35970, __c1124, 2),
-          queued_watches: S.optional(__S(35972, __c1124, 4)),
+          current_watches: S.optional(__S(36001, __c1125, 1)),
+          execution_thread_pool: __S(36002, __c1125, 2),
+          queued_watches: S.optional(__S(36004, __c1125, 4)),
           watch_count: S.Number,
           watcher_state: S.String,
           node_id: S.String,
         }),
       ).annotate({ identifier: "WatcherStatsWatcherNodeStats" });
     case 6:
-      return S.Array(__S(35973, __c1124, 5));
+      return S.Array(__S(36005, __c1125, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           _nodes: __S(11104, __c347, 0),
           cluster_name: S.String,
           manually_stopped: S.Boolean,
-          stats: __S(35974, __c1124, 6),
+          stats: __S(36006, __c1125, 6),
         }),
       ).annotate({ identifier: "WatcherStatsResponse" });
   }
 }
-function __c1125(j: number): any {
+function __c1126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89483,7 +90322,7 @@ function __c1125(j: number): any {
       ).annotate({ identifier: "WatcherStats1Request" });
   }
 }
-function __c1126(j: number): any {
+function __c1127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89498,7 +90337,7 @@ function __c1126(j: number): any {
       ).annotate({ identifier: "WatcherUpdateSettingsRequest" });
   }
 }
-function __c1127(j: number): any {
+function __c1128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89508,7 +90347,7 @@ function __c1127(j: number): any {
       ).annotate({ identifier: "WatchWatcherAckRequest" });
   }
 }
-function __c1128(j: number): any {
+function __c1129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89518,12 +90357,12 @@ function __c1128(j: number): any {
       ).annotate({ identifier: "ClosePointInTimeRequest" });
   }
 }
-function __c1129(j: number): any {
+function __c1130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(__S(36320, __c1135, 0).pipe(T.Query())),
+          categories: S.optional(__S(36352, __c1136, 0).pipe(T.Query())),
           accept_enterprise: S.optional(S.Boolean.pipe(T.Query())),
           human: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/_xpack", code: 200 })),
@@ -89547,36 +90386,36 @@ function __c1129(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          aggregate_metric: __S(36130, __c1129, 2),
-          analytics: __S(36130, __c1129, 2),
-          ccr: __S(36130, __c1129, 2),
-          columnar: __S(36130, __c1129, 2),
-          data_streams: __S(36130, __c1129, 2),
-          data_tiers: __S(36130, __c1129, 2),
-          enrich: __S(36130, __c1129, 2),
-          enterprise_search: __S(36130, __c1129, 2),
-          eql: __S(36130, __c1129, 2),
-          esql: __S(36130, __c1129, 2),
-          graph: __S(36130, __c1129, 2),
-          gpu_vector_indexing: __S(36130, __c1129, 2),
-          ilm: __S(36130, __c1129, 2),
-          logstash: __S(36130, __c1129, 2),
-          logsdb: __S(36130, __c1129, 2),
-          logsdb_columnar: __S(36130, __c1129, 2),
-          ml: __S(36130, __c1129, 2),
-          monitoring: __S(36130, __c1129, 2),
-          rollup: __S(36130, __c1129, 2),
-          runtime_fields: S.optional(__S(36130, __c1129, 2)),
-          searchable_snapshots: __S(36130, __c1129, 2),
-          security: __S(36130, __c1129, 2),
-          slm: __S(36130, __c1129, 2),
-          spatial: __S(36130, __c1129, 2),
-          sql: __S(36130, __c1129, 2),
-          transform: __S(36130, __c1129, 2),
-          universal_profiling: __S(36130, __c1129, 2),
-          voting_only: __S(36130, __c1129, 2),
-          watcher: __S(36130, __c1129, 2),
-          archive: __S(36130, __c1129, 2),
+          aggregate_metric: __S(36162, __c1130, 2),
+          analytics: __S(36162, __c1130, 2),
+          ccr: __S(36162, __c1130, 2),
+          columnar: __S(36162, __c1130, 2),
+          data_streams: __S(36162, __c1130, 2),
+          data_tiers: __S(36162, __c1130, 2),
+          enrich: __S(36162, __c1130, 2),
+          enterprise_search: __S(36162, __c1130, 2),
+          eql: __S(36162, __c1130, 2),
+          esql: __S(36162, __c1130, 2),
+          graph: __S(36162, __c1130, 2),
+          gpu_vector_indexing: __S(36162, __c1130, 2),
+          ilm: __S(36162, __c1130, 2),
+          logstash: __S(36162, __c1130, 2),
+          logsdb: __S(36162, __c1130, 2),
+          logsdb_columnar: __S(36162, __c1130, 2),
+          ml: __S(36162, __c1130, 2),
+          monitoring: __S(36162, __c1130, 2),
+          rollup: __S(36162, __c1130, 2),
+          runtime_fields: S.optional(__S(36162, __c1130, 2)),
+          searchable_snapshots: __S(36162, __c1130, 2),
+          security: __S(36162, __c1130, 2),
+          slm: __S(36162, __c1130, 2),
+          spatial: __S(36162, __c1130, 2),
+          sql: __S(36162, __c1130, 2),
+          transform: __S(36162, __c1130, 2),
+          universal_profiling: __S(36162, __c1130, 2),
+          voting_only: __S(36162, __c1130, 2),
+          watcher: __S(36162, __c1130, 2),
+          archive: __S(36162, __c1130, 2),
         }),
       ).annotate({ identifier: "XpackInfoFeatures" });
     case 4:
@@ -89592,15 +90431,15 @@ function __c1129(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          build: __S(36129, __c1129, 1),
-          features: __S(36131, __c1129, 3),
-          license: __S(36132, __c1129, 4),
+          build: __S(36161, __c1130, 1),
+          features: __S(36163, __c1130, 3),
+          license: __S(36164, __c1130, 4),
           tagline: S.String,
         }),
       ).annotate({ identifier: "XpackInfoResponse" });
   }
 }
-function __c1130(j: number): any {
+function __c1131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89634,7 +90473,7 @@ function __c1130(j: number): any {
         S.Struct({
           available: S.Boolean,
           enabled: S.Boolean,
-          stats: __S(36162, __c1130, 2),
+          stats: __S(36194, __c1131, 2),
         }),
       ).annotate({ identifier: "XpackUsageAnalytics" });
     case 4:
@@ -89653,11 +90492,11 @@ function __c1130(j: number): any {
         }),
       ).annotate({ identifier: "XpackUsageWatcherActionTotals" });
     case 6:
-      return S.Record(S.String, __S(36165, __c1130, 5));
+      return S.Record(S.String, __S(36197, __c1131, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(36166, __c1130, 6),
+          actions: __S(36198, __c1131, 6),
         }),
       ).annotate({ identifier: "XpackUsageWatcherActions" });
     case 8:
@@ -89668,30 +90507,30 @@ function __c1130(j: number): any {
         }),
       ).annotate({ identifier: "XpackUsageCounter" });
     case 9:
-      return S.Record(S.String, __S(36168, __c1130, 8));
+      return S.Record(S.String, __S(36200, __c1131, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           active: S.Number,
           total: S.Number,
-          cron: __S(36168, __c1130, 8),
-          _all: __S(36168, __c1130, 8),
+          cron: __S(36200, __c1131, 8),
+          _all: __S(36200, __c1131, 8),
         }),
       ).annotate({ identifier: "XpackUsageWatcherWatchTriggerSchedule" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          schedule: S.optional(__S(36170, __c1130, 10)),
-          _all: __S(36168, __c1130, 8),
+          schedule: S.optional(__S(36202, __c1131, 10)),
+          _all: __S(36200, __c1131, 8),
         }),
       ).annotate({ identifier: "XpackUsageWatcherWatchTrigger" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          input: __S(36169, __c1130, 9),
-          condition: S.optional(__S(36169, __c1130, 9)),
-          action: S.optional(__S(36169, __c1130, 9)),
-          trigger: __S(36171, __c1130, 11),
+          input: __S(36201, __c1131, 9),
+          condition: S.optional(__S(36201, __c1131, 9)),
+          action: S.optional(__S(36201, __c1131, 9)),
+          trigger: __S(36203, __c1131, 11),
         }),
       ).annotate({ identifier: "XpackUsageWatcherWatch" });
     case 13:
@@ -89699,9 +90538,9 @@ function __c1130(j: number): any {
         S.Struct({
           available: S.Boolean,
           enabled: S.Boolean,
-          execution: __S(36167, __c1130, 7),
-          watch: __S(36172, __c1130, 12),
-          count: __S(36168, __c1130, 8),
+          execution: __S(36199, __c1131, 7),
+          watch: __S(36204, __c1131, 12),
+          count: __S(36200, __c1131, 8),
         }),
       ).annotate({ identifier: "XpackUsageWatcher" });
     case 14:
@@ -89756,8 +90595,8 @@ function __c1130(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          default: __S(36178, __c1130, 18),
-          max: __S(36178, __c1130, 18),
+          default: __S(36210, __c1131, 18),
+          max: __S(36210, __c1131, 18),
         }),
       ).annotate({ identifier: "XpackUsageDataStreamLifecycleGlobalRetention" });
     case 20:
@@ -89767,10 +90606,10 @@ function __c1130(j: number): any {
           enabled: S.Boolean,
           count: S.optional(S.Number),
           default_rollover_used: S.optional(S.Boolean),
-          data_retention: S.optional(__S(36176, __c1130, 16)),
-          effective_retention: S.optional(__S(36177, __c1130, 17)),
-          frozen_after: S.optional(__S(36176, __c1130, 16)),
-          global_retention: S.optional(__S(36179, __c1130, 19)),
+          data_retention: S.optional(__S(36208, __c1131, 16)),
+          effective_retention: S.optional(__S(36209, __c1131, 17)),
+          frozen_after: S.optional(__S(36208, __c1131, 16)),
+          global_retention: S.optional(__S(36211, __c1131, 19)),
         }),
       ).annotate({ identifier: "XpackUsageDataStreamLifecycleUsage" });
     case 21:
@@ -89802,11 +90641,11 @@ function __c1130(j: number): any {
         S.Struct({
           available: S.Boolean,
           enabled: S.Boolean,
-          data_warm: __S(36182, __c1130, 22),
-          data_frozen: S.optional(__S(36182, __c1130, 22)),
-          data_cold: __S(36182, __c1130, 22),
-          data_content: __S(36182, __c1130, 22),
-          data_hot: __S(36182, __c1130, 22),
+          data_warm: __S(36214, __c1131, 22),
+          data_frozen: S.optional(__S(36214, __c1131, 22)),
+          data_cold: __S(36214, __c1131, 22),
+          data_content: __S(36214, __c1131, 22),
+          data_hot: __S(36214, __c1131, 22),
         }),
       ).annotate({ identifier: "XpackUsageDataTiers" });
     case 24:
@@ -89851,12 +90690,12 @@ function __c1130(j: number): any {
       return S.suspend(() =>
         S.Struct({
           join: S.Number,
-          joins: __S(36184, __c1130, 24),
-          keys: __S(36185, __c1130, 25),
+          joins: __S(36216, __c1131, 24),
+          keys: __S(36217, __c1131, 25),
           event: S.Number,
-          pipes: __S(36186, __c1130, 26),
+          pipes: __S(36218, __c1131, 26),
           sequence: S.Number,
-          sequences: __S(36187, __c1130, 27),
+          sequences: __S(36219, __c1131, 27),
         }),
       ).annotate({ identifier: "XpackUsageEqlFeatures" });
     case 29:
@@ -89869,19 +90708,19 @@ function __c1130(j: number): any {
         }),
       ).annotate({ identifier: "XpackUsageQuery" });
     case 30:
-      return S.Record(S.String, __S(36189, __c1130, 29));
+      return S.Record(S.String, __S(36221, __c1131, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
           available: S.Boolean,
           enabled: S.Boolean,
-          features: __S(36188, __c1130, 28),
-          queries: __S(36190, __c1130, 30),
+          features: __S(36220, __c1131, 28),
+          queries: __S(36222, __c1131, 30),
         }),
       ).annotate({ identifier: "XpackUsageEql" });
   }
 }
-function __c1131(j: number): any {
+function __c1132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -89901,7 +90740,7 @@ function __c1131(j: number): any {
         }),
       ).annotate({ identifier: "XpackUsageGpuNodeStats" });
     case 2:
-      return S.Array(__S(36193, __c1131, 1));
+      return S.Array(__S(36225, __c1132, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -89909,7 +90748,7 @@ function __c1131(j: number): any {
           enabled: S.Boolean,
           index_build_count: S.Number,
           nodes_with_gpu: S.Number,
-          nodes: __S(36194, __c1131, 2),
+          nodes: __S(36226, __c1132, 2),
         }),
       ).annotate({ identifier: "XpackUsageGpuVectorIndexing" });
     case 4:
@@ -89923,7 +90762,7 @@ function __c1131(j: number): any {
         S.Struct({
           available: S.Boolean,
           enabled: S.Boolean,
-          invocations: __S(36196, __c1131, 4),
+          invocations: __S(36228, __c1132, 4),
         }),
       ).annotate({ identifier: "XpackUsageHealthStatistics" });
     case 6:
@@ -89936,27 +90775,27 @@ function __c1131(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          cold: S.optional(__S(36198, __c1131, 6)),
-          delete: S.optional(__S(36198, __c1131, 6)),
-          frozen: S.optional(__S(36198, __c1131, 6)),
-          hot: S.optional(__S(36198, __c1131, 6)),
-          warm: S.optional(__S(36198, __c1131, 6)),
+          cold: S.optional(__S(36230, __c1132, 6)),
+          delete: S.optional(__S(36230, __c1132, 6)),
+          frozen: S.optional(__S(36230, __c1132, 6)),
+          hot: S.optional(__S(36230, __c1132, 6)),
+          warm: S.optional(__S(36230, __c1132, 6)),
         }),
       ).annotate({ identifier: "XpackUsagePhases" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           indices_managed: S.Number,
-          phases: __S(36199, __c1131, 7),
+          phases: __S(36231, __c1132, 7),
         }),
       ).annotate({ identifier: "XpackUsageIlmPolicyStatistics" });
     case 9:
-      return S.Array(__S(36200, __c1131, 8));
+      return S.Array(__S(36232, __c1132, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           policy_count: S.Number,
-          policy_stats: __S(36201, __c1131, 9),
+          policy_stats: __S(36233, __c1132, 9),
         }),
       ).annotate({ identifier: "XpackUsageIlm" });
     case 11:
@@ -89975,14 +90814,14 @@ function __c1131(j: number): any {
         S.Struct({
           enabled: S.Boolean,
           user: S.Boolean,
-          thresholds: S.optional(__S(36204, __c1131, 12)),
+          thresholds: S.optional(__S(36236, __c1132, 12)),
         }),
       ).annotate({ identifier: "XpackUsageEsqlLoggingConfig" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          querylog: __S(36203, __c1131, 11),
-          esql: __S(36205, __c1131, 13),
+          querylog: __S(36235, __c1132, 11),
+          esql: __S(36237, __c1132, 13),
         }),
       ).annotate({ identifier: "XpackUsageLogging" });
     case 15:
@@ -89992,7 +90831,7 @@ function __c1131(j: number): any {
         }),
       ).annotate({ identifier: "XpackUsageDatafeed" });
     case 16:
-      return S.Record(S.String, __S(36207, __c1131, 15));
+      return S.Record(S.String, __S(36239, __c1132, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -90006,12 +90845,12 @@ function __c1131(j: number): any {
           count: S.Number,
           created_by: __S(192, __c6, 0),
           detectors: __S(19936, __c623, 0),
-          forecasts: __S(36209, __c1131, 17),
+          forecasts: __S(36241, __c1132, 17),
           model_size: __S(19936, __c623, 0),
         }),
       ).annotate({ identifier: "XpackUsageJobUsage" });
     case 19:
-      return S.Record(S.String, __S(36210, __c1131, 18));
+      return S.Record(S.String, __S(36242, __c1132, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -90029,10 +90868,10 @@ function __c1131(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          memory_usage: S.optional(__S(36212, __c1131, 20)),
-          _all: __S(36207, __c1131, 15),
-          analysis_counts: S.optional(__S(36213, __c1131, 21)),
-          stopped: S.optional(__S(36207, __c1131, 15)),
+          memory_usage: S.optional(__S(36244, __c1132, 20)),
+          _all: __S(36239, __c1132, 15),
+          analysis_counts: S.optional(__S(36245, __c1132, 21)),
+          stopped: S.optional(__S(36239, __c1132, 15)),
         }),
       ).annotate({ identifier: "XpackUsageMlDataFrameAnalyticsJobs" });
     case 23:
@@ -90046,14 +90885,14 @@ function __c1131(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          num_docs_processed: __S(36215, __c1131, 23),
-          pipelines: __S(36207, __c1131, 15),
-          num_failures: __S(36215, __c1131, 23),
-          time_ms: __S(36215, __c1131, 23),
+          num_docs_processed: __S(36247, __c1132, 23),
+          pipelines: __S(36239, __c1132, 15),
+          num_failures: __S(36247, __c1132, 23),
+          time_ms: __S(36247, __c1132, 23),
         }),
       ).annotate({ identifier: "XpackUsageMlInferenceIngestProcessor" });
     case 25:
-      return S.Record(S.String, __S(36216, __c1131, 24));
+      return S.Record(S.String, __S(36248, __c1132, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
@@ -90072,8 +90911,8 @@ function __c1131(j: number): any {
         S.Struct({
           estimated_operations: S.optional(__S(19936, __c623, 0)),
           estimated_heap_memory_usage_bytes: S.optional(__S(19936, __c623, 0)),
-          count: S.optional(__S(36218, __c1131, 26)),
-          _all: __S(36207, __c1131, 15),
+          count: S.optional(__S(36250, __c1132, 26)),
+          _all: __S(36239, __c1132, 15),
           model_size_bytes: S.optional(__S(19936, __c623, 0)),
         }),
       ).annotate({ identifier: "XpackUsageMlInferenceTrainedModels" });
@@ -90089,15 +90928,15 @@ function __c1131(j: number): any {
           count: S.Number,
           inference_counts: __S(19936, __c623, 0),
           model_sizes_bytes: __S(19936, __c623, 0),
-          time_ms: __S(36220, __c1131, 28),
+          time_ms: __S(36252, __c1132, 28),
         }),
       ).annotate({ identifier: "XpackUsageMlInferenceDeployments" });
     case 30:
       return S.suspend(() =>
         S.Struct({
-          ingest_processors: __S(36217, __c1131, 25),
-          trained_models: __S(36219, __c1131, 27),
-          deployments: S.optional(__S(36221, __c1131, 29)),
+          ingest_processors: __S(36249, __c1132, 25),
+          trained_models: __S(36251, __c1132, 27),
+          deployments: S.optional(__S(36253, __c1132, 29)),
         }),
       ).annotate({ identifier: "XpackUsageMlInference" });
     case 31:
@@ -90105,16 +90944,16 @@ function __c1131(j: number): any {
         S.Struct({
           available: S.Boolean,
           enabled: S.Boolean,
-          datafeeds: __S(36208, __c1131, 16),
-          jobs: __S(36211, __c1131, 19),
+          datafeeds: __S(36240, __c1132, 16),
+          jobs: __S(36243, __c1132, 19),
           node_count: S.Number,
-          data_frame_analytics_jobs: __S(36214, __c1131, 22),
-          inference: __S(36222, __c1131, 30),
+          data_frame_analytics_jobs: __S(36246, __c1132, 22),
+          inference: __S(36254, __c1132, 30),
         }),
       ).annotate({ identifier: "XpackUsageMachineLearning" });
   }
 }
-function __c1132(j: number): any {
+function __c1133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90164,7 +91003,7 @@ function __c1132(j: number): any {
         }),
       ).annotate({ identifier: "XpackUsageRealmCache" });
     case 6:
-      return S.Array(__S(36229, __c1132, 5));
+      return S.Array(__S(36261, __c1133, 5));
     case 7:
       return S.Array(S.Boolean);
     case 8:
@@ -90175,15 +91014,15 @@ function __c1132(j: number): any {
           name: S.optional(__S(1088, __c34, 0)),
           order: S.optional(__S(672, __c21, 0)),
           size: S.optional(__S(672, __c21, 0)),
-          cache: S.optional(__S(36230, __c1132, 6)),
-          has_authorization_realms: S.optional(__S(36231, __c1132, 7)),
-          has_default_username_pattern: S.optional(__S(36231, __c1132, 7)),
-          has_truststore: S.optional(__S(36231, __c1132, 7)),
-          is_authentication_delegated: S.optional(__S(36231, __c1132, 7)),
+          cache: S.optional(__S(36262, __c1133, 6)),
+          has_authorization_realms: S.optional(__S(36263, __c1133, 7)),
+          has_default_username_pattern: S.optional(__S(36263, __c1133, 7)),
+          has_truststore: S.optional(__S(36263, __c1133, 7)),
+          is_authentication_delegated: S.optional(__S(36263, __c1133, 7)),
         }),
       ).annotate({ identifier: "XpackUsageRealm" });
     case 9:
-      return S.Record(S.String, __S(36232, __c1132, 8));
+      return S.Record(S.String, __S(36264, __c1133, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -90192,7 +91031,7 @@ function __c1132(j: number): any {
         }),
       ).annotate({ identifier: "XpackUsageRoleMapping" });
     case 11:
-      return S.Record(S.String, __S(36234, __c1132, 10));
+      return S.Record(S.String, __S(36266, __c1133, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -90204,16 +91043,16 @@ function __c1132(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          native: __S(36236, __c1132, 12),
-          dls: __S(29953, __c936, 1),
-          file: __S(36236, __c1132, 12),
+          native: __S(36268, __c1133, 12),
+          dls: __S(29985, __c937, 1),
+          file: __S(36268, __c1133, 12),
         }),
       ).annotate({ identifier: "XpackUsageSecurityRoles" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          http: __S(36704, __c1147, 0),
-          transport: __S(36704, __c1147, 0),
+          http: __S(36736, __c1148, 0),
+          transport: __S(36736, __c1148, 0),
         }),
       ).annotate({ identifier: "XpackUsageSsl" });
     case 15:
@@ -90221,18 +91060,18 @@ function __c1132(j: number): any {
         S.Struct({
           available: S.Boolean,
           enabled: S.Boolean,
-          api_key_service: __S(36704, __c1147, 0),
-          anonymous: __S(36704, __c1147, 0),
-          audit: __S(36227, __c1132, 3),
-          fips_140: __S(36704, __c1147, 0),
-          ipfilter: __S(36228, __c1132, 4),
-          realms: __S(36233, __c1132, 9),
-          role_mapping: __S(36235, __c1132, 11),
-          roles: __S(36237, __c1132, 13),
-          ssl: __S(36238, __c1132, 14),
-          system_key: S.optional(__S(36704, __c1147, 0)),
-          token_service: __S(36704, __c1147, 0),
-          operator_privileges: __S(36161, __c1130, 1),
+          api_key_service: __S(36736, __c1148, 0),
+          anonymous: __S(36736, __c1148, 0),
+          audit: __S(36259, __c1133, 3),
+          fips_140: __S(36736, __c1148, 0),
+          ipfilter: __S(36260, __c1133, 4),
+          realms: __S(36265, __c1133, 9),
+          role_mapping: __S(36267, __c1133, 11),
+          roles: __S(36269, __c1133, 13),
+          ssl: __S(36270, __c1133, 14),
+          system_key: S.optional(__S(36736, __c1148, 0)),
+          token_service: __S(36736, __c1148, 0),
+          operator_privileges: __S(36193, __c1131, 1),
         }),
       ).annotate({ identifier: "XpackUsageSecurity" });
     case 16:
@@ -90241,7 +91080,7 @@ function __c1132(j: number): any {
           available: S.Boolean,
           enabled: S.Boolean,
           policy_count: S.optional(S.Number),
-          policy_stats: S.optional(__S(32288, __c1009, 0)),
+          policy_stats: S.optional(__S(32320, __c1010, 0)),
         }),
       ).annotate({ identifier: "XpackUsageSlm" });
     case 17:
@@ -90250,7 +91089,7 @@ function __c1132(j: number): any {
           available: S.Boolean,
           enabled: S.Boolean,
           features: __S(192, __c6, 0),
-          queries: __S(36190, __c1130, 30),
+          queries: __S(36222, __c1131, 30),
         }),
       ).annotate({ identifier: "XpackUsageSql" });
     case 18:
@@ -90275,46 +91114,46 @@ function __c1132(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          aggregate_metric: __S(36161, __c1130, 1),
-          analytics: __S(36163, __c1130, 3),
-          archive: __S(36164, __c1130, 4),
-          watcher: __S(36173, __c1130, 13),
-          ccr: __S(36174, __c1130, 14),
-          columnar: S.optional(__S(36175, __c1130, 15)),
-          data_frame: S.optional(__S(36161, __c1130, 1)),
-          data_science: S.optional(__S(36161, __c1130, 1)),
-          data_lifecycle: S.optional(__S(36180, __c1130, 20)),
-          data_streams: S.optional(__S(36181, __c1130, 21)),
-          data_tiers: __S(36183, __c1130, 23),
-          enrich: S.optional(__S(36161, __c1130, 1)),
-          eql: __S(36191, __c1130, 31),
-          flattened: S.optional(__S(36192, __c1131, 0)),
-          graph: __S(36161, __c1130, 1),
-          gpu_vector_indexing: S.optional(__S(36195, __c1131, 3)),
-          health_api: S.optional(__S(36197, __c1131, 5)),
-          ilm: __S(36202, __c1131, 10),
-          logging: S.optional(__S(36206, __c1131, 14)),
-          logsdb_columnar: S.optional(__S(36175, __c1130, 15)),
-          logstash: __S(36161, __c1130, 1),
-          ml: __S(36223, __c1131, 31),
-          monitoring: __S(36224, __c1132, 0),
-          rollup: __S(36161, __c1130, 1),
-          runtime_fields: S.optional(__S(36225, __c1132, 1)),
-          spatial: __S(36161, __c1130, 1),
-          searchable_snapshots: __S(36226, __c1132, 2),
-          security: __S(36239, __c1132, 15),
-          slm: __S(36240, __c1132, 16),
-          sql: __S(36241, __c1132, 17),
-          transform: __S(36161, __c1130, 1),
-          vectors: S.optional(__S(36242, __c1132, 18)),
-          vectordb_document: S.optional(__S(36243, __c1132, 19)),
-          vectordb_columnar: S.optional(__S(36243, __c1132, 19)),
-          voting_only: __S(36161, __c1130, 1),
+          aggregate_metric: __S(36193, __c1131, 1),
+          analytics: __S(36195, __c1131, 3),
+          archive: __S(36196, __c1131, 4),
+          watcher: __S(36205, __c1131, 13),
+          ccr: __S(36206, __c1131, 14),
+          columnar: S.optional(__S(36207, __c1131, 15)),
+          data_frame: S.optional(__S(36193, __c1131, 1)),
+          data_science: S.optional(__S(36193, __c1131, 1)),
+          data_lifecycle: S.optional(__S(36212, __c1131, 20)),
+          data_streams: S.optional(__S(36213, __c1131, 21)),
+          data_tiers: __S(36215, __c1131, 23),
+          enrich: S.optional(__S(36193, __c1131, 1)),
+          eql: __S(36223, __c1131, 31),
+          flattened: S.optional(__S(36224, __c1132, 0)),
+          graph: __S(36193, __c1131, 1),
+          gpu_vector_indexing: S.optional(__S(36227, __c1132, 3)),
+          health_api: S.optional(__S(36229, __c1132, 5)),
+          ilm: __S(36234, __c1132, 10),
+          logging: S.optional(__S(36238, __c1132, 14)),
+          logsdb_columnar: S.optional(__S(36207, __c1131, 15)),
+          logstash: __S(36193, __c1131, 1),
+          ml: __S(36255, __c1132, 31),
+          monitoring: __S(36256, __c1133, 0),
+          rollup: __S(36193, __c1131, 1),
+          runtime_fields: S.optional(__S(36257, __c1133, 1)),
+          spatial: __S(36193, __c1131, 1),
+          searchable_snapshots: __S(36258, __c1133, 2),
+          security: __S(36271, __c1133, 15),
+          slm: __S(36272, __c1133, 16),
+          sql: __S(36273, __c1133, 17),
+          transform: __S(36193, __c1131, 1),
+          vectors: S.optional(__S(36274, __c1133, 18)),
+          vectordb_document: S.optional(__S(36275, __c1133, 19)),
+          vectordb_columnar: S.optional(__S(36275, __c1133, 19)),
+          voting_only: __S(36193, __c1131, 1),
         }),
       ).annotate({ identifier: "XpackUsageResponse" });
   }
 }
-function __c1133(j: number): any {
+function __c1134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90330,7 +91169,7 @@ function __c1133(j: number): any {
       ).annotate({ identifier: "ClusterAllocationExplainRequest" });
   }
 }
-function __c1134(j: number): any {
+function __c1135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90341,7 +91180,7 @@ function __c1134(j: number): any {
         }),
       ).annotate({ identifier: "ClusterAllocationExplainAllocationDecision" });
     case 1:
-      return S.Array(__S(36288, __c1134, 0));
+      return S.Array(__S(36320, __c1135, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -90357,12 +91196,12 @@ function __c1134(j: number): any {
       return S.suspend(() =>
         S.Struct({
           node_name: S.String,
-          least_available: __S(36290, __c1134, 2),
-          most_available: __S(36290, __c1134, 2),
+          least_available: __S(36322, __c1135, 2),
+          most_available: __S(36322, __c1135, 2),
         }),
       ).annotate({ identifier: "ClusterAllocationExplainNodeDiskUsage" });
     case 4:
-      return S.Record(S.String, __S(36291, __c1134, 3));
+      return S.Record(S.String, __S(36323, __c1135, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -90373,15 +91212,15 @@ function __c1134(j: number): any {
         }),
       ).annotate({ identifier: "ClusterAllocationExplainReservedSize" });
     case 6:
-      return S.Array(__S(36293, __c1134, 5));
+      return S.Array(__S(36325, __c1135, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          nodes: __S(36292, __c1134, 4),
+          nodes: __S(36324, __c1135, 4),
           shard_sizes: __S(192, __c6, 0),
           shard_data_set_sizes: S.optional(__S(160, __c5, 0)),
           shard_paths: __S(160, __c5, 0),
-          reserved_sizes: __S(36294, __c1134, 6),
+          reserved_sizes: __S(36326, __c1135, 6),
         }),
       ).annotate({ identifier: "ClusterAllocationExplainClusterInfo" });
     case 8:
@@ -90389,7 +91228,7 @@ function __c1134(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
-          roles: __S(36320, __c1135, 0),
+          roles: __S(36352, __c1136, 0),
           attributes: __S(160, __c5, 0),
           transport_address: S.String,
           weight_ranking: S.Number,
@@ -90409,19 +91248,19 @@ function __c1134(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          deciders: S.optional(__S(36289, __c1134, 1)),
+          deciders: S.optional(__S(36321, __c1135, 1)),
           node_attributes: __S(160, __c5, 0),
           node_decision: S.String,
           node_id: S.String,
           node_name: S.String,
-          roles: __S(36320, __c1135, 0),
-          store: S.optional(__S(36297, __c1134, 9)),
+          roles: __S(36352, __c1136, 0),
+          store: S.optional(__S(36329, __c1135, 9)),
           transport_address: S.String,
           weight_ranking: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ClusterAllocationExplainNodeAllocationExplanation" });
     case 11:
-      return S.Array(__S(36298, __c1134, 10));
+      return S.Array(__S(36330, __c1135, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -90431,36 +91270,36 @@ function __c1134(j: number): any {
           can_allocate: S.optional(S.String),
           can_move_to_other_node: S.optional(S.String),
           can_rebalance_cluster: S.optional(S.String),
-          can_rebalance_cluster_decisions: S.optional(__S(36289, __c1134, 1)),
+          can_rebalance_cluster_decisions: S.optional(__S(36321, __c1135, 1)),
           can_rebalance_to_other_node: S.optional(S.String),
-          can_remain_decisions: S.optional(__S(36289, __c1134, 1)),
+          can_remain_decisions: S.optional(__S(36321, __c1135, 1)),
           can_remain_on_current_node: S.optional(S.String),
-          cluster_info: S.optional(__S(36295, __c1134, 7)),
+          cluster_info: S.optional(__S(36327, __c1135, 7)),
           configured_delay: S.optional(S.Unknown),
           configured_delay_in_millis: S.optional(S.Number),
-          current_node: S.optional(__S(36296, __c1134, 8)),
+          current_node: S.optional(__S(36328, __c1135, 8)),
           current_state: S.String,
           index: S.String,
           move_explanation: S.optional(S.String),
-          node_allocation_decisions: S.optional(__S(36299, __c1134, 11)),
+          node_allocation_decisions: S.optional(__S(36331, __c1135, 11)),
           primary: S.Boolean,
           rebalance_explanation: S.optional(S.String),
           remaining_delay: S.optional(S.Unknown),
           remaining_delay_in_millis: S.optional(S.Number),
           shard: S.Number,
-          unassigned_info: S.optional(__S(36352, __c1136, 0)),
+          unassigned_info: S.optional(__S(36384, __c1137, 0)),
           note: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterAllocationExplainResponse" });
   }
 }
-function __c1135(j: number): any {
+function __c1136(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c1136(j: number): any {
+function __c1137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90476,7 +91315,7 @@ function __c1136(j: number): any {
       ).annotate({ identifier: "ClusterAllocationExplainUnassignedInformation" });
   }
 }
-function __c1137(j: number): any {
+function __c1138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90492,7 +91331,7 @@ function __c1137(j: number): any {
       ).annotate({ identifier: "ClusterAllocationExplain1Request" });
   }
 }
-function __c1138(j: number): any {
+function __c1139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90504,7 +91343,7 @@ function __c1138(j: number): any {
       ).annotate({ identifier: "ClusterDeleteComponentTemplateRequest" });
   }
 }
-function __c1139(j: number): any {
+function __c1140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90515,7 +91354,7 @@ function __c1139(j: number): any {
       ).annotate({ identifier: "ClusterDeleteVotingConfigExclusionsRequest" });
   }
 }
-function __c1140(j: number): any {
+function __c1141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90529,24 +91368,24 @@ function __c1140(j: number): any {
       ).annotate({ identifier: "ClusterGetComponentTemplateRequest" });
   }
 }
-function __c1141(j: number): any {
+function __c1142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          lifecycle: S.optional(__S(36545, __c1142, 1)),
+          lifecycle: S.optional(__S(36577, __c1143, 1)),
           _meta: S.optional(__S(1056, __c33, 0)),
           version: S.optional(S.Number),
-          settings: S.optional(__S(36672, __c1146, 0)),
-          mappings: S.optional(__S(36897, __c1153, 1)),
-          aliases: S.optional(__S(36641, __c1145, 1)),
-          data_stream_options: S.optional(__S(36608, __c1144, 0)),
+          settings: S.optional(__S(36704, __c1147, 0)),
+          mappings: S.optional(__S(36929, __c1154, 1)),
+          aliases: S.optional(__S(36673, __c1146, 1)),
+          data_stream_options: S.optional(__S(36640, __c1145, 0)),
         }),
       ).annotate({ identifier: "ClusterTypesComponentTemplateSummaryRes" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          template: __S(36512, __c1141, 0),
+          template: __S(36544, __c1142, 0),
           version: S.optional(S.Number),
           _meta: S.optional(__S(1056, __c33, 0)),
           deprecated: S.optional(S.Boolean),
@@ -90560,20 +91399,20 @@ function __c1141(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          component_template: __S(36513, __c1141, 1),
+          component_template: __S(36545, __c1142, 1),
         }),
       ).annotate({ identifier: "ClusterTypesComponentTemplate" });
     case 3:
-      return S.Array(__S(36514, __c1141, 2));
+      return S.Array(__S(36546, __c1142, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          component_templates: __S(36515, __c1141, 3),
+          component_templates: __S(36547, __c1142, 3),
         }),
       ).annotate({ identifier: "ClusterGetComponentTemplateResponse" });
   }
 }
-function __c1142(j: number): any {
+function __c1143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90596,16 +91435,16 @@ function __c1142(j: number): any {
           data_retention: S.optional(S.Unknown),
           effective_retention: S.optional(S.Unknown),
           retention_determined_by: S.optional(S.String),
-          downsampling: S.optional(__S(36929, __c1154, 1)),
+          downsampling: S.optional(__S(36961, __c1155, 1)),
           downsampling_method: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           frozen_after: S.optional(S.Unknown),
-          rollover: S.optional(__S(36544, __c1142, 0)),
+          rollover: S.optional(__S(36576, __c1143, 0)),
         }),
       ).annotate({ identifier: "IndicesTypesDataStreamLifecycleWithRollover" });
   }
 }
-function __c1143(j: number): any {
+function __c1144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90618,22 +91457,22 @@ function __c1143(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          lifecycle: S.optional(__S(36576, __c1143, 0)),
+          lifecycle: S.optional(__S(36608, __c1144, 0)),
         }),
       ).annotate({ identifier: "IndicesTypesDataStreamFailureStore" });
   }
 }
-function __c1144(j: number): any {
+function __c1145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          failure_store: S.optional(__S(36577, __c1143, 1)),
+          failure_store: S.optional(__S(36609, __c1144, 1)),
         }),
       ).annotate({ identifier: "IndicesTypesDataStreamOptions" });
   }
 }
-function __c1145(j: number): any {
+function __c1146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90647,16 +91486,16 @@ function __c1145(j: number): any {
         }),
       ).annotate({ identifier: "IndicesTypesAliasDefinition" });
     case 1:
-      return S.Record(S.String, __S(36640, __c1145, 0));
-  }
-}
-function __c1146(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, __S(36806, __c1150, 6));
+      return S.Record(S.String, __S(36672, __c1146, 0));
   }
 }
 function __c1147(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(36838, __c1151, 6));
+  }
+}
+function __c1148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90666,7 +91505,7 @@ function __c1147(j: number): any {
       ).annotate({ identifier: "IndicesTypesCacheQueries" });
   }
 }
-function __c1148(j: number): any {
+function __c1149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90693,10 +91532,10 @@ function __c1148(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enable: S.optional(S.String),
-          include: S.optional(__S(36736, __c1148, 0)),
-          require: S.optional(__S(36737, __c1148, 1)),
-          initial_recovery: S.optional(__S(36738, __c1148, 2)),
-          disk: S.optional(__S(36739, __c1148, 3)),
+          include: S.optional(__S(36768, __c1149, 0)),
+          require: S.optional(__S(36769, __c1149, 1)),
+          initial_recovery: S.optional(__S(36770, __c1149, 2)),
+          disk: S.optional(__S(36771, __c1149, 3)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexRoutingAllocation" });
     case 5:
@@ -90708,13 +91547,13 @@ function __c1148(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          allocation: S.optional(__S(36740, __c1148, 4)),
-          rebalance: S.optional(__S(36741, __c1148, 5)),
+          allocation: S.optional(__S(36772, __c1149, 4)),
+          rebalance: S.optional(__S(36773, __c1149, 5)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexRouting" });
   }
 }
-function __c1149(j: number): any {
+function __c1150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90726,7 +91565,7 @@ function __c1149(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          retention_lease: S.optional(__S(36768, __c1149, 0)),
+          retention_lease: S.optional(__S(36800, __c1150, 0)),
         }),
       ).annotate({ identifier: "IndicesTypesSoftDeletes" });
     case 2:
@@ -90748,7 +91587,7 @@ function __c1149(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          scheduler: S.optional(__S(36771, __c1149, 3)),
+          scheduler: S.optional(__S(36803, __c1150, 3)),
         }),
       ).annotate({ identifier: "IndicesTypesMerge" });
     case 5:
@@ -90769,8 +91608,8 @@ function __c1149(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          query: S.optional(__S(36774, __c1149, 6)),
-          fetch: S.optional(__S(36774, __c1149, 6)),
+          query: S.optional(__S(36806, __c1150, 6)),
+          fetch: S.optional(__S(36806, __c1150, 6)),
         }),
       ).annotate({ identifier: "IndicesTypesSlowlogTresholds" });
     case 8:
@@ -90779,14 +91618,14 @@ function __c1149(j: number): any {
           level: S.optional(S.String),
           source: S.optional(S.Number),
           reformat: S.optional(S.Boolean),
-          threshold: S.optional(__S(36775, __c1149, 7)),
+          threshold: S.optional(__S(36807, __c1150, 7)),
         }),
       ).annotate({ identifier: "IndicesTypesSlowlogSettings" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          idle: S.optional(__S(36773, __c1149, 5)),
-          slowlog: S.optional(__S(36776, __c1149, 8)),
+          idle: S.optional(__S(36805, __c1150, 5)),
+          slowlog: S.optional(__S(36808, __c1150, 8)),
         }),
       ).annotate({ identifier: "IndicesTypesSettingsSearch" });
     case 10:
@@ -90820,7 +91659,7 @@ function __c1149(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          node_left: S.optional(__S(36781, __c1149, 13)),
+          node_left: S.optional(__S(36813, __c1150, 13)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexSettingsUnassigned" });
     case 15:
@@ -90836,7 +91675,7 @@ function __c1149(j: number): any {
           indexing_complete: S.optional(S.Unknown),
           origination_date: S.optional(S.Number),
           parse_origination_date: S.optional(S.Boolean),
-          step: S.optional(__S(36783, __c1149, 15)),
+          step: S.optional(__S(36815, __c1150, 15)),
           rollover_alias: S.optional(S.String),
           prefer_ilm: S.optional(S.Unknown),
         }),
@@ -90861,7 +91700,7 @@ function __c1149(j: number): any {
           sync_interval: S.optional(S.Unknown),
           durability: S.optional(S.String),
           flush_threshold_size: S.optional(S.Unknown),
-          retention: S.optional(__S(36786, __c1149, 18)),
+          retention: S.optional(__S(36818, __c1150, 18)),
         }),
       ).annotate({ identifier: "IndicesTypesTranslog" });
     case 20:
@@ -90883,11 +91722,11 @@ function __c1149(j: number): any {
     case 26:
       return S.suspend(() =>
         S.Struct({
-          analyzer: S.optional(__S(36789, __c1149, 21)),
-          char_filter: S.optional(__S(36790, __c1149, 22)),
-          filter: S.optional(__S(36791, __c1149, 23)),
-          normalizer: S.optional(__S(36792, __c1149, 24)),
-          tokenizer: S.optional(__S(36793, __c1149, 25)),
+          analyzer: S.optional(__S(36821, __c1150, 21)),
+          char_filter: S.optional(__S(36822, __c1150, 22)),
+          filter: S.optional(__S(36823, __c1150, 23)),
+          normalizer: S.optional(__S(36824, __c1150, 24)),
+          tokenizer: S.optional(__S(36825, __c1150, 25)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexSettingsAnalysis" });
     case 27:
@@ -90901,7 +91740,7 @@ function __c1149(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          cache: S.optional(__S(36704, __c1147, 0)),
+          cache: S.optional(__S(36736, __c1148, 0)),
         }),
       ).annotate({ identifier: "IndicesTypesQueries" });
     case 29:
@@ -90921,7 +91760,7 @@ function __c1149(j: number): any {
       ).annotate({ identifier: "IndicesTypesMappingLimitSettingsDepth" });
   }
 }
-function __c1150(j: number): any {
+function __c1151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -90933,20 +91772,20 @@ function __c1150(j: number): any {
       return S.suspend(() =>
         S.Struct({
           coerce: S.optional(S.Boolean),
-          total_fields: S.optional(__S(36798, __c1149, 30)),
-          depth: S.optional(__S(36799, __c1149, 31)),
-          nested_fields: S.optional(__S(36799, __c1149, 31)),
-          nested_objects: S.optional(__S(36799, __c1149, 31)),
-          field_name_length: S.optional(__S(36799, __c1149, 31)),
-          dimension_fields: S.optional(__S(36799, __c1149, 31)),
-          source: S.optional(__S(36800, __c1150, 0)),
+          total_fields: S.optional(__S(36830, __c1150, 30)),
+          depth: S.optional(__S(36831, __c1150, 31)),
+          nested_fields: S.optional(__S(36831, __c1150, 31)),
+          nested_objects: S.optional(__S(36831, __c1150, 31)),
+          field_name_length: S.optional(__S(36831, __c1150, 31)),
+          dimension_fields: S.optional(__S(36831, __c1150, 31)),
+          source: S.optional(__S(36832, __c1151, 0)),
           ignore_malformed: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "IndicesTypesMappingLimitSettings" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          index: S.optional(__S(36774, __c1149, 6)),
+          index: S.optional(__S(36806, __c1150, 6)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexingSlowlogTresholds" });
     case 3:
@@ -90955,13 +91794,13 @@ function __c1150(j: number): any {
           level: S.optional(S.String),
           source: S.optional(S.Number),
           reformat: S.optional(S.Boolean),
-          threshold: S.optional(__S(36802, __c1150, 2)),
+          threshold: S.optional(__S(36834, __c1151, 2)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexingSlowlogSettings" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          memory: __S(36799, __c1149, 31),
+          memory: __S(36831, __c1150, 31),
         }),
       ).annotate({ identifier: "IndicesTypesIndexingPressure" });
     case 5:
@@ -90975,11 +91814,11 @@ function __c1150(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          index: S.optional(__S(36806, __c1150, 6)),
+          index: S.optional(__S(36838, __c1151, 6)),
           mode: S.optional(S.String),
           routing_path: S.optional(S.Unknown),
-          soft_deletes: S.optional(__S(36769, __c1149, 1)),
-          sort: S.optional(__S(36770, __c1149, 2)),
+          soft_deletes: S.optional(__S(36801, __c1150, 1)),
+          sort: S.optional(__S(36802, __c1150, 2)),
           number_of_shards: S.optional(S.Unknown),
           number_of_replicas: S.optional(S.Unknown),
           number_of_routing_shards: S.optional(S.Number),
@@ -90989,8 +91828,8 @@ function __c1150(j: number): any {
           load_fixed_bitset_filters_eagerly: S.optional(S.Boolean),
           hidden: S.optional(S.Unknown),
           auto_expand_replicas: S.optional(S.String),
-          merge: S.optional(__S(36772, __c1149, 4)),
-          search: S.optional(__S(36777, __c1149, 9)),
+          merge: S.optional(__S(36804, __c1150, 4)),
+          search: S.optional(__S(36809, __c1150, 9)),
           refresh_interval: S.optional(S.Unknown),
           max_result_window: S.optional(S.Unknown),
           max_inner_result_window: S.optional(S.Number),
@@ -90999,50 +91838,50 @@ function __c1150(j: number): any {
           max_script_fields: S.optional(S.Number),
           max_ngram_diff: S.optional(S.Number),
           max_shingle_diff: S.optional(S.Number),
-          blocks: S.optional(__S(36778, __c1149, 10)),
+          blocks: S.optional(__S(36810, __c1150, 10)),
           max_refresh_listeners: S.optional(S.Number),
-          analyze: S.optional(__S(36779, __c1149, 11)),
-          highlight: S.optional(__S(36780, __c1149, 12)),
+          analyze: S.optional(__S(36811, __c1150, 11)),
+          highlight: S.optional(__S(36812, __c1150, 12)),
           max_terms_count: S.optional(S.Number),
           max_regex_length: S.optional(S.Number),
-          routing: S.optional(__S(36742, __c1148, 6)),
-          unassigned: S.optional(__S(36782, __c1149, 14)),
+          routing: S.optional(__S(36774, __c1149, 6)),
+          unassigned: S.optional(__S(36814, __c1150, 14)),
           gc_deletes: S.optional(S.Unknown),
           default_pipeline: S.optional(S.String),
           final_pipeline: S.optional(S.String),
-          lifecycle: S.optional(__S(36784, __c1149, 16)),
+          lifecycle: S.optional(__S(36816, __c1150, 16)),
           provided_name: S.optional(S.String),
           creation_date: S.optional(S.Unknown),
           creation_date_string: S.optional(S.Unknown),
           uuid: S.optional(S.String),
-          version: S.optional(__S(36785, __c1149, 17)),
+          version: S.optional(__S(36817, __c1150, 17)),
           verified_before_close: S.optional(S.Unknown),
           format: S.optional(S.Unknown),
           max_slices_per_scroll: S.optional(S.Number),
-          translog: S.optional(__S(36787, __c1149, 19)),
-          query_string: S.optional(__S(36788, __c1149, 20)),
+          translog: S.optional(__S(36819, __c1150, 19)),
+          query_string: S.optional(__S(36820, __c1150, 20)),
           priority: S.optional(S.Unknown),
           top_metrics_max_size: S.optional(S.Number),
-          analysis: S.optional(__S(36794, __c1149, 26)),
-          settings: S.optional(__S(36806, __c1150, 6)),
-          time_series: S.optional(__S(36795, __c1149, 27)),
-          queries: S.optional(__S(36796, __c1149, 28)),
-          similarity: S.optional(__S(36797, __c1149, 29)),
-          mapping: S.optional(__S(36801, __c1150, 1)),
-          indexing_slowlog: S.optional(__S(36803, __c1150, 3).pipe(T.Body("indexing.slowlog"))),
-          indexing_pressure: S.optional(__S(36804, __c1150, 4)),
-          store: S.optional(__S(36805, __c1150, 5)),
+          analysis: S.optional(__S(36826, __c1150, 26)),
+          settings: S.optional(__S(36838, __c1151, 6)),
+          time_series: S.optional(__S(36827, __c1150, 27)),
+          queries: S.optional(__S(36828, __c1150, 28)),
+          similarity: S.optional(__S(36829, __c1150, 29)),
+          mapping: S.optional(__S(36833, __c1151, 1)),
+          indexing_slowlog: S.optional(__S(36835, __c1151, 3).pipe(T.Body("indexing.slowlog"))),
+          indexing_pressure: S.optional(__S(36836, __c1151, 4)),
+          store: S.optional(__S(36837, __c1151, 5)),
         }),
       ).annotate({ identifier: "IndicesTypesIndexSettings" });
   }
 }
-function __c1151(j: number): any {
+function __c1152(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c1152(j: number): any {
+function __c1153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91059,9 +91898,9 @@ function __c1152(j: number): any {
         }),
       ).annotate({ identifier: "TypesMappingDynamicTemplate" });
     case 1:
-      return S.Record(S.String, __S(36864, __c1152, 0));
+      return S.Record(S.String, __S(36896, __c1153, 0));
     case 2:
-      return S.Array(__S(36865, __c1152, 1));
+      return S.Array(__S(36897, __c1153, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -91079,7 +91918,7 @@ function __c1152(j: number): any {
       ).annotate({ identifier: "TypesMappingSourceField" });
   }
 }
-function __c1153(j: number): any {
+function __c1154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91099,28 +91938,28 @@ function __c1153(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          all_field: S.optional(__S(36896, __c1153, 0)),
+          all_field: S.optional(__S(36928, __c1154, 0)),
           date_detection: S.optional(S.Boolean),
           dynamic: S.optional(S.String),
           dynamic_date_formats: S.optional(__S(1088, __c34, 0)),
-          dynamic_templates: S.optional(__S(36866, __c1152, 2)),
-          _field_names: S.optional(__S(36704, __c1147, 0)),
-          index_field: S.optional(__S(36704, __c1147, 0)),
+          dynamic_templates: S.optional(__S(36898, __c1153, 2)),
+          _field_names: S.optional(__S(36736, __c1148, 0)),
+          index_field: S.optional(__S(36736, __c1148, 0)),
           _meta: S.optional(__S(1056, __c33, 0)),
           numeric_detection: S.optional(S.Boolean),
-          properties: S.optional(__S(36832, __c1151, 0)),
-          _routing: S.optional(__S(36867, __c1152, 3)),
-          _size: S.optional(__S(36704, __c1147, 0)),
-          _source: S.optional(__S(36868, __c1152, 4)),
+          properties: S.optional(__S(36864, __c1152, 0)),
+          _routing: S.optional(__S(36899, __c1153, 3)),
+          _size: S.optional(__S(36736, __c1148, 0)),
+          _source: S.optional(__S(36900, __c1153, 4)),
           runtime: S.optional(__S(1029, __c32, 5)),
           enabled: S.optional(S.Boolean),
           subobjects: S.optional(S.String),
-          _data_stream_timestamp: S.optional(__S(36704, __c1147, 0)),
+          _data_stream_timestamp: S.optional(__S(36736, __c1148, 0)),
         }),
       ).annotate({ identifier: "TypesMappingTypeMapping" });
   }
 }
-function __c1154(j: number): any {
+function __c1155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91130,10 +91969,10 @@ function __c1154(j: number): any {
         }),
       ).annotate({ identifier: "IndicesTypesDownsamplingRound" });
     case 1:
-      return S.Array(__S(36928, __c1154, 0));
+      return S.Array(__S(36960, __c1155, 0));
   }
 }
-function __c1155(j: number): any {
+function __c1156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91148,7 +91987,7 @@ function __c1155(j: number): any {
       ).annotate({ identifier: "ClusterGetComponentTemplate1Request" });
   }
 }
-function __c1156(j: number): any {
+function __c1157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91169,7 +92008,7 @@ function __c1156(j: number): any {
       ).annotate({ identifier: "ClusterGetSettingsResponse" });
   }
 }
-function __c1157(j: number): any {
+function __c1158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91178,22 +92017,22 @@ function __c1157(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          api_key: S.optional(__S(37088, __c1159, 0)),
-          authentication_realm: __S(37056, __c1158, 0),
+          api_key: S.optional(__S(37120, __c1160, 0)),
+          authentication_realm: __S(37088, __c1159, 0),
           email: S.optional(S.String),
           full_name: S.optional(S.String),
-          lookup_realm: __S(37056, __c1158, 0),
+          lookup_realm: __S(37088, __c1159, 0),
           metadata: __S(1056, __c33, 0),
           roles: __S(1088, __c34, 0),
           username: S.String,
           enabled: S.Boolean,
           authentication_type: S.String,
-          token: S.optional(__S(37089, __c1159, 1)),
+          token: S.optional(__S(37121, __c1160, 1)),
         }),
       ).annotate({ identifier: "AuthenticateSecurityResponse" });
   }
 }
-function __c1158(j: number): any {
+function __c1159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91204,7 +92043,7 @@ function __c1158(j: number): any {
       ).annotate({ identifier: "SecurityTypesRealmInfo" });
   }
 }
-function __c1159(j: number): any {
+function __c1160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91225,7 +92064,7 @@ function __c1159(j: number): any {
       ).annotate({ identifier: "SecurityAuthenticateToken" });
   }
 }
-function __c1160(j: number): any {
+function __c1161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91245,7 +92084,7 @@ function __c1160(j: number): any {
       ).annotate({ identifier: "ClusterHealthRequest" });
   }
 }
-function __c1161(j: number): any {
+function __c1162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91260,7 +92099,7 @@ function __c1161(j: number): any {
         }),
       ).annotate({ identifier: "ClusterHealthShardHealthStats" });
     case 1:
-      return S.Record(S.String, __S(37152, __c1161, 0));
+      return S.Record(S.String, __S(37184, __c1162, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -91270,14 +92109,14 @@ function __c1161(j: number): any {
           number_of_replicas: S.Number,
           number_of_shards: S.Number,
           relocating_shards: S.Number,
-          shards: S.optional(__S(37153, __c1161, 1)),
+          shards: S.optional(__S(37185, __c1162, 1)),
           status: S.String,
           unassigned_shards: S.Number,
           unassigned_primary_shards: S.Number,
         }),
       ).annotate({ identifier: "ClusterHealthIndexHealthStats" });
     case 3:
-      return S.Record(S.String, __S(37154, __c1161, 2));
+      return S.Record(S.String, __S(37186, __c1162, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -91287,7 +92126,7 @@ function __c1161(j: number): any {
           active_shards_percent_as_number: S.Number,
           cluster_name: S.String,
           delayed_unassigned_shards: S.Number,
-          indices: S.optional(__S(37155, __c1161, 3)),
+          indices: S.optional(__S(37187, __c1162, 3)),
           initializing_shards: S.Number,
           number_of_data_nodes: S.Number,
           number_of_in_flight_fetch: S.Number,
@@ -91304,7 +92143,7 @@ function __c1161(j: number): any {
       ).annotate({ identifier: "ClusterHealthHealthResponseBody" });
   }
 }
-function __c1162(j: number): any {
+function __c1163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91325,7 +92164,7 @@ function __c1162(j: number): any {
       ).annotate({ identifier: "ClusterHealth1Request" });
   }
 }
-function __c1163(j: number): any {
+function __c1164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91337,15 +92176,15 @@ function __c1163(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cluster_name: S.String,
-          http: S.optional(__S(37290, __c1165, 10)),
-          ingest: S.optional(__S(37297, __c1165, 17)),
-          thread_pool: S.optional(__S(37299, __c1165, 19)),
-          script: S.optional(__S(37302, __c1165, 22)),
+          http: S.optional(__S(37322, __c1166, 10)),
+          ingest: S.optional(__S(37329, __c1166, 17)),
+          thread_pool: S.optional(__S(37331, __c1166, 19)),
+          script: S.optional(__S(37334, __c1166, 22)),
         }),
       ).annotate({ identifier: "ClusterInfoResponse" });
   }
 }
-function __c1164(j: number): any {
+function __c1165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91359,7 +92198,7 @@ function __c1164(j: number): any {
       ).annotate({ identifier: "NodesTypesIngestTotal" });
   }
 }
-function __c1165(j: number): any {
+function __c1166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91381,7 +92220,7 @@ function __c1165(j: number): any {
         }),
       ).annotate({ identifier: "NodesTypesClient" });
     case 1:
-      return S.Array(__S(37280, __c1165, 0));
+      return S.Array(__S(37312, __c1166, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -91393,14 +92232,14 @@ function __c1165(j: number): any {
         }),
       ).annotate({ identifier: "NodesTypesSizeHttpHistogram" });
     case 3:
-      return S.Array(__S(37282, __c1165, 2));
+      return S.Array(__S(37314, __c1166, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           total_size: S.optional(S.Unknown),
           total_size_in_bytes: S.Number,
-          size_histogram: __S(37283, __c1165, 3),
+          size_histogram: __S(37315, __c1166, 3),
         }),
       ).annotate({ identifier: "NodesTypesHttpRouteRequests" });
     case 5:
@@ -91414,33 +92253,33 @@ function __c1165(j: number): any {
         }),
       ).annotate({ identifier: "NodesTypesTimeHttpHistogram" });
     case 6:
-      return S.Array(__S(37285, __c1165, 5));
+      return S.Array(__S(37317, __c1166, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           total_size: S.optional(S.Unknown),
           total_size_in_bytes: S.Number,
-          handling_time_histogram: __S(37286, __c1165, 6),
-          size_histogram: __S(37283, __c1165, 3),
+          handling_time_histogram: __S(37318, __c1166, 6),
+          size_histogram: __S(37315, __c1166, 3),
         }),
       ).annotate({ identifier: "NodesTypesHttpRouteResponses" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          requests: __S(37284, __c1165, 4),
-          responses: __S(37287, __c1165, 7),
+          requests: __S(37316, __c1166, 4),
+          responses: __S(37319, __c1166, 7),
         }),
       ).annotate({ identifier: "NodesTypesHttpRoute" });
     case 9:
-      return S.Record(S.String, __S(37288, __c1165, 8));
+      return S.Record(S.String, __S(37320, __c1166, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           current_open: S.optional(S.Number),
           total_opened: S.optional(S.Number),
-          clients: S.optional(__S(37281, __c1165, 1)),
-          routes: __S(37289, __c1165, 9),
+          clients: S.optional(__S(37313, __c1166, 1)),
+          routes: __S(37321, __c1166, 9),
         }),
       ).annotate({ identifier: "NodesTypesHttp" });
     case 11:
@@ -91456,21 +92295,21 @@ function __c1165(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          stats: S.optional(__S(37291, __c1165, 11)),
+          stats: S.optional(__S(37323, __c1166, 11)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodesTypesKeyedProcessor" });
     case 13:
-      return S.Record(S.String, __S(37292, __c1165, 12));
+      return S.Record(S.String, __S(37324, __c1166, 12));
     case 14:
-      return S.Array(__S(37293, __c1165, 13));
+      return S.Array(__S(37325, __c1166, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           current: S.Number,
           failed: S.Number,
-          processors: __S(37294, __c1165, 14),
+          processors: __S(37326, __c1166, 14),
           time: S.optional(S.Unknown),
           time_in_millis: S.Number,
           ingested_as_first_pipeline: S.optional(S.Unknown),
@@ -91480,12 +92319,12 @@ function __c1165(j: number): any {
         }),
       ).annotate({ identifier: "NodesTypesIngestStats" });
     case 16:
-      return S.Record(S.String, __S(37295, __c1165, 15));
+      return S.Record(S.String, __S(37327, __c1166, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          pipelines: S.optional(__S(37296, __c1165, 16)),
-          total: S.optional(__S(37248, __c1164, 0)),
+          pipelines: S.optional(__S(37328, __c1166, 16)),
+          total: S.optional(__S(37280, __c1165, 0)),
         }),
       ).annotate({ identifier: "NodesTypesIngest" });
     case 18:
@@ -91500,7 +92339,7 @@ function __c1165(j: number): any {
         }),
       ).annotate({ identifier: "NodesTypesThreadCount" });
     case 19:
-      return S.Record(S.String, __S(37298, __c1165, 18));
+      return S.Record(S.String, __S(37330, __c1166, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -91511,7 +92350,7 @@ function __c1165(j: number): any {
         }),
       ).annotate({ identifier: "NodesTypesContext" });
     case 21:
-      return S.Array(__S(37300, __c1165, 20));
+      return S.Array(__S(37332, __c1166, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -91519,12 +92358,12 @@ function __c1165(j: number): any {
           compilations: S.optional(S.Number),
           compilations_history: S.optional(__S(192, __c6, 0)),
           compilation_limit_triggered: S.optional(S.Number),
-          contexts: S.optional(__S(37301, __c1165, 21)),
+          contexts: S.optional(__S(37333, __c1166, 21)),
         }),
       ).annotate({ identifier: "NodesTypesScripting" });
   }
 }
-function __c1166(j: number): any {
+function __c1167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91545,16 +92384,16 @@ function __c1166(j: number): any {
         }),
       ).annotate({ identifier: "ClusterPendingTasksPendingTask" });
     case 2:
-      return S.Array(__S(37313, __c1166, 1));
+      return S.Array(__S(37345, __c1167, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tasks: __S(37314, __c1166, 2),
+          tasks: __S(37346, __c1167, 2),
         }),
       ).annotate({ identifier: "ClusterPendingTasksResponse" });
   }
 }
-function __c1167(j: number): any {
+function __c1168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91567,7 +92406,7 @@ function __c1167(j: number): any {
       ).annotate({ identifier: "ClusterPostVotingConfigExclusionsRequest" });
   }
 }
-function __c1168(j: number): any {
+function __c1169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91576,7 +92415,7 @@ function __c1168(j: number): any {
           create: S.optional(S.Boolean.pipe(T.Query())),
           cause: S.optional(S.String.pipe(T.Query())),
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-          template: __S(37440, __c1170, 0),
+          template: __S(37472, __c1171, 0),
           version: S.optional(S.Number),
           _meta: S.optional(__S(1056, __c33, 0)),
           deprecated: S.optional(S.Boolean),
@@ -91584,7 +92423,7 @@ function __c1168(j: number): any {
       ).annotate({ identifier: "ClusterPutComponentTemplateRequest" });
   }
 }
-function __c1169(j: number): any {
+function __c1170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91592,7 +92431,7 @@ function __c1169(j: number): any {
           data_retention: S.optional(S.Unknown),
           effective_retention: S.optional(S.Unknown),
           retention_determined_by: S.optional(S.String),
-          downsampling: S.optional(__S(36929, __c1154, 1)),
+          downsampling: S.optional(__S(36961, __c1155, 1)),
           downsampling_method: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           frozen_after: S.optional(S.Unknown),
@@ -91600,21 +92439,21 @@ function __c1169(j: number): any {
       ).annotate({ identifier: "IndicesTypesDataStreamLifecycle" });
   }
 }
-function __c1170(j: number): any {
+function __c1171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          aliases: S.optional(__S(35137, __c1098, 1)),
-          mappings: S.optional(__S(36897, __c1153, 1)),
-          settings: S.optional(__S(36806, __c1150, 6)),
-          lifecycle: S.optional(__S(37408, __c1169, 0)),
+          aliases: S.optional(__S(35169, __c1099, 1)),
+          mappings: S.optional(__S(36929, __c1154, 1)),
+          settings: S.optional(__S(36838, __c1151, 6)),
+          lifecycle: S.optional(__S(37440, __c1170, 0)),
           data_stream_options: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "IndicesPutIndexTemplateIndexTemplateMapping" });
   }
 }
-function __c1171(j: number): any {
+function __c1172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91623,7 +92462,7 @@ function __c1171(j: number): any {
           create: S.optional(S.Boolean.pipe(T.Query())),
           cause: S.optional(S.String.pipe(T.Query())),
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
-          template: __S(37440, __c1170, 0),
+          template: __S(37472, __c1171, 0),
           version: S.optional(S.Number),
           _meta: S.optional(__S(1056, __c33, 0)),
           deprecated: S.optional(S.Boolean),
@@ -91631,7 +92470,7 @@ function __c1171(j: number): any {
       ).annotate({ identifier: "ClusterPutComponentTemplate1Request" });
   }
 }
-function __c1172(j: number): any {
+function __c1173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91653,7 +92492,7 @@ function __c1172(j: number): any {
       ).annotate({ identifier: "ClusterPutSettingsResponse" });
   }
 }
-function __c1173(j: number): any {
+function __c1174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91662,12 +92501,12 @@ function __c1173(j: number): any {
     case 1:
       return S.Record(S.String, S.Unknown);
     case 2:
-      return S.suspend(() => __S(37537, __c1173, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(37569, __c1174, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ClusterRemoteInfoResponse",
       });
   }
 }
-function __c1174(j: number): any {
+function __c1175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -91707,15 +92546,15 @@ function __c1174(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          cancel: S.optional(__S(37568, __c1174, 0)),
-          move: S.optional(__S(37569, __c1174, 1)),
-          allocate_replica: S.optional(__S(37570, __c1174, 2)),
-          allocate_stale_primary: S.optional(__S(37571, __c1174, 3)),
-          allocate_empty_primary: S.optional(__S(37571, __c1174, 3)),
+          cancel: S.optional(__S(37600, __c1175, 0)),
+          move: S.optional(__S(37601, __c1175, 1)),
+          allocate_replica: S.optional(__S(37602, __c1175, 2)),
+          allocate_stale_primary: S.optional(__S(37603, __c1175, 3)),
+          allocate_empty_primary: S.optional(__S(37603, __c1175, 3)),
         }),
       ).annotate({ identifier: "ClusterRerouteCommand" });
     case 5:
-      return S.Array(__S(37572, __c1174, 4));
+      return S.Array(__S(37604, __c1175, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -91725,7 +92564,7 @@ function __c1174(j: number): any {
           retry_failed: S.optional(S.Boolean.pipe(T.Query())),
           master_timeout: S.optional(S.Unknown.pipe(T.Query())),
           timeout: S.optional(S.Unknown.pipe(T.Query())),
-          commands: S.optional(__S(37573, __c1174, 5)),
+          commands: S.optional(__S(37605, __c1175, 5)),
         }).pipe(T.Http({ method: "POST", uri: "/_cluster/reroute", code: 200 })),
       ).annotate({ identifier: "ClusterRerouteRequest" });
     case 7:
@@ -91737,7 +92576,7 @@ function __c1174(j: number): any {
         }),
       ).annotate({ identifier: "ClusterRerouteRerouteDecision" });
     case 8:
-      return S.Array(__S(37575, __c1174, 7));
+      return S.Array(__S(37607, __c1175, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -91753,17 +92592,17 @@ function __c1174(j: number): any {
       return S.suspend(() =>
         S.Struct({
           command: S.String,
-          decisions: __S(37576, __c1174, 8),
-          parameters: __S(37577, __c1174, 9),
+          decisions: __S(37608, __c1175, 8),
+          parameters: __S(37609, __c1175, 9),
         }),
       ).annotate({ identifier: "ClusterRerouteRerouteExplanation" });
     case 11:
-      return S.Array(__S(37578, __c1174, 10));
+      return S.Array(__S(37610, __c1175, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           acknowledged: S.Boolean,
-          explanations: S.optional(__S(37579, __c1174, 11)),
+          explanations: S.optional(__S(37611, __c1175, 11)),
           state: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "ClusterRerouteResponse" });

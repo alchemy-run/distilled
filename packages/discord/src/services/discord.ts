@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDiscordError } from "../errors.ts";
+import { DiscordServiceErrors } from "../errors.ts";
 import { DiscordProtocol, type DiscordOpError, type DiscordOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -287,7 +287,7 @@ export interface ProvisionalTokenResponse {
   access_token: string | Redacted.Redacted<string>;
   expires_in: number;
   scope: string;
-  id_token: string;
+  id_token: string | Redacted.Redacted<string>;
   refresh_token?: string | Redacted.Redacted<string> | null | undefined;
   scopes?: ProvisionalTokenResponseScopesList | null | undefined;
   expires_at_s?: number | null | undefined;
@@ -6088,13 +6088,13 @@ export type ApplicationIdentityProviderAuthType =
 export interface PartnerSdkTokenRequest {
   client_id: string;
   client_secret?: string | Redacted.Redacted<string> | null | undefined;
-  external_auth_token: string;
+  external_auth_token: string | Redacted.Redacted<string>;
   external_auth_type: ApplicationIdentityProviderAuthType | (string & {});
 }
 export interface PartnerSdkUnmergeProvisionalAccountRequest {
   client_id: string;
   client_secret?: string | Redacted.Redacted<string> | null | undefined;
-  external_auth_token: string;
+  external_auth_token: string | Redacted.Redacted<string>;
   external_auth_type: ApplicationIdentityProviderAuthType | (string & {});
 }
 export interface PartnerSdkUnmergeProvisionalAccountResponse {}
@@ -7208,7 +7208,8 @@ export const addGroupDmUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<AddGroupDmUserRequest>,
   output: __S(7394, __c231, 2) as any as S.Schema<AddGroupDmUserResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7224,7 +7225,8 @@ export const addGuildMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<AddGuildMemberRequest>,
   output: __S(8512, __c266, 0) as any as S.Schema<GuildMemberResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7240,7 +7242,8 @@ export const addGuildMemberRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<AddGuildMemberRoleRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<AddGuildMemberRoleResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7257,7 +7260,8 @@ export const addInviteTargetUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<AddInviteTargetUserRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<AddInviteTargetUserResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7273,7 +7277,8 @@ export const addLobbyMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9600, __c300, 0) as any as S.Schema<AddLobbyMemberRequest>,
   output: __S(9664, __c302, 0) as any as S.Schema<LobbyMemberResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7289,7 +7294,8 @@ export const addMyMessageReaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<AddMyMessageReactionRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<AddMyMessageReactionResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7305,7 +7311,8 @@ export const addThreadMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddThreadMemberRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<AddThreadMemberResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7321,7 +7328,8 @@ export const banUserFromGuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<BanUserFromGuildRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<BanUserFromGuildResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7337,7 +7345,8 @@ export const botPartnerSdkToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<BotPartnerSdkTokenRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<ProvisionalTokenResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7353,7 +7362,8 @@ export const botPartnerSdkUnmergeProvisionalAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<BotPartnerSdkUnmergeProvisionalAccountRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<BotPartnerSdkUnmergeProvisionalAccountResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7370,7 +7380,8 @@ export const bulkAddInviteTargetUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<BulkAddInviteTargetUsersRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<BulkAddInviteTargetUsersResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7386,7 +7397,8 @@ export const bulkBanUsersFromGuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<BulkBanUsersFromGuildRequest>,
   output: __S(2369, __c74, 1) as any as S.Schema<BulkBanUsersResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7402,7 +7414,8 @@ export const bulkDeleteMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<BulkDeleteMessagesRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<BulkDeleteMessagesResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7419,7 +7432,8 @@ export const bulkRemoveInviteTargetUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<BulkRemoveInviteTargetUsersRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<BulkRemoveInviteTargetUsersResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7435,7 +7449,8 @@ export const bulkSetApplicationCommands: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<BulkSetApplicationCommandsRequest>,
   output: __S(3584, __c112, 0) as any as S.Schema<BulkSetApplicationCommandsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7451,7 +7466,8 @@ export const bulkSetGuildApplicationCommands: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<BulkSetGuildApplicationCommandsRequest>,
   output: __S(3584, __c112, 0) as any as S.Schema<BulkSetGuildApplicationCommandsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7467,7 +7483,8 @@ export const bulkUpdateGuildChannels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4450, __c139, 2) as any as S.Schema<BulkUpdateGuildChannelsRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<BulkUpdateGuildChannelsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7483,7 +7500,8 @@ export const bulkUpdateGuildRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4834, __c151, 2) as any as S.Schema<BulkUpdateGuildRolesRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<BulkUpdateGuildRolesResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7499,7 +7517,8 @@ export const bulkUpdateLobbyMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5346, __c167, 2) as any as S.Schema<BulkUpdateLobbyMembersRequest>,
   output: __S(5347, __c167, 3) as any as S.Schema<BulkUpdateLobbyMembersResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7515,7 +7534,8 @@ export const consumeEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<ConsumeEntitlementRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<ConsumeEntitlementResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7532,7 +7552,8 @@ export const countGuildScheduledEventUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<CountGuildScheduledEventUsersRequest>,
   output: __S(6081, __c190, 1) as any as S.Schema<ScheduledEventUserCountResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7548,7 +7569,8 @@ export const createApplicationCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6466, __c202, 2) as any as S.Schema<CreateApplicationCommandRequest>,
   output: __S(3651, __c114, 3) as any as S.Schema<ApplicationCommandResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7564,7 +7586,8 @@ export const createApplicationEmoji: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<CreateApplicationEmojiRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<EmojiResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7580,7 +7603,8 @@ export const createAutoModerationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6689, __c209, 1) as any as S.Schema<CreateAutoModerationRuleRequest>,
   output: __S(6691, __c209, 3) as any as S.Schema<CreateAutoModerationRuleResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7596,7 +7620,8 @@ export const createChannelInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6721, __c210, 1) as any as S.Schema<CreateChannelInviteRequest>,
   output: __S(6723, __c210, 3) as any as S.Schema<CreateChannelInviteResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7612,7 +7637,8 @@ export const createDeprecatedPin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<CreateDeprecatedPinRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<CreateDeprecatedPinResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7628,7 +7654,8 @@ export const createDm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<CreateDmRequest>,
   output: __S(6786, __c212, 2) as any as S.Schema<CreateDmResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7644,7 +7671,8 @@ export const createEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<CreateEntitlementRequest>,
   output: __S(6880, __c215, 0) as any as S.Schema<EntitlementResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7660,7 +7688,8 @@ export const createGuildApplicationCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6914, __c216, 2) as any as S.Schema<CreateGuildApplicationCommandRequest>,
   output: __S(3651, __c114, 3) as any as S.Schema<ApplicationCommandResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7676,7 +7705,8 @@ export const createGuildChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6949, __c217, 5) as any as S.Schema<CreateGuildChannelRequest>,
   output: __S(7010, __c219, 2) as any as S.Schema<GuildChannelResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7692,7 +7722,8 @@ export const createGuildEmoji: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<CreateGuildEmojiRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<EmojiResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7708,7 +7739,8 @@ export const createGuildRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<CreateGuildRoleRequest>,
   output: __S(4961, __c155, 1) as any as S.Schema<GuildRoleResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7724,7 +7756,8 @@ export const createGuildScheduledEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7169, __c224, 1) as any as S.Schema<CreateGuildScheduledEventRequest>,
   output: __S(7171, __c224, 3) as any as S.Schema<CreateGuildScheduledEventResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7741,7 +7774,8 @@ export const createGuildScheduledEventException: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<CreateGuildScheduledEventExceptionRequest>,
   output: __S(7232, __c226, 0) as any as S.Schema<GuildScheduledEventExceptionResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7757,7 +7791,8 @@ export const createGuildSoundboardSound: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<CreateGuildSoundboardSoundRequest>,
   output: __S(7296, __c228, 0) as any as S.Schema<SoundboardSoundResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7773,7 +7808,8 @@ export const createGuildSticker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<CreateGuildStickerRequest>,
   output: __S(7360, __c230, 0) as any as S.Schema<GuildStickerResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7789,7 +7825,8 @@ export const createGuildTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<CreateGuildTemplateRequest>,
   output: __S(7463, __c233, 7) as any as S.Schema<GuildTemplateResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7805,7 +7842,8 @@ export const createInteractionResponse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7489, __c234, 1) as any as S.Schema<CreateInteractionResponseRequest>,
   output: __S(7492, __c234, 4) as any as S.Schema<InteractionCallbackResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7821,7 +7859,8 @@ export const createLinkedLobbyGuildInviteForSelf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<CreateLinkedLobbyGuildInviteForSelfRequest>,
   output: __S(7552, __c236, 0) as any as S.Schema<LobbyGuildInviteResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7837,7 +7876,8 @@ export const createLinkedLobbyGuildInviteForUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<CreateLinkedLobbyGuildInviteForUserRequest>,
   output: __S(7552, __c236, 0) as any as S.Schema<LobbyGuildInviteResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7853,7 +7893,8 @@ export const createLobby: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<CreateLobbyRequest>,
   output: __S(7648, __c239, 0) as any as S.Schema<LobbyResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7869,7 +7910,8 @@ export const createLobbyMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7715, __c241, 3) as any as S.Schema<CreateLobbyMessageRequest>,
   output: __S(7744, __c242, 0) as any as S.Schema<LobbyMessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7885,7 +7927,8 @@ export const createMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7907, __c247, 3) as any as S.Schema<CreateMessageRequest>,
   output: __S(8134, __c254, 6) as any as S.Schema<MessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7901,7 +7944,8 @@ export const createOrJoinLobby: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<CreateOrJoinLobbyRequest>,
   output: __S(7648, __c239, 0) as any as S.Schema<LobbyResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7917,7 +7961,8 @@ export const createPin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8288, __c259, 0) as any as S.Schema<CreatePinRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<CreatePinResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7933,7 +7978,8 @@ export const createStageInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<CreateStageInstanceRequest>,
   output: __S(8352, __c261, 0) as any as S.Schema<StageInstanceResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7949,7 +7995,8 @@ export const createThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8545, __c267, 1) as any as S.Schema<CreateThreadRequest>,
   output: __S(7969, __c249, 1) as any as S.Schema<CreatedThreadResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7965,7 +8012,8 @@ export const createThreadFromMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<CreateThreadFromMessageRequest>,
   output: __S(7969, __c249, 1) as any as S.Schema<ThreadResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7981,7 +8029,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(8609, __c269, 1) as any as S.Schema<GuildIncomingWebhookResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7997,7 +8046,8 @@ export const crosspostMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<CrosspostMessageRequest>,
   output: __S(8134, __c254, 6) as any as S.Schema<MessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8013,7 +8063,8 @@ export const deleteAllMessageReactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<DeleteAllMessageReactionsRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteAllMessageReactionsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8029,7 +8080,8 @@ export const deleteAllMessageReactionsByEmoji: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<DeleteAllMessageReactionsByEmojiRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteAllMessageReactionsByEmojiResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8045,7 +8097,8 @@ export const deleteApplicationCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<DeleteApplicationCommandRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteApplicationCommandResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8061,7 +8114,8 @@ export const deleteApplicationEmoji: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8768, __c274, 0) as any as S.Schema<DeleteApplicationEmojiRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteApplicationEmojiResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8077,7 +8131,8 @@ export const deleteApplicationUserRoleConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<DeleteApplicationUserRoleConnectionRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteApplicationUserRoleConnectionResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8093,7 +8148,8 @@ export const deleteAutoModerationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<DeleteAutoModerationRuleRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteAutoModerationRuleResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8109,7 +8165,8 @@ export const deleteChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<DeleteChannelRequest>,
   output: __S(8930, __c279, 2) as any as S.Schema<DeleteChannelResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8125,7 +8182,8 @@ export const deleteChannelPermissionOverwrite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<DeleteChannelPermissionOverwriteRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteChannelPermissionOverwriteResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8141,7 +8199,8 @@ export const deleteDeprecatedPin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<DeleteDeprecatedPinRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteDeprecatedPinResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8157,7 +8216,8 @@ export const deleteEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<DeleteEntitlementRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteEntitlementResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8173,7 +8233,8 @@ export const deleteGroupDmUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9056, __c283, 0) as any as S.Schema<DeleteGroupDmUserRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteGroupDmUserResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8189,7 +8250,8 @@ export const deleteGuildApplicationCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9088, __c284, 0) as any as S.Schema<DeleteGuildApplicationCommandRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteGuildApplicationCommandResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8205,7 +8267,8 @@ export const deleteGuildEmoji: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<DeleteGuildEmojiRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteGuildEmojiResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8221,7 +8284,8 @@ export const deleteGuildIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<DeleteGuildIntegrationRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteGuildIntegrationResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8237,7 +8301,8 @@ export const deleteGuildMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<DeleteGuildMemberRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteGuildMemberResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8253,7 +8318,8 @@ export const deleteGuildMemberRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<DeleteGuildMemberRoleRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteGuildMemberRoleResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8269,7 +8335,8 @@ export const deleteGuildRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<DeleteGuildRoleRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteGuildRoleResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8285,7 +8352,8 @@ export const deleteGuildScheduledEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<DeleteGuildScheduledEventRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteGuildScheduledEventResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8302,7 +8370,8 @@ export const deleteGuildScheduledEventException: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<DeleteGuildScheduledEventExceptionRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteGuildScheduledEventExceptionResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8318,7 +8387,8 @@ export const deleteGuildSoundboardSound: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9376, __c293, 0) as any as S.Schema<DeleteGuildSoundboardSoundRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteGuildSoundboardSoundResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8334,7 +8404,8 @@ export const deleteGuildSticker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9408, __c294, 0) as any as S.Schema<DeleteGuildStickerRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteGuildStickerResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8350,7 +8421,8 @@ export const deleteGuildTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<DeleteGuildTemplateRequest>,
   output: __S(7463, __c233, 7) as any as S.Schema<GuildTemplateResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8367,7 +8439,8 @@ export const deleteLobby: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<DeleteLobbyRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteLobbyResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8383,7 +8456,8 @@ export const deleteLobbyMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<DeleteLobbyMemberRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteLobbyMemberResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8399,7 +8473,8 @@ export const deleteMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<DeleteMessageRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteMessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8415,7 +8490,8 @@ export const deleteMyMessageReaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<DeleteMyMessageReactionRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteMyMessageReactionResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8431,7 +8507,8 @@ export const deleteOriginalWebhookMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9696, __c303, 0) as any as S.Schema<DeleteOriginalWebhookMessageRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteOriginalWebhookMessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8447,7 +8524,8 @@ export const deletePin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<DeletePinRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeletePinResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8463,7 +8541,8 @@ export const deleteStageInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9760, __c305, 0) as any as S.Schema<DeleteStageInstanceRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteStageInstanceResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8479,7 +8558,8 @@ export const deleteThreadMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<DeleteThreadMemberRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteThreadMemberResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8495,7 +8575,8 @@ export const deleteUserMessageReaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<DeleteUserMessageReactionRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteUserMessageReactionResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8511,7 +8592,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9856, __c308, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8527,7 +8609,8 @@ export const deleteWebhookByToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9888, __c309, 0) as any as S.Schema<DeleteWebhookByTokenRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteWebhookByTokenResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8543,7 +8626,8 @@ export const deleteWebhookMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9920, __c310, 0) as any as S.Schema<DeleteWebhookMessageRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<DeleteWebhookMessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8559,7 +8643,8 @@ export const editLobby: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9952, __c311, 0) as any as S.Schema<EditLobbyRequest>,
   output: __S(7648, __c239, 0) as any as S.Schema<LobbyResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8575,7 +8660,8 @@ export const editLobbyChannelLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<EditLobbyChannelLinkRequest>,
   output: __S(7648, __c239, 0) as any as S.Schema<LobbyResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8591,7 +8677,8 @@ export const executeGithubCompatibleWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10063, __c314, 15) as any as S.Schema<ExecuteGithubCompatibleWebhookRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<ExecuteGithubCompatibleWebhookResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8607,7 +8694,8 @@ export const executeSlackCompatibleWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10116, __c316, 4) as any as S.Schema<ExecuteSlackCompatibleWebhookRequest>,
   output: __S(10117, __c316, 5) as any as S.Schema<ExecuteSlackCompatibleWebhookResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8623,7 +8711,8 @@ export const executeWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10145, __c317, 1) as any as S.Schema<ExecuteWebhookRequest>,
   output: __S(8134, __c254, 6) as any as S.Schema<MessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8639,7 +8728,8 @@ export const followChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10176, __c318, 0) as any as S.Schema<FollowChannelRequest>,
   output: __S(10177, __c318, 1) as any as S.Schema<ChannelFollowerResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8655,7 +8745,8 @@ export const getActiveGuildThreads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10208, __c319, 0) as any as S.Schema<GetActiveGuildThreadsRequest>,
   output: __S(10304, __c322, 0) as any as S.Schema<ThreadsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8671,7 +8762,8 @@ export const getAnswerVoters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10368, __c324, 0) as any as S.Schema<GetAnswerVotersRequest>,
   output: __S(10369, __c324, 1) as any as S.Schema<PollAnswerDetailsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8687,7 +8779,8 @@ export const getApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10400, __c325, 0) as any as S.Schema<GetApplicationRequest>,
   output: __S(10435, __c326, 3) as any as S.Schema<PrivateApplicationResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8703,7 +8796,8 @@ export const getApplicationActivityInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10464, __c327, 0) as any as S.Schema<GetApplicationActivityInstanceRequest>,
   output: __S(10466, __c327, 2) as any as S.Schema<EmbeddedActivityInstance>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8719,7 +8813,8 @@ export const getApplicationCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<GetApplicationCommandRequest>,
   output: __S(3651, __c114, 3) as any as S.Schema<ApplicationCommandResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8735,7 +8830,8 @@ export const getApplicationEmoji: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<GetApplicationEmojiRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<EmojiResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8751,7 +8847,8 @@ export const getApplicationRoleConnectionsMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<GetApplicationRoleConnectionsMetadataRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<GetApplicationRoleConnectionsMetadataResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8767,7 +8864,8 @@ export const getApplicationUserRoleConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetApplicationUserRoleConnectionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<ApplicationUserRoleConnectionResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8783,7 +8881,8 @@ export const getAutoModerationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetAutoModerationRuleRequest>,
   output: __S(162, __c5, 2) as any as S.Schema<GetAutoModerationRuleResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8799,7 +8898,8 @@ export const getBotGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetBotGatewayRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<GatewayBotResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8815,7 +8915,8 @@ export const getChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<GetChannelRequest>,
   output: __S(226, __c7, 2) as any as S.Schema<GetChannelResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8832,7 +8933,8 @@ export const getChannelMemberPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetChannelMemberPermissionsRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<PermissionsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8849,7 +8951,8 @@ export const getChannelRolePermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetChannelRolePermissionsRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<PermissionsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8865,7 +8968,8 @@ export const getCurrentUserApplicationEntitlements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(353, __c11, 1) as any as S.Schema<GetCurrentUserApplicationEntitlementsRequest>,
   output: __S(385, __c12, 1) as any as S.Schema<GetCurrentUserApplicationEntitlementsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8881,7 +8985,8 @@ export const getEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetEntitlementRequest>,
   output: __S(6880, __c215, 0) as any as S.Schema<EntitlementResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8897,7 +9002,8 @@ export const getEntitlements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(449, __c14, 1) as any as S.Schema<GetEntitlementsRequest>,
   output: __S(385, __c12, 1) as any as S.Schema<GetEntitlementsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8913,7 +9019,8 @@ export const getGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(513, __c16, 1) as any as S.Schema<GetGatewayRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<GatewayResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8929,7 +9036,8 @@ export const getGuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetGuildRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<GuildWithCountsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8945,7 +9053,8 @@ export const getGuildApplicationCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetGuildApplicationCommandRequest>,
   output: __S(3651, __c114, 3) as any as S.Schema<ApplicationCommandResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8961,7 +9070,8 @@ export const getGuildApplicationCommandPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GetGuildApplicationCommandPermissionsRequest>,
   output: __S(738, __c23, 2) as any as S.Schema<CommandPermissionsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8977,7 +9087,8 @@ export const getGuildBan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetGuildBanRequest>,
   output: __S(800, __c25, 0) as any as S.Schema<GuildBanResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8993,7 +9104,8 @@ export const getGuildEmoji: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetGuildEmojiRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<EmojiResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9010,7 +9122,8 @@ export const getGuildJoinRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetGuildJoinRequestsRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<GuildJoinRequestsListResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9026,7 +9139,8 @@ export const getGuildMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetGuildMemberRequest>,
   output: __S(8512, __c266, 0) as any as S.Schema<GuildMemberResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9043,7 +9157,8 @@ export const getGuildMemberPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetGuildMemberPermissionsRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<PermissionsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9059,7 +9174,8 @@ export const getGuildNewMemberWelcome: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetGuildNewMemberWelcomeRequest>,
   output: __S(998, __c31, 6) as any as S.Schema<GuildHomeSettingsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9075,7 +9191,8 @@ export const getGuildPreview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetGuildPreviewRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<GuildPreviewResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9091,7 +9208,8 @@ export const getGuildRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetGuildRoleRequest>,
   output: __S(4961, __c155, 1) as any as S.Schema<GuildRoleResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9108,7 +9226,8 @@ export const getGuildRolePermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetGuildRolePermissionsRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<PermissionsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9124,7 +9243,8 @@ export const getGuildScheduledEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetGuildScheduledEventRequest>,
   output: __S(1218, __c38, 2) as any as S.Schema<GetGuildScheduledEventResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9140,7 +9260,8 @@ export const getGuildsOnboarding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GetGuildsOnboardingRequest>,
   output: __S(1284, __c40, 4) as any as S.Schema<UserGuildOnboardingResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9156,7 +9277,8 @@ export const getGuildSoundboardSound: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetGuildSoundboardSoundRequest>,
   output: __S(7296, __c228, 0) as any as S.Schema<SoundboardSoundResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9172,7 +9294,8 @@ export const getGuildSticker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetGuildStickerRequest>,
   output: __S(7360, __c230, 0) as any as S.Schema<GuildStickerResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9188,7 +9311,8 @@ export const getGuildTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetGuildTemplateRequest>,
   output: __S(7463, __c233, 7) as any as S.Schema<GuildTemplateResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9204,7 +9328,8 @@ export const getGuildVanityUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetGuildVanityUrlRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<VanityURLResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9220,7 +9345,8 @@ export const getGuildWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetGuildWebhooksRequest>,
   output: __S(1443, __c45, 3) as any as S.Schema<GetGuildWebhooksResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9236,7 +9362,8 @@ export const getGuildWelcomeScreen: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetGuildWelcomeScreenRequest>,
   output: __S(1538, __c48, 2) as any as S.Schema<GuildWelcomeScreenResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9252,7 +9379,8 @@ export const getGuildWidget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetGuildWidgetRequest>,
   output: __S(1573, __c49, 5) as any as S.Schema<WidgetResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9268,7 +9396,8 @@ export const getGuildWidgetPng: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetGuildWidgetPngRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<GetGuildWidgetPngResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9284,7 +9413,8 @@ export const getGuildWidgetSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetGuildWidgetSettingsRequest>,
   output: __S(1664, __c52, 0) as any as S.Schema<WidgetSettingsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9301,7 +9431,8 @@ export const getInviteTargetUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<GetInviteTargetUsersRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<GetInviteTargetUsersResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9318,7 +9449,8 @@ export const getInviteTargetUsersJobStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetInviteTargetUsersJobStatusRequest>,
   output: __S(1729, __c54, 1) as any as S.Schema<TargetUsersJobStatusResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9334,7 +9466,8 @@ export const getLobby: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetLobbyRequest>,
   output: __S(7648, __c239, 0) as any as S.Schema<LobbyResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9350,7 +9483,8 @@ export const getLobbyMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<GetLobbyMessagesRequest>,
   output: __S(1794, __c56, 2) as any as S.Schema<GetLobbyMessagesResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9366,7 +9500,8 @@ export const getMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetMessageRequest>,
   output: __S(8134, __c254, 6) as any as S.Schema<MessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9382,7 +9517,8 @@ export const getMyApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetMyApplicationRequest>,
   output: __S(10435, __c326, 3) as any as S.Schema<PrivateApplicationResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9398,7 +9534,8 @@ export const getMyGuildMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetMyGuildMemberRequest>,
   output: __S(1952, __c61, 0) as any as S.Schema<PrivateGuildMemberResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9414,7 +9551,8 @@ export const getMyOauth2Application: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<GetMyOauth2ApplicationRequest>,
   output: __S(10435, __c326, 3) as any as S.Schema<PrivateApplicationResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9430,7 +9568,8 @@ export const getMyOauth2Authorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<GetMyOauth2AuthorizationRequest>,
   output: __S(2017, __c63, 1) as any as S.Schema<OAuth2GetAuthorizationResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9446,7 +9585,8 @@ export const getMyUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<GetMyUserRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<UserPIIResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9462,7 +9602,8 @@ export const getOpenidConnectUserinfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<GetOpenidConnectUserinfoRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<OAuth2GetOpenIDConnectUserInfoResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9478,7 +9619,8 @@ export const getOriginalWebhookMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<GetOriginalWebhookMessageRequest>,
   output: __S(8134, __c254, 6) as any as S.Schema<MessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9494,7 +9636,8 @@ export const getPublicKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<GetPublicKeysRequest>,
   output: __S(2179, __c68, 3) as any as S.Schema<OAuth2GetKeys>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9510,7 +9653,8 @@ export const getSelfVoiceState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<GetSelfVoiceStateRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<VoiceStateResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9527,7 +9671,8 @@ export const getSkuSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<GetSkuSubscriptionRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<SubscriptionResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9544,7 +9689,8 @@ export const getSkuSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<GetSkuSubscriptionsRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<GetSkuSubscriptionsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9560,7 +9706,8 @@ export const getSoundboardDefaultSounds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<GetSoundboardDefaultSoundsRequest>,
   output: __S(2401, __c75, 1) as any as S.Schema<GetSoundboardDefaultSoundsResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9576,7 +9723,8 @@ export const getStageInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<GetStageInstanceRequest>,
   output: __S(8352, __c261, 0) as any as S.Schema<StageInstanceResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9592,7 +9740,8 @@ export const getSticker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<GetStickerRequest>,
   output: __S(2498, __c78, 2) as any as S.Schema<GetStickerResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9608,7 +9757,8 @@ export const getStickerPack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<GetStickerPackRequest>,
   output: __S(2562, __c80, 2) as any as S.Schema<StickerPackResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9624,7 +9774,8 @@ export const getThreadMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<GetThreadMemberRequest>,
   output: __S(7936, __c248, 0) as any as S.Schema<ThreadMemberResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9640,7 +9791,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<GetUserRequest>,
   output: __S(8480, __c265, 0) as any as S.Schema<UserResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9656,7 +9808,8 @@ export const getVoiceState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<GetVoiceStateRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<VoiceStateResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9672,7 +9825,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(2690, __c84, 2) as any as S.Schema<GetWebhookResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9688,7 +9842,8 @@ export const getWebhookByToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<GetWebhookByTokenRequest>,
   output: __S(2722, __c85, 2) as any as S.Schema<GetWebhookByTokenResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9704,7 +9859,8 @@ export const getWebhookMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<GetWebhookMessageRequest>,
   output: __S(8134, __c254, 6) as any as S.Schema<MessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9720,7 +9876,8 @@ export const guildRoleMemberCounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<GuildRoleMemberCountsRequest>,
   output: __S(2817, __c88, 1) as any as S.Schema<GuildRoleMemberCountsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9736,7 +9893,8 @@ export const inviteResolve: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<InviteResolveRequest>,
   output: __S(2850, __c89, 2) as any as S.Schema<InviteResolveResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9753,7 +9911,8 @@ export const joinActionGuildRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<JoinActionGuildRequestRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<GuildJoinRequestResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9769,7 +9928,8 @@ export const joinThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<JoinThreadRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<JoinThreadResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9785,7 +9945,8 @@ export const leaveGuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<LeaveGuildRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<LeaveGuildResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9801,7 +9962,8 @@ export const leaveLobby: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<LeaveLobbyRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<LeaveLobbyResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9817,7 +9979,8 @@ export const leaveThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<LeaveThreadRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<LeaveThreadResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9833,7 +9996,8 @@ export const listApplicationCommands: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<ListApplicationCommandsRequest>,
   output: __S(3584, __c112, 0) as any as S.Schema<ListApplicationCommandsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9849,7 +10013,8 @@ export const listApplicationEmojis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<ListApplicationEmojisRequest>,
   output: __S(3073, __c96, 1) as any as S.Schema<ListApplicationEmojisResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9865,7 +10030,8 @@ export const listAutoModerationRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<ListAutoModerationRulesRequest>,
   output: __S(3107, __c97, 3) as any as S.Schema<ListAutoModerationRulesResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9881,7 +10047,8 @@ export const listChannelInvites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<ListChannelInvitesRequest>,
   output: __S(3171, __c99, 3) as any as S.Schema<ListChannelInvitesResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9897,7 +10064,8 @@ export const listChannelWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<ListChannelWebhooksRequest>,
   output: __S(3203, __c100, 3) as any as S.Schema<ListChannelWebhooksResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9913,7 +10081,8 @@ export const listDeprecatedPins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<ListDeprecatedPinsRequest>,
   output: __S(3264, __c102, 0) as any as S.Schema<ListDeprecatedPinsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9929,7 +10098,8 @@ export const listGuildApplicationCommandPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<ListGuildApplicationCommandPermissionsRequest>,
   output: __S(3298, __c103, 2) as any as S.Schema<ListGuildApplicationCommandPermissionsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9945,7 +10115,8 @@ export const listGuildApplicationCommands: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<ListGuildApplicationCommandsRequest>,
   output: __S(3584, __c112, 0) as any as S.Schema<ListGuildApplicationCommandsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9961,7 +10132,8 @@ export const listGuildAuditLogEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<ListGuildAuditLogEntriesRequest>,
   output: __S(3373, __c105, 13) as any as S.Schema<GuildAuditLogResponse>,
-  errors: [NotFound, MissingPermissions, UnknownDiscordError],
+  errors: [NotFound, MissingPermissions],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9977,7 +10149,8 @@ export const listGuildBans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<ListGuildBansRequest>,
   output: __S(3394, __c106, 2) as any as S.Schema<ListGuildBansResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9993,7 +10166,8 @@ export const listGuildChannels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<ListGuildChannelsRequest>,
   output: __S(3427, __c107, 3) as any as S.Schema<ListGuildChannelsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10009,7 +10183,8 @@ export const listGuildEmojis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<ListGuildEmojisRequest>,
   output: __S(3457, __c108, 1) as any as S.Schema<ListGuildEmojisResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10025,7 +10200,8 @@ export const listGuildIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<ListGuildIntegrationsRequest>,
   output: __S(3491, __c109, 3) as any as S.Schema<ListGuildIntegrationsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10041,7 +10217,8 @@ export const listGuildInvites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<ListGuildInvitesRequest>,
   output: __S(3683, __c115, 3) as any as S.Schema<ListGuildInvitesResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10057,7 +10234,8 @@ export const listGuildMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<ListGuildMembersRequest>,
   output: __S(3745, __c117, 1) as any as S.Schema<ListGuildMembersResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10073,7 +10251,8 @@ export const listGuildRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<ListGuildRolesRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<ListGuildRolesResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10090,7 +10269,8 @@ export const listGuildScheduledEventExceptionUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<ListGuildScheduledEventExceptionUsersRequest>,
   output: __S(3842, __c120, 2) as any as S.Schema<ListGuildScheduledEventExceptionUsersResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10106,7 +10286,8 @@ export const listGuildScheduledEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<ListGuildScheduledEventsRequest>,
   output: __S(3875, __c121, 3) as any as S.Schema<ListGuildScheduledEventsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10122,7 +10303,8 @@ export const listGuildScheduledEventUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<ListGuildScheduledEventUsersRequest>,
   output: __S(3842, __c120, 2) as any as S.Schema<ListGuildScheduledEventUsersResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10138,7 +10320,8 @@ export const listGuildSoundboardSounds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<ListGuildSoundboardSoundsRequest>,
   output: __S(3937, __c123, 1) as any as S.Schema<ListGuildSoundboardSoundsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10154,7 +10337,8 @@ export const listGuildStickers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<ListGuildStickersRequest>,
   output: __S(3969, __c124, 1) as any as S.Schema<ListGuildStickersResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10170,7 +10354,8 @@ export const listGuildTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<ListGuildTemplatesRequest>,
   output: __S(4002, __c125, 2) as any as S.Schema<ListGuildTemplatesResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10186,7 +10371,8 @@ export const listGuildVoiceRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<ListGuildVoiceRegionsRequest>,
   output: __S(4066, __c127, 2) as any as S.Schema<ListGuildVoiceRegionsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10202,7 +10388,8 @@ export const listMessageReactionsByEmoji: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<ListMessageReactionsByEmojiRequest>,
   output: __S(4129, __c129, 1) as any as S.Schema<ListMessageReactionsByEmojiResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10218,7 +10405,8 @@ export const listMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<ListMessagesRequest>,
   output: __S(3264, __c102, 0) as any as S.Schema<ListMessagesResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10234,7 +10422,8 @@ export const listMyConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4193, __c131, 1) as any as S.Schema<ListMyConnectionsRequest>,
   output: __S(4199, __c131, 7) as any as S.Schema<ListMyConnectionsResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10250,7 +10439,8 @@ export const listMyGuilds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<ListMyGuildsRequest>,
   output: __S(4227, __c132, 3) as any as S.Schema<ListMyGuildsResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10266,7 +10456,8 @@ export const listMyPrivateArchivedThreads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<ListMyPrivateArchivedThreadsRequest>,
   output: __S(10304, __c322, 0) as any as S.Schema<ThreadsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10282,7 +10473,8 @@ export const listPins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<ListPinsRequest>,
   output: __S(4291, __c134, 3) as any as S.Schema<PinnedMessagesResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10298,7 +10490,8 @@ export const listPrivateArchivedThreads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<ListPrivateArchivedThreadsRequest>,
   output: __S(10304, __c322, 0) as any as S.Schema<ThreadsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10314,7 +10507,8 @@ export const listPublicArchivedThreads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<ListPublicArchivedThreadsRequest>,
   output: __S(10304, __c322, 0) as any as S.Schema<ThreadsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10330,7 +10524,8 @@ export const listStickerPacks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<ListStickerPacksRequest>,
   output: __S(4386, __c137, 2) as any as S.Schema<StickerPackCollectionResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10346,7 +10541,8 @@ export const listThreadMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<ListThreadMembersRequest>,
   output: __S(4417, __c138, 1) as any as S.Schema<ListThreadMembersResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10362,7 +10558,8 @@ export const listVoiceRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<ListVoiceRegionsRequest>,
   output: __S(4066, __c127, 2) as any as S.Schema<ListVoiceRegionsResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10378,7 +10575,8 @@ export const partnerSdkToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<PartnerSdkTokenRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<ProvisionalTokenResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10394,7 +10592,8 @@ export const partnerSdkUnmergeProvisionalAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<PartnerSdkUnmergeProvisionalAccountRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<PartnerSdkUnmergeProvisionalAccountResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10410,7 +10609,8 @@ export const pollExpire: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<PollExpireRequest>,
   output: __S(8134, __c254, 6) as any as S.Schema<MessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10426,7 +10626,8 @@ export const previewPruneGuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4609, __c144, 1) as any as S.Schema<PreviewPruneGuildRequest>,
   output: __S(4640, __c145, 0) as any as S.Schema<GuildPruneResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10442,7 +10643,8 @@ export const pruneGuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4673, __c146, 1) as any as S.Schema<PruneGuildRequest>,
   output: __S(4640, __c145, 0) as any as S.Schema<GuildPruneResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10458,7 +10660,8 @@ export const putGuildsOnboarding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4708, __c147, 4) as any as S.Schema<PutGuildsOnboardingRequest>,
   output: __S(1284, __c40, 4) as any as S.Schema<GuildOnboardingResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10475,7 +10678,8 @@ export const removeInviteTargetUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<RemoveInviteTargetUserRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<RemoveInviteTargetUserResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10491,7 +10695,8 @@ export const revokeInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<RevokeInviteRequest>,
   output: __S(4770, __c149, 2) as any as S.Schema<RevokeInviteResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10507,7 +10712,8 @@ export const searchGuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<SearchGuildRequest>,
   output: __S(4810, __c150, 10) as any as S.Schema<GuildSearchResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10523,7 +10729,8 @@ export const searchGuildMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<SearchGuildMembersRequest>,
   output: __S(3745, __c117, 1) as any as S.Schema<SearchGuildMembersResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10539,7 +10746,8 @@ export const searchThread: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5025, __c157, 1) as any as S.Schema<SearchThreadRequest>,
   output: __S(5026, __c157, 2) as any as S.Schema<ThreadSearchResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10555,7 +10763,8 @@ export const sendSoundboardSound: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<SendSoundboardSoundRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<SendSoundboardSoundResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10571,7 +10780,8 @@ export const setChannelPermissionOverwrite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<SetChannelPermissionOverwriteRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<SetChannelPermissionOverwriteResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10587,7 +10797,8 @@ export const setGuildApplicationCommandPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<SetGuildApplicationCommandPermissionsRequest>,
   output: __S(738, __c23, 2) as any as S.Schema<CommandPermissionsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10603,7 +10814,8 @@ export const syncGuildTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<SyncGuildTemplateRequest>,
   output: __S(7463, __c233, 7) as any as S.Schema<GuildTemplateResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10619,7 +10831,8 @@ export const triggerTypingIndicator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<TriggerTypingIndicatorRequest>,
   output: __S(5185, __c162, 1) as any as S.Schema<TriggerTypingIndicatorResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10635,7 +10848,8 @@ export const unbanUserFromGuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<UnbanUserFromGuildRequest2>,
   output: __S(8896, __c278, 0) as any as S.Schema<UnbanUserFromGuildResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10655,7 +10869,8 @@ export const updateApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<UpdateApplicationRequest>,
   output: __S(10435, __c326, 3) as any as S.Schema<PrivateApplicationResponse>,
-  errors: [NotFound, InteractionsEndpointUnverified, InvalidFormBody, UnknownDiscordError],
+  errors: [NotFound, InteractionsEndpointUnverified, InvalidFormBody],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10671,7 +10886,8 @@ export const updateApplicationCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5314, __c166, 2) as any as S.Schema<UpdateApplicationCommandRequest>,
   output: __S(3651, __c114, 3) as any as S.Schema<ApplicationCommandResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10687,7 +10903,8 @@ export const updateApplicationEmoji: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<UpdateApplicationEmojiRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<EmojiResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10703,7 +10920,8 @@ export const updateApplicationRoleConnectionsMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5442, __c170, 2) as any as S.Schema<UpdateApplicationRoleConnectionsMetadataRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<UpdateApplicationRoleConnectionsMetadataResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10719,7 +10937,8 @@ export const updateApplicationUserRoleConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<UpdateApplicationUserRoleConnectionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<ApplicationUserRoleConnectionResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10735,7 +10954,8 @@ export const updateAutoModerationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5505, __c172, 1) as any as S.Schema<UpdateAutoModerationRuleRequest>,
   output: __S(5507, __c172, 3) as any as S.Schema<UpdateAutoModerationRuleResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10751,7 +10971,8 @@ export const updateChannel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5537, __c173, 1) as any as S.Schema<UpdateChannelRequest>,
   output: __S(5539, __c173, 3) as any as S.Schema<UpdateChannelResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10767,7 +10988,8 @@ export const updateGuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<UpdateGuildRequest>,
   output: __S(5569, __c174, 1) as any as S.Schema<GuildResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10783,7 +11005,8 @@ export const updateGuildApplicationCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5602, __c175, 2) as any as S.Schema<UpdateGuildApplicationCommandRequest>,
   output: __S(3651, __c114, 3) as any as S.Schema<ApplicationCommandResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10799,7 +11022,8 @@ export const updateGuildEmoji: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<UpdateGuildEmojiRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<EmojiResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10816,7 +11040,8 @@ export const updateGuildIncidentActions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<UpdateGuildIncidentActionsRequest>,
   output: __S(640, __c20, 0) as any as S.Schema<GuildIncidentsDataResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10832,7 +11057,8 @@ export const updateGuildMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<UpdateGuildMemberRequest>,
   output: __S(8512, __c266, 0) as any as S.Schema<GuildMemberResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10848,7 +11074,8 @@ export const updateGuildRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<UpdateGuildRoleRequest>,
   output: __S(4961, __c155, 1) as any as S.Schema<GuildRoleResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10864,7 +11091,8 @@ export const updateGuildScheduledEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5793, __c181, 1) as any as S.Schema<UpdateGuildScheduledEventRequest>,
   output: __S(5795, __c181, 3) as any as S.Schema<UpdateGuildScheduledEventResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10881,7 +11109,8 @@ export const updateGuildScheduledEventException: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<UpdateGuildScheduledEventExceptionRequest>,
   output: __S(7232, __c226, 0) as any as S.Schema<GuildScheduledEventExceptionResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10897,7 +11126,8 @@ export const updateGuildSoundboardSound: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<UpdateGuildSoundboardSoundRequest>,
   output: __S(7296, __c228, 0) as any as S.Schema<SoundboardSoundResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10913,7 +11143,8 @@ export const updateGuildSticker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<UpdateGuildStickerRequest>,
   output: __S(7360, __c230, 0) as any as S.Schema<GuildStickerResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10929,7 +11160,8 @@ export const updateGuildTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<UpdateGuildTemplateRequest>,
   output: __S(7463, __c233, 7) as any as S.Schema<GuildTemplateResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10945,7 +11177,8 @@ export const updateGuildWelcomeScreen: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5954, __c186, 2) as any as S.Schema<UpdateGuildWelcomeScreenRequest>,
   output: __S(1538, __c48, 2) as any as S.Schema<GuildWelcomeScreenResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10961,7 +11194,8 @@ export const updateGuildWidgetSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<UpdateGuildWidgetSettingsRequest>,
   output: __S(1664, __c52, 0) as any as S.Schema<WidgetSettingsResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10978,7 +11212,8 @@ export const updateInviteTargetUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<UpdateInviteTargetUsersRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<UpdateInviteTargetUsersResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11003,7 +11238,8 @@ export const updateLobbyMessageExternalModerationMetadata: API.OperationMethod<
     __c278,
     0,
   ) as any as S.Schema<UpdateLobbyMessageExternalModerationMetadataResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11019,7 +11255,8 @@ export const updateMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6146, __c192, 2) as any as S.Schema<UpdateMessageRequest>,
   output: __S(8134, __c254, 6) as any as S.Schema<MessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11038,7 +11275,8 @@ export const updateMyApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<UpdateMyApplicationRequest>,
   output: __S(10435, __c326, 3) as any as S.Schema<PrivateApplicationResponse>,
-  errors: [InteractionsEndpointUnverified, InvalidFormBody, UnknownDiscordError],
+  errors: [InteractionsEndpointUnverified, InvalidFormBody],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11054,7 +11292,8 @@ export const updateMyGuildMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<UpdateMyGuildMemberRequest>,
   output: __S(1952, __c61, 0) as any as S.Schema<PrivateGuildMemberResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11070,7 +11309,8 @@ export const updateMyUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<UpdateMyUserRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<UserPIIResponse>,
-  errors: [UnknownDiscordError],
+  errors: [],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11086,7 +11326,8 @@ export const updateOriginalWebhookMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6274, __c196, 2) as any as S.Schema<UpdateOriginalWebhookMessageRequest>,
   output: __S(8134, __c254, 6) as any as S.Schema<MessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11102,7 +11343,8 @@ export const updateSelfVoiceState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<UpdateSelfVoiceStateRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<UpdateSelfVoiceStateResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11118,7 +11360,8 @@ export const updateStageInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<UpdateStageInstanceRequest>,
   output: __S(8352, __c261, 0) as any as S.Schema<StageInstanceResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11143,7 +11386,8 @@ export const updateUserMessageExternalModerationMetadata: API.OperationMethod<
     __c278,
     0,
   ) as any as S.Schema<UpdateUserMessageExternalModerationMetadataResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11160,7 +11404,8 @@ export const updateVoiceChannelStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<UpdateVoiceChannelStatusRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<UpdateVoiceChannelStatusResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11176,7 +11421,8 @@ export const updateVoiceState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<UpdateVoiceStateRequest>,
   output: __S(8896, __c278, 0) as any as S.Schema<UpdateVoiceStateResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11192,7 +11438,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(6498, __c203, 2) as any as S.Schema<UpdateWebhookResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11208,7 +11455,8 @@ export const updateWebhookByToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<UpdateWebhookByTokenRequest>,
   output: __S(6530, __c204, 2) as any as S.Schema<UpdateWebhookByTokenResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11224,7 +11472,8 @@ export const updateWebhookMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6562, __c205, 2) as any as S.Schema<UpdateWebhookMessageRequest>,
   output: __S(8134, __c254, 6) as any as S.Schema<MessageResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11240,7 +11489,8 @@ export const uploadApplicationAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<UploadApplicationAttachmentRequest>,
   output: __S(6593, __c206, 1) as any as S.Schema<ActivitiesAttachmentResponse>,
-  errors: [NotFound, UnknownDiscordError],
+  errors: [NotFound],
+  serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12012,7 +12262,7 @@ function __c34(j: number): any {
           access_token: S.String.pipe(T.SensitiveValue({})),
           expires_in: S.Number,
           scope: S.String,
-          id_token: S.String,
+          id_token: S.String.pipe(T.SensitiveValue({})),
           refresh_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           scopes: S.optional(S.NullOr(__S(8416, __c263, 0))),
           expires_at_s: S.optional(S.NullOr(S.Number)),
@@ -14881,7 +15131,7 @@ function __c141(j: number): any {
         S.Struct({
           client_id: S.String,
           client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          external_auth_token: S.String,
+          external_auth_token: S.String.pipe(T.SensitiveValue({})),
           external_auth_type: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/partner-sdk/token", code: 200 })),
       ).annotate({ identifier: "PartnerSdkTokenRequest" });
@@ -14894,7 +15144,7 @@ function __c142(j: number): any {
         S.Struct({
           client_id: S.String,
           client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          external_auth_token: S.String,
+          external_auth_token: S.String.pipe(T.SensitiveValue({})),
           external_auth_type: S.String,
         }).pipe(
           T.Http({ method: "POST", uri: "/partner-sdk/provisional-accounts/unmerge", code: 200 }),

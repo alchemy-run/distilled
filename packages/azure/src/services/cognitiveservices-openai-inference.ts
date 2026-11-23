@@ -4,7 +4,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -607,7 +607,7 @@ export type ChatCompletionTokenLogprobBytesList = Array<number>;
 export type ChatCompletionTokenLogprobTopLogprobsItemBytesList = Array<number>;
 export interface ChatCompletionTokenLogprobTopLogprobsItem {
   /** The token. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The log probability of this token. */
   logprob: number;
   /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token. */
@@ -618,7 +618,7 @@ export type ChatCompletionTokenLogprobTopLogprobsList =
   Array<ChatCompletionTokenLogprobTopLogprobsItem>;
 export interface ChatCompletionTokenLogprob {
   /** The token. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The log probability of this token. */
   logprob: number;
   /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token. */
@@ -966,7 +966,7 @@ export interface CreateTranscriptionRequest {
   endpoint: string;
   deploymentId: string;
   /** The audio file object to transcribe. */
-  file: string;
+  file: unknown;
   /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
   prompt?: string | undefined;
   response_format?: AudioResponseFormat | (string & {}) | undefined;
@@ -1026,7 +1026,7 @@ export interface CreateTranslationRequest {
   endpoint: string;
   deploymentId: string;
   /** The audio file to translate. */
-  file: string;
+  file: unknown;
   /** An optional text to guide the model's style or continue a previous audio segment. The prompt should be in English. */
   prompt?: string | undefined;
   response_format?: AudioResponseFormat | (string & {}) | undefined;
@@ -1045,7 +1045,8 @@ export const CreateChatCompletion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c1, 20) as any as S.Schema<CreateChatCompletionRequest>,
   output: __S(74, __c2, 10) as any as S.Schema<CreateChatCompletionResponse2>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1062,7 +1063,8 @@ export const CreateCompletion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<CreateCompletionRequest>,
   output: __S(229, __c7, 5) as any as S.Schema<CreateCompletionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1079,7 +1081,8 @@ export const CreateEmbedding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<CreateEmbeddingRequest>,
   output: __S(260, __c8, 4) as any as S.Schema<CreateEmbeddingResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1096,7 +1099,8 @@ export const CreateImageGeneration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<CreateImageGenerationRequest>,
   output: __S(293, __c9, 5) as any as S.Schema<GenerateImagesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1113,7 +1117,8 @@ export const CreateTranscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<CreateTranscriptionRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<CreateTranscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1130,7 +1135,8 @@ export const CreateTranslation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<CreateTranslationRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<CreateTranslationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1482,6 +1488,7 @@ function __c1(j: number): any {
             code: 200,
             host: "https://{endpoint}/openai",
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateChatCompletionRequest" });
@@ -1518,7 +1525,7 @@ function __c1(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           logprob: S.Number,
           bytes: S.NullOr(__S(160, __c5, 0)),
         }),
@@ -1528,7 +1535,7 @@ function __c1(j: number): any {
     case 27:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           logprob: S.Number,
           bytes: S.NullOr(__S(160, __c5, 0)),
           top_logprobs: __S(58, __c1, 26),
@@ -1776,6 +1783,7 @@ function __c7(j: number): any {
             code: 200,
             host: "https://{endpoint}/openai",
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateCompletionRequest" });
@@ -1836,6 +1844,7 @@ function __c8(j: number): any {
             code: 200,
             host: "https://{endpoint}/openai",
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateEmbeddingRequest" });
@@ -1888,6 +1897,7 @@ function __c9(j: number): any {
             code: 200,
             host: "https://{endpoint}/openai",
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateImageGenerationRequest" });
@@ -1939,7 +1949,7 @@ function __c10(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           deploymentId: S.String.pipe(T.Label()),
-          file: S.String,
+          file: S.Unknown,
           prompt: S.optional(S.String),
           response_format: S.optional(S.String),
           temperature: S.optional(S.Number),
@@ -1952,6 +1962,7 @@ function __c10(j: number): any {
             contentType: "multipart",
             host: "https://{endpoint}/openai",
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateTranscriptionRequest" });
@@ -2007,7 +2018,7 @@ function __c12(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           deploymentId: S.String.pipe(T.Label()),
-          file: S.String,
+          file: S.Unknown,
           prompt: S.optional(S.String),
           response_format: S.optional(S.String),
           temperature: S.optional(S.Number),
@@ -2019,6 +2030,7 @@ function __c12(j: number): any {
             contentType: "multipart",
             host: "https://{endpoint}/openai",
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateTranslationRequest" });

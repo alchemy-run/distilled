@@ -1,0 +1,10 @@
+{
+  "description": "The spec declares no OAuth2 scope. The IoT Hub Device Provisioning Service accepts Microsoft Entra ID tokens for the `https://azure-devices-provisioning.net` resource (Microsoft Learn: \"Control access to Azure IoT Hub Device Provisioning Service with Microsoft Entra ID\").",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.deviceprovisioning_data#DeviceprovisioningData/traits/com.azure.protocols#audience",
+      "value": "https://azure-devices-provisioning.net/.default"
+    }
+  ]
+}

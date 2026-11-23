@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -149,7 +149,7 @@ export interface AiGatewaySecretHeader {
   /** HTTP header name. */
   name: string;
   /** Secret HTTP header value. Omitted from ordinary read responses. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** Secret HTTP headers injected when calling the hook endpoint. */
 export type AiGatewayAgentHookAuthenticationHeadersList = Array<AiGatewaySecretHeader>;
@@ -399,9 +399,9 @@ export interface AiGatewayApiKeyPropertiesInput {
   /** Optional expiration time. */
   expirationDate?: string | undefined;
   /** Primary key value. Omitted from ordinary read responses. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Secondary key value. Omitted from ordinary read responses. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AiGatewayApiKeyResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -426,9 +426,9 @@ export interface AiGatewayApiKeyProperties {
   /** Optional expiration time. */
   expirationDate?: string | undefined;
   /** Primary key value. Omitted from ordinary read responses. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Secondary key value. Omitted from ordinary read responses. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Provisioning state of the resource. */
   provisioningState?: AiGatewayProvisioningState | undefined;
 }
@@ -1020,7 +1020,7 @@ export interface AiGatewayOpenApiSpecSource {
   /** Source type. */
   type: AiGatewayToolServerOpenApiSourceType | (string & {});
   /** Base64-encoded OpenAPI document. Required when type is inline. */
-  contentBase64?: string | undefined;
+  contentBase64?: string | Redacted.Redacted<string> | undefined;
   /** URL of the OpenAPI document. Required when type is url. */
   url?: string | undefined;
 }
@@ -3260,7 +3260,7 @@ export type AuthorizationProviderOAuth2GrantTypesAuthorizationCodeMap = {
 };
 /** OAuth2 client credential grant parameters */
 export type AuthorizationProviderOAuth2GrantTypesClientCredentialsMap = {
-  [key: string]: string | undefined;
+  [key: string]: string | Redacted.Redacted<string> | undefined;
 };
 /** Authorization Provider oauth2 grant types settings */
 export interface AuthorizationProviderOAuth2GrantTypes {
@@ -3921,9 +3921,9 @@ export interface AccessInformationCreateParameterProperties {
   /** Principal (User) Identifier. */
   principalId?: string | undefined;
   /** Primary access key. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Secondary access key. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Determines whether direct access is enabled. */
   enabled?: boolean | undefined;
 }
@@ -5757,7 +5757,7 @@ export interface GenerateGatewayTokenRequest {
 }
 export interface GenerateGatewayTokenResponse {
   /** Shared Access Authentication token value for the Gateway. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GenerateUserSsoUrlRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6041,7 +6041,7 @@ export interface GetAiGatewayToolServerResourceOauth2LoginLinksRequest {
 /** Links for completing OAuth consent for a tool-server endpoint. */
 export interface AiGatewayToolServerOauth2LoginLinks {
   /** Gateway URL to open to begin consent; includes an expiring signed capability. */
-  loginLink?: string | undefined;
+  loginLink?: string | Redacted.Redacted<string> | undefined;
   /** Gateway callback URI to register with the identity provider. */
   redirectUri?: string | undefined;
   /** UTC expiry of the signed start capability. */
@@ -7159,7 +7159,9 @@ export type LoggerContractPropertiesLoggerType =
   | "applicationInsights"
   | "azureMonitor";
 /** The name and SendRule connection string of the event hub for azureEventHub logger. Instrumentation key for applicationInsights logger. */
-export type LoggerContractPropertiesCredentialsMap = { [key: string]: string | undefined };
+export type LoggerContractPropertiesCredentialsMap = {
+  [key: string]: string | Redacted.Redacted<string> | undefined;
+};
 /** The Logger entity in API Management represents an event sink that you can use to log API Management events. Currently the Logger entity supports logging API Management events to Azure Event Hubs. */
 export interface LoggerContractProperties {
   /** Logger type. */
@@ -7516,7 +7518,7 @@ export interface PortalConfigDelegationProperties {
   /** A delegation endpoint URL. */
   delegationUrl?: string | undefined;
   /** A base64-encoded validation key to ensure requests originate from Azure API Management service. */
-  validationKey?: string | undefined;
+  validationKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** Allowed origins, e.g. `https://trusted.com`. */
 export type PortalConfigCorsPropertiesAllowedOriginsList = Array<string>;
@@ -7879,9 +7881,9 @@ export interface SubscriptionContractProperties {
   /** Upcoming subscription expiration notification date. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
   notificationDate?: string | undefined;
   /** Subscription primary key. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Subscription secondary key. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Optional subscription comment added by an administrator when the state is changed to the 'rejected'. */
   stateComment?: string | undefined;
   /** Determines whether tracing is enabled */
@@ -8167,7 +8169,7 @@ export interface GetUserSharedAccessTokenRequest {
 }
 export interface GetUserSharedAccessTokenResponse {
   /** Shared Access Authorization token for the User. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetUserSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9144,9 +9146,9 @@ export interface ListAiGatewayApiKeyResourceSecretsRequest {
 /** Primary and secondary API key values. */
 export interface AiGatewayApiKeyValues {
   /** Primary API key value. */
-  primaryKey: string;
+  primaryKey: string | Redacted.Redacted<string>;
   /** Secondary API key value. */
-  secondaryKey: string;
+  secondaryKey: string | Redacted.Redacted<string>;
 }
 export interface ListAiGatewayModelProviderResourceByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -9209,7 +9211,7 @@ export interface AiGatewaySecretHeaderValue {
   /** HTTP header name. */
   name: string;
   /** Secret HTTP header value. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** Secret HTTP headers injected when calling the model provider. */
 export type AiGatewayModelProviderSecretAuthenticationHeadersList =
@@ -9522,7 +9524,7 @@ export interface AiGatewayToolServerSecretOpenApiSpecSource {
   /** URL of the OpenAPI document. Required when type is url. */
   url?: string | undefined;
   /** Base64-encoded OpenAPI document. Required when type is inline. */
-  contentBase64?: string | undefined;
+  contentBase64?: string | Redacted.Redacted<string> | undefined;
 }
 /** OpenAPI settings returned by the secret retrieval action. */
 export interface AiGatewayToolServerSecretOpenApiConfiguration {
@@ -11429,7 +11431,7 @@ export interface ListGatewayDebugCredentialsRequest {
 }
 export interface ListGatewayDebugCredentialsResponse {
   /** Gateway debug token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListGatewayHostnameConfigurationByServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -13485,9 +13487,9 @@ export interface ListTenantAccessSecretsResponse {
   /** Principal (User) Identifier. */
   principalId?: string | undefined;
   /** Primary access key. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Secondary access key. This property will not be filled on 'GET' operations! Use '/listSecrets' POST request to get the value. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Determines whether direct access is enabled. */
   enabled?: boolean | undefined;
 }
@@ -15947,7 +15949,7 @@ export interface AiGatewaySecretHeaderUpdate {
   /** HTTP header name. */
   name?: string | undefined;
   /** Secret HTTP header value. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** Secret HTTP headers injected when calling the hook endpoint. */
 export type AiGatewayAgentHookAuthenticationUpdateHeadersList = Array<AiGatewaySecretHeaderUpdate>;
@@ -16124,9 +16126,9 @@ export interface AiGatewayApiKeyUpdateProperties {
   /** Optional expiration time. */
   expirationDate?: string | undefined;
   /** Replacement primary key value. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** Replacement secondary key value. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpdateAiGatewayApiKeyResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -16493,7 +16495,7 @@ export interface AiGatewayOpenApiSpecSourceUpdate {
   /** Source type. */
   type?: AiGatewayToolServerOpenApiSourceType | (string & {}) | undefined;
   /** Base64-encoded OpenAPI document. */
-  contentBase64?: string | undefined;
+  contentBase64?: string | Redacted.Redacted<string> | undefined;
   /** URL of the OpenAPI document. */
   url?: string | undefined;
 }
@@ -17608,7 +17610,9 @@ export type LoggerUpdateParametersLoggerType =
   | "applicationInsights"
   | "azureMonitor";
 /** Logger credentials. */
-export type LoggerUpdateParametersCredentialsMap = { [key: string]: string | undefined };
+export type LoggerUpdateParametersCredentialsMap = {
+  [key: string]: string | Redacted.Redacted<string> | undefined;
+};
 /** Parameters supplied to the Update Logger operation. */
 export interface LoggerUpdateParameters {
   /** Logger type. */
@@ -19324,7 +19328,8 @@ export const AiGatewayAliasResourcesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<AiGatewayAliasResourcesCreateOrUpdateRequest>,
   output: __S(71, __c2, 7) as any as S.Schema<AiGatewayAliasResourcesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19341,7 +19346,8 @@ export const AiGatewayApiKeyResourcesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<AiGatewayApiKeyResourcesCreateOrUpdateRequest>,
   output: __S(385, __c12, 1) as any as S.Schema<AiGatewayApiKeyResourcesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19357,16 +19363,17 @@ export const AiGatewayModelProviderResourcesCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4961,
-    __c155,
+    4993,
+    __c156,
     1,
   ) as any as S.Schema<AiGatewayModelProviderResourcesCreateOrUpdateRequest>,
   output: __S(
-    5027,
-    __c157,
+    5059,
+    __c158,
     3,
   ) as any as S.Schema<AiGatewayModelProviderResourcesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19381,9 +19388,10 @@ export const AiGatewayModelResourcesCreateOrUpdate: API.OperationMethod<
   AiGatewayModelResourcesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10081, __c315, 1) as any as S.Schema<AiGatewayModelResourcesCreateOrUpdateRequest>,
-  output: __S(10116, __c316, 4) as any as S.Schema<AiGatewayModelResourcesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(10113, __c316, 1) as any as S.Schema<AiGatewayModelResourcesCreateOrUpdateRequest>,
+  output: __S(10148, __c317, 4) as any as S.Schema<AiGatewayModelResourcesCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19399,16 +19407,17 @@ export const AiGatewayPrivateEndpointConnectionsCreateOrUpdate: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15136,
-    __c473,
+    15200,
+    __c475,
     0,
   ) as any as S.Schema<AiGatewayPrivateEndpointConnectionsCreateOrUpdateRequest>,
   output: __S(
-    15137,
-    __c473,
+    15201,
+    __c475,
     1,
   ) as any as S.Schema<AiGatewayPrivateEndpointConnectionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19423,9 +19432,10 @@ export const AiGatewayResourcesCreateOrUpdate: API.OperationMethod<
   AiGatewayResourcesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19457, __c608, 1) as any as S.Schema<AiGatewayResourcesCreateOrUpdateRequest>,
-  output: __S(19458, __c608, 2) as any as S.Schema<AiGatewayResourcesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19521, __c610, 1) as any as S.Schema<AiGatewayResourcesCreateOrUpdateRequest>,
+  output: __S(19522, __c610, 2) as any as S.Schema<AiGatewayResourcesCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19441,16 +19451,17 @@ export const AiGatewayTelemetryExporterResourcesCreateOrUpdate: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22561,
-    __c705,
+    22625,
+    __c707,
     1,
   ) as any as S.Schema<AiGatewayTelemetryExporterResourcesCreateOrUpdateRequest>,
   output: __S(
-    22599,
-    __c706,
+    22663,
+    __c708,
     7,
   ) as any as S.Schema<AiGatewayTelemetryExporterResourcesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19466,16 +19477,17 @@ export const AiGatewayToolServerResourcesCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22948,
-    __c717,
+    23012,
+    __c719,
     4,
   ) as any as S.Schema<AiGatewayToolServerResourcesCreateOrUpdateRequest>,
   output: __S(
-    23016,
-    __c719,
+    23080,
+    __c721,
     8,
   ) as any as S.Schema<AiGatewayToolServerResourcesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19490,9 +19502,10 @@ export const ApiCreateOrUpdate: API.OperationMethod<
   ApiCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23392, __c731, 0) as any as S.Schema<ApiCreateOrUpdateRequest>,
-  output: __S(23490, __c734, 2) as any as S.Schema<ApiCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23456, __c733, 0) as any as S.Schema<ApiCreateOrUpdateRequest>,
+  output: __S(23554, __c736, 2) as any as S.Schema<ApiCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19507,9 +19520,10 @@ export const ApiDiagnosticCreateOrUpdate: API.OperationMethod<
   ApiDiagnosticCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23840, __c745, 0) as any as S.Schema<ApiDiagnosticCreateOrUpdateRequest>,
-  output: __S(23880, __c746, 8) as any as S.Schema<ApiDiagnosticCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23904, __c747, 0) as any as S.Schema<ApiDiagnosticCreateOrUpdateRequest>,
+  output: __S(23944, __c748, 8) as any as S.Schema<ApiDiagnosticCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19526,7 +19540,8 @@ export const ApiGatewayConfigConnectionCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(449, __c14, 1) as any as S.Schema<ApiGatewayConfigConnectionCreateOrUpdateRequest>,
   output: __S(481, __c15, 1) as any as S.Schema<ApiGatewayConfigConnectionCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19543,7 +19558,8 @@ export const ApiGatewayCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ApiGatewayCreateOrUpdateRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<ApiGatewayCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19560,7 +19576,8 @@ export const ApiIssueAttachmentCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<ApiIssueAttachmentCreateOrUpdateRequest>,
   output: __S(1345, __c42, 1) as any as S.Schema<ApiIssueAttachmentCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19577,7 +19594,8 @@ export const ApiIssueCommentCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<ApiIssueCommentCreateOrUpdateRequest>,
   output: __S(1729, __c54, 1) as any as S.Schema<ApiIssueCommentCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19594,7 +19612,8 @@ export const ApiIssueCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ApiIssueCreateOrUpdateRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<ApiIssueCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19611,7 +19630,8 @@ export const ApiManagementServiceBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ApiManagementServiceBackupRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<ApiManagementServiceBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19626,9 +19646,10 @@ export const ApiManagementServiceCreateOrUpdate: API.OperationMethod<
   ApiManagementServiceCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3201, __c100, 1) as any as S.Schema<ApiManagementServiceCreateOrUpdateRequest>,
-  output: __S(3232, __c101, 0) as any as S.Schema<ApiManagementServiceCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(3233, __c101, 1) as any as S.Schema<ApiManagementServiceCreateOrUpdateRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<ApiManagementServiceCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19643,9 +19664,10 @@ export const ApiOperationCreateOrUpdate: API.OperationMethod<
   ApiOperationCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<ApiOperationCreateOrUpdateRequest>,
-  output: __S(3786, __c118, 10) as any as S.Schema<ApiOperationCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(3776, __c118, 0) as any as S.Schema<ApiOperationCreateOrUpdateRequest>,
+  output: __S(3818, __c119, 10) as any as S.Schema<ApiOperationCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19660,9 +19682,10 @@ export const ApiOperationPolicyCreateOrUpdate: API.OperationMethod<
   ApiOperationPolicyCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<ApiOperationPolicyCreateOrUpdateRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<ApiOperationPolicyCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4192, __c131, 0) as any as S.Schema<ApiOperationPolicyCreateOrUpdateRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<ApiOperationPolicyCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19677,9 +19700,10 @@ export const ApiPolicyCreateOrUpdate: API.OperationMethod<
   ApiPolicyCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<ApiPolicyCreateOrUpdateRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<ApiPolicyCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4608, __c144, 0) as any as S.Schema<ApiPolicyCreateOrUpdateRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<ApiPolicyCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19694,9 +19718,10 @@ export const ApiReleaseCreateOrUpdate: API.OperationMethod<
   ApiReleaseCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<ApiReleaseCreateOrUpdateRequest>,
-  output: __S(5089, __c159, 1) as any as S.Schema<ApiReleaseCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(5088, __c159, 0) as any as S.Schema<ApiReleaseCreateOrUpdateRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<ApiReleaseCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19711,9 +19736,10 @@ export const ApiSchemaCreateOrUpdate: API.OperationMethod<
   ApiSchemaCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<ApiSchemaCreateOrUpdateRequest>,
-  output: __S(5793, __c181, 1) as any as S.Schema<ApiSchemaCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(5760, __c180, 0) as any as S.Schema<ApiSchemaCreateOrUpdateRequest>,
+  output: __S(5825, __c182, 1) as any as S.Schema<ApiSchemaCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19728,9 +19754,10 @@ export const ApiTagDescriptionCreateOrUpdate: API.OperationMethod<
   ApiTagDescriptionCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6465, __c202, 1) as any as S.Schema<ApiTagDescriptionCreateOrUpdateRequest>,
-  output: __S(6497, __c203, 1) as any as S.Schema<ApiTagDescriptionCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6497, __c203, 1) as any as S.Schema<ApiTagDescriptionCreateOrUpdateRequest>,
+  output: __S(6529, __c204, 1) as any as S.Schema<ApiTagDescriptionCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19745,9 +19772,10 @@ export const ApiVersionSetCreateOrUpdate: API.OperationMethod<
   ApiVersionSetCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<ApiVersionSetCreateOrUpdateRequest>,
-  output: __S(7073, __c221, 1) as any as S.Schema<ApiVersionSetCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7072, __c221, 0) as any as S.Schema<ApiVersionSetCreateOrUpdateRequest>,
+  output: __S(7105, __c222, 1) as any as S.Schema<ApiVersionSetCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19762,9 +19790,10 @@ export const ApiWikiCreateOrUpdate: API.OperationMethod<
   ApiWikiCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<ApiWikiCreateOrUpdateRequest>,
-  output: __S(7523, __c235, 3) as any as S.Schema<ApiWikiCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7520, __c235, 0) as any as S.Schema<ApiWikiCreateOrUpdateRequest>,
+  output: __S(7555, __c236, 3) as any as S.Schema<ApiWikiCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19780,8 +19809,8 @@ export const ApplyApiManagementServiceNetworkConfigurationUpdates: API.Operation
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7904,
-    __c247,
+    7936,
+    __c248,
     0,
   ) as any as S.Schema<ApplyApiManagementServiceNetworkConfigurationUpdatesRequest>,
   output: __S(
@@ -19789,7 +19818,8 @@ export const ApplyApiManagementServiceNetworkConfigurationUpdates: API.Operation
     __c84,
     0,
   ) as any as S.Schema<ApplyApiManagementServiceNetworkConfigurationUpdatesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19804,9 +19834,10 @@ export const AssignTagToApi: API.OperationMethod<
   AssignTagToApiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<AssignTagToApiRequest>,
-  output: __S(8289, __c259, 1) as any as S.Schema<AssignTagToApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8288, __c259, 0) as any as S.Schema<AssignTagToApiRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<AssignTagToApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19821,9 +19852,10 @@ export const AssignTagToOperation: API.OperationMethod<
   AssignTagToOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<AssignTagToOperationRequest>,
-  output: __S(8289, __c259, 1) as any as S.Schema<AssignTagToOperationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8704, __c272, 0) as any as S.Schema<AssignTagToOperationRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<AssignTagToOperationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19838,9 +19870,10 @@ export const AssignTagToProduct: API.OperationMethod<
   AssignTagToProductError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<AssignTagToProductRequest>,
-  output: __S(8289, __c259, 1) as any as S.Schema<AssignTagToProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(9120, __c285, 0) as any as S.Schema<AssignTagToProductRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<AssignTagToProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19855,9 +19888,10 @@ export const AuthorizationAccessPolicyCreateOrUpdate: API.OperationMethod<
   AuthorizationAccessPolicyCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<AuthorizationAccessPolicyCreateOrUpdateRequest>,
-  output: __S(9505, __c297, 1) as any as S.Schema<AuthorizationAccessPolicyCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(9504, __c297, 0) as any as S.Schema<AuthorizationAccessPolicyCreateOrUpdateRequest>,
+  output: __S(9537, __c298, 1) as any as S.Schema<AuthorizationAccessPolicyCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19872,9 +19906,10 @@ export const AuthorizationCreateOrUpdate: API.OperationMethod<
   AuthorizationCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10144, __c317, 0) as any as S.Schema<AuthorizationCreateOrUpdateRequest>,
-  output: __S(10178, __c318, 2) as any as S.Schema<AuthorizationCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(10176, __c318, 0) as any as S.Schema<AuthorizationCreateOrUpdateRequest>,
+  output: __S(10210, __c319, 2) as any as S.Schema<AuthorizationCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19889,9 +19924,10 @@ export const AuthorizationProviderCreateOrUpdate: API.OperationMethod<
   AuthorizationProviderCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10720, __c335, 0) as any as S.Schema<AuthorizationProviderCreateOrUpdateRequest>,
-  output: __S(10755, __c336, 3) as any as S.Schema<AuthorizationProviderCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(10752, __c336, 0) as any as S.Schema<AuthorizationProviderCreateOrUpdateRequest>,
+  output: __S(10819, __c338, 3) as any as S.Schema<AuthorizationProviderCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19906,9 +19942,10 @@ export const AuthorizationServerCreateOrUpdate: API.OperationMethod<
   AuthorizationServerCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11264, __c352, 0) as any as S.Schema<AuthorizationServerCreateOrUpdateRequest>,
-  output: __S(11297, __c353, 1) as any as S.Schema<AuthorizationServerCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11328, __c354, 0) as any as S.Schema<AuthorizationServerCreateOrUpdateRequest>,
+  output: __S(11361, __c355, 1) as any as S.Schema<AuthorizationServerCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19923,9 +19960,10 @@ export const BackendCreateOrUpdate: API.OperationMethod<
   BackendCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11712, __c366, 0) as any as S.Schema<BackendCreateOrUpdateRequest>,
-  output: __S(11763, __c367, 19) as any as S.Schema<BackendCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11776, __c368, 0) as any as S.Schema<BackendCreateOrUpdateRequest>,
+  output: __S(11827, __c369, 19) as any as S.Schema<BackendCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19940,9 +19978,10 @@ export const BackendReconnect: API.OperationMethod<
   BackendReconnectError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12161, __c380, 1) as any as S.Schema<BackendReconnectRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<BackendReconnectResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12225, __c382, 1) as any as S.Schema<BackendReconnectRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<BackendReconnectResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19957,9 +19996,10 @@ export const CacheCreateOrUpdate: API.OperationMethod<
   CacheCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12704, __c397, 0) as any as S.Schema<CacheCreateOrUpdateRequest>,
-  output: __S(12737, __c398, 1) as any as S.Schema<CacheCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12768, __c399, 0) as any as S.Schema<CacheCreateOrUpdateRequest>,
+  output: __S(12801, __c400, 1) as any as S.Schema<CacheCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19974,9 +20014,10 @@ export const CertificateCreateOrUpdate: API.OperationMethod<
   CertificateCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13248, __c414, 0) as any as S.Schema<CertificateCreateOrUpdateRequest>,
-  output: __S(13313, __c416, 1) as any as S.Schema<CertificateCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13312, __c416, 0) as any as S.Schema<CertificateCreateOrUpdateRequest>,
+  output: __S(13377, __c418, 1) as any as S.Schema<CertificateCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19992,12 +20033,13 @@ export const CheckAiGatewayNameAvailabilityOperationNameAvailability: API.Operat
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13824,
-    __c432,
+    13888,
+    __c434,
     0,
   ) as any as S.Schema<CheckAiGatewayNameAvailabilityOperationNameAvailabilityRequest>,
-  output: __S(13825, __c432, 1) as any as S.Schema<AiGatewayCheckNameAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  output: __S(13889, __c434, 1) as any as S.Schema<AiGatewayCheckNameAvailabilityResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20012,9 +20054,10 @@ export const CheckApiManagementServiceNameAvailability: API.OperationMethod<
   CheckApiManagementServiceNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14304, __c447, 0) as any as S.Schema<CheckApiManagementServiceNameAvailabilityRequest>,
-  output: __S(14305, __c447, 1) as any as S.Schema<ApiManagementServiceNameAvailabilityResult>,
-  errors: [UnknownAzureError],
+  input: __S(14368, __c449, 0) as any as S.Schema<CheckApiManagementServiceNameAvailabilityRequest>,
+  output: __S(14369, __c449, 1) as any as S.Schema<ApiManagementServiceNameAvailabilityResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20029,9 +20072,10 @@ export const ConfirmAuthorizationConsentCode: API.OperationMethod<
   ConfirmAuthorizationConsentCodeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14720, __c460, 0) as any as S.Schema<ConfirmAuthorizationConsentCodeRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<ConfirmAuthorizationConsentCodeResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14784, __c462, 0) as any as S.Schema<ConfirmAuthorizationConsentCodeRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<ConfirmAuthorizationConsentCodeResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20046,9 +20090,10 @@ export const ContentItemCreateOrUpdate: API.OperationMethod<
   ContentItemCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15328, __c479, 0) as any as S.Schema<ContentItemCreateOrUpdateRequest>,
-  output: __S(15360, __c480, 0) as any as S.Schema<ContentItemCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15392, __c481, 0) as any as S.Schema<ContentItemCreateOrUpdateRequest>,
+  output: __S(15424, __c482, 0) as any as S.Schema<ContentItemCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20063,9 +20108,10 @@ export const ContentTypeCreateOrUpdate: API.OperationMethod<
   ContentTypeCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15744, __c492, 0) as any as S.Schema<ContentTypeCreateOrUpdateRequest>,
-  output: __S(15777, __c493, 1) as any as S.Schema<ContentTypeCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15808, __c494, 0) as any as S.Schema<ContentTypeCreateOrUpdateRequest>,
+  output: __S(15841, __c495, 1) as any as S.Schema<ContentTypeCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20080,9 +20126,10 @@ export const CreateGroupUser: API.OperationMethod<
   CreateGroupUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16128, __c504, 0) as any as S.Schema<CreateGroupUserRequest>,
-  output: __S(16226, __c507, 2) as any as S.Schema<CreateGroupUserResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16192, __c506, 0) as any as S.Schema<CreateGroupUserRequest>,
+  output: __S(16290, __c509, 2) as any as S.Schema<CreateGroupUserResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20097,9 +20144,10 @@ export const CreateTenantAccess: API.OperationMethod<
   CreateTenantAccessError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16577, __c518, 1) as any as S.Schema<CreateTenantAccessRequest>,
-  output: __S(16609, __c519, 1) as any as S.Schema<CreateTenantAccessResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16641, __c520, 1) as any as S.Schema<CreateTenantAccessRequest>,
+  output: __S(16673, __c521, 1) as any as S.Schema<CreateTenantAccessResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20114,9 +20162,10 @@ export const CreateWorkspaceGroupUser: API.OperationMethod<
   CreateWorkspaceGroupUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17024, __c532, 0) as any as S.Schema<CreateWorkspaceGroupUserRequest>,
-  output: __S(16226, __c507, 2) as any as S.Schema<CreateWorkspaceGroupUserResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17088, __c534, 0) as any as S.Schema<CreateWorkspaceGroupUserRequest>,
+  output: __S(16290, __c509, 2) as any as S.Schema<CreateWorkspaceGroupUserResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20131,9 +20180,10 @@ export const DeleteAiGatewayAliasResource: API.OperationMethod<
   DeleteAiGatewayAliasResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17408, __c544, 0) as any as S.Schema<DeleteAiGatewayAliasResourceRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteAiGatewayAliasResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17472, __c546, 0) as any as S.Schema<DeleteAiGatewayAliasResourceRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteAiGatewayAliasResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20148,9 +20198,10 @@ export const DeleteAiGatewayApiKeyResource: API.OperationMethod<
   DeleteAiGatewayApiKeyResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17792, __c556, 0) as any as S.Schema<DeleteAiGatewayApiKeyResourceRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteAiGatewayApiKeyResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17856, __c558, 0) as any as S.Schema<DeleteAiGatewayApiKeyResourceRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteAiGatewayApiKeyResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20165,9 +20216,10 @@ export const DeleteAiGatewayModelProviderResource: API.OperationMethod<
   DeleteAiGatewayModelProviderResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18144, __c567, 0) as any as S.Schema<DeleteAiGatewayModelProviderResourceRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteAiGatewayModelProviderResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18208, __c569, 0) as any as S.Schema<DeleteAiGatewayModelProviderResourceRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteAiGatewayModelProviderResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20182,9 +20234,10 @@ export const DeleteAiGatewayModelResource: API.OperationMethod<
   DeleteAiGatewayModelResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18528, __c579, 0) as any as S.Schema<DeleteAiGatewayModelResourceRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteAiGatewayModelResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18592, __c581, 0) as any as S.Schema<DeleteAiGatewayModelResourceRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteAiGatewayModelResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20199,13 +20252,14 @@ export const DeleteAiGatewayPrivateEndpointConnection: API.OperationMethod<
   DeleteAiGatewayPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18976, __c593, 0) as any as S.Schema<DeleteAiGatewayPrivateEndpointConnectionRequest>,
+  input: __S(19040, __c595, 0) as any as S.Schema<DeleteAiGatewayPrivateEndpointConnectionRequest>,
   output: __S(
-    19008,
-    __c594,
+    19072,
+    __c596,
     0,
   ) as any as S.Schema<DeleteAiGatewayPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20220,9 +20274,10 @@ export const DeleteAiGatewayResource: API.OperationMethod<
   DeleteAiGatewayResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19712, __c616, 0) as any as S.Schema<DeleteAiGatewayResourceRequest>,
-  output: __S(19008, __c594, 0) as any as S.Schema<DeleteAiGatewayResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19776, __c618, 0) as any as S.Schema<DeleteAiGatewayResourceRequest>,
+  output: __S(19072, __c596, 0) as any as S.Schema<DeleteAiGatewayResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20237,13 +20292,14 @@ export const DeleteAiGatewayTelemetryExporterResource: API.OperationMethod<
   DeleteAiGatewayTelemetryExporterResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20096, __c628, 0) as any as S.Schema<DeleteAiGatewayTelemetryExporterResourceRequest>,
+  input: __S(20160, __c630, 0) as any as S.Schema<DeleteAiGatewayTelemetryExporterResourceRequest>,
   output: __S(
-    15232,
-    __c476,
+    15296,
+    __c478,
     0,
   ) as any as S.Schema<DeleteAiGatewayTelemetryExporterResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20258,9 +20314,10 @@ export const DeleteAiGatewayToolServerResource: API.OperationMethod<
   DeleteAiGatewayToolServerResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20544, __c642, 0) as any as S.Schema<DeleteAiGatewayToolServerResourceRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteAiGatewayToolServerResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20608, __c644, 0) as any as S.Schema<DeleteAiGatewayToolServerResourceRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteAiGatewayToolServerResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20275,9 +20332,10 @@ export const DeleteApi: API.OperationMethod<
   DeleteApiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20960, __c655, 0) as any as S.Schema<DeleteApiRequest>,
-  output: __S(20992, __c656, 0) as any as S.Schema<DeleteApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21024, __c657, 0) as any as S.Schema<DeleteApiRequest>,
+  output: __S(21056, __c658, 0) as any as S.Schema<DeleteApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20292,9 +20350,10 @@ export const DeleteApiDiagnostic: API.OperationMethod<
   DeleteApiDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21344, __c667, 0) as any as S.Schema<DeleteApiDiagnosticRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteApiDiagnosticResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21408, __c669, 0) as any as S.Schema<DeleteApiDiagnosticRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteApiDiagnosticResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20309,9 +20368,10 @@ export const DeleteApiGateway: API.OperationMethod<
   DeleteApiGatewayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21696, __c678, 0) as any as S.Schema<DeleteApiGatewayRequest>,
-  output: __S(21728, __c679, 0) as any as S.Schema<DeleteApiGatewayResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21760, __c680, 0) as any as S.Schema<DeleteApiGatewayRequest>,
+  output: __S(21792, __c681, 0) as any as S.Schema<DeleteApiGatewayResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20326,9 +20386,10 @@ export const DeleteApiGatewayConfigConnection: API.OperationMethod<
   DeleteApiGatewayConfigConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22080, __c690, 0) as any as S.Schema<DeleteApiGatewayConfigConnectionRequest>,
-  output: __S(21728, __c679, 0) as any as S.Schema<DeleteApiGatewayConfigConnectionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22144, __c692, 0) as any as S.Schema<DeleteApiGatewayConfigConnectionRequest>,
+  output: __S(21792, __c681, 0) as any as S.Schema<DeleteApiGatewayConfigConnectionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20343,9 +20404,10 @@ export const DeleteApiIssue: API.OperationMethod<
   DeleteApiIssueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22432, __c701, 0) as any as S.Schema<DeleteApiIssueRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteApiIssueResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22496, __c703, 0) as any as S.Schema<DeleteApiIssueRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteApiIssueResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20360,9 +20422,10 @@ export const DeleteApiIssueAttachment: API.OperationMethod<
   DeleteApiIssueAttachmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22496, __c703, 0) as any as S.Schema<DeleteApiIssueAttachmentRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteApiIssueAttachmentResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22560, __c705, 0) as any as S.Schema<DeleteApiIssueAttachmentRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteApiIssueAttachmentResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20377,9 +20440,10 @@ export const DeleteApiIssueComment: API.OperationMethod<
   DeleteApiIssueCommentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22528, __c704, 0) as any as S.Schema<DeleteApiIssueCommentRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteApiIssueCommentResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22592, __c706, 0) as any as S.Schema<DeleteApiIssueCommentRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteApiIssueCommentResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20394,9 +20458,10 @@ export const DeleteApiManagementService: API.OperationMethod<
   DeleteApiManagementServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22624, __c707, 0) as any as S.Schema<DeleteApiManagementServiceRequest>,
-  output: __S(21728, __c679, 0) as any as S.Schema<DeleteApiManagementServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22688, __c709, 0) as any as S.Schema<DeleteApiManagementServiceRequest>,
+  output: __S(21792, __c681, 0) as any as S.Schema<DeleteApiManagementServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20411,9 +20476,10 @@ export const DeleteApiOperation: API.OperationMethod<
   DeleteApiOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22656, __c708, 0) as any as S.Schema<DeleteApiOperationRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteApiOperationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22720, __c710, 0) as any as S.Schema<DeleteApiOperationRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteApiOperationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20428,9 +20494,10 @@ export const DeleteApiOperationPolicy: API.OperationMethod<
   DeleteApiOperationPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22688, __c709, 0) as any as S.Schema<DeleteApiOperationPolicyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteApiOperationPolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22752, __c711, 0) as any as S.Schema<DeleteApiOperationPolicyRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteApiOperationPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20445,9 +20512,10 @@ export const DeleteApiPolicy: API.OperationMethod<
   DeleteApiPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22720, __c710, 0) as any as S.Schema<DeleteApiPolicyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteApiPolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22784, __c712, 0) as any as S.Schema<DeleteApiPolicyRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteApiPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20462,9 +20530,10 @@ export const DeleteApiRelease: API.OperationMethod<
   DeleteApiReleaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22752, __c711, 0) as any as S.Schema<DeleteApiReleaseRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteApiReleaseResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22816, __c713, 0) as any as S.Schema<DeleteApiReleaseRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteApiReleaseResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20479,9 +20548,10 @@ export const DeleteApiSchema: API.OperationMethod<
   DeleteApiSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22784, __c712, 0) as any as S.Schema<DeleteApiSchemaRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteApiSchemaResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22848, __c714, 0) as any as S.Schema<DeleteApiSchemaRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteApiSchemaResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20496,9 +20566,10 @@ export const DeleteApiTagDescription: API.OperationMethod<
   DeleteApiTagDescriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22816, __c713, 0) as any as S.Schema<DeleteApiTagDescriptionRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteApiTagDescriptionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22880, __c715, 0) as any as S.Schema<DeleteApiTagDescriptionRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteApiTagDescriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20513,9 +20584,10 @@ export const DeleteApiVersionSet: API.OperationMethod<
   DeleteApiVersionSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22848, __c714, 0) as any as S.Schema<DeleteApiVersionSetRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteApiVersionSetResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22912, __c716, 0) as any as S.Schema<DeleteApiVersionSetRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteApiVersionSetResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20530,9 +20602,10 @@ export const DeleteApiWiki: API.OperationMethod<
   DeleteApiWikiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22880, __c715, 0) as any as S.Schema<DeleteApiWikiRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteApiWikiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22944, __c717, 0) as any as S.Schema<DeleteApiWikiRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteApiWikiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20547,9 +20620,10 @@ export const DeleteAuthorization: API.OperationMethod<
   DeleteAuthorizationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22912, __c716, 0) as any as S.Schema<DeleteAuthorizationRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteAuthorizationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22976, __c718, 0) as any as S.Schema<DeleteAuthorizationRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteAuthorizationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20564,9 +20638,10 @@ export const DeleteAuthorizationAccessPolicy: API.OperationMethod<
   DeleteAuthorizationAccessPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23072, __c721, 0) as any as S.Schema<DeleteAuthorizationAccessPolicyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteAuthorizationAccessPolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23136, __c723, 0) as any as S.Schema<DeleteAuthorizationAccessPolicyRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteAuthorizationAccessPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20581,9 +20656,10 @@ export const DeleteAuthorizationProvider: API.OperationMethod<
   DeleteAuthorizationProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23104, __c722, 0) as any as S.Schema<DeleteAuthorizationProviderRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteAuthorizationProviderResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23168, __c724, 0) as any as S.Schema<DeleteAuthorizationProviderRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteAuthorizationProviderResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20598,9 +20674,10 @@ export const DeleteAuthorizationServer: API.OperationMethod<
   DeleteAuthorizationServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23136, __c723, 0) as any as S.Schema<DeleteAuthorizationServerRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteAuthorizationServerResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23200, __c725, 0) as any as S.Schema<DeleteAuthorizationServerRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteAuthorizationServerResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20615,9 +20692,10 @@ export const DeleteBackend: API.OperationMethod<
   DeleteBackendError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23168, __c724, 0) as any as S.Schema<DeleteBackendRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteBackendResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23232, __c726, 0) as any as S.Schema<DeleteBackendRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteBackendResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20632,9 +20710,10 @@ export const DeleteCache: API.OperationMethod<
   DeleteCacheError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23200, __c725, 0) as any as S.Schema<DeleteCacheRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteCacheResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23264, __c727, 0) as any as S.Schema<DeleteCacheRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteCacheResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20649,9 +20728,10 @@ export const DeleteCertificate: API.OperationMethod<
   DeleteCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23232, __c726, 0) as any as S.Schema<DeleteCertificateRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteCertificateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23296, __c728, 0) as any as S.Schema<DeleteCertificateRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteCertificateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20666,9 +20746,10 @@ export const DeleteContentItem: API.OperationMethod<
   DeleteContentItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23264, __c727, 0) as any as S.Schema<DeleteContentItemRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteContentItemResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23328, __c729, 0) as any as S.Schema<DeleteContentItemRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteContentItemResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20683,9 +20764,10 @@ export const DeleteContentType: API.OperationMethod<
   DeleteContentTypeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23296, __c728, 0) as any as S.Schema<DeleteContentTypeRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteContentTypeResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23360, __c730, 0) as any as S.Schema<DeleteContentTypeRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteContentTypeResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20700,9 +20782,10 @@ export const DeleteDiagnostic: API.OperationMethod<
   DeleteDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23328, __c729, 0) as any as S.Schema<DeleteDiagnosticRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteDiagnosticResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23392, __c731, 0) as any as S.Schema<DeleteDiagnosticRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteDiagnosticResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20717,9 +20800,10 @@ export const DeleteDocumentation: API.OperationMethod<
   DeleteDocumentationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23360, __c730, 0) as any as S.Schema<DeleteDocumentationRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteDocumentationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23424, __c732, 0) as any as S.Schema<DeleteDocumentationRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteDocumentationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20734,9 +20818,10 @@ export const DeleteEmailTemplate: API.OperationMethod<
   DeleteEmailTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23520, __c735, 0) as any as S.Schema<DeleteEmailTemplateRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteEmailTemplateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23584, __c737, 0) as any as S.Schema<DeleteEmailTemplateRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteEmailTemplateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20751,9 +20836,10 @@ export const DeleteGateway: API.OperationMethod<
   DeleteGatewayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23552, __c736, 0) as any as S.Schema<DeleteGatewayRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteGatewayResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23616, __c738, 0) as any as S.Schema<DeleteGatewayRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteGatewayResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20768,9 +20854,10 @@ export const DeleteGatewayApi: API.OperationMethod<
   DeleteGatewayApiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23584, __c737, 0) as any as S.Schema<DeleteGatewayApiRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteGatewayApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23648, __c739, 0) as any as S.Schema<DeleteGatewayApiRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteGatewayApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20785,9 +20872,10 @@ export const DeleteGatewayCertificateAuthority: API.OperationMethod<
   DeleteGatewayCertificateAuthorityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23616, __c738, 0) as any as S.Schema<DeleteGatewayCertificateAuthorityRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteGatewayCertificateAuthorityResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23680, __c740, 0) as any as S.Schema<DeleteGatewayCertificateAuthorityRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteGatewayCertificateAuthorityResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20802,9 +20890,10 @@ export const DeleteGatewayHostnameConfiguration: API.OperationMethod<
   DeleteGatewayHostnameConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23648, __c739, 0) as any as S.Schema<DeleteGatewayHostnameConfigurationRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteGatewayHostnameConfigurationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23712, __c741, 0) as any as S.Schema<DeleteGatewayHostnameConfigurationRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteGatewayHostnameConfigurationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20819,9 +20908,10 @@ export const DeleteGlobalSchema: API.OperationMethod<
   DeleteGlobalSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23680, __c740, 0) as any as S.Schema<DeleteGlobalSchemaRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteGlobalSchemaResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23744, __c742, 0) as any as S.Schema<DeleteGlobalSchemaRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteGlobalSchemaResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20836,9 +20926,10 @@ export const DeleteGraphQLApiResolver: API.OperationMethod<
   DeleteGraphQLApiResolverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23712, __c741, 0) as any as S.Schema<DeleteGraphQLApiResolverRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteGraphQLApiResolverResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23776, __c743, 0) as any as S.Schema<DeleteGraphQLApiResolverRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteGraphQLApiResolverResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20853,9 +20944,10 @@ export const DeleteGraphQLApiResolverPolicy: API.OperationMethod<
   DeleteGraphQLApiResolverPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23744, __c742, 0) as any as S.Schema<DeleteGraphQLApiResolverPolicyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteGraphQLApiResolverPolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23808, __c744, 0) as any as S.Schema<DeleteGraphQLApiResolverPolicyRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteGraphQLApiResolverPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20870,9 +20962,10 @@ export const DeleteGroup: API.OperationMethod<
   DeleteGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23776, __c743, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteGroupResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23840, __c745, 0) as any as S.Schema<DeleteGroupRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteGroupResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20887,9 +20980,10 @@ export const DeleteGroupUser: API.OperationMethod<
   DeleteGroupUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23808, __c744, 0) as any as S.Schema<DeleteGroupUserRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteGroupUserResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23872, __c746, 0) as any as S.Schema<DeleteGroupUserRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteGroupUserResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20904,9 +20998,10 @@ export const DeleteIdentityProvider: API.OperationMethod<
   DeleteIdentityProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23904, __c747, 0) as any as S.Schema<DeleteIdentityProviderRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteIdentityProviderResponse>,
-  errors: [UnknownAzureError],
+  input: __S(23968, __c749, 0) as any as S.Schema<DeleteIdentityProviderRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteIdentityProviderResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20921,9 +21016,10 @@ export const DeleteLogger: API.OperationMethod<
   DeleteLoggerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23936, __c748, 0) as any as S.Schema<DeleteLoggerRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteLoggerResponse>,
-  errors: [UnknownAzureError],
+  input: __S(24000, __c750, 0) as any as S.Schema<DeleteLoggerRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteLoggerResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20938,9 +21034,10 @@ export const DeleteNamedValue: API.OperationMethod<
   DeleteNamedValueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23968, __c749, 0) as any as S.Schema<DeleteNamedValueRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteNamedValueResponse>,
-  errors: [UnknownAzureError],
+  input: __S(24032, __c751, 0) as any as S.Schema<DeleteNamedValueRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteNamedValueResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20955,9 +21052,10 @@ export const DeleteNotificationRecipientEmail: API.OperationMethod<
   DeleteNotificationRecipientEmailError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24000, __c750, 0) as any as S.Schema<DeleteNotificationRecipientEmailRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteNotificationRecipientEmailResponse>,
-  errors: [UnknownAzureError],
+  input: __S(24064, __c752, 0) as any as S.Schema<DeleteNotificationRecipientEmailRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteNotificationRecipientEmailResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20972,9 +21070,10 @@ export const DeleteNotificationRecipientUser: API.OperationMethod<
   DeleteNotificationRecipientUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24032, __c751, 0) as any as S.Schema<DeleteNotificationRecipientUserRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteNotificationRecipientUserResponse>,
-  errors: [UnknownAzureError],
+  input: __S(24096, __c753, 0) as any as S.Schema<DeleteNotificationRecipientUserRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteNotificationRecipientUserResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -20989,9 +21088,10 @@ export const DeleteOpenIdConnectProvider: API.OperationMethod<
   DeleteOpenIdConnectProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24064, __c752, 0) as any as S.Schema<DeleteOpenIdConnectProviderRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteOpenIdConnectProviderResponse>,
-  errors: [UnknownAzureError],
+  input: __S(24128, __c754, 0) as any as S.Schema<DeleteOpenIdConnectProviderRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteOpenIdConnectProviderResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21006,9 +21106,10 @@ export const DeletePolicy: API.OperationMethod<
   DeletePolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24096, __c753, 0) as any as S.Schema<DeletePolicyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeletePolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(24160, __c755, 0) as any as S.Schema<DeletePolicyRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeletePolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21023,9 +21124,10 @@ export const DeletePolicyFragment: API.OperationMethod<
   DeletePolicyFragmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24128, __c754, 0) as any as S.Schema<DeletePolicyFragmentRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeletePolicyFragmentResponse>,
-  errors: [UnknownAzureError],
+  input: __S(24192, __c756, 0) as any as S.Schema<DeletePolicyFragmentRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeletePolicyFragmentResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21040,9 +21142,10 @@ export const DeletePolicyRestriction: API.OperationMethod<
   DeletePolicyRestrictionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24160, __c755, 0) as any as S.Schema<DeletePolicyRestrictionRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeletePolicyRestrictionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(24224, __c757, 0) as any as S.Schema<DeletePolicyRestrictionRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<DeletePolicyRestrictionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21057,9 +21160,10 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24192, __c756, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
-  output: __S(21728, __c679, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(24256, __c758, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
+  output: __S(21792, __c681, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21075,8 +21179,9 @@ export const DeleteProduct: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<DeleteProductRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteProductResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21092,8 +21197,9 @@ export const DeleteProductApi: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<DeleteProductApiRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteProductApiResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteProductApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21109,8 +21215,9 @@ export const DeleteProductApiLink: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteProductApiLinkRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteProductApiLinkResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteProductApiLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21126,8 +21233,9 @@ export const DeleteProductGroup: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DeleteProductGroupRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteProductGroupResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteProductGroupResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21143,8 +21251,9 @@ export const DeleteProductGroupLink: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteProductGroupLinkRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteProductGroupLinkResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteProductGroupLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21160,8 +21269,9 @@ export const DeleteProductPolicy: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DeleteProductPolicyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteProductPolicyResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteProductPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21177,8 +21287,9 @@ export const DeleteProductWiki: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<DeleteProductWikiRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteProductWikiResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteProductWikiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21194,8 +21305,9 @@ export const DeleteSubscription: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<DeleteSubscriptionRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteSubscriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21211,8 +21323,9 @@ export const DeleteTag: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DeleteTagRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteTagResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteTagResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21228,8 +21341,9 @@ export const DeleteTagApiLink: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<DeleteTagApiLinkRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteTagApiLinkResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteTagApiLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21245,8 +21359,9 @@ export const DeleteTagOperationLink: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<DeleteTagOperationLinkRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteTagOperationLinkResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteTagOperationLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21262,8 +21377,9 @@ export const DeleteTagProductLink: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<DeleteTagProductLinkRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteTagProductLinkResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteTagProductLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21279,8 +21395,9 @@ export const DeleteUser: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(20992, __c656, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [UnknownAzureError],
+  output: __S(21056, __c658, 0) as any as S.Schema<DeleteUserResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21296,8 +21413,9 @@ export const DeleteWorkspace: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DeleteWorkspaceRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21313,8 +21431,9 @@ export const DeleteWorkspaceApi: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<DeleteWorkspaceApiRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceApiResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21330,8 +21449,9 @@ export const DeleteWorkspaceApiDiagnostic: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<DeleteWorkspaceApiDiagnosticRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceApiDiagnosticResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceApiDiagnosticResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21347,8 +21467,9 @@ export const DeleteWorkspaceApiOperation: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<DeleteWorkspaceApiOperationRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceApiOperationResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceApiOperationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21364,8 +21485,9 @@ export const DeleteWorkspaceApiOperationPolicy: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<DeleteWorkspaceApiOperationPolicyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceApiOperationPolicyResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceApiOperationPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21381,8 +21503,9 @@ export const DeleteWorkspaceApiPolicy: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<DeleteWorkspaceApiPolicyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceApiPolicyResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceApiPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21398,8 +21521,9 @@ export const DeleteWorkspaceApiRelease: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<DeleteWorkspaceApiReleaseRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceApiReleaseResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceApiReleaseResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21415,8 +21539,9 @@ export const DeleteWorkspaceApiSchema: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<DeleteWorkspaceApiSchemaRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceApiSchemaResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceApiSchemaResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21432,8 +21557,9 @@ export const DeleteWorkspaceApiVersionSet: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<DeleteWorkspaceApiVersionSetRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceApiVersionSetResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceApiVersionSetResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21449,8 +21575,9 @@ export const DeleteWorkspaceBackend: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<DeleteWorkspaceBackendRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceBackendResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceBackendResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21466,8 +21593,9 @@ export const DeleteWorkspaceCertificate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<DeleteWorkspaceCertificateRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceCertificateResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceCertificateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21483,8 +21611,9 @@ export const DeleteWorkspaceDiagnostic: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<DeleteWorkspaceDiagnosticRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceDiagnosticResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceDiagnosticResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21500,8 +21629,9 @@ export const DeleteWorkspaceGlobalSchema: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<DeleteWorkspaceGlobalSchemaRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceGlobalSchemaResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceGlobalSchemaResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21517,8 +21647,9 @@ export const DeleteWorkspaceGroup: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<DeleteWorkspaceGroupRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceGroupResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceGroupResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21534,8 +21665,9 @@ export const DeleteWorkspaceGroupUser: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<DeleteWorkspaceGroupUserRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceGroupUserResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceGroupUserResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21551,8 +21683,9 @@ export const DeleteWorkspaceLogger: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<DeleteWorkspaceLoggerRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceLoggerResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceLoggerResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21568,8 +21701,9 @@ export const DeleteWorkspaceNamedValue: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<DeleteWorkspaceNamedValueRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceNamedValueResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceNamedValueResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21586,11 +21720,12 @@ export const DeleteWorkspaceNotificationRecipientEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<DeleteWorkspaceNotificationRecipientEmailRequest>,
   output: __S(
-    15232,
-    __c476,
+    15296,
+    __c478,
     0,
   ) as any as S.Schema<DeleteWorkspaceNotificationRecipientEmailResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21607,11 +21742,12 @@ export const DeleteWorkspaceNotificationRecipientUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<DeleteWorkspaceNotificationRecipientUserRequest>,
   output: __S(
-    15232,
-    __c476,
+    15296,
+    __c478,
     0,
   ) as any as S.Schema<DeleteWorkspaceNotificationRecipientUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21627,8 +21763,9 @@ export const DeleteWorkspacePolicy: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<DeleteWorkspacePolicyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspacePolicyResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspacePolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21644,8 +21781,9 @@ export const DeleteWorkspacePolicyFragment: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<DeleteWorkspacePolicyFragmentRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspacePolicyFragmentResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspacePolicyFragmentResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21661,8 +21799,9 @@ export const DeleteWorkspaceProduct: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<DeleteWorkspaceProductRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceProductResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21678,8 +21817,9 @@ export const DeleteWorkspaceProductApiLink: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<DeleteWorkspaceProductApiLinkRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceProductApiLinkResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceProductApiLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21695,8 +21835,9 @@ export const DeleteWorkspaceProductGroupLink: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<DeleteWorkspaceProductGroupLinkRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceProductGroupLinkResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceProductGroupLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21712,8 +21853,9 @@ export const DeleteWorkspaceProductPolicy: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<DeleteWorkspaceProductPolicyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceProductPolicyResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceProductPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21729,8 +21871,9 @@ export const DeleteWorkspaceSubscription: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<DeleteWorkspaceSubscriptionRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceSubscriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21746,8 +21889,9 @@ export const DeleteWorkspaceTag: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<DeleteWorkspaceTagRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceTagResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceTagResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21763,8 +21907,9 @@ export const DeleteWorkspaceTagApiLink: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<DeleteWorkspaceTagApiLinkRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceTagApiLinkResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceTagApiLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21780,8 +21925,9 @@ export const DeleteWorkspaceTagOperationLink: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<DeleteWorkspaceTagOperationLinkRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceTagOperationLinkResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceTagOperationLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21797,8 +21943,9 @@ export const DeleteWorkspaceTagProductLink: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<DeleteWorkspaceTagProductLinkRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DeleteWorkspaceTagProductLinkResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DeleteWorkspaceTagProductLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21815,7 +21962,8 @@ export const DeployTenantConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<DeployTenantConfigurationRequest>,
   output: __S(2278, __c71, 6) as any as S.Schema<DeployTenantConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21831,8 +21979,9 @@ export const DetachTagFromApi: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<DetachTagFromApiRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DetachTagFromApiResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DetachTagFromApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21848,8 +21997,9 @@ export const DetachTagFromOperation: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<DetachTagFromOperationRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DetachTagFromOperationResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DetachTagFromOperationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21865,8 +22015,9 @@ export const DetachTagFromProduct: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<DetachTagFromProductRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<DetachTagFromProductResponse>,
-  errors: [UnknownAzureError],
+  output: __S(15296, __c478, 0) as any as S.Schema<DetachTagFromProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21882,8 +22033,9 @@ export const DiagnosticCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<DiagnosticCreateOrUpdateRequest>,
-  output: __S(23880, __c746, 8) as any as S.Schema<DiagnosticCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  output: __S(23944, __c748, 8) as any as S.Schema<DiagnosticCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21900,7 +22052,8 @@ export const DocumentationCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<DocumentationCreateOrUpdateRequest>,
   output: __S(2497, __c78, 1) as any as S.Schema<DocumentationCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21917,7 +22070,8 @@ export const EmailTemplateCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<EmailTemplateCreateOrUpdateRequest>,
   output: __S(2563, __c80, 3) as any as S.Schema<EmailTemplateCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21934,7 +22088,8 @@ export const GatewayApiCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2721, __c85, 1) as any as S.Schema<GatewayApiCreateOrUpdateRequest>,
   output: __S(2752, __c86, 0) as any as S.Schema<GatewayApiCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21951,7 +22106,8 @@ export const GatewayCertificateAuthorityCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<GatewayCertificateAuthorityCreateOrUpdateRequest>,
   output: __S(2817, __c88, 1) as any as S.Schema<GatewayCertificateAuthorityCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21968,7 +22124,8 @@ export const GatewayCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<GatewayCreateOrUpdateRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<GatewayCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -21989,7 +22146,8 @@ export const GatewayHostnameConfigurationCreateOrUpdate: API.OperationMethod<
     __c92,
     1,
   ) as any as S.Schema<GatewayHostnameConfigurationCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22006,7 +22164,8 @@ export const GenerateGatewayToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<GenerateGatewayTokenRequest>,
   output: __S(3008, __c94, 0) as any as S.Schema<GenerateGatewayTokenResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22022,8 +22181,9 @@ export const GenerateUserSsoUrl: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<GenerateUserSsoUrlRequest>,
-  output: __S(3008, __c94, 0) as any as S.Schema<GenerateUserSsoUrlResponse>,
-  errors: [UnknownAzureError],
+  output: __S(3072, __c96, 0) as any as S.Schema<GenerateUserSsoUrlResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22038,9 +22198,10 @@ export const GetAiGatewayAliasResource: API.OperationMethod<
   GetAiGatewayAliasResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<GetAiGatewayAliasResourceRequest>,
+  input: __S(3104, __c97, 0) as any as S.Schema<GetAiGatewayAliasResourceRequest>,
   output: __S(71, __c2, 7) as any as S.Schema<GetAiGatewayAliasResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22055,9 +22216,10 @@ export const GetAiGatewayApiKeyResource: API.OperationMethod<
   GetAiGatewayApiKeyResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<GetAiGatewayApiKeyResourceRequest>,
+  input: __S(3136, __c98, 0) as any as S.Schema<GetAiGatewayApiKeyResourceRequest>,
   output: __S(385, __c12, 1) as any as S.Schema<GetAiGatewayApiKeyResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22072,9 +22234,10 @@ export const GetAiGatewayModelProviderResource: API.OperationMethod<
   GetAiGatewayModelProviderResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<GetAiGatewayModelProviderResourceRequest>,
-  output: __S(5027, __c157, 3) as any as S.Schema<GetAiGatewayModelProviderResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(3168, __c99, 0) as any as S.Schema<GetAiGatewayModelProviderResourceRequest>,
+  output: __S(5059, __c158, 3) as any as S.Schema<GetAiGatewayModelProviderResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22089,9 +22252,10 @@ export const GetAiGatewayModelResource: API.OperationMethod<
   GetAiGatewayModelResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<GetAiGatewayModelResourceRequest>,
-  output: __S(10116, __c316, 4) as any as S.Schema<GetAiGatewayModelResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(3200, __c100, 0) as any as S.Schema<GetAiGatewayModelResourceRequest>,
+  output: __S(10148, __c317, 4) as any as S.Schema<GetAiGatewayModelResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22106,9 +22270,10 @@ export const GetAiGatewayPrivateEndpointConnection: API.OperationMethod<
   GetAiGatewayPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<GetAiGatewayPrivateEndpointConnectionRequest>,
-  output: __S(19584, __c612, 0) as any as S.Schema<GetAiGatewayPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(3328, __c104, 0) as any as S.Schema<GetAiGatewayPrivateEndpointConnectionRequest>,
+  output: __S(19648, __c614, 0) as any as S.Schema<GetAiGatewayPrivateEndpointConnectionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22123,9 +22288,10 @@ export const GetAiGatewayPrivateLinkResource: API.OperationMethod<
   GetAiGatewayPrivateLinkResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<GetAiGatewayPrivateLinkResourceRequest>,
-  output: __S(3392, __c106, 0) as any as S.Schema<GetAiGatewayPrivateLinkResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(3360, __c105, 0) as any as S.Schema<GetAiGatewayPrivateLinkResourceRequest>,
+  output: __S(3424, __c107, 0) as any as S.Schema<GetAiGatewayPrivateLinkResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22140,9 +22306,10 @@ export const GetAiGatewayResource: API.OperationMethod<
   GetAiGatewayResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<GetAiGatewayResourceRequest>,
-  output: __S(3456, __c108, 0) as any as S.Schema<GetAiGatewayResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(3456, __c108, 0) as any as S.Schema<GetAiGatewayResourceRequest>,
+  output: __S(3488, __c109, 0) as any as S.Schema<GetAiGatewayResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22157,9 +22324,10 @@ export const GetAiGatewayTelemetryExporterResource: API.OperationMethod<
   GetAiGatewayTelemetryExporterResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<GetAiGatewayTelemetryExporterResourceRequest>,
-  output: __S(22599, __c706, 7) as any as S.Schema<GetAiGatewayTelemetryExporterResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(3520, __c110, 0) as any as S.Schema<GetAiGatewayTelemetryExporterResourceRequest>,
+  output: __S(22663, __c708, 7) as any as S.Schema<GetAiGatewayTelemetryExporterResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22174,9 +22342,10 @@ export const GetAiGatewayToolServerResource: API.OperationMethod<
   GetAiGatewayToolServerResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<GetAiGatewayToolServerResourceRequest>,
-  output: __S(23016, __c719, 8) as any as S.Schema<GetAiGatewayToolServerResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(3552, __c111, 0) as any as S.Schema<GetAiGatewayToolServerResourceRequest>,
+  output: __S(23080, __c721, 8) as any as S.Schema<GetAiGatewayToolServerResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22192,12 +22361,13 @@ export const GetAiGatewayToolServerResourceOauth2LoginLinks: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3552,
-    __c111,
+    3584,
+    __c112,
     0,
   ) as any as S.Schema<GetAiGatewayToolServerResourceOauth2LoginLinksRequest>,
-  output: __S(3553, __c111, 1) as any as S.Schema<AiGatewayToolServerOauth2LoginLinks>,
-  errors: [UnknownAzureError],
+  output: __S(3585, __c112, 1) as any as S.Schema<AiGatewayToolServerOauth2LoginLinks>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22212,9 +22382,10 @@ export const GetAiGatewayWorkspaceResource: API.OperationMethod<
   GetAiGatewayWorkspaceResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<GetAiGatewayWorkspaceResourceRequest>,
-  output: __S(3617, __c113, 1) as any as S.Schema<GetAiGatewayWorkspaceResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(3616, __c113, 0) as any as S.Schema<GetAiGatewayWorkspaceResourceRequest>,
+  output: __S(3649, __c114, 1) as any as S.Schema<GetAiGatewayWorkspaceResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22229,9 +22400,10 @@ export const GetApi: API.OperationMethod<
   GetApiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetApiRequest>,
+  input: __S(3680, __c115, 0) as any as S.Schema<GetApiRequest>,
   output: __S(2752, __c86, 0) as any as S.Schema<GetApiResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22246,9 +22418,10 @@ export const GetApiDiagnostic: API.OperationMethod<
   GetApiDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<GetApiDiagnosticRequest>,
-  output: __S(23880, __c746, 8) as any as S.Schema<GetApiDiagnosticResponse>,
-  errors: [UnknownAzureError],
+  input: __S(3712, __c116, 0) as any as S.Schema<GetApiDiagnosticRequest>,
+  output: __S(23944, __c748, 8) as any as S.Schema<GetApiDiagnosticResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22263,9 +22436,10 @@ export const GetApiGateway: API.OperationMethod<
   GetApiGatewayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<GetApiGatewayRequest>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetApiGatewayRequest>,
   output: __S(864, __c27, 0) as any as S.Schema<GetApiGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22280,9 +22454,10 @@ export const GetApiGatewayConfigConnection: API.OperationMethod<
   GetApiGatewayConfigConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<GetApiGatewayConfigConnectionRequest>,
+  input: __S(3840, __c120, 0) as any as S.Schema<GetApiGatewayConfigConnectionRequest>,
   output: __S(481, __c15, 1) as any as S.Schema<GetApiGatewayConfigConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22297,9 +22472,10 @@ export const GetApiIssue: API.OperationMethod<
   GetApiIssueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<GetApiIssueRequest>,
+  input: __S(3872, __c121, 0) as any as S.Schema<GetApiIssueRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<GetApiIssueResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22314,9 +22490,10 @@ export const GetApiIssueAttachment: API.OperationMethod<
   GetApiIssueAttachmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<GetApiIssueAttachmentRequest>,
+  input: __S(3904, __c122, 0) as any as S.Schema<GetApiIssueAttachmentRequest>,
   output: __S(1345, __c42, 1) as any as S.Schema<GetApiIssueAttachmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22331,9 +22508,10 @@ export const GetApiIssueComment: API.OperationMethod<
   GetApiIssueCommentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<GetApiIssueCommentRequest>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetApiIssueCommentRequest>,
   output: __S(1729, __c54, 1) as any as S.Schema<GetApiIssueCommentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22348,9 +22526,10 @@ export const GetApiManagementService: API.OperationMethod<
   GetApiManagementServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<GetApiManagementServiceRequest>,
-  output: __S(3232, __c101, 0) as any as S.Schema<GetApiManagementServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(3968, __c124, 0) as any as S.Schema<GetApiManagementServiceRequest>,
+  output: __S(3264, __c102, 0) as any as S.Schema<GetApiManagementServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22366,16 +22545,17 @@ export const GetApiManagementServiceDomainOwnershipIdentifier: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3968,
-    __c124,
+    4000,
+    __c125,
     0,
   ) as any as S.Schema<GetApiManagementServiceDomainOwnershipIdentifierRequest>,
   output: __S(
-    3969,
-    __c124,
+    4001,
+    __c125,
     1,
   ) as any as S.Schema<ApiManagementServiceGetDomainOwnershipIdentifierResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22390,9 +22570,10 @@ export const GetApiManagementServiceSsoToken: API.OperationMethod<
   GetApiManagementServiceSsoTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<GetApiManagementServiceSsoTokenRequest>,
-  output: __S(4001, __c125, 1) as any as S.Schema<ApiManagementServiceGetSsoTokenResult>,
-  errors: [UnknownAzureError],
+  input: __S(4032, __c126, 0) as any as S.Schema<GetApiManagementServiceSsoTokenRequest>,
+  output: __S(4033, __c126, 1) as any as S.Schema<ApiManagementServiceGetSsoTokenResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22407,9 +22588,10 @@ export const GetApiManagementWorkspaceLink: API.OperationMethod<
   GetApiManagementWorkspaceLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetApiManagementWorkspaceLinkRequest>,
-  output: __S(4066, __c127, 2) as any as S.Schema<GetApiManagementWorkspaceLinkResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4064, __c127, 0) as any as S.Schema<GetApiManagementWorkspaceLinkRequest>,
+  output: __S(4098, __c128, 2) as any as S.Schema<GetApiManagementWorkspaceLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22424,9 +22606,10 @@ export const GetApiOperation: API.OperationMethod<
   GetApiOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<GetApiOperationRequest>,
-  output: __S(3786, __c118, 10) as any as S.Schema<GetApiOperationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4128, __c129, 0) as any as S.Schema<GetApiOperationRequest>,
+  output: __S(3818, __c119, 10) as any as S.Schema<GetApiOperationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22441,9 +22624,10 @@ export const GetApiOperationPolicy: API.OperationMethod<
   GetApiOperationPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<GetApiOperationPolicyRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetApiOperationPolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4160, __c130, 0) as any as S.Schema<GetApiOperationPolicyRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GetApiOperationPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22458,9 +22642,10 @@ export const GetApiPolicy: API.OperationMethod<
   GetApiPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<GetApiPolicyRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetApiPolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4256, __c133, 0) as any as S.Schema<GetApiPolicyRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GetApiPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22475,9 +22660,10 @@ export const GetApiRelease: API.OperationMethod<
   GetApiReleaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetApiReleaseRequest>,
-  output: __S(5089, __c159, 1) as any as S.Schema<GetApiReleaseResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4288, __c134, 0) as any as S.Schema<GetApiReleaseRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<GetApiReleaseResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22492,9 +22678,10 @@ export const GetApiSchema: API.OperationMethod<
   GetApiSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<GetApiSchemaRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GetApiSchemaResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4320, __c135, 0) as any as S.Schema<GetApiSchemaRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GetApiSchemaResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22509,9 +22696,10 @@ export const GetApiTagDescription: API.OperationMethod<
   GetApiTagDescriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<GetApiTagDescriptionRequest>,
-  output: __S(6497, __c203, 1) as any as S.Schema<GetApiTagDescriptionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4384, __c137, 0) as any as S.Schema<GetApiTagDescriptionRequest>,
+  output: __S(6529, __c204, 1) as any as S.Schema<GetApiTagDescriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22526,9 +22714,10 @@ export const GetApiVersionSet: API.OperationMethod<
   GetApiVersionSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<GetApiVersionSetRequest>,
-  output: __S(7073, __c221, 1) as any as S.Schema<GetApiVersionSetResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4416, __c138, 0) as any as S.Schema<GetApiVersionSetRequest>,
+  output: __S(7105, __c222, 1) as any as S.Schema<GetApiVersionSetResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22543,9 +22732,10 @@ export const GetApiWiki: API.OperationMethod<
   GetApiWikiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<GetApiWikiRequest>,
-  output: __S(7523, __c235, 3) as any as S.Schema<GetApiWikiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4448, __c139, 0) as any as S.Schema<GetApiWikiRequest>,
+  output: __S(7555, __c236, 3) as any as S.Schema<GetApiWikiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22560,9 +22750,10 @@ export const GetAuthorization: API.OperationMethod<
   GetAuthorizationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<GetAuthorizationRequest>,
-  output: __S(10178, __c318, 2) as any as S.Schema<GetAuthorizationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4480, __c140, 0) as any as S.Schema<GetAuthorizationRequest>,
+  output: __S(10210, __c319, 2) as any as S.Schema<GetAuthorizationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22577,9 +22768,10 @@ export const GetAuthorizationAccessPolicy: API.OperationMethod<
   GetAuthorizationAccessPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetAuthorizationAccessPolicyRequest>,
-  output: __S(9505, __c297, 1) as any as S.Schema<GetAuthorizationAccessPolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4512, __c141, 0) as any as S.Schema<GetAuthorizationAccessPolicyRequest>,
+  output: __S(9537, __c298, 1) as any as S.Schema<GetAuthorizationAccessPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22594,9 +22786,10 @@ export const GetAuthorizationProvider: API.OperationMethod<
   GetAuthorizationProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<GetAuthorizationProviderRequest>,
-  output: __S(10755, __c336, 3) as any as S.Schema<GetAuthorizationProviderResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4544, __c142, 0) as any as S.Schema<GetAuthorizationProviderRequest>,
+  output: __S(10819, __c338, 3) as any as S.Schema<GetAuthorizationProviderResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22611,9 +22804,10 @@ export const GetAuthorizationServer: API.OperationMethod<
   GetAuthorizationServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<GetAuthorizationServerRequest>,
-  output: __S(11297, __c353, 1) as any as S.Schema<GetAuthorizationServerResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4576, __c143, 0) as any as S.Schema<GetAuthorizationServerRequest>,
+  output: __S(11361, __c355, 1) as any as S.Schema<GetAuthorizationServerResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22628,9 +22822,10 @@ export const GetBackend: API.OperationMethod<
   GetBackendError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<GetBackendRequest>,
-  output: __S(11763, __c367, 19) as any as S.Schema<GetBackendResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4640, __c145, 0) as any as S.Schema<GetBackendRequest>,
+  output: __S(11827, __c369, 19) as any as S.Schema<GetBackendResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22645,9 +22840,10 @@ export const GetCache: API.OperationMethod<
   GetCacheError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<GetCacheRequest>,
-  output: __S(12737, __c398, 1) as any as S.Schema<GetCacheResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4672, __c146, 0) as any as S.Schema<GetCacheRequest>,
+  output: __S(12801, __c400, 1) as any as S.Schema<GetCacheResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22662,9 +22858,10 @@ export const GetCertificate: API.OperationMethod<
   GetCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<GetCertificateRequest>,
-  output: __S(13313, __c416, 1) as any as S.Schema<GetCertificateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4704, __c147, 0) as any as S.Schema<GetCertificateRequest>,
+  output: __S(13377, __c418, 1) as any as S.Schema<GetCertificateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22679,9 +22876,10 @@ export const GetContentItem: API.OperationMethod<
   GetContentItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<GetContentItemRequest>,
-  output: __S(15360, __c480, 0) as any as S.Schema<GetContentItemResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4736, __c148, 0) as any as S.Schema<GetContentItemRequest>,
+  output: __S(15424, __c482, 0) as any as S.Schema<GetContentItemResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22696,9 +22894,10 @@ export const GetContentType: API.OperationMethod<
   GetContentTypeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<GetContentTypeRequest>,
-  output: __S(15777, __c493, 1) as any as S.Schema<GetContentTypeResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4768, __c149, 0) as any as S.Schema<GetContentTypeRequest>,
+  output: __S(15841, __c495, 1) as any as S.Schema<GetContentTypeResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22713,9 +22912,10 @@ export const GetDeletedServiceByName: API.OperationMethod<
   GetDeletedServiceByNameError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<GetDeletedServiceByNameRequest>,
-  output: __S(4801, __c150, 1) as any as S.Schema<GetDeletedServiceByNameResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4800, __c150, 0) as any as S.Schema<GetDeletedServiceByNameRequest>,
+  output: __S(4833, __c151, 1) as any as S.Schema<GetDeletedServiceByNameResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22730,9 +22930,10 @@ export const GetDiagnostic: API.OperationMethod<
   GetDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<GetDiagnosticRequest>,
-  output: __S(23880, __c746, 8) as any as S.Schema<GetDiagnosticResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4864, __c152, 0) as any as S.Schema<GetDiagnosticRequest>,
+  output: __S(23944, __c748, 8) as any as S.Schema<GetDiagnosticResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22747,9 +22948,10 @@ export const GetDocumentation: API.OperationMethod<
   GetDocumentationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<GetDocumentationRequest>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetDocumentationRequest>,
   output: __S(2497, __c78, 1) as any as S.Schema<GetDocumentationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22764,9 +22966,10 @@ export const GetEmailTemplate: API.OperationMethod<
   GetEmailTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<GetEmailTemplateRequest>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetEmailTemplateRequest>,
   output: __S(2563, __c80, 3) as any as S.Schema<GetEmailTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22781,9 +22984,10 @@ export const GetGateway: API.OperationMethod<
   GetGatewayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<GetGatewayRequest>,
+  input: __S(4960, __c155, 0) as any as S.Schema<GetGatewayRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<GetGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22798,9 +23002,10 @@ export const GetGatewayCertificateAuthority: API.OperationMethod<
   GetGatewayCertificateAuthorityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<GetGatewayCertificateAuthorityRequest>,
+  input: __S(5184, __c162, 0) as any as S.Schema<GetGatewayCertificateAuthorityRequest>,
   output: __S(2817, __c88, 1) as any as S.Schema<GetGatewayCertificateAuthorityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22815,9 +23020,10 @@ export const GetGatewayHostnameConfiguration: API.OperationMethod<
   GetGatewayHostnameConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<GetGatewayHostnameConfigurationRequest>,
+  input: __S(5216, __c163, 0) as any as S.Schema<GetGatewayHostnameConfigurationRequest>,
   output: __S(2945, __c92, 1) as any as S.Schema<GetGatewayHostnameConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22832,9 +23038,10 @@ export const GetGlobalSchema: API.OperationMethod<
   GetGlobalSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<GetGlobalSchemaRequest>,
-  output: __S(5280, __c165, 0) as any as S.Schema<GetGlobalSchemaResponse>,
-  errors: [UnknownAzureError],
+  input: __S(5248, __c164, 0) as any as S.Schema<GetGlobalSchemaRequest>,
+  output: __S(5312, __c166, 0) as any as S.Schema<GetGlobalSchemaResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22849,9 +23056,10 @@ export const GetGraphQLApiResolver: API.OperationMethod<
   GetGraphQLApiResolverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<GetGraphQLApiResolverRequest>,
-  output: __S(5345, __c167, 1) as any as S.Schema<GetGraphQLApiResolverResponse>,
-  errors: [UnknownAzureError],
+  input: __S(5344, __c167, 0) as any as S.Schema<GetGraphQLApiResolverRequest>,
+  output: __S(5377, __c168, 1) as any as S.Schema<GetGraphQLApiResolverResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22866,9 +23074,10 @@ export const GetGraphQLApiResolverPolicy: API.OperationMethod<
   GetGraphQLApiResolverPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<GetGraphQLApiResolverPolicyRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetGraphQLApiResolverPolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(5408, __c169, 0) as any as S.Schema<GetGraphQLApiResolverPolicyRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GetGraphQLApiResolverPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22883,9 +23092,10 @@ export const GetGroup: API.OperationMethod<
   GetGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<GetGroupRequest>,
-  output: __S(5440, __c170, 0) as any as S.Schema<GetGroupResponse>,
-  errors: [UnknownAzureError],
+  input: __S(5440, __c170, 0) as any as S.Schema<GetGroupRequest>,
+  output: __S(5472, __c171, 0) as any as S.Schema<GetGroupResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22900,9 +23110,10 @@ export const GetIdentityProvider: API.OperationMethod<
   GetIdentityProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<GetIdentityProviderRequest>,
-  output: __S(5505, __c172, 1) as any as S.Schema<GetIdentityProviderResponse>,
-  errors: [UnknownAzureError],
+  input: __S(5504, __c172, 0) as any as S.Schema<GetIdentityProviderRequest>,
+  output: __S(5537, __c173, 1) as any as S.Schema<GetIdentityProviderResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22917,9 +23128,10 @@ export const GetIssue: API.OperationMethod<
   GetIssueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<GetIssueRequest>,
+  input: __S(5568, __c174, 0) as any as S.Schema<GetIssueRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<GetIssueResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22934,9 +23146,10 @@ export const GetLogger: API.OperationMethod<
   GetLoggerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<GetLoggerRequest>,
-  output: __S(5601, __c175, 1) as any as S.Schema<GetLoggerResponse>,
-  errors: [UnknownAzureError],
+  input: __S(5600, __c175, 0) as any as S.Schema<GetLoggerRequest>,
+  output: __S(5633, __c176, 1) as any as S.Schema<GetLoggerResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22951,9 +23164,10 @@ export const GetNamedValue: API.OperationMethod<
   GetNamedValueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<GetNamedValueRequest>,
-  output: __S(5664, __c177, 0) as any as S.Schema<GetNamedValueResponse>,
-  errors: [UnknownAzureError],
+  input: __S(5664, __c177, 0) as any as S.Schema<GetNamedValueRequest>,
+  output: __S(5696, __c178, 0) as any as S.Schema<GetNamedValueResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22968,9 +23182,10 @@ export const GetNotification: API.OperationMethod<
   GetNotificationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<GetNotificationRequest>,
-  output: __S(5858, __c183, 2) as any as S.Schema<GetNotificationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(5856, __c183, 0) as any as S.Schema<GetNotificationRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<GetNotificationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -22985,9 +23200,10 @@ export const GetOpenIdConnectProvider: API.OperationMethod<
   GetOpenIdConnectProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<GetOpenIdConnectProviderRequest>,
-  output: __S(5921, __c185, 1) as any as S.Schema<GetOpenIdConnectProviderResponse>,
-  errors: [UnknownAzureError],
+  input: __S(5920, __c185, 0) as any as S.Schema<GetOpenIdConnectProviderRequest>,
+  output: __S(5953, __c186, 1) as any as S.Schema<GetOpenIdConnectProviderResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23002,9 +23218,10 @@ export const GetOperationsResult: API.OperationMethod<
   GetOperationsResultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<GetOperationsResultRequest>,
-  output: __S(5953, __c186, 1) as any as S.Schema<GetOperationsResultResponse>,
-  errors: [UnknownAzureError],
+  input: __S(5984, __c187, 0) as any as S.Schema<GetOperationsResultRequest>,
+  output: __S(5985, __c187, 1) as any as S.Schema<GetOperationsResultResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23019,9 +23236,10 @@ export const GetOperationStatus: API.OperationMethod<
   GetOperationStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<GetOperationStatusRequest>,
-  output: __S(5992, __c187, 8) as any as S.Schema<GetOperationStatusResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6016, __c188, 0) as any as S.Schema<GetOperationStatusRequest>,
+  output: __S(6024, __c188, 8) as any as S.Schema<GetOperationStatusResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23036,9 +23254,10 @@ export const GetPolicy: API.OperationMethod<
   GetPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<GetPolicyRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetPolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6048, __c189, 0) as any as S.Schema<GetPolicyRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GetPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23053,9 +23272,10 @@ export const GetPolicyFragment: API.OperationMethod<
   GetPolicyFragmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<GetPolicyFragmentRequest>,
-  output: __S(6080, __c190, 0) as any as S.Schema<GetPolicyFragmentResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6080, __c190, 0) as any as S.Schema<GetPolicyFragmentRequest>,
+  output: __S(6112, __c191, 0) as any as S.Schema<GetPolicyFragmentResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23070,9 +23290,10 @@ export const GetPolicyRestriction: API.OperationMethod<
   GetPolicyRestrictionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GetPolicyRestrictionRequest>,
-  output: __S(6177, __c193, 1) as any as S.Schema<GetPolicyRestrictionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6176, __c193, 0) as any as S.Schema<GetPolicyRestrictionRequest>,
+  output: __S(6209, __c194, 1) as any as S.Schema<GetPolicyRestrictionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23087,9 +23308,10 @@ export const GetPortalConfig: API.OperationMethod<
   GetPortalConfigError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<GetPortalConfigRequest>,
-  output: __S(6247, __c195, 7) as any as S.Schema<GetPortalConfigResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6240, __c195, 0) as any as S.Schema<GetPortalConfigRequest>,
+  output: __S(6279, __c196, 7) as any as S.Schema<GetPortalConfigResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23104,9 +23326,10 @@ export const GetPortalRevision: API.OperationMethod<
   GetPortalRevisionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<GetPortalRevisionRequest>,
-  output: __S(6304, __c197, 0) as any as S.Schema<GetPortalRevisionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6304, __c197, 0) as any as S.Schema<GetPortalRevisionRequest>,
+  output: __S(6336, __c198, 0) as any as S.Schema<GetPortalRevisionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23121,9 +23344,10 @@ export const GetPrivateEndpointConnectionByName: API.OperationMethod<
   GetPrivateEndpointConnectionByNameError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<GetPrivateEndpointConnectionByNameRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<GetPrivateEndpointConnectionByNameResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6400, __c200, 0) as any as S.Schema<GetPrivateEndpointConnectionByNameRequest>,
+  output: __S(6432, __c201, 0) as any as S.Schema<GetPrivateEndpointConnectionByNameResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23139,16 +23363,17 @@ export const GetPrivateEndpointConnectionPrivateLinkResource: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6528,
-    __c204,
-    0,
-  ) as any as S.Schema<GetPrivateEndpointConnectionPrivateLinkResourceRequest>,
-  output: __S(
     6560,
     __c205,
     0,
+  ) as any as S.Schema<GetPrivateEndpointConnectionPrivateLinkResourceRequest>,
+  output: __S(
+    6592,
+    __c206,
+    0,
   ) as any as S.Schema<GetPrivateEndpointConnectionPrivateLinkResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23163,9 +23388,10 @@ export const GetProduct: API.OperationMethod<
   GetProductError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<GetProductRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<GetProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6624, __c207, 0) as any as S.Schema<GetProductRequest>,
+  output: __S(6657, __c208, 1) as any as S.Schema<GetProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23180,9 +23406,10 @@ export const GetProductApiLink: API.OperationMethod<
   GetProductApiLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<GetProductApiLinkRequest>,
-  output: __S(6689, __c209, 1) as any as S.Schema<GetProductApiLinkResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6688, __c209, 0) as any as S.Schema<GetProductApiLinkRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<GetProductApiLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23197,9 +23424,10 @@ export const GetProductGroupLink: API.OperationMethod<
   GetProductGroupLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<GetProductGroupLinkRequest>,
-  output: __S(6753, __c211, 1) as any as S.Schema<GetProductGroupLinkResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6752, __c211, 0) as any as S.Schema<GetProductGroupLinkRequest>,
+  output: __S(6785, __c212, 1) as any as S.Schema<GetProductGroupLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23214,9 +23442,10 @@ export const GetProductPolicy: API.OperationMethod<
   GetProductPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<GetProductPolicyRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetProductPolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6816, __c213, 0) as any as S.Schema<GetProductPolicyRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GetProductPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23231,9 +23460,10 @@ export const GetProductWiki: API.OperationMethod<
   GetProductWikiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<GetProductWikiRequest>,
-  output: __S(7523, __c235, 3) as any as S.Schema<GetProductWikiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6848, __c214, 0) as any as S.Schema<GetProductWikiRequest>,
+  output: __S(7555, __c236, 3) as any as S.Schema<GetProductWikiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23248,9 +23478,10 @@ export const GetQuotaByPeriodKey: API.OperationMethod<
   GetQuotaByPeriodKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<GetQuotaByPeriodKeyRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<GetQuotaByPeriodKeyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6880, __c215, 0) as any as S.Schema<GetQuotaByPeriodKeyRequest>,
+  output: __S(6913, __c216, 1) as any as S.Schema<GetQuotaByPeriodKeyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23265,9 +23496,10 @@ export const GetSubscription: API.OperationMethod<
   GetSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<GetSubscriptionRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<GetSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(6944, __c217, 0) as any as S.Schema<GetSubscriptionRequest>,
+  output: __S(6977, __c218, 1) as any as S.Schema<GetSubscriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23282,9 +23514,10 @@ export const GetTag: API.OperationMethod<
   GetTagError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<GetTagRequest>,
-  output: __S(8289, __c259, 1) as any as S.Schema<GetTagResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7008, __c219, 0) as any as S.Schema<GetTagRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<GetTagResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23299,9 +23532,10 @@ export const GetTagApiLink: API.OperationMethod<
   GetTagApiLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<GetTagApiLinkRequest>,
-  output: __S(6689, __c209, 1) as any as S.Schema<GetTagApiLinkResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7040, __c220, 0) as any as S.Schema<GetTagApiLinkRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<GetTagApiLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23316,9 +23550,10 @@ export const GetTagByApi: API.OperationMethod<
   GetTagByApiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<GetTagByApiRequest>,
-  output: __S(8289, __c259, 1) as any as S.Schema<GetTagByApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7136, __c223, 0) as any as S.Schema<GetTagByApiRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<GetTagByApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23333,9 +23568,10 @@ export const GetTagByOperation: API.OperationMethod<
   GetTagByOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<GetTagByOperationRequest>,
-  output: __S(8289, __c259, 1) as any as S.Schema<GetTagByOperationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7168, __c224, 0) as any as S.Schema<GetTagByOperationRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<GetTagByOperationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23350,9 +23586,10 @@ export const GetTagByProduct: API.OperationMethod<
   GetTagByProductError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<GetTagByProductRequest>,
-  output: __S(8289, __c259, 1) as any as S.Schema<GetTagByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7200, __c225, 0) as any as S.Schema<GetTagByProductRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<GetTagByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23367,9 +23604,10 @@ export const GetTagOperationLink: API.OperationMethod<
   GetTagOperationLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<GetTagOperationLinkRequest>,
-  output: __S(7233, __c226, 1) as any as S.Schema<GetTagOperationLinkResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7232, __c226, 0) as any as S.Schema<GetTagOperationLinkRequest>,
+  output: __S(7265, __c227, 1) as any as S.Schema<GetTagOperationLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23384,9 +23622,10 @@ export const GetTagProductLink: API.OperationMethod<
   GetTagProductLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<GetTagProductLinkRequest>,
-  output: __S(7297, __c228, 1) as any as S.Schema<GetTagProductLinkResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7296, __c228, 0) as any as S.Schema<GetTagProductLinkRequest>,
+  output: __S(7329, __c229, 1) as any as S.Schema<GetTagProductLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23401,9 +23640,10 @@ export const GetTenantAccess: API.OperationMethod<
   GetTenantAccessError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<GetTenantAccessRequest>,
-  output: __S(16609, __c519, 1) as any as S.Schema<GetTenantAccessResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7360, __c230, 0) as any as S.Schema<GetTenantAccessRequest>,
+  output: __S(16673, __c521, 1) as any as S.Schema<GetTenantAccessResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23418,9 +23658,10 @@ export const GetTenantConfigurationSyncState: API.OperationMethod<
   GetTenantConfigurationSyncStateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<GetTenantConfigurationSyncStateRequest>,
-  output: __S(7362, __c230, 2) as any as S.Schema<GetTenantConfigurationSyncStateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7392, __c231, 0) as any as S.Schema<GetTenantConfigurationSyncStateRequest>,
+  output: __S(7394, __c231, 2) as any as S.Schema<GetTenantConfigurationSyncStateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23435,9 +23676,10 @@ export const GetUser: API.OperationMethod<
   GetUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(16226, __c507, 2) as any as S.Schema<GetUserResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7424, __c232, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(16290, __c509, 2) as any as S.Schema<GetUserResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23452,9 +23694,10 @@ export const GetUserSharedAccessToken: API.OperationMethod<
   GetUserSharedAccessTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7425, __c232, 1) as any as S.Schema<GetUserSharedAccessTokenRequest>,
+  input: __S(7457, __c233, 1) as any as S.Schema<GetUserSharedAccessTokenRequest>,
   output: __S(3008, __c94, 0) as any as S.Schema<GetUserSharedAccessTokenResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23469,9 +23712,10 @@ export const GetUserSubscription: API.OperationMethod<
   GetUserSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<GetUserSubscriptionRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<GetUserSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7488, __c234, 0) as any as S.Schema<GetUserSubscriptionRequest>,
+  output: __S(6977, __c218, 1) as any as S.Schema<GetUserSubscriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23486,9 +23730,10 @@ export const GetWorkspace: API.OperationMethod<
   GetWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<GetWorkspaceRequest>,
-  output: __S(7585, __c237, 1) as any as S.Schema<GetWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7584, __c237, 0) as any as S.Schema<GetWorkspaceRequest>,
+  output: __S(7617, __c238, 1) as any as S.Schema<GetWorkspaceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23503,9 +23748,10 @@ export const GetWorkspaceApi: API.OperationMethod<
   GetWorkspaceApiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<GetWorkspaceApiRequest>,
+  input: __S(7648, __c239, 0) as any as S.Schema<GetWorkspaceApiRequest>,
   output: __S(2752, __c86, 0) as any as S.Schema<GetWorkspaceApiResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23520,9 +23766,10 @@ export const GetWorkspaceApiDiagnostic: API.OperationMethod<
   GetWorkspaceApiDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<GetWorkspaceApiDiagnosticRequest>,
-  output: __S(23880, __c746, 8) as any as S.Schema<GetWorkspaceApiDiagnosticResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7680, __c240, 0) as any as S.Schema<GetWorkspaceApiDiagnosticRequest>,
+  output: __S(23944, __c748, 8) as any as S.Schema<GetWorkspaceApiDiagnosticResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23537,9 +23784,10 @@ export const GetWorkspaceApiOperation: API.OperationMethod<
   GetWorkspaceApiOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<GetWorkspaceApiOperationRequest>,
-  output: __S(3786, __c118, 10) as any as S.Schema<GetWorkspaceApiOperationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7712, __c241, 0) as any as S.Schema<GetWorkspaceApiOperationRequest>,
+  output: __S(3818, __c119, 10) as any as S.Schema<GetWorkspaceApiOperationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23554,9 +23802,10 @@ export const GetWorkspaceApiOperationPolicy: API.OperationMethod<
   GetWorkspaceApiOperationPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<GetWorkspaceApiOperationPolicyRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetWorkspaceApiOperationPolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7744, __c242, 0) as any as S.Schema<GetWorkspaceApiOperationPolicyRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GetWorkspaceApiOperationPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23571,9 +23820,10 @@ export const GetWorkspaceApiPolicy: API.OperationMethod<
   GetWorkspaceApiPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<GetWorkspaceApiPolicyRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetWorkspaceApiPolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7776, __c243, 0) as any as S.Schema<GetWorkspaceApiPolicyRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GetWorkspaceApiPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23588,9 +23838,10 @@ export const GetWorkspaceApiRelease: API.OperationMethod<
   GetWorkspaceApiReleaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<GetWorkspaceApiReleaseRequest>,
-  output: __S(5089, __c159, 1) as any as S.Schema<GetWorkspaceApiReleaseResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7808, __c244, 0) as any as S.Schema<GetWorkspaceApiReleaseRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<GetWorkspaceApiReleaseResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23605,9 +23856,10 @@ export const GetWorkspaceApiSchema: API.OperationMethod<
   GetWorkspaceApiSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<GetWorkspaceApiSchemaRequest>,
-  output: __S(4320, __c135, 0) as any as S.Schema<GetWorkspaceApiSchemaResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7840, __c245, 0) as any as S.Schema<GetWorkspaceApiSchemaRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<GetWorkspaceApiSchemaResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23622,9 +23874,10 @@ export const GetWorkspaceApiVersionSet: API.OperationMethod<
   GetWorkspaceApiVersionSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<GetWorkspaceApiVersionSetRequest>,
-  output: __S(7073, __c221, 1) as any as S.Schema<GetWorkspaceApiVersionSetResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7872, __c246, 0) as any as S.Schema<GetWorkspaceApiVersionSetRequest>,
+  output: __S(7105, __c222, 1) as any as S.Schema<GetWorkspaceApiVersionSetResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23639,9 +23892,10 @@ export const GetWorkspaceBackend: API.OperationMethod<
   GetWorkspaceBackendError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<GetWorkspaceBackendRequest>,
-  output: __S(11763, __c367, 19) as any as S.Schema<GetWorkspaceBackendResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7904, __c247, 0) as any as S.Schema<GetWorkspaceBackendRequest>,
+  output: __S(11827, __c369, 19) as any as S.Schema<GetWorkspaceBackendResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23656,9 +23910,10 @@ export const GetWorkspaceCertificate: API.OperationMethod<
   GetWorkspaceCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<GetWorkspaceCertificateRequest>,
-  output: __S(13313, __c416, 1) as any as S.Schema<GetWorkspaceCertificateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(7968, __c249, 0) as any as S.Schema<GetWorkspaceCertificateRequest>,
+  output: __S(13377, __c418, 1) as any as S.Schema<GetWorkspaceCertificateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23673,9 +23928,10 @@ export const GetWorkspaceDiagnostic: API.OperationMethod<
   GetWorkspaceDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<GetWorkspaceDiagnosticRequest>,
-  output: __S(23880, __c746, 8) as any as S.Schema<GetWorkspaceDiagnosticResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8000, __c250, 0) as any as S.Schema<GetWorkspaceDiagnosticRequest>,
+  output: __S(23944, __c748, 8) as any as S.Schema<GetWorkspaceDiagnosticResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23690,9 +23946,10 @@ export const GetWorkspaceGlobalSchema: API.OperationMethod<
   GetWorkspaceGlobalSchemaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<GetWorkspaceGlobalSchemaRequest>,
-  output: __S(5280, __c165, 0) as any as S.Schema<GetWorkspaceGlobalSchemaResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8032, __c251, 0) as any as S.Schema<GetWorkspaceGlobalSchemaRequest>,
+  output: __S(5312, __c166, 0) as any as S.Schema<GetWorkspaceGlobalSchemaResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23707,9 +23964,10 @@ export const GetWorkspaceGroup: API.OperationMethod<
   GetWorkspaceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<GetWorkspaceGroupRequest>,
-  output: __S(5440, __c170, 0) as any as S.Schema<GetWorkspaceGroupResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8064, __c252, 0) as any as S.Schema<GetWorkspaceGroupRequest>,
+  output: __S(5472, __c171, 0) as any as S.Schema<GetWorkspaceGroupResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23724,9 +23982,10 @@ export const GetWorkspaceLogger: API.OperationMethod<
   GetWorkspaceLoggerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<GetWorkspaceLoggerRequest>,
-  output: __S(5601, __c175, 1) as any as S.Schema<GetWorkspaceLoggerResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8096, __c253, 0) as any as S.Schema<GetWorkspaceLoggerRequest>,
+  output: __S(5633, __c176, 1) as any as S.Schema<GetWorkspaceLoggerResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23741,9 +24000,10 @@ export const GetWorkspaceNamedValue: API.OperationMethod<
   GetWorkspaceNamedValueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<GetWorkspaceNamedValueRequest>,
-  output: __S(5664, __c177, 0) as any as S.Schema<GetWorkspaceNamedValueResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8128, __c254, 0) as any as S.Schema<GetWorkspaceNamedValueRequest>,
+  output: __S(5696, __c178, 0) as any as S.Schema<GetWorkspaceNamedValueResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23758,9 +24018,10 @@ export const GetWorkspaceNotification: API.OperationMethod<
   GetWorkspaceNotificationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<GetWorkspaceNotificationRequest>,
-  output: __S(5858, __c183, 2) as any as S.Schema<GetWorkspaceNotificationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8160, __c255, 0) as any as S.Schema<GetWorkspaceNotificationRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<GetWorkspaceNotificationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23775,9 +24036,10 @@ export const GetWorkspacePolicy: API.OperationMethod<
   GetWorkspacePolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<GetWorkspacePolicyRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetWorkspacePolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8192, __c256, 0) as any as S.Schema<GetWorkspacePolicyRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GetWorkspacePolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23792,9 +24054,10 @@ export const GetWorkspacePolicyFragment: API.OperationMethod<
   GetWorkspacePolicyFragmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<GetWorkspacePolicyFragmentRequest>,
-  output: __S(6080, __c190, 0) as any as S.Schema<GetWorkspacePolicyFragmentResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8224, __c257, 0) as any as S.Schema<GetWorkspacePolicyFragmentRequest>,
+  output: __S(6112, __c191, 0) as any as S.Schema<GetWorkspacePolicyFragmentResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23809,9 +24072,10 @@ export const GetWorkspaceProduct: API.OperationMethod<
   GetWorkspaceProductError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<GetWorkspaceProductRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<GetWorkspaceProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8256, __c258, 0) as any as S.Schema<GetWorkspaceProductRequest>,
+  output: __S(6657, __c208, 1) as any as S.Schema<GetWorkspaceProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23826,9 +24090,10 @@ export const GetWorkspaceProductApiLink: API.OperationMethod<
   GetWorkspaceProductApiLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<GetWorkspaceProductApiLinkRequest>,
-  output: __S(6689, __c209, 1) as any as S.Schema<GetWorkspaceProductApiLinkResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8352, __c261, 0) as any as S.Schema<GetWorkspaceProductApiLinkRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<GetWorkspaceProductApiLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23843,9 +24108,10 @@ export const GetWorkspaceProductGroupLink: API.OperationMethod<
   GetWorkspaceProductGroupLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<GetWorkspaceProductGroupLinkRequest>,
-  output: __S(6753, __c211, 1) as any as S.Schema<GetWorkspaceProductGroupLinkResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8384, __c262, 0) as any as S.Schema<GetWorkspaceProductGroupLinkRequest>,
+  output: __S(6785, __c212, 1) as any as S.Schema<GetWorkspaceProductGroupLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23860,9 +24126,10 @@ export const GetWorkspaceProductPolicy: API.OperationMethod<
   GetWorkspaceProductPolicyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<GetWorkspaceProductPolicyRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetWorkspaceProductPolicyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8416, __c263, 0) as any as S.Schema<GetWorkspaceProductPolicyRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GetWorkspaceProductPolicyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23877,9 +24144,10 @@ export const GetWorkspaceSubscription: API.OperationMethod<
   GetWorkspaceSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<GetWorkspaceSubscriptionRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<GetWorkspaceSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8448, __c264, 0) as any as S.Schema<GetWorkspaceSubscriptionRequest>,
+  output: __S(6977, __c218, 1) as any as S.Schema<GetWorkspaceSubscriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23894,9 +24162,10 @@ export const GetWorkspaceTag: API.OperationMethod<
   GetWorkspaceTagError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<GetWorkspaceTagRequest>,
-  output: __S(8289, __c259, 1) as any as S.Schema<GetWorkspaceTagResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8480, __c265, 0) as any as S.Schema<GetWorkspaceTagRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<GetWorkspaceTagResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23911,9 +24180,10 @@ export const GetWorkspaceTagApiLink: API.OperationMethod<
   GetWorkspaceTagApiLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<GetWorkspaceTagApiLinkRequest>,
-  output: __S(6689, __c209, 1) as any as S.Schema<GetWorkspaceTagApiLinkResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8512, __c266, 0) as any as S.Schema<GetWorkspaceTagApiLinkRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<GetWorkspaceTagApiLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23928,9 +24198,10 @@ export const GetWorkspaceTagOperationLink: API.OperationMethod<
   GetWorkspaceTagOperationLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<GetWorkspaceTagOperationLinkRequest>,
-  output: __S(7233, __c226, 1) as any as S.Schema<GetWorkspaceTagOperationLinkResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8544, __c267, 0) as any as S.Schema<GetWorkspaceTagOperationLinkRequest>,
+  output: __S(7265, __c227, 1) as any as S.Schema<GetWorkspaceTagOperationLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23945,9 +24216,10 @@ export const GetWorkspaceTagProductLink: API.OperationMethod<
   GetWorkspaceTagProductLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<GetWorkspaceTagProductLinkRequest>,
-  output: __S(7297, __c228, 1) as any as S.Schema<GetWorkspaceTagProductLinkResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8576, __c268, 0) as any as S.Schema<GetWorkspaceTagProductLinkRequest>,
+  output: __S(7329, __c229, 1) as any as S.Schema<GetWorkspaceTagProductLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23962,9 +24234,10 @@ export const GlobalSchemaCreateOrUpdate: API.OperationMethod<
   GlobalSchemaCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<GlobalSchemaCreateOrUpdateRequest>,
-  output: __S(8609, __c269, 1) as any as S.Schema<GlobalSchemaCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8608, __c269, 0) as any as S.Schema<GlobalSchemaCreateOrUpdateRequest>,
+  output: __S(8641, __c270, 1) as any as S.Schema<GlobalSchemaCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23979,9 +24252,10 @@ export const GraphQLApiResolverCreateOrUpdate: API.OperationMethod<
   GraphQLApiResolverCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<GraphQLApiResolverCreateOrUpdateRequest>,
-  output: __S(5345, __c167, 1) as any as S.Schema<GraphQLApiResolverCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8672, __c271, 0) as any as S.Schema<GraphQLApiResolverCreateOrUpdateRequest>,
+  output: __S(5377, __c168, 1) as any as S.Schema<GraphQLApiResolverCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23996,9 +24270,10 @@ export const GraphQLApiResolverPolicyCreateOrUpdate: API.OperationMethod<
   GraphQLApiResolverPolicyCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<GraphQLApiResolverPolicyCreateOrUpdateRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GraphQLApiResolverPolicyCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8736, __c273, 0) as any as S.Schema<GraphQLApiResolverPolicyCreateOrUpdateRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GraphQLApiResolverPolicyCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24013,9 +24288,10 @@ export const GroupCreateOrUpdate: API.OperationMethod<
   GroupCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<GroupCreateOrUpdateRequest>,
-  output: __S(5440, __c170, 0) as any as S.Schema<GroupCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8768, __c274, 0) as any as S.Schema<GroupCreateOrUpdateRequest>,
+  output: __S(5472, __c171, 0) as any as S.Schema<GroupCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24030,9 +24306,10 @@ export const IdentityProviderCreateOrUpdate: API.OperationMethod<
   IdentityProviderCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8801, __c275, 1) as any as S.Schema<IdentityProviderCreateOrUpdateRequest>,
-  output: __S(5505, __c172, 1) as any as S.Schema<IdentityProviderCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8833, __c276, 1) as any as S.Schema<IdentityProviderCreateOrUpdateRequest>,
+  output: __S(5537, __c173, 1) as any as S.Schema<IdentityProviderCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24047,9 +24324,10 @@ export const InvalidateGatewayDebugCredentials: API.OperationMethod<
   InvalidateGatewayDebugCredentialsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<InvalidateGatewayDebugCredentialsRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<InvalidateGatewayDebugCredentialsResponse>,
-  errors: [UnknownAzureError],
+  input: __S(8864, __c277, 0) as any as S.Schema<InvalidateGatewayDebugCredentialsRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<InvalidateGatewayDebugCredentialsResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24065,9 +24343,10 @@ export const ListAiGatewayAliasResourceByWorkspace: API.PaginatedOperationMethod
   AzureOpContext,
   AiGatewayAliasResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<ListAiGatewayAliasResourceByWorkspaceRequest>,
-  output: __S(8866, __c277, 2) as any as S.Schema<AiGatewayAliasResourceListResult>,
-  errors: [UnknownAzureError],
+  input: __S(8896, __c278, 0) as any as S.Schema<ListAiGatewayAliasResourceByWorkspaceRequest>,
+  output: __S(8898, __c278, 2) as any as S.Schema<AiGatewayAliasResourceListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24089,9 +24368,10 @@ export const ListAiGatewayApiKeyResourceByAiGateway: API.PaginatedOperationMetho
   AzureOpContext,
   AiGatewayApiKeyResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<ListAiGatewayApiKeyResourceByAiGatewayRequest>,
-  output: __S(8898, __c278, 2) as any as S.Schema<AiGatewayApiKeyResourceListResult>,
-  errors: [UnknownAzureError],
+  input: __S(8928, __c279, 0) as any as S.Schema<ListAiGatewayApiKeyResourceByAiGatewayRequest>,
+  output: __S(8930, __c279, 2) as any as S.Schema<AiGatewayApiKeyResourceListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24112,9 +24392,10 @@ export const ListAiGatewayApiKeyResourceSecrets: API.OperationMethod<
   ListAiGatewayApiKeyResourceSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<ListAiGatewayApiKeyResourceSecretsRequest>,
-  output: __S(8929, __c279, 1) as any as S.Schema<AiGatewayApiKeyValues>,
-  errors: [UnknownAzureError],
+  input: __S(8960, __c280, 0) as any as S.Schema<ListAiGatewayApiKeyResourceSecretsRequest>,
+  output: __S(8961, __c280, 1) as any as S.Schema<AiGatewayApiKeyValues>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24131,12 +24412,13 @@ export const ListAiGatewayModelProviderResourceByWorkspace: API.PaginatedOperati
   AiGatewayModelProviderResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    8960,
-    __c280,
+    8992,
+    __c281,
     0,
   ) as any as S.Schema<ListAiGatewayModelProviderResourceByWorkspaceRequest>,
-  output: __S(8962, __c280, 2) as any as S.Schema<AiGatewayModelProviderResourceListResult>,
-  errors: [UnknownAzureError],
+  output: __S(8994, __c281, 2) as any as S.Schema<AiGatewayModelProviderResourceListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24157,9 +24439,10 @@ export const ListAiGatewayModelProviderResourceSecrets: API.OperationMethod<
   ListAiGatewayModelProviderResourceSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c281, 0) as any as S.Schema<ListAiGatewayModelProviderResourceSecretsRequest>,
-  output: __S(8993, __c281, 1) as any as S.Schema<AiGatewayModelProviderSecrets>,
-  errors: [UnknownAzureError],
+  input: __S(9024, __c282, 0) as any as S.Schema<ListAiGatewayModelProviderResourceSecretsRequest>,
+  output: __S(9025, __c282, 1) as any as S.Schema<AiGatewayModelProviderSecrets>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24175,9 +24458,10 @@ export const ListAiGatewayModelResourceByModelProvider: API.PaginatedOperationMe
   AzureOpContext,
   AiGatewayModelResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<ListAiGatewayModelResourceByModelProviderRequest>,
-  output: __S(9057, __c283, 1) as any as S.Schema<AiGatewayModelResourceListResult>,
-  errors: [UnknownAzureError],
+  input: __S(9056, __c283, 0) as any as S.Schema<ListAiGatewayModelResourceByModelProviderRequest>,
+  output: __S(9089, __c284, 1) as any as S.Schema<AiGatewayModelResourceListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24200,12 +24484,13 @@ export const ListAiGatewayPrivateEndpointConnectionByAiGateway: API.PaginatedOpe
   AiGatewayPropertiesPrivateEndpointConnectionsItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    9120,
-    __c285,
+    9152,
+    __c286,
     0,
   ) as any as S.Schema<ListAiGatewayPrivateEndpointConnectionByAiGatewayRequest>,
-  output: __S(9121, __c285, 1) as any as S.Schema<AiGatewayPrivateEndpointConnectionListResult>,
-  errors: [UnknownAzureError],
+  output: __S(9153, __c286, 1) as any as S.Schema<AiGatewayPrivateEndpointConnectionListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24228,12 +24513,13 @@ export const ListAiGatewayPrivateLinkResourceByAiGateway: API.PaginatedOperation
   AiGatewayPrivateLinkResourceListResultValueItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    9152,
-    __c286,
+    9184,
+    __c287,
     0,
   ) as any as S.Schema<ListAiGatewayPrivateLinkResourceByAiGatewayRequest>,
-  output: __S(9154, __c286, 2) as any as S.Schema<AiGatewayPrivateLinkResourceListResult>,
-  errors: [UnknownAzureError],
+  output: __S(9186, __c287, 2) as any as S.Schema<AiGatewayPrivateLinkResourceListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24255,9 +24541,10 @@ export const ListAiGatewayResourceByResourceGroup: API.PaginatedOperationMethod<
   AzureOpContext,
   AiGatewayResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9184, __c287, 0) as any as S.Schema<ListAiGatewayResourceByResourceGroupRequest>,
-  output: __S(9217, __c288, 1) as any as S.Schema<AiGatewayResourceListResult>,
-  errors: [UnknownAzureError],
+  input: __S(9216, __c288, 0) as any as S.Schema<ListAiGatewayResourceByResourceGroupRequest>,
+  output: __S(9249, __c289, 1) as any as S.Schema<AiGatewayResourceListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24279,9 +24566,10 @@ export const ListAiGatewayResourceBySubscription: API.PaginatedOperationMethod<
   AzureOpContext,
   AiGatewayResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<ListAiGatewayResourceBySubscriptionRequest>,
-  output: __S(9217, __c288, 1) as any as S.Schema<AiGatewayResourceListResult>,
-  errors: [UnknownAzureError],
+  input: __S(9280, __c290, 0) as any as S.Schema<ListAiGatewayResourceBySubscriptionRequest>,
+  output: __S(9249, __c289, 1) as any as S.Schema<AiGatewayResourceListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24304,12 +24592,13 @@ export const ListAiGatewayTelemetryExporterResourceByWorkspace: API.PaginatedOpe
   AiGatewayTelemetryExporterResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    9280,
-    __c290,
+    9312,
+    __c291,
     0,
   ) as any as S.Schema<ListAiGatewayTelemetryExporterResourceByWorkspaceRequest>,
-  output: __S(9282, __c290, 2) as any as S.Schema<AiGatewayTelemetryExporterResourceListResult>,
-  errors: [UnknownAzureError],
+  output: __S(9314, __c291, 2) as any as S.Schema<AiGatewayTelemetryExporterResourceListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24331,9 +24620,10 @@ export const ListAiGatewayToolServerResourceByWorkspace: API.PaginatedOperationM
   AzureOpContext,
   AiGatewayToolServerResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<ListAiGatewayToolServerResourceByWorkspaceRequest>,
-  output: __S(9314, __c291, 2) as any as S.Schema<AiGatewayToolServerResourceListResult>,
-  errors: [UnknownAzureError],
+  input: __S(9344, __c292, 0) as any as S.Schema<ListAiGatewayToolServerResourceByWorkspaceRequest>,
+  output: __S(9346, __c292, 2) as any as S.Schema<AiGatewayToolServerResourceListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24354,9 +24644,10 @@ export const ListAiGatewayToolServerResourceSecrets: API.OperationMethod<
   ListAiGatewayToolServerResourceSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<ListAiGatewayToolServerResourceSecretsRequest>,
-  output: __S(9351, __c292, 7) as any as S.Schema<AiGatewayToolServerSecrets>,
-  errors: [UnknownAzureError],
+  input: __S(9376, __c293, 0) as any as S.Schema<ListAiGatewayToolServerResourceSecretsRequest>,
+  output: __S(9383, __c293, 7) as any as S.Schema<AiGatewayToolServerSecrets>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24373,12 +24664,13 @@ export const ListAiGatewayWorkspaceModelOperationByWorkspace: API.PaginatedOpera
   AiGatewayModelResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    9376,
-    __c293,
+    9408,
+    __c294,
     0,
   ) as any as S.Schema<ListAiGatewayWorkspaceModelOperationByWorkspaceRequest>,
-  output: __S(9057, __c283, 1) as any as S.Schema<AiGatewayModelResourceListResult>,
-  errors: [UnknownAzureError],
+  output: __S(9089, __c284, 1) as any as S.Schema<AiGatewayModelResourceListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24400,9 +24692,10 @@ export const ListAiGatewayWorkspaceResourceByAiGateway: API.PaginatedOperationMe
   AzureOpContext,
   AiGatewayWorkspaceResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<ListAiGatewayWorkspaceResourceByAiGatewayRequest>,
-  output: __S(9410, __c294, 2) as any as S.Schema<AiGatewayWorkspaceResourceListResult>,
-  errors: [UnknownAzureError],
+  input: __S(9440, __c295, 0) as any as S.Schema<ListAiGatewayWorkspaceResourceByAiGatewayRequest>,
+  output: __S(9442, __c295, 2) as any as S.Schema<AiGatewayWorkspaceResourceListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24424,9 +24717,10 @@ export const ListAllPolicyByService: API.PaginatedOperationMethod<
   AzureOpContext,
   AllPoliciesContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9440, __c295, 0) as any as S.Schema<ListAllPolicyByServiceRequest>,
-  output: __S(9444, __c295, 4) as any as S.Schema<ListAllPolicyByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(9472, __c296, 0) as any as S.Schema<ListAllPolicyByServiceRequest>,
+  output: __S(9476, __c296, 4) as any as S.Schema<ListAllPolicyByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24448,9 +24742,10 @@ export const ListApiByService: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<ListApiByServiceRequest>,
-  output: __S(9569, __c299, 1) as any as S.Schema<ListApiByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(9568, __c299, 0) as any as S.Schema<ListApiByServiceRequest>,
+  output: __S(9601, __c300, 1) as any as S.Schema<ListApiByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24472,9 +24767,10 @@ export const ListApiByTags: API.PaginatedOperationMethod<
   AzureOpContext,
   TagResourceContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<ListApiByTagsRequest>,
-  output: __S(9638, __c301, 6) as any as S.Schema<ListApiByTagsResponse>,
-  errors: [UnknownAzureError],
+  input: __S(9632, __c301, 0) as any as S.Schema<ListApiByTagsRequest>,
+  output: __S(9670, __c302, 6) as any as S.Schema<ListApiByTagsResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24496,9 +24792,10 @@ export const ListApiDiagnosticByService: API.PaginatedOperationMethod<
   AzureOpContext,
   DiagnosticContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9664, __c302, 0) as any as S.Schema<ListApiDiagnosticByServiceRequest>,
-  output: __S(9697, __c303, 1) as any as S.Schema<ListApiDiagnosticByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(9696, __c303, 0) as any as S.Schema<ListApiDiagnosticByServiceRequest>,
+  output: __S(9729, __c304, 1) as any as S.Schema<ListApiDiagnosticByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24520,9 +24817,10 @@ export const ListApiGateway: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiManagementGatewayResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<ListApiGatewayRequest>,
-  output: __S(9761, __c305, 1) as any as S.Schema<ApiManagementGatewayListResult>,
-  errors: [UnknownAzureError],
+  input: __S(9760, __c305, 0) as any as S.Schema<ListApiGatewayRequest>,
+  output: __S(9793, __c306, 1) as any as S.Schema<ApiManagementGatewayListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24544,9 +24842,10 @@ export const ListApiGatewayByResourceGroup: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiManagementGatewayResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<ListApiGatewayByResourceGroupRequest>,
-  output: __S(9761, __c305, 1) as any as S.Schema<ApiManagementGatewayListResult>,
-  errors: [UnknownAzureError],
+  input: __S(9824, __c307, 0) as any as S.Schema<ListApiGatewayByResourceGroupRequest>,
+  output: __S(9793, __c306, 1) as any as S.Schema<ApiManagementGatewayListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24568,9 +24867,10 @@ export const ListApiGatewayConfigConnectionByGateway: API.PaginatedOperationMeth
   AzureOpContext,
   ApiManagementGatewayConfigConnectionResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<ListApiGatewayConfigConnectionByGatewayRequest>,
-  output: __S(9826, __c307, 2) as any as S.Schema<ApiManagementGatewayConfigConnectionListResult>,
-  errors: [UnknownAzureError],
+  input: __S(9856, __c308, 0) as any as S.Schema<ListApiGatewayConfigConnectionByGatewayRequest>,
+  output: __S(9858, __c308, 2) as any as S.Schema<ApiManagementGatewayConfigConnectionListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24592,9 +24892,10 @@ export const ListApiIssueAttachmentByService: API.PaginatedOperationMethod<
   AzureOpContext,
   IssueAttachmentContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<ListApiIssueAttachmentByServiceRequest>,
-  output: __S(9858, __c308, 2) as any as S.Schema<ListApiIssueAttachmentByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(9888, __c309, 0) as any as S.Schema<ListApiIssueAttachmentByServiceRequest>,
+  output: __S(9890, __c309, 2) as any as S.Schema<ListApiIssueAttachmentByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24616,9 +24917,10 @@ export const ListApiIssueByService: API.PaginatedOperationMethod<
   AzureOpContext,
   IssueContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<ListApiIssueByServiceRequest>,
-  output: __S(9921, __c310, 1) as any as S.Schema<ListApiIssueByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(9920, __c310, 0) as any as S.Schema<ListApiIssueByServiceRequest>,
+  output: __S(9953, __c311, 1) as any as S.Schema<ListApiIssueByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24640,9 +24942,10 @@ export const ListApiIssueCommentByService: API.PaginatedOperationMethod<
   AzureOpContext,
   IssueCommentContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<ListApiIssueCommentByServiceRequest>,
-  output: __S(9954, __c311, 2) as any as S.Schema<ListApiIssueCommentByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(9984, __c312, 0) as any as S.Schema<ListApiIssueCommentByServiceRequest>,
+  output: __S(9986, __c312, 2) as any as S.Schema<ListApiIssueCommentByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24664,9 +24967,10 @@ export const ListApiManagementGatewaySkusAvailableSkus: API.PaginatedOperationMe
   AzureOpContext,
   GatewayResourceSkuResult
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(9984, __c312, 0) as any as S.Schema<ListApiManagementGatewaySkusAvailableSkusRequest>,
-  output: __S(10019, __c313, 3) as any as S.Schema<GatewayResourceSkuResults>,
-  errors: [UnknownAzureError],
+  input: __S(10016, __c313, 0) as any as S.Schema<ListApiManagementGatewaySkusAvailableSkusRequest>,
+  output: __S(10051, __c314, 3) as any as S.Schema<GatewayResourceSkuResults>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24688,9 +24992,10 @@ export const ListApiManagementOperations: API.PaginatedOperationMethod<
   AzureOpContext,
   Operation_2
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(10208, __c319, 0) as any as S.Schema<ListApiManagementOperationsRequest>,
-  output: __S(10212, __c319, 4) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  input: __S(10240, __c320, 0) as any as S.Schema<ListApiManagementOperationsRequest>,
+  output: __S(10244, __c320, 4) as any as S.Schema<OperationListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24712,9 +25017,10 @@ export const ListApiManagementService: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiManagementServiceResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(10240, __c320, 0) as any as S.Schema<ListApiManagementServiceRequest>,
-  output: __S(10273, __c321, 1) as any as S.Schema<ApiManagementServiceListResult>,
-  errors: [UnknownAzureError],
+  input: __S(10272, __c321, 0) as any as S.Schema<ListApiManagementServiceRequest>,
+  output: __S(10305, __c322, 1) as any as S.Schema<ApiManagementServiceListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24736,9 +25042,10 @@ export const ListApiManagementServiceByResourceGroup: API.PaginatedOperationMeth
   AzureOpContext,
   ApiManagementServiceResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(10304, __c322, 0) as any as S.Schema<ListApiManagementServiceByResourceGroupRequest>,
-  output: __S(10273, __c321, 1) as any as S.Schema<ApiManagementServiceListResult>,
-  errors: [UnknownAzureError],
+  input: __S(10336, __c323, 0) as any as S.Schema<ListApiManagementServiceByResourceGroupRequest>,
+  output: __S(10305, __c322, 1) as any as S.Schema<ApiManagementServiceListResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24761,12 +25068,13 @@ export const ListApiManagementServiceSkusAvailableServiceSkus: API.PaginatedOper
   ResourceSkuResult
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    10336,
-    __c323,
+    10368,
+    __c324,
     0,
   ) as any as S.Schema<ListApiManagementServiceSkusAvailableServiceSkusRequest>,
-  output: __S(10019, __c313, 3) as any as S.Schema<ResourceSkuResults>,
-  errors: [UnknownAzureError],
+  output: __S(10051, __c314, 3) as any as S.Schema<ResourceSkuResults>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24788,9 +25096,10 @@ export const ListApiManagementSkus: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiManagementSku
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<ListApiManagementSkusRequest>,
-  output: __S(10380, __c324, 12) as any as S.Schema<ApiManagementSkusResult>,
-  errors: [UnknownAzureError],
+  input: __S(10400, __c325, 0) as any as S.Schema<ListApiManagementSkusRequest>,
+  output: __S(10412, __c325, 12) as any as S.Schema<ApiManagementSkusResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24812,9 +25121,10 @@ export const ListApiManagementWorkspaceLinkByService: API.PaginatedOperationMeth
   AzureOpContext,
   ApiManagementWorkspaceLinksResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(10432, __c326, 0) as any as S.Schema<ListApiManagementWorkspaceLinkByServiceRequest>,
-  output: __S(10434, __c326, 2) as any as S.Schema<ListApiManagementWorkspaceLinkByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(10464, __c327, 0) as any as S.Schema<ListApiManagementWorkspaceLinkByServiceRequest>,
+  output: __S(10466, __c327, 2) as any as S.Schema<ListApiManagementWorkspaceLinkByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24836,9 +25146,10 @@ export const ListApiOperationByApi: API.PaginatedOperationMethod<
   AzureOpContext,
   OperationContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(10464, __c327, 0) as any as S.Schema<ListApiOperationByApiRequest>,
-  output: __S(10497, __c328, 1) as any as S.Schema<ListApiOperationByApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(10496, __c328, 0) as any as S.Schema<ListApiOperationByApiRequest>,
+  output: __S(10529, __c329, 1) as any as S.Schema<ListApiOperationByApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24859,9 +25170,10 @@ export const ListApiOperationPolicyByOperation: API.OperationMethod<
   ListApiOperationPolicyByOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<ListApiOperationPolicyByOperationRequest>,
-  output: __S(10592, __c331, 0) as any as S.Schema<ListApiOperationPolicyByOperationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(10560, __c330, 0) as any as S.Schema<ListApiOperationPolicyByOperationRequest>,
+  output: __S(10624, __c332, 0) as any as S.Schema<ListApiOperationPolicyByOperationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24876,9 +25188,10 @@ export const ListApiPolicyByApi: API.OperationMethod<
   ListApiPolicyByApiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10624, __c332, 0) as any as S.Schema<ListApiPolicyByApiRequest>,
-  output: __S(10592, __c331, 0) as any as S.Schema<ListApiPolicyByApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(10656, __c333, 0) as any as S.Schema<ListApiPolicyByApiRequest>,
+  output: __S(10624, __c332, 0) as any as S.Schema<ListApiPolicyByApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24894,9 +25207,10 @@ export const ListApiProductByApis: API.PaginatedOperationMethod<
   AzureOpContext,
   ProductContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(10656, __c333, 0) as any as S.Schema<ListApiProductByApisRequest>,
-  output: __S(10689, __c334, 1) as any as S.Schema<ListApiProductByApisResponse>,
-  errors: [UnknownAzureError],
+  input: __S(10688, __c334, 0) as any as S.Schema<ListApiProductByApisRequest>,
+  output: __S(10721, __c335, 1) as any as S.Schema<ListApiProductByApisResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24918,9 +25232,10 @@ export const ListApiReleaseByService: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiReleaseContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(10784, __c337, 0) as any as S.Schema<ListApiReleaseByServiceRequest>,
-  output: __S(10817, __c338, 1) as any as S.Schema<ListApiReleaseByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(10848, __c339, 0) as any as S.Schema<ListApiReleaseByServiceRequest>,
+  output: __S(10881, __c340, 1) as any as S.Schema<ListApiReleaseByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24942,9 +25257,10 @@ export const ListApiRevisionByService: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiRevisionContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(10848, __c339, 0) as any as S.Schema<ListApiRevisionByServiceRequest>,
-  output: __S(10882, __c340, 2) as any as S.Schema<ListApiRevisionByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(10912, __c341, 0) as any as S.Schema<ListApiRevisionByServiceRequest>,
+  output: __S(10946, __c342, 2) as any as S.Schema<ListApiRevisionByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24966,9 +25282,10 @@ export const ListApiSchemaByApi: API.PaginatedOperationMethod<
   AzureOpContext,
   SchemaContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(10912, __c341, 0) as any as S.Schema<ListApiSchemaByApiRequest>,
-  output: __S(10945, __c342, 1) as any as S.Schema<ListApiSchemaByApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(10976, __c343, 0) as any as S.Schema<ListApiSchemaByApiRequest>,
+  output: __S(11009, __c344, 1) as any as S.Schema<ListApiSchemaByApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24990,9 +25307,10 @@ export const ListApiTagDescriptionByService: API.PaginatedOperationMethod<
   AzureOpContext,
   TagDescriptionContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(10976, __c343, 0) as any as S.Schema<ListApiTagDescriptionByServiceRequest>,
-  output: __S(10978, __c343, 2) as any as S.Schema<ListApiTagDescriptionByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11040, __c345, 0) as any as S.Schema<ListApiTagDescriptionByServiceRequest>,
+  output: __S(11042, __c345, 2) as any as S.Schema<ListApiTagDescriptionByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25014,9 +25332,10 @@ export const ListApiVersionSetByService: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiVersionSetContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11008, __c344, 0) as any as S.Schema<ListApiVersionSetByServiceRequest>,
-  output: __S(11041, __c345, 1) as any as S.Schema<ListApiVersionSetByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11072, __c346, 0) as any as S.Schema<ListApiVersionSetByServiceRequest>,
+  output: __S(11105, __c347, 1) as any as S.Schema<ListApiVersionSetByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25038,9 +25357,10 @@ export const ListApiWikis: API.PaginatedOperationMethod<
   AzureOpContext,
   WikiContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11072, __c346, 0) as any as S.Schema<ListApiWikisRequest>,
-  output: __S(11105, __c347, 1) as any as S.Schema<ListApiWikisResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11136, __c348, 0) as any as S.Schema<ListApiWikisRequest>,
+  output: __S(11169, __c349, 1) as any as S.Schema<ListApiWikisResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25063,16 +25383,17 @@ export const ListAuthorizationAccessPolicyByAuthorization: API.PaginatedOperatio
   AuthorizationAccessPolicyContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    11136,
-    __c348,
+    11200,
+    __c350,
     0,
   ) as any as S.Schema<ListAuthorizationAccessPolicyByAuthorizationRequest>,
   output: __S(
-    11138,
-    __c348,
+    11202,
+    __c350,
     2,
   ) as any as S.Schema<ListAuthorizationAccessPolicyByAuthorizationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25094,13 +25415,14 @@ export const ListAuthorizationByAuthorizationProvider: API.PaginatedOperationMet
   AzureOpContext,
   AuthorizationContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11168, __c349, 0) as any as S.Schema<ListAuthorizationByAuthorizationProviderRequest>,
+  input: __S(11232, __c351, 0) as any as S.Schema<ListAuthorizationByAuthorizationProviderRequest>,
   output: __S(
-    11170,
-    __c349,
+    11234,
+    __c351,
     2,
   ) as any as S.Schema<ListAuthorizationByAuthorizationProviderResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25122,9 +25444,10 @@ export const ListAuthorizationProviderByService: API.PaginatedOperationMethod<
   AzureOpContext,
   AuthorizationProviderContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11200, __c350, 0) as any as S.Schema<ListAuthorizationProviderByServiceRequest>,
-  output: __S(11202, __c350, 2) as any as S.Schema<ListAuthorizationProviderByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11264, __c352, 0) as any as S.Schema<ListAuthorizationProviderByServiceRequest>,
+  output: __S(11266, __c352, 2) as any as S.Schema<ListAuthorizationProviderByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25146,9 +25469,10 @@ export const ListAuthorizationServerByService: API.PaginatedOperationMethod<
   AzureOpContext,
   AuthorizationServerContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11232, __c351, 0) as any as S.Schema<ListAuthorizationServerByServiceRequest>,
-  output: __S(11234, __c351, 2) as any as S.Schema<ListAuthorizationServerByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11296, __c353, 0) as any as S.Schema<ListAuthorizationServerByServiceRequest>,
+  output: __S(11298, __c353, 2) as any as S.Schema<ListAuthorizationServerByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25169,9 +25493,10 @@ export const ListAuthorizationServerSecrets: API.OperationMethod<
   ListAuthorizationServerSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11328, __c354, 0) as any as S.Schema<ListAuthorizationServerSecretsRequest>,
-  output: __S(11329, __c354, 1) as any as S.Schema<ListAuthorizationServerSecretsResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11392, __c356, 0) as any as S.Schema<ListAuthorizationServerSecretsRequest>,
+  output: __S(11393, __c356, 1) as any as S.Schema<ListAuthorizationServerSecretsResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25187,9 +25512,10 @@ export const ListBackendByService: API.PaginatedOperationMethod<
   AzureOpContext,
   BackendContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11360, __c355, 0) as any as S.Schema<ListBackendByServiceRequest>,
-  output: __S(11393, __c356, 1) as any as S.Schema<ListBackendByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11424, __c357, 0) as any as S.Schema<ListBackendByServiceRequest>,
+  output: __S(11457, __c358, 1) as any as S.Schema<ListBackendByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25211,9 +25537,10 @@ export const ListCacheByService: API.PaginatedOperationMethod<
   AzureOpContext,
   CacheContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11424, __c357, 0) as any as S.Schema<ListCacheByServiceRequest>,
-  output: __S(11426, __c357, 2) as any as S.Schema<ListCacheByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11488, __c359, 0) as any as S.Schema<ListCacheByServiceRequest>,
+  output: __S(11490, __c359, 2) as any as S.Schema<ListCacheByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25235,9 +25562,10 @@ export const ListCertificateByService: API.PaginatedOperationMethod<
   AzureOpContext,
   CertificateContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11456, __c358, 0) as any as S.Schema<ListCertificateByServiceRequest>,
-  output: __S(11489, __c359, 1) as any as S.Schema<ListCertificateByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11520, __c360, 0) as any as S.Schema<ListCertificateByServiceRequest>,
+  output: __S(11553, __c361, 1) as any as S.Schema<ListCertificateByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25259,9 +25587,10 @@ export const ListContentItemByService: API.PaginatedOperationMethod<
   AzureOpContext,
   ContentItemContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11520, __c360, 0) as any as S.Schema<ListContentItemByServiceRequest>,
-  output: __S(11522, __c360, 2) as any as S.Schema<ListContentItemByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11584, __c362, 0) as any as S.Schema<ListContentItemByServiceRequest>,
+  output: __S(11586, __c362, 2) as any as S.Schema<ListContentItemByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25283,9 +25612,10 @@ export const ListContentTypeByService: API.PaginatedOperationMethod<
   AzureOpContext,
   ContentTypeContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11552, __c361, 0) as any as S.Schema<ListContentTypeByServiceRequest>,
-  output: __S(11554, __c361, 2) as any as S.Schema<ListContentTypeByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11616, __c363, 0) as any as S.Schema<ListContentTypeByServiceRequest>,
+  output: __S(11618, __c363, 2) as any as S.Schema<ListContentTypeByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25307,9 +25637,10 @@ export const ListDeletedServiceBySubscription: API.PaginatedOperationMethod<
   AzureOpContext,
   DeletedServiceContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11584, __c362, 0) as any as S.Schema<ListDeletedServiceBySubscriptionRequest>,
-  output: __S(11586, __c362, 2) as any as S.Schema<ListDeletedServiceBySubscriptionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11648, __c364, 0) as any as S.Schema<ListDeletedServiceBySubscriptionRequest>,
+  output: __S(11650, __c364, 2) as any as S.Schema<ListDeletedServiceBySubscriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25331,9 +25662,10 @@ export const ListDiagnosticByService: API.PaginatedOperationMethod<
   AzureOpContext,
   DiagnosticContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11616, __c363, 0) as any as S.Schema<ListDiagnosticByServiceRequest>,
-  output: __S(9697, __c303, 1) as any as S.Schema<ListDiagnosticByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11680, __c365, 0) as any as S.Schema<ListDiagnosticByServiceRequest>,
+  output: __S(9729, __c304, 1) as any as S.Schema<ListDiagnosticByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25355,9 +25687,10 @@ export const ListDocumentationByService: API.PaginatedOperationMethod<
   AzureOpContext,
   DocumentationContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11648, __c364, 0) as any as S.Schema<ListDocumentationByServiceRequest>,
-  output: __S(11650, __c364, 2) as any as S.Schema<ListDocumentationByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11712, __c366, 0) as any as S.Schema<ListDocumentationByServiceRequest>,
+  output: __S(11714, __c366, 2) as any as S.Schema<ListDocumentationByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25379,9 +25712,10 @@ export const ListEmailTemplateByService: API.PaginatedOperationMethod<
   AzureOpContext,
   EmailTemplateContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11680, __c365, 0) as any as S.Schema<ListEmailTemplateByServiceRequest>,
-  output: __S(11682, __c365, 2) as any as S.Schema<ListEmailTemplateByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11744, __c367, 0) as any as S.Schema<ListEmailTemplateByServiceRequest>,
+  output: __S(11746, __c367, 2) as any as S.Schema<ListEmailTemplateByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25403,9 +25737,10 @@ export const ListGatewayApiByService: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11776, __c368, 0) as any as S.Schema<ListGatewayApiByServiceRequest>,
-  output: __S(9569, __c299, 1) as any as S.Schema<ListGatewayApiByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11840, __c370, 0) as any as S.Schema<ListGatewayApiByServiceRequest>,
+  output: __S(9601, __c300, 1) as any as S.Schema<ListGatewayApiByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25427,9 +25762,10 @@ export const ListGatewayByService: API.PaginatedOperationMethod<
   AzureOpContext,
   GatewayContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11808, __c369, 0) as any as S.Schema<ListGatewayByServiceRequest>,
-  output: __S(11810, __c369, 2) as any as S.Schema<ListGatewayByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11872, __c371, 0) as any as S.Schema<ListGatewayByServiceRequest>,
+  output: __S(11874, __c371, 2) as any as S.Schema<ListGatewayByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25451,13 +25787,14 @@ export const ListGatewayCertificateAuthorityByService: API.PaginatedOperationMet
   AzureOpContext,
   GatewayCertificateAuthorityContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11840, __c370, 0) as any as S.Schema<ListGatewayCertificateAuthorityByServiceRequest>,
+  input: __S(11904, __c372, 0) as any as S.Schema<ListGatewayCertificateAuthorityByServiceRequest>,
   output: __S(
-    11842,
-    __c370,
+    11906,
+    __c372,
     2,
   ) as any as S.Schema<ListGatewayCertificateAuthorityByServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25478,9 +25815,10 @@ export const ListGatewayDebugCredentials: API.OperationMethod<
   ListGatewayDebugCredentialsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11872, __c371, 0) as any as S.Schema<ListGatewayDebugCredentialsRequest>,
-  output: __S(11873, __c371, 1) as any as S.Schema<ListGatewayDebugCredentialsResponse>,
-  errors: [UnknownAzureError],
+  input: __S(11936, __c373, 0) as any as S.Schema<ListGatewayDebugCredentialsRequest>,
+  output: __S(11937, __c373, 1) as any as S.Schema<ListGatewayDebugCredentialsResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25496,13 +25834,14 @@ export const ListGatewayHostnameConfigurationByService: API.PaginatedOperationMe
   AzureOpContext,
   GatewayHostnameConfigurationContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(11904, __c372, 0) as any as S.Schema<ListGatewayHostnameConfigurationByServiceRequest>,
+  input: __S(11968, __c374, 0) as any as S.Schema<ListGatewayHostnameConfigurationByServiceRequest>,
   output: __S(
-    11906,
-    __c372,
+    11970,
+    __c374,
     2,
   ) as any as S.Schema<ListGatewayHostnameConfigurationByServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25523,9 +25862,10 @@ export const ListGatewayKeys: API.OperationMethod<
   ListGatewayKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11936, __c373, 0) as any as S.Schema<ListGatewayKeysRequest>,
-  output: __S(11937, __c373, 1) as any as S.Schema<ListGatewayKeysResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12000, __c375, 0) as any as S.Schema<ListGatewayKeysRequest>,
+  output: __S(12001, __c375, 1) as any as S.Schema<ListGatewayKeysResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25540,9 +25880,10 @@ export const ListGatewayTrace: API.OperationMethod<
   ListGatewayTraceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11968, __c374, 0) as any as S.Schema<ListGatewayTraceRequest>,
-  output: __S(11969, __c374, 1) as any as S.Schema<ListGatewayTraceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12032, __c376, 0) as any as S.Schema<ListGatewayTraceRequest>,
+  output: __S(12033, __c376, 1) as any as S.Schema<ListGatewayTraceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25558,9 +25899,10 @@ export const ListGlobalSchemaByService: API.PaginatedOperationMethod<
   AzureOpContext,
   GlobalSchemaContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(12000, __c375, 0) as any as S.Schema<ListGlobalSchemaByServiceRequest>,
-  output: __S(12033, __c376, 1) as any as S.Schema<ListGlobalSchemaByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12064, __c377, 0) as any as S.Schema<ListGlobalSchemaByServiceRequest>,
+  output: __S(12097, __c378, 1) as any as S.Schema<ListGlobalSchemaByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25582,9 +25924,10 @@ export const ListGraphQLApiResolverByApi: API.PaginatedOperationMethod<
   AzureOpContext,
   ResolverContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(12064, __c377, 0) as any as S.Schema<ListGraphQLApiResolverByApiRequest>,
-  output: __S(12066, __c377, 2) as any as S.Schema<ListGraphQLApiResolverByApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12128, __c379, 0) as any as S.Schema<ListGraphQLApiResolverByApiRequest>,
+  output: __S(12130, __c379, 2) as any as S.Schema<ListGraphQLApiResolverByApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25606,9 +25949,10 @@ export const ListGraphQLApiResolverPolicyByResolver: API.PaginatedOperationMetho
   AzureOpContext,
   PolicyContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(12096, __c378, 0) as any as S.Schema<ListGraphQLApiResolverPolicyByResolverRequest>,
-  output: __S(12128, __c379, 0) as any as S.Schema<ListGraphQLApiResolverPolicyByResolverResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12160, __c380, 0) as any as S.Schema<ListGraphQLApiResolverPolicyByResolverRequest>,
+  output: __S(12192, __c381, 0) as any as S.Schema<ListGraphQLApiResolverPolicyByResolverResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25630,9 +25974,10 @@ export const ListGroupByService: API.PaginatedOperationMethod<
   AzureOpContext,
   GroupContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(12192, __c381, 0) as any as S.Schema<ListGroupByServiceRequest>,
-  output: __S(12225, __c382, 1) as any as S.Schema<ListGroupByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12256, __c383, 0) as any as S.Schema<ListGroupByServiceRequest>,
+  output: __S(12289, __c384, 1) as any as S.Schema<ListGroupByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25654,9 +25999,10 @@ export const ListGroupUser: API.PaginatedOperationMethod<
   AzureOpContext,
   UserContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(12256, __c383, 0) as any as S.Schema<ListGroupUserRequest>,
-  output: __S(12289, __c384, 1) as any as S.Schema<ListGroupUserResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12320, __c385, 0) as any as S.Schema<ListGroupUserRequest>,
+  output: __S(12353, __c386, 1) as any as S.Schema<ListGroupUserResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25678,9 +26024,10 @@ export const ListIdentityProviderByService: API.PaginatedOperationMethod<
   AzureOpContext,
   IdentityProviderContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(12320, __c385, 0) as any as S.Schema<ListIdentityProviderByServiceRequest>,
-  output: __S(12322, __c385, 2) as any as S.Schema<ListIdentityProviderByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12384, __c387, 0) as any as S.Schema<ListIdentityProviderByServiceRequest>,
+  output: __S(12386, __c387, 2) as any as S.Schema<ListIdentityProviderByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25701,9 +26048,10 @@ export const ListIdentityProviderSecrets: API.OperationMethod<
   ListIdentityProviderSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12352, __c386, 0) as any as S.Schema<ListIdentityProviderSecretsRequest>,
-  output: __S(12384, __c387, 0) as any as S.Schema<ListIdentityProviderSecretsResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12416, __c388, 0) as any as S.Schema<ListIdentityProviderSecretsRequest>,
+  output: __S(12448, __c389, 0) as any as S.Schema<ListIdentityProviderSecretsResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25719,9 +26067,10 @@ export const ListIssueByService: API.PaginatedOperationMethod<
   AzureOpContext,
   IssueContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(12416, __c388, 0) as any as S.Schema<ListIssueByServiceRequest>,
-  output: __S(9921, __c310, 1) as any as S.Schema<ListIssueByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12480, __c390, 0) as any as S.Schema<ListIssueByServiceRequest>,
+  output: __S(9953, __c311, 1) as any as S.Schema<ListIssueByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25743,9 +26092,10 @@ export const ListLoggerByService: API.PaginatedOperationMethod<
   AzureOpContext,
   LoggerContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(12448, __c389, 0) as any as S.Schema<ListLoggerByServiceRequest>,
-  output: __S(12481, __c390, 1) as any as S.Schema<ListLoggerByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12512, __c391, 0) as any as S.Schema<ListLoggerByServiceRequest>,
+  output: __S(12545, __c392, 1) as any as S.Schema<ListLoggerByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25767,9 +26117,10 @@ export const ListNamedValueByService: API.PaginatedOperationMethod<
   AzureOpContext,
   NamedValueContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(12512, __c391, 0) as any as S.Schema<ListNamedValueByServiceRequest>,
-  output: __S(12545, __c392, 1) as any as S.Schema<ListNamedValueByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12576, __c393, 0) as any as S.Schema<ListNamedValueByServiceRequest>,
+  output: __S(12609, __c394, 1) as any as S.Schema<ListNamedValueByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25790,9 +26141,10 @@ export const ListNamedValueValue: API.OperationMethod<
   ListNamedValueValueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12576, __c393, 0) as any as S.Schema<ListNamedValueValueRequest>,
-  output: __S(3008, __c94, 0) as any as S.Schema<ListNamedValueValueResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12640, __c395, 0) as any as S.Schema<ListNamedValueValueRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<ListNamedValueValueResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25807,9 +26159,10 @@ export const ListNetworkStatusByLocation: API.OperationMethod<
   ListNetworkStatusByLocationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12608, __c394, 0) as any as S.Schema<ListNetworkStatusByLocationRequest>,
-  output: __S(12642, __c395, 2) as any as S.Schema<NetworkStatusContract>,
-  errors: [UnknownAzureError],
+  input: __S(12672, __c396, 0) as any as S.Schema<ListNetworkStatusByLocationRequest>,
+  output: __S(12706, __c397, 2) as any as S.Schema<NetworkStatusContract>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25824,9 +26177,10 @@ export const ListNetworkStatusByService: API.OperationMethod<
   ListNetworkStatusByServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12672, __c396, 0) as any as S.Schema<ListNetworkStatusByServiceRequest>,
-  output: __S(12675, __c396, 3) as any as S.Schema<ListNetworkStatusByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12736, __c398, 0) as any as S.Schema<ListNetworkStatusByServiceRequest>,
+  output: __S(12739, __c398, 3) as any as S.Schema<ListNetworkStatusByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25842,9 +26196,10 @@ export const ListNotificationByService: API.PaginatedOperationMethod<
   AzureOpContext,
   NotificationContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(12768, __c399, 0) as any as S.Schema<ListNotificationByServiceRequest>,
-  output: __S(12801, __c400, 1) as any as S.Schema<ListNotificationByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(12832, __c401, 0) as any as S.Schema<ListNotificationByServiceRequest>,
+  output: __S(12865, __c402, 1) as any as S.Schema<ListNotificationByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25866,16 +26221,17 @@ export const ListNotificationRecipientEmailByNotification: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12832,
-    __c401,
+    12896,
+    __c403,
     0,
   ) as any as S.Schema<ListNotificationRecipientEmailByNotificationRequest>,
   output: __S(
-    12865,
-    __c402,
+    12929,
+    __c404,
     1,
   ) as any as S.Schema<ListNotificationRecipientEmailByNotificationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25891,16 +26247,17 @@ export const ListNotificationRecipientUserByNotification: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12928,
-    __c404,
+    12992,
+    __c406,
     0,
   ) as any as S.Schema<ListNotificationRecipientUserByNotificationRequest>,
   output: __S(
-    12961,
-    __c405,
+    13025,
+    __c407,
     1,
   ) as any as S.Schema<ListNotificationRecipientUserByNotificationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25916,9 +26273,10 @@ export const ListOpenIdConnectProviderByService: API.PaginatedOperationMethod<
   AzureOpContext,
   OpenidConnectProviderContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13024, __c407, 0) as any as S.Schema<ListOpenIdConnectProviderByServiceRequest>,
-  output: __S(13026, __c407, 2) as any as S.Schema<ListOpenIdConnectProviderByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13088, __c409, 0) as any as S.Schema<ListOpenIdConnectProviderByServiceRequest>,
+  output: __S(13090, __c409, 2) as any as S.Schema<ListOpenIdConnectProviderByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25939,9 +26297,10 @@ export const ListOpenIdConnectProviderSecrets: API.OperationMethod<
   ListOpenIdConnectProviderSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13056, __c408, 0) as any as S.Schema<ListOpenIdConnectProviderSecretsRequest>,
-  output: __S(12384, __c387, 0) as any as S.Schema<ListOpenIdConnectProviderSecretsResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13120, __c410, 0) as any as S.Schema<ListOpenIdConnectProviderSecretsRequest>,
+  output: __S(12448, __c389, 0) as any as S.Schema<ListOpenIdConnectProviderSecretsResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25957,9 +26316,10 @@ export const ListOperationByTags: API.PaginatedOperationMethod<
   AzureOpContext,
   TagResourceContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13088, __c409, 0) as any as S.Schema<ListOperationByTagsRequest>,
-  output: __S(9638, __c301, 6) as any as S.Schema<ListOperationByTagsResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13152, __c411, 0) as any as S.Schema<ListOperationByTagsRequest>,
+  output: __S(9670, __c302, 6) as any as S.Schema<ListOperationByTagsResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25981,9 +26341,10 @@ export const ListOperations: API.PaginatedOperationMethod<
   AzureOpContext,
   Operation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13120, __c410, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(13124, __c410, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13184, __c412, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(13188, __c412, 4) as any as S.Schema<ListOperationsResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26005,12 +26366,13 @@ export const ListOutboundNetworkDependenciesEndpointByService: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13152,
-    __c411,
+    13216,
+    __c413,
     0,
   ) as any as S.Schema<ListOutboundNetworkDependenciesEndpointByServiceRequest>,
-  output: __S(13159, __c411, 7) as any as S.Schema<OutboundEnvironmentEndpointList>,
-  errors: [UnknownAzureError],
+  output: __S(13223, __c413, 7) as any as S.Schema<OutboundEnvironmentEndpointList>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26026,9 +26388,10 @@ export const ListPolicyByService: API.PaginatedOperationMethod<
   AzureOpContext,
   PolicyContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13184, __c412, 0) as any as S.Schema<ListPolicyByServiceRequest>,
-  output: __S(12128, __c379, 0) as any as S.Schema<ListPolicyByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13248, __c414, 0) as any as S.Schema<ListPolicyByServiceRequest>,
+  output: __S(12192, __c381, 0) as any as S.Schema<ListPolicyByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26049,9 +26412,10 @@ export const ListPolicyDescriptionByService: API.OperationMethod<
   ListPolicyDescriptionByServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13216, __c413, 0) as any as S.Schema<ListPolicyDescriptionByServiceRequest>,
-  output: __S(13220, __c413, 4) as any as S.Schema<ListPolicyDescriptionByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13280, __c415, 0) as any as S.Schema<ListPolicyDescriptionByServiceRequest>,
+  output: __S(13284, __c415, 4) as any as S.Schema<ListPolicyDescriptionByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26067,9 +26431,10 @@ export const ListPolicyFragmentByService: API.PaginatedOperationMethod<
   AzureOpContext,
   PolicyFragmentContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13408, __c419, 0) as any as S.Schema<ListPolicyFragmentByServiceRequest>,
-  output: __S(13441, __c420, 1) as any as S.Schema<ListPolicyFragmentByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13472, __c421, 0) as any as S.Schema<ListPolicyFragmentByServiceRequest>,
+  output: __S(13505, __c422, 1) as any as S.Schema<ListPolicyFragmentByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26090,9 +26455,10 @@ export const ListPolicyFragmentReferences: API.OperationMethod<
   ListPolicyFragmentReferencesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13472, __c421, 0) as any as S.Schema<ListPolicyFragmentReferencesRequest>,
-  output: __S(13506, __c422, 2) as any as S.Schema<ListPolicyFragmentReferencesResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13536, __c423, 0) as any as S.Schema<ListPolicyFragmentReferencesRequest>,
+  output: __S(13570, __c424, 2) as any as S.Schema<ListPolicyFragmentReferencesResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26108,9 +26474,10 @@ export const ListPolicyRestrictionByService: API.PaginatedOperationMethod<
   AzureOpContext,
   PolicyRestrictionContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13536, __c423, 0) as any as S.Schema<ListPolicyRestrictionByServiceRequest>,
-  output: __S(13538, __c423, 2) as any as S.Schema<ListPolicyRestrictionByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13600, __c425, 0) as any as S.Schema<ListPolicyRestrictionByServiceRequest>,
+  output: __S(13602, __c425, 2) as any as S.Schema<ListPolicyRestrictionByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26132,9 +26499,10 @@ export const ListPortalConfigByService: API.PaginatedOperationMethod<
   AzureOpContext,
   PortalConfigContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13568, __c424, 0) as any as S.Schema<ListPortalConfigByServiceRequest>,
-  output: __S(13570, __c424, 2) as any as S.Schema<ListPortalConfigByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13632, __c426, 0) as any as S.Schema<ListPortalConfigByServiceRequest>,
+  output: __S(13634, __c426, 2) as any as S.Schema<ListPortalConfigByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26156,9 +26524,10 @@ export const ListPortalRevisionByService: API.PaginatedOperationMethod<
   AzureOpContext,
   PortalRevisionContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13600, __c425, 0) as any as S.Schema<ListPortalRevisionByServiceRequest>,
-  output: __S(13602, __c425, 2) as any as S.Schema<ListPortalRevisionByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13664, __c427, 0) as any as S.Schema<ListPortalRevisionByServiceRequest>,
+  output: __S(13666, __c427, 2) as any as S.Schema<ListPortalRevisionByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26180,9 +26549,10 @@ export const ListPrivateEndpointConnectionByService: API.PaginatedOperationMetho
   AzureOpContext,
   PrivateEndpointConnection
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13632, __c426, 0) as any as S.Schema<ListPrivateEndpointConnectionByServiceRequest>,
-  output: __S(13634, __c426, 2) as any as S.Schema<ListPrivateEndpointConnectionByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13696, __c428, 0) as any as S.Schema<ListPrivateEndpointConnectionByServiceRequest>,
+  output: __S(13698, __c428, 2) as any as S.Schema<ListPrivateEndpointConnectionByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26199,16 +26569,17 @@ export const ListPrivateEndpointConnectionPrivateLinkResources: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    13664,
-    __c427,
+    13728,
+    __c429,
     0,
   ) as any as S.Schema<ListPrivateEndpointConnectionPrivateLinkResourcesRequest>,
   output: __S(
-    13666,
-    __c427,
+    13730,
+    __c429,
     2,
   ) as any as S.Schema<ListPrivateEndpointConnectionPrivateLinkResourcesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26224,9 +26595,10 @@ export const ListProductApiByProduct: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13696, __c428, 0) as any as S.Schema<ListProductApiByProductRequest>,
-  output: __S(9569, __c299, 1) as any as S.Schema<ListProductApiByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13760, __c430, 0) as any as S.Schema<ListProductApiByProductRequest>,
+  output: __S(9601, __c300, 1) as any as S.Schema<ListProductApiByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26248,9 +26620,10 @@ export const ListProductApiLinkByProduct: API.PaginatedOperationMethod<
   AzureOpContext,
   ProductApiLinkContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13728, __c429, 0) as any as S.Schema<ListProductApiLinkByProductRequest>,
-  output: __S(13761, __c430, 1) as any as S.Schema<ListProductApiLinkByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13792, __c431, 0) as any as S.Schema<ListProductApiLinkByProductRequest>,
+  output: __S(13825, __c432, 1) as any as S.Schema<ListProductApiLinkByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26272,9 +26645,10 @@ export const ListProductByService: API.PaginatedOperationMethod<
   AzureOpContext,
   ProductContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13792, __c431, 0) as any as S.Schema<ListProductByServiceRequest>,
-  output: __S(10689, __c334, 1) as any as S.Schema<ListProductByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13856, __c433, 0) as any as S.Schema<ListProductByServiceRequest>,
+  output: __S(10721, __c335, 1) as any as S.Schema<ListProductByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26296,9 +26670,10 @@ export const ListProductByTags: API.PaginatedOperationMethod<
   AzureOpContext,
   TagResourceContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13856, __c433, 0) as any as S.Schema<ListProductByTagsRequest>,
-  output: __S(9638, __c301, 6) as any as S.Schema<ListProductByTagsResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13920, __c435, 0) as any as S.Schema<ListProductByTagsRequest>,
+  output: __S(9670, __c302, 6) as any as S.Schema<ListProductByTagsResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26320,9 +26695,10 @@ export const ListProductGroupByProduct: API.PaginatedOperationMethod<
   AzureOpContext,
   GroupContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13888, __c434, 0) as any as S.Schema<ListProductGroupByProductRequest>,
-  output: __S(12225, __c382, 1) as any as S.Schema<ListProductGroupByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13952, __c436, 0) as any as S.Schema<ListProductGroupByProductRequest>,
+  output: __S(12289, __c384, 1) as any as S.Schema<ListProductGroupByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26344,9 +26720,10 @@ export const ListProductGroupLinkByProduct: API.PaginatedOperationMethod<
   AzureOpContext,
   ProductGroupLinkContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13920, __c435, 0) as any as S.Schema<ListProductGroupLinkByProductRequest>,
-  output: __S(13953, __c436, 1) as any as S.Schema<ListProductGroupLinkByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(13984, __c437, 0) as any as S.Schema<ListProductGroupLinkByProductRequest>,
+  output: __S(14017, __c438, 1) as any as S.Schema<ListProductGroupLinkByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26368,9 +26745,10 @@ export const ListProductPolicyByProduct: API.PaginatedOperationMethod<
   AzureOpContext,
   PolicyContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(13984, __c437, 0) as any as S.Schema<ListProductPolicyByProductRequest>,
-  output: __S(12128, __c379, 0) as any as S.Schema<ListProductPolicyByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14048, __c439, 0) as any as S.Schema<ListProductPolicyByProductRequest>,
+  output: __S(12192, __c381, 0) as any as S.Schema<ListProductPolicyByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26392,9 +26770,10 @@ export const ListProductSubscriptions: API.PaginatedOperationMethod<
   AzureOpContext,
   SubscriptionContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14016, __c438, 0) as any as S.Schema<ListProductSubscriptionsRequest>,
-  output: __S(14049, __c439, 1) as any as S.Schema<ListProductSubscriptionsResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14080, __c440, 0) as any as S.Schema<ListProductSubscriptionsRequest>,
+  output: __S(14113, __c441, 1) as any as S.Schema<ListProductSubscriptionsResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26416,9 +26795,10 @@ export const ListProductWikis: API.PaginatedOperationMethod<
   AzureOpContext,
   WikiContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14080, __c440, 0) as any as S.Schema<ListProductWikisRequest>,
-  output: __S(11105, __c347, 1) as any as S.Schema<ListProductWikisResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14144, __c442, 0) as any as S.Schema<ListProductWikisRequest>,
+  output: __S(11169, __c349, 1) as any as S.Schema<ListProductWikisResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26439,9 +26819,10 @@ export const ListQuotaByCounterKeyByService: API.OperationMethod<
   ListQuotaByCounterKeyByServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14112, __c441, 0) as any as S.Schema<ListQuotaByCounterKeyByServiceRequest>,
-  output: __S(14145, __c442, 1) as any as S.Schema<ListQuotaByCounterKeyByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14176, __c443, 0) as any as S.Schema<ListQuotaByCounterKeyByServiceRequest>,
+  output: __S(14209, __c444, 1) as any as S.Schema<ListQuotaByCounterKeyByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26457,9 +26838,10 @@ export const ListRegionByService: API.PaginatedOperationMethod<
   AzureOpContext,
   RegionContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14176, __c443, 0) as any as S.Schema<ListRegionByServiceRequest>,
-  output: __S(14179, __c443, 3) as any as S.Schema<ListRegionByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14240, __c445, 0) as any as S.Schema<ListRegionByServiceRequest>,
+  output: __S(14243, __c445, 3) as any as S.Schema<ListRegionByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26481,9 +26863,10 @@ export const ListReportByApi: API.PaginatedOperationMethod<
   AzureOpContext,
   ReportRecordContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14208, __c444, 0) as any as S.Schema<ListReportByApiRequest>,
-  output: __S(14242, __c445, 2) as any as S.Schema<ListReportByApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14272, __c446, 0) as any as S.Schema<ListReportByApiRequest>,
+  output: __S(14306, __c447, 2) as any as S.Schema<ListReportByApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26505,9 +26888,10 @@ export const ListReportByGeo: API.PaginatedOperationMethod<
   AzureOpContext,
   ReportRecordContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14272, __c446, 0) as any as S.Schema<ListReportByGeoRequest>,
-  output: __S(14242, __c445, 2) as any as S.Schema<ListReportByGeoResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14336, __c448, 0) as any as S.Schema<ListReportByGeoRequest>,
+  output: __S(14306, __c447, 2) as any as S.Schema<ListReportByGeoResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26529,9 +26913,10 @@ export const ListReportByOperation: API.PaginatedOperationMethod<
   AzureOpContext,
   ReportRecordContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14336, __c448, 0) as any as S.Schema<ListReportByOperationRequest>,
-  output: __S(14242, __c445, 2) as any as S.Schema<ListReportByOperationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14400, __c450, 0) as any as S.Schema<ListReportByOperationRequest>,
+  output: __S(14306, __c447, 2) as any as S.Schema<ListReportByOperationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26553,9 +26938,10 @@ export const ListReportByProduct: API.PaginatedOperationMethod<
   AzureOpContext,
   ReportRecordContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14368, __c449, 0) as any as S.Schema<ListReportByProductRequest>,
-  output: __S(14242, __c445, 2) as any as S.Schema<ListReportByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14432, __c451, 0) as any as S.Schema<ListReportByProductRequest>,
+  output: __S(14306, __c447, 2) as any as S.Schema<ListReportByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26577,9 +26963,10 @@ export const ListReportByRequest: API.PaginatedOperationMethod<
   AzureOpContext,
   RequestReportRecordContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14400, __c450, 0) as any as S.Schema<ListReportByRequestRequest>,
-  output: __S(14403, __c450, 3) as any as S.Schema<ListReportByRequestResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14464, __c452, 0) as any as S.Schema<ListReportByRequestRequest>,
+  output: __S(14467, __c452, 3) as any as S.Schema<ListReportByRequestResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26596,9 +26983,10 @@ export const ListReportBySubscription: API.PaginatedOperationMethod<
   AzureOpContext,
   ReportRecordContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14432, __c451, 0) as any as S.Schema<ListReportBySubscriptionRequest>,
-  output: __S(14242, __c445, 2) as any as S.Schema<ListReportBySubscriptionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14496, __c453, 0) as any as S.Schema<ListReportBySubscriptionRequest>,
+  output: __S(14306, __c447, 2) as any as S.Schema<ListReportBySubscriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26620,9 +27008,10 @@ export const ListReportByTime: API.PaginatedOperationMethod<
   AzureOpContext,
   ReportRecordContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14464, __c452, 0) as any as S.Schema<ListReportByTimeRequest>,
-  output: __S(14242, __c445, 2) as any as S.Schema<ListReportByTimeResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14528, __c454, 0) as any as S.Schema<ListReportByTimeRequest>,
+  output: __S(14306, __c447, 2) as any as S.Schema<ListReportByTimeResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26644,9 +27033,10 @@ export const ListReportByUser: API.PaginatedOperationMethod<
   AzureOpContext,
   ReportRecordContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14496, __c453, 0) as any as S.Schema<ListReportByUserRequest>,
-  output: __S(14242, __c445, 2) as any as S.Schema<ListReportByUserResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14560, __c455, 0) as any as S.Schema<ListReportByUserRequest>,
+  output: __S(14306, __c447, 2) as any as S.Schema<ListReportByUserResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26668,9 +27058,10 @@ export const ListSubscription: API.PaginatedOperationMethod<
   AzureOpContext,
   SubscriptionContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14528, __c454, 0) as any as S.Schema<ListSubscriptionRequest>,
-  output: __S(14049, __c439, 1) as any as S.Schema<ListSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14592, __c456, 0) as any as S.Schema<ListSubscriptionRequest>,
+  output: __S(14113, __c441, 1) as any as S.Schema<ListSubscriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26691,9 +27082,10 @@ export const ListSubscriptionSecrets: API.OperationMethod<
   ListSubscriptionSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14560, __c455, 0) as any as S.Schema<ListSubscriptionSecretsRequest>,
-  output: __S(14592, __c456, 0) as any as S.Schema<ListSubscriptionSecretsResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14624, __c457, 0) as any as S.Schema<ListSubscriptionSecretsRequest>,
+  output: __S(14656, __c458, 0) as any as S.Schema<ListSubscriptionSecretsResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26709,9 +27101,10 @@ export const ListTagApiLinkByProduct: API.PaginatedOperationMethod<
   AzureOpContext,
   TagApiLinkContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14624, __c457, 0) as any as S.Schema<ListTagApiLinkByProductRequest>,
-  output: __S(13761, __c430, 1) as any as S.Schema<ListTagApiLinkByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14688, __c459, 0) as any as S.Schema<ListTagApiLinkByProductRequest>,
+  output: __S(13825, __c432, 1) as any as S.Schema<ListTagApiLinkByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26733,9 +27126,10 @@ export const ListTagByApi: API.PaginatedOperationMethod<
   AzureOpContext,
   TagContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14656, __c458, 0) as any as S.Schema<ListTagByApiRequest>,
-  output: __S(14689, __c459, 1) as any as S.Schema<ListTagByApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14720, __c460, 0) as any as S.Schema<ListTagByApiRequest>,
+  output: __S(14753, __c461, 1) as any as S.Schema<ListTagByApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26757,9 +27151,10 @@ export const ListTagByOperation: API.PaginatedOperationMethod<
   AzureOpContext,
   TagContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14752, __c461, 0) as any as S.Schema<ListTagByOperationRequest>,
-  output: __S(14689, __c459, 1) as any as S.Schema<ListTagByOperationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14816, __c463, 0) as any as S.Schema<ListTagByOperationRequest>,
+  output: __S(14753, __c461, 1) as any as S.Schema<ListTagByOperationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26781,9 +27176,10 @@ export const ListTagByProduct: API.PaginatedOperationMethod<
   AzureOpContext,
   TagContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14784, __c462, 0) as any as S.Schema<ListTagByProductRequest>,
-  output: __S(14689, __c459, 1) as any as S.Schema<ListTagByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14848, __c464, 0) as any as S.Schema<ListTagByProductRequest>,
+  output: __S(14753, __c461, 1) as any as S.Schema<ListTagByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26805,9 +27201,10 @@ export const ListTagByService: API.PaginatedOperationMethod<
   AzureOpContext,
   TagContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14816, __c463, 0) as any as S.Schema<ListTagByServiceRequest>,
-  output: __S(14689, __c459, 1) as any as S.Schema<ListTagByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14880, __c465, 0) as any as S.Schema<ListTagByServiceRequest>,
+  output: __S(14753, __c461, 1) as any as S.Schema<ListTagByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26829,9 +27226,10 @@ export const ListTagOperationLinkByProduct: API.PaginatedOperationMethod<
   AzureOpContext,
   TagOperationLinkContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14848, __c464, 0) as any as S.Schema<ListTagOperationLinkByProductRequest>,
-  output: __S(14881, __c465, 1) as any as S.Schema<ListTagOperationLinkByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14912, __c466, 0) as any as S.Schema<ListTagOperationLinkByProductRequest>,
+  output: __S(14945, __c467, 1) as any as S.Schema<ListTagOperationLinkByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26853,9 +27251,10 @@ export const ListTagProductLinkByProduct: API.PaginatedOperationMethod<
   AzureOpContext,
   TagProductLinkContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14912, __c466, 0) as any as S.Schema<ListTagProductLinkByProductRequest>,
-  output: __S(14945, __c467, 1) as any as S.Schema<ListTagProductLinkByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(14976, __c468, 0) as any as S.Schema<ListTagProductLinkByProductRequest>,
+  output: __S(15009, __c469, 1) as any as S.Schema<ListTagProductLinkByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26877,9 +27276,10 @@ export const ListTagResourceByService: API.PaginatedOperationMethod<
   AzureOpContext,
   TagResourceContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(14976, __c468, 0) as any as S.Schema<ListTagResourceByServiceRequest>,
-  output: __S(9638, __c301, 6) as any as S.Schema<ListTagResourceByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15040, __c470, 0) as any as S.Schema<ListTagResourceByServiceRequest>,
+  output: __S(9670, __c302, 6) as any as S.Schema<ListTagResourceByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26901,9 +27301,10 @@ export const ListTenantAccessByService: API.PaginatedOperationMethod<
   AzureOpContext,
   AccessInformationContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15008, __c469, 0) as any as S.Schema<ListTenantAccessByServiceRequest>,
-  output: __S(15010, __c469, 2) as any as S.Schema<ListTenantAccessByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15072, __c471, 0) as any as S.Schema<ListTenantAccessByServiceRequest>,
+  output: __S(15074, __c471, 2) as any as S.Schema<ListTenantAccessByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26924,9 +27325,10 @@ export const ListTenantAccessSecrets: API.OperationMethod<
   ListTenantAccessSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15040, __c470, 0) as any as S.Schema<ListTenantAccessSecretsRequest>,
-  output: __S(15041, __c470, 1) as any as S.Schema<ListTenantAccessSecretsResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15104, __c472, 0) as any as S.Schema<ListTenantAccessSecretsRequest>,
+  output: __S(15105, __c472, 1) as any as S.Schema<ListTenantAccessSecretsResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26942,9 +27344,10 @@ export const ListUserByService: API.PaginatedOperationMethod<
   AzureOpContext,
   UserContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15072, __c471, 0) as any as S.Schema<ListUserByServiceRequest>,
-  output: __S(12289, __c384, 1) as any as S.Schema<ListUserByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15136, __c473, 0) as any as S.Schema<ListUserByServiceRequest>,
+  output: __S(12353, __c386, 1) as any as S.Schema<ListUserByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26966,9 +27369,10 @@ export const ListUserGroup: API.PaginatedOperationMethod<
   AzureOpContext,
   GroupContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15104, __c472, 0) as any as S.Schema<ListUserGroupRequest>,
-  output: __S(12225, __c382, 1) as any as S.Schema<ListUserGroupResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15168, __c474, 0) as any as S.Schema<ListUserGroupRequest>,
+  output: __S(12289, __c384, 1) as any as S.Schema<ListUserGroupResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26990,9 +27394,10 @@ export const ListUserIdentities: API.PaginatedOperationMethod<
   AzureOpContext,
   UserIdentityContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15424, __c482, 0) as any as S.Schema<ListUserIdentitiesRequest>,
-  output: __S(15425, __c482, 1) as any as S.Schema<ListUserIdentitiesResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15488, __c484, 0) as any as S.Schema<ListUserIdentitiesRequest>,
+  output: __S(15489, __c484, 1) as any as S.Schema<ListUserIdentitiesResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27014,9 +27419,10 @@ export const ListUserSubscription: API.PaginatedOperationMethod<
   AzureOpContext,
   SubscriptionContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15456, __c483, 0) as any as S.Schema<ListUserSubscriptionRequest>,
-  output: __S(14049, __c439, 1) as any as S.Schema<ListUserSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15520, __c485, 0) as any as S.Schema<ListUserSubscriptionRequest>,
+  output: __S(14113, __c441, 1) as any as S.Schema<ListUserSubscriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27038,9 +27444,10 @@ export const ListWorkspaceApiByService: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15488, __c484, 0) as any as S.Schema<ListWorkspaceApiByServiceRequest>,
-  output: __S(9569, __c299, 1) as any as S.Schema<ListWorkspaceApiByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15552, __c486, 0) as any as S.Schema<ListWorkspaceApiByServiceRequest>,
+  output: __S(9601, __c300, 1) as any as S.Schema<ListWorkspaceApiByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27062,9 +27469,10 @@ export const ListWorkspaceApiDiagnosticByWorkspace: API.PaginatedOperationMethod
   AzureOpContext,
   DiagnosticContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15520, __c485, 0) as any as S.Schema<ListWorkspaceApiDiagnosticByWorkspaceRequest>,
-  output: __S(9697, __c303, 1) as any as S.Schema<ListWorkspaceApiDiagnosticByWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15584, __c487, 0) as any as S.Schema<ListWorkspaceApiDiagnosticByWorkspaceRequest>,
+  output: __S(9729, __c304, 1) as any as S.Schema<ListWorkspaceApiDiagnosticByWorkspaceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27086,9 +27494,10 @@ export const ListWorkspaceApiOperationByApi: API.PaginatedOperationMethod<
   AzureOpContext,
   OperationContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15552, __c486, 0) as any as S.Schema<ListWorkspaceApiOperationByApiRequest>,
-  output: __S(10497, __c328, 1) as any as S.Schema<ListWorkspaceApiOperationByApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15616, __c488, 0) as any as S.Schema<ListWorkspaceApiOperationByApiRequest>,
+  output: __S(10529, __c329, 1) as any as S.Schema<ListWorkspaceApiOperationByApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27111,16 +27520,17 @@ export const ListWorkspaceApiOperationPolicyByOperation: API.PaginatedOperationM
   PolicyContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    15584,
-    __c487,
+    15648,
+    __c489,
     0,
   ) as any as S.Schema<ListWorkspaceApiOperationPolicyByOperationRequest>,
   output: __S(
-    12128,
-    __c379,
+    12192,
+    __c381,
     0,
   ) as any as S.Schema<ListWorkspaceApiOperationPolicyByOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27142,9 +27552,10 @@ export const ListWorkspaceApiPolicyByApi: API.PaginatedOperationMethod<
   AzureOpContext,
   PolicyContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15616, __c488, 0) as any as S.Schema<ListWorkspaceApiPolicyByApiRequest>,
-  output: __S(12128, __c379, 0) as any as S.Schema<ListWorkspaceApiPolicyByApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15680, __c490, 0) as any as S.Schema<ListWorkspaceApiPolicyByApiRequest>,
+  output: __S(12192, __c381, 0) as any as S.Schema<ListWorkspaceApiPolicyByApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27166,9 +27577,10 @@ export const ListWorkspaceApiReleaseByService: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiReleaseContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15648, __c489, 0) as any as S.Schema<ListWorkspaceApiReleaseByServiceRequest>,
-  output: __S(10817, __c338, 1) as any as S.Schema<ListWorkspaceApiReleaseByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15712, __c491, 0) as any as S.Schema<ListWorkspaceApiReleaseByServiceRequest>,
+  output: __S(10881, __c340, 1) as any as S.Schema<ListWorkspaceApiReleaseByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27190,9 +27602,10 @@ export const ListWorkspaceApiRevisionByService: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiRevisionContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15680, __c490, 0) as any as S.Schema<ListWorkspaceApiRevisionByServiceRequest>,
-  output: __S(10882, __c340, 2) as any as S.Schema<ListWorkspaceApiRevisionByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15744, __c492, 0) as any as S.Schema<ListWorkspaceApiRevisionByServiceRequest>,
+  output: __S(10946, __c342, 2) as any as S.Schema<ListWorkspaceApiRevisionByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27214,9 +27627,10 @@ export const ListWorkspaceApiSchemaByApi: API.PaginatedOperationMethod<
   AzureOpContext,
   SchemaContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15712, __c491, 0) as any as S.Schema<ListWorkspaceApiSchemaByApiRequest>,
-  output: __S(10945, __c342, 1) as any as S.Schema<ListWorkspaceApiSchemaByApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15776, __c493, 0) as any as S.Schema<ListWorkspaceApiSchemaByApiRequest>,
+  output: __S(11009, __c344, 1) as any as S.Schema<ListWorkspaceApiSchemaByApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27238,9 +27652,10 @@ export const ListWorkspaceApiVersionSetByService: API.PaginatedOperationMethod<
   AzureOpContext,
   ApiVersionSetContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15808, __c494, 0) as any as S.Schema<ListWorkspaceApiVersionSetByServiceRequest>,
-  output: __S(11041, __c345, 1) as any as S.Schema<ListWorkspaceApiVersionSetByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15872, __c496, 0) as any as S.Schema<ListWorkspaceApiVersionSetByServiceRequest>,
+  output: __S(11105, __c347, 1) as any as S.Schema<ListWorkspaceApiVersionSetByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27262,9 +27677,10 @@ export const ListWorkspaceBackendByWorkspace: API.PaginatedOperationMethod<
   AzureOpContext,
   BackendContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15840, __c495, 0) as any as S.Schema<ListWorkspaceBackendByWorkspaceRequest>,
-  output: __S(11393, __c356, 1) as any as S.Schema<ListWorkspaceBackendByWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15904, __c497, 0) as any as S.Schema<ListWorkspaceBackendByWorkspaceRequest>,
+  output: __S(11457, __c358, 1) as any as S.Schema<ListWorkspaceBackendByWorkspaceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27286,9 +27702,10 @@ export const ListWorkspaceByService: API.PaginatedOperationMethod<
   AzureOpContext,
   WorkspaceContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15872, __c496, 0) as any as S.Schema<ListWorkspaceByServiceRequest>,
-  output: __S(15874, __c496, 2) as any as S.Schema<ListWorkspaceByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15936, __c498, 0) as any as S.Schema<ListWorkspaceByServiceRequest>,
+  output: __S(15938, __c498, 2) as any as S.Schema<ListWorkspaceByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27310,9 +27727,10 @@ export const ListWorkspaceCertificateByWorkspace: API.PaginatedOperationMethod<
   AzureOpContext,
   CertificateContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15904, __c497, 0) as any as S.Schema<ListWorkspaceCertificateByWorkspaceRequest>,
-  output: __S(11489, __c359, 1) as any as S.Schema<ListWorkspaceCertificateByWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(15968, __c499, 0) as any as S.Schema<ListWorkspaceCertificateByWorkspaceRequest>,
+  output: __S(11553, __c361, 1) as any as S.Schema<ListWorkspaceCertificateByWorkspaceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27334,9 +27752,10 @@ export const ListWorkspaceDiagnosticByWorkspace: API.PaginatedOperationMethod<
   AzureOpContext,
   DiagnosticContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15936, __c498, 0) as any as S.Schema<ListWorkspaceDiagnosticByWorkspaceRequest>,
-  output: __S(9697, __c303, 1) as any as S.Schema<ListWorkspaceDiagnosticByWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16000, __c500, 0) as any as S.Schema<ListWorkspaceDiagnosticByWorkspaceRequest>,
+  output: __S(9729, __c304, 1) as any as S.Schema<ListWorkspaceDiagnosticByWorkspaceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27358,9 +27777,10 @@ export const ListWorkspaceGlobalSchemaByService: API.PaginatedOperationMethod<
   AzureOpContext,
   GlobalSchemaContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(15968, __c499, 0) as any as S.Schema<ListWorkspaceGlobalSchemaByServiceRequest>,
-  output: __S(12033, __c376, 1) as any as S.Schema<ListWorkspaceGlobalSchemaByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16032, __c501, 0) as any as S.Schema<ListWorkspaceGlobalSchemaByServiceRequest>,
+  output: __S(12097, __c378, 1) as any as S.Schema<ListWorkspaceGlobalSchemaByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27382,9 +27802,10 @@ export const ListWorkspaceGroupByService: API.PaginatedOperationMethod<
   AzureOpContext,
   GroupContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16000, __c500, 0) as any as S.Schema<ListWorkspaceGroupByServiceRequest>,
-  output: __S(12225, __c382, 1) as any as S.Schema<ListWorkspaceGroupByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16064, __c502, 0) as any as S.Schema<ListWorkspaceGroupByServiceRequest>,
+  output: __S(12289, __c384, 1) as any as S.Schema<ListWorkspaceGroupByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27406,9 +27827,10 @@ export const ListWorkspaceGroupUser: API.PaginatedOperationMethod<
   AzureOpContext,
   UserContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16032, __c501, 0) as any as S.Schema<ListWorkspaceGroupUserRequest>,
-  output: __S(12289, __c384, 1) as any as S.Schema<ListWorkspaceGroupUserResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16096, __c503, 0) as any as S.Schema<ListWorkspaceGroupUserRequest>,
+  output: __S(12353, __c386, 1) as any as S.Schema<ListWorkspaceGroupUserResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27430,9 +27852,10 @@ export const ListWorkspaceLoggerByWorkspace: API.PaginatedOperationMethod<
   AzureOpContext,
   LoggerContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16064, __c502, 0) as any as S.Schema<ListWorkspaceLoggerByWorkspaceRequest>,
-  output: __S(12481, __c390, 1) as any as S.Schema<ListWorkspaceLoggerByWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16128, __c504, 0) as any as S.Schema<ListWorkspaceLoggerByWorkspaceRequest>,
+  output: __S(12545, __c392, 1) as any as S.Schema<ListWorkspaceLoggerByWorkspaceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27454,9 +27877,10 @@ export const ListWorkspaceNamedValueByService: API.PaginatedOperationMethod<
   AzureOpContext,
   NamedValueContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16096, __c503, 0) as any as S.Schema<ListWorkspaceNamedValueByServiceRequest>,
-  output: __S(12545, __c392, 1) as any as S.Schema<ListWorkspaceNamedValueByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16160, __c505, 0) as any as S.Schema<ListWorkspaceNamedValueByServiceRequest>,
+  output: __S(12609, __c394, 1) as any as S.Schema<ListWorkspaceNamedValueByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27477,9 +27901,10 @@ export const ListWorkspaceNamedValueValue: API.OperationMethod<
   ListWorkspaceNamedValueValueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16256, __c508, 0) as any as S.Schema<ListWorkspaceNamedValueValueRequest>,
-  output: __S(3008, __c94, 0) as any as S.Schema<ListWorkspaceNamedValueValueResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16320, __c510, 0) as any as S.Schema<ListWorkspaceNamedValueValueRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<ListWorkspaceNamedValueValueResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27495,9 +27920,10 @@ export const ListWorkspaceNotificationByService: API.PaginatedOperationMethod<
   AzureOpContext,
   NotificationContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16288, __c509, 0) as any as S.Schema<ListWorkspaceNotificationByServiceRequest>,
-  output: __S(12801, __c400, 1) as any as S.Schema<ListWorkspaceNotificationByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16352, __c511, 0) as any as S.Schema<ListWorkspaceNotificationByServiceRequest>,
+  output: __S(12865, __c402, 1) as any as S.Schema<ListWorkspaceNotificationByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27519,16 +27945,17 @@ export const ListWorkspaceNotificationRecipientEmailByNotification: API.Operatio
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16320,
-    __c510,
+    16384,
+    __c512,
     0,
   ) as any as S.Schema<ListWorkspaceNotificationRecipientEmailByNotificationRequest>,
   output: __S(
-    12865,
-    __c402,
+    12929,
+    __c404,
     1,
   ) as any as S.Schema<ListWorkspaceNotificationRecipientEmailByNotificationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27544,16 +27971,17 @@ export const ListWorkspaceNotificationRecipientUserByNotification: API.Operation
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    16352,
-    __c511,
+    16416,
+    __c513,
     0,
   ) as any as S.Schema<ListWorkspaceNotificationRecipientUserByNotificationRequest>,
   output: __S(
-    12961,
-    __c405,
+    13025,
+    __c407,
     1,
   ) as any as S.Schema<ListWorkspaceNotificationRecipientUserByNotificationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27569,9 +27997,10 @@ export const ListWorkspacePolicyByApi: API.PaginatedOperationMethod<
   AzureOpContext,
   PolicyContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16384, __c512, 0) as any as S.Schema<ListWorkspacePolicyByApiRequest>,
-  output: __S(12128, __c379, 0) as any as S.Schema<ListWorkspacePolicyByApiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16448, __c514, 0) as any as S.Schema<ListWorkspacePolicyByApiRequest>,
+  output: __S(12192, __c381, 0) as any as S.Schema<ListWorkspacePolicyByApiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27593,9 +28022,10 @@ export const ListWorkspacePolicyFragmentByService: API.PaginatedOperationMethod<
   AzureOpContext,
   PolicyFragmentContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16416, __c513, 0) as any as S.Schema<ListWorkspacePolicyFragmentByServiceRequest>,
-  output: __S(13441, __c420, 1) as any as S.Schema<ListWorkspacePolicyFragmentByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16480, __c515, 0) as any as S.Schema<ListWorkspacePolicyFragmentByServiceRequest>,
+  output: __S(13505, __c422, 1) as any as S.Schema<ListWorkspacePolicyFragmentByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27616,9 +28046,10 @@ export const ListWorkspacePolicyFragmentReferences: API.OperationMethod<
   ListWorkspacePolicyFragmentReferencesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16448, __c514, 0) as any as S.Schema<ListWorkspacePolicyFragmentReferencesRequest>,
-  output: __S(13506, __c422, 2) as any as S.Schema<ListWorkspacePolicyFragmentReferencesResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16512, __c516, 0) as any as S.Schema<ListWorkspacePolicyFragmentReferencesRequest>,
+  output: __S(13570, __c424, 2) as any as S.Schema<ListWorkspacePolicyFragmentReferencesResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27634,9 +28065,10 @@ export const ListWorkspaceProductApiLinkByProduct: API.PaginatedOperationMethod<
   AzureOpContext,
   ProductApiLinkContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16480, __c515, 0) as any as S.Schema<ListWorkspaceProductApiLinkByProductRequest>,
-  output: __S(13761, __c430, 1) as any as S.Schema<ListWorkspaceProductApiLinkByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16544, __c517, 0) as any as S.Schema<ListWorkspaceProductApiLinkByProductRequest>,
+  output: __S(13825, __c432, 1) as any as S.Schema<ListWorkspaceProductApiLinkByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27658,9 +28090,10 @@ export const ListWorkspaceProductByService: API.PaginatedOperationMethod<
   AzureOpContext,
   ProductContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16512, __c516, 0) as any as S.Schema<ListWorkspaceProductByServiceRequest>,
-  output: __S(10689, __c334, 1) as any as S.Schema<ListWorkspaceProductByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16576, __c518, 0) as any as S.Schema<ListWorkspaceProductByServiceRequest>,
+  output: __S(10721, __c335, 1) as any as S.Schema<ListWorkspaceProductByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27682,9 +28115,10 @@ export const ListWorkspaceProductGroupLinkByProduct: API.PaginatedOperationMetho
   AzureOpContext,
   ProductGroupLinkContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16544, __c517, 0) as any as S.Schema<ListWorkspaceProductGroupLinkByProductRequest>,
-  output: __S(13953, __c436, 1) as any as S.Schema<ListWorkspaceProductGroupLinkByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16608, __c519, 0) as any as S.Schema<ListWorkspaceProductGroupLinkByProductRequest>,
+  output: __S(14017, __c438, 1) as any as S.Schema<ListWorkspaceProductGroupLinkByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27705,9 +28139,10 @@ export const ListWorkspaceProductPolicyByProduct: API.OperationMethod<
   ListWorkspaceProductPolicyByProductError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16640, __c520, 0) as any as S.Schema<ListWorkspaceProductPolicyByProductRequest>,
-  output: __S(10592, __c331, 0) as any as S.Schema<ListWorkspaceProductPolicyByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16704, __c522, 0) as any as S.Schema<ListWorkspaceProductPolicyByProductRequest>,
+  output: __S(10624, __c332, 0) as any as S.Schema<ListWorkspaceProductPolicyByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27723,9 +28158,10 @@ export const ListWorkspaceSubscription: API.PaginatedOperationMethod<
   AzureOpContext,
   SubscriptionContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16672, __c521, 0) as any as S.Schema<ListWorkspaceSubscriptionRequest>,
-  output: __S(14049, __c439, 1) as any as S.Schema<ListWorkspaceSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16736, __c523, 0) as any as S.Schema<ListWorkspaceSubscriptionRequest>,
+  output: __S(14113, __c441, 1) as any as S.Schema<ListWorkspaceSubscriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27746,9 +28182,10 @@ export const ListWorkspaceSubscriptionSecrets: API.OperationMethod<
   ListWorkspaceSubscriptionSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16704, __c522, 0) as any as S.Schema<ListWorkspaceSubscriptionSecretsRequest>,
-  output: __S(14592, __c456, 0) as any as S.Schema<ListWorkspaceSubscriptionSecretsResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16768, __c524, 0) as any as S.Schema<ListWorkspaceSubscriptionSecretsRequest>,
+  output: __S(14656, __c458, 0) as any as S.Schema<ListWorkspaceSubscriptionSecretsResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27764,9 +28201,10 @@ export const ListWorkspaceTagApiLinkByProduct: API.PaginatedOperationMethod<
   AzureOpContext,
   TagApiLinkContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16736, __c523, 0) as any as S.Schema<ListWorkspaceTagApiLinkByProductRequest>,
-  output: __S(13761, __c430, 1) as any as S.Schema<ListWorkspaceTagApiLinkByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16800, __c525, 0) as any as S.Schema<ListWorkspaceTagApiLinkByProductRequest>,
+  output: __S(13825, __c432, 1) as any as S.Schema<ListWorkspaceTagApiLinkByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27788,9 +28226,10 @@ export const ListWorkspaceTagByService: API.PaginatedOperationMethod<
   AzureOpContext,
   TagContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16768, __c524, 0) as any as S.Schema<ListWorkspaceTagByServiceRequest>,
-  output: __S(14689, __c459, 1) as any as S.Schema<ListWorkspaceTagByServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16832, __c526, 0) as any as S.Schema<ListWorkspaceTagByServiceRequest>,
+  output: __S(14753, __c461, 1) as any as S.Schema<ListWorkspaceTagByServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27812,9 +28251,10 @@ export const ListWorkspaceTagOperationLinkByProduct: API.PaginatedOperationMetho
   AzureOpContext,
   TagOperationLinkContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16800, __c525, 0) as any as S.Schema<ListWorkspaceTagOperationLinkByProductRequest>,
-  output: __S(14881, __c465, 1) as any as S.Schema<ListWorkspaceTagOperationLinkByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16864, __c527, 0) as any as S.Schema<ListWorkspaceTagOperationLinkByProductRequest>,
+  output: __S(14945, __c467, 1) as any as S.Schema<ListWorkspaceTagOperationLinkByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27836,9 +28276,10 @@ export const ListWorkspaceTagProductLinkByProduct: API.PaginatedOperationMethod<
   AzureOpContext,
   TagProductLinkContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(16832, __c526, 0) as any as S.Schema<ListWorkspaceTagProductLinkByProductRequest>,
-  output: __S(14945, __c467, 1) as any as S.Schema<ListWorkspaceTagProductLinkByProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16896, __c528, 0) as any as S.Schema<ListWorkspaceTagProductLinkByProductRequest>,
+  output: __S(15009, __c469, 1) as any as S.Schema<ListWorkspaceTagProductLinkByProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27859,9 +28300,10 @@ export const LoggerCreateOrUpdate: API.OperationMethod<
   LoggerCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16864, __c527, 0) as any as S.Schema<LoggerCreateOrUpdateRequest>,
-  output: __S(5601, __c175, 1) as any as S.Schema<LoggerCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16928, __c529, 0) as any as S.Schema<LoggerCreateOrUpdateRequest>,
+  output: __S(5633, __c176, 1) as any as S.Schema<LoggerCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27876,9 +28318,10 @@ export const MigrateApiManagementServiceToStv2: API.OperationMethod<
   MigrateApiManagementServiceToStv2Error,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16896, __c528, 0) as any as S.Schema<MigrateApiManagementServiceToStv2Request>,
+  input: __S(16960, __c530, 0) as any as S.Schema<MigrateApiManagementServiceToStv2Request>,
   output: __S(2688, __c84, 0) as any as S.Schema<MigrateApiManagementServiceToStv2Response>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27893,9 +28336,10 @@ export const NamedValueCreateOrUpdate: API.OperationMethod<
   NamedValueCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16928, __c529, 0) as any as S.Schema<NamedValueCreateOrUpdateRequest>,
-  output: __S(16960, __c530, 0) as any as S.Schema<NamedValueCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(16992, __c531, 0) as any as S.Schema<NamedValueCreateOrUpdateRequest>,
+  output: __S(17024, __c532, 0) as any as S.Schema<NamedValueCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27910,9 +28354,10 @@ export const NotificationCreateOrUpdate: API.OperationMethod<
   NotificationCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17056, __c533, 0) as any as S.Schema<NotificationCreateOrUpdateRequest>,
-  output: __S(5858, __c183, 2) as any as S.Schema<NotificationCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17120, __c535, 0) as any as S.Schema<NotificationCreateOrUpdateRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<NotificationCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27927,13 +28372,14 @@ export const NotificationRecipientEmailCreateOrUpdate: API.OperationMethod<
   NotificationRecipientEmailCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17088, __c534, 0) as any as S.Schema<NotificationRecipientEmailCreateOrUpdateRequest>,
+  input: __S(17152, __c536, 0) as any as S.Schema<NotificationRecipientEmailCreateOrUpdateRequest>,
   output: __S(
-    12897,
-    __c403,
+    12961,
+    __c405,
     1,
   ) as any as S.Schema<NotificationRecipientEmailCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27948,9 +28394,10 @@ export const NotificationRecipientUserCreateOrUpdate: API.OperationMethod<
   NotificationRecipientUserCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17120, __c535, 0) as any as S.Schema<NotificationRecipientUserCreateOrUpdateRequest>,
-  output: __S(12993, __c406, 1) as any as S.Schema<NotificationRecipientUserCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17184, __c537, 0) as any as S.Schema<NotificationRecipientUserCreateOrUpdateRequest>,
+  output: __S(13057, __c408, 1) as any as S.Schema<NotificationRecipientUserCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27965,9 +28412,10 @@ export const OpenIdConnectProviderCreateOrUpdate: API.OperationMethod<
   OpenIdConnectProviderCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17152, __c536, 0) as any as S.Schema<OpenIdConnectProviderCreateOrUpdateRequest>,
-  output: __S(5921, __c185, 1) as any as S.Schema<OpenIdConnectProviderCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17216, __c538, 0) as any as S.Schema<OpenIdConnectProviderCreateOrUpdateRequest>,
+  output: __S(5953, __c186, 1) as any as S.Schema<OpenIdConnectProviderCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27982,9 +28430,10 @@ export const PerformConnectivityCheckAsync: API.OperationMethod<
   PerformConnectivityCheckAsyncError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17189, __c537, 5) as any as S.Schema<PerformConnectivityCheckAsyncRequest>,
-  output: __S(17195, __c537, 11) as any as S.Schema<PerformConnectivityCheckAsyncResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17253, __c539, 5) as any as S.Schema<PerformConnectivityCheckAsyncRequest>,
+  output: __S(17259, __c539, 11) as any as S.Schema<PerformConnectivityCheckAsyncResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27999,9 +28448,10 @@ export const PolicyCreateOrUpdate: API.OperationMethod<
   PolicyCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17216, __c538, 0) as any as S.Schema<PolicyCreateOrUpdateRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<PolicyCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17280, __c540, 0) as any as S.Schema<PolicyCreateOrUpdateRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<PolicyCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28016,9 +28466,10 @@ export const PolicyFragmentCreateOrUpdate: API.OperationMethod<
   PolicyFragmentCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17248, __c539, 0) as any as S.Schema<PolicyFragmentCreateOrUpdateRequest>,
-  output: __S(17281, __c540, 1) as any as S.Schema<PolicyFragmentCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17312, __c541, 0) as any as S.Schema<PolicyFragmentCreateOrUpdateRequest>,
+  output: __S(17345, __c542, 1) as any as S.Schema<PolicyFragmentCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28033,9 +28484,10 @@ export const PolicyRestrictionCreateOrUpdate: API.OperationMethod<
   PolicyRestrictionCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17312, __c541, 0) as any as S.Schema<PolicyRestrictionCreateOrUpdateRequest>,
-  output: __S(6177, __c193, 1) as any as S.Schema<PolicyRestrictionCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17376, __c543, 0) as any as S.Schema<PolicyRestrictionCreateOrUpdateRequest>,
+  output: __S(6209, __c194, 1) as any as S.Schema<PolicyRestrictionCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28050,9 +28502,10 @@ export const PolicyRestrictionValidationsByService: API.OperationMethod<
   PolicyRestrictionValidationsByServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17344, __c542, 0) as any as S.Schema<PolicyRestrictionValidationsByServiceRequest>,
+  input: __S(17408, __c544, 0) as any as S.Schema<PolicyRestrictionValidationsByServiceRequest>,
   output: __S(2278, __c71, 6) as any as S.Schema<PolicyRestrictionValidationsByServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28067,9 +28520,10 @@ export const PortalConfigCreateOrUpdate: API.OperationMethod<
   PortalConfigCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17376, __c543, 0) as any as S.Schema<PortalConfigCreateOrUpdateRequest>,
-  output: __S(6247, __c195, 7) as any as S.Schema<PortalConfigCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17440, __c545, 0) as any as S.Schema<PortalConfigCreateOrUpdateRequest>,
+  output: __S(6279, __c196, 7) as any as S.Schema<PortalConfigCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28084,9 +28538,10 @@ export const PortalRevisionCreateOrUpdate: API.OperationMethod<
   PortalRevisionCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17440, __c545, 0) as any as S.Schema<PortalRevisionCreateOrUpdateRequest>,
-  output: __S(17473, __c546, 1) as any as S.Schema<PortalRevisionCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17504, __c547, 0) as any as S.Schema<PortalRevisionCreateOrUpdateRequest>,
+  output: __S(17537, __c548, 1) as any as S.Schema<PortalRevisionCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28101,9 +28556,10 @@ export const PostAuthorizationLoginLink: API.OperationMethod<
   PostAuthorizationLoginLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17504, __c547, 0) as any as S.Schema<PostAuthorizationLoginLinkRequest>,
-  output: __S(17505, __c547, 1) as any as S.Schema<PostAuthorizationLoginLinkResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17568, __c549, 0) as any as S.Schema<PostAuthorizationLoginLinkRequest>,
+  output: __S(17569, __c549, 1) as any as S.Schema<PostAuthorizationLoginLinkResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28118,9 +28574,10 @@ export const PrivateEndpointConnectionCreateOrUpdate: API.OperationMethod<
   PrivateEndpointConnectionCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17537, __c548, 1) as any as S.Schema<PrivateEndpointConnectionCreateOrUpdateRequest>,
-  output: __S(17538, __c548, 2) as any as S.Schema<PrivateEndpointConnectionCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17601, __c550, 1) as any as S.Schema<PrivateEndpointConnectionCreateOrUpdateRequest>,
+  output: __S(17602, __c550, 2) as any as S.Schema<PrivateEndpointConnectionCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28135,9 +28592,10 @@ export const ProductApiCreateOrUpdate: API.OperationMethod<
   ProductApiCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17568, __c549, 0) as any as S.Schema<ProductApiCreateOrUpdateRequest>,
+  input: __S(17632, __c551, 0) as any as S.Schema<ProductApiCreateOrUpdateRequest>,
   output: __S(2752, __c86, 0) as any as S.Schema<ProductApiCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28152,9 +28610,10 @@ export const ProductApiLinkCreateOrUpdate: API.OperationMethod<
   ProductApiLinkCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17600, __c550, 0) as any as S.Schema<ProductApiLinkCreateOrUpdateRequest>,
-  output: __S(6689, __c209, 1) as any as S.Schema<ProductApiLinkCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17664, __c552, 0) as any as S.Schema<ProductApiLinkCreateOrUpdateRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<ProductApiLinkCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28169,9 +28628,10 @@ export const ProductCreateOrUpdate: API.OperationMethod<
   ProductCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17632, __c551, 0) as any as S.Schema<ProductCreateOrUpdateRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<ProductCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17696, __c553, 0) as any as S.Schema<ProductCreateOrUpdateRequest>,
+  output: __S(6657, __c208, 1) as any as S.Schema<ProductCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28186,9 +28646,10 @@ export const ProductGroupCreateOrUpdate: API.OperationMethod<
   ProductGroupCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17664, __c552, 0) as any as S.Schema<ProductGroupCreateOrUpdateRequest>,
-  output: __S(5440, __c170, 0) as any as S.Schema<ProductGroupCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17728, __c554, 0) as any as S.Schema<ProductGroupCreateOrUpdateRequest>,
+  output: __S(5472, __c171, 0) as any as S.Schema<ProductGroupCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28203,9 +28664,10 @@ export const ProductGroupLinkCreateOrUpdate: API.OperationMethod<
   ProductGroupLinkCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17696, __c553, 0) as any as S.Schema<ProductGroupLinkCreateOrUpdateRequest>,
-  output: __S(6753, __c211, 1) as any as S.Schema<ProductGroupLinkCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17760, __c555, 0) as any as S.Schema<ProductGroupLinkCreateOrUpdateRequest>,
+  output: __S(6785, __c212, 1) as any as S.Schema<ProductGroupLinkCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28220,9 +28682,10 @@ export const ProductPolicyCreateOrUpdate: API.OperationMethod<
   ProductPolicyCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17728, __c554, 0) as any as S.Schema<ProductPolicyCreateOrUpdateRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<ProductPolicyCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17792, __c556, 0) as any as S.Schema<ProductPolicyCreateOrUpdateRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<ProductPolicyCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28237,9 +28700,10 @@ export const ProductWikiCreateOrUpdate: API.OperationMethod<
   ProductWikiCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17760, __c555, 0) as any as S.Schema<ProductWikiCreateOrUpdateRequest>,
-  output: __S(7523, __c235, 3) as any as S.Schema<ProductWikiCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17824, __c557, 0) as any as S.Schema<ProductWikiCreateOrUpdateRequest>,
+  output: __S(7555, __c236, 3) as any as S.Schema<ProductWikiCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28254,9 +28718,10 @@ export const PurgeDeletedService: API.OperationMethod<
   PurgeDeletedServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17824, __c557, 0) as any as S.Schema<PurgeDeletedServiceRequest>,
-  output: __S(21728, __c679, 0) as any as S.Schema<PurgeDeletedServiceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17888, __c559, 0) as any as S.Schema<PurgeDeletedServiceRequest>,
+  output: __S(21792, __c681, 0) as any as S.Schema<PurgeDeletedServiceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28271,9 +28736,10 @@ export const RefreshCertificateSecret: API.OperationMethod<
   RefreshCertificateSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17856, __c558, 0) as any as S.Schema<RefreshCertificateSecretRequest>,
-  output: __S(13313, __c416, 1) as any as S.Schema<RefreshCertificateSecretResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17920, __c560, 0) as any as S.Schema<RefreshCertificateSecretRequest>,
+  output: __S(13377, __c418, 1) as any as S.Schema<RefreshCertificateSecretResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28288,9 +28754,10 @@ export const RefreshNamedValueSecret: API.OperationMethod<
   RefreshNamedValueSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17888, __c559, 0) as any as S.Schema<RefreshNamedValueSecretRequest>,
-  output: __S(16960, __c530, 0) as any as S.Schema<RefreshNamedValueSecretResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17952, __c561, 0) as any as S.Schema<RefreshNamedValueSecretRequest>,
+  output: __S(17024, __c532, 0) as any as S.Schema<RefreshNamedValueSecretResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28305,9 +28772,10 @@ export const RefreshWorkspaceCertificateSecret: API.OperationMethod<
   RefreshWorkspaceCertificateSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17920, __c560, 0) as any as S.Schema<RefreshWorkspaceCertificateSecretRequest>,
-  output: __S(13313, __c416, 1) as any as S.Schema<RefreshWorkspaceCertificateSecretResponse>,
-  errors: [UnknownAzureError],
+  input: __S(17984, __c562, 0) as any as S.Schema<RefreshWorkspaceCertificateSecretRequest>,
+  output: __S(13377, __c418, 1) as any as S.Schema<RefreshWorkspaceCertificateSecretResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28322,9 +28790,10 @@ export const RefreshWorkspaceNamedValueSecret: API.OperationMethod<
   RefreshWorkspaceNamedValueSecretError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17952, __c561, 0) as any as S.Schema<RefreshWorkspaceNamedValueSecretRequest>,
-  output: __S(16960, __c530, 0) as any as S.Schema<RefreshWorkspaceNamedValueSecretResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18016, __c563, 0) as any as S.Schema<RefreshWorkspaceNamedValueSecretRequest>,
+  output: __S(17024, __c532, 0) as any as S.Schema<RefreshWorkspaceNamedValueSecretResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28340,16 +28809,17 @@ export const RegenerateAiGatewayApiKeyResourcePrimaryKey: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17984,
-    __c562,
+    18048,
+    __c564,
     0,
   ) as any as S.Schema<RegenerateAiGatewayApiKeyResourcePrimaryKeyRequest>,
   output: __S(
-    15232,
-    __c476,
+    15296,
+    __c478,
     0,
   ) as any as S.Schema<RegenerateAiGatewayApiKeyResourcePrimaryKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28365,16 +28835,17 @@ export const RegenerateAiGatewayApiKeyResourceSecondaryKey: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18016,
-    __c563,
+    18080,
+    __c565,
     0,
   ) as any as S.Schema<RegenerateAiGatewayApiKeyResourceSecondaryKeyRequest>,
   output: __S(
-    15232,
-    __c476,
+    15296,
+    __c478,
     0,
   ) as any as S.Schema<RegenerateAiGatewayApiKeyResourceSecondaryKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28389,9 +28860,10 @@ export const RegenerateGatewayKey: API.OperationMethod<
   RegenerateGatewayKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18048, __c564, 0) as any as S.Schema<RegenerateGatewayKeyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<RegenerateGatewayKeyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18112, __c566, 0) as any as S.Schema<RegenerateGatewayKeyRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<RegenerateGatewayKeyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28406,9 +28878,10 @@ export const RegenerateSubscriptionPrimaryKey: API.OperationMethod<
   RegenerateSubscriptionPrimaryKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18080, __c565, 0) as any as S.Schema<RegenerateSubscriptionPrimaryKeyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<RegenerateSubscriptionPrimaryKeyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18144, __c567, 0) as any as S.Schema<RegenerateSubscriptionPrimaryKeyRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<RegenerateSubscriptionPrimaryKeyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28423,9 +28896,10 @@ export const RegenerateSubscriptionSecondaryKey: API.OperationMethod<
   RegenerateSubscriptionSecondaryKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18112, __c566, 0) as any as S.Schema<RegenerateSubscriptionSecondaryKeyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<RegenerateSubscriptionSecondaryKeyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18176, __c568, 0) as any as S.Schema<RegenerateSubscriptionSecondaryKeyRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<RegenerateSubscriptionSecondaryKeyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28440,9 +28914,10 @@ export const RegenerateTenantAccessGitPrimaryKey: API.OperationMethod<
   RegenerateTenantAccessGitPrimaryKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18176, __c568, 0) as any as S.Schema<RegenerateTenantAccessGitPrimaryKeyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<RegenerateTenantAccessGitPrimaryKeyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18240, __c570, 0) as any as S.Schema<RegenerateTenantAccessGitPrimaryKeyRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<RegenerateTenantAccessGitPrimaryKeyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28457,9 +28932,10 @@ export const RegenerateTenantAccessGitSecondaryKey: API.OperationMethod<
   RegenerateTenantAccessGitSecondaryKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18208, __c569, 0) as any as S.Schema<RegenerateTenantAccessGitSecondaryKeyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<RegenerateTenantAccessGitSecondaryKeyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18272, __c571, 0) as any as S.Schema<RegenerateTenantAccessGitSecondaryKeyRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<RegenerateTenantAccessGitSecondaryKeyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28474,9 +28950,10 @@ export const RegenerateTenantAccessPrimaryKey: API.OperationMethod<
   RegenerateTenantAccessPrimaryKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18240, __c570, 0) as any as S.Schema<RegenerateTenantAccessPrimaryKeyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<RegenerateTenantAccessPrimaryKeyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18304, __c572, 0) as any as S.Schema<RegenerateTenantAccessPrimaryKeyRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<RegenerateTenantAccessPrimaryKeyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28491,9 +28968,10 @@ export const RegenerateTenantAccessSecondaryKey: API.OperationMethod<
   RegenerateTenantAccessSecondaryKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18272, __c571, 0) as any as S.Schema<RegenerateTenantAccessSecondaryKeyRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<RegenerateTenantAccessSecondaryKeyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18336, __c573, 0) as any as S.Schema<RegenerateTenantAccessSecondaryKeyRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<RegenerateTenantAccessSecondaryKeyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28508,13 +28986,14 @@ export const RegenerateWorkspaceSubscriptionPrimaryKey: API.OperationMethod<
   RegenerateWorkspaceSubscriptionPrimaryKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18304, __c572, 0) as any as S.Schema<RegenerateWorkspaceSubscriptionPrimaryKeyRequest>,
+  input: __S(18368, __c574, 0) as any as S.Schema<RegenerateWorkspaceSubscriptionPrimaryKeyRequest>,
   output: __S(
-    15232,
-    __c476,
+    15296,
+    __c478,
     0,
   ) as any as S.Schema<RegenerateWorkspaceSubscriptionPrimaryKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28530,16 +29009,17 @@ export const RegenerateWorkspaceSubscriptionSecondaryKey: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18336,
-    __c573,
+    18400,
+    __c575,
     0,
   ) as any as S.Schema<RegenerateWorkspaceSubscriptionSecondaryKeyRequest>,
   output: __S(
-    15232,
-    __c476,
+    15296,
+    __c478,
     0,
   ) as any as S.Schema<RegenerateWorkspaceSubscriptionSecondaryKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28554,9 +29034,10 @@ export const RestoreApiManagementService: API.OperationMethod<
   RestoreApiManagementServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18368, __c574, 0) as any as S.Schema<RestoreApiManagementServiceRequest>,
+  input: __S(18432, __c576, 0) as any as S.Schema<RestoreApiManagementServiceRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<RestoreApiManagementServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28571,9 +29052,10 @@ export const SendUserConfirmationPassword: API.OperationMethod<
   SendUserConfirmationPasswordError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18400, __c575, 0) as any as S.Schema<SendUserConfirmationPasswordRequest>,
-  output: __S(15232, __c476, 0) as any as S.Schema<SendUserConfirmationPasswordResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18464, __c577, 0) as any as S.Schema<SendUserConfirmationPasswordRequest>,
+  output: __S(15296, __c478, 0) as any as S.Schema<SendUserConfirmationPasswordResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28588,9 +29070,10 @@ export const SubscriptionCreateOrUpdate: API.OperationMethod<
   SubscriptionCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18432, __c576, 0) as any as S.Schema<SubscriptionCreateOrUpdateRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<SubscriptionCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18496, __c578, 0) as any as S.Schema<SubscriptionCreateOrUpdateRequest>,
+  output: __S(6977, __c218, 1) as any as S.Schema<SubscriptionCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28605,9 +29088,10 @@ export const TagApiLinkCreateOrUpdate: API.OperationMethod<
   TagApiLinkCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18496, __c578, 0) as any as S.Schema<TagApiLinkCreateOrUpdateRequest>,
-  output: __S(6689, __c209, 1) as any as S.Schema<TagApiLinkCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18560, __c580, 0) as any as S.Schema<TagApiLinkCreateOrUpdateRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<TagApiLinkCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28622,9 +29106,10 @@ export const TagCreateOrUpdate: API.OperationMethod<
   TagCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18560, __c580, 0) as any as S.Schema<TagCreateOrUpdateRequest>,
-  output: __S(8289, __c259, 1) as any as S.Schema<TagCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18624, __c582, 0) as any as S.Schema<TagCreateOrUpdateRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<TagCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28639,9 +29124,10 @@ export const TagOperationLinkCreateOrUpdate: API.OperationMethod<
   TagOperationLinkCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18592, __c581, 0) as any as S.Schema<TagOperationLinkCreateOrUpdateRequest>,
-  output: __S(7233, __c226, 1) as any as S.Schema<TagOperationLinkCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18656, __c583, 0) as any as S.Schema<TagOperationLinkCreateOrUpdateRequest>,
+  output: __S(7265, __c227, 1) as any as S.Schema<TagOperationLinkCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28656,9 +29142,10 @@ export const TagProductLinkCreateOrUpdate: API.OperationMethod<
   TagProductLinkCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18624, __c582, 0) as any as S.Schema<TagProductLinkCreateOrUpdateRequest>,
-  output: __S(7297, __c228, 1) as any as S.Schema<TagProductLinkCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18688, __c584, 0) as any as S.Schema<TagProductLinkCreateOrUpdateRequest>,
+  output: __S(7329, __c229, 1) as any as S.Schema<TagProductLinkCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28673,9 +29160,10 @@ export const TenantConfigurationSave: API.OperationMethod<
   TenantConfigurationSaveError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18656, __c583, 0) as any as S.Schema<TenantConfigurationSaveRequest>,
+  input: __S(18720, __c585, 0) as any as S.Schema<TenantConfigurationSaveRequest>,
   output: __S(2278, __c71, 6) as any as S.Schema<TenantConfigurationSaveResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28690,9 +29178,10 @@ export const UpdateAiGatewayAliasResource: API.OperationMethod<
   UpdateAiGatewayAliasResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18695, __c584, 7) as any as S.Schema<UpdateAiGatewayAliasResourceRequest>,
+  input: __S(18759, __c586, 7) as any as S.Schema<UpdateAiGatewayAliasResourceRequest>,
   output: __S(71, __c2, 7) as any as S.Schema<UpdateAiGatewayAliasResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28707,9 +29196,10 @@ export const UpdateAiGatewayApiKeyResource: API.OperationMethod<
   UpdateAiGatewayApiKeyResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18816, __c588, 0) as any as S.Schema<UpdateAiGatewayApiKeyResourceRequest>,
+  input: __S(18880, __c590, 0) as any as S.Schema<UpdateAiGatewayApiKeyResourceRequest>,
   output: __S(385, __c12, 1) as any as S.Schema<UpdateAiGatewayApiKeyResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28724,9 +29214,10 @@ export const UpdateAiGatewayModelProviderResource: API.OperationMethod<
   UpdateAiGatewayModelProviderResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18852, __c589, 4) as any as S.Schema<UpdateAiGatewayModelProviderResourceRequest>,
-  output: __S(5027, __c157, 3) as any as S.Schema<UpdateAiGatewayModelProviderResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18916, __c591, 4) as any as S.Schema<UpdateAiGatewayModelProviderResourceRequest>,
+  output: __S(5059, __c158, 3) as any as S.Schema<UpdateAiGatewayModelProviderResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28741,9 +29232,10 @@ export const UpdateAiGatewayModelResource: API.OperationMethod<
   UpdateAiGatewayModelResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18884, __c590, 4) as any as S.Schema<UpdateAiGatewayModelResourceRequest>,
-  output: __S(10116, __c316, 4) as any as S.Schema<UpdateAiGatewayModelResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18948, __c592, 4) as any as S.Schema<UpdateAiGatewayModelResourceRequest>,
+  output: __S(10148, __c317, 4) as any as S.Schema<UpdateAiGatewayModelResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28758,9 +29250,10 @@ export const UpdateAiGatewayResource: API.OperationMethod<
   UpdateAiGatewayResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18914, __c591, 2) as any as S.Schema<UpdateAiGatewayResourceRequest>,
-  output: __S(18915, __c591, 3) as any as S.Schema<UpdateAiGatewayResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(18978, __c593, 2) as any as S.Schema<UpdateAiGatewayResourceRequest>,
+  output: __S(18979, __c593, 3) as any as S.Schema<UpdateAiGatewayResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28775,13 +29268,14 @@ export const UpdateAiGatewayTelemetryExporterResource: API.OperationMethod<
   UpdateAiGatewayTelemetryExporterResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18950, __c592, 6) as any as S.Schema<UpdateAiGatewayTelemetryExporterResourceRequest>,
+  input: __S(19014, __c594, 6) as any as S.Schema<UpdateAiGatewayTelemetryExporterResourceRequest>,
   output: __S(
-    22599,
-    __c706,
+    22663,
+    __c708,
     7,
   ) as any as S.Schema<UpdateAiGatewayTelemetryExporterResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28796,9 +29290,10 @@ export const UpdateAiGatewayToolServerResource: API.OperationMethod<
   UpdateAiGatewayToolServerResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19047, __c595, 7) as any as S.Schema<UpdateAiGatewayToolServerResourceRequest>,
-  output: __S(23016, __c719, 8) as any as S.Schema<UpdateAiGatewayToolServerResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19111, __c597, 7) as any as S.Schema<UpdateAiGatewayToolServerResourceRequest>,
+  output: __S(23080, __c721, 8) as any as S.Schema<UpdateAiGatewayToolServerResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28813,9 +29308,10 @@ export const UpdateAiGatewayWorkspaceResource: API.OperationMethod<
   UpdateAiGatewayWorkspaceResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19073, __c596, 1) as any as S.Schema<UpdateAiGatewayWorkspaceResourceRequest>,
-  output: __S(3617, __c113, 1) as any as S.Schema<UpdateAiGatewayWorkspaceResourceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19137, __c598, 1) as any as S.Schema<UpdateAiGatewayWorkspaceResourceRequest>,
+  output: __S(3649, __c114, 1) as any as S.Schema<UpdateAiGatewayWorkspaceResourceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28830,9 +29326,10 @@ export const UpdateApi: API.OperationMethod<
   UpdateApiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19104, __c597, 0) as any as S.Schema<UpdateApiRequest>,
+  input: __S(19168, __c599, 0) as any as S.Schema<UpdateApiRequest>,
   output: __S(2752, __c86, 0) as any as S.Schema<UpdateApiResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28847,9 +29344,10 @@ export const UpdateApiDiagnostic: API.OperationMethod<
   UpdateApiDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19168, __c599, 0) as any as S.Schema<UpdateApiDiagnosticRequest>,
-  output: __S(23880, __c746, 8) as any as S.Schema<UpdateApiDiagnosticResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19232, __c601, 0) as any as S.Schema<UpdateApiDiagnosticRequest>,
+  output: __S(23944, __c748, 8) as any as S.Schema<UpdateApiDiagnosticResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28864,9 +29362,10 @@ export const UpdateApiGateway: API.OperationMethod<
   UpdateApiGatewayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19201, __c600, 1) as any as S.Schema<UpdateApiGatewayRequest>,
-  output: __S(19202, __c600, 2) as any as S.Schema<UpdateApiGatewayResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19265, __c602, 1) as any as S.Schema<UpdateApiGatewayRequest>,
+  output: __S(19266, __c602, 2) as any as S.Schema<UpdateApiGatewayResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28881,9 +29380,10 @@ export const UpdateApiIssue: API.OperationMethod<
   UpdateApiIssueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19233, __c601, 1) as any as S.Schema<UpdateApiIssueRequest>,
+  input: __S(19297, __c603, 1) as any as S.Schema<UpdateApiIssueRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<UpdateApiIssueResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28898,9 +29398,10 @@ export const UpdateApiManagementService: API.OperationMethod<
   UpdateApiManagementServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19265, __c602, 1) as any as S.Schema<UpdateApiManagementServiceRequest>,
+  input: __S(19329, __c604, 1) as any as S.Schema<UpdateApiManagementServiceRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<UpdateApiManagementServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28915,9 +29416,10 @@ export const UpdateApiOperation: API.OperationMethod<
   UpdateApiOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19296, __c603, 0) as any as S.Schema<UpdateApiOperationRequest>,
-  output: __S(3786, __c118, 10) as any as S.Schema<UpdateApiOperationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19360, __c605, 0) as any as S.Schema<UpdateApiOperationRequest>,
+  output: __S(3818, __c119, 10) as any as S.Schema<UpdateApiOperationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28932,9 +29434,10 @@ export const UpdateApiRelease: API.OperationMethod<
   UpdateApiReleaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19360, __c605, 0) as any as S.Schema<UpdateApiReleaseRequest>,
-  output: __S(5089, __c159, 1) as any as S.Schema<UpdateApiReleaseResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19424, __c607, 0) as any as S.Schema<UpdateApiReleaseRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<UpdateApiReleaseResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28949,9 +29452,10 @@ export const UpdateApiVersionSet: API.OperationMethod<
   UpdateApiVersionSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19392, __c606, 0) as any as S.Schema<UpdateApiVersionSetRequest>,
-  output: __S(7073, __c221, 1) as any as S.Schema<UpdateApiVersionSetResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19456, __c608, 0) as any as S.Schema<UpdateApiVersionSetRequest>,
+  output: __S(7105, __c222, 1) as any as S.Schema<UpdateApiVersionSetResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28966,9 +29470,10 @@ export const UpdateApiWiki: API.OperationMethod<
   UpdateApiWikiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19744, __c617, 0) as any as S.Schema<UpdateApiWikiRequest>,
-  output: __S(7523, __c235, 3) as any as S.Schema<UpdateApiWikiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19808, __c619, 0) as any as S.Schema<UpdateApiWikiRequest>,
+  output: __S(7555, __c236, 3) as any as S.Schema<UpdateApiWikiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28983,9 +29488,10 @@ export const UpdateAuthorizationServer: API.OperationMethod<
   UpdateAuthorizationServerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19777, __c618, 1) as any as S.Schema<UpdateAuthorizationServerRequest>,
-  output: __S(11297, __c353, 1) as any as S.Schema<UpdateAuthorizationServerResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19841, __c620, 1) as any as S.Schema<UpdateAuthorizationServerRequest>,
+  output: __S(11361, __c355, 1) as any as S.Schema<UpdateAuthorizationServerResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29000,9 +29506,10 @@ export const UpdateBackend: API.OperationMethod<
   UpdateBackendError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19808, __c619, 0) as any as S.Schema<UpdateBackendRequest>,
-  output: __S(11763, __c367, 19) as any as S.Schema<UpdateBackendResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19872, __c621, 0) as any as S.Schema<UpdateBackendRequest>,
+  output: __S(11827, __c369, 19) as any as S.Schema<UpdateBackendResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29017,9 +29524,10 @@ export const UpdateCache: API.OperationMethod<
   UpdateCacheError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19841, __c620, 1) as any as S.Schema<UpdateCacheRequest>,
-  output: __S(12737, __c398, 1) as any as S.Schema<UpdateCacheResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19905, __c622, 1) as any as S.Schema<UpdateCacheRequest>,
+  output: __S(12801, __c400, 1) as any as S.Schema<UpdateCacheResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29034,9 +29542,10 @@ export const UpdateDiagnostic: API.OperationMethod<
   UpdateDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19872, __c621, 0) as any as S.Schema<UpdateDiagnosticRequest>,
-  output: __S(23880, __c746, 8) as any as S.Schema<UpdateDiagnosticResponse>,
-  errors: [UnknownAzureError],
+  input: __S(19936, __c623, 0) as any as S.Schema<UpdateDiagnosticRequest>,
+  output: __S(23944, __c748, 8) as any as S.Schema<UpdateDiagnosticResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29051,9 +29560,10 @@ export const UpdateDocumentation: API.OperationMethod<
   UpdateDocumentationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19904, __c622, 0) as any as S.Schema<UpdateDocumentationRequest>,
+  input: __S(19968, __c624, 0) as any as S.Schema<UpdateDocumentationRequest>,
   output: __S(2497, __c78, 1) as any as S.Schema<UpdateDocumentationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29068,9 +29578,10 @@ export const UpdateEmailTemplate: API.OperationMethod<
   UpdateEmailTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19936, __c623, 0) as any as S.Schema<UpdateEmailTemplateRequest>,
+  input: __S(20000, __c625, 0) as any as S.Schema<UpdateEmailTemplateRequest>,
   output: __S(2563, __c80, 3) as any as S.Schema<UpdateEmailTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29085,9 +29596,10 @@ export const UpdateGateway: API.OperationMethod<
   UpdateGatewayError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19968, __c624, 0) as any as S.Schema<UpdateGatewayRequest>,
+  input: __S(20032, __c626, 0) as any as S.Schema<UpdateGatewayRequest>,
   output: __S(2882, __c90, 2) as any as S.Schema<UpdateGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29102,9 +29614,10 @@ export const UpdateGraphQLApiResolver: API.OperationMethod<
   UpdateGraphQLApiResolverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20000, __c625, 0) as any as S.Schema<UpdateGraphQLApiResolverRequest>,
-  output: __S(5345, __c167, 1) as any as S.Schema<UpdateGraphQLApiResolverResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20064, __c627, 0) as any as S.Schema<UpdateGraphQLApiResolverRequest>,
+  output: __S(5377, __c168, 1) as any as S.Schema<UpdateGraphQLApiResolverResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29119,9 +29632,10 @@ export const UpdateGroup: API.OperationMethod<
   UpdateGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20032, __c626, 0) as any as S.Schema<UpdateGroupRequest>,
-  output: __S(5440, __c170, 0) as any as S.Schema<UpdateGroupResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20096, __c628, 0) as any as S.Schema<UpdateGroupRequest>,
+  output: __S(5472, __c171, 0) as any as S.Schema<UpdateGroupResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29136,9 +29650,10 @@ export const UpdateIdentityProvider: API.OperationMethod<
   UpdateIdentityProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20129, __c629, 1) as any as S.Schema<UpdateIdentityProviderRequest>,
-  output: __S(5505, __c172, 1) as any as S.Schema<UpdateIdentityProviderResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20193, __c631, 1) as any as S.Schema<UpdateIdentityProviderRequest>,
+  output: __S(5537, __c173, 1) as any as S.Schema<UpdateIdentityProviderResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29153,9 +29668,10 @@ export const UpdateLogger: API.OperationMethod<
   UpdateLoggerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20160, __c630, 0) as any as S.Schema<UpdateLoggerRequest>,
-  output: __S(5601, __c175, 1) as any as S.Schema<UpdateLoggerResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20224, __c632, 0) as any as S.Schema<UpdateLoggerRequest>,
+  output: __S(5633, __c176, 1) as any as S.Schema<UpdateLoggerResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29170,9 +29686,10 @@ export const UpdateNamedValue: API.OperationMethod<
   UpdateNamedValueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20224, __c632, 0) as any as S.Schema<UpdateNamedValueRequest>,
-  output: __S(16960, __c530, 0) as any as S.Schema<UpdateNamedValueResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20288, __c634, 0) as any as S.Schema<UpdateNamedValueRequest>,
+  output: __S(17024, __c532, 0) as any as S.Schema<UpdateNamedValueResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29187,9 +29704,10 @@ export const UpdateOpenIdConnectProvider: API.OperationMethod<
   UpdateOpenIdConnectProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20289, __c634, 1) as any as S.Schema<UpdateOpenIdConnectProviderRequest>,
-  output: __S(5921, __c185, 1) as any as S.Schema<UpdateOpenIdConnectProviderResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20353, __c636, 1) as any as S.Schema<UpdateOpenIdConnectProviderRequest>,
+  output: __S(5953, __c186, 1) as any as S.Schema<UpdateOpenIdConnectProviderResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29204,9 +29722,10 @@ export const UpdatePolicyRestriction: API.OperationMethod<
   UpdatePolicyRestrictionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20320, __c635, 0) as any as S.Schema<UpdatePolicyRestrictionRequest>,
-  output: __S(6177, __c193, 1) as any as S.Schema<UpdatePolicyRestrictionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20384, __c637, 0) as any as S.Schema<UpdatePolicyRestrictionRequest>,
+  output: __S(6209, __c194, 1) as any as S.Schema<UpdatePolicyRestrictionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29221,9 +29740,10 @@ export const UpdatePortalConfig: API.OperationMethod<
   UpdatePortalConfigError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20352, __c636, 0) as any as S.Schema<UpdatePortalConfigRequest>,
-  output: __S(6247, __c195, 7) as any as S.Schema<UpdatePortalConfigResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20416, __c638, 0) as any as S.Schema<UpdatePortalConfigRequest>,
+  output: __S(6279, __c196, 7) as any as S.Schema<UpdatePortalConfigResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29238,9 +29758,10 @@ export const UpdatePortalRevision: API.OperationMethod<
   UpdatePortalRevisionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20384, __c637, 0) as any as S.Schema<UpdatePortalRevisionRequest>,
-  output: __S(17473, __c546, 1) as any as S.Schema<UpdatePortalRevisionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20448, __c639, 0) as any as S.Schema<UpdatePortalRevisionRequest>,
+  output: __S(17537, __c548, 1) as any as S.Schema<UpdatePortalRevisionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29255,9 +29776,10 @@ export const UpdateProduct: API.OperationMethod<
   UpdateProductError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20416, __c638, 0) as any as S.Schema<UpdateProductRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<UpdateProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20480, __c640, 0) as any as S.Schema<UpdateProductRequest>,
+  output: __S(6657, __c208, 1) as any as S.Schema<UpdateProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29272,9 +29794,10 @@ export const UpdateProductWiki: API.OperationMethod<
   UpdateProductWikiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20480, __c640, 0) as any as S.Schema<UpdateProductWikiRequest>,
-  output: __S(7523, __c235, 3) as any as S.Schema<UpdateProductWikiResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20544, __c642, 0) as any as S.Schema<UpdateProductWikiRequest>,
+  output: __S(7555, __c236, 3) as any as S.Schema<UpdateProductWikiResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29289,9 +29812,10 @@ export const UpdateQuotaByCounterKey: API.OperationMethod<
   UpdateQuotaByCounterKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20512, __c641, 0) as any as S.Schema<UpdateQuotaByCounterKeyRequest>,
-  output: __S(14145, __c442, 1) as any as S.Schema<UpdateQuotaByCounterKeyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20576, __c643, 0) as any as S.Schema<UpdateQuotaByCounterKeyRequest>,
+  output: __S(14209, __c444, 1) as any as S.Schema<UpdateQuotaByCounterKeyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29306,9 +29830,10 @@ export const UpdateQuotaByPeriodKey: API.OperationMethod<
   UpdateQuotaByPeriodKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20576, __c643, 0) as any as S.Schema<UpdateQuotaByPeriodKeyRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<UpdateQuotaByPeriodKeyResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20640, __c645, 0) as any as S.Schema<UpdateQuotaByPeriodKeyRequest>,
+  output: __S(6913, __c216, 1) as any as S.Schema<UpdateQuotaByPeriodKeyResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29323,9 +29848,10 @@ export const UpdateSubscription: API.OperationMethod<
   UpdateSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20608, __c644, 0) as any as S.Schema<UpdateSubscriptionRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<UpdateSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20672, __c646, 0) as any as S.Schema<UpdateSubscriptionRequest>,
+  output: __S(6977, __c218, 1) as any as S.Schema<UpdateSubscriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29340,9 +29866,10 @@ export const UpdateTag: API.OperationMethod<
   UpdateTagError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20672, __c646, 0) as any as S.Schema<UpdateTagRequest>,
-  output: __S(8289, __c259, 1) as any as S.Schema<UpdateTagResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20736, __c648, 0) as any as S.Schema<UpdateTagRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<UpdateTagResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29357,9 +29884,10 @@ export const UpdateTenantAccess: API.OperationMethod<
   UpdateTenantAccessError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20705, __c647, 1) as any as S.Schema<UpdateTenantAccessRequest>,
-  output: __S(16609, __c519, 1) as any as S.Schema<UpdateTenantAccessResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20769, __c649, 1) as any as S.Schema<UpdateTenantAccessRequest>,
+  output: __S(16673, __c521, 1) as any as S.Schema<UpdateTenantAccessResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29374,9 +29902,10 @@ export const UpdateUser: API.OperationMethod<
   UpdateUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20737, __c648, 1) as any as S.Schema<UpdateUserRequest>,
-  output: __S(16226, __c507, 2) as any as S.Schema<UpdateUserResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20801, __c650, 1) as any as S.Schema<UpdateUserRequest>,
+  output: __S(16290, __c509, 2) as any as S.Schema<UpdateUserResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29391,9 +29920,10 @@ export const UpdateWorkspace: API.OperationMethod<
   UpdateWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20768, __c649, 0) as any as S.Schema<UpdateWorkspaceRequest>,
-  output: __S(7585, __c237, 1) as any as S.Schema<UpdateWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20832, __c651, 0) as any as S.Schema<UpdateWorkspaceRequest>,
+  output: __S(7617, __c238, 1) as any as S.Schema<UpdateWorkspaceResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29408,9 +29938,10 @@ export const UpdateWorkspaceApi: API.OperationMethod<
   UpdateWorkspaceApiError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20800, __c650, 0) as any as S.Schema<UpdateWorkspaceApiRequest>,
+  input: __S(20864, __c652, 0) as any as S.Schema<UpdateWorkspaceApiRequest>,
   output: __S(2752, __c86, 0) as any as S.Schema<UpdateWorkspaceApiResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29425,9 +29956,10 @@ export const UpdateWorkspaceApiDiagnostic: API.OperationMethod<
   UpdateWorkspaceApiDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20832, __c651, 0) as any as S.Schema<UpdateWorkspaceApiDiagnosticRequest>,
-  output: __S(23880, __c746, 8) as any as S.Schema<UpdateWorkspaceApiDiagnosticResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20896, __c653, 0) as any as S.Schema<UpdateWorkspaceApiDiagnosticRequest>,
+  output: __S(23944, __c748, 8) as any as S.Schema<UpdateWorkspaceApiDiagnosticResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29442,9 +29974,10 @@ export const UpdateWorkspaceApiOperation: API.OperationMethod<
   UpdateWorkspaceApiOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20896, __c653, 0) as any as S.Schema<UpdateWorkspaceApiOperationRequest>,
-  output: __S(3786, __c118, 10) as any as S.Schema<UpdateWorkspaceApiOperationResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20960, __c655, 0) as any as S.Schema<UpdateWorkspaceApiOperationRequest>,
+  output: __S(3818, __c119, 10) as any as S.Schema<UpdateWorkspaceApiOperationResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29459,9 +29992,10 @@ export const UpdateWorkspaceApiRelease: API.OperationMethod<
   UpdateWorkspaceApiReleaseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20928, __c654, 0) as any as S.Schema<UpdateWorkspaceApiReleaseRequest>,
-  output: __S(5089, __c159, 1) as any as S.Schema<UpdateWorkspaceApiReleaseResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20992, __c656, 0) as any as S.Schema<UpdateWorkspaceApiReleaseRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<UpdateWorkspaceApiReleaseResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29476,9 +30010,10 @@ export const UpdateWorkspaceApiVersionSet: API.OperationMethod<
   UpdateWorkspaceApiVersionSetError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21024, __c657, 0) as any as S.Schema<UpdateWorkspaceApiVersionSetRequest>,
-  output: __S(7073, __c221, 1) as any as S.Schema<UpdateWorkspaceApiVersionSetResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21088, __c659, 0) as any as S.Schema<UpdateWorkspaceApiVersionSetRequest>,
+  output: __S(7105, __c222, 1) as any as S.Schema<UpdateWorkspaceApiVersionSetResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29493,9 +30028,10 @@ export const UpdateWorkspaceBackend: API.OperationMethod<
   UpdateWorkspaceBackendError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21056, __c658, 0) as any as S.Schema<UpdateWorkspaceBackendRequest>,
-  output: __S(11763, __c367, 19) as any as S.Schema<UpdateWorkspaceBackendResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21120, __c660, 0) as any as S.Schema<UpdateWorkspaceBackendRequest>,
+  output: __S(11827, __c369, 19) as any as S.Schema<UpdateWorkspaceBackendResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29510,9 +30046,10 @@ export const UpdateWorkspaceDiagnostic: API.OperationMethod<
   UpdateWorkspaceDiagnosticError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21088, __c659, 0) as any as S.Schema<UpdateWorkspaceDiagnosticRequest>,
-  output: __S(23880, __c746, 8) as any as S.Schema<UpdateWorkspaceDiagnosticResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21152, __c661, 0) as any as S.Schema<UpdateWorkspaceDiagnosticRequest>,
+  output: __S(23944, __c748, 8) as any as S.Schema<UpdateWorkspaceDiagnosticResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29527,9 +30064,10 @@ export const UpdateWorkspaceGroup: API.OperationMethod<
   UpdateWorkspaceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21120, __c660, 0) as any as S.Schema<UpdateWorkspaceGroupRequest>,
-  output: __S(5440, __c170, 0) as any as S.Schema<UpdateWorkspaceGroupResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21184, __c662, 0) as any as S.Schema<UpdateWorkspaceGroupRequest>,
+  output: __S(5472, __c171, 0) as any as S.Schema<UpdateWorkspaceGroupResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29544,9 +30082,10 @@ export const UpdateWorkspaceLogger: API.OperationMethod<
   UpdateWorkspaceLoggerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21152, __c661, 0) as any as S.Schema<UpdateWorkspaceLoggerRequest>,
-  output: __S(5601, __c175, 1) as any as S.Schema<UpdateWorkspaceLoggerResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21216, __c663, 0) as any as S.Schema<UpdateWorkspaceLoggerRequest>,
+  output: __S(5633, __c176, 1) as any as S.Schema<UpdateWorkspaceLoggerResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29561,9 +30100,10 @@ export const UpdateWorkspaceNamedValue: API.OperationMethod<
   UpdateWorkspaceNamedValueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21184, __c662, 0) as any as S.Schema<UpdateWorkspaceNamedValueRequest>,
-  output: __S(16960, __c530, 0) as any as S.Schema<UpdateWorkspaceNamedValueResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21248, __c664, 0) as any as S.Schema<UpdateWorkspaceNamedValueRequest>,
+  output: __S(17024, __c532, 0) as any as S.Schema<UpdateWorkspaceNamedValueResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29578,9 +30118,10 @@ export const UpdateWorkspaceProduct: API.OperationMethod<
   UpdateWorkspaceProductError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21216, __c663, 0) as any as S.Schema<UpdateWorkspaceProductRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<UpdateWorkspaceProductResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21280, __c665, 0) as any as S.Schema<UpdateWorkspaceProductRequest>,
+  output: __S(6657, __c208, 1) as any as S.Schema<UpdateWorkspaceProductResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29595,9 +30136,10 @@ export const UpdateWorkspaceSubscription: API.OperationMethod<
   UpdateWorkspaceSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21248, __c664, 0) as any as S.Schema<UpdateWorkspaceSubscriptionRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<UpdateWorkspaceSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21312, __c666, 0) as any as S.Schema<UpdateWorkspaceSubscriptionRequest>,
+  output: __S(6977, __c218, 1) as any as S.Schema<UpdateWorkspaceSubscriptionResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29612,9 +30154,10 @@ export const UpdateWorkspaceTag: API.OperationMethod<
   UpdateWorkspaceTagError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21280, __c665, 0) as any as S.Schema<UpdateWorkspaceTagRequest>,
-  output: __S(8289, __c259, 1) as any as S.Schema<UpdateWorkspaceTagResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21344, __c667, 0) as any as S.Schema<UpdateWorkspaceTagRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<UpdateWorkspaceTagResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29629,9 +30172,10 @@ export const UserCreateOrUpdate: API.OperationMethod<
   UserCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21313, __c666, 1) as any as S.Schema<UserCreateOrUpdateRequest>,
-  output: __S(16226, __c507, 2) as any as S.Schema<UserCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21377, __c668, 1) as any as S.Schema<UserCreateOrUpdateRequest>,
+  output: __S(16290, __c509, 2) as any as S.Schema<UserCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29646,9 +30190,10 @@ export const ValidateTenantConfiguration: API.OperationMethod<
   ValidateTenantConfigurationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21376, __c668, 0) as any as S.Schema<ValidateTenantConfigurationRequest>,
+  input: __S(21440, __c670, 0) as any as S.Schema<ValidateTenantConfigurationRequest>,
   output: __S(2278, __c71, 6) as any as S.Schema<ValidateTenantConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29663,9 +30208,10 @@ export const WorkspaceApiCreateOrUpdate: API.OperationMethod<
   WorkspaceApiCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21408, __c669, 0) as any as S.Schema<WorkspaceApiCreateOrUpdateRequest>,
-  output: __S(23490, __c734, 2) as any as S.Schema<WorkspaceApiCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21472, __c671, 0) as any as S.Schema<WorkspaceApiCreateOrUpdateRequest>,
+  output: __S(23554, __c736, 2) as any as S.Schema<WorkspaceApiCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29680,9 +30226,10 @@ export const WorkspaceApiDiagnosticCreateOrUpdate: API.OperationMethod<
   WorkspaceApiDiagnosticCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21440, __c670, 0) as any as S.Schema<WorkspaceApiDiagnosticCreateOrUpdateRequest>,
-  output: __S(23880, __c746, 8) as any as S.Schema<WorkspaceApiDiagnosticCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21504, __c672, 0) as any as S.Schema<WorkspaceApiDiagnosticCreateOrUpdateRequest>,
+  output: __S(23944, __c748, 8) as any as S.Schema<WorkspaceApiDiagnosticCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29697,9 +30244,10 @@ export const WorkspaceApiOperationCreateOrUpdate: API.OperationMethod<
   WorkspaceApiOperationCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21472, __c671, 0) as any as S.Schema<WorkspaceApiOperationCreateOrUpdateRequest>,
-  output: __S(3786, __c118, 10) as any as S.Schema<WorkspaceApiOperationCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21536, __c673, 0) as any as S.Schema<WorkspaceApiOperationCreateOrUpdateRequest>,
+  output: __S(3818, __c119, 10) as any as S.Schema<WorkspaceApiOperationCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29714,13 +30262,14 @@ export const WorkspaceApiOperationPolicyCreateOrUpdate: API.OperationMethod<
   WorkspaceApiOperationPolicyCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21504, __c672, 0) as any as S.Schema<WorkspaceApiOperationPolicyCreateOrUpdateRequest>,
+  input: __S(21568, __c674, 0) as any as S.Schema<WorkspaceApiOperationPolicyCreateOrUpdateRequest>,
   output: __S(
-    4193,
-    __c131,
+    4225,
+    __c132,
     1,
   ) as any as S.Schema<WorkspaceApiOperationPolicyCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29735,9 +30284,10 @@ export const WorkspaceApiPolicyCreateOrUpdate: API.OperationMethod<
   WorkspaceApiPolicyCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21536, __c673, 0) as any as S.Schema<WorkspaceApiPolicyCreateOrUpdateRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<WorkspaceApiPolicyCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21600, __c675, 0) as any as S.Schema<WorkspaceApiPolicyCreateOrUpdateRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<WorkspaceApiPolicyCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29752,9 +30302,10 @@ export const WorkspaceApiReleaseCreateOrUpdate: API.OperationMethod<
   WorkspaceApiReleaseCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21568, __c674, 0) as any as S.Schema<WorkspaceApiReleaseCreateOrUpdateRequest>,
-  output: __S(5089, __c159, 1) as any as S.Schema<WorkspaceApiReleaseCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21632, __c676, 0) as any as S.Schema<WorkspaceApiReleaseCreateOrUpdateRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<WorkspaceApiReleaseCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29769,9 +30320,10 @@ export const WorkspaceApiSchemaCreateOrUpdate: API.OperationMethod<
   WorkspaceApiSchemaCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21600, __c675, 0) as any as S.Schema<WorkspaceApiSchemaCreateOrUpdateRequest>,
-  output: __S(5793, __c181, 1) as any as S.Schema<WorkspaceApiSchemaCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21664, __c677, 0) as any as S.Schema<WorkspaceApiSchemaCreateOrUpdateRequest>,
+  output: __S(5825, __c182, 1) as any as S.Schema<WorkspaceApiSchemaCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29786,9 +30338,10 @@ export const WorkspaceApiVersionSetCreateOrUpdate: API.OperationMethod<
   WorkspaceApiVersionSetCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21632, __c676, 0) as any as S.Schema<WorkspaceApiVersionSetCreateOrUpdateRequest>,
-  output: __S(7073, __c221, 1) as any as S.Schema<WorkspaceApiVersionSetCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21696, __c678, 0) as any as S.Schema<WorkspaceApiVersionSetCreateOrUpdateRequest>,
+  output: __S(7105, __c222, 1) as any as S.Schema<WorkspaceApiVersionSetCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29803,9 +30356,10 @@ export const WorkspaceBackendCreateOrUpdate: API.OperationMethod<
   WorkspaceBackendCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21664, __c677, 0) as any as S.Schema<WorkspaceBackendCreateOrUpdateRequest>,
-  output: __S(11763, __c367, 19) as any as S.Schema<WorkspaceBackendCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21728, __c679, 0) as any as S.Schema<WorkspaceBackendCreateOrUpdateRequest>,
+  output: __S(11827, __c369, 19) as any as S.Schema<WorkspaceBackendCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29820,9 +30374,10 @@ export const WorkspaceCertificateCreateOrUpdate: API.OperationMethod<
   WorkspaceCertificateCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21760, __c680, 0) as any as S.Schema<WorkspaceCertificateCreateOrUpdateRequest>,
-  output: __S(13313, __c416, 1) as any as S.Schema<WorkspaceCertificateCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21824, __c682, 0) as any as S.Schema<WorkspaceCertificateCreateOrUpdateRequest>,
+  output: __S(13377, __c418, 1) as any as S.Schema<WorkspaceCertificateCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29837,9 +30392,10 @@ export const WorkspaceCreateOrUpdate: API.OperationMethod<
   WorkspaceCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21792, __c681, 0) as any as S.Schema<WorkspaceCreateOrUpdateRequest>,
-  output: __S(7585, __c237, 1) as any as S.Schema<WorkspaceCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21856, __c683, 0) as any as S.Schema<WorkspaceCreateOrUpdateRequest>,
+  output: __S(7617, __c238, 1) as any as S.Schema<WorkspaceCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29854,9 +30410,10 @@ export const WorkspaceDiagnosticCreateOrUpdate: API.OperationMethod<
   WorkspaceDiagnosticCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21824, __c682, 0) as any as S.Schema<WorkspaceDiagnosticCreateOrUpdateRequest>,
-  output: __S(23880, __c746, 8) as any as S.Schema<WorkspaceDiagnosticCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21888, __c684, 0) as any as S.Schema<WorkspaceDiagnosticCreateOrUpdateRequest>,
+  output: __S(23944, __c748, 8) as any as S.Schema<WorkspaceDiagnosticCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29871,9 +30428,10 @@ export const WorkspaceGlobalSchemaCreateOrUpdate: API.OperationMethod<
   WorkspaceGlobalSchemaCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21856, __c683, 0) as any as S.Schema<WorkspaceGlobalSchemaCreateOrUpdateRequest>,
-  output: __S(8609, __c269, 1) as any as S.Schema<WorkspaceGlobalSchemaCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21920, __c685, 0) as any as S.Schema<WorkspaceGlobalSchemaCreateOrUpdateRequest>,
+  output: __S(8641, __c270, 1) as any as S.Schema<WorkspaceGlobalSchemaCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29888,9 +30446,10 @@ export const WorkspaceGroupCreateOrUpdate: API.OperationMethod<
   WorkspaceGroupCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21888, __c684, 0) as any as S.Schema<WorkspaceGroupCreateOrUpdateRequest>,
-  output: __S(5440, __c170, 0) as any as S.Schema<WorkspaceGroupCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21952, __c686, 0) as any as S.Schema<WorkspaceGroupCreateOrUpdateRequest>,
+  output: __S(5472, __c171, 0) as any as S.Schema<WorkspaceGroupCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29905,9 +30464,10 @@ export const WorkspaceLoggerCreateOrUpdate: API.OperationMethod<
   WorkspaceLoggerCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21920, __c685, 0) as any as S.Schema<WorkspaceLoggerCreateOrUpdateRequest>,
-  output: __S(5601, __c175, 1) as any as S.Schema<WorkspaceLoggerCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(21984, __c687, 0) as any as S.Schema<WorkspaceLoggerCreateOrUpdateRequest>,
+  output: __S(5633, __c176, 1) as any as S.Schema<WorkspaceLoggerCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29922,9 +30482,10 @@ export const WorkspaceNamedValueCreateOrUpdate: API.OperationMethod<
   WorkspaceNamedValueCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21952, __c686, 0) as any as S.Schema<WorkspaceNamedValueCreateOrUpdateRequest>,
-  output: __S(16960, __c530, 0) as any as S.Schema<WorkspaceNamedValueCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22016, __c688, 0) as any as S.Schema<WorkspaceNamedValueCreateOrUpdateRequest>,
+  output: __S(17024, __c532, 0) as any as S.Schema<WorkspaceNamedValueCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29939,9 +30500,10 @@ export const WorkspaceNotificationCreateOrUpdate: API.OperationMethod<
   WorkspaceNotificationCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21984, __c687, 0) as any as S.Schema<WorkspaceNotificationCreateOrUpdateRequest>,
-  output: __S(5858, __c183, 2) as any as S.Schema<WorkspaceNotificationCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22048, __c689, 0) as any as S.Schema<WorkspaceNotificationCreateOrUpdateRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<WorkspaceNotificationCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29957,16 +30519,17 @@ export const WorkspaceNotificationRecipientEmailCreateOrUpdate: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22016,
-    __c688,
+    22080,
+    __c690,
     0,
   ) as any as S.Schema<WorkspaceNotificationRecipientEmailCreateOrUpdateRequest>,
   output: __S(
-    12897,
-    __c403,
+    12961,
+    __c405,
     1,
   ) as any as S.Schema<WorkspaceNotificationRecipientEmailCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29982,16 +30545,17 @@ export const WorkspaceNotificationRecipientUserCreateOrUpdate: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22048,
-    __c689,
+    22112,
+    __c691,
     0,
   ) as any as S.Schema<WorkspaceNotificationRecipientUserCreateOrUpdateRequest>,
   output: __S(
-    12993,
-    __c406,
+    13057,
+    __c408,
     1,
   ) as any as S.Schema<WorkspaceNotificationRecipientUserCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30006,9 +30570,10 @@ export const WorkspacePolicyCreateOrUpdate: API.OperationMethod<
   WorkspacePolicyCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22112, __c691, 0) as any as S.Schema<WorkspacePolicyCreateOrUpdateRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<WorkspacePolicyCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22176, __c693, 0) as any as S.Schema<WorkspacePolicyCreateOrUpdateRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<WorkspacePolicyCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30023,9 +30588,10 @@ export const WorkspacePolicyFragmentCreateOrUpdate: API.OperationMethod<
   WorkspacePolicyFragmentCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22144, __c692, 0) as any as S.Schema<WorkspacePolicyFragmentCreateOrUpdateRequest>,
-  output: __S(17281, __c540, 1) as any as S.Schema<WorkspacePolicyFragmentCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22208, __c694, 0) as any as S.Schema<WorkspacePolicyFragmentCreateOrUpdateRequest>,
+  output: __S(17345, __c542, 1) as any as S.Schema<WorkspacePolicyFragmentCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30040,9 +30606,10 @@ export const WorkspaceProductApiLinkCreateOrUpdate: API.OperationMethod<
   WorkspaceProductApiLinkCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22176, __c693, 0) as any as S.Schema<WorkspaceProductApiLinkCreateOrUpdateRequest>,
-  output: __S(6689, __c209, 1) as any as S.Schema<WorkspaceProductApiLinkCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22240, __c695, 0) as any as S.Schema<WorkspaceProductApiLinkCreateOrUpdateRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<WorkspaceProductApiLinkCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30057,9 +30624,10 @@ export const WorkspaceProductCreateOrUpdate: API.OperationMethod<
   WorkspaceProductCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22208, __c694, 0) as any as S.Schema<WorkspaceProductCreateOrUpdateRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<WorkspaceProductCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22272, __c696, 0) as any as S.Schema<WorkspaceProductCreateOrUpdateRequest>,
+  output: __S(6657, __c208, 1) as any as S.Schema<WorkspaceProductCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30074,9 +30642,10 @@ export const WorkspaceProductGroupLinkCreateOrUpdate: API.OperationMethod<
   WorkspaceProductGroupLinkCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22240, __c695, 0) as any as S.Schema<WorkspaceProductGroupLinkCreateOrUpdateRequest>,
-  output: __S(6753, __c211, 1) as any as S.Schema<WorkspaceProductGroupLinkCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22304, __c697, 0) as any as S.Schema<WorkspaceProductGroupLinkCreateOrUpdateRequest>,
+  output: __S(6785, __c212, 1) as any as S.Schema<WorkspaceProductGroupLinkCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30091,9 +30660,10 @@ export const WorkspaceProductPolicyCreateOrUpdate: API.OperationMethod<
   WorkspaceProductPolicyCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22272, __c696, 0) as any as S.Schema<WorkspaceProductPolicyCreateOrUpdateRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<WorkspaceProductPolicyCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22336, __c698, 0) as any as S.Schema<WorkspaceProductPolicyCreateOrUpdateRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<WorkspaceProductPolicyCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30108,9 +30678,10 @@ export const WorkspaceSubscriptionCreateOrUpdate: API.OperationMethod<
   WorkspaceSubscriptionCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22304, __c697, 0) as any as S.Schema<WorkspaceSubscriptionCreateOrUpdateRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<WorkspaceSubscriptionCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22368, __c699, 0) as any as S.Schema<WorkspaceSubscriptionCreateOrUpdateRequest>,
+  output: __S(6977, __c218, 1) as any as S.Schema<WorkspaceSubscriptionCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30125,9 +30696,10 @@ export const WorkspaceTagApiLinkCreateOrUpdate: API.OperationMethod<
   WorkspaceTagApiLinkCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22336, __c698, 0) as any as S.Schema<WorkspaceTagApiLinkCreateOrUpdateRequest>,
-  output: __S(6689, __c209, 1) as any as S.Schema<WorkspaceTagApiLinkCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22400, __c700, 0) as any as S.Schema<WorkspaceTagApiLinkCreateOrUpdateRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<WorkspaceTagApiLinkCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30142,9 +30714,10 @@ export const WorkspaceTagCreateOrUpdate: API.OperationMethod<
   WorkspaceTagCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22368, __c699, 0) as any as S.Schema<WorkspaceTagCreateOrUpdateRequest>,
-  output: __S(8289, __c259, 1) as any as S.Schema<WorkspaceTagCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22432, __c701, 0) as any as S.Schema<WorkspaceTagCreateOrUpdateRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<WorkspaceTagCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30159,9 +30732,10 @@ export const WorkspaceTagOperationLinkCreateOrUpdate: API.OperationMethod<
   WorkspaceTagOperationLinkCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22400, __c700, 0) as any as S.Schema<WorkspaceTagOperationLinkCreateOrUpdateRequest>,
-  output: __S(7233, __c226, 1) as any as S.Schema<WorkspaceTagOperationLinkCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22464, __c702, 0) as any as S.Schema<WorkspaceTagOperationLinkCreateOrUpdateRequest>,
+  output: __S(7265, __c227, 1) as any as S.Schema<WorkspaceTagOperationLinkCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30176,9 +30750,10 @@ export const WorkspaceTagProductLinkCreateOrUpdate: API.OperationMethod<
   WorkspaceTagProductLinkCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22464, __c702, 0) as any as S.Schema<WorkspaceTagProductLinkCreateOrUpdateRequest>,
-  output: __S(7297, __c228, 1) as any as S.Schema<WorkspaceTagProductLinkCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  input: __S(22528, __c704, 0) as any as S.Schema<WorkspaceTagProductLinkCreateOrUpdateRequest>,
+  output: __S(7329, __c229, 1) as any as S.Schema<WorkspaceTagProductLinkCreateOrUpdateResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30322,7 +30897,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AiGatewaySecretHeader" });
     case 2:
@@ -30491,8 +31066,8 @@ function __c12(j: number): any {
           state: S.optional(S.String),
           createdDate: S.optional(S.String),
           expirationDate: S.optional(S.String),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayApiKeyProperties" });
@@ -30516,8 +31091,8 @@ function __c13(j: number): any {
           displayName: S.optional(S.String),
           state: S.optional(S.String),
           expirationDate: S.optional(S.String),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AiGatewayApiKeyPropertiesInput" });
   }
@@ -30788,7 +31363,7 @@ function __c26(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           gatewayName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(19488, __c609, 0)),
+          tags: S.optional(__S(19552, __c611, 0)),
           properties: __S(960, __c30, 0),
           sku: __S(928, __c29, 0),
           location: S.String,
@@ -30811,7 +31386,7 @@ function __c27(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(19488, __c609, 0)),
+          tags: S.optional(__S(19552, __c611, 0)),
           properties: __S(930, __c29, 2),
           sku: __S(928, __c29, 0),
           systemData: S.optional(__S(32, __c1, 0)),
@@ -30826,7 +31401,7 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subnet: S.optional(__S(15200, __c475, 0)),
+          subnet: S.optional(__S(15264, __c477, 0)),
         }),
       ).annotate({ identifier: "BackendConfiguration" });
   }
@@ -30852,7 +31427,7 @@ function __c29(j: number): any {
           provisioningState: S.optional(S.String),
           targetProvisioningState: S.optional(S.String),
           createdAtUtc: S.optional(S.String),
-          frontend: S.optional(__S(19520, __c610, 0)),
+          frontend: S.optional(__S(19584, __c612, 0)),
           backend: S.optional(__S(896, __c28, 0)),
           configurationApi: S.optional(__S(929, __c29, 1)),
           virtualNetworkType: S.optional(S.String),
@@ -30865,9 +31440,9 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          frontend: S.optional(__S(15232, __c476, 0)),
+          frontend: S.optional(__S(15296, __c478, 0)),
           backend: S.optional(__S(896, __c28, 0)),
-          configurationApi: S.optional(__S(15232, __c476, 0)),
+          configurationApi: S.optional(__S(15296, __c478, 0)),
           virtualNetworkType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiManagementGatewayPropertiesInput" });
@@ -31879,7 +32454,7 @@ function __c76(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           diagnosticId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(23879, __c746, 7)),
+          properties: S.optional(__S(23943, __c748, 7)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -32114,8 +32689,8 @@ function __c83(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(15200, __c475, 0)),
-          privateLinkServiceConnectionState: __S(15264, __c477, 0),
+          privateEndpoint: S.optional(__S(15264, __c477, 0)),
+          privateLinkServiceConnectionState: __S(15328, __c479, 0),
           provisioningState: S.optional(S.String),
           groupIds: S.optional(__S(96, __c3, 0)),
         }),
@@ -32152,7 +32727,7 @@ function __c83(j: number): any {
           configurationApi: S.optional(__S(2659, __c83, 3)),
           virtualNetworkConfiguration: S.optional(__S(2660, __c83, 4)),
           additionalLocations: S.optional(__S(2663, __c83, 7)),
-          customProperties: S.optional(__S(19488, __c609, 0)),
+          customProperties: S.optional(__S(19552, __c611, 0)),
           certificates: S.optional(__S(2665, __c83, 9)),
           enableClientCertificate: S.optional(S.Boolean),
           natGatewayState: S.optional(S.String),
@@ -32170,7 +32745,7 @@ function __c83(j: number): any {
         }),
       ).annotate({ identifier: "ApiManagementServiceProperties" });
     case 15:
-      return S.Record(S.String, __S(19552, __c611, 0));
+      return S.Record(S.String, __S(19616, __c613, 0));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -32190,7 +32765,7 @@ function __c84(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(19488, __c609, 0)),
+          tags: S.optional(__S(19552, __c611, 0)),
           properties: __S(2670, __c83, 14),
           sku: __S(2661, __c83, 5),
           identity: S.optional(__S(2672, __c83, 16)),
@@ -32239,7 +32814,7 @@ function __c86(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(23457, __c733, 1)),
+          properties: S.optional(__S(23521, __c735, 1)),
         }),
       ).annotate({ identifier: "GatewayApiCreateOrUpdateResponse" });
   }
@@ -32408,7 +32983,7 @@ function __c94(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GenerateGatewayTokenResponse" });
   }
@@ -32438,6 +33013,16 @@ function __c96(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GenerateUserSsoUrlResponse" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           aiGatewayName: S.String.pipe(T.Label()),
@@ -32454,7 +33039,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "GetAiGatewayAliasResourceRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32474,7 +33059,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "GetAiGatewayApiKeyResourceRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32495,7 +33080,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "GetAiGatewayModelProviderResourceRequest" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32517,7 +33102,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "GetAiGatewayModelResourceRequest" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32527,9 +33112,9 @@ function __c100(j: number): any {
           publicIpAddressId: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
           configurationApi: S.optional(__S(2659, __c83, 3)),
-          virtualNetworkConfiguration: S.optional(__S(3264, __c102, 0)),
-          additionalLocations: S.optional(__S(3266, __c102, 2)),
-          customProperties: S.optional(__S(19488, __c609, 0)),
+          virtualNetworkConfiguration: S.optional(__S(3296, __c103, 0)),
+          additionalLocations: S.optional(__S(3298, __c103, 2)),
+          customProperties: S.optional(__S(19552, __c611, 0)),
           certificates: S.optional(__S(2665, __c83, 9)),
           enableClientCertificate: S.optional(S.Boolean),
           natGatewayState: S.optional(S.String),
@@ -32537,7 +33122,7 @@ function __c100(j: number): any {
           virtualNetworkType: S.optional(S.String),
           apiVersionConstraint: S.optional(__S(2666, __c83, 10)),
           restore: S.optional(S.Boolean),
-          privateEndpointConnections: S.optional(__S(3268, __c102, 4)),
+          privateEndpointConnections: S.optional(__S(3300, __c103, 4)),
           legacyPortalStatus: S.optional(S.String),
           developerPortalStatus: S.optional(S.String),
           publisherEmail: S.String,
@@ -32550,10 +33135,10 @@ function __c100(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(19488, __c609, 0)),
-          properties: __S(3200, __c100, 0),
+          tags: S.optional(__S(19552, __c611, 0)),
+          properties: __S(3232, __c101, 0),
           sku: __S(2661, __c83, 5),
-          identity: S.optional(__S(3269, __c102, 5)),
+          identity: S.optional(__S(3301, __c103, 5)),
           location: S.String,
           zones: S.optional(__S(96, __c3, 0)),
         }).pipe(
@@ -32567,7 +33152,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ApiManagementServiceCreateOrUpdateRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32575,7 +33160,7 @@ function __c101(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(19488, __c609, 0)),
+          tags: S.optional(__S(19552, __c611, 0)),
           properties: __S(2670, __c83, 14),
           sku: __S(2661, __c83, 5),
           identity: S.optional(__S(2672, __c83, 16)),
@@ -32587,7 +33172,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ApiManagementServiceCreateOrUpdateResponse" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32602,26 +33187,26 @@ function __c102(j: number): any {
           sku: __S(2661, __c83, 5),
           zones: S.optional(__S(96, __c3, 0)),
           publicIpAddressId: S.optional(S.String),
-          virtualNetworkConfiguration: S.optional(__S(3264, __c102, 0)),
+          virtualNetworkConfiguration: S.optional(__S(3296, __c103, 0)),
           natGatewayState: S.optional(S.String),
           disableGateway: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AdditionalLocationInput" });
     case 2:
-      return S.Array(__S(3265, __c102, 1));
+      return S.Array(__S(3297, __c103, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(15168, __c474, 0)),
+          properties: S.optional(__S(15232, __c476, 0)),
         }),
       ).annotate({
         identifier: "ApiManagementServicePropertiesInputPrivateEndpointConnectionsItem",
       });
     case 4:
-      return S.Array(__S(3267, __c102, 3));
+      return S.Array(__S(3299, __c103, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -32631,7 +33216,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "ApiManagementServiceIdentityInput" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32651,7 +33236,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GetAiGatewayPrivateEndpointConnectionRequest" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32671,7 +33256,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "GetAiGatewayPrivateLinkResourceRequest" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32683,7 +33268,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "PrivateLinkResourceProperties" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32692,12 +33277,12 @@ function __c106(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(3360, __c105, 0)),
+          properties: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "GetAiGatewayPrivateLinkResourceResponse" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32716,7 +33301,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "GetAiGatewayResourceRequest" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32725,17 +33310,17 @@ function __c108(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(19488, __c609, 0)),
+          tags: S.optional(__S(19552, __c611, 0)),
           location: S.String,
-          properties: __S(19651, __c614, 3),
-          identity: S.optional(__S(19653, __c614, 5)),
-          sku: S.optional(__S(19650, __c614, 2)),
+          properties: __S(19715, __c616, 3),
+          identity: S.optional(__S(19717, __c616, 5)),
+          sku: S.optional(__S(19714, __c616, 2)),
           eTag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetAiGatewayResourceResponse" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32756,7 +33341,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetAiGatewayTelemetryExporterResourceRequest" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32777,7 +33362,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "GetAiGatewayToolServerResourceRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32800,14 +33385,14 @@ function __c111(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          loginLink: S.optional(S.String),
+          loginLink: S.optional(S.String.pipe(T.SensitiveValue({}))),
           redirectUri: S.optional(S.String),
           expiresUtc: S.String,
         }),
       ).annotate({ identifier: "AiGatewayToolServerOauth2LoginLinks" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32827,7 +33412,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "GetAiGatewayWorkspaceResourceRequest" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32845,12 +33430,12 @@ function __c113(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(3616, __c113, 0)),
+          properties: S.optional(__S(3648, __c114, 0)),
         }),
       ).annotate({ identifier: "GetAiGatewayWorkspaceResourceResponse" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32870,7 +33455,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetApiRequest" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32891,7 +33476,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "GetApiDiagnosticRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32910,7 +33495,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetApiGatewayRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32920,7 +33505,7 @@ function __c117(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
           operationId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3785, __c118, 9)),
+          properties: S.optional(__S(3817, __c119, 9)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -32932,7 +33517,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "ApiOperationCreateOrUpdateRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32944,7 +33529,7 @@ function __c118(j: number): any {
         }),
       ).annotate({ identifier: "ParameterExampleContract" });
     case 1:
-      return S.Record(S.String, __S(3776, __c118, 0));
+      return S.Record(S.String, __S(3808, __c119, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -32956,30 +33541,30 @@ function __c118(j: number): any {
           values: S.optional(__S(96, __c3, 0)),
           schemaId: S.optional(S.String),
           typeName: S.optional(S.String),
-          examples: S.optional(__S(3777, __c118, 1)),
+          examples: S.optional(__S(3809, __c119, 1)),
         }),
       ).annotate({ identifier: "ParameterContract" });
     case 3:
-      return S.Array(__S(3778, __c118, 2));
+      return S.Array(__S(3810, __c119, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           contentType: S.String,
           schemaId: S.optional(S.String),
           typeName: S.optional(S.String),
-          formParameters: S.optional(__S(3779, __c118, 3)),
-          examples: S.optional(__S(3777, __c118, 1)),
+          formParameters: S.optional(__S(3811, __c119, 3)),
+          examples: S.optional(__S(3809, __c119, 1)),
         }),
       ).annotate({ identifier: "RepresentationContract" });
     case 5:
-      return S.Array(__S(3780, __c118, 4));
+      return S.Array(__S(3812, __c119, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          queryParameters: S.optional(__S(3779, __c118, 3)),
-          headers: S.optional(__S(3779, __c118, 3)),
-          representations: S.optional(__S(3781, __c118, 5)),
+          queryParameters: S.optional(__S(3811, __c119, 3)),
+          headers: S.optional(__S(3811, __c119, 3)),
+          representations: S.optional(__S(3813, __c119, 5)),
         }),
       ).annotate({ identifier: "RequestContract" });
     case 7:
@@ -32987,19 +33572,19 @@ function __c118(j: number): any {
         S.Struct({
           statusCode: S.Number,
           description: S.optional(S.String),
-          representations: S.optional(__S(3781, __c118, 5)),
-          headers: S.optional(__S(3779, __c118, 3)),
+          representations: S.optional(__S(3813, __c119, 5)),
+          headers: S.optional(__S(3811, __c119, 3)),
         }),
       ).annotate({ identifier: "ResponseContract" });
     case 8:
-      return S.Array(__S(3783, __c118, 7));
+      return S.Array(__S(3815, __c119, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          templateParameters: S.optional(__S(3779, __c118, 3)),
+          templateParameters: S.optional(__S(3811, __c119, 3)),
           description: S.optional(S.String),
-          request: S.optional(__S(3782, __c118, 6)),
-          responses: S.optional(__S(3784, __c118, 8)),
+          request: S.optional(__S(3814, __c119, 6)),
+          responses: S.optional(__S(3816, __c119, 8)),
           policies: S.optional(S.String),
           displayName: S.String,
           method: S.String,
@@ -33012,12 +33597,12 @@ function __c118(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3785, __c118, 9)),
+          properties: S.optional(__S(3817, __c119, 9)),
         }),
       ).annotate({ identifier: "ApiOperationCreateOrUpdateResponse" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33037,7 +33622,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "GetApiGatewayConfigConnectionRequest" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33059,7 +33644,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetApiIssueRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33081,7 +33666,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "GetApiIssueAttachmentRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33103,7 +33688,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetApiIssueCommentRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33122,7 +33707,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetApiManagementServiceRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33145,7 +33730,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ApiManagementServiceGetDomainOwnershipIdentifierResult" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33170,7 +33755,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ApiManagementServiceGetSsoTokenResult" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33190,15 +33775,15 @@ function __c126(j: number): any {
       ).annotate({ identifier: "GetApiManagementWorkspaceLinkRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(15200, __c475, 0));
+      return S.Array(__S(15264, __c477, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           workspaceId: S.optional(S.String),
-          gateways: S.optional(__S(4064, __c127, 0)),
+          gateways: S.optional(__S(4096, __c128, 0)),
         }),
       ).annotate({ identifier: "ApiManagementWorkspaceLinksProperties" });
     case 2:
@@ -33207,13 +33792,13 @@ function __c127(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: __S(4065, __c127, 1),
+          properties: __S(4097, __c128, 1),
           etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetApiManagementWorkspaceLinkResponse" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33234,7 +33819,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "GetApiOperationRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33257,7 +33842,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "GetApiOperationPolicyRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33268,7 +33853,7 @@ function __c130(j: number): any {
           apiId: S.String.pipe(T.Label()),
           operationId: S.String.pipe(T.Label()),
           policyId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4192, __c131, 0)),
+          properties: S.optional(__S(4224, __c132, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -33280,7 +33865,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "ApiOperationPolicyCreateOrUpdateRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33295,12 +33880,12 @@ function __c131(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(4192, __c131, 0)),
+          properties: S.optional(__S(4224, __c132, 0)),
         }),
       ).annotate({ identifier: "ApiOperationPolicyCreateOrUpdateResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33322,7 +33907,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GetApiPolicyRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33343,7 +33928,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetApiReleaseRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33364,7 +33949,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "GetApiSchemaRequest" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33372,12 +33957,12 @@ function __c135(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5761, __c180, 1)),
+          properties: S.optional(__S(5793, __c181, 1)),
         }),
       ).annotate({ identifier: "GetApiSchemaResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33398,7 +33983,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetApiTagDescriptionRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33418,7 +34003,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GetApiVersionSetRequest" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33438,7 +34023,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetApiWikiRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33459,7 +34044,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GetAuthorizationRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33481,7 +34066,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetAuthorizationAccessPolicyRequest" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33501,7 +34086,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetAuthorizationProviderRequest" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33521,7 +34106,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetAuthorizationServerRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33531,7 +34116,7 @@ function __c143(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
           policyId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4192, __c131, 0)),
+          properties: S.optional(__S(4224, __c132, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -33543,7 +34128,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "ApiPolicyCreateOrUpdateRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33563,7 +34148,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GetBackendRequest" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33583,7 +34168,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetCacheRequest" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33603,7 +34188,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "GetCertificateRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33624,7 +34209,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "GetContentItemRequest" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33644,7 +34229,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "GetContentTypeRequest" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33663,7 +34248,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "GetDeletedServiceByNameRequest" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33679,13 +34264,13 @@ function __c150(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(4800, __c150, 0)),
+          properties: S.optional(__S(4832, __c151, 0)),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDeletedServiceByNameResponse" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33705,7 +34290,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GetDiagnosticRequest" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33725,7 +34310,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "GetDocumentationRequest" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33745,7 +34330,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetEmailTemplateRequest" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33765,7 +34350,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "GetGatewayRequest" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33773,9 +34358,9 @@ function __c155(j: number): any {
           modelProviderType: S.String,
           displayName: S.String,
           description: S.optional(S.String),
-          foundry: S.optional(__S(5024, __c157, 0)),
-          custom: S.optional(__S(5025, __c157, 1)),
-          authentication: S.optional(__S(4993, __c156, 1)),
+          foundry: S.optional(__S(5056, __c158, 0)),
+          custom: S.optional(__S(5057, __c158, 1)),
+          authentication: S.optional(__S(5025, __c157, 1)),
         }),
       ).annotate({ identifier: "AiGatewayModelProviderPropertiesInput" });
     case 1:
@@ -33786,7 +34371,7 @@ function __c155(j: number): any {
           aiGatewayName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           modelProviderName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4960, __c155, 0)),
+          properties: S.optional(__S(4992, __c156, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -33798,7 +34383,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "AiGatewayModelProviderResourcesCreateOrUpdateRequest" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33811,14 +34396,14 @@ function __c156(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          githubApp: S.optional(__S(4992, __c156, 0)),
+          githubApp: S.optional(__S(5024, __c157, 0)),
           managedIdentity: S.optional(__S(128, __c4, 0)),
           headers: S.optional(__S(130, __c4, 2)),
         }),
       ).annotate({ identifier: "AiGatewayModelProviderAuthentication" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33839,9 +34424,9 @@ function __c157(j: number): any {
           modelProviderType: S.String,
           displayName: S.String,
           description: S.optional(S.String),
-          foundry: S.optional(__S(5024, __c157, 0)),
-          custom: S.optional(__S(5025, __c157, 1)),
-          authentication: S.optional(__S(4993, __c156, 1)),
+          foundry: S.optional(__S(5056, __c158, 0)),
+          custom: S.optional(__S(5057, __c158, 1)),
+          authentication: S.optional(__S(5025, __c157, 1)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayModelProviderProperties" });
@@ -33852,12 +34437,12 @@ function __c157(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(5026, __c157, 2)),
+          properties: S.optional(__S(5058, __c158, 2)),
         }),
       ).annotate({ identifier: "AiGatewayModelProviderResourcesCreateOrUpdateResponse" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33867,7 +34452,7 @@ function __c158(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
           releaseId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5120, __c160, 0)),
+          properties: S.optional(__S(5152, __c161, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -33879,7 +34464,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "ApiReleaseCreateOrUpdateRequest" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33896,12 +34481,12 @@ function __c159(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5088, __c159, 0)),
+          properties: S.optional(__S(5120, __c160, 0)),
         }),
       ).annotate({ identifier: "ApiReleaseCreateOrUpdateResponse" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33912,7 +34497,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "ApiReleaseContractPropertiesInput" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33933,7 +34518,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "GetGatewayCertificateAuthorityRequest" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33954,7 +34539,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "GetGatewayHostnameConfigurationRequest" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33974,7 +34559,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "GetGlobalSchemaRequest" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33988,7 +34573,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "GlobalSchemaContractProperties" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33996,12 +34581,12 @@ function __c165(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5248, __c164, 0)),
+          properties: S.optional(__S(5280, __c165, 0)),
         }),
       ).annotate({ identifier: "GetGlobalSchemaResponse" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34022,7 +34607,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "GetGraphQLApiResolverRequest" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34038,12 +34623,12 @@ function __c167(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5344, __c167, 0)),
+          properties: S.optional(__S(5376, __c168, 0)),
         }),
       ).annotate({ identifier: "GetGraphQLApiResolverResponse" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34066,7 +34651,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "GetGraphQLApiResolverPolicyRequest" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34086,7 +34671,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "GetGroupRequest" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34094,12 +34679,12 @@ function __c170(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(16160, __c505, 0)),
+          properties: S.optional(__S(16224, __c507, 0)),
         }),
       ).annotate({ identifier: "GetGroupResponse" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34119,7 +34704,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "GetIdentityProviderRequest" });
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34143,12 +34728,12 @@ function __c172(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5504, __c172, 0)),
+          properties: S.optional(__S(5536, __c173, 0)),
         }),
       ).annotate({ identifier: "GetIdentityProviderResponse" });
   }
 }
-function __c173(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34168,7 +34753,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "GetIssueRequest" });
   }
 }
-function __c174(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34188,14 +34773,14 @@ function __c174(j: number): any {
       ).annotate({ identifier: "GetLoggerRequest" });
   }
 }
-function __c175(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           loggerType: S.String,
           description: S.optional(S.String),
-          credentials: S.optional(__S(19488, __c609, 0)),
+          credentials: S.optional(__S(10784, __c337, 0)),
           isBuffered: S.optional(S.Boolean),
           resourceId: S.optional(S.String),
         }),
@@ -34206,12 +34791,12 @@ function __c175(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5600, __c175, 0)),
+          properties: S.optional(__S(5632, __c176, 0)),
         }),
       ).annotate({ identifier: "GetLoggerResponse" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34231,7 +34816,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "GetNamedValueRequest" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34239,12 +34824,12 @@ function __c177(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5696, __c178, 0)),
+          properties: S.optional(__S(5728, __c179, 0)),
         }),
       ).annotate({ identifier: "GetNamedValueResponse" });
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34253,13 +34838,13 @@ function __c178(j: number): any {
           secret: S.optional(S.Boolean),
           displayName: S.String,
           value: S.optional(S.String),
-          keyVault: S.optional(__S(13281, __c415, 1)),
+          keyVault: S.optional(__S(13345, __c417, 1)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamedValueContractProperties" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34269,7 +34854,7 @@ function __c179(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
           schemaId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5792, __c181, 0)),
+          properties: S.optional(__S(5824, __c182, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -34281,7 +34866,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "ApiSchemaCreateOrUpdateRequest" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34295,19 +34880,19 @@ function __c180(j: number): any {
       return S.suspend(() =>
         S.Struct({
           contentType: S.String,
-          document: __S(5760, __c180, 0),
+          document: __S(5792, __c181, 0),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "SchemaContractProperties" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           contentType: S.String,
-          document: __S(5760, __c180, 0),
+          document: __S(5792, __c181, 0),
         }),
       ).annotate({ identifier: "SchemaContractPropertiesInput" });
     case 1:
@@ -34316,14 +34901,14 @@ function __c181(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5761, __c180, 1)),
+          properties: S.optional(__S(5793, __c181, 1)),
           location: S.optional(S.String.pipe(T.Header())),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "ApiSchemaCreateOrUpdateResponse" });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34343,7 +34928,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "GetNotificationRequest" });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34357,7 +34942,7 @@ function __c183(j: number): any {
         S.Struct({
           title: S.String,
           description: S.optional(S.String),
-          recipients: S.optional(__S(5856, __c183, 0)),
+          recipients: S.optional(__S(5888, __c184, 0)),
         }),
       ).annotate({ identifier: "NotificationContractProperties" });
     case 2:
@@ -34366,12 +34951,12 @@ function __c183(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5857, __c183, 1)),
+          properties: S.optional(__S(5889, __c184, 1)),
         }),
       ).annotate({ identifier: "GetNotificationResponse" });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34391,7 +34976,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "GetOpenIdConnectProviderRequest" });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34411,12 +34996,12 @@ function __c185(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5920, __c185, 0)),
+          properties: S.optional(__S(5952, __c186, 0)),
         }),
       ).annotate({ identifier: "GetOpenIdConnectProviderResponse" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34441,7 +35026,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "GetOperationsResultResponse" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34459,9 +35044,9 @@ function __c187(j: number): any {
         ),
       ).annotate({ identifier: "GetOperationStatusRequest" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(5990, __c187, 6)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(6022, __c188, 6)));
     case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(5989, __c187, 5)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(6021, __c188, 5)));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -34470,15 +35055,15 @@ function __c187(j: number): any {
         }),
       ).annotate({ identifier: "ErrorAdditionalInfo" });
     case 4:
-      return S.Array(__S(5987, __c187, 3));
+      return S.Array(__S(6019, __c188, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(5986, __c187, 2)),
-          additionalInfo: S.optional(__S(5988, __c187, 4)),
+          details: S.optional(__S(6018, __c188, 2)),
+          additionalInfo: S.optional(__S(6020, __c188, 4)),
         }),
       ).annotate({ identifier: "ErrorDetail" });
     case 6:
@@ -34491,12 +35076,12 @@ function __c187(j: number): any {
           percentComplete: S.optional(S.Number),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          operations: S.optional(__S(5985, __c187, 1)),
-          error: S.optional(__S(5989, __c187, 5)),
+          operations: S.optional(__S(6017, __c188, 1)),
+          error: S.optional(__S(6021, __c188, 5)),
         }),
       ).annotate({ identifier: "OperationStatusResult" });
     case 7:
-      return S.Array(__S(5990, __c187, 6));
+      return S.Array(__S(6022, __c188, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -34507,13 +35092,13 @@ function __c187(j: number): any {
           percentComplete: S.optional(S.Number),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
-          operations: S.optional(__S(5991, __c187, 7)),
-          error: S.optional(__S(5989, __c187, 5)),
+          operations: S.optional(__S(6023, __c188, 7)),
+          error: S.optional(__S(6021, __c188, 5)),
         }),
       ).annotate({ identifier: "GetOperationStatusResponse" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34534,7 +35119,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "GetPolicyRequest" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34555,7 +35140,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "GetPolicyFragmentRequest" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34563,12 +35148,12 @@ function __c190(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6112, __c191, 0)),
+          properties: S.optional(__S(6144, __c192, 0)),
         }),
       ).annotate({ identifier: "GetPolicyFragmentResponse" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34581,7 +35166,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "PolicyFragmentContractProperties" });
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34601,7 +35186,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "GetPolicyRestrictionRequest" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34616,12 +35201,12 @@ function __c193(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6176, __c193, 0)),
+          properties: S.optional(__S(6208, __c194, 0)),
         }),
       ).annotate({ identifier: "GetPolicyRestrictionResponse" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34641,7 +35226,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "GetPortalConfigRequest" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34659,7 +35244,7 @@ function __c195(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          termsOfService: S.optional(__S(6241, __c195, 1)),
+          termsOfService: S.optional(__S(6273, __c196, 1)),
         }),
       ).annotate({ identifier: "PortalConfigPropertiesSignup" });
     case 3:
@@ -34668,7 +35253,7 @@ function __c195(j: number): any {
           delegateRegistration: S.optional(S.Boolean),
           delegateSubscription: S.optional(S.Boolean),
           delegationUrl: S.optional(S.String),
-          validationKey: S.optional(S.String),
+          validationKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PortalConfigDelegationProperties" });
     case 4:
@@ -34689,11 +35274,11 @@ function __c195(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enableBasicAuth: S.optional(S.Boolean),
-          signin: S.optional(__S(6240, __c195, 0)),
-          signup: S.optional(__S(6242, __c195, 2)),
-          delegation: S.optional(__S(6243, __c195, 3)),
-          cors: S.optional(__S(6244, __c195, 4)),
-          csp: S.optional(__S(6245, __c195, 5)),
+          signin: S.optional(__S(6272, __c196, 0)),
+          signup: S.optional(__S(6274, __c196, 2)),
+          delegation: S.optional(__S(6275, __c196, 3)),
+          cors: S.optional(__S(6276, __c196, 4)),
+          csp: S.optional(__S(6277, __c196, 5)),
         }),
       ).annotate({ identifier: "PortalConfigProperties" });
     case 7:
@@ -34702,12 +35287,12 @@ function __c195(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6246, __c195, 6)),
+          properties: S.optional(__S(6278, __c196, 6)),
         }),
       ).annotate({ identifier: "GetPortalConfigResponse" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34727,7 +35312,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "GetPortalRevisionRequest" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34735,12 +35320,12 @@ function __c197(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6336, __c198, 0)),
+          properties: S.optional(__S(6368, __c199, 0)),
         }),
       ).annotate({ identifier: "GetPortalRevisionResponse" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34756,7 +35341,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "PortalRevisionContractProperties" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34776,7 +35361,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "GetPrivateEndpointConnectionByNameRequest" });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34784,24 +35369,24 @@ function __c200(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6432, __c201, 0)),
+          properties: S.optional(__S(6464, __c202, 0)),
         }),
       ).annotate({ identifier: "GetPrivateEndpointConnectionByNameResponse" });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(15200, __c475, 0)),
-          privateLinkServiceConnectionState: __S(15264, __c477, 0),
+          privateEndpoint: S.optional(__S(15264, __c477, 0)),
+          privateLinkServiceConnectionState: __S(15328, __c479, 0),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProperties_2" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34819,7 +35404,7 @@ function __c202(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
           tagDescriptionId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6464, __c202, 0)),
+          properties: S.optional(__S(6496, __c203, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -34831,7 +35416,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "ApiTagDescriptionCreateOrUpdateRequest" });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34849,12 +35434,12 @@ function __c203(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6496, __c203, 0)),
+          properties: S.optional(__S(6528, __c204, 0)),
         }),
       ).annotate({ identifier: "ApiTagDescriptionCreateOrUpdateResponse" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34874,7 +35459,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "GetPrivateEndpointConnectionPrivateLinkResourceRequest" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34882,12 +35467,12 @@ function __c205(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(3360, __c105, 0)),
+          properties: S.optional(__S(3392, __c106, 0)),
         }),
       ).annotate({ identifier: "GetPrivateEndpointConnectionPrivateLinkResourceResponse" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34907,7 +35492,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "GetProductRequest" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34927,12 +35512,12 @@ function __c207(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6624, __c207, 0)),
+          properties: S.optional(__S(6656, __c208, 0)),
         }),
       ).annotate({ identifier: "GetProductResponse" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34953,7 +35538,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "GetProductApiLinkRequest" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34967,12 +35552,12 @@ function __c209(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6688, __c209, 0)),
+          properties: S.optional(__S(6720, __c210, 0)),
         }),
       ).annotate({ identifier: "GetProductApiLinkResponse" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34993,7 +35578,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "GetProductGroupLinkRequest" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35007,12 +35592,12 @@ function __c211(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6752, __c211, 0)),
+          properties: S.optional(__S(6784, __c212, 0)),
         }),
       ).annotate({ identifier: "GetProductGroupLinkResponse" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35034,7 +35619,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "GetProductPolicyRequest" });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35054,7 +35639,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "GetProductWikiRequest" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35075,7 +35660,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "GetQuotaByPeriodKeyRequest" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35091,12 +35676,12 @@ function __c215(j: number): any {
           periodKey: S.String,
           periodStartTime: S.String,
           periodEndTime: S.String,
-          value: S.optional(__S(6880, __c215, 0)),
+          value: S.optional(__S(6912, __c216, 0)),
         }),
       ).annotate({ identifier: "GetQuotaByPeriodKeyResponse" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35116,7 +35701,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "GetSubscriptionRequest" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35130,8 +35715,8 @@ function __c217(j: number): any {
           expirationDate: S.optional(S.String),
           endDate: S.optional(S.String),
           notificationDate: S.optional(S.String),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           stateComment: S.optional(S.String),
           allowTracing: S.optional(S.Boolean),
         }),
@@ -35142,12 +35727,12 @@ function __c217(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6944, __c217, 0)),
+          properties: S.optional(__S(6976, __c218, 0)),
         }),
       ).annotate({ identifier: "GetSubscriptionResponse" });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35167,7 +35752,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "GetTagRequest" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35188,7 +35773,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "GetTagApiLinkRequest" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35197,7 +35782,7 @@ function __c220(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           versionSetId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7072, __c221, 0)),
+          properties: S.optional(__S(7104, __c222, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -35209,7 +35794,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "ApiVersionSetCreateOrUpdateRequest" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35227,12 +35812,12 @@ function __c221(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(7072, __c221, 0)),
+          properties: S.optional(__S(7104, __c222, 0)),
         }),
       ).annotate({ identifier: "ApiVersionSetCreateOrUpdateResponse" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35253,7 +35838,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "GetTagByApiRequest" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35275,7 +35860,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "GetTagByOperationRequest" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35296,7 +35881,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "GetTagByProductRequest" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35317,7 +35902,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "GetTagOperationLinkRequest" });
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35331,12 +35916,12 @@ function __c226(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(7232, __c226, 0)),
+          properties: S.optional(__S(7264, __c227, 0)),
         }),
       ).annotate({ identifier: "GetTagOperationLinkResponse" });
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35357,7 +35942,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "GetTagProductLinkRequest" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35371,12 +35956,12 @@ function __c228(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(7296, __c228, 0)),
+          properties: S.optional(__S(7328, __c229, 0)),
         }),
       ).annotate({ identifier: "GetTagProductLinkResponse" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35396,7 +35981,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "GetTenantAccessRequest" });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35433,12 +36018,12 @@ function __c230(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(7361, __c230, 1)),
+          properties: S.optional(__S(7393, __c231, 1)),
         }),
       ).annotate({ identifier: "GetTenantConfigurationSyncStateResponse" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35458,7 +36043,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35474,7 +36059,7 @@ function __c232(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7424, __c232, 0)),
+          properties: S.optional(__S(7456, __c233, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -35486,7 +36071,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "GetUserSharedAccessTokenRequest" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35507,7 +36092,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "GetUserSubscriptionRequest" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35516,7 +36101,7 @@ function __c234(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7522, __c235, 2)),
+          properties: S.optional(__S(7554, __c236, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -35528,7 +36113,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "ApiWikiCreateOrUpdateRequest" });
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35537,11 +36122,11 @@ function __c235(j: number): any {
         }),
       ).annotate({ identifier: "WikiDocumentationContract" });
     case 1:
-      return S.Array(__S(7520, __c235, 0));
+      return S.Array(__S(7552, __c236, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          documents: S.optional(__S(7521, __c235, 1)),
+          documents: S.optional(__S(7553, __c236, 1)),
         }),
       ).annotate({ identifier: "WikiContractProperties" });
     case 3:
@@ -35550,12 +36135,12 @@ function __c235(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(7522, __c235, 2)),
+          properties: S.optional(__S(7554, __c236, 2)),
         }),
       ).annotate({ identifier: "ApiWikiCreateOrUpdateResponse" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35575,7 +36160,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "GetWorkspaceRequest" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35590,12 +36175,12 @@ function __c237(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(7584, __c237, 0)),
+          properties: S.optional(__S(7616, __c238, 0)),
         }),
       ).annotate({ identifier: "GetWorkspaceResponse" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35616,7 +36201,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "GetWorkspaceApiRequest" });
   }
 }
-function __c239(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35638,7 +36223,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "GetWorkspaceApiDiagnosticRequest" });
   }
 }
-function __c240(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35660,7 +36245,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "GetWorkspaceApiOperationRequest" });
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35684,7 +36269,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "GetWorkspaceApiOperationPolicyRequest" });
   }
 }
-function __c242(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35707,7 +36292,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "GetWorkspaceApiPolicyRequest" });
   }
 }
-function __c243(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35729,7 +36314,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "GetWorkspaceApiReleaseRequest" });
   }
 }
-function __c244(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35751,7 +36336,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "GetWorkspaceApiSchemaRequest" });
   }
 }
-function __c245(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35772,7 +36357,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "GetWorkspaceApiVersionSetRequest" });
   }
 }
-function __c246(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35793,7 +36378,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "GetWorkspaceBackendRequest" });
   }
 }
-function __c247(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35813,7 +36398,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "ApplyApiManagementServiceNetworkConfigurationUpdatesRequest" });
   }
 }
-function __c248(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35834,7 +36419,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "GetWorkspaceCertificateRequest" });
   }
 }
-function __c249(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35855,7 +36440,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "GetWorkspaceDiagnosticRequest" });
   }
 }
-function __c250(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35876,7 +36461,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "GetWorkspaceGlobalSchemaRequest" });
   }
 }
-function __c251(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35897,7 +36482,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "GetWorkspaceGroupRequest" });
   }
 }
-function __c252(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35918,7 +36503,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "GetWorkspaceLoggerRequest" });
   }
 }
-function __c253(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35939,7 +36524,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "GetWorkspaceNamedValueRequest" });
   }
 }
-function __c254(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35960,7 +36545,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "GetWorkspaceNotificationRequest" });
   }
 }
-function __c255(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35982,7 +36567,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "GetWorkspacePolicyRequest" });
   }
 }
-function __c256(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36004,7 +36589,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "GetWorkspacePolicyFragmentRequest" });
   }
 }
-function __c257(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36025,7 +36610,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "GetWorkspaceProductRequest" });
   }
 }
-function __c258(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36046,7 +36631,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "AssignTagToApiRequest" });
   }
 }
-function __c259(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36060,12 +36645,12 @@ function __c259(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(8288, __c259, 0)),
+          properties: S.optional(__S(8320, __c260, 0)),
         }),
       ).annotate({ identifier: "AssignTagToApiResponse" });
   }
 }
-function __c260(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36087,7 +36672,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "GetWorkspaceProductApiLinkRequest" });
   }
 }
-function __c261(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36109,7 +36694,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "GetWorkspaceProductGroupLinkRequest" });
   }
 }
-function __c262(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36132,7 +36717,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "GetWorkspaceProductPolicyRequest" });
   }
 }
-function __c263(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36153,7 +36738,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "GetWorkspaceSubscriptionRequest" });
   }
 }
-function __c264(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36174,7 +36759,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "GetWorkspaceTagRequest" });
   }
 }
-function __c265(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36196,7 +36781,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "GetWorkspaceTagApiLinkRequest" });
   }
 }
-function __c266(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36218,7 +36803,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "GetWorkspaceTagOperationLinkRequest" });
   }
 }
-function __c267(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36240,7 +36825,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "GetWorkspaceTagProductLinkRequest" });
   }
 }
-function __c268(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36249,7 +36834,7 @@ function __c268(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           schemaId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(8608, __c269, 0)),
+          properties: S.optional(__S(8640, __c270, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -36261,7 +36846,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "GlobalSchemaCreateOrUpdateRequest" });
   }
 }
-function __c269(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36278,14 +36863,14 @@ function __c269(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5248, __c164, 0)),
+          properties: S.optional(__S(5280, __c165, 0)),
           location: S.optional(S.String.pipe(T.Header())),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "GlobalSchemaCreateOrUpdateResponse" });
   }
 }
-function __c270(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36295,7 +36880,7 @@ function __c270(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
           resolverId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5344, __c167, 0)),
+          properties: S.optional(__S(5376, __c168, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -36307,7 +36892,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "GraphQLApiResolverCreateOrUpdateRequest" });
   }
 }
-function __c271(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36329,7 +36914,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "AssignTagToOperationRequest" });
   }
 }
-function __c272(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36340,7 +36925,7 @@ function __c272(j: number): any {
           apiId: S.String.pipe(T.Label()),
           resolverId: S.String.pipe(T.Label()),
           policyId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4192, __c131, 0)),
+          properties: S.optional(__S(4224, __c132, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -36352,7 +36937,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "GraphQLApiResolverPolicyCreateOrUpdateRequest" });
   }
 }
-function __c273(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36361,7 +36946,7 @@ function __c273(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           groupId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(8768, __c274, 0)),
+          properties: S.optional(__S(8800, __c275, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -36373,7 +36958,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "GroupCreateOrUpdateRequest" });
   }
 }
-function __c274(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36386,7 +36971,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "GroupCreateParametersProperties" });
   }
 }
-function __c275(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36411,7 +36996,7 @@ function __c275(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           identityProviderName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(8800, __c275, 0)),
+          properties: S.optional(__S(8832, __c276, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -36423,7 +37008,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "IdentityProviderCreateOrUpdateRequest" });
   }
 }
-function __c276(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36443,7 +37028,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "InvalidateGatewayDebugCredentialsRequest" });
   }
 }
-function __c277(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36468,13 +37053,13 @@ function __c277(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(8865, __c277, 1),
+          value: __S(8897, __c278, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayAliasResourceListResult" });
   }
 }
-function __c278(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36498,13 +37083,13 @@ function __c278(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(8897, __c278, 1),
+          value: __S(8929, __c279, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayApiKeyResourceListResult" });
   }
 }
-function __c279(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36525,13 +37110,13 @@ function __c279(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          primaryKey: S.String,
-          secondaryKey: S.String,
+          primaryKey: S.String.pipe(T.SensitiveValue({})),
+          secondaryKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "AiGatewayApiKeyValues" });
   }
 }
-function __c280(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36552,17 +37137,17 @@ function __c280(j: number): any {
         ),
       ).annotate({ identifier: "ListAiGatewayModelProviderResourceByWorkspaceRequest" });
     case 1:
-      return S.Array(__S(5027, __c157, 3));
+      return S.Array(__S(5059, __c158, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(8961, __c280, 1),
+          value: __S(8993, __c281, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayModelProviderResourceListResult" });
   }
 }
-function __c281(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36584,12 +37169,12 @@ function __c281(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          authentication: S.optional(__S(4993, __c156, 1)),
+          authentication: S.optional(__S(5025, __c157, 1)),
         }),
       ).annotate({ identifier: "AiGatewayModelProviderSecrets" });
   }
 }
-function __c282(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36612,20 +37197,20 @@ function __c282(j: number): any {
       ).annotate({ identifier: "ListAiGatewayModelResourceByModelProviderRequest" });
   }
 }
-function __c283(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10116, __c316, 4));
+      return S.Array(__S(10148, __c317, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9056, __c283, 0),
+          value: __S(9088, __c284, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayModelResourceListResult" });
   }
 }
-function __c284(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36646,7 +37231,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "AssignTagToProductRequest" });
   }
 }
-function __c285(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36668,13 +37253,13 @@ function __c285(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(19616, __c613, 0),
+          value: __S(19680, __c615, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayPrivateEndpointConnectionListResult" });
   }
 }
-function __c286(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36694,17 +37279,17 @@ function __c286(j: number): any {
         ),
       ).annotate({ identifier: "ListAiGatewayPrivateLinkResourceByAiGatewayRequest" });
     case 1:
-      return S.Array(__S(3392, __c106, 0));
+      return S.Array(__S(3424, __c107, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9153, __c286, 1),
+          value: __S(9185, __c287, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayPrivateLinkResourceListResult" });
   }
 }
-function __c287(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36724,20 +37309,20 @@ function __c287(j: number): any {
       ).annotate({ identifier: "ListAiGatewayResourceByResourceGroupRequest" });
   }
 }
-function __c288(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3456, __c108, 0));
+      return S.Array(__S(3488, __c109, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9216, __c288, 0),
+          value: __S(9248, __c289, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayResourceListResult" });
   }
 }
-function __c289(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36756,7 +37341,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "ListAiGatewayResourceBySubscriptionRequest" });
   }
 }
-function __c290(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36777,17 +37362,17 @@ function __c290(j: number): any {
         ),
       ).annotate({ identifier: "ListAiGatewayTelemetryExporterResourceByWorkspaceRequest" });
     case 1:
-      return S.Array(__S(22599, __c706, 7));
+      return S.Array(__S(22663, __c708, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9281, __c290, 1),
+          value: __S(9313, __c291, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayTelemetryExporterResourceListResult" });
   }
 }
-function __c291(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36808,17 +37393,17 @@ function __c291(j: number): any {
         ),
       ).annotate({ identifier: "ListAiGatewayToolServerResourceByWorkspaceRequest" });
     case 1:
-      return S.Array(__S(23016, __c719, 8));
+      return S.Array(__S(23080, __c721, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9313, __c291, 1),
+          value: __S(9345, __c292, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayToolServerResourceListResult" });
   }
 }
-function __c292(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36846,7 +37431,7 @@ function __c292(j: number): any {
           clientId: S.optional(S.String),
           scopes: S.optional(__S(96, __c3, 0)),
           grantType: S.optional(S.String),
-          tokenExchange: S.optional(__S(22978, __c718, 2)),
+          tokenExchange: S.optional(__S(23042, __c720, 2)),
           authorizationParameters: S.optional(__S(289, __c9, 1)),
           tokenParameters: S.optional(__S(289, __c9, 1)),
           status: S.optional(S.String),
@@ -36860,7 +37445,7 @@ function __c292(j: number): any {
         S.Struct({
           managedIdentity: S.optional(__S(128, __c4, 0)),
           headers: S.optional(__S(130, __c4, 2)),
-          oauth2: S.optional(__S(9345, __c292, 1)),
+          oauth2: S.optional(__S(9377, __c293, 1)),
         }),
       ).annotate({ identifier: "AiGatewayToolServerSecretAuthentication" });
     case 3:
@@ -36868,34 +37453,34 @@ function __c292(j: number): any {
         S.Struct({
           type: S.String,
           url: S.optional(S.String),
-          contentBase64: S.optional(S.String),
+          contentBase64: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AiGatewayToolServerSecretOpenApiSpecSource" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          specSource: __S(9347, __c292, 3),
+          specSource: __S(9379, __c293, 3),
         }),
       ).annotate({ identifier: "AiGatewayToolServerSecretOpenApiConfiguration" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          authentication: S.optional(__S(9346, __c292, 2)),
-          openApi: S.optional(__S(9348, __c292, 4)),
+          authentication: S.optional(__S(9378, __c293, 2)),
+          openApi: S.optional(__S(9380, __c293, 4)),
         }),
       ).annotate({ identifier: "AiGatewayToolServerSecret" });
     case 6:
-      return S.Array(__S(9349, __c292, 5));
+      return S.Array(__S(9381, __c293, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          endpoints: __S(9350, __c292, 6),
+          endpoints: __S(9382, __c293, 6),
         }),
       ).annotate({ identifier: "AiGatewayToolServerSecrets" });
   }
 }
-function __c293(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36917,7 +37502,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "ListAiGatewayWorkspaceModelOperationByWorkspaceRequest" });
   }
 }
-function __c294(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36937,17 +37522,17 @@ function __c294(j: number): any {
         ),
       ).annotate({ identifier: "ListAiGatewayWorkspaceResourceByAiGatewayRequest" });
     case 1:
-      return S.Array(__S(3617, __c113, 1));
+      return S.Array(__S(3649, __c114, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9409, __c294, 1),
+          value: __S(9441, __c295, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayWorkspaceResourceListResult" });
   }
 }
-function __c295(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36979,21 +37564,21 @@ function __c295(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(9441, __c295, 1)),
+          properties: S.optional(__S(9473, __c296, 1)),
         }),
       ).annotate({ identifier: "AllPoliciesContract" });
     case 3:
-      return S.Array(__S(9442, __c295, 2));
+      return S.Array(__S(9474, __c296, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9443, __c295, 3),
+          value: __S(9475, __c296, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAllPolicyByServiceResponse" });
   }
 }
-function __c296(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37004,7 +37589,7 @@ function __c296(j: number): any {
           authorizationProviderId: S.String.pipe(T.Label()),
           authorizationId: S.String.pipe(T.Label()),
           authorizationAccessPolicyId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(9504, __c297, 0)),
+          properties: S.optional(__S(9536, __c298, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -37016,7 +37601,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "AuthorizationAccessPolicyCreateOrUpdateRequest" });
   }
 }
-function __c297(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37032,12 +37617,12 @@ function __c297(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(9504, __c297, 0)),
+          properties: S.optional(__S(9536, __c298, 0)),
         }),
       ).annotate({ identifier: "AuthorizationAccessPolicyCreateOrUpdateResponse" });
   }
 }
-function __c298(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37063,21 +37648,21 @@ function __c298(j: number): any {
       ).annotate({ identifier: "ListApiByServiceRequest" });
   }
 }
-function __c299(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(2752, __c86, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9568, __c299, 0),
+          value: __S(9600, __c300, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiByServiceResponse" });
   }
 }
-function __c300(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37102,7 +37687,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "ListApiByTagsRequest" });
   }
 }
-function __c301(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37115,8 +37700,8 @@ function __c301(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          authenticationSettings: S.optional(__S(23428, __c732, 4)),
-          subscriptionKeyParameterNames: S.optional(__S(23429, __c732, 5)),
+          authenticationSettings: S.optional(__S(23492, __c734, 4)),
+          subscriptionKeyParameterNames: S.optional(__S(23493, __c734, 5)),
           type: S.optional(S.String),
           apiRevision: S.optional(S.String),
           apiVersion: S.optional(S.String),
@@ -37127,8 +37712,8 @@ function __c301(j: number): any {
           apiVersionSetId: S.optional(S.String),
           subscriptionRequired: S.optional(S.Boolean),
           termsOfServiceUrl: S.optional(S.String),
-          contact: S.optional(__S(23430, __c732, 6)),
-          license: S.optional(__S(23431, __c732, 7)),
+          contact: S.optional(__S(23494, __c734, 6)),
+          license: S.optional(__S(23495, __c734, 7)),
           id: S.optional(S.String),
           name: S.optional(S.String),
           serviceUrl: S.optional(S.String),
@@ -37165,25 +37750,25 @@ function __c301(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          tag: __S(9632, __c301, 0),
-          api: S.optional(__S(9633, __c301, 1)),
-          operation: S.optional(__S(9634, __c301, 2)),
-          product: S.optional(__S(9635, __c301, 3)),
+          tag: __S(9664, __c302, 0),
+          api: S.optional(__S(9665, __c302, 1)),
+          operation: S.optional(__S(9666, __c302, 2)),
+          product: S.optional(__S(9667, __c302, 3)),
         }),
       ).annotate({ identifier: "TagResourceContract" });
     case 5:
-      return S.Array(__S(9636, __c301, 4));
+      return S.Array(__S(9668, __c302, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9637, __c301, 5),
+          value: __S(9669, __c302, 5),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiByTagsResponse" });
   }
 }
-function __c302(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37208,21 +37793,21 @@ function __c302(j: number): any {
       ).annotate({ identifier: "ListApiDiagnosticByServiceRequest" });
   }
 }
-function __c303(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(23880, __c746, 8));
+      return S.Array(__S(23944, __c748, 8));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9696, __c303, 0),
+          value: __S(9728, __c304, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiDiagnosticByServiceResponse" });
   }
 }
-function __c304(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37241,20 +37826,20 @@ function __c304(j: number): any {
       ).annotate({ identifier: "ListApiGatewayRequest" });
   }
 }
-function __c305(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(864, __c27, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9760, __c305, 0),
+          value: __S(9792, __c306, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiManagementGatewayListResult" });
   }
 }
-function __c306(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37274,7 +37859,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "ListApiGatewayByResourceGroupRequest" });
   }
 }
-function __c307(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37298,13 +37883,13 @@ function __c307(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9825, __c307, 1),
+          value: __S(9857, __c308, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiManagementGatewayConfigConnectionListResult" });
   }
 }
-function __c308(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37333,14 +37918,14 @@ function __c308(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9857, __c308, 1),
+          value: __S(9889, __c309, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiIssueAttachmentByServiceResponse" });
   }
 }
-function __c309(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37366,21 +37951,21 @@ function __c309(j: number): any {
       ).annotate({ identifier: "ListApiIssueByServiceRequest" });
   }
 }
-function __c310(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(2113, __c66, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9920, __c310, 0),
+          value: __S(9952, __c311, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiIssueByServiceResponse" });
   }
 }
-function __c311(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37409,14 +37994,14 @@ function __c311(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(9953, __c311, 1),
+          value: __S(9985, __c312, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiIssueCommentByServiceResponse" });
   }
 }
-function __c312(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37437,7 +38022,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "ListApiManagementGatewaySkusAvailableSkusRequest" });
   }
 }
-function __c313(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37449,22 +38034,22 @@ function __c313(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceType: S.optional(S.String),
-          sku: S.optional(__S(10016, __c313, 0)),
-          capacity: S.optional(__S(10048, __c314, 0)),
+          sku: S.optional(__S(10048, __c314, 0)),
+          capacity: S.optional(__S(10080, __c315, 0)),
         }),
       ).annotate({ identifier: "GatewayResourceSkuResult" });
     case 2:
-      return S.Array(__S(10017, __c313, 1));
+      return S.Array(__S(10049, __c314, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(10018, __c313, 2),
+          value: __S(10050, __c314, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GatewayResourceSkuResults" });
   }
 }
-function __c314(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37477,15 +38062,15 @@ function __c314(j: number): any {
       ).annotate({ identifier: "GatewaySkuCapacity" });
   }
 }
-function __c315(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           displayName: S.String,
           description: S.optional(S.String),
-          deployment: __S(10112, __c316, 0),
-          endpoints: S.optional(__S(10114, __c316, 2)),
+          deployment: __S(10144, __c317, 0),
+          endpoints: S.optional(__S(10146, __c317, 2)),
           supportedEndpoints: S.optional(__S(96, __c3, 0)),
           policies: S.optional(__S(263, __c8, 7)),
         }),
@@ -37499,7 +38084,7 @@ function __c315(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           modelProviderName: S.String.pipe(T.Label()),
           modelName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(10080, __c315, 0)),
+          properties: S.optional(__S(10112, __c316, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -37511,7 +38096,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "AiGatewayModelResourcesCreateOrUpdateRequest" });
   }
 }
-function __c316(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37529,15 +38114,15 @@ function __c316(j: number): any {
         }),
       ).annotate({ identifier: "AiGatewayModelEndpoint" });
     case 2:
-      return S.Array(__S(10113, __c316, 1));
+      return S.Array(__S(10145, __c317, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           displayName: S.String,
           description: S.optional(S.String),
           providerKind: S.optional(S.String),
-          deployment: __S(10112, __c316, 0),
-          endpoints: S.optional(__S(10114, __c316, 2)),
+          deployment: __S(10144, __c317, 0),
+          endpoints: S.optional(__S(10146, __c317, 2)),
           supportedEndpoints: S.optional(__S(96, __c3, 0)),
           policies: S.optional(__S(263, __c8, 7)),
           provisioningState: S.optional(S.String),
@@ -37550,12 +38135,12 @@ function __c316(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(10115, __c316, 3)),
+          properties: S.optional(__S(10147, __c317, 3)),
         }),
       ).annotate({ identifier: "AiGatewayModelResourcesCreateOrUpdateResponse" });
   }
 }
-function __c317(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37565,7 +38150,7 @@ function __c317(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           authorizationProviderId: S.String.pipe(T.Label()),
           authorizationId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(10177, __c318, 1)),
+          properties: S.optional(__S(10209, __c319, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -37577,7 +38162,7 @@ function __c317(j: number): any {
       ).annotate({ identifier: "AuthorizationCreateOrUpdateRequest" });
   }
 }
-function __c318(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37591,8 +38176,8 @@ function __c318(j: number): any {
         S.Struct({
           authorizationType: S.optional(S.String),
           oauth2grantType: S.optional(S.String),
-          parameters: S.optional(__S(19488, __c609, 0)),
-          error: S.optional(__S(10176, __c318, 0)),
+          parameters: S.optional(__S(19552, __c611, 0)),
+          error: S.optional(__S(10208, __c319, 0)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthorizationContractProperties" });
@@ -37602,12 +38187,12 @@ function __c318(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(10177, __c318, 1)),
+          properties: S.optional(__S(10209, __c319, 1)),
         }),
       ).annotate({ identifier: "AuthorizationCreateOrUpdateResponse" });
   }
 }
-function __c319(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37636,23 +38221,23 @@ function __c319(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(10209, __c319, 1)),
+          display: S.optional(__S(10241, __c320, 1)),
           origin: S.optional(S.String),
           properties: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "Operation_2" });
     case 3:
-      return S.Array(__S(10210, __c319, 2));
+      return S.Array(__S(10242, __c320, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(10211, __c319, 3),
+          value: __S(10243, __c320, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
   }
 }
-function __c320(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37671,20 +38256,20 @@ function __c320(j: number): any {
       ).annotate({ identifier: "ListApiManagementServiceRequest" });
   }
 }
-function __c321(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3232, __c101, 0));
+      return S.Array(__S(3264, __c102, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(10272, __c321, 0),
+          value: __S(10304, __c322, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiManagementServiceListResult" });
   }
 }
-function __c322(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37704,7 +38289,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "ListApiManagementServiceByResourceGroupRequest" });
   }
 }
-function __c323(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37725,7 +38310,7 @@ function __c323(j: number): any {
       ).annotate({ identifier: "ListApiManagementServiceSkusAvailableServiceSkusRequest" });
   }
 }
-function __c324(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37746,21 +38331,21 @@ function __c324(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(__S(96, __c3, 0)),
-          capabilities: S.optional(__S(10401, __c325, 1)),
+          capabilities: S.optional(__S(10433, __c326, 1)),
         }),
       ).annotate({ identifier: "ApiManagementSkuZoneDetails" });
     case 2:
-      return S.Array(__S(10369, __c324, 1));
+      return S.Array(__S(10401, __c325, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String),
           zones: S.optional(__S(96, __c3, 0)),
-          zoneDetails: S.optional(__S(10370, __c324, 2)),
+          zoneDetails: S.optional(__S(10402, __c325, 2)),
         }),
       ).annotate({ identifier: "ApiManagementSkuLocationInfo" });
     case 4:
-      return S.Array(__S(10371, __c324, 3));
+      return S.Array(__S(10403, __c325, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -37770,7 +38355,7 @@ function __c324(j: number): any {
         }),
       ).annotate({ identifier: "ApiManagementSkuCosts" });
     case 6:
-      return S.Array(__S(10373, __c324, 5));
+      return S.Array(__S(10405, __c325, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -37783,12 +38368,12 @@ function __c324(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           values: S.optional(__S(96, __c3, 0)),
-          restrictionInfo: S.optional(__S(10375, __c324, 7)),
+          restrictionInfo: S.optional(__S(10407, __c325, 7)),
           reasonCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiManagementSkuRestrictions" });
     case 9:
-      return S.Array(__S(10376, __c324, 8));
+      return S.Array(__S(10408, __c325, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -37798,27 +38383,27 @@ function __c324(j: number): any {
           size: S.optional(S.String),
           family: S.optional(S.String),
           kind: S.optional(S.String),
-          capacity: S.optional(__S(10048, __c314, 0)),
+          capacity: S.optional(__S(10080, __c315, 0)),
           locations: S.optional(__S(96, __c3, 0)),
-          locationInfo: S.optional(__S(10372, __c324, 4)),
+          locationInfo: S.optional(__S(10404, __c325, 4)),
           apiVersions: S.optional(__S(96, __c3, 0)),
-          costs: S.optional(__S(10374, __c324, 6)),
-          capabilities: S.optional(__S(10401, __c325, 1)),
-          restrictions: S.optional(__S(10377, __c324, 9)),
+          costs: S.optional(__S(10406, __c325, 6)),
+          capabilities: S.optional(__S(10433, __c326, 1)),
+          restrictions: S.optional(__S(10409, __c325, 9)),
         }),
       ).annotate({ identifier: "ApiManagementSku" });
     case 11:
-      return S.Array(__S(10378, __c324, 10));
+      return S.Array(__S(10410, __c325, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          value: __S(10379, __c324, 11),
+          value: __S(10411, __c325, 11),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiManagementSkusResult" });
   }
 }
-function __c325(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37828,10 +38413,10 @@ function __c325(j: number): any {
         }),
       ).annotate({ identifier: "ApiManagementSkuCapabilities" });
     case 1:
-      return S.Array(__S(10400, __c325, 0));
+      return S.Array(__S(10432, __c326, 0));
   }
 }
-function __c326(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37851,17 +38436,17 @@ function __c326(j: number): any {
         ),
       ).annotate({ identifier: "ListApiManagementWorkspaceLinkByServiceRequest" });
     case 1:
-      return S.Array(__S(4066, __c127, 2));
+      return S.Array(__S(4098, __c128, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(10433, __c326, 1),
+          value: __S(10465, __c327, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiManagementWorkspaceLinkByServiceResponse" });
   }
 }
-function __c327(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37887,21 +38472,21 @@ function __c327(j: number): any {
       ).annotate({ identifier: "ListApiOperationByApiRequest" });
   }
 }
-function __c328(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3786, __c118, 10));
+      return S.Array(__S(3818, __c119, 10));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(10496, __c328, 0),
+          value: __S(10528, __c329, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiOperationByApiResponse" });
   }
 }
-function __c329(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37922,25 +38507,25 @@ function __c329(j: number): any {
       ).annotate({ identifier: "ListApiOperationPolicyByOperationRequest" });
   }
 }
-function __c330(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4193, __c131, 1));
+      return S.Array(__S(4225, __c132, 1));
   }
 }
-function __c331(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(10560, __c330, 0)),
+          value: S.optional(__S(10592, __c331, 0)),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiOperationPolicyByOperationResponse" });
   }
 }
-function __c332(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37960,7 +38545,7 @@ function __c332(j: number): any {
       ).annotate({ identifier: "ListApiPolicyByApiRequest" });
   }
 }
-function __c333(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37985,21 +38570,21 @@ function __c333(j: number): any {
       ).annotate({ identifier: "ListApiProductByApisRequest" });
   }
 }
-function __c334(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6625, __c207, 1));
+      return S.Array(__S(6657, __c208, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(10688, __c334, 0),
+          value: __S(10720, __c335, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiProductByApisResponse" });
   }
 }
-function __c335(j: number): any {
+function __c336(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38008,7 +38593,7 @@ function __c335(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           authorizationProviderId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(10754, __c336, 2)),
+          properties: S.optional(__S(10818, __c338, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -38020,20 +38605,26 @@ function __c335(j: number): any {
       ).annotate({ identifier: "AuthorizationProviderCreateOrUpdateRequest" });
   }
 }
-function __c336(j: number): any {
+function __c337(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+  }
+}
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authorizationCode: S.optional(__S(19488, __c609, 0)),
-          clientCredentials: S.optional(__S(19488, __c609, 0)),
+          authorizationCode: S.optional(__S(19552, __c611, 0)),
+          clientCredentials: S.optional(__S(10784, __c337, 0)),
         }),
       ).annotate({ identifier: "AuthorizationProviderOAuth2GrantTypes" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           redirectUrl: S.optional(S.String),
-          grantTypes: S.optional(__S(10752, __c336, 0)),
+          grantTypes: S.optional(__S(10816, __c338, 0)),
         }),
       ).annotate({ identifier: "AuthorizationProviderOAuth2Settings" });
     case 2:
@@ -38041,7 +38632,7 @@ function __c336(j: number): any {
         S.Struct({
           displayName: S.optional(S.String),
           identityProvider: S.optional(S.String),
-          oauth2: S.optional(__S(10753, __c336, 1)),
+          oauth2: S.optional(__S(10817, __c338, 1)),
         }),
       ).annotate({ identifier: "AuthorizationProviderContractProperties" });
     case 3:
@@ -38050,12 +38641,12 @@ function __c336(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(10754, __c336, 2)),
+          properties: S.optional(__S(10818, __c338, 2)),
         }),
       ).annotate({ identifier: "AuthorizationProviderCreateOrUpdateResponse" });
   }
 }
-function __c337(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38080,21 +38671,21 @@ function __c337(j: number): any {
       ).annotate({ identifier: "ListApiReleaseByServiceRequest" });
   }
 }
-function __c338(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5089, __c159, 1));
+      return S.Array(__S(5121, __c160, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(10816, __c338, 0),
+          value: __S(10880, __c340, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiReleaseByServiceResponse" });
   }
 }
-function __c339(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38119,7 +38710,7 @@ function __c339(j: number): any {
       ).annotate({ identifier: "ListApiRevisionByServiceRequest" });
   }
 }
-function __c340(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38135,18 +38726,18 @@ function __c340(j: number): any {
         }),
       ).annotate({ identifier: "ApiRevisionContract" });
     case 1:
-      return S.Array(__S(10880, __c340, 0));
+      return S.Array(__S(10944, __c342, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(10881, __c340, 1),
+          value: __S(10945, __c342, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiRevisionByServiceResponse" });
   }
 }
-function __c341(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38171,21 +38762,21 @@ function __c341(j: number): any {
       ).annotate({ identifier: "ListApiSchemaByApiRequest" });
   }
 }
-function __c342(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(4320, __c135, 0));
+      return S.Array(__S(4352, __c136, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(10944, __c342, 0),
+          value: __S(11008, __c344, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiSchemaByApiResponse" });
   }
 }
-function __c343(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38209,18 +38800,18 @@ function __c343(j: number): any {
         ),
       ).annotate({ identifier: "ListApiTagDescriptionByServiceRequest" });
     case 1:
-      return S.Array(__S(6497, __c203, 1));
+      return S.Array(__S(6529, __c204, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(10977, __c343, 1),
+          value: __S(11041, __c345, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiTagDescriptionByServiceResponse" });
   }
 }
-function __c344(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38244,21 +38835,21 @@ function __c344(j: number): any {
       ).annotate({ identifier: "ListApiVersionSetByServiceRequest" });
   }
 }
-function __c345(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7073, __c221, 1));
+      return S.Array(__S(7105, __c222, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11040, __c345, 0),
+          value: __S(11104, __c347, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiVersionSetByServiceResponse" });
   }
 }
-function __c346(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38283,20 +38874,20 @@ function __c346(j: number): any {
       ).annotate({ identifier: "ListApiWikisRequest" });
   }
 }
-function __c347(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7523, __c235, 3));
+      return S.Array(__S(7555, __c236, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11104, __c347, 0),
+          value: __S(11168, __c349, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListApiWikisResponse" });
   }
 }
-function __c348(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38321,18 +38912,18 @@ function __c348(j: number): any {
         ),
       ).annotate({ identifier: "ListAuthorizationAccessPolicyByAuthorizationRequest" });
     case 1:
-      return S.Array(__S(9505, __c297, 1));
+      return S.Array(__S(9537, __c298, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11137, __c348, 1),
+          value: __S(11201, __c350, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAuthorizationAccessPolicyByAuthorizationResponse" });
   }
 }
-function __c349(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38356,18 +38947,18 @@ function __c349(j: number): any {
         ),
       ).annotate({ identifier: "ListAuthorizationByAuthorizationProviderRequest" });
     case 1:
-      return S.Array(__S(10178, __c318, 2));
+      return S.Array(__S(10210, __c319, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11169, __c349, 1),
+          value: __S(11233, __c351, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAuthorizationByAuthorizationProviderResponse" });
   }
 }
-function __c350(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38390,17 +38981,17 @@ function __c350(j: number): any {
         ),
       ).annotate({ identifier: "ListAuthorizationProviderByServiceRequest" });
     case 1:
-      return S.Array(__S(10755, __c336, 3));
+      return S.Array(__S(10819, __c338, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11201, __c350, 1),
+          value: __S(11265, __c352, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAuthorizationProviderByServiceResponse" });
   }
 }
-function __c351(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38423,18 +39014,18 @@ function __c351(j: number): any {
         ),
       ).annotate({ identifier: "ListAuthorizationServerByServiceRequest" });
     case 1:
-      return S.Array(__S(11297, __c353, 1));
+      return S.Array(__S(11361, __c355, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11233, __c351, 1),
+          value: __S(11297, __c353, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAuthorizationServerByServiceResponse" });
   }
 }
-function __c352(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38443,7 +39034,7 @@ function __c352(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           authsid: S.String.pipe(T.Label()),
-          properties: S.optional(__S(11296, __c353, 0)),
+          properties: S.optional(__S(11360, __c355, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -38455,7 +39046,7 @@ function __c352(j: number): any {
       ).annotate({ identifier: "AuthorizationServerCreateOrUpdateRequest" });
   }
 }
-function __c353(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38486,12 +39077,12 @@ function __c353(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(11296, __c353, 0)),
+          properties: S.optional(__S(11360, __c355, 0)),
         }),
       ).annotate({ identifier: "AuthorizationServerCreateOrUpdateResponse" });
   }
 }
-function __c354(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38519,7 +39110,7 @@ function __c354(j: number): any {
       ).annotate({ identifier: "ListAuthorizationServerSecretsResponse" });
   }
 }
-function __c355(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38543,21 +39134,21 @@ function __c355(j: number): any {
       ).annotate({ identifier: "ListBackendByServiceRequest" });
   }
 }
-function __c356(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11763, __c367, 19));
+      return S.Array(__S(11827, __c369, 19));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11392, __c356, 0),
+          value: __S(11456, __c358, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBackendByServiceResponse" });
   }
 }
-function __c357(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38579,18 +39170,18 @@ function __c357(j: number): any {
         ),
       ).annotate({ identifier: "ListCacheByServiceRequest" });
     case 1:
-      return S.Array(__S(12737, __c398, 1));
+      return S.Array(__S(12801, __c400, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11425, __c357, 1),
+          value: __S(11489, __c359, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCacheByServiceResponse" });
   }
 }
-function __c358(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38615,21 +39206,21 @@ function __c358(j: number): any {
       ).annotate({ identifier: "ListCertificateByServiceRequest" });
   }
 }
-function __c359(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(13313, __c416, 1));
+      return S.Array(__S(13377, __c418, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11488, __c359, 0),
+          value: __S(11552, __c361, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCertificateByServiceResponse" });
   }
 }
-function __c360(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38650,17 +39241,17 @@ function __c360(j: number): any {
         ),
       ).annotate({ identifier: "ListContentItemByServiceRequest" });
     case 1:
-      return S.Array(__S(15360, __c480, 0));
+      return S.Array(__S(15424, __c482, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11521, __c360, 1),
+          value: __S(11585, __c362, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListContentItemByServiceResponse" });
   }
 }
-function __c361(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38680,17 +39271,17 @@ function __c361(j: number): any {
         ),
       ).annotate({ identifier: "ListContentTypeByServiceRequest" });
     case 1:
-      return S.Array(__S(15777, __c493, 1));
+      return S.Array(__S(15841, __c495, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11553, __c361, 1),
+          value: __S(11617, __c363, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListContentTypeByServiceResponse" });
   }
 }
-function __c362(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38708,17 +39299,17 @@ function __c362(j: number): any {
         ),
       ).annotate({ identifier: "ListDeletedServiceBySubscriptionRequest" });
     case 1:
-      return S.Array(__S(4801, __c150, 1));
+      return S.Array(__S(4833, __c151, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11585, __c362, 1),
+          value: __S(11649, __c364, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDeletedServiceBySubscriptionResponse" });
   }
 }
-function __c363(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38742,7 +39333,7 @@ function __c363(j: number): any {
       ).annotate({ identifier: "ListDiagnosticByServiceRequest" });
   }
 }
-function __c364(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38769,13 +39360,13 @@ function __c364(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11649, __c364, 1),
+          value: __S(11713, __c366, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDocumentationByServiceResponse" });
   }
 }
-function __c365(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38802,14 +39393,14 @@ function __c365(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11681, __c365, 1),
+          value: __S(11745, __c367, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEmailTemplateByServiceResponse" });
   }
 }
-function __c366(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38818,7 +39409,7 @@ function __c366(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           backendId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(11762, __c367, 18)),
+          properties: S.optional(__S(11826, __c369, 18)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -38830,7 +39421,7 @@ function __c366(j: number): any {
       ).annotate({ identifier: "BackendCreateOrUpdateRequest" });
   }
 }
-function __c367(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38840,7 +39431,7 @@ function __c367(j: number): any {
         }),
       ).annotate({ identifier: "X509CertificateName" });
     case 1:
-      return S.Array(__S(11744, __c367, 0));
+      return S.Array(__S(11808, __c369, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -38849,13 +39440,13 @@ function __c367(j: number): any {
           maxPartitionResolutionRetries: S.optional(S.Number),
           managementEndpoints: __S(96, __c3, 0),
           serverCertificateThumbprints: S.optional(__S(96, __c3, 0)),
-          serverX509Names: S.optional(__S(11745, __c367, 1)),
+          serverX509Names: S.optional(__S(11809, __c369, 1)),
         }),
       ).annotate({ identifier: "BackendServiceFabricClusterProperties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          serviceFabricCluster: S.optional(__S(11746, __c367, 2)),
+          serviceFabricCluster: S.optional(__S(11810, __c369, 2)),
         }),
       ).annotate({ identifier: "BackendProperties" });
     case 4:
@@ -38872,9 +39463,9 @@ function __c367(j: number): any {
         S.Struct({
           certificateIds: S.optional(__S(96, __c3, 0)),
           certificate: S.optional(__S(96, __c3, 0)),
-          query: S.optional(__S(11748, __c367, 4)),
-          header: S.optional(__S(11748, __c367, 4)),
-          authorization: S.optional(__S(11749, __c367, 5)),
+          query: S.optional(__S(11812, __c369, 4)),
+          header: S.optional(__S(11812, __c369, 4)),
+          authorization: S.optional(__S(11813, __c369, 5)),
         }),
       ).annotate({ identifier: "BackendCredentialsContract" });
     case 7:
@@ -38900,14 +39491,14 @@ function __c367(j: number): any {
         }),
       ).annotate({ identifier: "FailureStatusCodeRange" });
     case 10:
-      return S.Array(__S(11753, __c367, 9));
+      return S.Array(__S(11817, __c369, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           percentage: S.optional(S.Number),
           interval: S.optional(S.String),
-          statusCodeRanges: S.optional(__S(11754, __c367, 10)),
+          statusCodeRanges: S.optional(__S(11818, __c369, 10)),
           errorReasons: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "CircuitBreakerFailureCondition" });
@@ -38915,17 +39506,17 @@ function __c367(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          failureCondition: S.optional(__S(11755, __c367, 11)),
+          failureCondition: S.optional(__S(11819, __c369, 11)),
           tripDuration: S.optional(S.String),
           acceptRetryAfter: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CircuitBreakerRule" });
     case 13:
-      return S.Array(__S(11756, __c367, 12));
+      return S.Array(__S(11820, __c369, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(11757, __c367, 13)),
+          rules: S.optional(__S(11821, __c369, 13)),
         }),
       ).annotate({ identifier: "BackendCircuitBreaker" });
     case 15:
@@ -38937,11 +39528,11 @@ function __c367(j: number): any {
         }),
       ).annotate({ identifier: "BackendPoolItem" });
     case 16:
-      return S.Array(__S(11759, __c367, 15));
+      return S.Array(__S(11823, __c369, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          services: S.optional(__S(11760, __c367, 16)),
+          services: S.optional(__S(11824, __c369, 16)),
         }),
       ).annotate({ identifier: "BackendContractPropertiesPool" });
     case 18:
@@ -38950,12 +39541,12 @@ function __c367(j: number): any {
           title: S.optional(S.String),
           description: S.optional(S.String),
           resourceId: S.optional(S.String),
-          properties: S.optional(__S(11747, __c367, 3)),
-          credentials: S.optional(__S(11750, __c367, 6)),
-          proxy: S.optional(__S(11751, __c367, 7)),
-          tls: S.optional(__S(11752, __c367, 8)),
-          circuitBreaker: S.optional(__S(11758, __c367, 14)),
-          pool: S.optional(__S(11761, __c367, 17)),
+          properties: S.optional(__S(11811, __c369, 3)),
+          credentials: S.optional(__S(11814, __c369, 6)),
+          proxy: S.optional(__S(11815, __c369, 7)),
+          tls: S.optional(__S(11816, __c369, 8)),
+          circuitBreaker: S.optional(__S(11822, __c369, 14)),
+          pool: S.optional(__S(11825, __c369, 17)),
           type: S.optional(S.String),
           url: S.optional(S.String),
           protocol: S.optional(S.String),
@@ -38967,12 +39558,12 @@ function __c367(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(11762, __c367, 18)),
+          properties: S.optional(__S(11826, __c369, 18)),
         }),
       ).annotate({ identifier: "BackendCreateOrUpdateResponse" });
   }
 }
-function __c368(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38997,7 +39588,7 @@ function __c368(j: number): any {
       ).annotate({ identifier: "ListGatewayApiByServiceRequest" });
   }
 }
-function __c369(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39024,14 +39615,14 @@ function __c369(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11809, __c369, 1),
+          value: __S(11873, __c371, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGatewayByServiceResponse" });
   }
 }
-function __c370(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39059,13 +39650,13 @@ function __c370(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11841, __c370, 1),
+          value: __S(11905, __c372, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGatewayCertificateAuthorityByServiceResponse" });
   }
 }
-function __c371(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39089,12 +39680,12 @@ function __c371(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ListGatewayDebugCredentialsResponse" });
   }
 }
-function __c372(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39122,13 +39713,13 @@ function __c372(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(11905, __c372, 1),
+          value: __S(11969, __c374, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGatewayHostnameConfigurationByServiceResponse" });
   }
 }
-function __c373(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39155,7 +39746,7 @@ function __c373(j: number): any {
       ).annotate({ identifier: "ListGatewayKeysResponse" });
   }
 }
-function __c374(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39175,12 +39766,12 @@ function __c374(j: number): any {
         ),
       ).annotate({ identifier: "ListGatewayTraceRequest" });
     case 1:
-      return S.suspend(() => __S(15392, __c481, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15456, __c483, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGatewayTraceResponse",
       });
   }
 }
-function __c375(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39204,21 +39795,21 @@ function __c375(j: number): any {
       ).annotate({ identifier: "ListGlobalSchemaByServiceRequest" });
   }
 }
-function __c376(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5280, __c165, 0));
+      return S.Array(__S(5312, __c166, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12032, __c376, 0),
+          value: __S(12096, __c378, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGlobalSchemaByServiceResponse" });
   }
 }
-function __c377(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39242,18 +39833,18 @@ function __c377(j: number): any {
         ),
       ).annotate({ identifier: "ListGraphQLApiResolverByApiRequest" });
     case 1:
-      return S.Array(__S(5345, __c167, 1));
+      return S.Array(__S(5377, __c168, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12065, __c377, 1),
+          value: __S(12129, __c379, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGraphQLApiResolverByApiResponse" });
   }
 }
-function __c378(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39276,19 +39867,19 @@ function __c378(j: number): any {
       ).annotate({ identifier: "ListGraphQLApiResolverPolicyByResolverRequest" });
   }
 }
-function __c379(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: __S(10560, __c330, 0),
+          value: __S(10592, __c331, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGraphQLApiResolverPolicyByResolverResponse" });
   }
 }
-function __c380(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39303,7 +39894,7 @@ function __c380(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           backendId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(12160, __c380, 0)),
+          properties: S.optional(__S(12224, __c382, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -39315,7 +39906,7 @@ function __c380(j: number): any {
       ).annotate({ identifier: "BackendReconnectRequest" });
   }
 }
-function __c381(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39339,21 +39930,21 @@ function __c381(j: number): any {
       ).annotate({ identifier: "ListGroupByServiceRequest" });
   }
 }
-function __c382(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5440, __c170, 0));
+      return S.Array(__S(5472, __c171, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12224, __c382, 0),
+          value: __S(12288, __c384, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGroupByServiceResponse" });
   }
 }
-function __c383(j: number): any {
+function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39378,21 +39969,21 @@ function __c383(j: number): any {
       ).annotate({ identifier: "ListGroupUserRequest" });
   }
 }
-function __c384(j: number): any {
+function __c386(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(16226, __c507, 2));
+      return S.Array(__S(16290, __c509, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12288, __c384, 0),
+          value: __S(12352, __c386, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGroupUserResponse" });
   }
 }
-function __c385(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39412,18 +40003,18 @@ function __c385(j: number): any {
         ),
       ).annotate({ identifier: "ListIdentityProviderByServiceRequest" });
     case 1:
-      return S.Array(__S(5505, __c172, 1));
+      return S.Array(__S(5537, __c173, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12321, __c385, 1),
+          value: __S(12385, __c387, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListIdentityProviderByServiceResponse" });
   }
 }
-function __c386(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39443,7 +40034,7 @@ function __c386(j: number): any {
       ).annotate({ identifier: "ListIdentityProviderSecretsRequest" });
   }
 }
-function __c387(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39453,7 +40044,7 @@ function __c387(j: number): any {
       ).annotate({ identifier: "ListIdentityProviderSecretsResponse" });
   }
 }
-function __c388(j: number): any {
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39477,7 +40068,7 @@ function __c388(j: number): any {
       ).annotate({ identifier: "ListIssueByServiceRequest" });
   }
 }
-function __c389(j: number): any {
+function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39501,21 +40092,21 @@ function __c389(j: number): any {
       ).annotate({ identifier: "ListLoggerByServiceRequest" });
   }
 }
-function __c390(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5601, __c175, 1));
+      return S.Array(__S(5633, __c176, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12480, __c390, 0),
+          value: __S(12544, __c392, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLoggerByServiceResponse" });
   }
 }
-function __c391(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39540,21 +40131,21 @@ function __c391(j: number): any {
       ).annotate({ identifier: "ListNamedValueByServiceRequest" });
   }
 }
-function __c392(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5664, __c177, 0));
+      return S.Array(__S(5696, __c178, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12544, __c392, 0),
+          value: __S(12608, __c394, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNamedValueByServiceResponse" });
   }
 }
-function __c393(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39574,7 +40165,7 @@ function __c393(j: number): any {
       ).annotate({ identifier: "ListNamedValueValueRequest" });
   }
 }
-function __c394(j: number): any {
+function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39594,7 +40185,7 @@ function __c394(j: number): any {
       ).annotate({ identifier: "ListNetworkStatusByLocationRequest" });
   }
 }
-function __c395(j: number): any {
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39609,17 +40200,17 @@ function __c395(j: number): any {
         }),
       ).annotate({ identifier: "ConnectivityStatusContract" });
     case 1:
-      return S.Array(__S(12640, __c395, 0));
+      return S.Array(__S(12704, __c397, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           dnsServers: __S(96, __c3, 0),
-          connectivityStatus: __S(12641, __c395, 1),
+          connectivityStatus: __S(12705, __c397, 1),
         }),
       ).annotate({ identifier: "NetworkStatusContract" });
   }
 }
-function __c396(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39640,18 +40231,18 @@ function __c396(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String),
-          networkStatus: S.optional(__S(12642, __c395, 2)),
+          networkStatus: S.optional(__S(12706, __c397, 2)),
         }),
       ).annotate({ identifier: "NetworkStatusContractByLocation" });
     case 2:
-      return S.Array(__S(12673, __c396, 1));
+      return S.Array(__S(12737, __c398, 1));
     case 3:
-      return S.suspend(() => __S(12674, __c396, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(12738, __c398, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListNetworkStatusByServiceResponse",
       });
   }
 }
-function __c397(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39660,7 +40251,7 @@ function __c397(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           cacheId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(12736, __c398, 0)),
+          properties: S.optional(__S(12800, __c400, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -39672,7 +40263,7 @@ function __c397(j: number): any {
       ).annotate({ identifier: "CacheCreateOrUpdateRequest" });
   }
 }
-function __c398(j: number): any {
+function __c400(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39689,12 +40280,12 @@ function __c398(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(12736, __c398, 0)),
+          properties: S.optional(__S(12800, __c400, 0)),
         }),
       ).annotate({ identifier: "CacheCreateOrUpdateResponse" });
   }
 }
-function __c399(j: number): any {
+function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39717,21 +40308,21 @@ function __c399(j: number): any {
       ).annotate({ identifier: "ListNotificationByServiceRequest" });
   }
 }
-function __c400(j: number): any {
+function __c402(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5858, __c183, 2));
+      return S.Array(__S(5890, __c184, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(12800, __c400, 0),
+          value: __S(12864, __c402, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNotificationByServiceResponse" });
   }
 }
-function __c401(j: number): any {
+function __c403(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39751,21 +40342,21 @@ function __c401(j: number): any {
       ).annotate({ identifier: "ListNotificationRecipientEmailByNotificationRequest" });
   }
 }
-function __c402(j: number): any {
+function __c404(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(12897, __c403, 1));
+      return S.Array(__S(12961, __c405, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(12864, __c402, 0)),
+          value: S.optional(__S(12928, __c404, 0)),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNotificationRecipientEmailByNotificationResponse" });
   }
 }
-function __c403(j: number): any {
+function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39779,12 +40370,12 @@ function __c403(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(12896, __c403, 0)),
+          properties: S.optional(__S(12960, __c405, 0)),
         }),
       ).annotate({ identifier: "RecipientEmailContract" });
   }
 }
-function __c404(j: number): any {
+function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39804,21 +40395,21 @@ function __c404(j: number): any {
       ).annotate({ identifier: "ListNotificationRecipientUserByNotificationRequest" });
   }
 }
-function __c405(j: number): any {
+function __c407(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(12993, __c406, 1));
+      return S.Array(__S(13057, __c408, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(12960, __c405, 0)),
+          value: S.optional(__S(13024, __c407, 0)),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNotificationRecipientUserByNotificationResponse" });
   }
 }
-function __c406(j: number): any {
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39832,12 +40423,12 @@ function __c406(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(12992, __c406, 0)),
+          properties: S.optional(__S(13056, __c408, 0)),
         }),
       ).annotate({ identifier: "RecipientUserContract" });
   }
 }
-function __c407(j: number): any {
+function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39860,18 +40451,18 @@ function __c407(j: number): any {
         ),
       ).annotate({ identifier: "ListOpenIdConnectProviderByServiceRequest" });
     case 1:
-      return S.Array(__S(5921, __c185, 1));
+      return S.Array(__S(5953, __c186, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13025, __c407, 1),
+          value: __S(13089, __c409, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOpenIdConnectProviderByServiceResponse" });
   }
 }
-function __c408(j: number): any {
+function __c410(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39891,7 +40482,7 @@ function __c408(j: number): any {
       ).annotate({ identifier: "ListOpenIdConnectProviderSecretsRequest" });
   }
 }
-function __c409(j: number): any {
+function __c411(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39917,7 +40508,7 @@ function __c409(j: number): any {
       ).annotate({ identifier: "ListOperationByTagsRequest" });
   }
 }
-function __c410(j: number): any {
+function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39947,23 +40538,23 @@ function __c410(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(13121, __c410, 1)),
+          display: S.optional(__S(13185, __c412, 1)),
           origin: S.optional(S.String),
           actionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(13122, __c410, 2));
+      return S.Array(__S(13186, __c412, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13123, __c410, 3),
+          value: __S(13187, __c412, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c411(j: number): any {
+function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39988,35 +40579,35 @@ function __c411(j: number): any {
         }),
       ).annotate({ identifier: "EndpointDetail" });
     case 2:
-      return S.Array(__S(13153, __c411, 1));
+      return S.Array(__S(13217, __c413, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           domainName: S.optional(S.String),
-          endpointDetails: S.optional(__S(13154, __c411, 2)),
+          endpointDetails: S.optional(__S(13218, __c413, 2)),
         }),
       ).annotate({ identifier: "EndpointDependency" });
     case 4:
-      return S.Array(__S(13155, __c411, 3));
+      return S.Array(__S(13219, __c413, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           category: S.optional(S.String),
-          endpoints: S.optional(__S(13156, __c411, 4)),
+          endpoints: S.optional(__S(13220, __c413, 4)),
         }),
       ).annotate({ identifier: "OutboundEnvironmentEndpoint" });
     case 6:
-      return S.Array(__S(13157, __c411, 5));
+      return S.Array(__S(13221, __c413, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13158, __c411, 6),
+          value: __S(13222, __c413, 6),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OutboundEnvironmentEndpointList" });
   }
 }
-function __c412(j: number): any {
+function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40037,7 +40628,7 @@ function __c412(j: number): any {
       ).annotate({ identifier: "ListPolicyByServiceRequest" });
   }
 }
-function __c413(j: number): any {
+function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40068,21 +40659,21 @@ function __c413(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(13217, __c413, 1)),
+          properties: S.optional(__S(13281, __c415, 1)),
         }),
       ).annotate({ identifier: "PolicyDescriptionContract" });
     case 3:
-      return S.Array(__S(13218, __c413, 2));
+      return S.Array(__S(13282, __c415, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(13219, __c413, 3)),
+          value: S.optional(__S(13283, __c415, 3)),
           count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListPolicyDescriptionByServiceResponse" });
   }
 }
-function __c414(j: number): any {
+function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40091,7 +40682,7 @@ function __c414(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           certificateId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(13376, __c418, 0)),
+          properties: S.optional(__S(13440, __c420, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -40103,7 +40694,7 @@ function __c414(j: number): any {
       ).annotate({ identifier: "CertificateCreateOrUpdateRequest" });
   }
 }
-function __c415(j: number): any {
+function __c417(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40118,12 +40709,12 @@ function __c415(j: number): any {
         S.Struct({
           secretIdentifier: S.optional(S.String),
           identityClientId: S.optional(S.String),
-          lastStatus: S.optional(__S(13280, __c415, 0)),
+          lastStatus: S.optional(__S(13344, __c417, 0)),
         }),
       ).annotate({ identifier: "KeyVaultContractProperties" });
   }
 }
-function __c416(j: number): any {
+function __c418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40131,7 +40722,7 @@ function __c416(j: number): any {
           subject: S.String,
           thumbprint: S.String,
           expirationDate: S.String,
-          keyVault: S.optional(__S(13281, __c415, 1)),
+          keyVault: S.optional(__S(13345, __c417, 1)),
         }),
       ).annotate({ identifier: "CertificateContractProperties" });
     case 1:
@@ -40140,12 +40731,12 @@ function __c416(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(13312, __c416, 0)),
+          properties: S.optional(__S(13376, __c418, 0)),
         }),
       ).annotate({ identifier: "CertificateCreateOrUpdateResponse" });
   }
 }
-function __c417(j: number): any {
+function __c419(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40156,19 +40747,19 @@ function __c417(j: number): any {
       ).annotate({ identifier: "KeyVaultContractCreateProperties" });
   }
 }
-function __c418(j: number): any {
+function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           data: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          keyVault: S.optional(__S(13344, __c417, 0)),
+          keyVault: S.optional(__S(13408, __c419, 0)),
         }),
       ).annotate({ identifier: "CertificateCreateOrUpdateProperties" });
   }
 }
-function __c419(j: number): any {
+function __c421(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40193,21 +40784,21 @@ function __c419(j: number): any {
       ).annotate({ identifier: "ListPolicyFragmentByServiceRequest" });
   }
 }
-function __c420(j: number): any {
+function __c422(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6080, __c190, 0));
+      return S.Array(__S(6112, __c191, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13440, __c420, 0),
+          value: __S(13504, __c422, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPolicyFragmentByServiceResponse" });
   }
 }
-function __c421(j: number): any {
+function __c423(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40229,7 +40820,7 @@ function __c421(j: number): any {
       ).annotate({ identifier: "ListPolicyFragmentReferencesRequest" });
   }
 }
-function __c422(j: number): any {
+function __c424(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40240,18 +40831,18 @@ function __c422(j: number): any {
         }),
       ).annotate({ identifier: "Resource" });
     case 1:
-      return S.Array(__S(13504, __c422, 0));
+      return S.Array(__S(13568, __c424, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(13505, __c422, 1)),
+          value: S.optional(__S(13569, __c424, 1)),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPolicyFragmentReferencesResponse" });
   }
 }
-function __c423(j: number): any {
+function __c425(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40271,17 +40862,17 @@ function __c423(j: number): any {
         ),
       ).annotate({ identifier: "ListPolicyRestrictionByServiceRequest" });
     case 1:
-      return S.Array(__S(6177, __c193, 1));
+      return S.Array(__S(6209, __c194, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13537, __c423, 1),
+          value: __S(13601, __c425, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPolicyRestrictionByServiceResponse" });
   }
 }
-function __c424(j: number): any {
+function __c426(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40301,17 +40892,17 @@ function __c424(j: number): any {
         ),
       ).annotate({ identifier: "ListPortalConfigByServiceRequest" });
     case 1:
-      return S.Array(__S(6247, __c195, 7));
+      return S.Array(__S(6279, __c196, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13569, __c424, 1),
+          value: __S(13633, __c426, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPortalConfigByServiceResponse" });
   }
 }
-function __c425(j: number): any {
+function __c427(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40334,17 +40925,17 @@ function __c425(j: number): any {
         ),
       ).annotate({ identifier: "ListPortalRevisionByServiceRequest" });
     case 1:
-      return S.Array(__S(6304, __c197, 0));
+      return S.Array(__S(6336, __c198, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13601, __c425, 1),
+          value: __S(13665, __c427, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListPortalRevisionByServiceResponse" });
   }
 }
-function __c426(j: number): any {
+function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40362,16 +40953,16 @@ function __c426(j: number): any {
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByServiceRequest" });
     case 1:
-      return S.Array(__S(6400, __c200, 0));
+      return S.Array(__S(6432, __c201, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13633, __c426, 1),
+          value: __S(13697, __c428, 1),
         }),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByServiceResponse" });
   }
 }
-function __c427(j: number): any {
+function __c429(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40389,16 +40980,16 @@ function __c427(j: number): any {
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionPrivateLinkResourcesRequest" });
     case 1:
-      return S.Array(__S(6560, __c205, 0));
+      return S.Array(__S(6592, __c206, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(13665, __c427, 1)),
+          value: S.optional(__S(13729, __c429, 1)),
         }),
       ).annotate({ identifier: "ListPrivateEndpointConnectionPrivateLinkResourcesResponse" });
   }
 }
-function __c428(j: number): any {
+function __c430(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40423,7 +41014,7 @@ function __c428(j: number): any {
       ).annotate({ identifier: "ListProductApiByProductRequest" });
   }
 }
-function __c429(j: number): any {
+function __c431(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40448,21 +41039,21 @@ function __c429(j: number): any {
       ).annotate({ identifier: "ListProductApiLinkByProductRequest" });
   }
 }
-function __c430(j: number): any {
+function __c432(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6689, __c209, 1));
+      return S.Array(__S(6721, __c210, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13760, __c430, 0),
+          value: __S(13824, __c432, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProductApiLinkByProductResponse" });
   }
 }
-function __c431(j: number): any {
+function __c433(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40488,7 +41079,7 @@ function __c431(j: number): any {
       ).annotate({ identifier: "ListProductByServiceRequest" });
   }
 }
-function __c432(j: number): any {
+function __c434(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40516,7 +41107,7 @@ function __c432(j: number): any {
       ).annotate({ identifier: "AiGatewayCheckNameAvailabilityResponse" });
   }
 }
-function __c433(j: number): any {
+function __c435(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40541,7 +41132,7 @@ function __c433(j: number): any {
       ).annotate({ identifier: "ListProductByTagsRequest" });
   }
 }
-function __c434(j: number): any {
+function __c436(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40566,7 +41157,7 @@ function __c434(j: number): any {
       ).annotate({ identifier: "ListProductGroupByProductRequest" });
   }
 }
-function __c435(j: number): any {
+function __c437(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40591,21 +41182,21 @@ function __c435(j: number): any {
       ).annotate({ identifier: "ListProductGroupLinkByProductRequest" });
   }
 }
-function __c436(j: number): any {
+function __c438(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6753, __c211, 1));
+      return S.Array(__S(6785, __c212, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(13952, __c436, 0),
+          value: __S(14016, __c438, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProductGroupLinkByProductResponse" });
   }
 }
-function __c437(j: number): any {
+function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40627,7 +41218,7 @@ function __c437(j: number): any {
       ).annotate({ identifier: "ListProductPolicyByProductRequest" });
   }
 }
-function __c438(j: number): any {
+function __c440(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40652,21 +41243,21 @@ function __c438(j: number): any {
       ).annotate({ identifier: "ListProductSubscriptionsRequest" });
   }
 }
-function __c439(j: number): any {
+function __c441(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6945, __c217, 1));
+      return S.Array(__S(6977, __c218, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14048, __c439, 0),
+          value: __S(14112, __c441, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProductSubscriptionsResponse" });
   }
 }
-function __c440(j: number): any {
+function __c442(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40691,7 +41282,7 @@ function __c440(j: number): any {
       ).annotate({ identifier: "ListProductWikisRequest" });
   }
 }
-function __c441(j: number): any {
+function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40711,21 +41302,21 @@ function __c441(j: number): any {
       ).annotate({ identifier: "ListQuotaByCounterKeyByServiceRequest" });
   }
 }
-function __c442(j: number): any {
+function __c444(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6881, __c215, 1));
+      return S.Array(__S(6913, __c216, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(14144, __c442, 0)),
+          value: S.optional(__S(14208, __c444, 0)),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListQuotaByCounterKeyByServiceResponse" });
   }
 }
-function __c443(j: number): any {
+function __c445(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40753,18 +41344,18 @@ function __c443(j: number): any {
         }),
       ).annotate({ identifier: "RegionContract" });
     case 2:
-      return S.Array(__S(14177, __c443, 1));
+      return S.Array(__S(14241, __c445, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14178, __c443, 2),
+          value: __S(14242, __c445, 2),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListRegionByServiceResponse" });
   }
 }
-function __c444(j: number): any {
+function __c446(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40789,7 +41380,7 @@ function __c444(j: number): any {
       ).annotate({ identifier: "ListReportByApiRequest" });
   }
 }
-function __c445(j: number): any {
+function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40823,18 +41414,18 @@ function __c445(j: number): any {
         }),
       ).annotate({ identifier: "ReportRecordContract" });
     case 1:
-      return S.Array(__S(14240, __c445, 0));
+      return S.Array(__S(14304, __c447, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14241, __c445, 1),
+          value: __S(14305, __c447, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListReportByApiResponse" });
   }
 }
-function __c446(j: number): any {
+function __c448(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40858,7 +41449,7 @@ function __c446(j: number): any {
       ).annotate({ identifier: "ListReportByGeoRequest" });
   }
 }
-function __c447(j: number): any {
+function __c449(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40884,7 +41475,7 @@ function __c447(j: number): any {
       ).annotate({ identifier: "ApiManagementServiceNameAvailabilityResult" });
   }
 }
-function __c448(j: number): any {
+function __c450(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40909,7 +41500,7 @@ function __c448(j: number): any {
       ).annotate({ identifier: "ListReportByOperationRequest" });
   }
 }
-function __c449(j: number): any {
+function __c451(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40934,7 +41525,7 @@ function __c449(j: number): any {
       ).annotate({ identifier: "ListReportByProductRequest" });
   }
 }
-function __c450(j: number): any {
+function __c452(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40978,17 +41569,17 @@ function __c450(j: number): any {
         }),
       ).annotate({ identifier: "RequestReportRecordContract" });
     case 2:
-      return S.Array(__S(14401, __c450, 1));
+      return S.Array(__S(14465, __c452, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14402, __c450, 2),
+          value: __S(14466, __c452, 2),
           count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListReportByRequestResponse" });
   }
 }
-function __c451(j: number): any {
+function __c453(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41013,7 +41604,7 @@ function __c451(j: number): any {
       ).annotate({ identifier: "ListReportBySubscriptionRequest" });
   }
 }
-function __c452(j: number): any {
+function __c454(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41039,7 +41630,7 @@ function __c452(j: number): any {
       ).annotate({ identifier: "ListReportByTimeRequest" });
   }
 }
-function __c453(j: number): any {
+function __c455(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41064,7 +41655,7 @@ function __c453(j: number): any {
       ).annotate({ identifier: "ListReportByUserRequest" });
   }
 }
-function __c454(j: number): any {
+function __c456(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41088,7 +41679,7 @@ function __c454(j: number): any {
       ).annotate({ identifier: "ListSubscriptionRequest" });
   }
 }
-function __c455(j: number): any {
+function __c457(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41108,7 +41699,7 @@ function __c455(j: number): any {
       ).annotate({ identifier: "ListSubscriptionSecretsRequest" });
   }
 }
-function __c456(j: number): any {
+function __c458(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41119,7 +41710,7 @@ function __c456(j: number): any {
       ).annotate({ identifier: "ListSubscriptionSecretsResponse" });
   }
 }
-function __c457(j: number): any {
+function __c459(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41144,7 +41735,7 @@ function __c457(j: number): any {
       ).annotate({ identifier: "ListTagApiLinkByProductRequest" });
   }
 }
-function __c458(j: number): any {
+function __c460(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41169,21 +41760,21 @@ function __c458(j: number): any {
       ).annotate({ identifier: "ListTagByApiRequest" });
   }
 }
-function __c459(j: number): any {
+function __c461(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8289, __c259, 1));
+      return S.Array(__S(8321, __c260, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14688, __c459, 0),
+          value: __S(14752, __c461, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTagByApiResponse" });
   }
 }
-function __c460(j: number): any {
+function __c462(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41205,7 +41796,7 @@ function __c460(j: number): any {
       ).annotate({ identifier: "ConfirmAuthorizationConsentCodeRequest" });
   }
 }
-function __c461(j: number): any {
+function __c463(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41231,7 +41822,7 @@ function __c461(j: number): any {
       ).annotate({ identifier: "ListTagByOperationRequest" });
   }
 }
-function __c462(j: number): any {
+function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41256,7 +41847,7 @@ function __c462(j: number): any {
       ).annotate({ identifier: "ListTagByProductRequest" });
   }
 }
-function __c463(j: number): any {
+function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41281,7 +41872,7 @@ function __c463(j: number): any {
       ).annotate({ identifier: "ListTagByServiceRequest" });
   }
 }
-function __c464(j: number): any {
+function __c466(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41306,21 +41897,21 @@ function __c464(j: number): any {
       ).annotate({ identifier: "ListTagOperationLinkByProductRequest" });
   }
 }
-function __c465(j: number): any {
+function __c467(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7233, __c226, 1));
+      return S.Array(__S(7265, __c227, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14880, __c465, 0),
+          value: __S(14944, __c467, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTagOperationLinkByProductResponse" });
   }
 }
-function __c466(j: number): any {
+function __c468(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41345,21 +41936,21 @@ function __c466(j: number): any {
       ).annotate({ identifier: "ListTagProductLinkByProductRequest" });
   }
 }
-function __c467(j: number): any {
+function __c469(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7297, __c228, 1));
+      return S.Array(__S(7329, __c229, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(14944, __c467, 0),
+          value: __S(15008, __c469, 0),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTagProductLinkByProductResponse" });
   }
 }
-function __c468(j: number): any {
+function __c470(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41383,7 +41974,7 @@ function __c468(j: number): any {
       ).annotate({ identifier: "ListTagResourceByServiceRequest" });
   }
 }
-function __c469(j: number): any {
+function __c471(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41404,18 +41995,18 @@ function __c469(j: number): any {
         ),
       ).annotate({ identifier: "ListTenantAccessByServiceRequest" });
     case 1:
-      return S.Array(__S(16609, __c519, 1));
+      return S.Array(__S(16673, __c521, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(15009, __c469, 1),
+          value: __S(15073, __c471, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTenantAccessByServiceResponse" });
   }
 }
-function __c470(j: number): any {
+function __c472(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41438,14 +42029,14 @@ function __c470(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           principalId: S.optional(S.String),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ListTenantAccessSecretsResponse" });
   }
 }
-function __c471(j: number): any {
+function __c473(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41470,7 +42061,7 @@ function __c471(j: number): any {
       ).annotate({ identifier: "ListUserByServiceRequest" });
   }
 }
-function __c472(j: number): any {
+function __c474(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41495,7 +42086,7 @@ function __c472(j: number): any {
       ).annotate({ identifier: "ListUserGroupRequest" });
   }
 }
-function __c473(j: number): any {
+function __c475(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41504,7 +42095,7 @@ function __c473(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           aiGatewayName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(15168, __c474, 0)),
+          properties: S.optional(__S(15232, __c476, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -41521,25 +42112,25 @@ function __c473(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(15296, __c478, 0)),
+          properties: S.optional(__S(15360, __c480, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "AiGatewayPrivateEndpointConnectionsCreateOrUpdateResponse" });
   }
 }
-function __c474(j: number): any {
+function __c476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(15232, __c476, 0)),
-          privateLinkServiceConnectionState: __S(15264, __c477, 0),
+          privateEndpoint: S.optional(__S(15296, __c478, 0)),
+          privateLinkServiceConnectionState: __S(15328, __c479, 0),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionPropertiesInput" });
   }
 }
-function __c475(j: number): any {
+function __c477(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41549,13 +42140,13 @@ function __c475(j: number): any {
       ).annotate({ identifier: "PrivateEndpoint" });
   }
 }
-function __c476(j: number): any {
+function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "PrivateEndpointInput" });
   }
 }
-function __c477(j: number): any {
+function __c479(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41567,20 +42158,20 @@ function __c477(j: number): any {
       ).annotate({ identifier: "PrivateLinkServiceConnectionState" });
   }
 }
-function __c478(j: number): any {
+function __c480(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           groupIds: S.optional(__S(96, __c3, 0)),
-          privateEndpoint: S.optional(__S(15200, __c475, 0)),
-          privateLinkServiceConnectionState: __S(15264, __c477, 0),
+          privateEndpoint: S.optional(__S(15264, __c477, 0)),
+          privateLinkServiceConnectionState: __S(15328, __c479, 0),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
   }
 }
-function __c479(j: number): any {
+function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41590,7 +42181,7 @@ function __c479(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           contentTypeId: S.String.pipe(T.Label()),
           contentItemId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(15392, __c481, 0)),
+          properties: S.optional(__S(15456, __c483, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -41602,7 +42193,7 @@ function __c479(j: number): any {
       ).annotate({ identifier: "ContentItemCreateOrUpdateRequest" });
   }
 }
-function __c480(j: number): any {
+function __c482(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41610,18 +42201,18 @@ function __c480(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(15392, __c481, 0)),
+          properties: S.optional(__S(15456, __c483, 0)),
         }),
       ).annotate({ identifier: "ContentItemCreateOrUpdateResponse" });
   }
 }
-function __c481(j: number): any {
+function __c483(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c482(j: number): any {
+function __c484(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41644,14 +42235,14 @@ function __c482(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(16193, __c506, 1),
+          value: __S(16257, __c508, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUserIdentitiesResponse" });
   }
 }
-function __c483(j: number): any {
+function __c485(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41676,7 +42267,7 @@ function __c483(j: number): any {
       ).annotate({ identifier: "ListUserSubscriptionRequest" });
   }
 }
-function __c484(j: number): any {
+function __c486(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41703,7 +42294,7 @@ function __c484(j: number): any {
       ).annotate({ identifier: "ListWorkspaceApiByServiceRequest" });
   }
 }
-function __c485(j: number): any {
+function __c487(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41729,7 +42320,7 @@ function __c485(j: number): any {
       ).annotate({ identifier: "ListWorkspaceApiDiagnosticByWorkspaceRequest" });
   }
 }
-function __c486(j: number): any {
+function __c488(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41756,7 +42347,7 @@ function __c486(j: number): any {
       ).annotate({ identifier: "ListWorkspaceApiOperationByApiRequest" });
   }
 }
-function __c487(j: number): any {
+function __c489(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41780,7 +42371,7 @@ function __c487(j: number): any {
       ).annotate({ identifier: "ListWorkspaceApiOperationPolicyByOperationRequest" });
   }
 }
-function __c488(j: number): any {
+function __c490(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41803,7 +42394,7 @@ function __c488(j: number): any {
       ).annotate({ identifier: "ListWorkspaceApiPolicyByApiRequest" });
   }
 }
-function __c489(j: number): any {
+function __c491(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41829,7 +42420,7 @@ function __c489(j: number): any {
       ).annotate({ identifier: "ListWorkspaceApiReleaseByServiceRequest" });
   }
 }
-function __c490(j: number): any {
+function __c492(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41855,7 +42446,7 @@ function __c490(j: number): any {
       ).annotate({ identifier: "ListWorkspaceApiRevisionByServiceRequest" });
   }
 }
-function __c491(j: number): any {
+function __c493(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41881,7 +42472,7 @@ function __c491(j: number): any {
       ).annotate({ identifier: "ListWorkspaceApiSchemaByApiRequest" });
   }
 }
-function __c492(j: number): any {
+function __c494(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41890,7 +42481,7 @@ function __c492(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           contentTypeId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(15776, __c493, 0)),
+          properties: S.optional(__S(15840, __c495, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -41902,7 +42493,7 @@ function __c492(j: number): any {
       ).annotate({ identifier: "ContentTypeCreateOrUpdateRequest" });
   }
 }
-function __c493(j: number): any {
+function __c495(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41920,12 +42511,12 @@ function __c493(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(15776, __c493, 0)),
+          properties: S.optional(__S(15840, __c495, 0)),
         }),
       ).annotate({ identifier: "ContentTypeCreateOrUpdateResponse" });
   }
 }
-function __c494(j: number): any {
+function __c496(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41950,7 +42541,7 @@ function __c494(j: number): any {
       ).annotate({ identifier: "ListWorkspaceApiVersionSetByServiceRequest" });
   }
 }
-function __c495(j: number): any {
+function __c497(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41975,7 +42566,7 @@ function __c495(j: number): any {
       ).annotate({ identifier: "ListWorkspaceBackendByWorkspaceRequest" });
   }
 }
-function __c496(j: number): any {
+function __c498(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41998,18 +42589,18 @@ function __c496(j: number): any {
         ),
       ).annotate({ identifier: "ListWorkspaceByServiceRequest" });
     case 1:
-      return S.Array(__S(7585, __c237, 1));
+      return S.Array(__S(7617, __c238, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(15873, __c496, 1),
+          value: __S(15937, __c498, 1),
           count: S.optional(S.Number),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWorkspaceByServiceResponse" });
   }
 }
-function __c497(j: number): any {
+function __c499(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42035,7 +42626,7 @@ function __c497(j: number): any {
       ).annotate({ identifier: "ListWorkspaceCertificateByWorkspaceRequest" });
   }
 }
-function __c498(j: number): any {
+function __c500(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42060,7 +42651,7 @@ function __c498(j: number): any {
       ).annotate({ identifier: "ListWorkspaceDiagnosticByWorkspaceRequest" });
   }
 }
-function __c499(j: number): any {
+function __c501(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42085,7 +42676,7 @@ function __c499(j: number): any {
       ).annotate({ identifier: "ListWorkspaceGlobalSchemaByServiceRequest" });
   }
 }
-function __c500(j: number): any {
+function __c502(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42110,7 +42701,7 @@ function __c500(j: number): any {
       ).annotate({ identifier: "ListWorkspaceGroupByServiceRequest" });
   }
 }
-function __c501(j: number): any {
+function __c503(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42136,7 +42727,7 @@ function __c501(j: number): any {
       ).annotate({ identifier: "ListWorkspaceGroupUserRequest" });
   }
 }
-function __c502(j: number): any {
+function __c504(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42161,7 +42752,7 @@ function __c502(j: number): any {
       ).annotate({ identifier: "ListWorkspaceLoggerByWorkspaceRequest" });
   }
 }
-function __c503(j: number): any {
+function __c505(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42187,7 +42778,7 @@ function __c503(j: number): any {
       ).annotate({ identifier: "ListWorkspaceNamedValueByServiceRequest" });
   }
 }
-function __c504(j: number): any {
+function __c506(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42208,7 +42799,7 @@ function __c504(j: number): any {
       ).annotate({ identifier: "CreateGroupUserRequest" });
   }
 }
-function __c505(j: number): any {
+function __c507(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42222,7 +42813,7 @@ function __c505(j: number): any {
       ).annotate({ identifier: "UserContractPropertiesGroupsItem" });
   }
 }
-function __c506(j: number): any {
+function __c508(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42232,24 +42823,24 @@ function __c506(j: number): any {
         }),
       ).annotate({ identifier: "UserIdentityContract" });
     case 1:
-      return S.Array(__S(16192, __c506, 0));
+      return S.Array(__S(16256, __c508, 0));
   }
 }
-function __c507(j: number): any {
+function __c509(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(16160, __c505, 0));
+      return S.Array(__S(16224, __c507, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
           note: S.optional(S.String),
-          identities: S.optional(__S(16193, __c506, 1)),
+          identities: S.optional(__S(16257, __c508, 1)),
           firstName: S.optional(S.String),
           lastName: S.optional(S.String),
           email: S.optional(S.String),
           registrationDate: S.optional(S.String),
-          groups: S.optional(__S(16224, __c507, 0)),
+          groups: S.optional(__S(16288, __c509, 0)),
         }),
       ).annotate({ identifier: "UserContractProperties" });
     case 2:
@@ -42258,12 +42849,12 @@ function __c507(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(16225, __c507, 1)),
+          properties: S.optional(__S(16289, __c509, 1)),
         }),
       ).annotate({ identifier: "CreateGroupUserResponse" });
   }
 }
-function __c508(j: number): any {
+function __c510(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42284,7 +42875,7 @@ function __c508(j: number): any {
       ).annotate({ identifier: "ListWorkspaceNamedValueValueRequest" });
   }
 }
-function __c509(j: number): any {
+function __c511(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42308,7 +42899,7 @@ function __c509(j: number): any {
       ).annotate({ identifier: "ListWorkspaceNotificationByServiceRequest" });
   }
 }
-function __c510(j: number): any {
+function __c512(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42329,7 +42920,7 @@ function __c510(j: number): any {
       ).annotate({ identifier: "ListWorkspaceNotificationRecipientEmailByNotificationRequest" });
   }
 }
-function __c511(j: number): any {
+function __c513(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42350,7 +42941,7 @@ function __c511(j: number): any {
       ).annotate({ identifier: "ListWorkspaceNotificationRecipientUserByNotificationRequest" });
   }
 }
-function __c512(j: number): any {
+function __c514(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42372,7 +42963,7 @@ function __c512(j: number): any {
       ).annotate({ identifier: "ListWorkspacePolicyByApiRequest" });
   }
 }
-function __c513(j: number): any {
+function __c515(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42398,7 +42989,7 @@ function __c513(j: number): any {
       ).annotate({ identifier: "ListWorkspacePolicyFragmentByServiceRequest" });
   }
 }
-function __c514(j: number): any {
+function __c516(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42421,7 +43012,7 @@ function __c514(j: number): any {
       ).annotate({ identifier: "ListWorkspacePolicyFragmentReferencesRequest" });
   }
 }
-function __c515(j: number): any {
+function __c517(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42447,7 +43038,7 @@ function __c515(j: number): any {
       ).annotate({ identifier: "ListWorkspaceProductApiLinkByProductRequest" });
   }
 }
-function __c516(j: number): any {
+function __c518(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42474,7 +43065,7 @@ function __c516(j: number): any {
       ).annotate({ identifier: "ListWorkspaceProductByServiceRequest" });
   }
 }
-function __c517(j: number): any {
+function __c519(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42500,14 +43091,14 @@ function __c517(j: number): any {
       ).annotate({ identifier: "ListWorkspaceProductGroupLinkByProductRequest" });
   }
 }
-function __c518(j: number): any {
+function __c520(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AccessInformationCreateParameterProperties" });
@@ -42518,7 +43109,7 @@ function __c518(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           accessName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(16576, __c518, 0)),
+          properties: S.optional(__S(16640, __c520, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -42530,7 +43121,7 @@ function __c518(j: number): any {
       ).annotate({ identifier: "CreateTenantAccessRequest" });
   }
 }
-function __c519(j: number): any {
+function __c521(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42546,12 +43137,12 @@ function __c519(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(16608, __c519, 0)),
+          properties: S.optional(__S(16672, __c521, 0)),
         }),
       ).annotate({ identifier: "CreateTenantAccessResponse" });
   }
 }
-function __c520(j: number): any {
+function __c522(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42572,7 +43163,7 @@ function __c520(j: number): any {
       ).annotate({ identifier: "ListWorkspaceProductPolicyByProductRequest" });
   }
 }
-function __c521(j: number): any {
+function __c523(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42597,7 +43188,7 @@ function __c521(j: number): any {
       ).annotate({ identifier: "ListWorkspaceSubscriptionRequest" });
   }
 }
-function __c522(j: number): any {
+function __c524(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42618,7 +43209,7 @@ function __c522(j: number): any {
       ).annotate({ identifier: "ListWorkspaceSubscriptionSecretsRequest" });
   }
 }
-function __c523(j: number): any {
+function __c525(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42644,7 +43235,7 @@ function __c523(j: number): any {
       ).annotate({ identifier: "ListWorkspaceTagApiLinkByProductRequest" });
   }
 }
-function __c524(j: number): any {
+function __c526(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42670,7 +43261,7 @@ function __c524(j: number): any {
       ).annotate({ identifier: "ListWorkspaceTagByServiceRequest" });
   }
 }
-function __c525(j: number): any {
+function __c527(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42696,7 +43287,7 @@ function __c525(j: number): any {
       ).annotate({ identifier: "ListWorkspaceTagOperationLinkByProductRequest" });
   }
 }
-function __c526(j: number): any {
+function __c528(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42722,7 +43313,7 @@ function __c526(j: number): any {
       ).annotate({ identifier: "ListWorkspaceTagProductLinkByProductRequest" });
   }
 }
-function __c527(j: number): any {
+function __c529(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42731,7 +43322,7 @@ function __c527(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           loggerId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5600, __c175, 0)),
+          properties: S.optional(__S(5632, __c176, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -42743,7 +43334,7 @@ function __c527(j: number): any {
       ).annotate({ identifier: "LoggerCreateOrUpdateRequest" });
   }
 }
-function __c528(j: number): any {
+function __c530(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42763,7 +43354,7 @@ function __c528(j: number): any {
       ).annotate({ identifier: "MigrateApiManagementServiceToStv2Request" });
   }
 }
-function __c529(j: number): any {
+function __c531(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42772,7 +43363,7 @@ function __c529(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           namedValueId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(16992, __c531, 0)),
+          properties: S.optional(__S(17056, __c533, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -42784,7 +43375,7 @@ function __c529(j: number): any {
       ).annotate({ identifier: "NamedValueCreateOrUpdateRequest" });
   }
 }
-function __c530(j: number): any {
+function __c532(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42792,14 +43383,14 @@ function __c530(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5696, __c178, 0)),
+          properties: S.optional(__S(5728, __c179, 0)),
           location: S.optional(S.String.pipe(T.Header())),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "NamedValueCreateOrUpdateResponse" });
   }
 }
-function __c531(j: number): any {
+function __c533(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42808,12 +43399,12 @@ function __c531(j: number): any {
           secret: S.optional(S.Boolean),
           displayName: S.String,
           value: S.optional(S.String),
-          keyVault: S.optional(__S(13344, __c417, 0)),
+          keyVault: S.optional(__S(13408, __c419, 0)),
         }),
       ).annotate({ identifier: "NamedValueCreateContractProperties" });
   }
 }
-function __c532(j: number): any {
+function __c534(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42835,7 +43426,7 @@ function __c532(j: number): any {
       ).annotate({ identifier: "CreateWorkspaceGroupUserRequest" });
   }
 }
-function __c533(j: number): any {
+function __c535(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42855,7 +43446,7 @@ function __c533(j: number): any {
       ).annotate({ identifier: "NotificationCreateOrUpdateRequest" });
   }
 }
-function __c534(j: number): any {
+function __c536(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42876,7 +43467,7 @@ function __c534(j: number): any {
       ).annotate({ identifier: "NotificationRecipientEmailCreateOrUpdateRequest" });
   }
 }
-function __c535(j: number): any {
+function __c537(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42897,7 +43488,7 @@ function __c535(j: number): any {
       ).annotate({ identifier: "NotificationRecipientUserCreateOrUpdateRequest" });
   }
 }
-function __c536(j: number): any {
+function __c538(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42906,7 +43497,7 @@ function __c536(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           opid: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5920, __c185, 0)),
+          properties: S.optional(__S(5952, __c186, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -42918,7 +43509,7 @@ function __c536(j: number): any {
       ).annotate({ identifier: "OpenIdConnectProviderCreateOrUpdateRequest" });
   }
 }
-function __c537(j: number): any {
+function __c539(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42940,7 +43531,7 @@ function __c537(j: number): any {
       return S.suspend(() =>
         S.Struct({
           method: S.optional(S.String),
-          validStatusCodes: S.optional(__S(17186, __c537, 2)),
+          validStatusCodes: S.optional(__S(17250, __c539, 2)),
           headers: S.optional(__S(289, __c9, 1)),
         }),
       ).annotate({
@@ -42949,7 +43540,7 @@ function __c537(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          HTTPConfiguration: S.optional(__S(17187, __c537, 3)),
+          HTTPConfiguration: S.optional(__S(17251, __c539, 3)),
         }),
       ).annotate({ identifier: "PerformConnectivityCheckAsyncRequestProtocolConfiguration" });
     case 5:
@@ -42958,11 +43549,11 @@ function __c537(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
-          source: __S(17184, __c537, 0),
-          destination: __S(17185, __c537, 1),
+          source: __S(17248, __c539, 0),
+          destination: __S(17249, __c539, 1),
           preferredIPVersion: S.optional(S.String),
           protocol: S.optional(S.String),
-          protocolConfiguration: S.optional(__S(17188, __c537, 4)),
+          protocolConfiguration: S.optional(__S(17252, __c539, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -42973,18 +43564,18 @@ function __c537(j: number): any {
         ),
       ).annotate({ identifier: "PerformConnectivityCheckAsyncRequest" });
     case 6:
-      return S.Array(__S(19488, __c609, 0));
+      return S.Array(__S(19552, __c611, 0));
     case 7:
       return S.suspend(() =>
         S.Struct({
           origin: S.optional(S.String),
           severity: S.optional(S.String),
           type: S.optional(S.String),
-          context: S.optional(__S(17190, __c537, 6)),
+          context: S.optional(__S(17254, __c539, 6)),
         }),
       ).annotate({ identifier: "ConnectivityIssue" });
     case 8:
-      return S.Array(__S(17191, __c537, 7));
+      return S.Array(__S(17255, __c539, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -42993,15 +43584,15 @@ function __c537(j: number): any {
           address: S.optional(S.String),
           resourceId: S.optional(S.String),
           nextHopIds: S.optional(__S(96, __c3, 0)),
-          issues: S.optional(__S(17192, __c537, 8)),
+          issues: S.optional(__S(17256, __c539, 8)),
         }),
       ).annotate({ identifier: "ConnectivityHop" });
     case 10:
-      return S.Array(__S(17193, __c537, 9));
+      return S.Array(__S(17257, __c539, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          hops: S.optional(__S(17194, __c537, 10)),
+          hops: S.optional(__S(17258, __c539, 10)),
           connectionStatus: S.optional(S.String),
           avgLatencyInMs: S.optional(S.Number),
           minLatencyInMs: S.optional(S.Number),
@@ -43013,7 +43604,7 @@ function __c537(j: number): any {
       ).annotate({ identifier: "PerformConnectivityCheckAsyncResponse" });
   }
 }
-function __c538(j: number): any {
+function __c540(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43022,7 +43613,7 @@ function __c538(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           policyId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4192, __c131, 0)),
+          properties: S.optional(__S(4224, __c132, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43034,7 +43625,7 @@ function __c538(j: number): any {
       ).annotate({ identifier: "PolicyCreateOrUpdateRequest" });
   }
 }
-function __c539(j: number): any {
+function __c541(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43043,7 +43634,7 @@ function __c539(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
-          properties: S.optional(__S(17280, __c540, 0)),
+          properties: S.optional(__S(17344, __c542, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43055,7 +43646,7 @@ function __c539(j: number): any {
       ).annotate({ identifier: "PolicyFragmentCreateOrUpdateRequest" });
   }
 }
-function __c540(j: number): any {
+function __c542(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43071,14 +43662,14 @@ function __c540(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6112, __c191, 0)),
+          properties: S.optional(__S(6144, __c192, 0)),
           location: S.optional(S.String.pipe(T.Header())),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "PolicyFragmentCreateOrUpdateResponse" });
   }
 }
-function __c541(j: number): any {
+function __c543(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43087,7 +43678,7 @@ function __c541(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           policyRestrictionId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6176, __c193, 0)),
+          properties: S.optional(__S(6208, __c194, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43099,7 +43690,7 @@ function __c541(j: number): any {
       ).annotate({ identifier: "PolicyRestrictionCreateOrUpdateRequest" });
   }
 }
-function __c542(j: number): any {
+function __c544(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43118,7 +43709,7 @@ function __c542(j: number): any {
       ).annotate({ identifier: "PolicyRestrictionValidationsByServiceRequest" });
   }
 }
-function __c543(j: number): any {
+function __c545(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43127,7 +43718,7 @@ function __c543(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           portalConfigId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6246, __c195, 6)),
+          properties: S.optional(__S(6278, __c196, 6)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43139,7 +43730,7 @@ function __c543(j: number): any {
       ).annotate({ identifier: "PortalConfigCreateOrUpdateRequest" });
   }
 }
-function __c544(j: number): any {
+function __c546(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43160,7 +43751,7 @@ function __c544(j: number): any {
       ).annotate({ identifier: "DeleteAiGatewayAliasResourceRequest" });
   }
 }
-function __c545(j: number): any {
+function __c547(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43169,7 +43760,7 @@ function __c545(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           portalRevisionId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(17472, __c546, 0)),
+          properties: S.optional(__S(17536, __c548, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43181,7 +43772,7 @@ function __c545(j: number): any {
       ).annotate({ identifier: "PortalRevisionCreateOrUpdateRequest" });
   }
 }
-function __c546(j: number): any {
+function __c548(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43196,14 +43787,14 @@ function __c546(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6336, __c198, 0)),
+          properties: S.optional(__S(6368, __c199, 0)),
           location: S.optional(S.String.pipe(T.Header())),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "PortalRevisionCreateOrUpdateResponse" });
   }
 }
-function __c547(j: number): any {
+function __c549(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43231,12 +43822,12 @@ function __c547(j: number): any {
       ).annotate({ identifier: "PostAuthorizationLoginLinkResponse" });
   }
 }
-function __c548(j: number): any {
+function __c550(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateLinkServiceConnectionState: S.optional(__S(15264, __c477, 0)),
+          privateLinkServiceConnectionState: S.optional(__S(15328, __c479, 0)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionCreateOrUpdateRequestProperties" });
     case 1:
@@ -43247,7 +43838,7 @@ function __c548(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
           id: S.optional(S.String),
-          properties: S.optional(__S(17536, __c548, 0)),
+          properties: S.optional(__S(17600, __c550, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43263,13 +43854,13 @@ function __c548(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(6432, __c201, 0)),
+          properties: S.optional(__S(6464, __c202, 0)),
           location: S.optional(S.String.pipe(T.Header())),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionCreateOrUpdateResponse" });
   }
 }
-function __c549(j: number): any {
+function __c551(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43290,7 +43881,7 @@ function __c549(j: number): any {
       ).annotate({ identifier: "ProductApiCreateOrUpdateRequest" });
   }
 }
-function __c550(j: number): any {
+function __c552(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43300,7 +43891,7 @@ function __c550(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
           apiLinkId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6688, __c209, 0)),
+          properties: S.optional(__S(6720, __c210, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43312,7 +43903,7 @@ function __c550(j: number): any {
       ).annotate({ identifier: "ProductApiLinkCreateOrUpdateRequest" });
   }
 }
-function __c551(j: number): any {
+function __c553(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43321,7 +43912,7 @@ function __c551(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6624, __c207, 0)),
+          properties: S.optional(__S(6656, __c208, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43333,7 +43924,7 @@ function __c551(j: number): any {
       ).annotate({ identifier: "ProductCreateOrUpdateRequest" });
   }
 }
-function __c552(j: number): any {
+function __c554(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43354,7 +43945,7 @@ function __c552(j: number): any {
       ).annotate({ identifier: "ProductGroupCreateOrUpdateRequest" });
   }
 }
-function __c553(j: number): any {
+function __c555(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43364,7 +43955,7 @@ function __c553(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
           groupLinkId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6752, __c211, 0)),
+          properties: S.optional(__S(6784, __c212, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43376,7 +43967,7 @@ function __c553(j: number): any {
       ).annotate({ identifier: "ProductGroupLinkCreateOrUpdateRequest" });
   }
 }
-function __c554(j: number): any {
+function __c556(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43386,7 +43977,7 @@ function __c554(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
           policyId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4192, __c131, 0)),
+          properties: S.optional(__S(4224, __c132, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43398,7 +43989,7 @@ function __c554(j: number): any {
       ).annotate({ identifier: "ProductPolicyCreateOrUpdateRequest" });
   }
 }
-function __c555(j: number): any {
+function __c557(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43407,7 +43998,7 @@ function __c555(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7522, __c235, 2)),
+          properties: S.optional(__S(7554, __c236, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43419,7 +44010,7 @@ function __c555(j: number): any {
       ).annotate({ identifier: "ProductWikiCreateOrUpdateRequest" });
   }
 }
-function __c556(j: number): any {
+function __c558(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43439,7 +44030,7 @@ function __c556(j: number): any {
       ).annotate({ identifier: "DeleteAiGatewayApiKeyResourceRequest" });
   }
 }
-function __c557(j: number): any {
+function __c559(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43458,7 +44049,7 @@ function __c557(j: number): any {
       ).annotate({ identifier: "PurgeDeletedServiceRequest" });
   }
 }
-function __c558(j: number): any {
+function __c560(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43478,7 +44069,7 @@ function __c558(j: number): any {
       ).annotate({ identifier: "RefreshCertificateSecretRequest" });
   }
 }
-function __c559(j: number): any {
+function __c561(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43498,7 +44089,7 @@ function __c559(j: number): any {
       ).annotate({ identifier: "RefreshNamedValueSecretRequest" });
   }
 }
-function __c560(j: number): any {
+function __c562(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43519,7 +44110,7 @@ function __c560(j: number): any {
       ).annotate({ identifier: "RefreshWorkspaceCertificateSecretRequest" });
   }
 }
-function __c561(j: number): any {
+function __c563(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43540,7 +44131,7 @@ function __c561(j: number): any {
       ).annotate({ identifier: "RefreshWorkspaceNamedValueSecretRequest" });
   }
 }
-function __c562(j: number): any {
+function __c564(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43560,7 +44151,7 @@ function __c562(j: number): any {
       ).annotate({ identifier: "RegenerateAiGatewayApiKeyResourcePrimaryKeyRequest" });
   }
 }
-function __c563(j: number): any {
+function __c565(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43580,7 +44171,7 @@ function __c563(j: number): any {
       ).annotate({ identifier: "RegenerateAiGatewayApiKeyResourceSecondaryKeyRequest" });
   }
 }
-function __c564(j: number): any {
+function __c566(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43601,7 +44192,7 @@ function __c564(j: number): any {
       ).annotate({ identifier: "RegenerateGatewayKeyRequest" });
   }
 }
-function __c565(j: number): any {
+function __c567(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43621,7 +44212,7 @@ function __c565(j: number): any {
       ).annotate({ identifier: "RegenerateSubscriptionPrimaryKeyRequest" });
   }
 }
-function __c566(j: number): any {
+function __c568(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43641,7 +44232,7 @@ function __c566(j: number): any {
       ).annotate({ identifier: "RegenerateSubscriptionSecondaryKeyRequest" });
   }
 }
-function __c567(j: number): any {
+function __c569(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43662,7 +44253,7 @@ function __c567(j: number): any {
       ).annotate({ identifier: "DeleteAiGatewayModelProviderResourceRequest" });
   }
 }
-function __c568(j: number): any {
+function __c570(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43682,7 +44273,7 @@ function __c568(j: number): any {
       ).annotate({ identifier: "RegenerateTenantAccessGitPrimaryKeyRequest" });
   }
 }
-function __c569(j: number): any {
+function __c571(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43702,7 +44293,7 @@ function __c569(j: number): any {
       ).annotate({ identifier: "RegenerateTenantAccessGitSecondaryKeyRequest" });
   }
 }
-function __c570(j: number): any {
+function __c572(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43722,7 +44313,7 @@ function __c570(j: number): any {
       ).annotate({ identifier: "RegenerateTenantAccessPrimaryKeyRequest" });
   }
 }
-function __c571(j: number): any {
+function __c573(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43742,7 +44333,7 @@ function __c571(j: number): any {
       ).annotate({ identifier: "RegenerateTenantAccessSecondaryKeyRequest" });
   }
 }
-function __c572(j: number): any {
+function __c574(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43763,7 +44354,7 @@ function __c572(j: number): any {
       ).annotate({ identifier: "RegenerateWorkspaceSubscriptionPrimaryKeyRequest" });
   }
 }
-function __c573(j: number): any {
+function __c575(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43784,7 +44375,7 @@ function __c573(j: number): any {
       ).annotate({ identifier: "RegenerateWorkspaceSubscriptionSecondaryKeyRequest" });
   }
 }
-function __c574(j: number): any {
+function __c576(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43809,7 +44400,7 @@ function __c574(j: number): any {
       ).annotate({ identifier: "RestoreApiManagementServiceRequest" });
   }
 }
-function __c575(j: number): any {
+function __c577(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43830,7 +44421,7 @@ function __c575(j: number): any {
       ).annotate({ identifier: "SendUserConfirmationPasswordRequest" });
   }
 }
-function __c576(j: number): any {
+function __c578(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43841,7 +44432,7 @@ function __c576(j: number): any {
           sid: S.String.pipe(T.Label()),
           notify: S.optional(S.Boolean.pipe(T.Query())),
           appType: S.optional(S.String.pipe(T.Query())),
-          properties: S.optional(__S(18464, __c577, 0)),
+          properties: S.optional(__S(18528, __c579, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43853,7 +44444,7 @@ function __c576(j: number): any {
       ).annotate({ identifier: "SubscriptionCreateOrUpdateRequest" });
   }
 }
-function __c577(j: number): any {
+function __c579(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43869,7 +44460,7 @@ function __c577(j: number): any {
       ).annotate({ identifier: "SubscriptionCreateParameterProperties" });
   }
 }
-function __c578(j: number): any {
+function __c580(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43879,7 +44470,7 @@ function __c578(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           tagId: S.String.pipe(T.Label()),
           apiLinkId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6688, __c209, 0)),
+          properties: S.optional(__S(6720, __c210, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43891,7 +44482,7 @@ function __c578(j: number): any {
       ).annotate({ identifier: "TagApiLinkCreateOrUpdateRequest" });
   }
 }
-function __c579(j: number): any {
+function __c581(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43913,7 +44504,7 @@ function __c579(j: number): any {
       ).annotate({ identifier: "DeleteAiGatewayModelResourceRequest" });
   }
 }
-function __c580(j: number): any {
+function __c582(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43922,7 +44513,7 @@ function __c580(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           tagId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(8288, __c259, 0)),
+          properties: S.optional(__S(8320, __c260, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43934,7 +44525,7 @@ function __c580(j: number): any {
       ).annotate({ identifier: "TagCreateOrUpdateRequest" });
   }
 }
-function __c581(j: number): any {
+function __c583(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43944,7 +44535,7 @@ function __c581(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           tagId: S.String.pipe(T.Label()),
           operationLinkId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7232, __c226, 0)),
+          properties: S.optional(__S(7264, __c227, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43956,7 +44547,7 @@ function __c581(j: number): any {
       ).annotate({ identifier: "TagOperationLinkCreateOrUpdateRequest" });
   }
 }
-function __c582(j: number): any {
+function __c584(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43966,7 +44557,7 @@ function __c582(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           tagId: S.String.pipe(T.Label()),
           productLinkId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7296, __c228, 0)),
+          properties: S.optional(__S(7328, __c229, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -43978,7 +44569,7 @@ function __c582(j: number): any {
       ).annotate({ identifier: "TagProductLinkCreateOrUpdateRequest" });
   }
 }
-function __c583(j: number): any {
+function __c585(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43999,7 +44590,7 @@ function __c583(j: number): any {
       ).annotate({ identifier: "TenantConfigurationSaveRequest" });
   }
 }
-function __c584(j: number): any {
+function __c586(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44012,7 +44603,7 @@ function __c584(j: number): any {
         }),
       ).annotate({ identifier: "AiGatewayAliasTargetUpdate" });
     case 1:
-      return S.Array(__S(18688, __c584, 0));
+      return S.Array(__S(18752, __c586, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -44035,19 +44626,19 @@ function __c584(j: number): any {
         }),
       ).annotate({ identifier: "AiGatewayAliasFailureRuleUpdate" });
     case 5:
-      return S.Array(__S(18692, __c584, 4));
+      return S.Array(__S(18756, __c586, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           aliasName: S.optional(S.String),
           description: S.optional(S.String),
-          backendModels: S.optional(__S(18689, __c584, 1)),
+          backendModels: S.optional(__S(18753, __c586, 1)),
           selectionOrder: S.optional(__S(224, __c7, 0)),
-          sessionBackendPreference: S.optional(__S(18690, __c584, 2)),
-          autoModelSelection: S.optional(__S(18691, __c584, 3)),
-          failures: S.optional(__S(18693, __c584, 5)),
+          sessionBackendPreference: S.optional(__S(18754, __c586, 2)),
+          autoModelSelection: S.optional(__S(18755, __c586, 3)),
+          failures: S.optional(__S(18757, __c586, 5)),
           maxRetryAttempts: S.optional(S.Number),
-          policies: S.optional(__S(18791, __c587, 7)),
+          policies: S.optional(__S(18855, __c589, 7)),
         }),
       ).annotate({ identifier: "AiGatewayAliasUpdateProperties" });
     case 7:
@@ -44058,7 +44649,7 @@ function __c584(j: number): any {
           aiGatewayName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           aliasId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(18694, __c584, 6)),
+          properties: S.optional(__S(18758, __c586, 6)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44070,7 +44661,7 @@ function __c584(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayAliasResourceRequest" });
   }
 }
-function __c585(j: number): any {
+function __c587(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44078,47 +44669,56 @@ function __c585(j: number): any {
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayDestinationEndpointUpdate" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "AiGatewaySecretHeaderUpdate" });
+    case 2:
+      return S.Array(__S(18785, __c587, 1));
   }
 }
-function __c586(j: number): any {
+function __c588(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           managedIdentity: S.optional(__S(128, __c4, 0)),
-          headers: S.optional(__S(10401, __c325, 1)),
+          headers: S.optional(__S(18786, __c587, 2)),
         }),
       ).annotate({ identifier: "AiGatewayAgentHookAuthenticationUpdate" });
   }
 }
-function __c587(j: number): any {
+function __c589(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          claims: S.optional(__S(10401, __c325, 1)),
+          claims: S.optional(__S(10433, __c326, 1)),
           apiKeyResourceId: S.optional(S.String),
           amount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AiGatewayCostLimitOverrideUpdate" });
     case 1:
-      return S.Array(__S(18784, __c587, 0));
+      return S.Array(__S(18848, __c589, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
-          endpoint: S.optional(__S(18720, __c585, 0)),
-          authentication: S.optional(__S(18752, __c586, 0)),
-          headers: S.optional(__S(10401, __c325, 1)),
+          endpoint: S.optional(__S(18784, __c587, 0)),
+          authentication: S.optional(__S(18816, __c588, 0)),
+          headers: S.optional(__S(10433, __c326, 1)),
         }),
       ).annotate({ identifier: "AiGatewayAgentHookUpdate" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          preToolCall: S.optional(__S(18786, __c587, 2)),
-          postToolCall: S.optional(__S(18786, __c587, 2)),
-          preModelCall: S.optional(__S(18786, __c587, 2)),
-          postModelCall: S.optional(__S(18786, __c587, 2)),
+          preToolCall: S.optional(__S(18850, __c589, 2)),
+          postToolCall: S.optional(__S(18850, __c589, 2)),
+          preModelCall: S.optional(__S(18850, __c589, 2)),
+          postModelCall: S.optional(__S(18850, __c589, 2)),
         }),
       ).annotate({ identifier: "AiGatewayAgentHooksUpdate" });
     case 4:
@@ -44128,7 +44728,7 @@ function __c587(j: number): any {
         }),
       ).annotate({ identifier: "AiGatewayFallbackTargetUpdate" });
     case 5:
-      return S.Array(__S(18788, __c587, 4));
+      return S.Array(__S(18852, __c589, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -44139,21 +44739,21 @@ function __c587(j: number): any {
           period: S.optional(S.String),
           counterKey: S.optional(__S(224, __c7, 0)),
           amount: S.optional(S.Number),
-          overrides: S.optional(__S(18785, __c587, 1)),
+          overrides: S.optional(__S(18849, __c589, 1)),
           preInvocation: S.optional(S.Boolean),
           postInvocation: S.optional(S.Boolean),
           mode: S.optional(S.String),
-          endpoint: S.optional(__S(18720, __c585, 0)),
-          authentication: S.optional(__S(18752, __c586, 0)),
-          headers: S.optional(__S(10401, __c325, 1)),
-          hooks: S.optional(__S(18787, __c587, 3)),
+          endpoint: S.optional(__S(18784, __c587, 0)),
+          authentication: S.optional(__S(18816, __c588, 0)),
+          headers: S.optional(__S(10433, __c326, 1)),
+          hooks: S.optional(__S(18851, __c589, 3)),
           hateSeverity: S.optional(S.String),
           violenceSeverity: S.optional(S.String),
           sexualSeverity: S.optional(S.String),
           selfHarmSeverity: S.optional(S.String),
           threshold: S.optional(S.Number),
           tripDurationSeconds: S.optional(S.Number),
-          fallbackTargets: S.optional(__S(18789, __c587, 5)),
+          fallbackTargets: S.optional(__S(18853, __c589, 5)),
           action: S.optional(S.String),
           cidrRanges: S.optional(__S(96, __c3, 0)),
           allowedOrigins: S.optional(__S(96, __c3, 0)),
@@ -44166,10 +44766,10 @@ function __c587(j: number): any {
         }),
       ).annotate({ identifier: "AiGatewayPolicyUpdate" });
     case 7:
-      return S.Array(__S(18790, __c587, 6));
+      return S.Array(__S(18854, __c589, 6));
   }
 }
-function __c588(j: number): any {
+function __c590(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44190,27 +44790,27 @@ function __c588(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayApiKeyResourceRequest" });
   }
 }
-function __c589(j: number): any {
+function __c591(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endpoint: S.optional(__S(18720, __c585, 0)),
+          endpoint: S.optional(__S(18784, __c587, 0)),
           resourceIds: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "AiGatewayFoundryProviderConfigurationUpdate" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          endpoint: S.optional(__S(18720, __c585, 0)),
+          endpoint: S.optional(__S(18784, __c587, 0)),
         }),
       ).annotate({ identifier: "AiGatewayCustomProviderConfigurationUpdate" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          githubApp: S.optional(__S(4992, __c156, 0)),
+          githubApp: S.optional(__S(5024, __c157, 0)),
           managedIdentity: S.optional(__S(128, __c4, 0)),
-          headers: S.optional(__S(10401, __c325, 1)),
+          headers: S.optional(__S(18786, __c587, 2)),
         }),
       ).annotate({ identifier: "AiGatewayModelProviderAuthenticationUpdate" });
     case 3:
@@ -44218,9 +44818,9 @@ function __c589(j: number): any {
         S.Struct({
           displayName: S.optional(S.String),
           description: S.optional(S.String),
-          foundry: S.optional(__S(18848, __c589, 0)),
-          custom: S.optional(__S(18849, __c589, 1)),
-          authentication: S.optional(__S(18850, __c589, 2)),
+          foundry: S.optional(__S(18912, __c591, 0)),
+          custom: S.optional(__S(18913, __c591, 1)),
+          authentication: S.optional(__S(18914, __c591, 2)),
         }),
       ).annotate({ identifier: "AiGatewayModelProviderUpdateProperties" });
     case 4:
@@ -44231,7 +44831,7 @@ function __c589(j: number): any {
           aiGatewayName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           modelProviderName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(18851, __c589, 3)),
+          properties: S.optional(__S(18915, __c591, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44243,7 +44843,7 @@ function __c589(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayModelProviderResourceRequest" });
   }
 }
-function __c590(j: number): any {
+function __c592(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44261,15 +44861,15 @@ function __c590(j: number): any {
         }),
       ).annotate({ identifier: "AiGatewayModelEndpointUpdate" });
     case 2:
-      return S.Array(__S(18881, __c590, 1));
+      return S.Array(__S(18945, __c592, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
           description: S.optional(S.String),
-          deployment: S.optional(__S(18880, __c590, 0)),
-          endpoints: S.optional(__S(18882, __c590, 2)),
-          policies: S.optional(__S(18791, __c587, 7)),
+          deployment: S.optional(__S(18944, __c592, 0)),
+          endpoints: S.optional(__S(18946, __c592, 2)),
+          policies: S.optional(__S(18855, __c589, 7)),
           supportedEndpoints: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "AiGatewayModelUpdateProperties" });
@@ -44282,7 +44882,7 @@ function __c590(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           modelProviderName: S.String.pipe(T.Label()),
           modelName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(18883, __c590, 3)),
+          properties: S.optional(__S(18947, __c592, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44294,7 +44894,7 @@ function __c590(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayModelResourceRequest" });
   }
 }
-function __c591(j: number): any {
+function __c593(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44319,10 +44919,10 @@ function __c591(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           aiGatewayName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(19488, __c609, 0)),
-          identity: S.optional(__S(19681, __c615, 1)),
-          sku: S.optional(__S(18912, __c591, 0)),
-          properties: S.optional(__S(18913, __c591, 1)),
+          tags: S.optional(__S(19552, __c611, 0)),
+          identity: S.optional(__S(19745, __c617, 1)),
+          sku: S.optional(__S(18976, __c593, 0)),
+          properties: S.optional(__S(18977, __c593, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44339,11 +44939,11 @@ function __c591(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(19488, __c609, 0)),
+          tags: S.optional(__S(19552, __c611, 0)),
           location: S.String,
-          properties: __S(19651, __c614, 3),
-          identity: S.optional(__S(19653, __c614, 5)),
-          sku: S.optional(__S(19650, __c614, 2)),
+          properties: __S(19715, __c616, 3),
+          identity: S.optional(__S(19717, __c616, 5)),
+          sku: S.optional(__S(19714, __c616, 2)),
           eTag: S.optional(S.String),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -44351,14 +44951,14 @@ function __c591(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayResourceResponse" });
   }
 }
-function __c592(j: number): any {
+function __c594(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metricsEndpoint: S.optional(__S(18720, __c585, 0)),
-          logsEndpoint: S.optional(__S(18720, __c585, 0)),
-          tracesEndpoint: S.optional(__S(18720, __c585, 0)),
+          metricsEndpoint: S.optional(__S(18784, __c587, 0)),
+          logsEndpoint: S.optional(__S(18784, __c587, 0)),
+          tracesEndpoint: S.optional(__S(18784, __c587, 0)),
         }),
       ).annotate({ identifier: "AiGatewayOpenTelemetryConfigurationUpdate" });
     case 1:
@@ -44371,26 +44971,26 @@ function __c592(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(18945, __c592, 1)),
+          source: S.optional(__S(19009, __c594, 1)),
           signals: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "AiGatewayTelemetryAttributeMappingUpdate" });
     case 3:
-      return S.Array(__S(18946, __c592, 2));
+      return S.Array(__S(19010, __c594, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(18947, __c592, 3)),
+          attributes: S.optional(__S(19011, __c594, 3)),
         }),
       ).annotate({ identifier: "AiGatewayTelemetryConfigurationUpdate" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           payloadCapture: S.optional(S.Boolean),
-          applicationInsights: S.optional(__S(22592, __c706, 0)),
-          openTelemetry: S.optional(__S(18944, __c592, 0)),
-          authentication: S.optional(__S(18752, __c586, 0)),
-          telemetry: S.optional(__S(18948, __c592, 4)),
+          applicationInsights: S.optional(__S(22656, __c708, 0)),
+          openTelemetry: S.optional(__S(19008, __c594, 0)),
+          authentication: S.optional(__S(18816, __c588, 0)),
+          telemetry: S.optional(__S(19012, __c594, 4)),
         }),
       ).annotate({ identifier: "AiGatewayTelemetryExporterUpdateProperties" });
     case 6:
@@ -44401,7 +45001,7 @@ function __c592(j: number): any {
           aiGatewayName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           telemetryExporterName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(18949, __c592, 5)),
+          properties: S.optional(__S(19013, __c594, 5)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44413,7 +45013,7 @@ function __c592(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayTelemetryExporterResourceRequest" });
   }
 }
-function __c593(j: number): any {
+function __c595(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44433,7 +45033,7 @@ function __c593(j: number): any {
       ).annotate({ identifier: "DeleteAiGatewayPrivateEndpointConnectionRequest" });
   }
 }
-function __c594(j: number): any {
+function __c596(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44444,12 +45044,12 @@ function __c594(j: number): any {
       ).annotate({ identifier: "DeleteAiGatewayPrivateEndpointConnectionResponse" });
   }
 }
-function __c595(j: number): any {
+function __c597(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endpoint: S.optional(__S(18720, __c585, 0)),
+          endpoint: S.optional(__S(18784, __c587, 0)),
           transport: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayMcpUrlConfigurationUpdate" });
@@ -44457,21 +45057,21 @@ function __c595(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          contentBase64: S.optional(S.String),
+          contentBase64: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayOpenApiSpecSourceUpdate" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          specSource: S.optional(__S(19041, __c595, 1)),
+          specSource: S.optional(__S(19105, __c597, 1)),
         }),
       ).annotate({ identifier: "AiGatewayOpenApiConfigurationUpdate" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          headers: S.optional(__S(10401, __c325, 1)),
-          oauth2: S.optional(__S(23040, __c720, 0)),
+          headers: S.optional(__S(18786, __c587, 2)),
+          oauth2: S.optional(__S(23104, __c722, 0)),
           managedIdentity: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "AiGatewayToolServerAuthenticationUpdateInput" });
@@ -44481,15 +45081,15 @@ function __c595(j: number): any {
           id: S.optional(S.String),
           namespace: S.optional(S.String),
           kind: S.optional(S.String),
-          mcp: S.optional(__S(19040, __c595, 0)),
-          openApi: S.optional(__S(19042, __c595, 2)),
-          authentication: S.optional(__S(19043, __c595, 3)),
+          mcp: S.optional(__S(19104, __c597, 0)),
+          openApi: S.optional(__S(19106, __c597, 2)),
+          authentication: S.optional(__S(19107, __c597, 3)),
           tools: S.optional(__S(96, __c3, 0)),
           mode: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayToolServerEndpointUpdateInput" });
     case 5:
-      return S.Array(__S(19044, __c595, 4));
+      return S.Array(__S(19108, __c597, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -44500,8 +45100,8 @@ function __c595(j: number): any {
           versions: S.optional(__S(96, __c3, 0)),
           allowList: S.optional(__S(96, __c3, 0)),
           blockList: S.optional(__S(96, __c3, 0)),
-          endpoints: S.optional(__S(19045, __c595, 5)),
-          policies: S.optional(__S(18791, __c587, 7)),
+          endpoints: S.optional(__S(19109, __c597, 5)),
+          policies: S.optional(__S(18855, __c589, 7)),
           path: S.optional(S.String),
           subscriptionRequired: S.optional(S.Boolean),
         }),
@@ -44514,7 +45114,7 @@ function __c595(j: number): any {
           aiGatewayName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           toolServerName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(19046, __c595, 6)),
+          properties: S.optional(__S(19110, __c597, 6)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44526,12 +45126,12 @@ function __c595(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayToolServerResourceRequest" });
   }
 }
-function __c596(j: number): any {
+function __c598(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policies: S.optional(__S(18791, __c587, 7)),
+          policies: S.optional(__S(18855, __c589, 7)),
         }),
       ).annotate({ identifier: "AiGatewayWorkspaceUpdateProperties" });
     case 1:
@@ -44541,7 +45141,7 @@ function __c596(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           aiGatewayName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(19072, __c596, 0)),
+          properties: S.optional(__S(19136, __c598, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44553,7 +45153,7 @@ function __c596(j: number): any {
       ).annotate({ identifier: "UpdateAiGatewayWorkspaceResourceRequest" });
   }
 }
-function __c597(j: number): any {
+function __c599(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44562,7 +45162,7 @@ function __c597(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(19136, __c598, 0)),
+          properties: S.optional(__S(19200, __c600, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44574,14 +45174,14 @@ function __c597(j: number): any {
       ).annotate({ identifier: "UpdateApiRequest" });
   }
 }
-function __c598(j: number): any {
+function __c600(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          authenticationSettings: S.optional(__S(23428, __c732, 4)),
-          subscriptionKeyParameterNames: S.optional(__S(23429, __c732, 5)),
+          authenticationSettings: S.optional(__S(23492, __c734, 4)),
+          subscriptionKeyParameterNames: S.optional(__S(23493, __c734, 5)),
           type: S.optional(S.String),
           apiRevision: S.optional(S.String),
           apiVersion: S.optional(S.String),
@@ -44591,8 +45191,8 @@ function __c598(j: number): any {
           apiVersionSetId: S.optional(S.String),
           subscriptionRequired: S.optional(S.Boolean),
           termsOfServiceUrl: S.optional(S.String),
-          contact: S.optional(__S(23430, __c732, 6)),
-          license: S.optional(__S(23431, __c732, 7)),
+          contact: S.optional(__S(23494, __c734, 6)),
+          license: S.optional(__S(23495, __c734, 7)),
           displayName: S.optional(S.String),
           serviceUrl: S.optional(S.String),
           path: S.optional(S.String),
@@ -44601,7 +45201,7 @@ function __c598(j: number): any {
       ).annotate({ identifier: "ApiContractUpdatePropertiesInput" });
   }
 }
-function __c599(j: number): any {
+function __c601(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44611,7 +45211,7 @@ function __c599(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
           diagnosticId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(23879, __c746, 7)),
+          properties: S.optional(__S(23943, __c748, 7)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44623,7 +45223,7 @@ function __c599(j: number): any {
       ).annotate({ identifier: "UpdateApiDiagnosticRequest" });
   }
 }
-function __c600(j: number): any {
+function __c602(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44638,9 +45238,9 @@ function __c600(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           gatewayName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(19488, __c609, 0)),
+          tags: S.optional(__S(19552, __c611, 0)),
           properties: S.optional(__S(960, __c30, 0)),
-          sku: S.optional(__S(19200, __c600, 0)),
+          sku: S.optional(__S(19264, __c602, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44656,7 +45256,7 @@ function __c600(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          tags: S.optional(__S(19488, __c609, 0)),
+          tags: S.optional(__S(19552, __c611, 0)),
           properties: __S(930, __c29, 2),
           sku: __S(928, __c29, 0),
           systemData: S.optional(__S(32, __c1, 0)),
@@ -44667,7 +45267,7 @@ function __c600(j: number): any {
       ).annotate({ identifier: "UpdateApiGatewayResponse" });
   }
 }
-function __c601(j: number): any {
+function __c603(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44688,7 +45288,7 @@ function __c601(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
           issueId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(19232, __c601, 0)),
+          properties: S.optional(__S(19296, __c603, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44700,7 +45300,7 @@ function __c601(j: number): any {
       ).annotate({ identifier: "UpdateApiIssueRequest" });
   }
 }
-function __c602(j: number): any {
+function __c604(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44710,9 +45310,9 @@ function __c602(j: number): any {
           publicIpAddressId: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
           configurationApi: S.optional(__S(2659, __c83, 3)),
-          virtualNetworkConfiguration: S.optional(__S(3264, __c102, 0)),
-          additionalLocations: S.optional(__S(3266, __c102, 2)),
-          customProperties: S.optional(__S(19488, __c609, 0)),
+          virtualNetworkConfiguration: S.optional(__S(3296, __c103, 0)),
+          additionalLocations: S.optional(__S(3298, __c103, 2)),
+          customProperties: S.optional(__S(19552, __c611, 0)),
           certificates: S.optional(__S(2665, __c83, 9)),
           enableClientCertificate: S.optional(S.Boolean),
           natGatewayState: S.optional(S.String),
@@ -44720,7 +45320,7 @@ function __c602(j: number): any {
           virtualNetworkType: S.optional(S.String),
           apiVersionConstraint: S.optional(__S(2666, __c83, 10)),
           restore: S.optional(S.Boolean),
-          privateEndpointConnections: S.optional(__S(3268, __c102, 4)),
+          privateEndpointConnections: S.optional(__S(3300, __c103, 4)),
           legacyPortalStatus: S.optional(S.String),
           developerPortalStatus: S.optional(S.String),
           publisherEmail: S.optional(S.String),
@@ -44733,10 +45333,10 @@ function __c602(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(19488, __c609, 0)),
-          properties: S.optional(__S(19264, __c602, 0)),
+          tags: S.optional(__S(19552, __c611, 0)),
+          properties: S.optional(__S(19328, __c604, 0)),
           sku: S.optional(__S(2661, __c83, 5)),
-          identity: S.optional(__S(3269, __c102, 5)),
+          identity: S.optional(__S(3301, __c103, 5)),
           zones: S.optional(__S(96, __c3, 0)),
         }).pipe(
           T.Http({
@@ -44749,7 +45349,7 @@ function __c602(j: number): any {
       ).annotate({ identifier: "UpdateApiManagementServiceRequest" });
   }
 }
-function __c603(j: number): any {
+function __c605(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44759,7 +45359,7 @@ function __c603(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
           operationId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(19328, __c604, 0)),
+          properties: S.optional(__S(19392, __c606, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44771,15 +45371,15 @@ function __c603(j: number): any {
       ).annotate({ identifier: "UpdateApiOperationRequest" });
   }
 }
-function __c604(j: number): any {
+function __c606(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          templateParameters: S.optional(__S(3779, __c118, 3)),
+          templateParameters: S.optional(__S(3811, __c119, 3)),
           description: S.optional(S.String),
-          request: S.optional(__S(3782, __c118, 6)),
-          responses: S.optional(__S(3784, __c118, 8)),
+          request: S.optional(__S(3814, __c119, 6)),
+          responses: S.optional(__S(3816, __c119, 8)),
           policies: S.optional(S.String),
           displayName: S.optional(S.String),
           method: S.optional(S.String),
@@ -44788,7 +45388,7 @@ function __c604(j: number): any {
       ).annotate({ identifier: "OperationUpdateContractProperties" });
   }
 }
-function __c605(j: number): any {
+function __c607(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44798,7 +45398,7 @@ function __c605(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
           releaseId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5120, __c160, 0)),
+          properties: S.optional(__S(5152, __c161, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44810,7 +45410,7 @@ function __c605(j: number): any {
       ).annotate({ identifier: "UpdateApiReleaseRequest" });
   }
 }
-function __c606(j: number): any {
+function __c608(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44819,7 +45419,7 @@ function __c606(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           versionSetId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(19424, __c607, 0)),
+          properties: S.optional(__S(19488, __c609, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -44831,7 +45431,7 @@ function __c606(j: number): any {
       ).annotate({ identifier: "UpdateApiVersionSetRequest" });
   }
 }
-function __c607(j: number): any {
+function __c609(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44845,12 +45445,12 @@ function __c607(j: number): any {
       ).annotate({ identifier: "ApiVersionSetUpdateParametersProperties" });
   }
 }
-function __c608(j: number): any {
+function __c610(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          backend: S.optional(__S(19649, __c614, 1)),
+          backend: S.optional(__S(19713, __c616, 1)),
           publicNetworkAccess: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayPropertiesInput" });
@@ -44860,11 +45460,11 @@ function __c608(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           aiGatewayName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(19488, __c609, 0)),
+          tags: S.optional(__S(19552, __c611, 0)),
           location: S.String,
-          properties: __S(19456, __c608, 0),
-          identity: S.optional(__S(19681, __c615, 1)),
-          sku: S.optional(__S(19650, __c614, 2)),
+          properties: __S(19520, __c610, 0),
+          identity: S.optional(__S(19745, __c617, 1)),
+          sku: S.optional(__S(19714, __c616, 2)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -44881,11 +45481,11 @@ function __c608(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          tags: S.optional(__S(19488, __c609, 0)),
+          tags: S.optional(__S(19552, __c611, 0)),
           location: S.String,
-          properties: __S(19651, __c614, 3),
-          identity: S.optional(__S(19653, __c614, 5)),
-          sku: S.optional(__S(19650, __c614, 2)),
+          properties: __S(19715, __c616, 3),
+          identity: S.optional(__S(19717, __c616, 5)),
+          sku: S.optional(__S(19714, __c616, 2)),
           eTag: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -44893,13 +45493,13 @@ function __c608(j: number): any {
       ).annotate({ identifier: "AiGatewayResourcesCreateOrUpdateResponse" });
   }
 }
-function __c609(j: number): any {
+function __c611(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c610(j: number): any {
+function __c612(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44909,7 +45509,7 @@ function __c610(j: number): any {
       ).annotate({ identifier: "AiGatewayFrontend" });
   }
 }
-function __c611(j: number): any {
+function __c613(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44920,7 +45520,7 @@ function __c611(j: number): any {
       ).annotate({ identifier: "UserAssignedIdentity" });
   }
 }
-function __c612(j: number): any {
+function __c614(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44929,18 +45529,18 @@ function __c612(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(15296, __c478, 0)),
+          properties: S.optional(__S(15360, __c480, 0)),
         }),
       ).annotate({ identifier: "AiGatewayPropertiesPrivateEndpointConnectionsItem" });
   }
 }
-function __c613(j: number): any {
+function __c615(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(19584, __c612, 0));
+      return S.Array(__S(19648, __c614, 0));
   }
 }
-function __c614(j: number): any {
+function __c616(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44951,7 +45551,7 @@ function __c614(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          subnet: S.optional(__S(19648, __c614, 0)),
+          subnet: S.optional(__S(19712, __c616, 0)),
         }),
       ).annotate({ identifier: "AiGatewayBackend" });
     case 2:
@@ -44968,39 +45568,39 @@ function __c614(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          frontend: S.optional(__S(19520, __c610, 0)),
-          backend: S.optional(__S(19649, __c614, 1)),
+          frontend: S.optional(__S(19584, __c612, 0)),
+          backend: S.optional(__S(19713, __c616, 1)),
           publicNetworkAccess: S.optional(S.String),
-          privateEndpointConnections: S.optional(__S(19616, __c613, 0)),
+          privateEndpointConnections: S.optional(__S(19680, __c615, 0)),
         }),
       ).annotate({ identifier: "AiGatewayProperties" });
     case 4:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(19552, __c611, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(19616, __c613, 0)));
     case 5:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           type: S.String,
-          userAssignedIdentities: S.optional(__S(19652, __c614, 4)),
+          userAssignedIdentities: S.optional(__S(19716, __c616, 4)),
         }),
       ).annotate({ identifier: "AiGatewayResourcesCreateOrUpdateResponseIdentity" });
   }
 }
-function __c615(j: number): any {
+function __c617(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(15232, __c476, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(15296, __c478, 0)));
     case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          userAssignedIdentities: S.optional(__S(19680, __c615, 0)),
+          userAssignedIdentities: S.optional(__S(19744, __c617, 0)),
         }),
       ).annotate({ identifier: "AiGatewayResourcesCreateOrUpdateRequestIdentity" });
   }
 }
-function __c616(j: number): any {
+function __c618(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45019,7 +45619,7 @@ function __c616(j: number): any {
       ).annotate({ identifier: "DeleteAiGatewayResourceRequest" });
   }
 }
-function __c617(j: number): any {
+function __c619(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45028,7 +45628,7 @@ function __c617(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7522, __c235, 2)),
+          properties: S.optional(__S(7554, __c236, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45040,7 +45640,7 @@ function __c617(j: number): any {
       ).annotate({ identifier: "UpdateApiWikiRequest" });
   }
 }
-function __c618(j: number): any {
+function __c620(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45072,7 +45672,7 @@ function __c618(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           authsid: S.String.pipe(T.Label()),
-          properties: S.optional(__S(19776, __c618, 0)),
+          properties: S.optional(__S(19840, __c620, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45084,7 +45684,7 @@ function __c618(j: number): any {
       ).annotate({ identifier: "UpdateAuthorizationServerRequest" });
   }
 }
-function __c619(j: number): any {
+function __c621(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45093,7 +45693,7 @@ function __c619(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           backendId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(11762, __c367, 18)),
+          properties: S.optional(__S(11826, __c369, 18)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45105,7 +45705,7 @@ function __c619(j: number): any {
       ).annotate({ identifier: "UpdateBackendRequest" });
   }
 }
-function __c620(j: number): any {
+function __c622(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45123,7 +45723,7 @@ function __c620(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           cacheId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(19840, __c620, 0)),
+          properties: S.optional(__S(19904, __c622, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45135,7 +45735,7 @@ function __c620(j: number): any {
       ).annotate({ identifier: "UpdateCacheRequest" });
   }
 }
-function __c621(j: number): any {
+function __c623(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45144,7 +45744,7 @@ function __c621(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           diagnosticId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(23879, __c746, 7)),
+          properties: S.optional(__S(23943, __c748, 7)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45156,7 +45756,7 @@ function __c621(j: number): any {
       ).annotate({ identifier: "UpdateDiagnosticRequest" });
   }
 }
-function __c622(j: number): any {
+function __c624(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45177,7 +45777,7 @@ function __c622(j: number): any {
       ).annotate({ identifier: "UpdateDocumentationRequest" });
   }
 }
-function __c623(j: number): any {
+function __c625(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45198,7 +45798,7 @@ function __c623(j: number): any {
       ).annotate({ identifier: "UpdateEmailTemplateRequest" });
   }
 }
-function __c624(j: number): any {
+function __c626(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45219,7 +45819,7 @@ function __c624(j: number): any {
       ).annotate({ identifier: "UpdateGatewayRequest" });
   }
 }
-function __c625(j: number): any {
+function __c627(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45229,7 +45829,7 @@ function __c625(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
           resolverId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5344, __c167, 0)),
+          properties: S.optional(__S(5376, __c168, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45241,7 +45841,7 @@ function __c625(j: number): any {
       ).annotate({ identifier: "UpdateGraphQLApiResolverRequest" });
   }
 }
-function __c626(j: number): any {
+function __c628(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45250,7 +45850,7 @@ function __c626(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           groupId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20064, __c627, 0)),
+          properties: S.optional(__S(20128, __c629, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45262,7 +45862,7 @@ function __c626(j: number): any {
       ).annotate({ identifier: "UpdateGroupRequest" });
   }
 }
-function __c627(j: number): any {
+function __c629(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45275,7 +45875,7 @@ function __c627(j: number): any {
       ).annotate({ identifier: "GroupUpdateParametersProperties" });
   }
 }
-function __c628(j: number): any {
+function __c630(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45296,7 +45896,7 @@ function __c628(j: number): any {
       ).annotate({ identifier: "DeleteAiGatewayTelemetryExporterResourceRequest" });
   }
 }
-function __c629(j: number): any {
+function __c631(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45321,7 +45921,7 @@ function __c629(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           identityProviderName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20128, __c629, 0)),
+          properties: S.optional(__S(20192, __c631, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45333,7 +45933,7 @@ function __c629(j: number): any {
       ).annotate({ identifier: "UpdateIdentityProviderRequest" });
   }
 }
-function __c630(j: number): any {
+function __c632(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45342,7 +45942,7 @@ function __c630(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           loggerId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20192, __c631, 0)),
+          properties: S.optional(__S(20256, __c633, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45354,20 +45954,20 @@ function __c630(j: number): any {
       ).annotate({ identifier: "UpdateLoggerRequest" });
   }
 }
-function __c631(j: number): any {
+function __c633(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           loggerType: S.optional(S.String),
           description: S.optional(S.String),
-          credentials: S.optional(__S(19488, __c609, 0)),
+          credentials: S.optional(__S(10784, __c337, 0)),
           isBuffered: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "LoggerUpdateParameters" });
   }
 }
-function __c632(j: number): any {
+function __c634(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45376,7 +45976,7 @@ function __c632(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           namedValueId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20256, __c633, 0)),
+          properties: S.optional(__S(20320, __c635, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45388,7 +45988,7 @@ function __c632(j: number): any {
       ).annotate({ identifier: "UpdateNamedValueRequest" });
   }
 }
-function __c633(j: number): any {
+function __c635(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45397,12 +45997,12 @@ function __c633(j: number): any {
           secret: S.optional(S.Boolean),
           displayName: S.optional(S.String),
           value: S.optional(S.String),
-          keyVault: S.optional(__S(13344, __c417, 0)),
+          keyVault: S.optional(__S(13408, __c419, 0)),
         }),
       ).annotate({ identifier: "NamedValueUpdateParameterProperties" });
   }
 }
-function __c634(j: number): any {
+function __c636(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45423,7 +46023,7 @@ function __c634(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           opid: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20288, __c634, 0)),
+          properties: S.optional(__S(20352, __c636, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45435,7 +46035,7 @@ function __c634(j: number): any {
       ).annotate({ identifier: "UpdateOpenIdConnectProviderRequest" });
   }
 }
-function __c635(j: number): any {
+function __c637(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45444,7 +46044,7 @@ function __c635(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           policyRestrictionId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6176, __c193, 0)),
+          properties: S.optional(__S(6208, __c194, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45456,7 +46056,7 @@ function __c635(j: number): any {
       ).annotate({ identifier: "UpdatePolicyRestrictionRequest" });
   }
 }
-function __c636(j: number): any {
+function __c638(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45465,7 +46065,7 @@ function __c636(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           portalConfigId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6246, __c195, 6)),
+          properties: S.optional(__S(6278, __c196, 6)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45477,7 +46077,7 @@ function __c636(j: number): any {
       ).annotate({ identifier: "UpdatePortalConfigRequest" });
   }
 }
-function __c637(j: number): any {
+function __c639(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45486,7 +46086,7 @@ function __c637(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           portalRevisionId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(17472, __c546, 0)),
+          properties: S.optional(__S(17536, __c548, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45498,7 +46098,7 @@ function __c637(j: number): any {
       ).annotate({ identifier: "UpdatePortalRevisionRequest" });
   }
 }
-function __c638(j: number): any {
+function __c640(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45507,7 +46107,7 @@ function __c638(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20448, __c639, 0)),
+          properties: S.optional(__S(20512, __c641, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45519,7 +46119,7 @@ function __c638(j: number): any {
       ).annotate({ identifier: "UpdateProductRequest" });
   }
 }
-function __c639(j: number): any {
+function __c641(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45535,7 +46135,7 @@ function __c639(j: number): any {
       ).annotate({ identifier: "ProductUpdateProperties" });
   }
 }
-function __c640(j: number): any {
+function __c642(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45544,7 +46144,7 @@ function __c640(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7522, __c235, 2)),
+          properties: S.optional(__S(7554, __c236, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45556,7 +46156,7 @@ function __c640(j: number): any {
       ).annotate({ identifier: "UpdateProductWikiRequest" });
   }
 }
-function __c641(j: number): any {
+function __c643(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45565,7 +46165,7 @@ function __c641(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           quotaCounterKey: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6880, __c215, 0)),
+          properties: S.optional(__S(6912, __c216, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45577,7 +46177,7 @@ function __c641(j: number): any {
       ).annotate({ identifier: "UpdateQuotaByCounterKeyRequest" });
   }
 }
-function __c642(j: number): any {
+function __c644(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45598,7 +46198,7 @@ function __c642(j: number): any {
       ).annotate({ identifier: "DeleteAiGatewayToolServerResourceRequest" });
   }
 }
-function __c643(j: number): any {
+function __c645(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45608,7 +46208,7 @@ function __c643(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           quotaCounterKey: S.String.pipe(T.Label()),
           quotaPeriodKey: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6880, __c215, 0)),
+          properties: S.optional(__S(6912, __c216, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45620,7 +46220,7 @@ function __c643(j: number): any {
       ).annotate({ identifier: "UpdateQuotaByPeriodKeyRequest" });
   }
 }
-function __c644(j: number): any {
+function __c646(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45631,7 +46231,7 @@ function __c644(j: number): any {
           sid: S.String.pipe(T.Label()),
           notify: S.optional(S.Boolean.pipe(T.Query())),
           appType: S.optional(S.String.pipe(T.Query())),
-          properties: S.optional(__S(20640, __c645, 0)),
+          properties: S.optional(__S(20704, __c647, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45643,7 +46243,7 @@ function __c644(j: number): any {
       ).annotate({ identifier: "UpdateSubscriptionRequest" });
   }
 }
-function __c645(j: number): any {
+function __c647(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45661,7 +46261,7 @@ function __c645(j: number): any {
       ).annotate({ identifier: "SubscriptionUpdateParameterProperties" });
   }
 }
-function __c646(j: number): any {
+function __c648(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45670,7 +46270,7 @@ function __c646(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           tagId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(8288, __c259, 0)),
+          properties: S.optional(__S(8320, __c260, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45682,7 +46282,7 @@ function __c646(j: number): any {
       ).annotate({ identifier: "UpdateTagRequest" });
   }
 }
-function __c647(j: number): any {
+function __c649(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45697,7 +46297,7 @@ function __c647(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           accessName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20704, __c647, 0)),
+          properties: S.optional(__S(20768, __c649, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45709,14 +46309,14 @@ function __c647(j: number): any {
       ).annotate({ identifier: "UpdateTenantAccessRequest" });
   }
 }
-function __c648(j: number): any {
+function __c650(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
           note: S.optional(S.String),
-          identities: S.optional(__S(16193, __c506, 1)),
+          identities: S.optional(__S(16257, __c508, 1)),
           email: S.optional(S.String),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           firstName: S.optional(S.String),
@@ -45730,7 +46330,7 @@ function __c648(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20736, __c648, 0)),
+          properties: S.optional(__S(20800, __c650, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45742,7 +46342,7 @@ function __c648(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c649(j: number): any {
+function __c651(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45751,7 +46351,7 @@ function __c649(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7584, __c237, 0)),
+          properties: S.optional(__S(7616, __c238, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45763,7 +46363,7 @@ function __c649(j: number): any {
       ).annotate({ identifier: "UpdateWorkspaceRequest" });
   }
 }
-function __c650(j: number): any {
+function __c652(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45773,7 +46373,7 @@ function __c650(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(19136, __c598, 0)),
+          properties: S.optional(__S(19200, __c600, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45783,48 +46383,6 @@ function __c650(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateWorkspaceApiRequest" });
-  }
-}
-function __c651(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serviceName: S.String.pipe(T.Label()),
-          workspaceId: S.String.pipe(T.Label()),
-          apiId: S.String.pipe(T.Label()),
-          diagnosticId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20864, __c652, 0)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/diagnostics/{diagnosticId}",
-            code: 200,
-            apiVersion: "2024-05-01",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateWorkspaceApiDiagnosticRequest" });
-  }
-}
-function __c652(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          alwaysLog: S.optional(S.String),
-          loggerId: S.optional(S.String),
-          sampling: S.optional(__S(23872, __c746, 0)),
-          frontend: S.optional(__S(23878, __c746, 6)),
-          backend: S.optional(__S(23878, __c746, 6)),
-          logClientIp: S.optional(S.Boolean),
-          httpCorrelationProtocol: S.optional(S.String),
-          verbosity: S.optional(S.String),
-          operationNameFormat: S.optional(S.String),
-          metrics: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DiagnosticContractUpdateProperties" });
   }
 }
 function __c653(j: number): any {
@@ -45837,8 +46395,50 @@ function __c653(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
+          diagnosticId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(20928, __c654, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/diagnostics/{diagnosticId}",
+            code: 200,
+            apiVersion: "2024-05-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateWorkspaceApiDiagnosticRequest" });
+  }
+}
+function __c654(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          alwaysLog: S.optional(S.String),
+          loggerId: S.optional(S.String),
+          sampling: S.optional(__S(23936, __c748, 0)),
+          frontend: S.optional(__S(23942, __c748, 6)),
+          backend: S.optional(__S(23942, __c748, 6)),
+          logClientIp: S.optional(S.Boolean),
+          httpCorrelationProtocol: S.optional(S.String),
+          verbosity: S.optional(S.String),
+          operationNameFormat: S.optional(S.String),
+          metrics: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DiagnosticContractUpdateProperties" });
+  }
+}
+function __c655(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serviceName: S.String.pipe(T.Label()),
+          workspaceId: S.String.pipe(T.Label()),
+          apiId: S.String.pipe(T.Label()),
           operationId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(19328, __c604, 0)),
+          properties: S.optional(__S(19392, __c606, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45850,7 +46450,7 @@ function __c653(j: number): any {
       ).annotate({ identifier: "UpdateWorkspaceApiOperationRequest" });
   }
 }
-function __c654(j: number): any {
+function __c656(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45861,7 +46461,7 @@ function __c654(j: number): any {
           workspaceId: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
           releaseId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5120, __c160, 0)),
+          properties: S.optional(__S(5152, __c161, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -45873,7 +46473,7 @@ function __c654(j: number): any {
       ).annotate({ identifier: "UpdateWorkspaceApiReleaseRequest" });
   }
 }
-function __c655(j: number): any {
+function __c657(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45894,7 +46494,7 @@ function __c655(j: number): any {
       ).annotate({ identifier: "DeleteApiRequest" });
   }
 }
-function __c656(j: number): any {
+function __c658(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45903,50 +46503,6 @@ function __c656(j: number): any {
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "DeleteApiResponse" });
-  }
-}
-function __c657(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serviceName: S.String.pipe(T.Label()),
-          workspaceId: S.String.pipe(T.Label()),
-          versionSetId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(19424, __c607, 0)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apiVersionSets/{versionSetId}",
-            code: 200,
-            apiVersion: "2024-05-01",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateWorkspaceApiVersionSetRequest" });
-  }
-}
-function __c658(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serviceName: S.String.pipe(T.Label()),
-          workspaceId: S.String.pipe(T.Label()),
-          backendId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(11762, __c367, 18)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/backends/{backendId}",
-            code: 200,
-            apiVersion: "2024-05-01",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateWorkspaceBackendRequest" });
   }
 }
 function __c659(j: number): any {
@@ -45958,17 +46514,17 @@ function __c659(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          diagnosticId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20864, __c652, 0)),
+          versionSetId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(19488, __c609, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/diagnostics/{diagnosticId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apiVersionSets/{versionSetId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "UpdateWorkspaceDiagnosticRequest" });
+      ).annotate({ identifier: "UpdateWorkspaceApiVersionSetRequest" });
   }
 }
 function __c660(j: number): any {
@@ -45980,17 +46536,17 @@ function __c660(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          groupId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20064, __c627, 0)),
+          backendId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(11826, __c369, 18)),
         }).pipe(
           T.Http({
             method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/groups/{groupId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/backends/{backendId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "UpdateWorkspaceGroupRequest" });
+      ).annotate({ identifier: "UpdateWorkspaceBackendRequest" });
   }
 }
 function __c661(j: number): any {
@@ -46002,17 +46558,17 @@ function __c661(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          loggerId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20192, __c631, 0)),
+          diagnosticId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(20928, __c654, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/loggers/{loggerId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/diagnostics/{diagnosticId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "UpdateWorkspaceLoggerRequest" });
+      ).annotate({ identifier: "UpdateWorkspaceDiagnosticRequest" });
   }
 }
 function __c662(j: number): any {
@@ -46024,17 +46580,17 @@ function __c662(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          namedValueId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20256, __c633, 0)),
+          groupId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(20128, __c629, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/namedValues/{namedValueId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/groups/{groupId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "UpdateWorkspaceNamedValueRequest" });
+      ).annotate({ identifier: "UpdateWorkspaceGroupRequest" });
   }
 }
 function __c663(j: number): any {
@@ -46046,17 +46602,17 @@ function __c663(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(20448, __c639, 0)),
+          loggerId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(20256, __c633, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/products/{productId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/loggers/{loggerId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "UpdateWorkspaceProductRequest" });
+      ).annotate({ identifier: "UpdateWorkspaceLoggerRequest" });
   }
 }
 function __c664(j: number): any {
@@ -46068,19 +46624,17 @@ function __c664(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          sid: S.String.pipe(T.Label()),
-          notify: S.optional(S.Boolean.pipe(T.Query())),
-          appType: S.optional(S.String.pipe(T.Query())),
-          properties: S.optional(__S(20640, __c645, 0)),
+          namedValueId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(20320, __c635, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/subscriptions/{sid}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/namedValues/{namedValueId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "UpdateWorkspaceSubscriptionRequest" });
+      ).annotate({ identifier: "UpdateWorkspaceNamedValueRequest" });
   }
 }
 function __c665(j: number): any {
@@ -46092,8 +46646,54 @@ function __c665(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
+          productId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(20512, __c641, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/products/{productId}",
+            code: 200,
+            apiVersion: "2024-05-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateWorkspaceProductRequest" });
+  }
+}
+function __c666(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serviceName: S.String.pipe(T.Label()),
+          workspaceId: S.String.pipe(T.Label()),
+          sid: S.String.pipe(T.Label()),
+          notify: S.optional(S.Boolean.pipe(T.Query())),
+          appType: S.optional(S.String.pipe(T.Query())),
+          properties: S.optional(__S(20704, __c647, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/subscriptions/{sid}",
+            code: 200,
+            apiVersion: "2024-05-01",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateWorkspaceSubscriptionRequest" });
+  }
+}
+function __c667(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serviceName: S.String.pipe(T.Label()),
+          workspaceId: S.String.pipe(T.Label()),
           tagId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(8288, __c259, 0)),
+          properties: S.optional(__S(8320, __c260, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -46105,14 +46705,14 @@ function __c665(j: number): any {
       ).annotate({ identifier: "UpdateWorkspaceTagRequest" });
   }
 }
-function __c666(j: number): any {
+function __c668(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           state: S.optional(S.String),
           note: S.optional(S.String),
-          identities: S.optional(__S(16193, __c506, 1)),
+          identities: S.optional(__S(16257, __c508, 1)),
           email: S.String,
           firstName: S.String,
           lastName: S.String,
@@ -46129,7 +46729,7 @@ function __c666(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           notify: S.optional(S.Boolean.pipe(T.Query())),
-          properties: S.optional(__S(21312, __c666, 0)),
+          properties: S.optional(__S(21376, __c668, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46141,7 +46741,7 @@ function __c666(j: number): any {
       ).annotate({ identifier: "UserCreateOrUpdateRequest" });
   }
 }
-function __c667(j: number): any {
+function __c669(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46162,7 +46762,7 @@ function __c667(j: number): any {
       ).annotate({ identifier: "DeleteApiDiagnosticRequest" });
   }
 }
-function __c668(j: number): any {
+function __c670(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46183,51 +46783,6 @@ function __c668(j: number): any {
       ).annotate({ identifier: "ValidateTenantConfigurationRequest" });
   }
 }
-function __c669(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serviceName: S.String.pipe(T.Label()),
-          workspaceId: S.String.pipe(T.Label()),
-          apiId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(23489, __c734, 1)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}",
-            code: 200,
-            apiVersion: "2024-05-01",
-          }),
-        ),
-      ).annotate({ identifier: "WorkspaceApiCreateOrUpdateRequest" });
-  }
-}
-function __c670(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serviceName: S.String.pipe(T.Label()),
-          workspaceId: S.String.pipe(T.Label()),
-          apiId: S.String.pipe(T.Label()),
-          diagnosticId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(23879, __c746, 7)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/diagnostics/{diagnosticId}",
-            code: 200,
-            apiVersion: "2024-05-01",
-          }),
-        ),
-      ).annotate({ identifier: "WorkspaceApiDiagnosticCreateOrUpdateRequest" });
-  }
-}
 function __c671(j: number): any {
   switch (j) {
     case 0:
@@ -46238,17 +46793,16 @@ function __c671(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
-          operationId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3785, __c118, 9)),
+          properties: S.optional(__S(23553, __c736, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/operations/{operationId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceApiOperationCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceApiCreateOrUpdateRequest" });
   }
 }
 function __c672(j: number): any {
@@ -46261,18 +46815,17 @@ function __c672(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
-          operationId: S.String.pipe(T.Label()),
-          policyId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4192, __c131, 0)),
+          diagnosticId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(23943, __c748, 7)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/operations/{operationId}/policies/{policyId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/diagnostics/{diagnosticId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceApiOperationPolicyCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceApiDiagnosticCreateOrUpdateRequest" });
   }
 }
 function __c673(j: number): any {
@@ -46285,17 +46838,17 @@ function __c673(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
-          policyId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4192, __c131, 0)),
+          operationId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(3817, __c119, 9)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/policies/{policyId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/operations/{operationId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceApiPolicyCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceApiOperationCreateOrUpdateRequest" });
   }
 }
 function __c674(j: number): any {
@@ -46308,17 +46861,18 @@ function __c674(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
-          releaseId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5120, __c160, 0)),
+          operationId: S.String.pipe(T.Label()),
+          policyId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(4224, __c132, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/releases/{releaseId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/operations/{operationId}/policies/{policyId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceApiReleaseCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceApiOperationPolicyCreateOrUpdateRequest" });
   }
 }
 function __c675(j: number): any {
@@ -46331,17 +46885,17 @@ function __c675(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
-          schemaId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5792, __c181, 0)),
+          policyId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(4224, __c132, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/schemas/{schemaId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/policies/{policyId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceApiSchemaCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceApiPolicyCreateOrUpdateRequest" });
   }
 }
 function __c676(j: number): any {
@@ -46353,17 +46907,18 @@ function __c676(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          versionSetId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7072, __c221, 0)),
+          apiId: S.String.pipe(T.Label()),
+          releaseId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(5152, __c161, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apiVersionSets/{versionSetId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/releases/{releaseId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceApiVersionSetCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceApiReleaseCreateOrUpdateRequest" });
   }
 }
 function __c677(j: number): any {
@@ -46375,8 +46930,53 @@ function __c677(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
+          apiId: S.String.pipe(T.Label()),
+          schemaId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(5824, __c182, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apis/{apiId}/schemas/{schemaId}",
+            code: 200,
+            apiVersion: "2024-05-01",
+          }),
+        ),
+      ).annotate({ identifier: "WorkspaceApiSchemaCreateOrUpdateRequest" });
+  }
+}
+function __c678(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serviceName: S.String.pipe(T.Label()),
+          workspaceId: S.String.pipe(T.Label()),
+          versionSetId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(7104, __c222, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/apiVersionSets/{versionSetId}",
+            code: 200,
+            apiVersion: "2024-05-01",
+          }),
+        ),
+      ).annotate({ identifier: "WorkspaceApiVersionSetCreateOrUpdateRequest" });
+  }
+}
+function __c679(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serviceName: S.String.pipe(T.Label()),
+          workspaceId: S.String.pipe(T.Label()),
           backendId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(11762, __c367, 18)),
+          properties: S.optional(__S(11826, __c369, 18)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46388,7 +46988,7 @@ function __c677(j: number): any {
       ).annotate({ identifier: "WorkspaceBackendCreateOrUpdateRequest" });
   }
 }
-function __c678(j: number): any {
+function __c680(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46407,7 +47007,7 @@ function __c678(j: number): any {
       ).annotate({ identifier: "DeleteApiGatewayRequest" });
   }
 }
-function __c679(j: number): any {
+function __c681(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46415,49 +47015,6 @@ function __c679(j: number): any {
           location: S.optional(S.String.pipe(T.Header())),
         }),
       ).annotate({ identifier: "DeleteApiGatewayResponse" });
-  }
-}
-function __c680(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serviceName: S.String.pipe(T.Label()),
-          workspaceId: S.String.pipe(T.Label()),
-          certificateId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(13376, __c418, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/certificates/{certificateId}",
-            code: 200,
-            apiVersion: "2024-05-01",
-          }),
-        ),
-      ).annotate({ identifier: "WorkspaceCertificateCreateOrUpdateRequest" });
-  }
-}
-function __c681(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serviceName: S.String.pipe(T.Label()),
-          workspaceId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7584, __c237, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}",
-            code: 200,
-            apiVersion: "2024-05-01",
-          }),
-        ),
-      ).annotate({ identifier: "WorkspaceCreateOrUpdateRequest" });
   }
 }
 function __c682(j: number): any {
@@ -46469,17 +47026,17 @@ function __c682(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          diagnosticId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(23879, __c746, 7)),
+          certificateId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(13440, __c420, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/diagnostics/{diagnosticId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/certificates/{certificateId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceDiagnosticCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceCertificateCreateOrUpdateRequest" });
   }
 }
 function __c683(j: number): any {
@@ -46491,17 +47048,16 @@ function __c683(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          schemaId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(8608, __c269, 0)),
+          properties: S.optional(__S(7616, __c238, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/schemas/{schemaId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceGlobalSchemaCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceCreateOrUpdateRequest" });
   }
 }
 function __c684(j: number): any {
@@ -46513,17 +47069,17 @@ function __c684(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          groupId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(8768, __c274, 0)),
+          diagnosticId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(23943, __c748, 7)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/groups/{groupId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/diagnostics/{diagnosticId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceGroupCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceDiagnosticCreateOrUpdateRequest" });
   }
 }
 function __c685(j: number): any {
@@ -46535,17 +47091,17 @@ function __c685(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          loggerId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5600, __c175, 0)),
+          schemaId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(8640, __c270, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/loggers/{loggerId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/schemas/{schemaId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceLoggerCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceGlobalSchemaCreateOrUpdateRequest" });
   }
 }
 function __c686(j: number): any {
@@ -46557,8 +47113,52 @@ function __c686(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
+          groupId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(8800, __c275, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/groups/{groupId}",
+            code: 200,
+            apiVersion: "2024-05-01",
+          }),
+        ),
+      ).annotate({ identifier: "WorkspaceGroupCreateOrUpdateRequest" });
+  }
+}
+function __c687(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serviceName: S.String.pipe(T.Label()),
+          workspaceId: S.String.pipe(T.Label()),
+          loggerId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(5632, __c176, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/loggers/{loggerId}",
+            code: 200,
+            apiVersion: "2024-05-01",
+          }),
+        ),
+      ).annotate({ identifier: "WorkspaceLoggerCreateOrUpdateRequest" });
+  }
+}
+function __c688(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serviceName: S.String.pipe(T.Label()),
+          workspaceId: S.String.pipe(T.Label()),
           namedValueId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(16992, __c531, 0)),
+          properties: S.optional(__S(17056, __c533, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46570,7 +47170,7 @@ function __c686(j: number): any {
       ).annotate({ identifier: "WorkspaceNamedValueCreateOrUpdateRequest" });
   }
 }
-function __c687(j: number): any {
+function __c689(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46591,7 +47191,7 @@ function __c687(j: number): any {
       ).annotate({ identifier: "WorkspaceNotificationCreateOrUpdateRequest" });
   }
 }
-function __c688(j: number): any {
+function __c690(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46613,7 +47213,7 @@ function __c688(j: number): any {
       ).annotate({ identifier: "WorkspaceNotificationRecipientEmailCreateOrUpdateRequest" });
   }
 }
-function __c689(j: number): any {
+function __c691(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46635,7 +47235,7 @@ function __c689(j: number): any {
       ).annotate({ identifier: "WorkspaceNotificationRecipientUserCreateOrUpdateRequest" });
   }
 }
-function __c690(j: number): any {
+function __c692(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46655,7 +47255,7 @@ function __c690(j: number): any {
       ).annotate({ identifier: "DeleteApiGatewayConfigConnectionRequest" });
   }
 }
-function __c691(j: number): any {
+function __c693(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46665,7 +47265,7 @@ function __c691(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
           policyId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4192, __c131, 0)),
+          properties: S.optional(__S(4224, __c132, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46677,51 +47277,6 @@ function __c691(j: number): any {
       ).annotate({ identifier: "WorkspacePolicyCreateOrUpdateRequest" });
   }
 }
-function __c692(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serviceName: S.String.pipe(T.Label()),
-          workspaceId: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          properties: S.optional(__S(17280, __c540, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/policyFragments/{id}",
-            code: 200,
-            apiVersion: "2024-05-01",
-          }),
-        ),
-      ).annotate({ identifier: "WorkspacePolicyFragmentCreateOrUpdateRequest" });
-  }
-}
-function __c693(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          serviceName: S.String.pipe(T.Label()),
-          workspaceId: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          apiLinkId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6688, __c209, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/products/{productId}/apiLinks/{apiLinkId}",
-            code: 200,
-            apiVersion: "2024-05-01",
-          }),
-        ),
-      ).annotate({ identifier: "WorkspaceProductApiLinkCreateOrUpdateRequest" });
-  }
-}
 function __c694(j: number): any {
   switch (j) {
     case 0:
@@ -46731,17 +47286,17 @@ function __c694(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          productId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6624, __c207, 0)),
+          id: S.String.pipe(T.Label()),
+          properties: S.optional(__S(17344, __c542, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/products/{productId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/policyFragments/{id}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceProductCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspacePolicyFragmentCreateOrUpdateRequest" });
   }
 }
 function __c695(j: number): any {
@@ -46754,17 +47309,17 @@ function __c695(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
-          groupLinkId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6752, __c211, 0)),
+          apiLinkId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(6720, __c210, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/products/{productId}/groupLinks/{groupLinkId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/products/{productId}/apiLinks/{apiLinkId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceProductGroupLinkCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceProductApiLinkCreateOrUpdateRequest" });
   }
 }
 function __c696(j: number): any {
@@ -46777,17 +47332,16 @@ function __c696(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
           productId: S.String.pipe(T.Label()),
-          policyId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4192, __c131, 0)),
+          properties: S.optional(__S(6656, __c208, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/products/{productId}/policies/{policyId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/products/{productId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceProductPolicyCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceProductCreateOrUpdateRequest" });
   }
 }
 function __c697(j: number): any {
@@ -46799,19 +47353,18 @@ function __c697(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          sid: S.String.pipe(T.Label()),
-          notify: S.optional(S.Boolean.pipe(T.Query())),
-          appType: S.optional(S.String.pipe(T.Query())),
-          properties: S.optional(__S(18464, __c577, 0)),
+          productId: S.String.pipe(T.Label()),
+          groupLinkId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(6784, __c212, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/subscriptions/{sid}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/products/{productId}/groupLinks/{groupLinkId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceSubscriptionCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceProductGroupLinkCreateOrUpdateRequest" });
   }
 }
 function __c698(j: number): any {
@@ -46823,18 +47376,18 @@ function __c698(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          tagId: S.String.pipe(T.Label()),
-          apiLinkId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(6688, __c209, 0)),
+          productId: S.String.pipe(T.Label()),
+          policyId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(4224, __c132, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/tags/{tagId}/apiLinks/{apiLinkId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/products/{productId}/policies/{policyId}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceTagApiLinkCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceProductPolicyCreateOrUpdateRequest" });
   }
 }
 function __c699(j: number): any {
@@ -46846,17 +47399,19 @@ function __c699(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
-          tagId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(8288, __c259, 0)),
+          sid: S.String.pipe(T.Label()),
+          notify: S.optional(S.Boolean.pipe(T.Query())),
+          appType: S.optional(S.String.pipe(T.Query())),
+          properties: S.optional(__S(18528, __c579, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/tags/{tagId}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/subscriptions/{sid}",
             code: 200,
             apiVersion: "2024-05-01",
           }),
         ),
-      ).annotate({ identifier: "WorkspaceTagCreateOrUpdateRequest" });
+      ).annotate({ identifier: "WorkspaceSubscriptionCreateOrUpdateRequest" });
   }
 }
 function __c700(j: number): any {
@@ -46869,8 +47424,53 @@ function __c700(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           workspaceId: S.String.pipe(T.Label()),
           tagId: S.String.pipe(T.Label()),
+          apiLinkId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(6720, __c210, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/tags/{tagId}/apiLinks/{apiLinkId}",
+            code: 200,
+            apiVersion: "2024-05-01",
+          }),
+        ),
+      ).annotate({ identifier: "WorkspaceTagApiLinkCreateOrUpdateRequest" });
+  }
+}
+function __c701(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serviceName: S.String.pipe(T.Label()),
+          workspaceId: S.String.pipe(T.Label()),
+          tagId: S.String.pipe(T.Label()),
+          properties: S.optional(__S(8320, __c260, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/workspaces/{workspaceId}/tags/{tagId}",
+            code: 200,
+            apiVersion: "2024-05-01",
+          }),
+        ),
+      ).annotate({ identifier: "WorkspaceTagCreateOrUpdateRequest" });
+  }
+}
+function __c702(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          serviceName: S.String.pipe(T.Label()),
+          workspaceId: S.String.pipe(T.Label()),
+          tagId: S.String.pipe(T.Label()),
           operationLinkId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7232, __c226, 0)),
+          properties: S.optional(__S(7264, __c227, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46882,7 +47482,7 @@ function __c700(j: number): any {
       ).annotate({ identifier: "WorkspaceTagOperationLinkCreateOrUpdateRequest" });
   }
 }
-function __c701(j: number): any {
+function __c703(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46903,7 +47503,7 @@ function __c701(j: number): any {
       ).annotate({ identifier: "DeleteApiIssueRequest" });
   }
 }
-function __c702(j: number): any {
+function __c704(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46914,7 +47514,7 @@ function __c702(j: number): any {
           workspaceId: S.String.pipe(T.Label()),
           tagId: S.String.pipe(T.Label()),
           productLinkId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(7296, __c228, 0)),
+          properties: S.optional(__S(7328, __c229, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -46926,7 +47526,7 @@ function __c702(j: number): any {
       ).annotate({ identifier: "WorkspaceTagProductLinkCreateOrUpdateRequest" });
   }
 }
-function __c703(j: number): any {
+function __c705(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46948,7 +47548,7 @@ function __c703(j: number): any {
       ).annotate({ identifier: "DeleteApiIssueAttachmentRequest" });
   }
 }
-function __c704(j: number): any {
+function __c706(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46970,17 +47570,17 @@ function __c704(j: number): any {
       ).annotate({ identifier: "DeleteApiIssueCommentRequest" });
   }
 }
-function __c705(j: number): any {
+function __c707(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           telemetryExporterType: S.String,
           payloadCapture: S.optional(S.Boolean),
-          applicationInsights: S.optional(__S(22592, __c706, 0)),
-          openTelemetry: S.optional(__S(22593, __c706, 1)),
+          applicationInsights: S.optional(__S(22656, __c708, 0)),
+          openTelemetry: S.optional(__S(22657, __c708, 1)),
           authentication: S.optional(__S(192, __c6, 0)),
-          telemetry: S.optional(__S(22597, __c706, 5)),
+          telemetry: S.optional(__S(22661, __c708, 5)),
         }),
       ).annotate({ identifier: "AiGatewayTelemetryExporterPropertiesInput" });
     case 1:
@@ -46991,7 +47591,7 @@ function __c705(j: number): any {
           aiGatewayName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           telemetryExporterName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(22560, __c705, 0)),
+          properties: S.optional(__S(22624, __c707, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47003,7 +47603,7 @@ function __c705(j: number): any {
       ).annotate({ identifier: "AiGatewayTelemetryExporterResourcesCreateOrUpdateRequest" });
   }
 }
-function __c706(j: number): any {
+function __c708(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47030,16 +47630,16 @@ function __c706(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          source: __S(22594, __c706, 2),
+          source: __S(22658, __c708, 2),
           signals: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "AiGatewayTelemetryAttributeMapping" });
     case 4:
-      return S.Array(__S(22595, __c706, 3));
+      return S.Array(__S(22659, __c708, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(22596, __c706, 4)),
+          attributes: S.optional(__S(22660, __c708, 4)),
         }),
       ).annotate({ identifier: "AiGatewayTelemetryConfiguration" });
     case 6:
@@ -47047,10 +47647,10 @@ function __c706(j: number): any {
         S.Struct({
           telemetryExporterType: S.String,
           payloadCapture: S.optional(S.Boolean),
-          applicationInsights: S.optional(__S(22592, __c706, 0)),
-          openTelemetry: S.optional(__S(22593, __c706, 1)),
+          applicationInsights: S.optional(__S(22656, __c708, 0)),
+          openTelemetry: S.optional(__S(22657, __c708, 1)),
           authentication: S.optional(__S(192, __c6, 0)),
-          telemetry: S.optional(__S(22597, __c706, 5)),
+          telemetry: S.optional(__S(22661, __c708, 5)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayTelemetryExporterProperties" });
@@ -47061,12 +47661,12 @@ function __c706(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(22598, __c706, 6)),
+          properties: S.optional(__S(22662, __c708, 6)),
         }),
       ).annotate({ identifier: "AiGatewayTelemetryExporterResourcesCreateOrUpdateResponse" });
   }
 }
-function __c707(j: number): any {
+function __c709(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47085,7 +47685,7 @@ function __c707(j: number): any {
       ).annotate({ identifier: "DeleteApiManagementServiceRequest" });
   }
 }
-function __c708(j: number): any {
+function __c710(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47106,7 +47706,7 @@ function __c708(j: number): any {
       ).annotate({ identifier: "DeleteApiOperationRequest" });
   }
 }
-function __c709(j: number): any {
+function __c711(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47128,7 +47728,7 @@ function __c709(j: number): any {
       ).annotate({ identifier: "DeleteApiOperationPolicyRequest" });
   }
 }
-function __c710(j: number): any {
+function __c712(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47149,7 +47749,7 @@ function __c710(j: number): any {
       ).annotate({ identifier: "DeleteApiPolicyRequest" });
   }
 }
-function __c711(j: number): any {
+function __c713(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47170,7 +47770,7 @@ function __c711(j: number): any {
       ).annotate({ identifier: "DeleteApiReleaseRequest" });
   }
 }
-function __c712(j: number): any {
+function __c714(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47192,7 +47792,7 @@ function __c712(j: number): any {
       ).annotate({ identifier: "DeleteApiSchemaRequest" });
   }
 }
-function __c713(j: number): any {
+function __c715(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47213,7 +47813,7 @@ function __c713(j: number): any {
       ).annotate({ identifier: "DeleteApiTagDescriptionRequest" });
   }
 }
-function __c714(j: number): any {
+function __c716(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47233,7 +47833,7 @@ function __c714(j: number): any {
       ).annotate({ identifier: "DeleteApiVersionSetRequest" });
   }
 }
-function __c715(j: number): any {
+function __c717(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47253,7 +47853,7 @@ function __c715(j: number): any {
       ).annotate({ identifier: "DeleteApiWikiRequest" });
   }
 }
-function __c716(j: number): any {
+function __c718(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47274,13 +47874,13 @@ function __c716(j: number): any {
       ).annotate({ identifier: "DeleteAuthorizationRequest" });
   }
 }
-function __c717(j: number): any {
+function __c719(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           headers: S.optional(__S(130, __c4, 2)),
-          oauth2: S.optional(__S(23040, __c720, 0)),
+          oauth2: S.optional(__S(23104, __c722, 0)),
           managedIdentity: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "AiGatewayToolServerAuthenticationInput" });
@@ -47290,15 +47890,15 @@ function __c717(j: number): any {
           id: S.optional(S.String),
           namespace: S.optional(S.String),
           kind: S.String,
-          mcp: S.optional(__S(23008, __c719, 0)),
-          openApi: S.optional(__S(23010, __c719, 2)),
-          authentication: S.optional(__S(22944, __c717, 0)),
+          mcp: S.optional(__S(23072, __c721, 0)),
+          openApi: S.optional(__S(23074, __c721, 2)),
+          authentication: S.optional(__S(23008, __c719, 0)),
           tools: S.optional(__S(96, __c3, 0)),
           mode: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayToolServerEndpointInput" });
     case 2:
-      return S.Array(__S(22945, __c717, 1));
+      return S.Array(__S(23009, __c719, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -47309,7 +47909,7 @@ function __c717(j: number): any {
           versions: S.optional(__S(96, __c3, 0)),
           allowList: S.optional(__S(96, __c3, 0)),
           blockList: S.optional(__S(96, __c3, 0)),
-          endpoints: S.optional(__S(22946, __c717, 2)),
+          endpoints: S.optional(__S(23010, __c719, 2)),
           policies: S.optional(__S(263, __c8, 7)),
           path: S.optional(S.String),
           subscriptionRequired: S.optional(S.Boolean),
@@ -47323,7 +47923,7 @@ function __c717(j: number): any {
           aiGatewayName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           toolServerName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(22947, __c717, 3)),
+          properties: S.optional(__S(23011, __c719, 3)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47335,7 +47935,7 @@ function __c717(j: number): any {
       ).annotate({ identifier: "AiGatewayToolServerResourcesCreateOrUpdateRequest" });
   }
 }
-function __c718(j: number): any {
+function __c720(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47348,20 +47948,20 @@ function __c718(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationId: S.optional(S.String),
-          appCredential: S.optional(__S(22976, __c718, 0)),
+          appCredential: S.optional(__S(23040, __c720, 0)),
         }),
       ).annotate({ identifier: "AiGatewayToolServerFederation" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           profile: S.String,
-          federatedClientApplication: S.optional(__S(22977, __c718, 1)),
+          federatedClientApplication: S.optional(__S(23041, __c720, 1)),
           scopes: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "AiGatewayToolServerTokenExchange" });
   }
 }
-function __c719(j: number): any {
+function __c721(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47374,14 +47974,14 @@ function __c719(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          contentBase64: S.optional(S.String),
+          contentBase64: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayOpenApiSpecSource" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          specSource: __S(23009, __c719, 1),
+          specSource: __S(23073, __c721, 1),
         }),
       ).annotate({ identifier: "AiGatewayOpenApiConfiguration" });
     case 3:
@@ -47394,7 +47994,7 @@ function __c719(j: number): any {
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scopes: S.optional(__S(96, __c3, 0)),
           grantType: S.optional(S.String),
-          tokenExchange: S.optional(__S(22978, __c718, 2)),
+          tokenExchange: S.optional(__S(23042, __c720, 2)),
           authorizationParameters: S.optional(__S(289, __c9, 1)),
           tokenParameters: S.optional(__S(289, __c9, 1)),
           status: S.optional(S.String),
@@ -47406,7 +48006,7 @@ function __c719(j: number): any {
       return S.suspend(() =>
         S.Struct({
           headers: S.optional(__S(130, __c4, 2)),
-          oauth2: S.optional(__S(23011, __c719, 3)),
+          oauth2: S.optional(__S(23075, __c721, 3)),
           managedIdentity: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "AiGatewayToolServerAuthentication" });
@@ -47416,15 +48016,15 @@ function __c719(j: number): any {
           id: S.optional(S.String),
           namespace: S.optional(S.String),
           kind: S.String,
-          mcp: S.optional(__S(23008, __c719, 0)),
-          openApi: S.optional(__S(23010, __c719, 2)),
-          authentication: S.optional(__S(23012, __c719, 4)),
+          mcp: S.optional(__S(23072, __c721, 0)),
+          openApi: S.optional(__S(23074, __c721, 2)),
+          authentication: S.optional(__S(23076, __c721, 4)),
           tools: S.optional(__S(96, __c3, 0)),
           mode: S.optional(S.String),
         }),
       ).annotate({ identifier: "AiGatewayToolServerEndpoint" });
     case 6:
-      return S.Array(__S(23013, __c719, 5));
+      return S.Array(__S(23077, __c721, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -47435,7 +48035,7 @@ function __c719(j: number): any {
           versions: S.optional(__S(96, __c3, 0)),
           allowList: S.optional(__S(96, __c3, 0)),
           blockList: S.optional(__S(96, __c3, 0)),
-          endpoints: S.optional(__S(23014, __c719, 6)),
+          endpoints: S.optional(__S(23078, __c721, 6)),
           policies: S.optional(__S(263, __c8, 7)),
           path: S.optional(S.String),
           subscriptionRequired: S.optional(S.Boolean),
@@ -47450,12 +48050,12 @@ function __c719(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c1, 0)),
-          properties: S.optional(__S(23015, __c719, 7)),
+          properties: S.optional(__S(23079, __c721, 7)),
         }),
       ).annotate({ identifier: "AiGatewayToolServerResourcesCreateOrUpdateResponse" });
   }
 }
-function __c720(j: number): any {
+function __c722(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47467,14 +48067,14 @@ function __c720(j: number): any {
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scopes: S.optional(__S(96, __c3, 0)),
           grantType: S.optional(S.String),
-          tokenExchange: S.optional(__S(22978, __c718, 2)),
+          tokenExchange: S.optional(__S(23042, __c720, 2)),
           authorizationParameters: S.optional(__S(289, __c9, 1)),
           tokenParameters: S.optional(__S(289, __c9, 1)),
         }),
       ).annotate({ identifier: "AiGatewayToolServerOauth2AuthenticationInput" });
   }
 }
-function __c721(j: number): any {
+function __c723(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47496,7 +48096,7 @@ function __c721(j: number): any {
       ).annotate({ identifier: "DeleteAuthorizationAccessPolicyRequest" });
   }
 }
-function __c722(j: number): any {
+function __c724(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47516,7 +48116,7 @@ function __c722(j: number): any {
       ).annotate({ identifier: "DeleteAuthorizationProviderRequest" });
   }
 }
-function __c723(j: number): any {
+function __c725(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47536,7 +48136,7 @@ function __c723(j: number): any {
       ).annotate({ identifier: "DeleteAuthorizationServerRequest" });
   }
 }
-function __c724(j: number): any {
+function __c726(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47556,7 +48156,7 @@ function __c724(j: number): any {
       ).annotate({ identifier: "DeleteBackendRequest" });
   }
 }
-function __c725(j: number): any {
+function __c727(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47576,7 +48176,7 @@ function __c725(j: number): any {
       ).annotate({ identifier: "DeleteCacheRequest" });
   }
 }
-function __c726(j: number): any {
+function __c728(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47596,7 +48196,7 @@ function __c726(j: number): any {
       ).annotate({ identifier: "DeleteCertificateRequest" });
   }
 }
-function __c727(j: number): any {
+function __c729(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47617,7 +48217,7 @@ function __c727(j: number): any {
       ).annotate({ identifier: "DeleteContentItemRequest" });
   }
 }
-function __c728(j: number): any {
+function __c730(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47637,7 +48237,7 @@ function __c728(j: number): any {
       ).annotate({ identifier: "DeleteContentTypeRequest" });
   }
 }
-function __c729(j: number): any {
+function __c731(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47657,7 +48257,7 @@ function __c729(j: number): any {
       ).annotate({ identifier: "DeleteDiagnosticRequest" });
   }
 }
-function __c730(j: number): any {
+function __c732(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47677,7 +48277,7 @@ function __c730(j: number): any {
       ).annotate({ identifier: "DeleteDocumentationRequest" });
   }
 }
-function __c731(j: number): any {
+function __c733(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47686,7 +48286,7 @@ function __c731(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(23489, __c734, 1)),
+          properties: S.optional(__S(23553, __c736, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47698,7 +48298,7 @@ function __c731(j: number): any {
       ).annotate({ identifier: "ApiCreateOrUpdateRequest" });
   }
 }
-function __c732(j: number): any {
+function __c734(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47715,16 +48315,16 @@ function __c732(j: number): any {
         }),
       ).annotate({ identifier: "OpenIdAuthenticationSettingsContract" });
     case 2:
-      return S.Array(__S(23424, __c732, 0));
+      return S.Array(__S(23488, __c734, 0));
     case 3:
-      return S.Array(__S(23425, __c732, 1));
+      return S.Array(__S(23489, __c734, 1));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          oAuth2: S.optional(__S(23424, __c732, 0)),
-          openid: S.optional(__S(23425, __c732, 1)),
-          oAuth2AuthenticationSettings: S.optional(__S(23426, __c732, 2)),
-          openidAuthenticationSettings: S.optional(__S(23427, __c732, 3)),
+          oAuth2: S.optional(__S(23488, __c734, 0)),
+          openid: S.optional(__S(23489, __c734, 1)),
+          oAuth2AuthenticationSettings: S.optional(__S(23490, __c734, 2)),
+          openidAuthenticationSettings: S.optional(__S(23491, __c734, 3)),
         }),
       ).annotate({ identifier: "AuthenticationSettingsContract" });
     case 5:
@@ -47751,7 +48351,7 @@ function __c732(j: number): any {
       ).annotate({ identifier: "ApiLicenseInformation" });
   }
 }
-function __c733(j: number): any {
+function __c735(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47768,8 +48368,8 @@ function __c733(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          authenticationSettings: S.optional(__S(23428, __c732, 4)),
-          subscriptionKeyParameterNames: S.optional(__S(23429, __c732, 5)),
+          authenticationSettings: S.optional(__S(23492, __c734, 4)),
+          subscriptionKeyParameterNames: S.optional(__S(23493, __c734, 5)),
           type: S.optional(S.String),
           apiRevision: S.optional(S.String),
           apiVersion: S.optional(S.String),
@@ -47780,20 +48380,20 @@ function __c733(j: number): any {
           apiVersionSetId: S.optional(S.String),
           subscriptionRequired: S.optional(S.Boolean),
           termsOfServiceUrl: S.optional(S.String),
-          contact: S.optional(__S(23430, __c732, 6)),
-          license: S.optional(__S(23431, __c732, 7)),
+          contact: S.optional(__S(23494, __c734, 6)),
+          license: S.optional(__S(23495, __c734, 7)),
           sourceApiId: S.optional(S.String),
           displayName: S.optional(S.String),
           serviceUrl: S.optional(S.String),
           path: S.String,
           protocols: S.optional(__S(224, __c7, 0)),
-          apiVersionSet: S.optional(__S(23456, __c733, 0)),
+          apiVersionSet: S.optional(__S(23520, __c735, 0)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiContractProperties" });
   }
 }
-function __c734(j: number): any {
+function __c736(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47806,8 +48406,8 @@ function __c734(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          authenticationSettings: S.optional(__S(23428, __c732, 4)),
-          subscriptionKeyParameterNames: S.optional(__S(23429, __c732, 5)),
+          authenticationSettings: S.optional(__S(23492, __c734, 4)),
+          subscriptionKeyParameterNames: S.optional(__S(23493, __c734, 5)),
           type: S.optional(S.String),
           apiRevision: S.optional(S.String),
           apiVersion: S.optional(S.String),
@@ -47817,17 +48417,17 @@ function __c734(j: number): any {
           apiVersionSetId: S.optional(S.String),
           subscriptionRequired: S.optional(S.Boolean),
           termsOfServiceUrl: S.optional(S.String),
-          contact: S.optional(__S(23430, __c732, 6)),
-          license: S.optional(__S(23431, __c732, 7)),
+          contact: S.optional(__S(23494, __c734, 6)),
+          license: S.optional(__S(23495, __c734, 7)),
           sourceApiId: S.optional(S.String),
           displayName: S.optional(S.String),
           serviceUrl: S.optional(S.String),
           path: S.String,
           protocols: S.optional(__S(224, __c7, 0)),
-          apiVersionSet: S.optional(__S(23456, __c733, 0)),
+          apiVersionSet: S.optional(__S(23520, __c735, 0)),
           value: S.optional(S.String),
           format: S.optional(S.String),
-          wsdlSelector: S.optional(__S(23488, __c734, 0)),
+          wsdlSelector: S.optional(__S(23552, __c736, 0)),
           apiType: S.optional(S.String),
           translateRequiredQueryParameters: S.optional(S.String),
         }),
@@ -47838,14 +48438,14 @@ function __c734(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(23457, __c733, 1)),
+          properties: S.optional(__S(23521, __c735, 1)),
           location: S.optional(S.String.pipe(T.Header())),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "ApiCreateOrUpdateResponse" });
   }
 }
-function __c735(j: number): any {
+function __c737(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47865,7 +48465,7 @@ function __c735(j: number): any {
       ).annotate({ identifier: "DeleteEmailTemplateRequest" });
   }
 }
-function __c736(j: number): any {
+function __c738(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47885,7 +48485,7 @@ function __c736(j: number): any {
       ).annotate({ identifier: "DeleteGatewayRequest" });
   }
 }
-function __c737(j: number): any {
+function __c739(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47906,7 +48506,7 @@ function __c737(j: number): any {
       ).annotate({ identifier: "DeleteGatewayApiRequest" });
   }
 }
-function __c738(j: number): any {
+function __c740(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47927,7 +48527,7 @@ function __c738(j: number): any {
       ).annotate({ identifier: "DeleteGatewayCertificateAuthorityRequest" });
   }
 }
-function __c739(j: number): any {
+function __c741(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47948,7 +48548,7 @@ function __c739(j: number): any {
       ).annotate({ identifier: "DeleteGatewayHostnameConfigurationRequest" });
   }
 }
-function __c740(j: number): any {
+function __c742(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47968,7 +48568,7 @@ function __c740(j: number): any {
       ).annotate({ identifier: "DeleteGlobalSchemaRequest" });
   }
 }
-function __c741(j: number): any {
+function __c743(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47989,7 +48589,7 @@ function __c741(j: number): any {
       ).annotate({ identifier: "DeleteGraphQLApiResolverRequest" });
   }
 }
-function __c742(j: number): any {
+function __c744(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48011,7 +48611,7 @@ function __c742(j: number): any {
       ).annotate({ identifier: "DeleteGraphQLApiResolverPolicyRequest" });
   }
 }
-function __c743(j: number): any {
+function __c745(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48031,7 +48631,7 @@ function __c743(j: number): any {
       ).annotate({ identifier: "DeleteGroupRequest" });
   }
 }
-function __c744(j: number): any {
+function __c746(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48052,7 +48652,7 @@ function __c744(j: number): any {
       ).annotate({ identifier: "DeleteGroupUserRequest" });
   }
 }
-function __c745(j: number): any {
+function __c747(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48062,7 +48662,7 @@ function __c745(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           apiId: S.String.pipe(T.Label()),
           diagnosticId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(23879, __c746, 7)),
+          properties: S.optional(__S(23943, __c748, 7)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48074,7 +48674,7 @@ function __c745(j: number): any {
       ).annotate({ identifier: "ApiDiagnosticCreateOrUpdateRequest" });
   }
 }
-function __c746(j: number): any {
+function __c748(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48097,27 +48697,27 @@ function __c746(j: number): any {
         }),
       ).annotate({ identifier: "DataMaskingEntity" });
     case 3:
-      return S.Array(__S(23874, __c746, 2));
+      return S.Array(__S(23938, __c748, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          queryParams: S.optional(__S(23875, __c746, 3)),
-          headers: S.optional(__S(23875, __c746, 3)),
+          queryParams: S.optional(__S(23939, __c748, 3)),
+          headers: S.optional(__S(23939, __c748, 3)),
         }),
       ).annotate({ identifier: "DataMasking" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           headers: S.optional(__S(96, __c3, 0)),
-          body: S.optional(__S(23873, __c746, 1)),
-          dataMasking: S.optional(__S(23876, __c746, 4)),
+          body: S.optional(__S(23937, __c748, 1)),
+          dataMasking: S.optional(__S(23940, __c748, 4)),
         }),
       ).annotate({ identifier: "HttpMessageDiagnostic" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          request: S.optional(__S(23877, __c746, 5)),
-          response: S.optional(__S(23877, __c746, 5)),
+          request: S.optional(__S(23941, __c748, 5)),
+          response: S.optional(__S(23941, __c748, 5)),
         }),
       ).annotate({ identifier: "PipelineDiagnosticSettings" });
     case 7:
@@ -48125,9 +48725,9 @@ function __c746(j: number): any {
         S.Struct({
           alwaysLog: S.optional(S.String),
           loggerId: S.String,
-          sampling: S.optional(__S(23872, __c746, 0)),
-          frontend: S.optional(__S(23878, __c746, 6)),
-          backend: S.optional(__S(23878, __c746, 6)),
+          sampling: S.optional(__S(23936, __c748, 0)),
+          frontend: S.optional(__S(23942, __c748, 6)),
+          backend: S.optional(__S(23942, __c748, 6)),
           logClientIp: S.optional(S.Boolean),
           httpCorrelationProtocol: S.optional(S.String),
           verbosity: S.optional(S.String),
@@ -48141,12 +48741,12 @@ function __c746(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(23879, __c746, 7)),
+          properties: S.optional(__S(23943, __c748, 7)),
         }),
       ).annotate({ identifier: "ApiDiagnosticCreateOrUpdateResponse" });
   }
 }
-function __c747(j: number): any {
+function __c749(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48166,7 +48766,7 @@ function __c747(j: number): any {
       ).annotate({ identifier: "DeleteIdentityProviderRequest" });
   }
 }
-function __c748(j: number): any {
+function __c750(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48186,7 +48786,7 @@ function __c748(j: number): any {
       ).annotate({ identifier: "DeleteLoggerRequest" });
   }
 }
-function __c749(j: number): any {
+function __c751(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48206,7 +48806,7 @@ function __c749(j: number): any {
       ).annotate({ identifier: "DeleteNamedValueRequest" });
   }
 }
-function __c750(j: number): any {
+function __c752(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48227,7 +48827,7 @@ function __c750(j: number): any {
       ).annotate({ identifier: "DeleteNotificationRecipientEmailRequest" });
   }
 }
-function __c751(j: number): any {
+function __c753(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48248,7 +48848,7 @@ function __c751(j: number): any {
       ).annotate({ identifier: "DeleteNotificationRecipientUserRequest" });
   }
 }
-function __c752(j: number): any {
+function __c754(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48268,7 +48868,7 @@ function __c752(j: number): any {
       ).annotate({ identifier: "DeleteOpenIdConnectProviderRequest" });
   }
 }
-function __c753(j: number): any {
+function __c755(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48288,7 +48888,7 @@ function __c753(j: number): any {
       ).annotate({ identifier: "DeletePolicyRequest" });
   }
 }
-function __c754(j: number): any {
+function __c756(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48308,7 +48908,7 @@ function __c754(j: number): any {
       ).annotate({ identifier: "DeletePolicyFragmentRequest" });
   }
 }
-function __c755(j: number): any {
+function __c757(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48328,7 +48928,7 @@ function __c755(j: number): any {
       ).annotate({ identifier: "DeletePolicyRestrictionRequest" });
   }
 }
-function __c756(j: number): any {
+function __c758(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

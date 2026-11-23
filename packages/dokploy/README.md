@@ -30,7 +30,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Dokploy.CredentialsFromEnv,
-  Dokploy.DokployProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

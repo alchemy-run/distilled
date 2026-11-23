@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -60,9 +60,9 @@ export interface CommitLoginResponse {
   /** A JWT authenticating the user. */
   jwt?: JWT | undefined;
   /** The plain text content of the JWT. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** A token that can be used to renew the JWT. */
-  renew_token?: string | undefined;
+  renew_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateMagicCodeLoginRequest {
   /** The UUID of the organization on which to login. */
@@ -170,7 +170,7 @@ export interface InitiateOAuth2LoginResponse {
   /** URL to redirect the user to. */
   url?: string | undefined;
   /** Security token to check when receiving a code from the identity provider. */
-  security_token?: string | undefined;
+  security_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface LoginInitiateSamlRequest {
   /** The UUID of the organization on which to login. */
@@ -190,15 +190,15 @@ export interface RenewJWTRequest {
   /** The JWT ID of the JWT to renew. */
   jti: string;
   /** The renew token associated to the JWT to renew. */
-  renew_token?: string | undefined;
+  renew_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface EncodedJWT {
   /** The renewed JWT. */
   jwt?: JWT | undefined;
   /** The encoded token of the renewed JWT. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The encoded renew token. This token is necessary to renew the JWT. */
-  renew_token?: string | undefined;
+  renew_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SearchOrganizationRequest {
   /** Search for an organization using its ID. One of organization_id, organization_alias is required. */
@@ -248,7 +248,8 @@ export const checkLoginMFAOTP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CheckLoginMFAOTPRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<CheckLoginMFAOTPResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -265,7 +266,8 @@ export const commitLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<CommitLoginRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<CommitLoginResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -282,7 +284,8 @@ export const createMagicCodeLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<CreateMagicCodeLoginRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<Login>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -298,7 +301,8 @@ export const createOAuth2Login: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<CreateOAuth2LoginRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<Login>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -315,7 +319,8 @@ export const createPasswordLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<CreatePasswordLoginRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<Login>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -332,7 +337,8 @@ export const createSamlLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(50, __c12, 2) as any as S.Schema<CreateSamlLoginRequest>,
   output: __S(51, __c12, 3) as any as S.Schema<ScalewayStdHTTPResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -349,7 +355,8 @@ export const finishLoginMFAWebAuthn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<FinishLoginMFAWebAuthnRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<FinishLoginMFAWebAuthnResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -366,7 +373,8 @@ export const getSamlMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<GetSamlMetadataRequest>,
   output: __S(61, __c15, 1) as any as S.Schema<ScalewayStdFile>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -383,7 +391,8 @@ export const loginInitiateMagicCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<LoginInitiateMagicCodeRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<LoginInitiateMagicCodeResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -399,7 +408,8 @@ export const loginInitiateOAuth2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<LoginInitiateOAuth2Request>,
   output: __S(69, __c17, 1) as any as S.Schema<InitiateOAuth2LoginResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -416,7 +426,8 @@ export const loginInitiateSaml: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<LoginInitiateSamlRequest>,
   output: __S(17, __c4, 1) as any as S.Schema<InitiateSamlLoginResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -433,7 +444,8 @@ export const renewJWT: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<RenewJWTRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<EncodedJWT>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -450,7 +462,8 @@ export const searchOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<SearchOrganizationRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<OrganizationSummary>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -467,7 +480,8 @@ export const startLoginMFAWebAuthn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<StartLoginMFAWebAuthnRequest>,
   output: __S(29, __c7, 1) as any as S.Schema<StartLoginMFAWebAuthnResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -536,8 +550,8 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           jwt: S.optional(__S(12, __c3, 0)),
-          token: S.optional(S.String),
-          renew_token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          renew_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CommitLoginResponse" });
   }
@@ -574,7 +588,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           jti: S.String.pipe(T.Label()),
-          renew_token: S.optional(S.String),
+          renew_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -842,7 +856,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          security_token: S.optional(S.String),
+          security_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "InitiateOAuth2LoginResponse" });
   }

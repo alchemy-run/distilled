@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStackitError } from "../errors.ts";
+import { StackitServiceErrors } from "../errors.ts";
 import { StackitProtocol, type StackitOpError, type StackitOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -329,7 +329,8 @@ export const createFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateFunctionRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<Function>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -346,7 +347,8 @@ export const createPullCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<CreatePullCredentialRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<PullCredential>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -363,7 +365,8 @@ export const createRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<CreateRevisionRequest>,
   output: __S(47, __c11, 3) as any as S.Schema<Revision>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -380,7 +383,8 @@ export const deleteFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<DeleteFunctionRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<DeleteFunctionResponse>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -397,7 +401,8 @@ export const deletePullCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<DeletePullCredentialRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<DeletePullCredentialResponse>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -414,7 +419,8 @@ export const deleteRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<DeleteRevisionRequest>,
   output: __S(52, __c13, 0) as any as S.Schema<DeleteRevisionResponse>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -431,7 +437,8 @@ export const getFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<GetFunctionRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<Function>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -448,7 +455,8 @@ export const getPullCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<GetPullCredentialRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<PullCredential>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -465,7 +473,8 @@ export const getRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<GetRevisionRequest>,
   output: __S(47, __c11, 3) as any as S.Schema<Revision>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -482,7 +491,8 @@ export const listFunctions2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<ListFunctionsRequest>,
   output: __S(78, __c19, 2) as any as S.Schema<ListFunctions>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -499,7 +509,8 @@ export const listPullCredentials2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ListPullCredentialsRequest>,
   output: __S(22, __c5, 2) as any as S.Schema<ListPullCredentials>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -516,7 +527,8 @@ export const listRevisions2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ListRevisionsRequest>,
   output: __S(26, __c6, 2) as any as S.Schema<ListRevisions>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -533,7 +545,8 @@ export const updateFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<UpdateFunctionRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<Function>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -550,7 +563,8 @@ export const updatePullCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<UpdatePullCredentialRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<PullCredential>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -567,7 +581,8 @@ export const updateRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<UpdateRevisionRequest>,
   output: __S(47, __c11, 3) as any as S.Schema<Revision>,
-  errors: [UnknownStackitError],
+  errors: [],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

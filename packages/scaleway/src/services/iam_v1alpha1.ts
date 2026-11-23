@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { paginateByTotalCount } from "../pagination.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -299,7 +299,7 @@ export interface CreateScimTokenResponse {
   /** The SCIM token metadata. */
   token?: ScimToken | undefined;
   /** The Bearer Token to use to authenticate to SCIM endpoints. */
-  bearer_token?: string | undefined;
+  bearer_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateSSHKeyRequest {
   /** Name of the SSH key. Max length is 1000. */
@@ -1358,7 +1358,8 @@ export const addGroupMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddGroupMemberRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<Group>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1375,7 +1376,8 @@ export const addGroupMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<AddGroupMembersRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<Group>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1392,7 +1394,8 @@ export const addSamlCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<AddSamlCertificateRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<SamlCertificate>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1408,7 +1411,8 @@ export const checkPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<CheckPermissionsRequest>,
   output: __S(251, __c31, 3) as any as S.Schema<CheckPermissionsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1425,7 +1429,8 @@ export const clonePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<ClonePolicyRequest>,
   output: __S(392, __c49, 0) as any as S.Schema<Policy>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1442,7 +1447,8 @@ export const createAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c60, 0) as any as S.Schema<CreateAPIKeyRequest>,
   output: __S(488, __c61, 0) as any as S.Schema<APIKey>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1459,7 +1465,8 @@ export const createApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(584, __c73, 0) as any as S.Schema<CreateApplicationRequest>,
   output: __S(592, __c74, 0) as any as S.Schema<Application>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1476,7 +1483,8 @@ export const createGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(680, __c85, 0) as any as S.Schema<CreateGroupRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<Group>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1493,7 +1501,8 @@ export const createPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c94, 0) as any as S.Schema<CreatePolicyRequest>,
   output: __S(392, __c49, 0) as any as S.Schema<Policy>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1510,7 +1519,8 @@ export const createScimToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(760, __c95, 0) as any as S.Schema<CreateScimTokenRequest>,
   output: __S(761, __c95, 1) as any as S.Schema<CreateScimTokenResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1527,7 +1537,8 @@ export const createSSHKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<CreateSSHKeyRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<SSHKey>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1544,7 +1555,8 @@ export const createUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49, __c6, 1) as any as S.Schema<CreateUserRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<User>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1561,7 +1573,8 @@ export const createUserMFAOTP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<CreateUserMFAOTPRequest>,
   output: __S(65, __c8, 1) as any as S.Schema<MFAOTP>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1578,7 +1591,8 @@ export const deleteAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<DeleteAPIKeyRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DeleteAPIKeyResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1595,7 +1609,8 @@ export const deleteApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<DeleteApplicationRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DeleteApplicationResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1612,7 +1627,8 @@ export const deleteGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<DeleteGroupRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DeleteGroupResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1629,7 +1645,8 @@ export const deleteJWT: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<DeleteJWTRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DeleteJWTResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1646,7 +1663,8 @@ export const deletePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<DeletePolicyRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DeletePolicyResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1663,7 +1681,8 @@ export const deleteSaml: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<DeleteSamlRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DeleteSamlResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1680,7 +1699,8 @@ export const deleteSamlCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<DeleteSamlCertificateRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DeleteSamlCertificateResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1697,7 +1717,8 @@ export const deleteScim: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<DeleteScimRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DeleteScimResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1714,7 +1735,8 @@ export const deleteScimToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<DeleteScimTokenRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DeleteScimTokenResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1731,7 +1753,8 @@ export const deleteSSHKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<DeleteSSHKeyRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DeleteSSHKeyResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1748,7 +1771,8 @@ export const deleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1765,7 +1789,8 @@ export const deleteUserMFAOTP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<DeleteUserMFAOTPRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DeleteUserMFAOTPResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1782,7 +1807,8 @@ export const enableOrganizationSaml: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<EnableOrganizationSamlRequest>,
   output: __S(201, __c25, 1) as any as S.Schema<Saml>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1799,7 +1825,8 @@ export const enableOrganizationScim: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<EnableOrganizationScimRequest>,
   output: __S(216, __c27, 0) as any as S.Schema<Scim>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1816,7 +1843,8 @@ export const getAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<GetAPIKeyRequest>,
   output: __S(488, __c61, 0) as any as S.Schema<APIKey>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1833,7 +1861,8 @@ export const getApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<GetApplicationRequest>,
   output: __S(592, __c74, 0) as any as S.Schema<Application>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1850,7 +1879,8 @@ export const getGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<GetGroupRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<Group>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1863,7 +1893,8 @@ export const getJWT: API.OperationMethod<GetJWTRequest, JWT, GetJWTError, Scalew
   /*@__PURE__*/ API.make(() => ({
     input: __S(264, __c33, 0) as any as S.Schema<GetJWTRequest>,
     output: __S(272, __c34, 0) as any as S.Schema<JWT>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1876,7 +1907,8 @@ export const getLog: API.OperationMethod<GetLogRequest, Log, GetLogError, Scalew
   /*@__PURE__*/ API.make(() => ({
     input: __S(280, __c35, 0) as any as S.Schema<GetLogRequest>,
     output: __S(288, __c36, 0) as any as S.Schema<Log>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1893,7 +1925,8 @@ export const getOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<GetOrganizationRequest>,
   output: __S(304, __c38, 0) as any as S.Schema<Organization>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1910,7 +1943,8 @@ export const getOrganizationSaml: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<GetOrganizationSamlRequest>,
   output: __S(201, __c25, 1) as any as S.Schema<Saml>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1927,7 +1961,8 @@ export const getOrganizationScim: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<GetOrganizationScimRequest>,
   output: __S(216, __c27, 0) as any as S.Schema<Scim>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1944,7 +1979,8 @@ export const getOrganizationSecuritySettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<GetOrganizationSecuritySettingsRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<OrganizationSecuritySettings>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1961,7 +1997,8 @@ export const getPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<GetPolicyRequest>,
   output: __S(392, __c49, 0) as any as S.Schema<Policy>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1978,7 +2015,8 @@ export const getQuotum: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<GetQuotumRequest>,
   output: __S(362, __c45, 2) as any as S.Schema<Quotum>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1995,7 +2033,8 @@ export const getSamlCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<GetSamlCertificateRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<SamlCertificate>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2011,7 +2050,8 @@ export const getScimToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<GetScimTokenRequest>,
   output: __S(768, __c96, 0) as any as S.Schema<ScimToken>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2028,7 +2068,8 @@ export const getSSHKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<GetSSHKeyRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<SSHKey>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2041,7 +2082,8 @@ export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, Sc
   /*@__PURE__*/ API.make(() => ({
     input: __S(408, __c51, 0) as any as S.Schema<GetUserRequest>,
     output: __S(56, __c7, 0) as any as S.Schema<User>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2057,7 +2099,8 @@ export const getUserConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<GetUserConnectionsRequest>,
   output: __S(421, __c52, 5) as any as S.Schema<GetUserConnectionsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2073,7 +2116,8 @@ export const initiateUserConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(424, __c53, 0) as any as S.Schema<InitiateUserConnectionRequest>,
   output: __S(425, __c53, 1) as any as S.Schema<InitiateUserConnectionResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2089,7 +2133,8 @@ export const joinUserConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<JoinUserConnectionRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<JoinUserConnectionResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2108,7 +2153,8 @@ export const listAPIKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(440, __c55, 0) as any as S.Schema<ListAPIKeysRequest>,
     output: __S(442, __c55, 2) as any as S.Schema<ListAPIKeysResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2136,7 +2182,8 @@ export const listApplications: API.PaginatedOperationMethod<
   () => ({
     input: __S(448, __c56, 0) as any as S.Schema<ListApplicationsRequest>,
     output: __S(450, __c56, 2) as any as S.Schema<ListApplicationsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2162,7 +2209,8 @@ export const listGracePeriods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(456, __c57, 0) as any as S.Schema<ListGracePeriodsRequest>,
   output: __S(459, __c57, 3) as any as S.Schema<ListGracePeriodsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2181,7 +2229,8 @@ export const listGroups: API.PaginatedOperationMethod<
   () => ({
     input: __S(464, __c58, 0) as any as S.Schema<ListGroupsRequest>,
     output: __S(466, __c58, 2) as any as S.Schema<ListGroupsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2209,7 +2258,8 @@ export const listJWTs: API.PaginatedOperationMethod<
   () => ({
     input: __S(472, __c59, 0) as any as S.Schema<ListJWTsRequest>,
     output: __S(474, __c59, 2) as any as S.Schema<ListJWTsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2237,7 +2287,8 @@ export const listLogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(496, __c62, 0) as any as S.Schema<ListLogsRequest>,
     output: __S(498, __c62, 2) as any as S.Schema<ListLogsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2265,7 +2316,8 @@ export const listPermissionSets: API.PaginatedOperationMethod<
   () => ({
     input: __S(504, __c63, 0) as any as S.Schema<ListPermissionSetsRequest>,
     output: __S(507, __c63, 3) as any as S.Schema<ListPermissionSetsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2293,7 +2345,8 @@ export const listPolicies: API.PaginatedOperationMethod<
   () => ({
     input: __S(512, __c64, 0) as any as S.Schema<ListPoliciesRequest>,
     output: __S(514, __c64, 2) as any as S.Schema<ListPoliciesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2321,7 +2374,8 @@ export const listQuota: API.PaginatedOperationMethod<
   () => ({
     input: __S(520, __c65, 0) as any as S.Schema<ListQuotaRequest>,
     output: __S(522, __c65, 2) as any as S.Schema<ListQuotaResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2349,7 +2403,8 @@ export const listRules: API.PaginatedOperationMethod<
   () => ({
     input: __S(528, __c66, 0) as any as S.Schema<ListRulesRequest>,
     output: __S(529, __c66, 1) as any as S.Schema<ListRulesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2375,7 +2430,8 @@ export const listSamlCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c68, 0) as any as S.Schema<ListSamlCertificatesRequest>,
   output: __S(546, __c68, 2) as any as S.Schema<ListSamlCertificatesResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2394,7 +2450,8 @@ export const listScimTokens: API.PaginatedOperationMethod<
   () => ({
     input: __S(552, __c69, 0) as any as S.Schema<ListScimTokensRequest>,
     output: __S(554, __c69, 2) as any as S.Schema<ListScimTokensResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2422,7 +2479,8 @@ export const listSSHKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(560, __c70, 0) as any as S.Schema<ListSSHKeysRequest>,
     output: __S(562, __c70, 2) as any as S.Schema<ListSSHKeysResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2450,7 +2508,8 @@ export const listUsers: API.PaginatedOperationMethod<
   () => ({
     input: __S(568, __c71, 0) as any as S.Schema<ListUsersRequest>,
     output: __S(570, __c71, 2) as any as S.Schema<ListUsersResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2476,7 +2535,8 @@ export const lockUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c72, 0) as any as S.Schema<LockUserRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<User>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2493,7 +2553,8 @@ export const removeGroupMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<RemoveGroupMemberRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<Group>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2509,7 +2570,8 @@ export const removeUserConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<RemoveUserConnectionRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<RemoveUserConnectionResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2526,7 +2588,8 @@ export const setGroupMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(616, __c77, 0) as any as S.Schema<SetGroupMembersRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<Group>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2543,7 +2606,8 @@ export const setOrganizationAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c78, 0) as any as S.Schema<SetOrganizationAliasRequest>,
   output: __S(304, __c38, 0) as any as S.Schema<Organization>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2560,7 +2624,8 @@ export const setRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(632, __c79, 0) as any as S.Schema<SetRulesRequest>,
   output: __S(633, __c79, 1) as any as S.Schema<SetRulesResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2577,7 +2642,8 @@ export const unlockUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c80, 0) as any as S.Schema<UnlockUserRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<User>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2594,7 +2660,8 @@ export const updateAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(648, __c81, 0) as any as S.Schema<UpdateAPIKeyRequest>,
   output: __S(488, __c61, 0) as any as S.Schema<APIKey>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2611,7 +2678,8 @@ export const updateApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c82, 0) as any as S.Schema<UpdateApplicationRequest>,
   output: __S(592, __c74, 0) as any as S.Schema<Application>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2628,7 +2696,8 @@ export const updateGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(664, __c83, 0) as any as S.Schema<UpdateGroupRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<Group>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2645,7 +2714,8 @@ export const updateOrganizationLoginMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c84, 0) as any as S.Schema<UpdateOrganizationLoginMethodsRequest>,
   output: __S(304, __c38, 0) as any as S.Schema<Organization>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2662,7 +2732,8 @@ export const updateOrganizationSecuritySettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c86, 0) as any as S.Schema<UpdateOrganizationSecuritySettingsRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<OrganizationSecuritySettings>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2679,7 +2750,8 @@ export const updatePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(696, __c87, 0) as any as S.Schema<UpdatePolicyRequest>,
   output: __S(392, __c49, 0) as any as S.Schema<Policy>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2696,7 +2768,8 @@ export const updateSaml: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c88, 0) as any as S.Schema<UpdateSamlRequest>,
   output: __S(201, __c25, 1) as any as S.Schema<Saml>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2713,7 +2786,8 @@ export const updateSSHKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(712, __c89, 0) as any as S.Schema<UpdateSSHKeyRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<SSHKey>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2730,7 +2804,8 @@ export const updateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c90, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<User>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2747,7 +2822,8 @@ export const updateUserPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(728, __c91, 0) as any as S.Schema<UpdateUserPasswordRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<User>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2764,7 +2840,8 @@ export const updateUserUsername: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c92, 0) as any as S.Schema<UpdateUserUsernameRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<User>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2781,7 +2858,8 @@ export const validateUserMFAOTP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(744, __c93, 0) as any as S.Schema<ValidateUserMFAOTPRequest>,
   output: __S(745, __c93, 1) as any as S.Schema<ValidateUserMFAOTPResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4817,7 +4895,7 @@ function __c95(j: number): any {
       return S.suspend(() =>
         S.Struct({
           token: S.optional(__S(768, __c96, 0)),
-          bearer_token: S.optional(S.String),
+          bearer_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateScimTokenResponse" });
   }

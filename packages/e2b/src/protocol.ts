@@ -1,11 +1,9 @@
-import type * as API from "@distilled.cloud/core/api";
-import { ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorInfo,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * E2B protocols -- the shared REST protocol instantiated once per E2B host.
  *
@@ -28,8 +26,6 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import {
   apiBaseUrlFor,
@@ -37,21 +33,24 @@ import {
   DEFAULT_DOMAIN,
   ENVD_PORT,
   envdBaseUrlFor,
-  SandboxConnection,
-  type Config,
-  type SandboxConnectionConfig,
-  VolumeConnection,
+  resolveSandboxConnection,
+  resolveVolumeConnection,
+  type SandboxConnection,
+  type VolumeConnection,
   type VolumeConnectionConfig,
 } from "./credentials.ts";
-import { E2BParseError, UnknownE2BError, type DefaultErrors } from "./errors.ts";
+import { E2BParseError, UnknownE2BError, type E2BServiceError } from "./errors.ts";
 
-/** Error channel shared by every generated E2B operation. */
+/**
+ * What every generated E2B operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, E2BOpError, E2BOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
+ */
 export type E2BOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput
-  | SdkError;
+  | E2BServiceError
+  | ErrorOf<typeof E2BProtocol | typeof EnvdProtocol | typeof VolumeContentProtocol>;
 
 /** Context (requirements) of a control-plane operation. */
 export type E2BOpContext = Credentials | HttpClient.HttpClient;
@@ -67,10 +66,10 @@ const unknownError = (info: RestErrorInfo) => new UnknownE2BError(unknownErrorPr
 const parseError = ({ body, cause }: { body: unknown; cause: unknown }) =>
   new E2BParseError({ body, cause });
 
-export const E2BProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // Resolved on the CALLING fiber per request, so a key rotated between
-  // calls is picked up without rebuilding the layer.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+export const E2BProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the CALLING fiber per request, so a key rotated between calls
+  // is picked up.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => {
     const headers: Record<string, string> = {};
@@ -85,53 +84,35 @@ export const E2BProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProt
   parseError,
 });
 
-const missingSandbox = /*@__PURE__*/ Effect.fail(
-  new ConfigError({
-    message:
-      "E2B envd operations address one sandbox -- provide E2B.sandboxConnection({ sandboxId, accessToken })",
-  }),
-);
+export const EnvdProtocol = /*@__PURE__*/ restProtocol({
+  // The sandbox is read as an option, so the protocol's type requires nothing.
+  credentials: resolveSandboxConnection,
+  baseUrl: (sandbox) => envdBaseUrlFor(sandbox),
+  headers: (sandbox) => {
+    const headers: Record<string, string> = {
+      // The shared sandbox host routes by these two headers.
+      "E2b-Sandbox-Id": sandbox.sandboxId,
+      "E2b-Sandbox-Port": String(sandbox.port ?? ENVD_PORT),
+      // Unary Connect calls over JSON.
+      "Connect-Protocol-Version": "1",
+    };
+    if (sandbox.accessToken !== undefined) {
+      headers["X-Access-Token"] = Redacted.value(sandbox.accessToken);
+    }
+    return headers;
+  },
+  // Connect unary calls POST a JSON body even when the message is empty
+  // (`process.List`); envd answers a bodyless one with 415.
+  emptyJsonBody: true,
+  unknownError,
+  parseError,
+});
 
-export const EnvdProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<SandboxConnectionConfig>({
-    credentials: /*@__PURE__*/ Effect.flatMap(Effect.serviceOption(SandboxConnection), (option) =>
-      option._tag === "Some" ? Effect.succeed(option.value) : missingSandbox,
-    ),
-    baseUrl: (sandbox) => envdBaseUrlFor(sandbox),
-    headers: (sandbox) => {
-      const headers: Record<string, string> = {
-        // The shared sandbox host routes by these two headers.
-        "E2b-Sandbox-Id": sandbox.sandboxId,
-        "E2b-Sandbox-Port": String(sandbox.port ?? ENVD_PORT),
-        // Unary Connect calls over JSON.
-        "Connect-Protocol-Version": "1",
-      };
-      if (sandbox.accessToken !== undefined) {
-        headers["X-Access-Token"] = Redacted.value(sandbox.accessToken);
-      }
-      return headers;
-    },
-    // Connect unary calls POST a JSON body even when the message is empty
-    // (`process.List`); envd answers a bodyless one with 415.
-    emptyJsonBody: true,
-    unknownError,
-    parseError,
-  });
-
-const missingVolume = /*@__PURE__*/ Effect.fail(
-  new ConfigError({
-    message:
-      "E2B volume content operations authenticate with the volume's token -- provide E2B.volumeConnection({ token })",
-  }),
-);
-
-export const VolumeContentProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<VolumeConnectionConfig>({
-    credentials: /*@__PURE__*/ Effect.flatMap(Effect.serviceOption(VolumeConnection), (option) =>
-      option._tag === "Some" ? Effect.succeed(option.value) : missingVolume,
-    ),
-    baseUrl: (volume) => apiBaseUrlFor(volume.domain ?? DEFAULT_DOMAIN),
-    headers: (volume) => ({ Authorization: `Bearer ${Redacted.value(volume.token)}` }),
-    unknownError,
-    parseError,
-  });
+export const VolumeContentProtocol = /*@__PURE__*/ restProtocol({
+  // The volume is read as an option, so the protocol's type requires nothing.
+  credentials: resolveVolumeConnection,
+  baseUrl: (volume) => apiBaseUrlFor(volume.domain ?? DEFAULT_DOMAIN),
+  headers: (volume) => ({ Authorization: `Bearer ${Redacted.value(volume.token)}` }),
+  unknownError,
+  parseError,
+});

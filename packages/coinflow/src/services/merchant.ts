@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownCoinflowError } from "../errors.ts";
+import { CoinflowServiceErrors } from "../errors.ts";
 import { CoinflowProtocol, type CoinflowOpError, type CoinflowOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -31,6 +31,7 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -40,6 +41,7 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -49,6 +51,7 @@ export class PaymentRequired
     /*@__PURE__*/ S.TaggedError<PaymentRequired>()("PaymentRequired", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withQuotaError),
     [{ status: 402 }],
   ) {}
@@ -68,6 +71,7 @@ export class VerificationRequired
           readonly message?: string;
         }>,
       ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 451 }],
   ) {}
@@ -98,7 +102,7 @@ export interface ActivatePassiveDepositAddressRequest {
   /** The supported chain name (e.g., "Ethereum", "Polygon", "Solana") */
   chain: string;
   /** The token symbol to deposit (e.g., "USDC") */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Optional end-user wallet address to send funds back to if a withdrawal fails, instead of returning them to the originating wallet. When it is on a different chain than the received funds (Solana USDC), the refund is routed back out through the same cross-chain provider. */
   returnAddress?: string | undefined;
   idempotencyKey?: string | undefined;
@@ -171,7 +175,7 @@ export interface CreateCryptoWithdrawDepositRequest {
   /** The supported chain name (e.g., "Ethereum", "Polygon", "Solana") */
   chain: string;
   /** The token symbol to deposit (e.g., "USDC") */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Optional end-user wallet address to send funds back to if a withdrawal fails, instead of returning them to the originating wallet. When it is on a different chain than the received funds (Solana USDC), the refund is routed back out through the same cross-chain provider. */
   returnAddress?: string | undefined;
   idempotencyKey?: string | undefined;
@@ -251,7 +255,7 @@ export interface Verification {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: VerificationRejectionReasonsList | undefined;
@@ -581,16 +585,12 @@ export interface CustomPayInFeeConfig {
   lineItemLabel: string;
 }
 export type CustomPayInFeesConfig = Array<CustomPayInFeeConfig>;
-export interface IMerchantStringWalletsStellar {
-  usdcPayer: string;
-}
 export interface IMerchantStringWalletsEvm {
   usdcPayer: string;
   feePayer: string;
 }
 export type IMerchantStringWalletsSolana = IMerchantStringWalletsEvm;
 export interface IMerchantStringWallets {
-  stellar: IMerchantStringWalletsStellar;
   evm: IMerchantStringWalletsEvm;
   solana: IMerchantStringWalletsEvm;
 }
@@ -598,6 +598,7 @@ export interface IMerchantStringWallets {
 export type MerchantScope =
   | "admin"
   | "editor"
+  | "payouts"
   | "chargeback"
   | "chargeback_analyst"
   | "chargeback_analyst_read"
@@ -661,7 +662,7 @@ export interface UboEntry {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: UboEntryRejectionReasonsList | undefined;
@@ -861,15 +862,19 @@ export interface HighnoteMerchantSettings {
   /** Network-assigned MID (Visa Field 42), from the approved contract. */
   visaCardAcceptorId?: string | undefined;
   mastercardCardAcceptorId?: string | undefined;
+  /** Only set once this MID has Amex acceptance live at Highnote; without it Amex skips Highnote, since auths on an MID without Amex set up decline. */
+  amexEnabled?: boolean | undefined;
   /** Set when onboardBusiness (the ProductApplication submission) succeeded. A re-run while underwriting is still Pending must not re-submit the application -- Highnote rejects duplicates, which would overwrite a healthy Pending status with an error. */
   applicationSubmittedAt?: string | undefined;
 }
 /** From T, pick a set of properties whose keys are in the union K */
-export interface PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorId {
+export interface PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorIdOrAmexEnabled {
   merchantAcceptorId?: string | undefined;
   /** Network-assigned MID (Visa Field 42), from the approved contract. */
   visaCardAcceptorId?: string | undefined;
   mastercardCardAcceptorId?: string | undefined;
+  /** Only set once this MID has Amex acceptance live at Highnote; without it Amex skips Highnote, since auths on an MID without Amex set up decline. */
+  amexEnabled?: boolean | undefined;
 }
 export interface PayarcMerchantArgs {
   apiKey: string | Redacted.Redacted<string>;
@@ -1274,7 +1279,7 @@ export interface CardSettings {
   crbMerchantArgs?: CrbMerchantSettings | undefined;
   highnoteMerchantArgs?: HighnoteMerchantSettings | undefined;
   highnote2MerchantArgs?:
-    | PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorId
+    | PickHighnoteMerchantSettingsMerchantAcceptorIdOrVisaCardAcceptorIdOrMastercardCardAcceptorIdOrAmexEnabled
     | undefined;
   payarcMerchantArgs?: PayarcMerchantArgs | undefined;
   threeDSArgs?: ThreeDSArgs | undefined;
@@ -1721,6 +1726,14 @@ export interface IMerchantStringWithdrawFeePayment {
   paysSwapFees?: boolean | undefined;
   paysWithdrawFees?: boolean | undefined;
 }
+export type CardNameMatchResult =
+  | "match"
+  | "partial_match"
+  | "no_match"
+  | "unverified"
+  | "not_supported";
+/** ANI/MAV results that block push to card. Unset blocks only NoMatch; Match never blocks. */
+export type IMerchantStringAniBlockedResultsList = Array<CardNameMatchResult>;
 export type PayoutProviderOption = "aptpay" | "coinfx" | "checkbook" | "BRAID" | "brale" | "mock";
 export type IMerchantStringBankPayoutProviderList = Array<PayoutProviderOption>;
 export type IbanPayoutProvider = "merge" | "mock" | "ivy" | "conduit";
@@ -2064,7 +2077,7 @@ export interface VendorSettings {
   verisoul?: VerisoulVendorSettings | undefined;
 }
 export interface MerchantBankSettlementOptions {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   minRemainingBalance: Cents;
   useWire?: boolean | undefined;
 }
@@ -2173,7 +2186,7 @@ export interface LinkedBankAccount {
   accountNumber: string;
   accountType: LinkedBankAccountAccountType;
   institutionName?: string | undefined;
-  plaidAccessToken: string;
+  plaidAccessToken: string | Redacted.Redacted<string>;
   plaidAccountId: string;
 }
 export interface IMerchantStringProcessing {
@@ -2198,7 +2211,7 @@ export interface IMerchantString {
   apiKey: string | Redacted.Redacted<string>;
   webhookValidationKey?: string | undefined;
   nmiWebhookValidationKey?: string | undefined;
-  nmiApiKey?: string | undefined;
+  nmiApiKey?: string | Redacted.Redacted<string> | undefined;
   apiKeys: IMerchantStringApiKeysList;
   kycType: KycType;
   settlementToken: StableCoin;
@@ -2239,6 +2252,8 @@ export interface IMerchantString {
   withdrawFeePayment?: IMerchantStringWithdrawFeePayment | undefined;
   pushToCardEnabled: boolean;
   requireAniCheck: boolean;
+  /** ANI/MAV results that block push to card. Unset blocks only NoMatch; Match never blocks. */
+  aniBlockedResults?: IMerchantStringAniBlockedResultsList | undefined;
   /** Opts AptPay push to card into credit cards; other providers stay debit-only. */
   allowCreditForPushToCard?: boolean | undefined;
   bankPayoutProvider?: IMerchantStringBankPayoutProviderList | undefined;
@@ -2921,7 +2936,6 @@ export type BlockchainETH = "eth";
 export type BlockchainPOLYGON = "polygon";
 export type BlockchainBASE = "base";
 export type BlockchainARBITRUM = "arbitrum";
-export type BlockchainSTELLAR = "stellar";
 export type BlockchainMONAD = "monad";
 export type BlockchainTEMPO = "tempo";
 export type OperationalBlockchain =
@@ -2930,7 +2944,6 @@ export type OperationalBlockchain =
   | BlockchainPOLYGON
   | BlockchainBASE
   | BlockchainARBITRUM
-  | BlockchainSTELLAR
   | BlockchainMONAD
   | BlockchainTEMPO;
 export interface PaymentListResponseOutstanding {
@@ -3081,7 +3094,7 @@ export interface TransactionHistoryItem {
   txType: string;
   chain: string;
   paymentAmount: string;
-  paymentToken: string;
+  paymentToken: string | Redacted.Redacted<string>;
   to: string;
   from: string;
   registryContract: string;
@@ -3441,7 +3454,7 @@ export interface PaymentListResponseBankTransferInfo {
   reasonCode?: string | undefined;
   achAuthorizationId?: string | undefined;
   reason?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   batchedAt?: string | undefined;
   refundTransferId?: string | undefined;
   refundReview: boolean;
@@ -3491,7 +3504,7 @@ export interface PaymentListResponseIbanInfo {
   tokenSubtotal?: PaymentListResponseIbanInfoTokenSubtotal | undefined;
   transaction?: string | undefined;
   expiration: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: IbanPaymentStatus;
 }
 export type PaymentListResponseWireInfoTokenSubtotalAmount = string | number;
@@ -3515,7 +3528,7 @@ export interface PaymentListResponseWireInfo {
   tokenSubtotal?: PaymentListResponseWireInfoTokenSubtotal | undefined;
   transaction?: string | undefined;
   memo: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: WirePaymentStatus;
 }
 export type CashAppPaymentStatus =
@@ -3571,7 +3584,7 @@ export interface PaymentListResponsePaypalInfo {
   authorizationId?: string | undefined;
   transaction?: string | undefined;
   authOnly?: boolean | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: PayPalPaymentStatus;
 }
 export type PaymentListResponseVenmoInfoSandboxSimulations =
@@ -3607,7 +3620,7 @@ export interface PaymentListResponseVenmoInfo {
   authorizationId?: string | undefined;
   transaction?: string | undefined;
   authOnly?: boolean | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: VenmoPaymentStatus;
 }
 export type ApaCredentialType = "PHONE" | "EMAIL" | "PAN";
@@ -3624,7 +3637,7 @@ export interface PaymentListResponseApaInfo {
   rail?: string | undefined;
   transactionHash?: string | undefined;
   transaction?: string | undefined;
-  credentialValue: string;
+  credentialValue: string | Redacted.Redacted<string>;
   credentialType: ApaCredentialType;
   apaTransactionId: string;
   status: ApaPaymentStatus;
@@ -3678,7 +3691,7 @@ export interface PaymentListResponseCryptoInfo {
   tokenLogoUrl?: string | undefined;
   blockchainLogoUrl?: string | undefined;
   tokenAmount?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   sponsoredTransactionHash?: string | undefined;
   originatingTransactionHash?: string | undefined;
   originatingWallet?: string | undefined;
@@ -4030,7 +4043,7 @@ export interface PaymentListResponseCardInfo {
   processed3DS?: Verification3DS | undefined;
   cardType?: CardType | undefined;
   last4?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   mobileWallet?: MobileWallet | undefined;
   authCode: string;
   status: CardPaymentStatus;
@@ -4462,7 +4475,7 @@ export interface IPaymentCardInfo {
   processed3DS?: Verification3DS | undefined;
   cardType?: CardType | undefined;
   last4?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   mobileWallet?: MobileWallet | undefined;
   nmiProcessor?: PaymentProcessor | undefined;
   processor: PaymentProcessor;
@@ -4477,7 +4490,7 @@ export interface IPaymentBankTransferInfo {
   /** The founding `AchAuthorization.paymentId` this debit belongs to, if this is a subsequent charge. */
   achAuthorizationId?: string | undefined;
   reason?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   batchedAt?: string | undefined;
   refundTransferId?: string | undefined;
   refundReview: boolean;
@@ -4510,14 +4523,14 @@ export interface IPaymentIbanInfo {
   tokenSubtotal?: TokenSubtotal | undefined;
   transaction?: string | undefined;
   expiration: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   processor: IbanProcessor;
   status: IbanPaymentStatus;
 }
 export interface IWirePaymentInfo {
   status: WirePaymentStatus;
   processor: WireProcessor;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   memo: string;
   transaction?: string | undefined;
   tokenSubtotal?: TokenSubtotal | undefined;
@@ -4549,7 +4562,7 @@ export interface IPayPalPaymentInfo {
   merchantId: string;
   status: PayPalPaymentStatus;
   processor: PayPalProcessor;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   authOnly?: boolean | undefined;
   transaction?: string | undefined;
   authorizationId?: string | undefined;
@@ -4580,7 +4593,7 @@ export interface IVenmoPaymentInfo {
   merchantId: string;
   status: VenmoPaymentStatus;
   processor: VenmoProcessor;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   authOnly?: boolean | undefined;
   transaction?: string | undefined;
   authorizationId?: string | undefined;
@@ -4601,7 +4614,7 @@ export interface IApaPaymentInfo {
   processor: ApaProcessor;
   apaTransactionId: string;
   credentialType: ApaCredentialType;
-  credentialValue: string;
+  credentialValue: string | Redacted.Redacted<string>;
   transaction?: string | undefined;
   transactionHash?: string | undefined;
   rail?: string | undefined;
@@ -4643,7 +4656,7 @@ export interface IPaymentCryptoInfo {
   tokenLogoUrl?: string | undefined;
   blockchainLogoUrl?: string | undefined;
   tokenAmount?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   sponsoredTransactionHash?: string | undefined;
   originatingTransactionHash?: string | undefined;
   originatingWallet?: string | undefined;
@@ -4858,7 +4871,7 @@ export interface IPayment {
   wallet?: string | undefined;
   marketplaceInfo?: MarketplaceInfo | undefined;
   destination?: IPaymentDestination | undefined;
-  destinationSettlementToken?: string | undefined;
+  destinationSettlementToken?: string | Redacted.Redacted<string> | undefined;
   overrideAuditLog?: OverrideAuditLog | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
@@ -4934,7 +4947,7 @@ export interface IPaymentStringIbanInfo {
   tokenSubtotal?: TokenSubtotal | undefined;
   transaction?: string | undefined;
   expiration: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   processor: IbanProcessor;
   status: IbanPaymentStatus;
 }
@@ -4994,7 +5007,7 @@ export interface IPaymentString {
   wallet?: string | undefined;
   marketplaceInfo?: MarketplaceInfo | undefined;
   destination?: IPaymentStringDestination | undefined;
-  destinationSettlementToken?: string | undefined;
+  destinationSettlementToken?: string | Redacted.Redacted<string> | undefined;
   overrideAuditLog?: OverrideAuditLog | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
@@ -5232,10 +5245,10 @@ export interface PaymentWebhookData {
   invoicedNetworkFees?: Cents | undefined;
   rebate?: Cents | undefined;
   invoicedRebate?: Cents | undefined;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   last4?: string | undefined;
   bin?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   /** PayPal/Venmo payer id captured from the approval webhook, when present. */
   payerId?: string | undefined;
   /** PayPal/Venmo payer full name captured from the approval webhook, when present. */
@@ -5258,7 +5271,7 @@ export interface PaymentWebhookData3 {
   gasFees: Cents;
   fxFees: Cents;
   id: string;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   webhookInfo: AnyObject;
   subscription?: IPopulatedSubscriptionString | undefined;
   subtotal: Cents;
@@ -5288,7 +5301,7 @@ export interface PaymentWebhookData3 {
   /** PayPal/Venmo payer last name captured from the approval webhook, when present. */
   payerLastName?: string | undefined;
   paymentMethod?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   reasonMessage?: string | undefined;
   presentmentTotals: WebhookTotalsBreakdown;
   settlementTotals: WebhookTotalsBreakdown;
@@ -5321,10 +5334,10 @@ export interface PaymentDeclinedWebhookData {
   invoicedNetworkFees?: Cents | undefined;
   rebate?: Cents | undefined;
   invoicedRebate?: Cents | undefined;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   last4?: string | undefined;
   bin?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   /** PayPal/Venmo payer id captured from the approval webhook, when present. */
   payerId?: string | undefined;
   /** PayPal/Venmo payer full name captured from the approval webhook, when present. */
@@ -5352,7 +5365,7 @@ export interface PaymentDeclinedWebhookData3 {
   gasFees: Cents;
   fxFees: Cents;
   id: string;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   webhookInfo: AnyObject;
   subscription?: IPopulatedSubscriptionString | undefined;
   subtotal: Cents;
@@ -5384,7 +5397,7 @@ export interface PaymentDeclinedWebhookData3 {
   /** PayPal/Venmo payer last name captured from the approval webhook, when present. */
   payerLastName?: string | undefined;
   paymentMethod?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   reasonMessage?: string | undefined;
   presentmentTotals: WebhookTotalsBreakdown;
   settlementTotals: WebhookTotalsBreakdown;
@@ -5420,10 +5433,10 @@ export interface SettledWebhookData {
   invoicedNetworkFees?: Cents | undefined;
   rebate?: Cents | undefined;
   invoicedRebate?: Cents | undefined;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   last4?: string | undefined;
   bin?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   /** PayPal/Venmo payer id captured from the approval webhook, when present. */
   payerId?: string | undefined;
   /** PayPal/Venmo payer full name captured from the approval webhook, when present. */
@@ -5452,7 +5465,7 @@ export interface SettledWebhookData3 {
   gasFees: Cents;
   fxFees: Cents;
   id: string;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   webhookInfo: AnyObject;
   subscription?: IPopulatedSubscriptionString | undefined;
   subtotal: Cents;
@@ -5486,7 +5499,7 @@ export interface SettledWebhookData3 {
   /** PayPal/Venmo payer last name captured from the approval webhook, when present. */
   payerLastName?: string | undefined;
   paymentMethod?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   reasonMessage?: string | undefined;
   presentmentTotals: WebhookTotalsBreakdown;
   settlementTotals: WebhookTotalsBreakdown;
@@ -5547,10 +5560,10 @@ export interface PaymentChargebackWebhookData {
   invoicedNetworkFees?: Cents | undefined;
   rebate?: Cents | undefined;
   invoicedRebate?: Cents | undefined;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   last4?: string | undefined;
   bin?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   /** PayPal/Venmo payer id captured from the approval webhook, when present. */
   payerId?: string | undefined;
   /** PayPal/Venmo payer full name captured from the approval webhook, when present. */
@@ -5576,7 +5589,7 @@ export interface PaymentChargebackWebhookData3 {
   gasFees: Cents;
   fxFees: Cents;
   id: string;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   webhookInfo: AnyObject;
   subscription?: IPopulatedSubscriptionString | undefined;
   subtotal: Cents;
@@ -5609,7 +5622,7 @@ export interface PaymentChargebackWebhookData3 {
   chargebackId: string;
   respondByDate: string;
   paymentMethod?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   reasonMessage?: string | undefined;
   presentmentTotals: WebhookTotalsBreakdown;
   settlementTotals: WebhookTotalsBreakdown;
@@ -5675,7 +5688,7 @@ export interface RefundWebhookData {
   paymentId: string;
   status: RefundStatus;
   webhookInfo?: AnyObject | null | undefined;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   last4?: string | undefined;
   bin?: string | undefined;
 }
@@ -5793,7 +5806,7 @@ export type PayoutAccountLinkedWebhookDataPaymentMethod = PaymentMethodPayPal | 
 /** Fired when a new PayPal/Venmo payout destination is created for a withdrawer. Only `token`, `userId`, `merchantId` and `paymentMethod` are guaranteed: `payerId` exists only for PayPal accounts linked through Log in with PayPal, and `email`/`phoneNumber` reflect whichever identifier the account was linked with. */
 export interface PayoutAccountLinkedWebhookData {
   /** Coinflow token for the payout destination, as returned by the link APIs. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The id of the withdrawer (user or business) the payout destination belongs to. If you use the `x-coinflow-user-id` header, this is that value. */
   userId: string;
   merchantId: string;
@@ -5944,7 +5957,7 @@ export interface WithdrawalResponseCryptoPayoutInfo {
   destinationAddress: string;
   tokenLogoUrl?: string | undefined;
   chainLogoUrl?: string | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   chain: string;
 }
 export type WithdrawalResponseMerchant = PaymentListResponseMerchant;
@@ -6002,7 +6015,7 @@ export type PickIInteracExcludeKeyofIInteracVendorDataType = "interac";
 export interface PickIInteracExcludeKeyofIInteracVendorData {
   isDeleted?: boolean | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: PickIInteracExcludeKeyofIInteracVendorDataType;
 }
 export type PickIPayPalExcludeKeyofIPayPalVendorDataType = "paypal";
@@ -6010,7 +6023,7 @@ export type PickIPayPalExcludeKeyofIPayPalVendorDataType = "paypal";
 export interface PickIPayPalExcludeKeyofIPayPalVendorData {
   isDeleted?: boolean | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: PickIPayPalExcludeKeyofIPayPalVendorDataType;
 }
 export type PickIVenmoExcludeKeyofIVenmoVendorDataType = "venmo";
@@ -6018,7 +6031,7 @@ export type PickIVenmoExcludeKeyofIVenmoVendorDataType = "venmo";
 export interface PickIVenmoExcludeKeyofIVenmoVendorData {
   isDeleted?: boolean | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: PickIVenmoExcludeKeyofIVenmoVendorDataType;
 }
 export interface Address {
@@ -6036,7 +6049,7 @@ export interface ISwiftAccountIntermediaryBank {
 }
 export interface ISwiftAccount {
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   reference: string;
   last4: string;
   accountHash: string;
@@ -6049,7 +6062,7 @@ export type ICleanPurseStringSwiftsList = Array<ISwiftAccount>;
 export interface IPixAccount {
   key: string;
   accountHash: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type ICleanPurseStringPixesList = Array<IPixAccount>;
 export type PickIIbanAccountExcludeKeyofIIbanAccountVendorDataAccountOwnerNamesList = Array<string>;
@@ -6075,7 +6088,7 @@ export interface PickIIbanAccountExcludeKeyofIIbanAccountVendorData {
   statementFileKey?: string | undefined;
   statementUploadedAt?: string | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   reference: string;
   sortCode: string;
   bic?: string | undefined;
@@ -6085,7 +6098,7 @@ export type DisbursementStatus = "Immediate" | "Business Day" | "Ineligible" | "
 export type MobileGenus = "applepay";
 export type ICleanPurseStringCardsItemsRetiredTokensList = Array<string>;
 export interface IPopulatedCard {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   funding?: Funding | undefined;
   expMonth: string;
   expYear: string;
@@ -6101,7 +6114,7 @@ export interface IPopulatedCard {
 export interface ICleanPurseStringCardsItems {
   last4: string;
   isDeleted?: boolean | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: CardType;
   disbursementStatus: DisbursementStatus;
   currency?: Currency | undefined;
@@ -6124,7 +6137,7 @@ export interface ICleanPurseStringAccountsItems {
   statementFileKey?: string | undefined;
   statementUploadedAt?: string | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   reference: string;
   routingNumber: string;
   rtpOverride?: boolean | undefined;
@@ -6290,6 +6303,7 @@ export interface PickIWithdrawExcludeKeyofIWithdrawProvider {
   /** Optional end-user address to send a failed-withdraw refund to instead of the originating wallet. Copied from the CryptoWithdrawSession at creation. */
   returnAddress?: string | undefined;
   returnCurrency?: string | undefined;
+  embeddedTransferId?: string | undefined;
   returnGlideSessionId?: string | undefined;
   userId?: string | undefined;
   detailMessage?: string | undefined;
@@ -6411,7 +6425,7 @@ export interface PickPaymentResponseExcludeKeyofPaymentResponseMerchantCardInfo 
   processed3DS?: Verification3DS | undefined;
   cardType?: CardType | undefined;
   last4?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   mobileWallet?: MobileWallet | undefined;
   authCode: string;
   status: CardPaymentStatus;
@@ -6509,7 +6523,7 @@ export interface PickPaymentResponseExcludeKeyofPaymentResponseMerchantIbanInfo 
     | undefined;
   transaction?: string | undefined;
   expiration: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: IbanPaymentStatus;
 }
 export type PickPaymentResponseExcludeKeyofPaymentResponseMerchantWireInfoTokenSubtotalAmount =
@@ -6530,7 +6544,7 @@ export interface PickPaymentResponseExcludeKeyofPaymentResponseMerchantWireInfo 
     | undefined;
   transaction?: string | undefined;
   memo: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: WirePaymentStatus;
 }
 export type PickPaymentResponseExcludeKeyofPaymentResponseMerchantCashAppInfo =
@@ -6571,7 +6585,7 @@ export interface PickPaymentResponseExcludeKeyofPaymentResponseMerchantCryptoInf
   tokenLogoUrl?: string | undefined;
   blockchainLogoUrl?: string | undefined;
   tokenAmount?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   sponsoredTransactionHash?: string | undefined;
   originatingTransactionHash?: string | undefined;
   originatingWallet?: string | undefined;
@@ -6888,7 +6902,7 @@ export type GetCustomerAccountsResponse = GetCustomerAccountsResponseBodyList;
 /** From T, pick a set of properties whose keys are in the union K */
 export interface PickDelegatedCryptoDestinationChainOrToken {
   /** The token id to deliver from the crypto payout tokens endpoint -- the lowercase symbol (e.g. "usdc"), matched case-insensitively. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The destination chain id from the crypto payout tokens endpoint (e.g. "eip155:8453"). */
   chain: string;
 }
@@ -7089,6 +7103,7 @@ export interface MerchantCapabilities {
   companyCardsEnabled: boolean;
   hasManagedAccounts: boolean;
   cryptoPayoutsEnabled: boolean;
+  firstPartyDirectCryptoPayoutsEnabled: boolean;
 }
 export interface AdditionalVerification {
   name: string;
@@ -7192,7 +7207,7 @@ export interface PaymentWithEnhancedResponseCardInfo {
   processed3DS?: Verification3DS | undefined;
   cardType?: CardType | undefined;
   last4?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   mobileWallet?: MobileWallet | undefined;
   authCode: string;
   status: CardPaymentStatus;
@@ -7259,7 +7274,7 @@ export interface PaymentWithEnhancedResponseIbanInfo {
   tokenSubtotal?: PaymentWithEnhancedResponseIbanInfoTokenSubtotal | undefined;
   transaction?: string | undefined;
   expiration: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: IbanPaymentStatus;
 }
 export type PaymentWithEnhancedResponseWireInfoTokenSubtotalAmount = string | number;
@@ -7276,7 +7291,7 @@ export interface PaymentWithEnhancedResponseWireInfo {
   tokenSubtotal?: PaymentWithEnhancedResponseWireInfoTokenSubtotal | undefined;
   transaction?: string | undefined;
   memo: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: WirePaymentStatus;
 }
 export type PaymentWithEnhancedResponseCashAppInfo = PaymentListResponseCashAppInfo;
@@ -7310,7 +7325,7 @@ export interface PaymentWithEnhancedResponseCryptoInfo {
   tokenLogoUrl?: string | undefined;
   blockchainLogoUrl?: string | undefined;
   tokenAmount?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   sponsoredTransactionHash?: string | undefined;
   originatingTransactionHash?: string | undefined;
   originatingWallet?: string | undefined;
@@ -7580,7 +7595,7 @@ export type PassiveDepositAddressListItemStatus = "active" | "paused";
 export interface PassiveDepositAddressListItem {
   depositAddress: string;
   chain: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   account: string;
   speed: WithdrawSpeed;
   status: PassiveDepositAddressListItemStatus;
@@ -7612,7 +7627,7 @@ export interface DelegatedCryptoDestination {
   /** The destination chain id from the crypto payout tokens endpoint (e.g. "eip155:8453"). */
   chain: string;
   /** The token id to deliver from the crypto payout tokens endpoint -- the lowercase symbol (e.g. "usdc"), matched case-insensitively. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** The payout destination. Every speed except crypto takes the payout account token; the crypto speed takes the on-chain destination. */
 export type PayoutDelegatedArgsAccount = string | DelegatedCryptoDestination;
@@ -7748,6 +7763,10 @@ export interface UpdateCustomWithdrawalFeesRequest {
   lineItemLabel: string;
   isBundled: boolean;
 }
+export interface PayoutFromDelegatedSettlementWalletRequestUnavailableForLegalReasonsError {
+  verificationLink: string;
+  message: string;
+}
 export type AcceptChargebackError = CoinflowOpError;
 /** Accept chargeback */
 export const acceptChargeback: API.OperationMethod<
@@ -7758,7 +7777,8 @@ export const acceptChargeback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<AcceptChargebackRequest>,
   output: __S(1889, __c59, 1) as any as S.Schema<AcceptChargebackResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7775,7 +7795,8 @@ export const activatePassiveDepositAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ActivatePassiveDepositAddressRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<PassiveDepositAddressStatusResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7792,7 +7813,8 @@ export const batchRefundPayments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<BatchRefundPaymentsRequest>,
   output: __S(2627, __c82, 3) as any as S.Schema<BatchRefundResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7809,7 +7831,8 @@ export const blockMarketplaceSeller: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<BlockMarketplaceSellerRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<BlockMarketplaceSellerResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7826,7 +7849,8 @@ export const blockOrUnblockWithdrawer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<BlockOrUnblockWithdrawerRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<BlockOrUnblockWithdrawerResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7843,7 +7867,8 @@ export const createCryptoWithdrawDeposit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<CreateCryptoWithdrawDepositRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<CryptoWithdrawDepositResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7860,7 +7885,8 @@ export const createExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateExportRequest>,
   output: __S(68, __c2, 4) as any as S.Schema<IExport>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7877,7 +7903,8 @@ export const deactivatePassiveDepositAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeactivatePassiveDepositAddressRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<PassiveDepositAddressStatusResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7894,7 +7921,8 @@ export const deleteExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DeleteExportRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<DeleteExportResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7911,7 +7939,8 @@ export const doPayout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<DoPayoutRequest>,
   output: __S(161, __c5, 1) as any as S.Schema<GetWithdrawTransactionResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7928,7 +7957,8 @@ export const editMerchant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(227, __c7, 3) as any as S.Schema<EditMerchantRequest>,
   output: __S(346, __c10, 26) as any as S.Schema<ExternalMerchantResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7945,7 +7975,8 @@ export const failPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<FailPaymentRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<FailPaymentResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7962,7 +7993,8 @@ export const getAchReturnRate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetAchReturnRateRequest>,
   output: __S(417, __c13, 1) as any as S.Schema<AchReturnRate>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7979,7 +8011,8 @@ export const getAchReturns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetAchReturnsRequest>,
   output: __S(653, __c20, 13) as any as S.Schema<GetAchReturnsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7996,7 +8029,8 @@ export const getAllChargebacks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetAllChargebacksRequest>,
   output: __S(839, __c26, 7) as any as S.Schema<GetAllChargebacksResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8013,7 +8047,8 @@ export const getAllPayments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetAllPaymentsRequest>,
   output: __S(653, __c20, 13) as any as S.Schema<GetAllPaymentsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8030,7 +8065,8 @@ export const getAllWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetAllWebhooksRequest>,
   output: __S(1027, __c32, 3) as any as S.Schema<GetAllWebhooksResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8047,7 +8083,8 @@ export const getAllWithdraws: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetAllWithdrawsRequest>,
   output: __S(1058, __c33, 2) as any as S.Schema<GetAllWithdrawsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8064,7 +8101,8 @@ export const getChargeback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1153, __c36, 1) as any as S.Schema<GetChargebackRequest>,
   output: __S(1191, __c37, 7) as any as S.Schema<MerchantGetChargebackResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8081,7 +8119,8 @@ export const getChargebackAnalyticsSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GetChargebackAnalyticsSummaryRequest>,
   output: __S(1257, __c39, 9) as any as S.Schema<ChargebackAnalyticsSummary>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8098,7 +8137,8 @@ export const getChargebackResponseDraft: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetChargebackResponseDraftRequest>,
   output: __S(1281, __c40, 1) as any as S.Schema<GetChargebackResponseDraftResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8115,7 +8155,8 @@ export const getCryptoPayoutTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetCryptoPayoutTokensRequest>,
   output: __S(1317, __c41, 5) as any as S.Schema<CryptoPayoutTokensResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8132,7 +8173,8 @@ export const getCustomerAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1357, __c42, 13) as any as S.Schema<GetCustomerAccountsRequest>,
   output: __S(1360, __c42, 16) as any as S.Schema<GetCustomerAccountsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8149,7 +8191,8 @@ export const getDelegatedCryptoPayoutQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1409, __c44, 1) as any as S.Schema<GetDelegatedCryptoPayoutQuoteRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<DelegatedCryptoPayoutQuote>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8166,7 +8209,8 @@ export const getDelegatedPayoutQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetDelegatedPayoutQuoteRequest>,
   output: __S(1444, __c45, 4) as any as S.Schema<DelegatedPayoutQuote>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8183,7 +8227,8 @@ export const getEnhancedTxInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetEnhancedTxInformationRequest>,
   output: __S(1506, __c47, 2) as any as S.Schema<MerchantGetEnhancedTxInformationResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8200,7 +8245,8 @@ export const getExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetExportRequest>,
   output: __S(68, __c2, 4) as any as S.Schema<IExport>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8217,7 +8263,8 @@ export const getExportDownloadUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetExportDownloadUrlRequest>,
   output: __S(1601, __c50, 1) as any as S.Schema<ExportDownloadResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8234,7 +8281,8 @@ export const getJobStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetJobStatusRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<GetJobStatusResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8251,7 +8299,8 @@ export const getMerchantV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<GetMerchantV2Request>,
   output: __S(1669, __c52, 5) as any as S.Schema<MerchantGetMerchantV2Response200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8268,7 +8317,8 @@ export const getPaymentById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<GetPaymentByIdRequest>,
   output: __S(1708, __c53, 12) as any as S.Schema<PaymentWithEnhancedResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8285,7 +8335,8 @@ export const getPayoutBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetPayoutBalanceRequest>,
   output: __S(1729, __c54, 1) as any as S.Schema<MerchantGetPayoutBalanceResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8302,7 +8353,8 @@ export const getSubmerchantsForMerchant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetSubmerchantsForMerchantRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<GetSubmerchantsForMerchantResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8319,7 +8371,8 @@ export const getSupportedChains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<GetSupportedChainsRequest>,
   output: __S(1797, __c56, 5) as any as S.Schema<GetSupportedChainsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8336,7 +8389,8 @@ export const getUrlWhitelistRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetUrlWhitelistRequestsRequest>,
   output: __S(1827, __c57, 3) as any as S.Schema<MerchantGetUrlWhitelistRequestsResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8353,7 +8407,8 @@ export const getWithdrawal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetWithdrawalRequest>,
   output: __S(1857, __c58, 1) as any as S.Schema<MerchantGetWithdrawalResponse200>,
-  errors: [NotFound, UnknownCoinflowError],
+  errors: [NotFound],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8370,7 +8425,8 @@ export const getWithdrawers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1922, __c60, 2) as any as S.Schema<GetWithdrawersRequest>,
   output: __S(1925, __c60, 5) as any as S.Schema<GetWithdrawersResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8387,7 +8443,8 @@ export const listExports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListExportsRequest>,
   output: __S(1954, __c61, 2) as any as S.Schema<ListExportsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8404,7 +8461,8 @@ export const listPassiveDepositAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListPassiveDepositAddressesRequest>,
   output: __S(1987, __c62, 3) as any as S.Schema<PassiveDepositAddressListResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8421,7 +8479,8 @@ export const mintCredits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<MintCreditsRequest>,
   output: __S(2017, __c63, 1) as any as S.Schema<MerchantMintCreditsResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8438,7 +8497,8 @@ export const overrideChargebackProtection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<OverrideChargebackProtectionRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<OverrideChargebackProtectionResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8458,7 +8518,8 @@ export const payoutFromDelegatedSettlementWallet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<PayoutFromDelegatedSettlementWalletRequest>,
   output: __S(2081, __c65, 1) as any as S.Schema<DelegatedPayoutResponse>,
-  errors: [PaymentRequired, VerificationRequired, UnknownCoinflowError],
+  errors: [PaymentRequired, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8475,7 +8536,8 @@ export const refundPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<RefundPaymentRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<RefundPaymentResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8492,7 +8554,8 @@ export const refundQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<RefundQuoteRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<RefundTotals>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8509,7 +8572,8 @@ export const requestProgramApproval: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<RequestProgramApprovalRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<RequestProgramApprovalResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8526,7 +8590,8 @@ export const requestUrlWhitelist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<RequestUrlWhitelistRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<RequestUrlWhitelistResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8543,7 +8608,8 @@ export const resendWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ResendWebhookRequest>,
   output: __S(2305, __c72, 1) as any as S.Schema<MerchantResendWebhookResponse200>,
-  errors: [Forbidden, NotFound, UnknownCoinflowError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8560,7 +8626,8 @@ export const respond: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<RespondRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<RespondResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8577,7 +8644,8 @@ export const revokeUrlWhitelist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<RevokeUrlWhitelistRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<RevokeUrlWhitelistResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8594,7 +8662,8 @@ export const saveDraftAndNotes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<SaveDraftAndNotesRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<SaveDraftAndNotesResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8611,7 +8680,8 @@ export const setCustomerOverrideLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<SetCustomerOverrideLimitRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<SetCustomerOverrideLimitResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8628,7 +8698,8 @@ export const setSettlementAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<SetSettlementAddressRequest>,
   output: __S(346, __c10, 26) as any as S.Schema<ExternalMerchantResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8645,7 +8716,8 @@ export const settlePayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<SettlePaymentRequest>,
   output: __S(2497, __c78, 1) as any as S.Schema<SettlePaymentResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8662,7 +8734,8 @@ export const unblockAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<UnblockAccountRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<UnblockAccountResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8679,7 +8752,8 @@ export const unverifySeller: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<UnverifySellerRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<UnverifySellerResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8696,7 +8770,8 @@ export const update3DSExemption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<Update3DSExemptionRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<Update3DSExemptionResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8713,7 +8788,8 @@ export const updateAttemptLimitSetting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<UpdateAttemptLimitSettingRequest>,
   output: __S(2784, __c87, 0) as any as S.Schema<UpdateAttemptLimitSettingResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8730,7 +8806,8 @@ export const updateCustomWithdrawalFees: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<UpdateCustomWithdrawalFeesRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<CustomWithdrawFeesConfig>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9193,7 +9270,7 @@ function __c9(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           minRemainingBalance: __S(192, __c6, 0),
           useWire: S.optional(S.Boolean),
         }),
@@ -9843,7 +9920,7 @@ function __c20(j: number): any {
           tokenSubtotal: S.optional(__S(642, __c20, 2)),
           transaction: S.optional(S.String),
           expiration: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentListResponseIbanInfo" });
@@ -9865,7 +9942,7 @@ function __c20(j: number): any {
           tokenSubtotal: S.optional(__S(644, __c20, 4)),
           transaction: S.optional(S.String),
           memo: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentListResponseWireInfo" });
@@ -9895,7 +9972,7 @@ function __c20(j: number): any {
           tokenLogoUrl: S.optional(S.String),
           blockchainLogoUrl: S.optional(S.String),
           tokenAmount: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sponsoredTransactionHash: S.optional(S.String),
           originatingTransactionHash: S.optional(S.String),
           originatingWallet: S.optional(S.String),
@@ -9943,7 +10020,7 @@ function __c20(j: number): any {
           processed3DS: S.optional(S.String),
           cardType: S.optional(S.String),
           last4: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           mobileWallet: S.optional(S.String),
           authCode: S.String,
           status: S.String,
@@ -10164,7 +10241,7 @@ function __c24(j: number): any {
           reasonCode: S.optional(S.String),
           achAuthorizationId: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           batchedAt: S.optional(S.String),
           refundTransferId: S.optional(S.String),
           refundReview: S.Boolean,
@@ -10206,7 +10283,7 @@ function __c24(j: number): any {
           authorizationId: S.optional(S.String),
           transaction: S.optional(S.String),
           authOnly: S.optional(S.Boolean),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentListResponsePaypalInfo" });
@@ -10232,7 +10309,7 @@ function __c24(j: number): any {
           authorizationId: S.optional(S.String),
           transaction: S.optional(S.String),
           authOnly: S.optional(S.Boolean),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentListResponseVenmoInfo" });
@@ -10244,7 +10321,7 @@ function __c24(j: number): any {
           rail: S.optional(S.String),
           transactionHash: S.optional(S.String),
           transaction: S.optional(S.String),
-          credentialValue: S.String,
+          credentialValue: S.String.pipe(T.SensitiveValue({})),
           credentialType: S.String,
           apaTransactionId: S.String,
           status: S.String,
@@ -10449,7 +10526,7 @@ function __c26(j: number): any {
           wallet: S.optional(S.String),
           marketplaceInfo: S.optional(__S(893, __c27, 29)),
           destination: S.optional(S.Unknown),
-          destinationSettlementToken: S.optional(S.String),
+          destinationSettlementToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideAuditLog: S.optional(__S(928, __c29, 0)),
           customerUsdcTransferData: S.optional(__S(894, __c27, 30)),
           customerUsdcTransferDataV2: S.optional(__S(895, __c27, 31)),
@@ -10765,7 +10842,7 @@ function __c27(j: number): any {
           processed3DS: S.optional(S.String),
           cardType: S.optional(S.String),
           last4: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           mobileWallet: S.optional(S.String),
           nmiProcessor: S.optional(S.String),
           processor: S.String,
@@ -10782,7 +10859,7 @@ function __c27(j: number): any {
           reasonCode: S.optional(S.String),
           achAuthorizationId: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           batchedAt: S.optional(S.String),
           refundTransferId: S.optional(S.String),
           refundReview: S.Boolean,
@@ -10825,7 +10902,7 @@ function __c27(j: number): any {
           tokenSubtotal: S.optional(__S(877, __c27, 13)),
           transaction: S.optional(S.String),
           expiration: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           processor: S.String,
           status: S.String,
         }),
@@ -10835,7 +10912,7 @@ function __c27(j: number): any {
         S.Struct({
           status: S.String,
           processor: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           memo: S.String,
           transaction: S.optional(S.String),
           tokenSubtotal: S.optional(__S(877, __c27, 13)),
@@ -10872,7 +10949,7 @@ function __c27(j: number): any {
           merchantId: S.String,
           status: S.String,
           processor: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           authOnly: S.optional(S.Boolean),
           transaction: S.optional(S.String),
           authorizationId: S.optional(S.String),
@@ -10900,7 +10977,7 @@ function __c27(j: number): any {
           merchantId: S.String,
           status: S.String,
           processor: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           authOnly: S.optional(S.Boolean),
           transaction: S.optional(S.String),
           authorizationId: S.optional(S.String),
@@ -10920,7 +10997,7 @@ function __c27(j: number): any {
           processor: S.String,
           apaTransactionId: S.String,
           credentialType: S.String,
-          credentialValue: S.String,
+          credentialValue: S.String.pipe(T.SensitiveValue({})),
           transaction: S.optional(S.String),
           transactionHash: S.optional(S.String),
           rail: S.optional(S.String),
@@ -10962,7 +11039,7 @@ function __c27(j: number): any {
           tokenLogoUrl: S.optional(S.String),
           blockchainLogoUrl: S.optional(S.String),
           tokenAmount: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sponsoredTransactionHash: S.optional(S.String),
           originatingTransactionHash: S.optional(S.String),
           originatingWallet: S.optional(S.String),
@@ -11232,7 +11309,7 @@ function __c34(j: number): any {
           destinationAddress: S.String,
           tokenLogoUrl: S.optional(S.String),
           chainLogoUrl: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           chain: S.String,
         }),
       ).annotate({ identifier: "WithdrawalResponseCryptoPayoutInfo" });
@@ -11326,7 +11403,7 @@ function __c36(j: number): any {
           wallet: S.optional(S.String),
           marketplaceInfo: S.optional(__S(893, __c27, 29)),
           destination: S.optional(S.Unknown),
-          destinationSettlementToken: S.optional(S.String),
+          destinationSettlementToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideAuditLog: S.optional(__S(928, __c29, 0)),
           customerUsdcTransferData: S.optional(__S(894, __c27, 30)),
           customerUsdcTransferDataV2: S.optional(__S(895, __c27, 31)),
@@ -11357,7 +11434,7 @@ function __c36(j: number): any {
         S.Struct({
           isDeleted: S.optional(S.Boolean),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
         }),
       ).annotate({ identifier: "PickIInteracExcludeKeyofIInteracVendorData" });
@@ -11384,7 +11461,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           reference: S.String,
           last4: S.String,
           accountHash: S.String,
@@ -11401,7 +11478,7 @@ function __c36(j: number): any {
         S.Struct({
           key: S.String,
           accountHash: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "IPixAccount" });
     case 9:
@@ -11417,7 +11494,7 @@ function __c36(j: number): any {
           statementFileKey: S.optional(S.String),
           statementUploadedAt: S.optional(S.String),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           reference: S.String,
           sortCode: S.String,
           bic: S.optional(S.String),
@@ -11428,7 +11505,7 @@ function __c36(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           funding: S.optional(S.String),
           expMonth: S.String,
           expYear: S.String,
@@ -11446,7 +11523,7 @@ function __c36(j: number): any {
         S.Struct({
           last4: S.String,
           isDeleted: S.optional(S.Boolean),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
           disbursementStatus: S.String,
           currency: S.optional(S.String),
@@ -11472,7 +11549,7 @@ function __c36(j: number): any {
           statementFileKey: S.optional(S.String),
           statementUploadedAt: S.optional(S.String),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           reference: S.String,
           routingNumber: S.String,
           rtpOverride: S.optional(S.Boolean),
@@ -11560,6 +11637,7 @@ function __c36(j: number): any {
           returnedAt: S.optional(S.String),
           returnAddress: S.optional(S.String),
           returnCurrency: S.optional(S.String),
+          embeddedTransferId: S.optional(S.String),
           returnGlideSessionId: S.optional(S.String),
           userId: S.optional(S.String),
           detailMessage: S.optional(S.String),
@@ -11626,7 +11704,7 @@ function __c36(j: number): any {
           processed3DS: S.optional(S.String),
           cardType: S.optional(S.String),
           last4: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           mobileWallet: S.optional(S.String),
           authCode: S.String,
           status: S.String,
@@ -11680,7 +11758,7 @@ function __c37(j: number): any {
           tokenSubtotal: S.optional(__S(1183, __c36, 31)),
           transaction: S.optional(S.String),
           expiration: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PickPaymentResponseExcludeKeyofPaymentResponseMerchantIbanInfo" });
@@ -11704,7 +11782,7 @@ function __c37(j: number): any {
           tokenSubtotal: S.optional(__S(1185, __c37, 1)),
           transaction: S.optional(S.String),
           memo: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PickPaymentResponseExcludeKeyofPaymentResponseMerchantWireInfo" });
@@ -11736,7 +11814,7 @@ function __c37(j: number): any {
           tokenLogoUrl: S.optional(S.String),
           blockchainLogoUrl: S.optional(S.String),
           tokenAmount: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sponsoredTransactionHash: S.optional(S.String),
           originatingTransactionHash: S.optional(S.String),
           originatingWallet: S.optional(S.String),
@@ -11863,7 +11941,7 @@ function __c38(j: number): any {
           vendor: S.String,
           name: S.optional(S.String),
           attested: S.optional(S.Boolean),
-          shareToken: S.optional(S.String),
+          shareToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shareTokenStatus: S.optional(S.String),
           sessionToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           rejectionReasons: S.optional(__S(2656, __c83, 0)),
@@ -12034,7 +12112,7 @@ function __c42(j: number): any {
           vendor: S.String,
           name: S.optional(S.String),
           attested: S.optional(S.Boolean),
-          shareToken: S.optional(S.String),
+          shareToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shareTokenStatus: S.optional(S.String),
           sessionToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           rejectionReasons: S.optional(__S(2656, __c83, 0)),
@@ -12240,7 +12318,7 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           chain: S.String,
         }),
       ).annotate({ identifier: "PickDelegatedCryptoDestinationChainOrToken" });
@@ -12507,6 +12585,7 @@ function __c52(j: number): any {
           companyCardsEnabled: S.Boolean,
           hasManagedAccounts: S.Boolean,
           cryptoPayoutsEnabled: S.Boolean,
+          firstPartyDirectCryptoPayoutsEnabled: S.Boolean,
         }),
       ).annotate({ identifier: "MerchantCapabilities" });
     case 2:
@@ -12580,7 +12659,7 @@ function __c53(j: number): any {
           processed3DS: S.optional(S.String),
           cardType: S.optional(S.String),
           last4: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           mobileWallet: S.optional(S.String),
           authCode: S.String,
           status: S.String,
@@ -12626,7 +12705,7 @@ function __c53(j: number): any {
           tokenSubtotal: S.optional(__S(1701, __c53, 5)),
           transaction: S.optional(S.String),
           expiration: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentWithEnhancedResponseIbanInfo" });
@@ -12648,7 +12727,7 @@ function __c53(j: number): any {
           tokenSubtotal: S.optional(__S(1703, __c53, 7)),
           transaction: S.optional(S.String),
           memo: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentWithEnhancedResponseWireInfo" });
@@ -12678,7 +12757,7 @@ function __c53(j: number): any {
           tokenLogoUrl: S.optional(S.String),
           blockchainLogoUrl: S.optional(S.String),
           tokenAmount: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sponsoredTransactionHash: S.optional(S.String),
           originatingTransactionHash: S.optional(S.String),
           originatingWallet: S.optional(S.String),
@@ -12983,7 +13062,7 @@ function __c62(j: number): any {
         S.Struct({
           depositAddress: S.String,
           chain: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           account: S.String,
           speed: S.String,
           status: S.String,
@@ -13114,7 +13193,7 @@ function __c70(j: number): any {
           account: S.String,
           speed: S.String,
           chain: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           returnAddress: S.optional(S.String),
           idempotencyKey: S.optional(S.String),
           authUserId: S.String.pipe(T.Header("x-coinflow-auth-user-id")),
@@ -13381,7 +13460,7 @@ function __c89(j: number): any {
           account: S.String,
           speed: S.String,
           chain: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           returnAddress: S.optional(S.String),
           idempotencyKey: S.optional(S.String),
           authUserId: S.String.pipe(T.Header("x-coinflow-auth-user-id")),

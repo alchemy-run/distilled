@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -255,7 +255,8 @@ export const GetTimezoneTimezoneByCoordinates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<GetTimezoneTimezoneByCoordinatesRequest>,
   output: __S(25, __c1, 9) as any as S.Schema<TimezoneResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -272,7 +273,8 @@ export const GetTimezoneTimezoneByID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<GetTimezoneTimezoneByIDRequest>,
   output: __S(25, __c1, 9) as any as S.Schema<TimezoneResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -289,7 +291,8 @@ export const GetTimezoneTimezoneEnumIANA: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<GetTimezoneTimezoneEnumIANARequest>,
   output: __S(82, __c5, 2) as any as S.Schema<GetTimezoneTimezoneEnumIANAResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -306,7 +309,8 @@ export const GetTimezoneTimezoneEnumWindows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetTimezoneTimezoneEnumWindowsRequest>,
   output: __S(99, __c6, 3) as any as S.Schema<GetTimezoneTimezoneEnumWindowsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -323,7 +327,8 @@ export const GetTimezoneTimezoneIANAVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetTimezoneTimezoneIANAVersionRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<TimezoneIanaVersionResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -340,7 +345,8 @@ export const GetTimezoneTimezoneWindowsToIANA: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetTimezoneTimezoneWindowsToIANARequest>,
   output: __S(82, __c5, 2) as any as S.Schema<GetTimezoneTimezoneWindowsToIANAResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -384,8 +390,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          code: S.optional(S.String),
+          name: S.optional(S.String.pipe(T.Body("Name"))),
+          code: S.optional(S.String.pipe(T.Body("Code"))),
         }),
       ).annotate({ identifier: "CountryRecord" });
     case 1:
@@ -393,40 +399,40 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          iso6391LanguageCode: S.optional(S.String),
-          generic: S.optional(S.String),
-          standard: S.optional(S.String),
-          daylight: S.optional(S.String),
+          iso6391LanguageCode: S.optional(S.String.pipe(T.Body("ISO6391LanguageCode"))),
+          generic: S.optional(S.String.pipe(T.Body("Generic"))),
+          standard: S.optional(S.String.pipe(T.Body("Standard"))),
+          daylight: S.optional(S.String.pipe(T.Body("Daylight"))),
         }),
       ).annotate({ identifier: "TimezoneNames" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tag: S.optional(S.String),
-          standardOffset: S.optional(S.String),
-          daylightSavings: S.optional(S.String),
-          wallTime: S.optional(S.String),
-          posixTzValidYear: S.optional(S.Number),
-          posixTz: S.optional(S.String),
-          sunrise: S.optional(S.String),
-          sunset: S.optional(S.String),
+          tag: S.optional(S.String.pipe(T.Body("Tag"))),
+          standardOffset: S.optional(S.String.pipe(T.Body("StandardOffset"))),
+          daylightSavings: S.optional(S.String.pipe(T.Body("DaylightSavings"))),
+          wallTime: S.optional(S.String.pipe(T.Body("WallTime"))),
+          posixTzValidYear: S.optional(S.Number.pipe(T.Body("PosixTzValidYear"))),
+          posixTz: S.optional(S.String.pipe(T.Body("PosixTz"))),
+          sunrise: S.optional(S.String.pipe(T.Body("Sunrise"))),
+          sunset: S.optional(S.String.pipe(T.Body("Sunset"))),
         }),
       ).annotate({ identifier: "ReferenceTime" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          latitude: S.optional(S.Number),
-          longitude: S.optional(S.Number),
+          latitude: S.optional(S.Number.pipe(T.Body("Latitude"))),
+          longitude: S.optional(S.Number.pipe(T.Body("Longitude"))),
         }),
       ).annotate({ identifier: "RepresentativePoint" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          tag: S.optional(S.String),
-          standardOffset: S.optional(S.String),
-          daylightSavings: S.optional(S.String),
-          utcStart: S.optional(S.String),
-          utcEnd: S.optional(S.String),
+          tag: S.optional(S.String.pipe(T.Body("Tag"))),
+          standardOffset: S.optional(S.String.pipe(T.Body("StandardOffset"))),
+          daylightSavings: S.optional(S.String.pipe(T.Body("DaylightSavings"))),
+          utcStart: S.optional(S.String.pipe(T.Body("UtcStart"))),
+          utcEnd: S.optional(S.String.pipe(T.Body("UtcEnd"))),
         }),
       ).annotate({ identifier: "TimeTransition" });
     case 6:
@@ -434,13 +440,13 @@ function __c1(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          aliases: S.optional(__S(32, __c2, 0)),
-          countries: S.optional(__S(17, __c1, 1)),
-          names: S.optional(__S(18, __c1, 2)),
-          referenceTime: S.optional(__S(19, __c1, 3)),
-          representativePoint: S.optional(__S(20, __c1, 4)),
-          timeTransitions: S.optional(__S(22, __c1, 6)),
+          id: S.optional(S.String.pipe(T.Body("Id"))),
+          aliases: S.optional(__S(32, __c2, 0).pipe(T.Body("Aliases"))),
+          countries: S.optional(__S(17, __c1, 1).pipe(T.Body("Countries"))),
+          names: S.optional(__S(18, __c1, 2).pipe(T.Body("Names"))),
+          referenceTime: S.optional(__S(19, __c1, 3).pipe(T.Body("ReferenceTime"))),
+          representativePoint: S.optional(__S(20, __c1, 4).pipe(T.Body("RepresentativePoint"))),
+          timeTransitions: S.optional(__S(22, __c1, 6).pipe(T.Body("TimeTransitions"))),
         }),
       ).annotate({ identifier: "TimezoneId" });
     case 8:
@@ -448,9 +454,9 @@ function __c1(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
-          referenceUtcTimestamp: S.optional(S.String),
-          timeZones: S.optional(__S(24, __c1, 8)),
+          version: S.optional(S.String.pipe(T.Body("Version"))),
+          referenceUtcTimestamp: S.optional(S.String.pipe(T.Body("ReferenceUtcTimestamp"))),
+          timeZones: S.optional(__S(24, __c1, 8).pipe(T.Body("TimeZones"))),
         }),
       ).annotate({ identifier: "TimezoneResult" });
   }
@@ -518,10 +524,10 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          isAlias: S.optional(S.Boolean),
-          aliasOf: S.optional(S.String),
-          hasZone1970Location: S.optional(S.Boolean),
+          id: S.optional(S.String.pipe(T.Body("Id"))),
+          isAlias: S.optional(S.Boolean.pipe(T.Body("IsAlias"))),
+          aliasOf: S.optional(S.String.pipe(T.Body("AliasOf"))),
+          hasZone1970Location: S.optional(S.Boolean.pipe(T.Body("HasZone1970Location"))),
         }),
       ).annotate({ identifier: "IanaId" });
     case 1:
@@ -556,9 +562,9 @@ function __c6(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          windowsId: S.optional(S.String),
-          territory: S.optional(S.String),
-          ianaIds: S.optional(__S(32, __c2, 0)),
+          windowsId: S.optional(S.String.pipe(T.Body("WindowsId"))),
+          territory: S.optional(S.String.pipe(T.Body("Territory"))),
+          ianaIds: S.optional(__S(32, __c2, 0).pipe(T.Body("IanaIds"))),
         }),
       ).annotate({ identifier: "TimezoneWindows" });
     case 2:
@@ -593,7 +599,7 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
+          version: S.optional(S.String.pipe(T.Body("Version"))),
         }),
       ).annotate({ identifier: "TimezoneIanaVersionResult" });
   }

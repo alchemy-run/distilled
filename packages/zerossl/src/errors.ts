@@ -31,7 +31,7 @@ import type {
   Forbidden as CoreForbidden,
   NotFound as CoreNotFound,
 } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -62,3 +62,12 @@ export type DefaultErrors =
   | CoreForbidden
   | CoreNotFound
   | ClientErrors;
+
+/**
+ * The errors declared on the ZeroSSL service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`.
+ * Each of core's status classes: the protocol builds the one for a failed
+ * response's status when the operation's own classes do not match.
+ */
+export const ZeroSslServiceErrors = API_ERRORS;
+export type ZeroSslServiceError = InstanceType<(typeof ZeroSslServiceErrors)[number]>;

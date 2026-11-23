@@ -25,20 +25,24 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
+import { applyErrorMatchers } from "@distilled.cloud/core/trait";
 
 /**
  * HTTP 402 -- the account cannot be billed for the request: a missing payment
  * method, an unpaid invoice, or a spend cap the team has already hit (Vercel
  * pauses the account at the cap until an owner disables it). Declared on the
  * ~95 operations that provision billable resources; the rest reach it through
- * the protocol's status map.
+ * the service's error list, matched by its status.
  */
 export class PaymentRequired
-  extends /*@__PURE__*/ Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
-    message: Schema.String,
-  }).pipe(Category.withQuotaError) {}
+  extends /*@__PURE__*/ applyErrorMatchers(
+    /*@__PURE__*/ Schema.TaggedError<PaymentRequired>()("PaymentRequired", {
+      message: Schema.String,
+    }).pipe(Category.withQuotaError),
+    [{ status: 402 }],
+  ) {}
 
 /**
  * HTTP 410 -- Vercel's "Invalid API version": the versioned path segment
@@ -49,9 +53,12 @@ export class PaymentRequired
  * caller can branch on per operation.
  */
 export class Gone
-  extends /*@__PURE__*/ Schema.TaggedError<Gone>()("Gone", {
-    message: Schema.String,
-  }).pipe(Category.withNotFoundError) {}
+  extends /*@__PURE__*/ applyErrorMatchers(
+    /*@__PURE__*/ Schema.TaggedError<Gone>()("Gone", {
+      message: Schema.String,
+    }).pipe(Category.withNotFoundError),
+    [{ status: 410 }],
+  ) {}
 
 /**
  * Unknown Vercel error -- returned when a failed response's HTTP status has no
@@ -81,3 +88,12 @@ export type ClientErrors = UnknownVercelError | VercelParseError | PaymentRequir
  * plus the client-level fallback/decode errors.
  */
 export type DefaultErrors = CoreDefaultErrors | ClientErrors;
+
+/**
+ * The errors declared on the Vercel service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. Each of
+ * core's status classes, {@link PaymentRequired} for 402 and {@link Gone}
+ * for 410.
+ */
+export const VercelServiceErrors = [...API_ERRORS, PaymentRequired, Gone] as const;
+export type VercelServiceError = InstanceType<(typeof VercelServiceErrors)[number]>;

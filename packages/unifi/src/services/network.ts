@@ -3,7 +3,8 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownUniFiError } from "../errors.ts";
+import type { ConsoleLocation } from "../credentials.ts";
+import { UniFiServiceErrors } from "../errors.ts";
 import { paginateOffset } from "../pagination.ts";
 import {
   UniFiNetworkProtocol,
@@ -34,6 +35,8 @@ export interface AdoptDeviceRequest {
   siteId: string;
   ignoreDeviceLimit: boolean;
   macAddress: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type UserDefinedEntityMetadataOrigin = "USER_DEFINED";
 export interface UserDefinedEntityMetadata {
@@ -200,6 +203,8 @@ export type ACLRuleUpdate =
 export interface CreateAclRuleRequest {
   siteId: string;
   body: ACLRuleUpdate;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** ACL rule action */
 export type ACLRuleAction = "ALLOW" | "BLOCK";
@@ -342,6 +347,8 @@ export type CreateOrUpdateDNSPolicy =
 export interface CreateDnsPolicyRequest {
   siteId: string;
   body: CreateOrUpdateDNSPolicy;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type IntegrationDnsAaaaRecordDtoType = "AAAA_RECORD";
 export interface IntegrationDnsAaaaRecordDto {
@@ -1344,6 +1351,8 @@ export interface CreateFirewallPolicyRequest {
   reportFlowEnabled?: boolean | undefined;
   schedule?: FirewallSchedule | undefined;
   source: FirewallPolicySource;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type FirewallPolicyConnectionStateFilterItem = "NEW" | "INVALID" | "ESTABLISHED" | "RELATED";
 /** Match on firewall connection state. If null, matches all connection states. */
@@ -1388,6 +1397,8 @@ export interface CreateFirewallZoneRequest {
   name: string;
   /** List of Network IDs */
   networkIds: CreateFirewallZoneRequestNetworkIdsList;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type UserOrSystemDefinedEntityMetadata =
   | SystemDefinedEntityMetadata
@@ -1680,6 +1691,8 @@ export type CreateOrUpdateNetwork =
 export interface CreateNetworkRequest {
   siteId: string;
   body: CreateOrUpdateNetwork;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type GatewayManagedNetworkDetailsManagement = "GATEWAY";
 export type OrchestratedEntityMetadataOrigin = "ORCHESTRATED";
@@ -1820,6 +1833,8 @@ export type CreateOrUpdateTrafficMatchingList =
 export interface CreateTrafficMatchingListRequest {
   siteId: string;
   body: CreateOrUpdateTrafficMatchingList;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type IntegrationIpV4TrafficMatchingListDtoType = "IPV4_ADDRESSES";
 export type IntegrationIpV4TrafficMatchingListDtoItemsList = Array<IPv4Matching>;
@@ -1866,6 +1881,8 @@ export interface CreateVouchersRequest {
   timeLimitMinutes: number;
   /** (Optional) upload rate limit in kilobits per second */
   txRateLimitKbps?: number | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface HotspotVoucherDetails {
   /** (Optional) timestamp when the voucher has been activated (authorization time of the first guest) */
@@ -2324,6 +2341,8 @@ export type WifiBroadcastCreateOrUpdate =
 export interface CreateWifiBroadcastRequest {
   siteId: string;
   body: WifiBroadcastCreateOrUpdate;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type UserOrDerivedOrOrchestratedEntityMetadata =
   | DerivedEntityMetadata
@@ -2405,37 +2424,51 @@ export type CreateWifiBroadcastResponse = WifiBroadcastDetails;
 export interface DeleteAclRuleRequest {
   siteId: string;
   aclRuleId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface DeleteAclRuleResponse {}
 export interface DeleteDnsPolicyRequest {
   siteId: string;
   dnsPolicyId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface DeleteDnsPolicyResponse {}
 export interface DeleteFirewallPolicyRequest {
   siteId: string;
   firewallPolicyId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface DeleteFirewallPolicyResponse {}
 export interface DeleteFirewallZoneRequest {
   siteId: string;
   firewallZoneId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface DeleteFirewallZoneResponse {}
 export interface DeleteNetworkRequest {
   siteId: string;
   networkId: string;
   force?: boolean | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface DeleteNetworkResponse {}
 export interface DeleteTrafficMatchingListRequest {
   siteId: string;
   trafficMatchingListId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface DeleteTrafficMatchingListResponse {}
 export interface DeleteVoucherRequest {
   siteId: string;
   voucherId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface VoucherDeletionResults {
   vouchersDeleted?: number | undefined;
@@ -2443,11 +2476,15 @@ export interface VoucherDeletionResults {
 export interface DeleteVouchersRequest {
   siteId: string;
   filter: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface DeleteWifiBroadcastRequest {
   siteId: string;
   wifiBroadcastId: string;
   force?: boolean | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface DeleteWifiBroadcastResponse {}
 export type DeviceRestartRequestAction = "RESTART";
@@ -2458,6 +2495,8 @@ export interface ExecuteAdoptedDeviceActionRequest {
   siteId: string;
   deviceId: string;
   body: DeviceRestartRequest;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface ExecuteAdoptedDeviceActionResponse {}
 export type GuestAccessAuthorizationRequestAction = "AUTHORIZE_GUEST_ACCESS";
@@ -2484,6 +2523,8 @@ export interface ExecuteConnectedClientActionRequest {
   siteId: string;
   clientId: string;
   body: ClientActionRequest;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type GuestAccessAuthorizationResponseAction = "AUTHORIZE_GUEST_ACCESS";
 /** Guest authorization method (API, Voucher etc) */
@@ -2535,15 +2576,21 @@ export interface ExecutePortActionRequest {
   deviceId: string;
   portIdx: number;
   body: PortPoEPowerCycleRequest;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface ExecutePortActionResponse {}
 export interface GetAclRuleRequest {
   siteId: string;
   aclRuleId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type GetAclRuleResponse = ACLRule;
 export interface GetAclRuleOrderingRequest {
   siteId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type ACLRuleOrderingOrderedAclRuleIdsList = Array<string>;
 export interface ACLRuleOrdering {
@@ -2554,6 +2601,8 @@ export interface GetAclRulePageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type ACLRuleObject = IntegrationIpAclRuleDto | IntegrationMacAclRuleDto;
 export type IntegrationAclRulePageDtoDataList = Array<ACLRuleObject>;
@@ -2567,10 +2616,14 @@ export interface IntegrationAclRulePageDto {
 export interface GetAdoptedDeviceDetailsRequest {
   siteId: string;
   deviceId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface GetAdoptedDeviceLatestStatisticsRequest {
   siteId: string;
   deviceId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type LatestStatisticsForWirelessRadioFrequencyGHz = 0.9 | 2.4 | 5 | 6 | 60;
 export interface LatestStatisticsForWirelessRadio {
@@ -2602,6 +2655,8 @@ export interface GetAdoptedDeviceOverviewPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type AdoptedDeviceOverviewFeaturesItem = "switching" | "accessPoint" | "gateway";
 export type AdoptedDeviceOverviewFeaturesList = Array<AdoptedDeviceOverviewFeaturesItem>;
@@ -2642,6 +2697,8 @@ export interface AdoptedDeviceOverviewPage {
 export interface GetConnectedClientDetailsRequest {
   siteId: string;
   clientId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type DefaultClientAccessDetailsType = "DEFAULT";
 /** Represents the type of network access and/or any applicable authorization status the client is using. - **Wired clients** may have direct access without additional authorization. - **Wireless clients** can be connected via a protected network or an open network that may require additional authorization (e.g., a guest portal). - **VPN clients** may have different authorization mechanisms. Currently, the only two supported access types are `GUEST` (used for wired and wireless guest clients) and `DEFAULT` (a placeholder, which might be refined in the future releases, used for all other clients). Filtering is possible by `access.type`, for example `access.type.eq('GUEST')` to list guest clients. */
@@ -2697,6 +2754,8 @@ export interface GetConnectedClientOverviewPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type TeleportClientConnectionOverviewType = "TELEPORT";
 export interface TeleportClientConnectionOverview {
@@ -2755,6 +2814,8 @@ export interface GetCountriesRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface CountryDefinition {
   /** The country code in ISO 3166-1 alpha-2 format. */
@@ -2850,6 +2911,8 @@ export interface GetDeviceTagPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: FilterExpression | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type DeviceTagDeviceIdsList = Array<string>;
 export type UserOrOrchestratedEntityMetadata =
@@ -2872,6 +2935,8 @@ export interface IntegrationDeviceTagPageDto {
 export interface GetDnsPolicyRequest {
   siteId: string;
   dnsPolicyId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type GetDnsPolicyResponse = DNSPolicy;
 export interface GetDnsPolicyPageRequest {
@@ -2879,6 +2944,8 @@ export interface GetDnsPolicyPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type IntegrationDnsPolicyPageDtoDataList = Array<DNSPolicy>;
 export interface IntegrationDnsPolicyPageDto {
@@ -2892,6 +2959,8 @@ export interface GetDpiApplicationCategoriesRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface DPICategory {
   id: number;
@@ -2909,6 +2978,8 @@ export interface GetDpiApplicationsRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type DPIApplication = DPICategory;
 export type DPIApplicationPageDataList = Array<DPICategory>;
@@ -2924,6 +2995,8 @@ export interface GetFirewallPoliciesRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type FirewallPolicyPageDataList = Array<FirewallPolicy>;
 export interface FirewallPolicyPage {
@@ -2936,11 +3009,15 @@ export interface FirewallPolicyPage {
 export interface GetFirewallPolicyRequest {
   siteId: string;
   firewallPolicyId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface GetFirewallPolicyOrderingRequest {
   siteId: string;
   sourceFirewallZoneId: string;
   destinationFirewallZoneId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type OrderedFirewallPolicyIDsAfterSystemDefinedList = Array<string>;
 export type OrderedFirewallPolicyIDsBeforeSystemDefinedList = Array<string>;
@@ -2954,12 +3031,16 @@ export interface IntegrationFirewallPolicyOrderingDto {
 export interface GetFirewallZoneRequest {
   siteId: string;
   firewallZoneId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface GetFirewallZonesRequest {
   siteId: string;
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type FirewallZonesPageDataList = Array<FirewallZone>;
 export interface FirewallZonesPage {
@@ -2969,13 +3050,18 @@ export interface FirewallZonesPage {
   offset: number;
   totalCount: number;
 }
-export interface GetInfoRequest {}
+export interface GetInfoRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export interface ApplicationInfo {
   applicationVersion: string;
 }
 export interface GetLagRequest {
   siteId: string;
   lagId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type IntegrationLocalLagGlobalDtoType = "LOCAL";
 export type IntegrationLagMemberDtoPortIdxsList = Array<number>;
@@ -3025,6 +3111,8 @@ export interface GetLagPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type IntegrationLagPageDtoDataList = Array<LAGDetails>;
 export interface IntegrationLagPageDto {
@@ -3037,6 +3125,8 @@ export interface IntegrationLagPageDto {
 export interface GetMcLagDomainRequest {
   siteId: string;
   mcLagDomainId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type IntegrationMcLagLocalDtoMembersList = Array<IntegrationLagMemberDto>;
 export interface IntegrationMcLagLocalDto {
@@ -3065,6 +3155,8 @@ export interface GetMcLagDomainPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type IntegrationMcLagDomainDtoPageDtoDataList = Array<IntegrationMcLagDomainDto>;
 export interface IntegrationMcLagDomainDtoPageDto {
@@ -3077,11 +3169,15 @@ export interface IntegrationMcLagDomainDtoPageDto {
 export interface GetNetworkDetailsRequest {
   siteId: string;
   networkId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type GetNetworkDetailsResponse = NetworkDetails;
 export interface GetNetworkReferencesRequest {
   siteId: string;
   networkId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface NetworkReferenceDetail {
   referenceId: string;
@@ -3115,6 +3211,8 @@ export interface GetNetworksOverviewPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type GatewayManagedNetworkOverviewManagement = "GATEWAY";
 export interface GatewayManagedNetworkOverview {
@@ -3171,6 +3269,8 @@ export interface GetPendingDevicePageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type DevicePendingAdoptionAdoptionTargetSiteIdsList = Array<string>;
 export type DevicePendingAdoptionFeaturesItem = "switching" | "accessPoint" | "gateway";
@@ -3210,6 +3310,8 @@ export interface GetRadiusProfileOverviewPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface RadiusProfileOverview {
   id: string;
@@ -3228,6 +3330,8 @@ export interface GetSiteOverviewPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface SiteOverview {
   id: string;
@@ -3248,6 +3352,8 @@ export interface GetSiteToSiteVpnTunnelPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type IntegrationDerivedSiteToSiteTunnelMetadataOrigin = "DERIVED";
 export type IntegrationDerivedSiteToSiteTunnelMetadataSource = "SDWAN";
@@ -3295,6 +3401,8 @@ export interface IntegrationSiteToSiteVpnTunnelOverviewPageDto {
 export interface GetSwitchStackRequest {
   siteId: string;
   switchStackId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type IntegrationSwitchStackLagLocalDtoMembersList =
   Array<IntegrationSwitchStackLagMemberDto>;
@@ -3328,6 +3436,8 @@ export interface GetSwitchStackPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type IntegrationSwitchStackDtoPageDtoDataList = Array<IntegrationSwitchStackDto>;
 export interface IntegrationSwitchStackDtoPageDto {
@@ -3340,6 +3450,8 @@ export interface IntegrationSwitchStackDtoPageDto {
 export interface GetTrafficMatchingListRequest {
   siteId: string;
   trafficMatchingListId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type GetTrafficMatchingListResponse = TrafficMatchingList;
 export interface GetTrafficMatchingListsRequest {
@@ -3347,6 +3459,8 @@ export interface GetTrafficMatchingListsRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type TrafficMatchingListsPageDataList = Array<TrafficMatchingList>;
 export interface TrafficMatchingListsPage {
@@ -3359,12 +3473,16 @@ export interface TrafficMatchingListsPage {
 export interface GetVoucherRequest {
   siteId: string;
   voucherId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface GetVouchersRequest {
   siteId: string;
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type HotspotVoucherDetailPageDataList = Array<HotspotVoucherDetails>;
 export interface HotspotVoucherDetailPage {
@@ -3379,6 +3497,8 @@ export interface GetVpnServerPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type IntegrationL2tpServerOverviewDtoType = "L2TP";
 export interface IntegrationL2tpServerOverviewDto {
@@ -3438,6 +3558,8 @@ export interface GetWansOverviewPageRequest {
   siteId: string;
   offset?: number | undefined;
   limit?: number | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface WANOverview {
   id: string;
@@ -3454,6 +3576,8 @@ export interface WANOverviewPage {
 export interface GetWifiBroadcastDetailsRequest {
   siteId: string;
   wifiBroadcastId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type GetWifiBroadcastDetailsResponse = WifiBroadcastDetails;
 export interface GetWifiBroadcastPageRequest {
@@ -3461,6 +3585,8 @@ export interface GetWifiBroadcastPageRequest {
   offset?: number | undefined;
   limit?: number | undefined;
   filter?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type IntegrationWifiOpenSecurityConfigurationOverviewDtoType = "OPEN";
 export interface IntegrationWifiOpenSecurityConfigurationOverviewDto {
@@ -3555,27 +3681,37 @@ export interface PatchFirewallPolicyRequest {
   loggingEnabled?: boolean | undefined;
   /** Report traffic matched by this policy in Insights Flows. Ignored for the predefined Allow Return Traffic policies and the predefined policies allowing only multicast or IPv6 neighbor discovery traffic, which are never reported. */
   reportFlowEnabled?: boolean | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface RemoveDeviceRequest {
   siteId: string;
   deviceId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface RemoveDeviceResponse {}
 export interface UpdateAclRuleRequest {
   siteId: string;
   aclRuleId: string;
   body: ACLRuleUpdate;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type UpdateAclRuleResponse = ACLRule;
 export type UpdateAclRuleOrderingRequestOrderedAclRuleIdsList = Array<string>;
 export interface UpdateAclRuleOrderingRequest {
   siteId: string;
   orderedAclRuleIds: UpdateAclRuleOrderingRequestOrderedAclRuleIdsList;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface UpdateDnsPolicyRequest {
   siteId: string;
   dnsPolicyId: string;
   body: CreateOrUpdateDNSPolicy;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type UpdateDnsPolicyResponse = DNSPolicy;
 export type UpdateFirewallPolicyRequestConnectionStateFilterItem =
@@ -3608,12 +3744,16 @@ export interface UpdateFirewallPolicyRequest {
   reportFlowEnabled?: boolean | undefined;
   schedule?: FirewallSchedule | undefined;
   source: FirewallPolicySource;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface UpdateFirewallPolicyOrderingRequest {
   siteId: string;
   sourceFirewallZoneId: string;
   destinationFirewallZoneId: string;
   orderedFirewallPolicyIds: OrderedFirewallPolicyIDs;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** List of Network IDs */
 export type UpdateFirewallZoneRequestNetworkIdsList = Array<string>;
@@ -3624,23 +3764,31 @@ export interface UpdateFirewallZoneRequest {
   name: string;
   /** List of Network IDs */
   networkIds: UpdateFirewallZoneRequestNetworkIdsList;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface UpdateNetworkRequest {
   siteId: string;
   networkId: string;
   body: CreateOrUpdateNetwork;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type UpdateNetworkResponse = NetworkDetails;
 export interface UpdateTrafficMatchingListRequest {
   siteId: string;
   trafficMatchingListId: string;
   body: CreateOrUpdateTrafficMatchingList;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type UpdateTrafficMatchingListResponse = TrafficMatchingList;
 export interface UpdateWifiBroadcastRequest {
   siteId: string;
   wifiBroadcastId: string;
   body: WifiBroadcastCreateOrUpdate;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type UpdateWifiBroadcastResponse = WifiBroadcastDetails;
 export type AdoptDeviceError = UniFiOpError;
@@ -3653,7 +3801,8 @@ export const adoptDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AdoptDeviceRequest>,
   output: __S(27, __c1, 11) as any as S.Schema<AdoptedDeviceDetails>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3670,7 +3819,8 @@ export const createAclRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateAclRuleRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<CreateAclRuleResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3687,7 +3837,8 @@ export const createDnsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<CreateDnsPolicyRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<CreateDnsPolicyResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3704,7 +3855,8 @@ export const createFirewallPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<CreateFirewallPolicyRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<FirewallPolicy>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3721,7 +3873,8 @@ export const createFirewallZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<CreateFirewallZoneRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<FirewallZone>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3738,7 +3891,8 @@ export const createNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<CreateNetworkRequest>,
   output: __S(960, __c60, 0) as any as S.Schema<CreateNetworkResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3755,7 +3909,8 @@ export const createTrafficMatchingList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<CreateTrafficMatchingListRequest>,
   output: __S(1168, __c73, 0) as any as S.Schema<CreateTrafficMatchingListResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3772,7 +3927,8 @@ export const createVouchers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<CreateVouchersRequest>,
   output: __S(1345, __c84, 1) as any as S.Schema<IntegrationVoucherCreationResultDto>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3789,7 +3945,8 @@ export const createWifiBroadcast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<CreateWifiBroadcastRequest>,
   output: __S(1456, __c91, 0) as any as S.Schema<CreateWifiBroadcastResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3806,7 +3963,8 @@ export const deleteAclRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<DeleteAclRuleRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteAclRuleResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3823,7 +3981,8 @@ export const deleteDnsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<DeleteDnsPolicyRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteDnsPolicyResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3840,7 +3999,8 @@ export const deleteFirewallPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<DeleteFirewallPolicyRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteFirewallPolicyResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3857,7 +4017,8 @@ export const deleteFirewallZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<DeleteFirewallZoneRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteFirewallZoneResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3874,7 +4035,8 @@ export const deleteNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<DeleteNetworkRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteNetworkResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3891,7 +4053,8 @@ export const deleteTrafficMatchingList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<DeleteTrafficMatchingListRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteTrafficMatchingListResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3908,7 +4071,8 @@ export const deleteVoucher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<DeleteVoucherRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<VoucherDeletionResults>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3925,7 +4089,8 @@ export const deleteVouchers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteVouchersRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<VoucherDeletionResults>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3942,7 +4107,8 @@ export const deleteWifiBroadcast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DeleteWifiBroadcastRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<DeleteWifiBroadcastResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3959,7 +4125,8 @@ export const executeAdoptedDeviceAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ExecuteAdoptedDeviceActionRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<ExecuteAdoptedDeviceActionResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3976,7 +4143,8 @@ export const executeConnectedClientAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<ExecuteConnectedClientActionRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<ExecuteConnectedClientActionResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3993,7 +4161,8 @@ export const executePortAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ExecutePortActionRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<ExecutePortActionResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4010,7 +4179,8 @@ export const getAclRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetAclRuleRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<GetAclRuleResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4027,7 +4197,8 @@ export const getAclRuleOrdering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetAclRuleOrderingRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<ACLRuleOrdering>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4046,7 +4217,8 @@ export const getAclRulePage: API.PaginatedOperationMethod<
   () => ({
     input: __S(368, __c23, 0) as any as S.Schema<GetAclRulePageRequest>,
     output: __S(370, __c23, 2) as any as S.Schema<IntegrationAclRulePageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4071,7 +4243,8 @@ export const getAdoptedDeviceDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetAdoptedDeviceDetailsRequest>,
   output: __S(27, __c1, 11) as any as S.Schema<AdoptedDeviceDetails>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4088,7 +4261,8 @@ export const getAdoptedDeviceLatestStatistics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetAdoptedDeviceLatestStatisticsRequest>,
   output: __S(405, __c25, 5) as any as S.Schema<LatestStatisticsForADevice>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4107,7 +4281,8 @@ export const getAdoptedDeviceOverviewPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(416, __c26, 0) as any as S.Schema<GetAdoptedDeviceOverviewPageRequest>,
     output: __S(419, __c26, 3) as any as S.Schema<AdoptedDeviceOverviewPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4132,7 +4307,8 @@ export const getConnectedClientDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetConnectedClientDetailsRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<GetConnectedClientDetailsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4151,7 +4327,8 @@ export const getConnectedClientOverviewPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(448, __c28, 0) as any as S.Schema<GetConnectedClientOverviewPageRequest>,
     output: __S(450, __c28, 2) as any as S.Schema<ClientOverviewPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4178,7 +4355,8 @@ export const getCountries: API.PaginatedOperationMethod<
   () => ({
     input: __S(464, __c29, 0) as any as S.Schema<GetCountriesRequest>,
     output: __S(467, __c29, 3) as any as S.Schema<CountryDefinitionPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4205,7 +4383,8 @@ export const getDeviceTagPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(535, __c33, 7) as any as S.Schema<GetDeviceTagPageRequest>,
     output: __S(538, __c33, 10) as any as S.Schema<IntegrationDeviceTagPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4230,7 +4409,8 @@ export const getDnsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<GetDnsPolicyRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<GetDnsPolicyResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4249,7 +4429,8 @@ export const getDnsPolicyPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(560, __c35, 0) as any as S.Schema<GetDnsPolicyPageRequest>,
     output: __S(562, __c35, 2) as any as S.Schema<IntegrationDnsPolicyPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4276,7 +4457,8 @@ export const getDpiApplicationCategories: API.PaginatedOperationMethod<
   () => ({
     input: __S(576, __c36, 0) as any as S.Schema<GetDpiApplicationCategoriesRequest>,
     output: __S(594, __c37, 2) as any as S.Schema<DPICategoryPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4303,7 +4485,8 @@ export const getDpiApplications: API.PaginatedOperationMethod<
   () => ({
     input: __S(608, __c38, 0) as any as S.Schema<GetDpiApplicationsRequest>,
     output: __S(594, __c37, 2) as any as S.Schema<DPIApplicationPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4330,7 +4513,8 @@ export const getFirewallPolicies: API.PaginatedOperationMethod<
   () => ({
     input: __S(624, __c39, 0) as any as S.Schema<GetFirewallPoliciesRequest>,
     output: __S(626, __c39, 2) as any as S.Schema<FirewallPolicyPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4355,7 +4539,8 @@ export const getFirewallPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<GetFirewallPolicyRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<FirewallPolicy>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4372,7 +4557,8 @@ export const getFirewallPolicyOrdering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetFirewallPolicyOrderingRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<IntegrationFirewallPolicyOrderingDto>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4389,7 +4575,8 @@ export const getFirewallZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetFirewallZoneRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<FirewallZone>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4408,7 +4595,8 @@ export const getFirewallZones: API.PaginatedOperationMethod<
   () => ({
     input: __S(704, __c44, 0) as any as S.Schema<GetFirewallZonesRequest>,
     output: __S(706, __c44, 2) as any as S.Schema<FirewallZonesPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4433,7 +4621,8 @@ export const getInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<GetInfoRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<ApplicationInfo>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4450,7 +4639,8 @@ export const getLag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<GetLagRequest>,
   output: __S(785, __c49, 1) as any as S.Schema<GetLagResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4469,7 +4659,8 @@ export const getLagPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(800, __c50, 0) as any as S.Schema<GetLagPageRequest>,
     output: __S(802, __c50, 2) as any as S.Schema<IntegrationLagPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4494,7 +4685,8 @@ export const getMcLagDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<GetMcLagDomainRequest>,
   output: __S(838, __c52, 6) as any as S.Schema<IntegrationMcLagDomainDto>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4513,7 +4705,8 @@ export const getMcLagDomainPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(848, __c53, 0) as any as S.Schema<GetMcLagDomainPageRequest>,
     output: __S(850, __c53, 2) as any as S.Schema<IntegrationMcLagDomainDtoPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4538,7 +4731,8 @@ export const getNetworkDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<GetNetworkDetailsRequest>,
   output: __S(960, __c60, 0) as any as S.Schema<GetNetworkDetailsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4555,7 +4749,8 @@ export const getNetworkReferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<GetNetworkReferencesRequest>,
   output: __S(885, __c55, 5) as any as S.Schema<NetworkReferences>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4574,7 +4769,8 @@ export const getNetworksOverviewPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(896, __c56, 0) as any as S.Schema<GetNetworksOverviewPageRequest>,
     output: __S(898, __c56, 2) as any as S.Schema<NetworkOverviewPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4601,7 +4797,8 @@ export const getPendingDevicePage: API.PaginatedOperationMethod<
   () => ({
     input: __S(912, __c57, 0) as any as S.Schema<GetPendingDevicePageRequest>,
     output: __S(915, __c57, 3) as any as S.Schema<DevicePendingAdoptionPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4628,7 +4825,8 @@ export const getRadiusProfileOverviewPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(928, __c58, 0) as any as S.Schema<GetRadiusProfileOverviewPageRequest>,
     output: __S(931, __c58, 3) as any as S.Schema<RadiusProfileOverviewPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4655,7 +4853,8 @@ export const getSiteOverviewPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(976, __c61, 0) as any as S.Schema<GetSiteOverviewPageRequest>,
     output: __S(979, __c61, 3) as any as S.Schema<SiteOverviewPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4682,7 +4881,8 @@ export const getSiteToSiteVpnTunnelPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(992, __c62, 0) as any as S.Schema<GetSiteToSiteVpnTunnelPageRequest>,
     output: __S(994, __c62, 2) as any as S.Schema<IntegrationSiteToSiteVpnTunnelOverviewPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4707,7 +4907,8 @@ export const getSwitchStack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<GetSwitchStackRequest>,
   output: __S(1030, __c64, 6) as any as S.Schema<IntegrationSwitchStackDto>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4726,7 +4927,8 @@ export const getSwitchStackPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(1040, __c65, 0) as any as S.Schema<GetSwitchStackPageRequest>,
     output: __S(1042, __c65, 2) as any as S.Schema<IntegrationSwitchStackDtoPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4751,7 +4953,8 @@ export const getTrafficMatchingList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<GetTrafficMatchingListRequest>,
   output: __S(1168, __c73, 0) as any as S.Schema<GetTrafficMatchingListResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4770,7 +4973,8 @@ export const getTrafficMatchingLists: API.PaginatedOperationMethod<
   () => ({
     input: __S(1072, __c67, 0) as any as S.Schema<GetTrafficMatchingListsRequest>,
     output: __S(1074, __c67, 2) as any as S.Schema<TrafficMatchingListsPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4795,7 +4999,8 @@ export const getVoucher: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<GetVoucherRequest>,
   output: __S(1360, __c85, 0) as any as S.Schema<HotspotVoucherDetails>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4814,7 +5019,8 @@ export const getVouchers: API.PaginatedOperationMethod<
   () => ({
     input: __S(1104, __c69, 0) as any as S.Schema<GetVouchersRequest>,
     output: __S(1105, __c69, 1) as any as S.Schema<HotspotVoucherDetailPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4841,7 +5047,8 @@ export const getVpnServerPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(1120, __c70, 0) as any as S.Schema<GetVpnServerPageRequest>,
     output: __S(1122, __c70, 2) as any as S.Schema<IntegrationVpnServerOverviewPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4868,7 +5075,8 @@ export const getWansOverviewPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(1136, __c71, 0) as any as S.Schema<GetWansOverviewPageRequest>,
     output: __S(1139, __c71, 3) as any as S.Schema<WANOverviewPage>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4893,7 +5101,8 @@ export const getWifiBroadcastDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<GetWifiBroadcastDetailsRequest>,
   output: __S(1456, __c91, 0) as any as S.Schema<GetWifiBroadcastDetailsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4912,7 +5121,8 @@ export const getWifiBroadcastPage: API.PaginatedOperationMethod<
   () => ({
     input: __S(1200, __c75, 0) as any as S.Schema<GetWifiBroadcastPageRequest>,
     output: __S(1202, __c75, 2) as any as S.Schema<IntegrationWifiBroadcastPageDto>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiNetworkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4937,7 +5147,8 @@ export const patchFirewallPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<PatchFirewallPolicyRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<FirewallPolicy>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4954,7 +5165,8 @@ export const removeDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<RemoveDeviceRequest>,
   output: __S(1488, __c93, 0) as any as S.Schema<RemoveDeviceResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4971,7 +5183,8 @@ export const updateAclRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<UpdateAclRuleRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<UpdateAclRuleResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4988,7 +5201,8 @@ export const updateAclRuleOrdering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<UpdateAclRuleOrderingRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<ACLRuleOrdering>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5005,7 +5219,8 @@ export const updateDnsPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<UpdateDnsPolicyRequest>,
   output: __S(288, __c18, 0) as any as S.Schema<UpdateDnsPolicyResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5022,7 +5237,8 @@ export const updateFirewallPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<UpdateFirewallPolicyRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<FirewallPolicy>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5039,7 +5255,8 @@ export const updateFirewallPolicyOrdering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<UpdateFirewallPolicyOrderingRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<IntegrationFirewallPolicyOrderingDto>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5056,7 +5273,8 @@ export const updateFirewallZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<UpdateFirewallZoneRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<FirewallZone>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5073,7 +5291,8 @@ export const updateNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<UpdateNetworkRequest>,
   output: __S(960, __c60, 0) as any as S.Schema<UpdateNetworkResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5090,7 +5309,8 @@ export const updateTrafficMatchingList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<UpdateTrafficMatchingListRequest>,
   output: __S(1168, __c73, 0) as any as S.Schema<UpdateTrafficMatchingListResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5107,7 +5327,8 @@ export const updateWifiBroadcast: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<UpdateWifiBroadcastRequest>,
   output: __S(1456, __c91, 0) as any as S.Schema<UpdateWifiBroadcastResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiNetworkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5123,6 +5344,7 @@ function __c0(j: number): any {
           siteId: S.String.pipe(T.Label()),
           ignoreDeviceLimit: S.Boolean,
           macAddress: S.String,
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sites/{siteId}/devices", code: 200 })),
       ).annotate({ identifier: "AdoptDeviceRequest" });
   }
@@ -5240,6 +5462,7 @@ function __c3(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           body: S.Unknown.pipe(T.HttpBody()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sites/{siteId}/acl-rules", code: 200 })),
       ).annotate({ identifier: "CreateAclRuleRequest" });
   }
@@ -5259,6 +5482,7 @@ function __c5(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           dnsPolicyId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5276,6 +5500,7 @@ function __c6(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           firewallPolicyId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5293,6 +5518,7 @@ function __c7(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           firewallZoneId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5311,6 +5537,7 @@ function __c8(j: number): any {
           siteId: S.String.pipe(T.Label()),
           networkId: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/v1/sites/{siteId}/networks/{networkId}", code: 200 }),
         ),
@@ -5324,6 +5551,7 @@ function __c9(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           trafficMatchingListId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5341,6 +5569,7 @@ function __c10(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           voucherId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5368,6 +5597,7 @@ function __c12(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           filter: S.String.pipe(T.Query()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/v1/sites/{siteId}/hotspot/vouchers", code: 200 }),
         ),
@@ -5382,6 +5612,7 @@ function __c13(j: number): any {
           siteId: S.String.pipe(T.Label()),
           wifiBroadcastId: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -5400,6 +5631,7 @@ function __c14(j: number): any {
           siteId: S.String.pipe(T.Label()),
           deviceId: S.String.pipe(T.Label()),
           body: __S(240, __c15, 0).pipe(T.HttpBody()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5428,6 +5660,7 @@ function __c16(j: number): any {
           siteId: S.String.pipe(T.Label()),
           clientId: S.String.pipe(T.Label()),
           body: S.Unknown.pipe(T.HttpBody()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5449,6 +5682,7 @@ function __c17(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           body: S.Unknown.pipe(T.HttpBody()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sites/{siteId}/dns/policies", code: 200 })),
       ).annotate({ identifier: "CreateDnsPolicyRequest" });
   }
@@ -5470,6 +5704,7 @@ function __c19(j: number): any {
           deviceId: S.String.pipe(T.Label()),
           portIdx: S.Number.pipe(T.Label()),
           body: __S(240, __c15, 0).pipe(T.HttpBody()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5487,6 +5722,7 @@ function __c20(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           aclRuleId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/sites/{siteId}/acl-rules/{aclRuleId}", code: 200 }),
         ),
@@ -5499,6 +5735,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           siteId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/acl-rules/ordering", code: 200 })),
       ).annotate({ identifier: "GetAclRuleOrderingRequest" });
   }
@@ -5522,6 +5759,7 @@ function __c23(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/acl-rules", code: 200 })),
       ).annotate({ identifier: "GetAclRulePageRequest" });
     case 1:
@@ -5545,6 +5783,7 @@ function __c24(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           deviceId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/devices/{deviceId}", code: 200 })),
       ).annotate({ identifier: "GetAdoptedDeviceDetailsRequest" });
   }
@@ -5556,6 +5795,7 @@ function __c25(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           deviceId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5612,6 +5852,7 @@ function __c26(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/devices", code: 200 })),
       ).annotate({ identifier: "GetAdoptedDeviceOverviewPageRequest" });
     case 1:
@@ -5651,6 +5892,7 @@ function __c27(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           clientId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/clients/{clientId}", code: 200 })),
       ).annotate({ identifier: "GetConnectedClientDetailsRequest" });
     case 1:
@@ -5668,6 +5910,7 @@ function __c28(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/clients", code: 200 })),
       ).annotate({ identifier: "GetConnectedClientOverviewPageRequest" });
     case 1:
@@ -5692,6 +5935,7 @@ function __c29(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/countries", code: 200 })),
       ).annotate({ identifier: "GetCountriesRequest" });
     case 1:
@@ -5733,6 +5977,7 @@ function __c30(j: number): any {
           reportFlowEnabled: S.optional(S.Boolean),
           schedule: S.optional(S.Unknown),
           source: __S(513, __c32, 1),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sites/{siteId}/firewall/policies", code: 200 })),
       ).annotate({ identifier: "CreateFirewallPolicyRequest" });
   }
@@ -5834,6 +6079,7 @@ function __c33(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(__S(534, __c33, 6).pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/device-tags", code: 200 })),
       ).annotate({ identifier: "GetDeviceTagPageRequest" });
     case 8:
@@ -5866,6 +6112,7 @@ function __c34(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           dnsPolicyId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5885,6 +6132,7 @@ function __c35(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/dns/policies", code: 200 })),
       ).annotate({ identifier: "GetDnsPolicyPageRequest" });
     case 1:
@@ -5909,6 +6157,7 @@ function __c36(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/dpi/categories", code: 200 })),
       ).annotate({ identifier: "GetDpiApplicationCategoriesRequest" });
   }
@@ -5944,6 +6193,7 @@ function __c38(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/dpi/applications", code: 200 })),
       ).annotate({ identifier: "GetDpiApplicationsRequest" });
   }
@@ -5957,6 +6207,7 @@ function __c39(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/firewall/policies", code: 200 })),
       ).annotate({ identifier: "GetFirewallPoliciesRequest" });
     case 1:
@@ -5980,6 +6231,7 @@ function __c40(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           firewallPolicyId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "GET",
@@ -5998,6 +6250,7 @@ function __c41(j: number): any {
           siteId: S.String.pipe(T.Label()),
           sourceFirewallZoneId: S.String.pipe(T.Query()),
           destinationFirewallZoneId: S.String.pipe(T.Query()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6032,6 +6285,7 @@ function __c43(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           firewallZoneId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6051,6 +6305,7 @@ function __c44(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/firewall/zones", code: 200 })),
       ).annotate({ identifier: "GetFirewallZonesRequest" });
     case 1:
@@ -6075,6 +6330,7 @@ function __c45(j: number): any {
           siteId: S.String.pipe(T.Label()),
           name: S.String,
           networkIds: __S(736, __c46, 0),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sites/{siteId}/firewall/zones", code: 200 })),
       ).annotate({ identifier: "CreateFirewallZoneRequest" });
   }
@@ -6102,7 +6358,9 @@ function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/info", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/info", code: 200 })),
       ).annotate({ identifier: "GetInfoRequest" });
     case 1:
       return S.suspend(() =>
@@ -6119,6 +6377,7 @@ function __c49(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           lagId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/sites/{siteId}/switching/lags/{lagId}", code: 200 }),
         ),
@@ -6138,6 +6397,7 @@ function __c50(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/switching/lags", code: 200 })),
       ).annotate({ identifier: "GetLagPageRequest" });
     case 1:
@@ -6161,6 +6421,7 @@ function __c51(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           mcLagDomainId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6223,6 +6484,7 @@ function __c53(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/sites/{siteId}/switching/mc-lag-domains", code: 200 }),
         ),
@@ -6248,6 +6510,7 @@ function __c54(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           networkId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/sites/{siteId}/networks/{networkId}", code: 200 }),
         ),
@@ -6261,6 +6524,7 @@ function __c55(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           networkId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6304,6 +6568,7 @@ function __c56(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/networks", code: 200 })),
       ).annotate({ identifier: "GetNetworksOverviewPageRequest" });
     case 1:
@@ -6328,6 +6593,7 @@ function __c57(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/pending-devices", code: 200 })),
       ).annotate({ identifier: "GetPendingDevicePageRequest" });
     case 1:
@@ -6367,6 +6633,7 @@ function __c58(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/radius/profiles", code: 200 })),
       ).annotate({ identifier: "GetRadiusProfileOverviewPageRequest" });
     case 1:
@@ -6398,6 +6665,7 @@ function __c59(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           body: S.Unknown.pipe(T.HttpBody()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sites/{siteId}/networks", code: 200 })),
       ).annotate({ identifier: "CreateNetworkRequest" });
   }
@@ -6418,6 +6686,7 @@ function __c61(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites", code: 200 })),
       ).annotate({ identifier: "GetSiteOverviewPageRequest" });
     case 1:
@@ -6451,6 +6720,7 @@ function __c62(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/sites/{siteId}/vpn/site-to-site-tunnels", code: 200 }),
         ),
@@ -6476,6 +6746,7 @@ function __c63(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           switchStackId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6541,6 +6812,7 @@ function __c65(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/sites/{siteId}/switching/switch-stacks", code: 200 }),
         ),
@@ -6566,6 +6838,7 @@ function __c66(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           trafficMatchingListId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6585,6 +6858,7 @@ function __c67(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "GET", uri: "/v1/sites/{siteId}/traffic-matching-lists", code: 200 }),
         ),
@@ -6610,6 +6884,7 @@ function __c68(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           voucherId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6629,6 +6904,7 @@ function __c69(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/hotspot/vouchers", code: 200 })),
       ).annotate({ identifier: "GetVouchersRequest" });
     case 1:
@@ -6652,6 +6928,7 @@ function __c70(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/vpn/servers", code: 200 })),
       ).annotate({ identifier: "GetVpnServerPageRequest" });
     case 1:
@@ -6676,6 +6953,7 @@ function __c71(j: number): any {
           siteId: S.String.pipe(T.Label()),
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/wans", code: 200 })),
       ).annotate({ identifier: "GetWansOverviewPageRequest" });
     case 1:
@@ -6706,6 +6984,7 @@ function __c72(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           body: S.Unknown.pipe(T.HttpBody()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/sites/{siteId}/traffic-matching-lists", code: 200 }),
         ),
@@ -6727,6 +7006,7 @@ function __c74(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           wifiBroadcastId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "GET",
@@ -6746,6 +7026,7 @@ function __c75(j: number): any {
           offset: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sites/{siteId}/wifi/broadcasts", code: 200 })),
       ).annotate({ identifier: "GetWifiBroadcastPageRequest" });
     case 1:
@@ -6771,6 +7052,7 @@ function __c76(j: number): any {
           firewallPolicyId: S.String.pipe(T.Label()),
           loggingEnabled: S.optional(S.Boolean),
           reportFlowEnabled: S.optional(S.Boolean),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -6788,6 +7070,7 @@ function __c77(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           deviceId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/v1/sites/{siteId}/devices/{deviceId}", code: 200 }),
         ),
@@ -6802,6 +7085,7 @@ function __c78(j: number): any {
           siteId: S.String.pipe(T.Label()),
           aclRuleId: S.String.pipe(T.Label()),
           body: S.Unknown.pipe(T.HttpBody()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PUT", uri: "/v1/sites/{siteId}/acl-rules/{aclRuleId}", code: 200 }),
         ),
@@ -6815,6 +7099,7 @@ function __c79(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           orderedAclRuleIds: __S(736, __c46, 0),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/sites/{siteId}/acl-rules/ordering", code: 200 })),
       ).annotate({ identifier: "UpdateAclRuleOrderingRequest" });
   }
@@ -6827,6 +7112,7 @@ function __c80(j: number): any {
           siteId: S.String.pipe(T.Label()),
           dnsPolicyId: S.String.pipe(T.Label()),
           body: S.Unknown.pipe(T.HttpBody()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6856,6 +7142,7 @@ function __c81(j: number): any {
           reportFlowEnabled: S.optional(S.Boolean),
           schedule: S.optional(S.Unknown),
           source: __S(513, __c32, 1),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6875,6 +7162,7 @@ function __c82(j: number): any {
           sourceFirewallZoneId: S.String.pipe(T.Query()),
           destinationFirewallZoneId: S.String.pipe(T.Query()),
           orderedFirewallPolicyIds: __S(672, __c42, 0),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6894,6 +7182,7 @@ function __c83(j: number): any {
           firewallZoneId: S.String.pipe(T.Label()),
           name: S.String,
           networkIds: __S(736, __c46, 0),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6917,6 +7206,7 @@ function __c84(j: number): any {
           rxRateLimitKbps: S.optional(S.Number),
           timeLimitMinutes: S.Number,
           txRateLimitKbps: S.optional(S.Number),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sites/{siteId}/hotspot/vouchers", code: 200 })),
       ).annotate({ identifier: "CreateVouchersRequest" });
     case 1:
@@ -6963,6 +7253,7 @@ function __c87(j: number): any {
           siteId: S.String.pipe(T.Label()),
           networkId: S.String.pipe(T.Label()),
           body: S.Unknown.pipe(T.HttpBody()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "PUT", uri: "/v1/sites/{siteId}/networks/{networkId}", code: 200 }),
         ),
@@ -6977,6 +7268,7 @@ function __c88(j: number): any {
           siteId: S.String.pipe(T.Label()),
           trafficMatchingListId: S.String.pipe(T.Label()),
           body: S.Unknown.pipe(T.HttpBody()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -6995,6 +7287,7 @@ function __c89(j: number): any {
           siteId: S.String.pipe(T.Label()),
           wifiBroadcastId: S.String.pipe(T.Label()),
           body: S.Unknown.pipe(T.HttpBody()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7012,6 +7305,7 @@ function __c90(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           body: S.Unknown.pipe(T.HttpBody()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sites/{siteId}/wifi/broadcasts", code: 200 })),
       ).annotate({ identifier: "CreateWifiBroadcastRequest" });
   }
@@ -7031,6 +7325,7 @@ function __c92(j: number): any {
         S.Struct({
           siteId: S.String.pipe(T.Label()),
           aclRuleId: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/v1/sites/{siteId}/acl-rules/{aclRuleId}", code: 200 }),
         ),

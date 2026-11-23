@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { SlackError, SlackRateLimited } from "../errors.ts";
+import { SlackServiceErrors } from "../errors.ts";
 import { SlackProtocol, type SlackOpError, type SlackOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -35,7 +35,7 @@ export interface BeginShortTokenRotationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** A new xoxp access token to replace the token with a shorter secret. Not yet active until completeShortTokenRotation is called. */
-  new_token: string;
+  new_token: string | Redacted.Redacted<string>;
 }
 export interface CompleteShortTokenRotationRequest {
   /** Issued when you created your application. Must be the app the token being rotated was issued to. */
@@ -43,13 +43,13 @@ export interface CompleteShortTokenRotationRequest {
   /** Issued when you created your application. */
   client_secret: string | Redacted.Redacted<string>;
   /** The new xoxp token returned by oauth.v2.beginShortTokenRotation. */
-  new_token: string;
+  new_token: string | Redacted.Redacted<string>;
 }
 export interface CompleteShortTokenRotationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The new xoxp access token, now active. The previous token is no longer valid. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface OauthAccessRequest {
   /** Issued when you created your application. If possible, avoid sending `client_id` and `client_secret` as parameters in your request and instead supply the Client ID and Client Secret using the HTTP Basic authentication scheme. */
@@ -84,7 +84,7 @@ export interface OauthAccessResponseScopes {
 }
 export interface OauthAccessResponseBot {
   bot_user_id?: string | undefined;
-  bot_access_token?: string | undefined;
+  bot_access_token?: string | Redacted.Redacted<string> | undefined;
   scope?: string | undefined;
 }
 export interface OauthAccessResponseUser {
@@ -319,7 +319,8 @@ export const beginShortTokenRotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<BeginShortTokenRotationRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<BeginShortTokenRotationResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -336,7 +337,8 @@ export const completeShortTokenRotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<CompleteShortTokenRotationRequest>,
   output: __S(17, __c1, 1) as any as S.Schema<CompleteShortTokenRotationResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -353,7 +355,8 @@ export const oauthAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<OauthAccessRequest>,
   output: __S(40, __c2, 8) as any as S.Schema<OauthAccessResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -370,7 +373,8 @@ export const v2Access: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<V2AccessRequest>,
   output: __S(51, __c3, 3) as any as S.Schema<V2AccessResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -387,7 +391,8 @@ export const v2Exchange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<V2ExchangeRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<V2ExchangeResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -404,7 +409,8 @@ export const v2UserAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<V2UserAccessRequest>,
   output: __S(97, __c6, 1) as any as S.Schema<V2UserAccessResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [],
+  serviceErrors: SlackServiceErrors,
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -432,7 +438,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          new_token: S.String,
+          new_token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "BeginShortTokenRotationResponse" });
   }
@@ -444,7 +450,7 @@ function __c1(j: number): any {
         S.Struct({
           client_id: S.String,
           client_secret: S.String.pipe(T.SensitiveValue({})),
-          new_token: S.String,
+          new_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -458,7 +464,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CompleteShortTokenRotationResponse" });
   }
@@ -506,7 +512,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bot_user_id: S.optional(S.String),
-          bot_access_token: S.optional(S.String),
+          bot_access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "OauthAccessResponseBot" });

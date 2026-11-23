@@ -77,7 +77,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "DokployOpContext",
     commonErrorType: "DokployOpError",
-    commonErrorClasses: ["UnknownDokployError"],
+    serviceErrors: "DokployServiceErrors",
     protocol: "DokployProtocol",
     retry: "Retry.Retry",
   },

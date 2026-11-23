@@ -1,0 +1,214 @@
+{
+  "description": "Type the errors every operation of this data plane can return, matched on the body's `/errors/0/code`: the OCI distribution error codes the registry answers in `{ errors: [{ code, message }] }` (OCI distribution spec, \"Error Codes\"; Azure Container Registry \"Troubleshoot registry errors\"). Declared on the service shape, so each operation's error union carries them. These codes mean something else at ARM (`AuthenticationFailed`, `ModelNotFound`, `PoolNotFound`), so they cannot go in the client-level `AZURE_ERROR_CODE_MAP`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryUnauthorized",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "Container Registry: the registry token does not grant the operation (the identity has no role on the registry yet, or the role is still propagating). Code `UNAUTHORIZED`. /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/errors/0/code": "UNAUTHORIZED"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryDenied",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "Container Registry: the operation is denied (e.g. a locked artifact). Code `DENIED`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/errors/0/code": "DENIED"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryRepositoryNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Container Registry: the repository does not exist. Code `NAME_UNKNOWN`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/errors/0/code": "NAME_UNKNOWN"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryManifestNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Container Registry: the manifest (or the tag it is addressed by) does not exist. Codes `MANIFEST_UNKNOWN`, `TAG_UNKNOWN`. /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/errors/0/code": "MANIFEST_UNKNOWN"
+              }
+            },
+            {
+              "body": {
+                "/errors/0/code": "TAG_UNKNOWN"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryBlobNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Container Registry: the blob does not exist. Code `BLOB_UNKNOWN`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/errors/0/code": "BLOB_UNKNOWN"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryUploadNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Container Registry: the upload session does not exist. Code `BLOB_UPLOAD_UNKNOWN`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/errors/0/code": "BLOB_UPLOAD_UNKNOWN"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryManifestInvalid",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Container Registry: a manifest that does not parse, or names a blob the repository lacks. Codes `MANIFEST_INVALID`, `MANIFEST_BLOB_UNKNOWN`. /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/errors/0/code": "MANIFEST_INVALID"
+              }
+            },
+            {
+              "body": {
+                "/errors/0/code": "MANIFEST_BLOB_UNKNOWN"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryDigestInvalid",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Container Registry: an upload whose content does not match its digest, or a malformed digest. Codes `DIGEST_INVALID`, `BLOB_UPLOAD_INVALID`. /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/errors/0/code": "DIGEST_INVALID"
+              }
+            },
+            {
+              "body": {
+                "/errors/0/code": "BLOB_UPLOAD_INVALID"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerregistryData/errors",
+      "value": [
+        {
+          "target": "com.azure.containerregistry_data#ContainerRegistryUnauthorized"
+        },
+        {
+          "target": "com.azure.containerregistry_data#ContainerRegistryDenied"
+        },
+        {
+          "target": "com.azure.containerregistry_data#ContainerRegistryRepositoryNotFound"
+        },
+        {
+          "target": "com.azure.containerregistry_data#ContainerRegistryManifestNotFound"
+        },
+        {
+          "target": "com.azure.containerregistry_data#ContainerRegistryBlobNotFound"
+        },
+        {
+          "target": "com.azure.containerregistry_data#ContainerRegistryUploadNotFound"
+        },
+        {
+          "target": "com.azure.containerregistry_data#ContainerRegistryManifestInvalid"
+        },
+        {
+          "target": "com.azure.containerregistry_data#ContainerRegistryDigestInvalid"
+        }
+      ]
+    }
+  ]
+}

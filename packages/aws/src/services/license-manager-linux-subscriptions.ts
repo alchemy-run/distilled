@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -281,6 +282,7 @@ export const deregisterSubscriptionProvider: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterSubscriptionProvider",
@@ -311,6 +313,7 @@ export const getRegisteredSubscriptionProvider: API.OperationMethod<
     ThrottlingException,
     ValidationException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegisteredSubscriptionProvider",
@@ -335,6 +338,7 @@ export const getServiceSettings: API.OperationMethod<
   input: __S(36, __c9, 0) as any as S.Schema<GetServiceSettingsRequest>,
   output: __S(45, __c11, 1) as any as S.Schema<GetServiceSettingsResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSettings",
@@ -361,6 +365,7 @@ export const listLinuxSubscriptionInstances: API.PaginatedOperationMethod<
   input: __S(52, __c13, 0) as any as S.Schema<ListLinuxSubscriptionInstancesRequest>,
   output: __S(55, __c13, 3) as any as S.Schema<ListLinuxSubscriptionInstancesResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLinuxSubscriptionInstances",
@@ -394,6 +399,7 @@ export const listLinuxSubscriptions: API.PaginatedOperationMethod<
   input: __S(60, __c15, 0) as any as S.Schema<ListLinuxSubscriptionsRequest>,
   output: __S(63, __c15, 3) as any as S.Schema<ListLinuxSubscriptionsResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLinuxSubscriptions",
@@ -425,6 +431,7 @@ export const listRegisteredSubscriptionProviders: API.PaginatedOperationMethod<
   input: __S(64, __c16, 0) as any as S.Schema<ListRegisteredSubscriptionProvidersRequest>,
   output: __S(66, __c16, 2) as any as S.Schema<ListRegisteredSubscriptionProvidersResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRegisteredSubscriptionProviders",
@@ -456,6 +463,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -480,6 +488,7 @@ export const registerSubscriptionProvider: API.OperationMethod<
   input: __S(4, __c1, 0) as any as S.Schema<RegisterSubscriptionProviderRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<RegisterSubscriptionProviderResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterSubscriptionProvider",
@@ -504,6 +513,7 @@ export const tagResource: API.OperationMethod<
   input: __S(8, __c2, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<TagResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -524,6 +534,7 @@ export const untagResource: API.OperationMethod<
   input: __S(12, __c3, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [InternalServerException, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -548,6 +559,7 @@ export const updateServiceSettings: API.OperationMethod<
   input: __S(16, __c4, 0) as any as S.Schema<UpdateServiceSettingsRequest>,
   output: __S(45, __c11, 1) as any as S.Schema<UpdateServiceSettingsResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSettings",

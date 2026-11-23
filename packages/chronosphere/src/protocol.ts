@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * ChronosphereProtocol -- hand-written.
  *
  * Chronosphere speaks token-authenticated JSON REST (no response envelope),
- * so the whole protocol is one `makeRestProtocol` call from
+ * so the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `API-Token` + `Authorization: Bearer <apiKey>`
@@ -21,46 +19,42 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownChronosphereError, ChronosphereParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import {
+  UnknownChronosphereError,
+  ChronosphereParseError,
+  type ChronosphereServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated Chronosphere operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * ChronosphereOpError, ChronosphereOpContext>` explicitly so the compiler
- * never infers these back out of the schema generics.
+ * What every generated Chronosphere operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, ChronosphereOpError, ChronosphereOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
-export type ChronosphereOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownChronosphereError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | ChronosphereParseError
-  | InvalidInput
-  | SdkError;
+export type ChronosphereOpError = ChronosphereServiceError | ErrorOf<typeof ChronosphereProtocol>;
 
 /** Context (requirements) shared by every generated Chronosphere operation. */
 export type ChronosphereOpContext = Credentials | HttpClient.HttpClient;
 
-export const ChronosphereProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => {
-      const token = Redacted.value(creds.apiKey);
-      const headers: Record<string, string> = {
-        "API-Token": token,
-        Authorization: `Bearer ${token}`,
-        Accept: "application/json",
-      };
-      if (creds.actor) headers["Chronosphere-Actor"] = creds.actor;
-      return headers;
-    },
-    unknownError: (info) => new UnknownChronosphereError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new ChronosphereParseError({ body, cause }),
-  });
+export const ChronosphereProtocol = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => {
+    const token = Redacted.value(creds.apiKey);
+    const headers: Record<string, string> = {
+      "API-Token": token,
+      Authorization: `Bearer ${token}`,
+      Accept: "application/json",
+    };
+    if (creds.actor) headers["Chronosphere-Actor"] = creds.actor;
+    return headers;
+  },
+  unknownError: (info) => new UnknownChronosphereError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new ChronosphereParseError({ body, cause }),
+});

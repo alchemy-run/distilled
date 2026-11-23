@@ -73,7 +73,7 @@ const growthbookSpec: SdkSpec = {
   operationDecl: {
     contextType: "GrowthBookOpContext",
     commonErrorType: "GrowthBookOpError",
-    commonErrorClasses: ["UnknownGrowthBookError"],
+    serviceErrors: "GrowthBookServiceErrors",
     protocol: "GrowthBookProtocol",
     retry: "Retry.Retry",
   },

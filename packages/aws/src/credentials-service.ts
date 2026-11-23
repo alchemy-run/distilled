@@ -5,6 +5,7 @@
  * `Credentials` layer. Each provider under `credential-providers/` builds its
  * layer from this module.
  */
+import { refreshing } from "@distilled.cloud/core/token-cache";
 import { Credentials, type ResolvedCredentials } from "@distilled.cloud/s3/Credentials";
 import type { SourceError } from "effect/ConfigProvider";
 import * as Context from "effect/Context";
@@ -14,7 +15,6 @@ import type { HttpClientError } from "effect/http/HttpClientError";
 import * as Layer from "effect/Layer";
 import type { PlatformError } from "effect/PlatformError";
 import * as Redacted from "effect/Redacted";
-import * as Semaphore from "effect/Semaphore";
 import type { CredentialSource } from "./credential-providers/credential-source.ts";
 import { MissingRegion, fromEnvironment as regionFromEnvironment } from "./region.ts";
 import type { RegionName } from "./region.ts";
@@ -127,31 +127,26 @@ const CREDENTIAL_REFRESH_WINDOW_MS = 5 * 60 * 1000;
  * Credentials are reused until five minutes before they expire, and
  * concurrent calls on a cold or stale cache share one resolution. Credentials
  * without an expiration are not cached: they are resolved again on every
- * call, without the lock.
+ * call. A resolution that runs past `timeoutMs` (default 60 s) is interrupted
+ * and fails with {@link AwsCredentialProviderError}.
  */
 export const createCachedCredentialsEffect = <E, R>(
   resolve: Effect.Effect<ResolvedCredentials, E, R>,
-): Effect.Effect<ResolvedCredentials, E, R> => {
-  const lock = Semaphore.makeUnsafe(1);
-  let cachedCreds: ResolvedCredentials | undefined;
-  let expiresAt: number | undefined;
-  const fresh = () =>
-    cachedCreds !== undefined && expiresAt !== undefined && Date.now() < expiresAt;
-
-  const resolveAndCache = Effect.map(resolve, (creds) => {
-    cachedCreds = creds;
-    expiresAt = creds.expiration ? creds.expiration - CREDENTIAL_REFRESH_WINDOW_MS : undefined;
-    return creds;
-  });
-
-  return Effect.suspend(() => {
-    if (fresh()) return Effect.succeed(cachedCreds!);
-    if (cachedCreds !== undefined && expiresAt === undefined) return resolveAndCache;
-    return Semaphore.withPermit(
-      lock,
-      Effect.suspend(() => (fresh() ? Effect.succeed(cachedCreds!) : resolveAndCache)),
-    );
-  });
+  options: { readonly provider?: string; readonly timeoutMs?: number } = {},
+): Effect.Effect<ResolvedCredentials, E | AwsCredentialProviderError, R> => {
+  const provider = options.provider ?? "credentials";
+  return refreshing<ResolvedCredentials, E | AwsCredentialProviderError, R>(
+    resolve,
+    (creds) => (creds.expiration ? creds.expiration - CREDENTIAL_REFRESH_WINDOW_MS : undefined),
+    {
+      ...(options.timeoutMs !== undefined ? { timeoutMs: options.timeoutMs } : {}),
+      onTimeout: (timeoutMs) =>
+        new AwsCredentialProviderError({
+          message: `Resolving credentials from ${provider} timed out after ${timeoutMs / 1000} s.`,
+          provider,
+        }),
+    },
+  );
 };
 
 /**
@@ -184,7 +179,10 @@ export const createLazyProvider = (
     return fromAwsCredentialIdentity(identity, yield* region);
   });
 
-  return Layer.succeed(Credentials, createCachedCredentialsEffect(resolve));
+  return Layer.succeed(
+    Credentials,
+    createCachedCredentialsEffect(resolve, { provider: providerName }),
+  );
 };
 
 export const ssoRegion = (region: string) => Layer.succeed(SsoRegion, region);

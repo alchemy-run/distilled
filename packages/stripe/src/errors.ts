@@ -26,7 +26,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -168,3 +168,22 @@ export class StripeWebhookPayloadParseError
       cause: /*@__PURE__*/ Schema.optional(Schema.Unknown),
     },
   ).pipe(Category.withParseError) {}
+
+/**
+ * The errors declared on the Stripe service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. The
+ * classes an `error.type` names ({@link CardError}, {@link IdempotencyError},
+ * {@link InvalidRequestError}, {@link ApiError}), Stripe's own status
+ * classes ({@link PaymentError} for 402, {@link ExternalDependencyFailed}
+ * for 424), and each of core's status classes.
+ */
+export const StripeServiceErrors = [
+  ...API_ERRORS,
+  CardError,
+  IdempotencyError,
+  InvalidRequestError,
+  ApiError,
+  PaymentError,
+  ExternalDependencyFailed,
+] as const;
+export type StripeServiceError = InstanceType<(typeof StripeServiceErrors)[number]>;

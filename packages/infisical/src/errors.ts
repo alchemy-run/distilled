@@ -28,7 +28,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** Unknown Infisical error -- returned when nothing else matches the failure. */
@@ -44,3 +44,11 @@ export class InfisicalParseError
     body: Schema.Unknown,
     cause: Schema.Unknown,
   }).pipe(Category.withParseError) {}
+
+/**
+ * The errors declared on the Infisical service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. Today that
+ * is each of core's status classes (401, 403, 404, 429, the 5xx ...).
+ */
+export const InfisicalServiceErrors = API_ERRORS;
+export type InfisicalServiceError = InstanceType<(typeof InfisicalServiceErrors)[number]>;

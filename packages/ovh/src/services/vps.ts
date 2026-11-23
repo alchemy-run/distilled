@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOvhError } from "../errors.ts";
+import { OvhServiceErrors } from "../errors.ts";
 import { OvhProtocol, type OvhOpError, type OvhOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -64,7 +64,7 @@ export interface ConfirmVpsTerminationRequest {
   /** All reasons you can provide for a service termination */
   reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type ConfirmVpsTerminationResponse = string;
 export interface CreateVpsAutomatedBackupRescheduleRequest {
@@ -1826,7 +1826,8 @@ export const abortVpsSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AbortVpsSnapshotRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<AbortVpsSnapshotResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1843,7 +1844,8 @@ export const confirmVpsTermination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<ConfirmVpsTerminationRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<ConfirmVpsTerminationResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1860,7 +1862,8 @@ export const createVpsAutomatedBackupReschedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<CreateVpsAutomatedBackupRescheduleRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1877,7 +1880,8 @@ export const createVpsBackupftpAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<CreateVpsBackupftpAccessRequest>,
   output: __S(266, __c33, 2) as any as S.Schema<DedicatedServerTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1894,7 +1898,8 @@ export const createVpsBackupftpPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<CreateVpsBackupftpPasswordRequest>,
   output: __S(266, __c33, 2) as any as S.Schema<DedicatedServerTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1911,7 +1916,8 @@ export const createVpsChangeContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<CreateVpsChangeContactRequest>,
   output: __S(480, __c60, 0) as any as S.Schema<CreateVpsChangeContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1928,7 +1934,8 @@ export const createVpsMigration2018: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(584, __c73, 0) as any as S.Schema<CreateVpsMigration2018Request>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1945,7 +1952,8 @@ export const createVpsOpenConsoleAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c84, 0) as any as S.Schema<CreateVpsOpenConsoleAccessRequest>,
   output: __S(673, __c84, 1) as any as S.Schema<VpsVnc>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1962,7 +1970,8 @@ export const createVpsReinstall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(760, __c95, 0) as any as S.Schema<CreateVpsReinstallRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1979,7 +1988,8 @@ export const createVpsSecondaryDnsDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(808, __c101, 0) as any as S.Schema<CreateVpsSecondaryDnsDomainRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CreateVpsSecondaryDnsDomainResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1996,7 +2006,8 @@ export const createVpsSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<CreateVpsSnapshotRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2013,7 +2024,8 @@ export const createVpsSnapshotRevert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<CreateVpsSnapshotRevertRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2030,7 +2042,8 @@ export const deleteVpsBackupftpAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<DeleteVpsBackupftpAccessRequest>,
   output: __S(266, __c33, 2) as any as S.Schema<DedicatedServerTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2047,7 +2060,8 @@ export const deleteVpsIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<DeleteVpsIpsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteVpsIpsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2064,7 +2078,8 @@ export const deleteVpsSecondaryDnsDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<DeleteVpsSecondaryDnsDomainRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteVpsSecondaryDnsDomainResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2081,7 +2096,8 @@ export const deleteVpsSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<DeleteVpsSnapshotRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2098,7 +2114,8 @@ export const deleteVpsVeeamRestoredBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<DeleteVpsVeeamRestoredBackupRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2115,7 +2132,8 @@ export const detachVpsAutomatedBackupBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<DetachVpsAutomatedBackupBackupRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2128,7 +2146,8 @@ export const getVps: API.OperationMethod<GetVpsRequest, VpsVPSWithIAM, GetVpsErr
   /*@__PURE__*/ API.make(() => ({
     input: __S(96, __c12, 0) as any as S.Schema<GetVpsRequest>,
     output: __S(99, __c12, 3) as any as S.Schema<VpsVPSWithIAM>,
-    errors: [UnknownOvhError],
+    errors: [],
+    serviceErrors: OvhServiceErrors,
     protocol: OvhProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2145,7 +2164,8 @@ export const getVpsAutomatedBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<GetVpsAutomatedBackupRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<VpsAutomatedBackup>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2162,7 +2182,8 @@ export const getVpsBackupftp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<GetVpsBackupftpRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<VpsBackupFtp>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2179,7 +2200,8 @@ export const getVpsBackupftpAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<GetVpsBackupftpAccessRequest>,
   output: __S(161, __c20, 1) as any as S.Schema<DedicatedServerBackupFtpAcl>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2196,7 +2218,8 @@ export const getVpsConsoleUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<GetVpsConsoleUrlRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<GetVpsConsoleUrlResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2213,7 +2236,8 @@ export const getVpsDatacenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<GetVpsDatacenterRequest>,
   output: __S(177, __c22, 1) as any as S.Schema<VpsDatacenter>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2230,7 +2254,8 @@ export const getVpsDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<GetVpsDiskRequest>,
   output: __S(185, __c23, 1) as any as S.Schema<VpsDisk>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2247,7 +2272,8 @@ export const getVpsDiskUse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<GetVpsDiskUseRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<ComplexTypeUnitAndValueDouble>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2264,7 +2290,8 @@ export const getVpsDistribution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<GetVpsDistributionRequest>,
   output: __S(208, __c26, 0) as any as S.Schema<VpsTemplate>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2281,7 +2308,8 @@ export const getVpsDistributionSoftware: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<GetVpsDistributionSoftwareRequest>,
   output: __S(224, __c28, 0) as any as S.Schema<VpsSoftware>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2298,7 +2326,8 @@ export const getVpsImageAvailable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<GetVpsImageAvailableRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<VpsImage>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2315,7 +2344,8 @@ export const getVpsImageCurrent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<GetVpsImageCurrentRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<VpsImage>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2328,7 +2358,8 @@ export const getVpsIps: API.OperationMethod<GetVpsIpsRequest, VpsIp, GetVpsIpsEr
   /*@__PURE__*/ API.make(() => ({
     input: __S(272, __c34, 0) as any as S.Schema<GetVpsIpsRequest>,
     output: __S(273, __c34, 1) as any as S.Schema<VpsIp>,
-    errors: [UnknownOvhError],
+    errors: [],
+    serviceErrors: OvhServiceErrors,
     protocol: OvhProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2345,7 +2376,8 @@ export const getVpsOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<GetVpsOptionRequest>,
   output: __S(281, __c35, 1) as any as S.Schema<VpsOption>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2362,7 +2394,8 @@ export const getVpsSecondaryDnsDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<GetVpsSecondaryDnsDomainRequest>,
   output: __S(289, __c36, 1) as any as S.Schema<SecondaryDnsSecondaryDNS>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2379,7 +2412,8 @@ export const getVpsSecondaryDnsDomainDnsServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<GetVpsSecondaryDnsDomainDnsServerRequest>,
   output: __S(304, __c38, 0) as any as S.Schema<SecondaryDnsSecondaryDNSNameServer>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2396,7 +2430,8 @@ export const getVpsSecondaryDnsNameServerAvailable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<GetVpsSecondaryDnsNameServerAvailableRequest>,
   output: __S(304, __c38, 0) as any as S.Schema<SecondaryDnsSecondaryDNSNameServer>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2413,7 +2448,8 @@ export const getVpsServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<GetVpsServiceInfosRequest>,
   output: __S(321, __c40, 1) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2430,7 +2466,8 @@ export const getVpsSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<GetVpsSnapshotRequest>,
   output: __S(337, __c42, 1) as any as S.Schema<VpsSnapshot>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2447,7 +2484,8 @@ export const getVpsSnapshotDownload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<GetVpsSnapshotDownloadRequest>,
   output: __S(345, __c43, 1) as any as S.Schema<VpsDownloadSnapshotURL>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2464,7 +2502,8 @@ export const getVpsStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<GetVpsStatusRequest>,
   output: __S(354, __c44, 2) as any as S.Schema<VpsIpServiceStatus>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2481,7 +2520,8 @@ export const getVpsTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<GetVpsTaskRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2498,7 +2538,8 @@ export const getVpsTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<GetVpsTemplateRequest>,
   output: __S(208, __c26, 0) as any as S.Schema<VpsTemplate>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2515,7 +2556,8 @@ export const getVpsTemplateSoftware: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<GetVpsTemplateSoftwareRequest>,
   output: __S(224, __c28, 0) as any as S.Schema<VpsSoftware>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2532,7 +2574,8 @@ export const getVpsVeeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<GetVpsVeeamRequest>,
   output: __S(393, __c49, 1) as any as S.Schema<VpsVeeam>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2549,7 +2592,8 @@ export const getVpsVeeamRestoredBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<GetVpsVeeamRestoredBackupRequest>,
   output: __S(402, __c50, 2) as any as S.Schema<VpsVeeamRestoredBackup>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2566,7 +2610,8 @@ export const getVpsVeeamRestorePoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<GetVpsVeeamRestorePointRequest>,
   output: __S(409, __c51, 1) as any as S.Schema<VpsVeeamRestorePoint>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2583,7 +2628,8 @@ export const getVpsVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<GetVpsVersionRequest>,
   output: __S(417, __c52, 1) as any as S.Schema<VpsVpsBillingVersion>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2600,7 +2646,8 @@ export const listVps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(426, __c53, 2) as any as S.Schema<ListVpsRequest>,
   output: __S(432, __c54, 0) as any as S.Schema<ListVpsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2617,7 +2664,8 @@ export const listVpsAutomatedBackupAttachedBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<ListVpsAutomatedBackupAttachedBackupRequest>,
   output: __S(444, __c55, 4) as any as S.Schema<ListVpsAutomatedBackupAttachedBackupResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2634,7 +2682,8 @@ export const listVpsAutomatedBackupRestorePoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<ListVpsAutomatedBackupRestorePointsRequest>,
   output: __S(432, __c54, 0) as any as S.Schema<ListVpsAutomatedBackupRestorePointsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2651,7 +2700,8 @@ export const listVpsAvailableUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(456, __c57, 0) as any as S.Schema<ListVpsAvailableUpgradeRequest>,
   output: __S(465, __c58, 1) as any as S.Schema<ListVpsAvailableUpgradeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2668,7 +2718,8 @@ export const listVpsBackupftpAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c62, 0) as any as S.Schema<ListVpsBackupftpAccessRequest>,
   output: __S(432, __c54, 0) as any as S.Schema<ListVpsBackupftpAccessResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2685,7 +2736,8 @@ export const listVpsBackupftpAuthorizableBlocks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(504, __c63, 0) as any as S.Schema<ListVpsBackupftpAuthorizableBlocksRequest>,
   output: __S(432, __c54, 0) as any as S.Schema<ListVpsBackupftpAuthorizableBlocksResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2702,7 +2754,8 @@ export const listVpsDatacenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c64, 0) as any as S.Schema<ListVpsDatacenterRequest>,
   output: __S(432, __c54, 0) as any as S.Schema<ListVpsDatacenterResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2719,7 +2772,8 @@ export const listVpsDiskMonitoring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(520, __c65, 0) as any as S.Schema<ListVpsDiskMonitoringRequest>,
   output: __S(523, __c65, 3) as any as S.Schema<ComplexTypeUnitAndValuesVpsVpsTimestampValue>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2736,7 +2790,8 @@ export const listVpsDisks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c66, 0) as any as S.Schema<ListVpsDisksRequest>,
   output: __S(480, __c60, 0) as any as S.Schema<ListVpsDisksResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2753,7 +2808,8 @@ export const listVpsDistributionSoftware: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(536, __c67, 0) as any as S.Schema<ListVpsDistributionSoftwareRequest>,
   output: __S(480, __c60, 0) as any as S.Schema<ListVpsDistributionSoftwareResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2770,7 +2826,8 @@ export const listVpsImageAvailable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c68, 0) as any as S.Schema<ListVpsImageAvailableRequest>,
   output: __S(432, __c54, 0) as any as S.Schema<ListVpsImageAvailableResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2787,7 +2844,8 @@ export const listVpsIpCountryAvailable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(552, __c69, 0) as any as S.Schema<ListVpsIpCountryAvailableRequest>,
   output: __S(560, __c70, 0) as any as S.Schema<ListVpsIpCountryAvailableResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2804,7 +2862,8 @@ export const listVpsIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<ListVpsIpsRequest>,
   output: __S(432, __c54, 0) as any as S.Schema<ListVpsIpsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2821,7 +2880,8 @@ export const listVpsMigration2018: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c72, 0) as any as S.Schema<ListVpsMigration2018Request>,
   output: __S(583, __c72, 7) as any as S.Schema<VpsMigrationVPS2018to2020>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2838,7 +2898,8 @@ export const listVpsModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c74, 0) as any as S.Schema<ListVpsModelsRequest>,
   output: __S(465, __c58, 1) as any as S.Schema<ListVpsModelsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2855,7 +2916,8 @@ export const listVpsOption: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<ListVpsOptionRequest>,
   output: __S(560, __c70, 0) as any as S.Schema<ListVpsOptionResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2872,7 +2934,8 @@ export const listVpsOrderRuleDatacenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<ListVpsOrderRuleDatacenterRequest>,
   output: __S(611, __c76, 3) as any as S.Schema<VpsOrderRuleDatacenters>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2889,7 +2952,8 @@ export const listVpsOrderRuleOsChoices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(616, __c77, 0) as any as S.Schema<ListVpsOrderRuleOsChoicesRequest>,
   output: __S(619, __c77, 3) as any as S.Schema<VpsOrderRuleOSChoices>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2906,7 +2970,8 @@ export const listVpsSecondaryDnsDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c78, 0) as any as S.Schema<ListVpsSecondaryDnsDomainsRequest>,
   output: __S(432, __c54, 0) as any as S.Schema<ListVpsSecondaryDnsDomainsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2923,7 +2988,8 @@ export const listVpsTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(632, __c79, 0) as any as S.Schema<ListVpsTasksRequest>,
   output: __S(480, __c60, 0) as any as S.Schema<ListVpsTasksResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2940,7 +3006,8 @@ export const listVpsTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c80, 0) as any as S.Schema<ListVpsTemplatesRequest>,
   output: __S(480, __c60, 0) as any as S.Schema<ListVpsTemplatesResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2957,7 +3024,8 @@ export const listVpsTemplateSoftware: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(648, __c81, 0) as any as S.Schema<ListVpsTemplateSoftwareRequest>,
   output: __S(480, __c60, 0) as any as S.Schema<ListVpsTemplateSoftwareResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2974,7 +3042,8 @@ export const listVpsVeeamRestorePoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c82, 0) as any as S.Schema<ListVpsVeeamRestorePointsRequest>,
   output: __S(480, __c60, 0) as any as S.Schema<ListVpsVeeamRestorePointsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2987,7 +3056,8 @@ export const putVps: API.OperationMethod<PutVpsRequest, PutVpsResponse, PutVpsEr
   /*@__PURE__*/ API.make(() => ({
     input: __S(664, __c83, 0) as any as S.Schema<PutVpsRequest>,
     output: __S(8, __c1, 0) as any as S.Schema<PutVpsResponse>,
-    errors: [UnknownOvhError],
+    errors: [],
+    serviceErrors: OvhServiceErrors,
     protocol: OvhProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3004,7 +3074,8 @@ export const putVpsBackupftpAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(680, __c85, 0) as any as S.Schema<PutVpsBackupftpAccessRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutVpsBackupftpAccessResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3021,7 +3092,8 @@ export const putVpsDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c86, 0) as any as S.Schema<PutVpsDiskRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutVpsDiskResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3038,7 +3110,8 @@ export const putVpsIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(696, __c87, 0) as any as S.Schema<PutVpsIpsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutVpsIpsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3055,7 +3128,8 @@ export const putVpsSecondaryDnsDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c88, 0) as any as S.Schema<PutVpsSecondaryDnsDomainRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutVpsSecondaryDnsDomainResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3072,7 +3146,8 @@ export const putVpsServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(712, __c89, 0) as any as S.Schema<PutVpsServiceInfosRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutVpsServiceInfosResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3089,7 +3164,8 @@ export const putVpsSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c90, 0) as any as S.Schema<PutVpsSnapshotRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PutVpsSnapshotResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3106,7 +3182,8 @@ export const rebootVps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(728, __c91, 0) as any as S.Schema<RebootVpsRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3123,7 +3200,8 @@ export const rebuildVps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c92, 0) as any as S.Schema<RebuildVpsRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3140,7 +3218,8 @@ export const restoreVpsAutomatedBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(744, __c93, 0) as any as S.Schema<RestoreVpsAutomatedBackupRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3157,7 +3236,8 @@ export const restoreVpsVeeamRestorePoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c94, 0) as any as S.Schema<RestoreVpsVeeamRestorePointRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3174,7 +3254,8 @@ export const setVpsPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(776, __c97, 0) as any as S.Schema<SetVpsPasswordRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3187,7 +3268,8 @@ export const startVps: API.OperationMethod<StartVpsRequest, VpsTask, StartVpsErr
   /*@__PURE__*/ API.make(() => ({
     input: __S(784, __c98, 0) as any as S.Schema<StartVpsRequest>,
     output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-    errors: [UnknownOvhError],
+    errors: [],
+    serviceErrors: OvhServiceErrors,
     protocol: OvhProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3200,7 +3282,8 @@ export const stopVps: API.OperationMethod<StopVpsRequest, VpsTask, StopVpsError,
   /*@__PURE__*/ API.make(() => ({
     input: __S(792, __c99, 0) as any as S.Schema<StopVpsRequest>,
     output: __S(136, __c17, 0) as any as S.Schema<VpsTask>,
-    errors: [UnknownOvhError],
+    errors: [],
+    serviceErrors: OvhServiceErrors,
     protocol: OvhProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3217,7 +3300,8 @@ export const terminateVps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c100, 0) as any as S.Schema<TerminateVpsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<TerminateVpsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3250,7 +3334,7 @@ function __c2(j: number): any {
           commentary: S.optional(S.String),
           futureUse: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/vps/{serviceName}/confirmTermination", code: 200 }),
         ),

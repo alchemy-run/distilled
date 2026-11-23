@@ -1,11 +1,9 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * BrowserbaseProtocol -- the shared REST protocol instantiated for the
  * Browserbase API.
@@ -21,26 +19,26 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { BrowserbaseParseError, UnknownBrowserbaseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import {
+  BrowserbaseParseError,
+  UnknownBrowserbaseError,
+  type BrowserbaseServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated Browserbase operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * BrowserbaseOpError, BrowserbaseOpContext>` explicitly so the compiler never
- * infers these back out of the schema generics.
+ * What every generated Browserbase operation fails with besides its own
+ * errors: the errors declared on the service, and the errors declared on the
+ * protocol. Nobody lists the protocol's: its type carries what its code fails
+ * with (a response that does not match its schema, a failed response nothing
+ * declares, core's REST errors, and what resolving the credentials fails
+ * with). Generated service files annotate operations with
+ * `API.OperationMethod<I, O, BrowserbaseOpError, BrowserbaseOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
-export type BrowserbaseOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownBrowserbaseError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | BrowserbaseParseError
-  | InvalidInput
-  | SdkError;
+export type BrowserbaseOpError = BrowserbaseServiceError | ErrorOf<typeof BrowserbaseProtocol>;
 
 /** Context (requirements) shared by every generated Browserbase operation. */
 export type BrowserbaseOpContext = Credentials | HttpClient.HttpClient;
@@ -60,16 +58,15 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const BrowserbaseProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
-    // Resolved on the calling fiber per request, so a rotated key is picked
-    // up without rebuilding the layer.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.baseUrl,
-    headers: (creds) => ({
-      "X-BB-API-Key": Redacted.value(creds.apiKey),
-    }),
-    errorEnvelope,
-    unknownError: (info) => new UnknownBrowserbaseError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new BrowserbaseParseError({ body, cause }),
-  });
+export const BrowserbaseProtocol = /*@__PURE__*/ restProtocol({
+  // Resolved on the calling fiber per request, so a rotated key is picked
+  // up without rebuilding the layer.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.baseUrl,
+  headers: (creds) => ({
+    "X-BB-API-Key": Redacted.value(creds.apiKey),
+  }),
+  errorEnvelope,
+  unknownError: (info) => new UnknownBrowserbaseError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new BrowserbaseParseError({ body, cause }),
+});

@@ -24,7 +24,7 @@ const SENSITIVE_TRAIT = "smithy.api#sensitive";
 const operationDecl = {
   contextType: "DigitalOceanOpContext",
   commonErrorType: "DigitalOceanOpError",
-  commonErrorClasses: ["UnknownDigitalOceanError"],
+  serviceErrors: "DigitalOceanServiceErrors",
   protocol: "DigitalOceanProtocol",
   retry: "Retry.Retry",
 };

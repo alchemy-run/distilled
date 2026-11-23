@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -511,7 +511,7 @@ export interface FlowProperties {
   /** The latency of the stream in milliseconds */
   streamLatency?: number | undefined;
   /** The passphrase used for SRT streams (non-secret) */
-  passphrase?: string | undefined;
+  passphrase?: string | Redacted.Redacted<string> | undefined;
   /** The source IP address and CIDR ranges of the stream */
   sourceAddresses?: StreamSourceAddresses | undefined;
   /** The destination endpoints of the stream */
@@ -811,7 +811,7 @@ export interface FlowPropertiesInput {
   /** The latency of the stream in milliseconds */
   streamLatency?: number | undefined;
   /** The passphrase used for SRT streams (non-secret) */
-  passphrase?: string | undefined;
+  passphrase?: string | Redacted.Redacted<string> | undefined;
   /** The source IP address and CIDR ranges of the stream */
   sourceAddresses?: StreamSourceAddresses | undefined;
   /** The destination endpoints of the stream */
@@ -1462,7 +1462,7 @@ export interface PendingFlow {
   /** The latency of the stream in milliseconds */
   streamLatency?: number | undefined;
   /** The passphrase used for SRT streams (non-secret) */
-  passphrase?: string | undefined;
+  passphrase?: string | Redacted.Redacted<string> | undefined;
   /** The source IP address and CIDR ranges of the stream */
   sourceAddresses?: StreamSourceAddresses | undefined;
   /** The destination endpoints of the stream */
@@ -2071,7 +2071,8 @@ export const ApprovePipelineConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ApprovePipelineConnectionRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<ApprovePipelineConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2088,7 +2089,8 @@ export const ConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65, __c8, 1) as any as S.Schema<ConnectionsCreateOrUpdateRequest>,
   output: __S(66, __c8, 2) as any as S.Schema<ConnectionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2105,7 +2107,8 @@ export const ConnectionsLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<ConnectionsLinkRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<ConnectionsLinkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2122,7 +2125,8 @@ export const DeleteConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<DeleteConnectionRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<DeleteConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2139,7 +2143,8 @@ export const DeleteFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<DeleteFlowRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<DeleteFlowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2156,7 +2161,8 @@ export const DeletePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<DeletePipelineRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<DeletePipelineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2173,7 +2179,8 @@ export const DisableFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<DisableFlowRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<DisableFlowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2190,7 +2197,8 @@ export const EnableFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<EnableFlowRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<EnableFlowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2207,7 +2215,8 @@ export const ExecutePipelineAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<ExecutePipelineActionRequest>,
   output: __S(488, __c61, 0) as any as S.Schema<ExecutePipelineActionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2224,7 +2233,8 @@ export const FlowsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(497, __c62, 1) as any as S.Schema<FlowsCreateOrUpdateRequest>,
   output: __S(498, __c62, 2) as any as S.Schema<FlowsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2241,7 +2251,8 @@ export const FlowsLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<FlowsLinkRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<FlowsLinkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2258,7 +2269,8 @@ export const GenerateFlowPassphrase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GenerateFlowPassphraseRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<GenerateFlowPassphraseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2275,7 +2287,8 @@ export const GetConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<GetConnectionRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<GetConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2292,7 +2305,8 @@ export const GetFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetFlowRequest>,
   output: __S(120, __c15, 0) as any as S.Schema<GetFlowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2309,7 +2323,8 @@ export const GetFlowDestinationEndpointPorts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetFlowDestinationEndpointPortsRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<GetDestinationEndpointPortsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2326,7 +2341,8 @@ export const GetFlowDestinationEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<GetFlowDestinationEndpointsRequest>,
   output: __S(137, __c17, 1) as any as S.Schema<GetDestinationEndpointsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2343,7 +2359,8 @@ export const GetFlowSourceAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<GetFlowSourceAddressesRequest>,
   output: __S(440, __c55, 0) as any as S.Schema<StreamSourceAddresses>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2360,7 +2377,8 @@ export const GetFlowStreamConnectionString: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<GetFlowStreamConnectionStringRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<GetStreamConnectionStringResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2377,7 +2395,8 @@ export const GetPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<GetPipelineRequest>,
   output: __S(168, __c21, 0) as any as S.Schema<GetPipelineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2394,7 +2413,8 @@ export const ListAzureDataTransferApprovedSchemas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<ListAzureDataTransferApprovedSchemasRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<SchemasListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2412,7 +2432,8 @@ export const ListConnectionByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<ListConnectionByResourceGroupRequest>,
   output: __S(209, __c26, 1) as any as S.Schema<ConnectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2436,7 +2457,8 @@ export const ListConnectionBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<ListConnectionBySubscriptionRequest>,
   output: __S(209, __c26, 1) as any as S.Schema<ConnectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2460,7 +2482,8 @@ export const ListFlowByConnection: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<ListFlowByConnectionRequest>,
   output: __S(225, __c28, 1) as any as S.Schema<FlowListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2483,7 +2506,8 @@ export const ListListFlowsByPipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<ListListFlowsByPipelineRequest>,
   output: __S(243, __c30, 3) as any as S.Schema<ListFlowsByPipelineResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2501,7 +2525,8 @@ export const ListListPendingConnections: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<ListListPendingConnectionsRequest>,
   output: __S(251, __c31, 3) as any as S.Schema<PendingConnectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2525,7 +2550,8 @@ export const ListListPendingFlows: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<ListListPendingFlowsRequest>,
   output: __S(259, __c32, 3) as any as S.Schema<PendingFlowListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2548,7 +2574,8 @@ export const ListListSchemas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<ListListSchemasRequest>,
   output: __S(184, __c23, 0) as any as S.Schema<SchemasListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2566,7 +2593,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(276, __c34, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2590,7 +2618,8 @@ export const ListPipelineByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<ListPipelineByResourceGroupRequest>,
   output: __S(289, __c36, 1) as any as S.Schema<PipelineListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2614,7 +2643,8 @@ export const ListPipelineBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<ListPipelineBySubscriptionRequest>,
   output: __S(289, __c36, 1) as any as S.Schema<PipelineListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2637,7 +2667,8 @@ export const PipelinesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(321, __c40, 1) as any as S.Schema<PipelinesCreateOrUpdateRequest>,
   output: __S(322, __c40, 2) as any as S.Schema<PipelinesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2654,7 +2685,8 @@ export const RejectPipelineConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<RejectPipelineConnectionRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<RejectPipelineConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2671,7 +2703,8 @@ export const SetFlowDestinationEndpointPorts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<SetFlowDestinationEndpointPortsRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<SetFlowDestinationEndpointPortsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2688,7 +2721,8 @@ export const SetFlowDestinationEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<SetFlowDestinationEndpointsRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<SetFlowDestinationEndpointsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2705,7 +2739,8 @@ export const SetFlowPassphrase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<SetFlowPassphraseRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<SetFlowPassphraseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2722,7 +2757,8 @@ export const SetFlowSourceAddresses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<SetFlowSourceAddressesRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<SetFlowSourceAddressesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2739,7 +2775,8 @@ export const UpdateConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<UpdateConnectionRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UpdateConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2756,7 +2793,8 @@ export const UpdateFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<UpdateFlowRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<UpdateFlowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2773,7 +2811,8 @@ export const UpdatePipeline: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(385, __c48, 1) as any as S.Schema<UpdatePipelineRequest>,
   output: __S(488, __c61, 0) as any as S.Schema<UpdatePipelineResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2790,7 +2829,8 @@ export const ValidateAzureDataTransferSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<ValidateAzureDataTransferSchemaRequest>,
   output: __S(393, __c49, 1) as any as S.Schema<ValidateSchemaResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3536,7 +3576,7 @@ function __c32(j: number): any {
           streamId: S.optional(S.String),
           streamProtocol: S.optional(S.String),
           streamLatency: S.optional(S.Number),
-          passphrase: S.optional(S.String),
+          passphrase: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sourceAddresses: S.optional(__S(440, __c55, 0)),
           destinationEndpoints: S.optional(__S(24, __c3, 0)),
           destinationEndpointPorts: S.optional(__S(432, __c54, 0)),
@@ -4129,7 +4169,7 @@ function __c57(j: number): any {
           streamId: S.optional(S.String),
           streamProtocol: S.optional(S.String),
           streamLatency: S.optional(S.Number),
-          passphrase: S.optional(S.String),
+          passphrase: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sourceAddresses: S.optional(__S(440, __c55, 0)),
           destinationEndpoints: S.optional(__S(24, __c3, 0)),
           destinationEndpointPorts: S.optional(__S(432, __c54, 0)),
@@ -4307,7 +4347,7 @@ function __c62(j: number): any {
           streamId: S.optional(S.String),
           streamProtocol: S.optional(S.String),
           streamLatency: S.optional(S.Number),
-          passphrase: S.optional(S.String),
+          passphrase: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sourceAddresses: S.optional(__S(440, __c55, 0)),
           destinationEndpoints: S.optional(__S(24, __c3, 0)),
           destinationEndpointPorts: S.optional(__S(432, __c54, 0)),

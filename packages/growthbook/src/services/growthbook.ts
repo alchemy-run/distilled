@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownGrowthBookError } from "../errors.ts";
+import { GrowthBookServiceErrors } from "../errors.ts";
 import { paginateToken } from "../pagination.ts";
 import {
   GrowthBookProtocol,
@@ -10236,7 +10236,7 @@ export interface SdkConnection {
   project: string;
   projects?: SdkConnectionProjectsList | undefined;
   encryptPayload: boolean;
-  encryptionKey: string;
+  encryptionKey: string | Redacted.Redacted<string>;
   includeVisualExperiments?: boolean | undefined;
   includeDraftExperiments?: boolean | undefined;
   /** When true, experiment-ref rules linked to draft experiments are included in feature definitions. Off by default. */
@@ -10252,7 +10252,7 @@ export interface SdkConnection {
   key: string;
   proxyEnabled: boolean;
   proxyHost: string;
-  proxySigningKey: string;
+  proxySigningKey: string | Redacted.Redacted<string>;
   sseEnabled?: boolean | undefined;
   hashSecureAttributes?: boolean | undefined;
   remoteEvalEnabled?: boolean | undefined;
@@ -30036,7 +30036,8 @@ export const addContextualBanditLinkedFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<AddContextualBanditLinkedFeatureRequest>,
   output: __S(5281, __c165, 1) as any as S.Schema<AddContextualBanditLinkedFeatureResponse>,
-  errors: [UnprocessableEntity, UnknownGrowthBookError],
+  errors: [UnprocessableEntity],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30053,7 +30054,8 @@ export const addTargetRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<AddTargetRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<AddTargetRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30070,7 +30072,8 @@ export const addTeamMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13664, __c427, 0) as any as S.Schema<AddTeamMembersRequest>,
   output: __S(13696, __c428, 0) as any as S.Schema<AddTeamMembersResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30087,7 +30090,8 @@ export const apiAdvanceRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15680, __c490, 0) as any as S.Schema<ApiAdvanceRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<ApiAdvanceRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30104,7 +30108,8 @@ export const appendAutoRunArtifact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16384, __c512, 0) as any as S.Schema<AppendAutoRunArtifactRequest>,
   output: __S(16386, __c512, 2) as any as S.Schema<AppendAutoRunArtifactResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30121,7 +30126,8 @@ export const approveStepRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17440, __c545, 0) as any as S.Schema<ApproveStepRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<ApproveStepRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30138,7 +30144,8 @@ export const archiveConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18336, __c573, 0) as any as S.Schema<ArchiveConfigRequest>,
   output: __S(18432, __c576, 0) as any as S.Schema<ArchiveConfigResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30155,7 +30162,8 @@ export const archiveConstant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18848, __c589, 0) as any as S.Schema<ArchiveConstantRequest>,
   output: __S(18944, __c592, 0) as any as S.Schema<ArchiveConstantResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30172,7 +30180,8 @@ export const archiveSavedGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<ArchiveSavedGroupRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<ArchiveSavedGroupResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30189,7 +30198,8 @@ export const bulkImportExperimentTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(515, __c16, 3) as any as S.Schema<BulkImportExperimentTemplatesRequest>,
   output: __S(516, __c16, 4) as any as S.Schema<BulkImportExperimentTemplatesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30206,7 +30216,8 @@ export const cancelContextualBandit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<CancelContextualBanditRequest>,
   output: __S(13696, __c428, 0) as any as S.Schema<CancelContextualBanditResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30223,7 +30234,8 @@ export const completeRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<CompleteRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<CompleteRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30240,7 +30252,8 @@ export const createArchetype: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<CreateArchetypeRequest>,
   output: __S(1888, __c59, 0) as any as S.Schema<CreateArchetypeResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30257,7 +30270,8 @@ export const createAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<CreateAttributeRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<CreateAttributeResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30274,7 +30288,8 @@ export const createAutoRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2849, __c89, 1) as any as S.Schema<CreateAutoRunRequest>,
   output: __S(2912, __c91, 0) as any as S.Schema<CreateAutoRunResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30291,7 +30306,8 @@ export const createBulkImportFact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3433, __c107, 9) as any as S.Schema<CreateBulkImportFactRequest>,
   output: __S(3436, __c107, 12) as any as S.Schema<CreateBulkImportFactResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30308,7 +30324,8 @@ export const createCodeRef: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4258, __c133, 2) as any as S.Schema<CreateCodeRefRequest>,
   output: __S(4259, __c133, 3) as any as S.Schema<CreateCodeRefResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30325,7 +30342,8 @@ export const createConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<CreateConfigRequest>,
   output: __S(4737, __c148, 1) as any as S.Schema<CreateConfigResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30342,7 +30360,8 @@ export const createConfigRevisionDiscard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<CreateConfigRevisionDiscardRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionDiscardResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30359,7 +30378,8 @@ export const createConfigRevisionPublish: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<CreateConfigRevisionPublishRequest>,
   output: __S(5984, __c187, 0) as any as S.Schema<CreateConfigRevisionPublishResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30376,7 +30396,8 @@ export const createConfigRevisionRebase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<CreateConfigRevisionRebaseRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionRebaseResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30393,7 +30414,8 @@ export const createConfigRevisionRecallReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<CreateConfigRevisionRecallReviewRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionRecallReviewResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30410,7 +30432,8 @@ export const createConfigRevisionReopen: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<CreateConfigRevisionReopenRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionReopenResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30427,7 +30450,8 @@ export const createConfigRevisionRequestReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<CreateConfigRevisionRequestReviewRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionRequestReviewResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30444,7 +30468,8 @@ export const createConfigRevisionRevert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<CreateConfigRevisionRevertRequest>,
   output: __S(5984, __c187, 0) as any as S.Schema<CreateConfigRevisionRevertResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30461,7 +30486,8 @@ export const createConfigRevisionSchedulePublish: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<CreateConfigRevisionSchedulePublishRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionSchedulePublishResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30478,7 +30504,8 @@ export const createConfigRevisionSubmitReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<CreateConfigRevisionSubmitReviewRequest>,
   output: __S(8705, __c272, 1) as any as S.Schema<CreateConfigRevisionSubmitReviewResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30495,7 +30522,8 @@ export const createConfigRevisionUndoReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<CreateConfigRevisionUndoReviewRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<CreateConfigRevisionUndoReviewResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30512,7 +30540,8 @@ export const createConstant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<CreateConstantRequest>,
   output: __S(9856, __c308, 0) as any as S.Schema<CreateConstantResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30529,7 +30558,8 @@ export const createConstantRevisionDiscard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<CreateConstantRevisionDiscardRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionDiscardResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30546,7 +30576,8 @@ export const createConstantRevisionPublish: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<CreateConstantRevisionPublishRequest>,
   output: __S(10784, __c337, 0) as any as S.Schema<CreateConstantRevisionPublishResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30563,7 +30594,8 @@ export const createConstantRevisionRebase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11168, __c349, 0) as any as S.Schema<CreateConstantRevisionRebaseRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionRebaseResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30580,7 +30612,8 @@ export const createConstantRevisionRecallReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<CreateConstantRevisionRecallReviewRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionRecallReviewResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30597,7 +30630,8 @@ export const createConstantRevisionReopen: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11872, __c371, 0) as any as S.Schema<CreateConstantRevisionReopenRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionReopenResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30614,7 +30648,8 @@ export const createConstantRevisionRequestReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12224, __c382, 0) as any as S.Schema<CreateConstantRevisionRequestReviewRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionRequestReviewResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30631,7 +30666,8 @@ export const createConstantRevisionRevert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<CreateConstantRevisionRevertRequest>,
   output: __S(10784, __c337, 0) as any as S.Schema<CreateConstantRevisionRevertResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30648,7 +30684,8 @@ export const createConstantRevisionSchedulePublish: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12960, __c405, 0) as any as S.Schema<CreateConstantRevisionSchedulePublishRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionSchedulePublishResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30665,7 +30702,8 @@ export const createConstantRevisionSubmitReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13312, __c416, 0) as any as S.Schema<CreateConstantRevisionSubmitReviewRequest>,
   output: __S(13313, __c416, 1) as any as S.Schema<CreateConstantRevisionSubmitReviewResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30682,7 +30720,8 @@ export const createConstantRevisionUndoReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13728, __c429, 0) as any as S.Schema<CreateConstantRevisionUndoReviewRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<CreateConstantRevisionUndoReviewResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30699,7 +30738,8 @@ export const createContextualBandit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14082, __c440, 2) as any as S.Schema<CreateContextualBanditRequest>,
   output: __S(14176, __c443, 0) as any as S.Schema<CreateContextualBanditResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30716,7 +30756,8 @@ export const createContextualBanditQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14560, __c455, 0) as any as S.Schema<CreateContextualBanditQueryRequest>,
   output: __S(14624, __c457, 0) as any as S.Schema<CreateContextualBanditQueryResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30733,7 +30774,8 @@ export const createContextualBanditVisualChangeset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14688, __c459, 0) as any as S.Schema<CreateContextualBanditVisualChangesetRequest>,
   output: __S(14752, __c461, 0) as any as S.Schema<CreateContextualBanditVisualChangesetResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30750,7 +30792,8 @@ export const createCustomField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14816, __c463, 0) as any as S.Schema<CreateCustomFieldRequest>,
   output: __S(14912, __c466, 0) as any as S.Schema<CreateCustomFieldResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30767,7 +30810,8 @@ export const createCustomHook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14944, __c467, 0) as any as S.Schema<CreateCustomHookRequest>,
   output: __S(15008, __c469, 0) as any as S.Schema<CreateCustomHookResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30784,7 +30828,8 @@ export const createDashboardV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15041, __c470, 1) as any as S.Schema<CreateDashboardV2Request>,
   output: __S(15136, __c473, 0) as any as S.Schema<CreateDashboardV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30801,7 +30846,8 @@ export const createDimension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15168, __c474, 0) as any as S.Schema<CreateDimensionRequest>,
   output: __S(15232, __c476, 0) as any as S.Schema<CreateDimensionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30818,7 +30864,8 @@ export const createEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15264, __c477, 0) as any as S.Schema<CreateEnvironmentRequest>,
   output: __S(15328, __c479, 0) as any as S.Schema<CreateEnvironmentResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30835,7 +30882,8 @@ export const createExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15361, __c480, 1) as any as S.Schema<CreateExperimentRequest>,
   output: __S(15362, __c480, 2) as any as S.Schema<CreateExperimentResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30852,7 +30900,8 @@ export const createExperimentArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15712, __c491, 0) as any as S.Schema<CreateExperimentArchiveRequest>,
   output: __S(15776, __c493, 0) as any as S.Schema<CreateExperimentArchiveResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30869,7 +30918,8 @@ export const createExperimentComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15808, __c494, 0) as any as S.Schema<CreateExperimentCommentRequest>,
   output: __S(13696, __c428, 0) as any as S.Schema<CreateExperimentCommentResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30886,7 +30936,8 @@ export const createExperimentModifyTemporaryRollout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15840, __c495, 0) as any as S.Schema<CreateExperimentModifyTemporaryRolloutRequest>,
   output: __S(15776, __c493, 0) as any as S.Schema<CreateExperimentModifyTemporaryRolloutResponse>,
-  errors: [Conflict, UnknownGrowthBookError],
+  errors: [Conflict],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30903,7 +30954,8 @@ export const createExperimentSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15872, __c496, 0) as any as S.Schema<CreateExperimentSnapshotRequest>,
   output: __S(15905, __c497, 1) as any as S.Schema<CreateExperimentSnapshotResponse>,
-  errors: [Conflict, UnknownGrowthBookError],
+  errors: [Conflict],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30920,7 +30972,8 @@ export const createExperimentStart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15936, __c498, 0) as any as S.Schema<CreateExperimentStartRequest>,
   output: __S(15937, __c498, 1) as any as S.Schema<CreateExperimentStartResponse>,
-  errors: [Conflict, UnknownGrowthBookError],
+  errors: [Conflict],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30945,7 +30998,8 @@ export const createExperimentStartChecklistManualComplete: API.OperationMethod<
     __c501,
     4,
   ) as any as S.Schema<CreateExperimentStartChecklistManualCompleteResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30962,7 +31016,8 @@ export const createExperimentStop: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16096, __c503, 0) as any as S.Schema<CreateExperimentStopRequest>,
   output: __S(15776, __c493, 0) as any as S.Schema<CreateExperimentStopResponse>,
-  errors: [Conflict, UnknownGrowthBookError],
+  errors: [Conflict],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30979,7 +31034,8 @@ export const createExperimentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16128, __c504, 0) as any as S.Schema<CreateExperimentTemplateRequest>,
   output: __S(16192, __c506, 0) as any as S.Schema<CreateExperimentTemplateResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30996,7 +31052,8 @@ export const createExperimentUnarchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16224, __c507, 0) as any as S.Schema<CreateExperimentUnarchiveRequest>,
   output: __S(15776, __c493, 0) as any as S.Schema<CreateExperimentUnarchiveResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31013,7 +31070,8 @@ export const createFactTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16256, __c508, 0) as any as S.Schema<CreateFactTableRequest>,
   output: __S(16320, __c510, 0) as any as S.Schema<CreateFactTableResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31030,7 +31088,8 @@ export const createFactTableFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16448, __c514, 0) as any as S.Schema<CreateFactTableFilterRequest>,
   output: __S(16512, __c516, 0) as any as S.Schema<CreateFactTableFilterResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31047,7 +31106,8 @@ export const createFactTableVirtualColumn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16544, __c517, 0) as any as S.Schema<CreateFactTableVirtualColumnRequest>,
   output: __S(16576, __c518, 0) as any as S.Schema<CreateFactTableVirtualColumnResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31064,7 +31124,8 @@ export const createHoldout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16608, __c519, 0) as any as S.Schema<CreateHoldoutRequest>,
   output: __S(16672, __c521, 0) as any as S.Schema<CreateHoldoutResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31081,7 +31142,8 @@ export const createInterleaving: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16739, __c523, 3) as any as S.Schema<CreateInterleavingRequest>,
   output: __S(16832, __c526, 0) as any as S.Schema<CreateInterleavingResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31098,7 +31160,8 @@ export const createInterleavingExposureQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16928, __c529, 0) as any as S.Schema<CreateInterleavingExposureQueryRequest>,
   output: __S(16992, __c531, 0) as any as S.Schema<CreateInterleavingExposureQueryResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31115,7 +31178,8 @@ export const createLearning: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17024, __c532, 0) as any as S.Schema<CreateLearningRequest>,
   output: __S(17088, __c534, 0) as any as S.Schema<CreateLearningResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31132,7 +31196,8 @@ export const createMetricGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17120, __c535, 0) as any as S.Schema<CreateMetricGroupRequest>,
   output: __S(17184, __c537, 0) as any as S.Schema<CreateMetricGroupResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31149,7 +31214,8 @@ export const createNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17216, __c538, 0) as any as S.Schema<CreateNamespaceRequest>,
   output: __S(17280, __c540, 0) as any as S.Schema<CreateNamespaceResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31166,7 +31232,8 @@ export const createNamespaceRotateSeed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17312, __c541, 0) as any as S.Schema<CreateNamespaceRotateSeedRequest>,
   output: __S(17280, __c540, 0) as any as S.Schema<CreateNamespaceRotateSeedResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31183,7 +31250,8 @@ export const createOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17344, __c542, 0) as any as S.Schema<CreateOrganizationRequest>,
   output: __S(17408, __c544, 0) as any as S.Schema<CreateOrganizationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31200,7 +31268,8 @@ export const createPopulation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17472, __c546, 0) as any as S.Schema<CreatePopulationRequest>,
   output: __S(17600, __c550, 0) as any as S.Schema<CreatePopulationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31217,7 +31286,8 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17664, __c552, 0) as any as S.Schema<CreateProjectRequest>,
   output: __S(17728, __c554, 0) as any as S.Schema<CreateProjectResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31234,7 +31304,8 @@ export const createRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17761, __c555, 1) as any as S.Schema<CreateRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<CreateRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31251,7 +31322,8 @@ export const createRampScheduleTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17824, __c557, 0) as any as S.Schema<CreateRampScheduleTemplateRequest>,
   output: __S(17888, __c559, 0) as any as S.Schema<CreateRampScheduleTemplateResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31268,7 +31340,8 @@ export const createReleasePublishRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17953, __c561, 1) as any as S.Schema<CreateReleasePublishRevisionRequest>,
   output: __S(17960, __c561, 8) as any as S.Schema<CreateReleasePublishRevisionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31285,7 +31358,8 @@ export const createReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17984, __c562, 0) as any as S.Schema<CreateReportRequest>,
   output: __S(18080, __c565, 0) as any as S.Schema<CreateReportResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31302,7 +31376,8 @@ export const createReportRefresh: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18112, __c566, 0) as any as S.Schema<CreateReportRefreshRequest>,
   output: __S(18080, __c565, 0) as any as S.Schema<CreateReportRefreshResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31319,7 +31394,8 @@ export const createSavedGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18144, __c567, 0) as any as S.Schema<CreateSavedGroupRequest>,
   output: __S(18176, __c568, 0) as any as S.Schema<CreateSavedGroupResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31336,7 +31412,8 @@ export const createSavedGroupRevisionDiscard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18208, __c569, 0) as any as S.Schema<CreateSavedGroupRevisionDiscardRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionDiscardResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31353,7 +31430,8 @@ export const createSavedGroupRevisionItemsAdd: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18304, __c572, 0) as any as S.Schema<CreateSavedGroupRevisionItemsAddRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionItemsAddResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31370,7 +31448,8 @@ export const createSavedGroupRevisionItemsRemove: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18496, __c578, 0) as any as S.Schema<CreateSavedGroupRevisionItemsRemoveRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionItemsRemoveResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31387,7 +31466,8 @@ export const createSavedGroupRevisionPublish: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18528, __c579, 0) as any as S.Schema<CreateSavedGroupRevisionPublishRequest>,
   output: __S(18560, __c580, 0) as any as S.Schema<CreateSavedGroupRevisionPublishResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31404,7 +31484,8 @@ export const createSavedGroupRevisionRebase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18592, __c581, 0) as any as S.Schema<CreateSavedGroupRevisionRebaseRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionRebaseResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31421,7 +31502,8 @@ export const createSavedGroupRevisionRecallReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18624, __c582, 0) as any as S.Schema<CreateSavedGroupRevisionRecallReviewRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionRecallReviewResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31438,7 +31520,8 @@ export const createSavedGroupRevisionReopen: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18656, __c583, 0) as any as S.Schema<CreateSavedGroupRevisionReopenRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionReopenResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31455,7 +31538,8 @@ export const createSavedGroupRevisionRequestReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18688, __c584, 0) as any as S.Schema<CreateSavedGroupRevisionRequestReviewRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionRequestReviewResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31472,7 +31556,8 @@ export const createSavedGroupRevisionRevert: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18720, __c585, 0) as any as S.Schema<CreateSavedGroupRevisionRevertRequest>,
   output: __S(18560, __c580, 0) as any as S.Schema<CreateSavedGroupRevisionRevertResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31489,7 +31574,8 @@ export const createSavedGroupRevisionSchedulePublish: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18752, __c586, 0) as any as S.Schema<CreateSavedGroupRevisionSchedulePublishRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionSchedulePublishResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31506,7 +31592,8 @@ export const createSavedGroupRevisionSubmitReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18784, __c587, 0) as any as S.Schema<CreateSavedGroupRevisionSubmitReviewRequest>,
   output: __S(18785, __c587, 1) as any as S.Schema<CreateSavedGroupRevisionSubmitReviewResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31523,7 +31610,8 @@ export const createSavedGroupRevisionUndoReview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18816, __c588, 0) as any as S.Schema<CreateSavedGroupRevisionUndoReviewRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<CreateSavedGroupRevisionUndoReviewResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31540,7 +31628,8 @@ export const createSavedGroupUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18976, __c593, 0) as any as S.Schema<CreateSavedGroupUploadRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<CreateSavedGroupUploadResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31557,7 +31646,8 @@ export const createSavedGroupUploadLoad: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19072, __c596, 0) as any as S.Schema<CreateSavedGroupUploadLoadRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<CreateSavedGroupUploadLoadResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31574,7 +31664,8 @@ export const createSavedGroupUploadUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19104, __c597, 0) as any as S.Schema<CreateSavedGroupUploadUrlRequest>,
   output: __S(19105, __c597, 1) as any as S.Schema<CreateSavedGroupUploadUrlResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31591,7 +31682,8 @@ export const createSdkConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19136, __c598, 0) as any as S.Schema<CreateSdkConnectionRequest>,
   output: __S(19200, __c600, 0) as any as S.Schema<CreateSdkConnectionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31608,7 +31700,8 @@ export const createSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19232, __c601, 0) as any as S.Schema<CreateSegmentRequest>,
   output: __S(19296, __c603, 0) as any as S.Schema<CreateSegmentResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31625,7 +31718,8 @@ export const createTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19328, __c604, 0) as any as S.Schema<CreateTeamRequest>,
   output: __S(19392, __c606, 0) as any as S.Schema<CreateTeamResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31642,7 +31736,8 @@ export const deleteArchetype: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19424, __c607, 0) as any as S.Schema<DeleteArchetypeRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteArchetypeResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31659,7 +31754,8 @@ export const deleteAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19488, __c609, 0) as any as S.Schema<DeleteAttributeRequest>,
   output: __S(19489, __c609, 1) as any as S.Schema<DeleteAttributeResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31676,7 +31772,8 @@ export const deleteConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19520, __c610, 0) as any as S.Schema<DeleteConfigRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteConfigResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31693,7 +31790,8 @@ export const deleteConfigRevisionProjection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19552, __c611, 0) as any as S.Schema<DeleteConfigRevisionProjectionRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<DeleteConfigRevisionProjectionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31710,7 +31808,8 @@ export const deleteConfigRevisionProperty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<DeleteConfigRevisionPropertyRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<DeleteConfigRevisionPropertyResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31727,7 +31826,8 @@ export const deleteConstant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DeleteConstantRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteConstantResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31744,7 +31844,8 @@ export const deleteContextualBandit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<DeleteContextualBanditRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteContextualBanditResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31761,7 +31862,8 @@ export const deleteContextualBanditLinkedFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<DeleteContextualBanditLinkedFeatureRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<DeleteContextualBanditLinkedFeatureResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31778,7 +31880,8 @@ export const deleteContextualBanditQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<DeleteContextualBanditQueryRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteContextualBanditQueryResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31795,7 +31898,8 @@ export const deleteCustomField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<DeleteCustomFieldRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteCustomFieldResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31812,7 +31916,8 @@ export const deleteCustomHook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<DeleteCustomHookRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteCustomHookResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31829,7 +31934,8 @@ export const deleteDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<DeleteDashboardRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteDashboardResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31846,7 +31952,8 @@ export const deleteDimension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteDimensionRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteDimensionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31863,7 +31970,8 @@ export const deleteEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteEnvironmentResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31880,7 +31988,8 @@ export const deleteExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteExperimentRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteExperimentResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31897,7 +32006,8 @@ export const deleteExperimentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DeleteExperimentTemplateRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteExperimentTemplateResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31914,7 +32024,8 @@ export const deleteFactMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<DeleteFactMetricRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteFactMetricResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31931,7 +32042,8 @@ export const deleteFactTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<DeleteFactTableRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteFactTableResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31948,7 +32060,8 @@ export const deleteFactTableFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DeleteFactTableFilterRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteFactTableFilterResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31965,7 +32078,8 @@ export const deleteFactTableVirtualColumn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<DeleteFactTableVirtualColumnRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteFactTableVirtualColumnResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31982,7 +32096,8 @@ export const deleteFeatureRevisionLogEntryV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<DeleteFeatureRevisionLogEntryV2Request>,
   output: __S(13696, __c428, 0) as any as S.Schema<DeleteFeatureRevisionLogEntryV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31999,7 +32114,8 @@ export const deleteFeatureRevisionRuleRampScheduleV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<DeleteFeatureRevisionRuleRampScheduleV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<DeleteFeatureRevisionRuleRampScheduleV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32016,7 +32132,8 @@ export const deleteFeatureRevisionRuleV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<DeleteFeatureRevisionRuleV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<DeleteFeatureRevisionRuleV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32033,7 +32150,8 @@ export const deleteFeatureV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<DeleteFeatureV2Request>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteFeatureV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32050,7 +32168,8 @@ export const deleteInterleaving: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<DeleteInterleavingRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteInterleavingResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32067,7 +32186,8 @@ export const deleteInterleavingExposureQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<DeleteInterleavingExposureQueryRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteInterleavingExposureQueryResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32084,7 +32204,8 @@ export const deleteLearning: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<DeleteLearningRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteLearningResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32101,7 +32222,8 @@ export const deleteMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<DeleteMemberRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteMemberResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32118,7 +32240,8 @@ export const deleteMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<DeleteMetricRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteMetricResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32135,7 +32258,8 @@ export const deleteMetricGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<DeleteMetricGroupRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteMetricGroupResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32152,7 +32276,8 @@ export const deleteNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<DeleteNamespaceRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteNamespaceResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32169,7 +32294,8 @@ export const deletePopulation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<DeletePopulationRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeletePopulationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32186,7 +32312,8 @@ export const deleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32203,7 +32330,8 @@ export const deleteRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<DeleteRampScheduleRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32220,7 +32348,8 @@ export const deleteRampScheduleTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<DeleteRampScheduleTemplateRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteRampScheduleTemplateResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32237,7 +32366,8 @@ export const deleteSavedGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<DeleteSavedGroupRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteSavedGroupResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32254,7 +32384,8 @@ export const deleteSavedGroupUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<DeleteSavedGroupUploadRequest>,
   output: __S(1537, __c48, 1) as any as S.Schema<DeleteSavedGroupUploadResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32271,7 +32402,8 @@ export const deleteSdkConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<DeleteSdkConnectionRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteSdkConnectionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32288,7 +32420,8 @@ export const deleteSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<DeleteSegmentRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteSegmentResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32305,7 +32438,8 @@ export const deleteTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<DeleteTeamRequest>,
   output: __S(19456, __c608, 0) as any as S.Schema<DeleteTeamResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32322,7 +32456,8 @@ export const deleteVariationScreenshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<DeleteVariationScreenshotRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<DeleteVariationScreenshotResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32339,7 +32474,8 @@ export const ejectTargetRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<EjectTargetRampScheduleRequest>,
   output: __S(1729, __c54, 1) as any as S.Schema<EjectTargetRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32356,7 +32492,8 @@ export const getAggregatedFactTables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetAggregatedFactTablesRequest>,
   output: __S(1763, __c55, 3) as any as S.Schema<GetAggregatedFactTablesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32373,7 +32510,8 @@ export const getAggregatedTableRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<GetAggregatedTableRunRequest>,
   output: __S(1795, __c56, 3) as any as S.Schema<GetAggregatedTableRunResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32390,7 +32528,8 @@ export const getArchetype: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetArchetypeRequest>,
   output: __S(1888, __c59, 0) as any as S.Schema<GetArchetypeResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32407,7 +32546,8 @@ export const getAutoRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetAutoRunRequest>,
   output: __S(2912, __c91, 0) as any as S.Schema<GetAutoRunResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32424,7 +32564,8 @@ export const getCodeRefs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<GetCodeRefsRequest>,
   output: __S(1985, __c62, 1) as any as S.Schema<GetCodeRefsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32441,7 +32582,8 @@ export const getConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<GetConfigRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<GetConfigResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32458,7 +32600,8 @@ export const getConfigKeyUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<GetConfigKeyUsageRequest>,
   output: __S(2115, __c66, 3) as any as S.Schema<GetConfigKeyUsageResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32475,7 +32618,8 @@ export const getConfigLineage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<GetConfigLineageRequest>,
   output: __S(2147, __c67, 3) as any as S.Schema<GetConfigLineageResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32492,7 +32636,8 @@ export const getConfigReferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<GetConfigReferencesRequest>,
   output: __S(2179, __c68, 3) as any as S.Schema<GetConfigReferencesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32509,7 +32654,8 @@ export const getConfigRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<GetConfigRevisionRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<GetConfigRevisionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32526,7 +32672,8 @@ export const getConfigRevisionLatest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<GetConfigRevisionLatestRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<GetConfigRevisionLatestResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32543,7 +32690,8 @@ export const getConfigRevisionMergeStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<GetConfigRevisionMergeStatusRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<GetConfigRevisionMergeStatusResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32562,7 +32710,8 @@ export const getConfigRevisions: API.PaginatedOperationMethod<
   () => ({
     input: __S(2464, __c77, 0) as any as S.Schema<GetConfigRevisionsRequest>,
     output: __S(2497, __c78, 1) as any as S.Schema<GetConfigRevisionsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32588,7 +32737,8 @@ export const getConfigSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<GetConfigSchemaRequest>,
   output: __S(2529, __c79, 1) as any as S.Schema<GetConfigSchemaResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32605,7 +32755,8 @@ export const getConfirmation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<GetConfirmationRequest>,
   output: __S(2565, __c80, 5) as any as S.Schema<GetConfirmationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32622,7 +32773,8 @@ export const getConstant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<GetConstantRequest>,
   output: __S(9856, __c308, 0) as any as S.Schema<GetConstantResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32639,7 +32791,8 @@ export const getConstantReferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<GetConstantReferencesRequest>,
   output: __S(2627, __c82, 3) as any as S.Schema<GetConstantReferencesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32656,7 +32809,8 @@ export const getConstantRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<GetConstantRevisionRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<GetConstantRevisionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32673,7 +32827,8 @@ export const getConstantRevisionLatest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<GetConstantRevisionLatestRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<GetConstantRevisionLatestResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32690,7 +32845,8 @@ export const getConstantRevisionMergeStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<GetConstantRevisionMergeStatusRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<GetConstantRevisionMergeStatusResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32709,7 +32865,8 @@ export const getConstantRevisions: API.PaginatedOperationMethod<
   () => ({
     input: __S(2752, __c86, 0) as any as S.Schema<GetConstantRevisionsRequest>,
     output: __S(2785, __c87, 1) as any as S.Schema<GetConstantRevisionsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -32735,7 +32892,8 @@ export const getContextualBandit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<GetContextualBanditRequest>,
   output: __S(14176, __c443, 0) as any as S.Schema<GetContextualBanditResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32752,7 +32910,8 @@ export const getContextualBanditCurrentWeights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<GetContextualBanditCurrentWeightsRequest>,
   output: __S(2945, __c92, 1) as any as S.Schema<GetContextualBanditCurrentWeightsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32769,7 +32928,8 @@ export const getContextualBanditEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<GetContextualBanditEventRequest>,
   output: __S(3009, __c94, 1) as any as S.Schema<GetContextualBanditEventResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32786,7 +32946,8 @@ export const getContextualBanditLinkedFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<GetContextualBanditLinkedFeaturesRequest>,
   output: __S(3041, __c95, 1) as any as S.Schema<GetContextualBanditLinkedFeaturesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32803,7 +32964,8 @@ export const getContextualBanditQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<GetContextualBanditQueryRequest>,
   output: __S(14624, __c457, 0) as any as S.Schema<GetContextualBanditQueryResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32820,7 +32982,8 @@ export const getContextualBanditResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<GetContextualBanditResultsRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<GetContextualBanditResultsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32837,7 +33000,8 @@ export const getContextualBanditSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<GetContextualBanditSnapshotRequest>,
   output: __S(3233, __c101, 1) as any as S.Schema<GetContextualBanditSnapshotResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32854,7 +33018,8 @@ export const getContextualBanditStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<GetContextualBanditStatusRequest>,
   output: __S(3297, __c103, 1) as any as S.Schema<GetContextualBanditStatusResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32871,7 +33036,8 @@ export const getCustomField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<GetCustomFieldRequest>,
   output: __S(14912, __c466, 0) as any as S.Schema<GetCustomFieldResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32888,7 +33054,8 @@ export const getCustomHook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<GetCustomHookRequest>,
   output: __S(15008, __c469, 0) as any as S.Schema<GetCustomHookResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32905,7 +33072,8 @@ export const getDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<GetDashboardRequest>,
   output: __S(15136, __c473, 0) as any as S.Schema<GetDashboardResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32922,7 +33090,8 @@ export const getDashboardsForExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<GetDashboardsForExperimentRequest>,
   output: __S(3809, __c119, 1) as any as S.Schema<GetDashboardsForExperimentResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32939,7 +33108,8 @@ export const getDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<GetDataSourceRequest>,
   output: __S(3841, __c120, 1) as any as S.Schema<GetDataSourceResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32956,7 +33126,8 @@ export const getDimension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<GetDimensionRequest>,
   output: __S(15232, __c476, 0) as any as S.Schema<GetDimensionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32973,7 +33144,8 @@ export const getExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<GetExperimentRequest>,
   output: __S(15776, __c493, 0) as any as S.Schema<GetExperimentResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32990,7 +33162,8 @@ export const getExperimentNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<GetExperimentNamesRequest>,
   output: __S(3971, __c124, 3) as any as S.Schema<GetExperimentNamesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33007,7 +33180,8 @@ export const getExperimentResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<GetExperimentResultsRequest>,
   output: __S(4001, __c125, 1) as any as S.Schema<GetExperimentResultsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33024,7 +33198,8 @@ export const getExperimentSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<GetExperimentSnapshotRequest>,
   output: __S(15905, __c497, 1) as any as S.Schema<GetExperimentSnapshotResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33041,7 +33216,8 @@ export const getExperimentStartChecklist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<GetExperimentStartChecklistRequest>,
   output: __S(16036, __c501, 4) as any as S.Schema<GetExperimentStartChecklistResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33058,7 +33234,8 @@ export const getExperimentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<GetExperimentTemplateRequest>,
   output: __S(16192, __c506, 0) as any as S.Schema<GetExperimentTemplateResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33075,7 +33252,8 @@ export const getFactMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<GetFactMetricRequest>,
   output: __S(4224, __c132, 0) as any as S.Schema<GetFactMetricResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33092,7 +33270,8 @@ export const getFactTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<GetFactTableRequest>,
   output: __S(16320, __c510, 0) as any as S.Schema<GetFactTableResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33109,7 +33288,8 @@ export const getFactTableFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<GetFactTableFilterRequest>,
   output: __S(16512, __c516, 0) as any as S.Schema<GetFactTableFilterResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33126,7 +33306,8 @@ export const getFeatureKeysV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<GetFeatureKeysV2Request>,
   output: __S(4353, __c136, 1) as any as S.Schema<GetFeatureKeysV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33143,7 +33324,8 @@ export const getFeatureRevisionDiffV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<GetFeatureRevisionDiffV2Request>,
   output: __S(4385, __c137, 1) as any as S.Schema<GetFeatureRevisionDiffV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33160,7 +33342,8 @@ export const getFeatureRevisionLatestV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<GetFeatureRevisionLatestV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<GetFeatureRevisionLatestV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33177,7 +33360,8 @@ export const getFeatureRevisionLogV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<GetFeatureRevisionLogV2Request>,
   output: __S(4451, __c139, 3) as any as S.Schema<GetFeatureRevisionLogV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33194,7 +33378,8 @@ export const getFeatureRevisionMergeStatusV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<GetFeatureRevisionMergeStatusV2Request>,
   output: __S(4481, __c140, 1) as any as S.Schema<GetFeatureRevisionMergeStatusV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33213,7 +33398,8 @@ export const getFeatureRevisionsV2: API.PaginatedOperationMethod<
   () => ({
     input: __S(4576, __c143, 0) as any as S.Schema<GetFeatureRevisionsV2Request>,
     output: __S(4640, __c145, 0) as any as S.Schema<GetFeatureRevisionsV2Response>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -33239,7 +33425,8 @@ export const getFeatureRevisionV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<GetFeatureRevisionV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<GetFeatureRevisionV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33256,7 +33443,8 @@ export const getFeatureStaleV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<GetFeatureStaleV2Request>,
   output: __S(4709, __c147, 5) as any as S.Schema<GetFeatureStaleV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33273,7 +33461,8 @@ export const getFeatureV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<GetFeatureV2Request>,
   output: __S(4834, __c151, 2) as any as S.Schema<GetFeatureV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33290,7 +33479,8 @@ export const getHoldout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<GetHoldoutRequest>,
   output: __S(16672, __c521, 0) as any as S.Schema<GetHoldoutResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33307,7 +33497,8 @@ export const getInformationSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<GetInformationSchemaRequest>,
   output: __S(4937, __c154, 9) as any as S.Schema<GetInformationSchemaResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33324,7 +33515,8 @@ export const getInformationSchemaTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<GetInformationSchemaTableRequest>,
   output: __S(4964, __c155, 4) as any as S.Schema<GetInformationSchemaTableResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33341,7 +33533,8 @@ export const getInterleaving: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<GetInterleavingRequest>,
   output: __S(16832, __c526, 0) as any as S.Schema<GetInterleavingResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33358,7 +33551,8 @@ export const getInterleavingExposureQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<GetInterleavingExposureQueryRequest>,
   output: __S(16992, __c531, 0) as any as S.Schema<GetInterleavingExposureQueryResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33375,7 +33569,8 @@ export const getInterleavingResults: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<GetInterleavingResultsRequest>,
   output: __S(5057, __c158, 1) as any as S.Schema<GetInterleavingResultsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33392,7 +33587,8 @@ export const getInterleavingSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<GetInterleavingSnapshotRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<GetInterleavingSnapshotResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33409,7 +33605,8 @@ export const getInterleavingStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<GetInterleavingStatusRequest>,
   output: __S(5217, __c163, 1) as any as S.Schema<GetInterleavingStatusResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33426,7 +33623,8 @@ export const getLearning: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<GetLearningRequest>,
   output: __S(17088, __c534, 0) as any as S.Schema<GetLearningResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33443,7 +33641,8 @@ export const getMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<GetMetricRequest>,
   output: __S(5568, __c174, 0) as any as S.Schema<GetMetricResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33460,7 +33659,8 @@ export const getMetricGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<GetMetricGroupRequest>,
   output: __S(17184, __c537, 0) as any as S.Schema<GetMetricGroupResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33477,7 +33677,8 @@ export const getMetricUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<GetMetricUsageRequest>,
   output: __S(5637, __c176, 5) as any as S.Schema<GetMetricUsageResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33494,7 +33695,8 @@ export const getNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<GetNamespaceRequest>,
   output: __S(17280, __c540, 0) as any as S.Schema<GetNamespaceResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33513,7 +33715,8 @@ export const getNamespaceMemberships: API.PaginatedOperationMethod<
   () => ({
     input: __S(5696, __c178, 0) as any as S.Schema<GetNamespaceMembershipsRequest>,
     output: __S(5699, __c178, 3) as any as S.Schema<GetNamespaceMembershipsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -33539,7 +33742,8 @@ export const getPopulation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<GetPopulationRequest>,
   output: __S(17600, __c550, 0) as any as S.Schema<GetPopulationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33556,7 +33760,8 @@ export const getProductAnalyticsColumns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<GetProductAnalyticsColumnsRequest>,
   output: __S(5765, __c180, 5) as any as S.Schema<GetProductAnalyticsColumnsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33573,7 +33778,8 @@ export const getProductAnalyticsColumnValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<GetProductAnalyticsColumnValuesRequest>,
   output: __S(5793, __c181, 1) as any as S.Schema<GetProductAnalyticsColumnValuesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33590,7 +33796,8 @@ export const getProductAnalyticsExploration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<GetProductAnalyticsExplorationRequest>,
   output: __S(5829, __c182, 5) as any as S.Schema<GetProductAnalyticsExplorationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33607,7 +33814,8 @@ export const getProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(17728, __c554, 0) as any as S.Schema<GetProjectResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33624,7 +33832,8 @@ export const getQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<GetQueryRequest>,
   output: __S(6017, __c188, 1) as any as S.Schema<GetQueryResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33641,7 +33850,8 @@ export const getRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<GetRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<GetRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33658,7 +33868,8 @@ export const getRampScheduleStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<GetRampScheduleStatusRequest>,
   output: __S(6088, __c190, 8) as any as S.Schema<GetRampScheduleStatusResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33675,7 +33886,8 @@ export const getRampScheduleTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<GetRampScheduleTemplateRequest>,
   output: __S(17888, __c559, 0) as any as S.Schema<GetRampScheduleTemplateResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33692,7 +33904,8 @@ export const getReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<GetReportRequest>,
   output: __S(18080, __c565, 0) as any as S.Schema<GetReportResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33709,7 +33922,8 @@ export const getSavedGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<GetSavedGroupRequest>,
   output: __S(18176, __c568, 0) as any as S.Schema<GetSavedGroupResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33726,7 +33940,8 @@ export const getSavedGroupReferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<GetSavedGroupReferencesRequest>,
   output: __S(6213, __c194, 5) as any as S.Schema<GetSavedGroupReferencesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33743,7 +33958,8 @@ export const getSavedGroupRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<GetSavedGroupRevisionRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<GetSavedGroupRevisionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33760,7 +33976,8 @@ export const getSavedGroupRevisionLatest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<GetSavedGroupRevisionLatestRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<GetSavedGroupRevisionLatestResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33777,7 +33994,8 @@ export const getSavedGroupRevisionMergeStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<GetSavedGroupRevisionMergeStatusRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<GetSavedGroupRevisionMergeStatusResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33796,7 +34014,8 @@ export const getSavedGroupRevisions: API.PaginatedOperationMethod<
   () => ({
     input: __S(6464, __c202, 0) as any as S.Schema<GetSavedGroupRevisionsRequest>,
     output: __S(6497, __c203, 1) as any as S.Schema<GetSavedGroupRevisionsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -33822,7 +34041,8 @@ export const getSavedGroupUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<GetSavedGroupUploadRequest>,
   output: __S(19008, __c594, 0) as any as S.Schema<GetSavedGroupUploadResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33839,7 +34059,8 @@ export const getSdkConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<GetSdkConnectionRequest>,
   output: __S(19200, __c600, 0) as any as S.Schema<GetSdkConnectionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33856,7 +34077,8 @@ export const getSdkPayload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<GetSdkPayloadRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<GetSdkPayloadResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33873,7 +34095,8 @@ export const getSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<GetSegmentRequest>,
   output: __S(19296, __c603, 0) as any as S.Schema<GetSegmentResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33890,7 +34113,8 @@ export const getSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<GetSettingsRequest>,
   output: __S(6662, __c208, 6) as any as S.Schema<GetSettingsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33907,7 +34131,8 @@ export const getTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<GetTeamRequest>,
   output: __S(19392, __c606, 0) as any as S.Schema<GetTeamResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33924,7 +34149,8 @@ export const getVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<GetVersionRequest>,
   output: __S(6753, __c211, 1) as any as S.Schema<GetVersionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33941,7 +34167,8 @@ export const getVisualChangeset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<GetVisualChangesetRequest>,
   output: __S(6785, __c212, 1) as any as S.Schema<GetVisualChangesetResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33958,7 +34185,8 @@ export const getWarehouseTableSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6818, __c213, 2) as any as S.Schema<GetWarehouseTableSchemaRequest>,
   output: __S(6823, __c213, 7) as any as S.Schema<GetWarehouseTableSchemaResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33975,7 +34203,8 @@ export const jumpRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<JumpRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<JumpRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33994,7 +34223,8 @@ export const listAggregatedTableRuns: API.PaginatedOperationMethod<
   () => ({
     input: __S(6912, __c216, 0) as any as S.Schema<ListAggregatedTableRunsRequest>,
     output: __S(6915, __c216, 3) as any as S.Schema<ListAggregatedTableRunsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34020,7 +34250,8 @@ export const listArchetypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<ListArchetypesRequest>,
   output: __S(6946, __c217, 2) as any as S.Schema<ListArchetypesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34037,7 +34268,8 @@ export const listAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6976, __c218, 0) as any as S.Schema<ListAttributesRequest>,
   output: __S(6978, __c218, 2) as any as S.Schema<ListAttributesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34054,7 +34286,8 @@ export const listAutoRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<ListAutoRunsRequest>,
   output: __S(7010, __c219, 2) as any as S.Schema<ListAutoRunsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34073,7 +34306,8 @@ export const listCodeRefs: API.PaginatedOperationMethod<
   () => ({
     input: __S(7040, __c220, 0) as any as S.Schema<ListCodeRefsRequest>,
     output: __S(7041, __c220, 1) as any as S.Schema<ListCodeRefsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34101,7 +34335,8 @@ export const listConfigRevisions: API.PaginatedOperationMethod<
   () => ({
     input: __S(7072, __c221, 0) as any as S.Schema<ListConfigRevisionsRequest>,
     output: __S(2497, __c78, 1) as any as S.Schema<ListConfigRevisionsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34129,7 +34364,8 @@ export const listConfigs: API.PaginatedOperationMethod<
   () => ({
     input: __S(7104, __c222, 0) as any as S.Schema<ListConfigsRequest>,
     output: __S(7106, __c222, 2) as any as S.Schema<ListConfigsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34157,7 +34393,8 @@ export const listConstantRevisions: API.PaginatedOperationMethod<
   () => ({
     input: __S(7136, __c223, 0) as any as S.Schema<ListConstantRevisionsRequest>,
     output: __S(2785, __c87, 1) as any as S.Schema<ListConstantRevisionsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34185,7 +34422,8 @@ export const listConstants: API.PaginatedOperationMethod<
   () => ({
     input: __S(7168, __c224, 0) as any as S.Schema<ListConstantsRequest>,
     output: __S(7170, __c224, 2) as any as S.Schema<ListConstantsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34211,7 +34449,8 @@ export const listContextualBanditEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<ListContextualBanditEventsRequest>,
   output: __S(7234, __c226, 2) as any as S.Schema<ListContextualBanditEventsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34228,7 +34467,8 @@ export const listContextualBanditQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<ListContextualBanditQueriesRequest>,
   output: __S(7266, __c227, 2) as any as S.Schema<ListContextualBanditQueriesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34245,7 +34485,8 @@ export const listContextualBandits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<ListContextualBanditsRequest>,
   output: __S(7298, __c228, 2) as any as S.Schema<ListContextualBanditsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34262,7 +34503,8 @@ export const listContextualBanditSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<ListContextualBanditSnapshotsRequest>,
   output: __S(7330, __c229, 2) as any as S.Schema<ListContextualBanditSnapshotsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34279,7 +34521,8 @@ export const listContextualBanditVisualChangesets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7360, __c230, 0) as any as S.Schema<ListContextualBanditVisualChangesetsRequest>,
   output: __S(7393, __c231, 1) as any as S.Schema<ListContextualBanditVisualChangesetsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34296,7 +34539,8 @@ export const listCustomFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<ListCustomFieldsRequest>,
   output: __S(7426, __c232, 2) as any as S.Schema<ListCustomFieldsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34315,7 +34559,8 @@ export const listCustomHookHistory: API.PaginatedOperationMethod<
   () => ({
     input: __S(7456, __c233, 0) as any as S.Schema<ListCustomHookHistoryRequest>,
     output: __S(7459, __c233, 3) as any as S.Schema<ListCustomHookHistoryResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34343,7 +34588,8 @@ export const listCustomHooks: API.PaginatedOperationMethod<
   () => ({
     input: __S(7488, __c234, 0) as any as S.Schema<ListCustomHooksRequest>,
     output: __S(7490, __c234, 2) as any as S.Schema<ListCustomHooksResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34369,7 +34615,8 @@ export const listDashboards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<ListDashboardsRequest>,
   output: __S(3809, __c119, 1) as any as S.Schema<ListDashboardsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34388,7 +34635,8 @@ export const listDataSources: API.PaginatedOperationMethod<
   () => ({
     input: __S(7552, __c236, 0) as any as S.Schema<ListDataSourcesRequest>,
     output: __S(7554, __c236, 2) as any as S.Schema<ListDataSourcesResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34416,7 +34664,8 @@ export const listDimensions: API.PaginatedOperationMethod<
   () => ({
     input: __S(7616, __c238, 0) as any as S.Schema<ListDimensionsRequest>,
     output: __S(7618, __c238, 2) as any as S.Schema<ListDimensionsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34442,7 +34691,8 @@ export const listEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<ListEnvironmentsRequest>,
   output: __S(7650, __c239, 2) as any as S.Schema<ListEnvironmentsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34461,7 +34711,8 @@ export const listExperimentResults: API.PaginatedOperationMethod<
   () => ({
     input: __S(7680, __c240, 0) as any as S.Schema<ListExperimentResultsRequest>,
     output: __S(7682, __c240, 2) as any as S.Schema<ListExperimentResultsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34489,7 +34740,8 @@ export const listExperiments: API.PaginatedOperationMethod<
   () => ({
     input: __S(7712, __c241, 0) as any as S.Schema<ListExperimentsRequest>,
     output: __S(7714, __c241, 2) as any as S.Schema<ListExperimentsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34515,7 +34767,8 @@ export const listExperimentTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<ListExperimentTemplatesRequest>,
   output: __S(7746, __c242, 2) as any as S.Schema<ListExperimentTemplatesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34534,7 +34787,8 @@ export const listFactMetrics: API.PaginatedOperationMethod<
   () => ({
     input: __S(7776, __c243, 0) as any as S.Schema<ListFactMetricsRequest>,
     output: __S(7778, __c243, 2) as any as S.Schema<ListFactMetricsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34562,7 +34816,8 @@ export const listFactTableFilters: API.PaginatedOperationMethod<
   () => ({
     input: __S(7808, __c244, 0) as any as S.Schema<ListFactTableFiltersRequest>,
     output: __S(7810, __c244, 2) as any as S.Schema<ListFactTableFiltersResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34590,7 +34845,8 @@ export const listFactTables: API.PaginatedOperationMethod<
   () => ({
     input: __S(7840, __c245, 0) as any as S.Schema<ListFactTablesRequest>,
     output: __S(7842, __c245, 2) as any as S.Schema<ListFactTablesResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34618,7 +34874,8 @@ export const listFeaturesV2: API.PaginatedOperationMethod<
   () => ({
     input: __S(7872, __c246, 0) as any as S.Schema<ListFeaturesV2Request>,
     output: __S(7874, __c246, 2) as any as S.Schema<ListFeaturesV2Response>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34644,7 +34901,8 @@ export const listHoldouts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<ListHoldoutsRequest>,
   output: __S(7938, __c248, 2) as any as S.Schema<ListHoldoutsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34661,7 +34919,8 @@ export const listInterleavingExposureQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<ListInterleavingExposureQueriesRequest>,
   output: __S(8002, __c250, 2) as any as S.Schema<ListInterleavingExposureQueriesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34678,7 +34937,8 @@ export const listInterleavings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<ListInterleavingsRequest>,
   output: __S(8034, __c251, 2) as any as S.Schema<ListInterleavingsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34695,7 +34955,8 @@ export const listInterleavingSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<ListInterleavingSnapshotsRequest>,
   output: __S(8066, __c252, 2) as any as S.Schema<ListInterleavingSnapshotsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34712,7 +34973,8 @@ export const listLearnings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8096, __c253, 0) as any as S.Schema<ListLearningsRequest>,
   output: __S(8098, __c253, 2) as any as S.Schema<ListLearningsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34731,7 +34993,8 @@ export const listMembers: API.PaginatedOperationMethod<
   () => ({
     input: __S(8128, __c254, 0) as any as S.Schema<ListMembersRequest>,
     output: __S(8131, __c254, 3) as any as S.Schema<ListMembersResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34759,7 +35022,8 @@ export const listMetricExperiments: API.PaginatedOperationMethod<
   () => ({
     input: __S(8192, __c256, 0) as any as S.Schema<ListMetricExperimentsRequest>,
     output: __S(8197, __c256, 5) as any as S.Schema<ListMetricExperimentsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34785,7 +35049,8 @@ export const listMetricGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<ListMetricGroupsRequest>,
   output: __S(8226, __c257, 2) as any as S.Schema<ListMetricGroupsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34804,7 +35069,8 @@ export const listMetrics: API.PaginatedOperationMethod<
   () => ({
     input: __S(8256, __c258, 0) as any as S.Schema<ListMetricsRequest>,
     output: __S(8258, __c258, 2) as any as S.Schema<ListMetricsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34832,7 +35098,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
   () => ({
     input: __S(8288, __c259, 0) as any as S.Schema<ListNamespacesRequest>,
     output: __S(8290, __c259, 2) as any as S.Schema<ListNamespacesResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34860,7 +35127,8 @@ export const listOrganizations: API.PaginatedOperationMethod<
   () => ({
     input: __S(8320, __c260, 0) as any as S.Schema<ListOrganizationsRequest>,
     output: __S(8322, __c260, 2) as any as S.Schema<ListOrganizationsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34888,7 +35156,8 @@ export const listPopulations: API.PaginatedOperationMethod<
   () => ({
     input: __S(8384, __c262, 0) as any as S.Schema<ListPopulationsRequest>,
     output: __S(8386, __c262, 2) as any as S.Schema<ListPopulationsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34916,7 +35185,8 @@ export const listProjects: API.PaginatedOperationMethod<
   () => ({
     input: __S(8416, __c263, 0) as any as S.Schema<ListProjectsRequest>,
     output: __S(8418, __c263, 2) as any as S.Schema<ListProjectsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34944,7 +35214,8 @@ export const listRampSchedules: API.PaginatedOperationMethod<
   () => ({
     input: __S(8448, __c264, 0) as any as S.Schema<ListRampSchedulesRequest>,
     output: __S(8450, __c264, 2) as any as S.Schema<ListRampSchedulesResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -34970,7 +35241,8 @@ export const listRampScheduleTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<ListRampScheduleTemplatesRequest>,
   output: __S(8482, __c265, 2) as any as S.Schema<ListRampScheduleTemplatesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34989,7 +35261,8 @@ export const listReports: API.PaginatedOperationMethod<
   () => ({
     input: __S(8512, __c266, 0) as any as S.Schema<ListReportsRequest>,
     output: __S(8514, __c266, 2) as any as S.Schema<ListReportsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -35017,7 +35290,8 @@ export const listRevisionsV2: API.PaginatedOperationMethod<
   () => ({
     input: __S(8544, __c267, 0) as any as S.Schema<ListRevisionsV2Request>,
     output: __S(4640, __c145, 0) as any as S.Schema<ListRevisionsV2Response>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -35045,7 +35319,8 @@ export const listSavedGroupRevisions: API.PaginatedOperationMethod<
   () => ({
     input: __S(8576, __c268, 0) as any as S.Schema<ListSavedGroupRevisionsRequest>,
     output: __S(6497, __c203, 1) as any as S.Schema<ListSavedGroupRevisionsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -35073,7 +35348,8 @@ export const listSavedGroups: API.PaginatedOperationMethod<
   () => ({
     input: __S(8608, __c269, 0) as any as S.Schema<ListSavedGroupsRequest>,
     output: __S(8610, __c269, 2) as any as S.Schema<ListSavedGroupsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -35101,7 +35377,8 @@ export const listSavedGroupUploads: API.PaginatedOperationMethod<
   () => ({
     input: __S(8640, __c270, 0) as any as S.Schema<ListSavedGroupUploadsRequest>,
     output: __S(8642, __c270, 2) as any as S.Schema<ListSavedGroupUploadsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -35129,7 +35406,8 @@ export const listSdkConnections: API.PaginatedOperationMethod<
   () => ({
     input: __S(8672, __c271, 0) as any as S.Schema<ListSdkConnectionsRequest>,
     output: __S(8674, __c271, 2) as any as S.Schema<ListSdkConnectionsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -35157,7 +35435,8 @@ export const listSegments: API.PaginatedOperationMethod<
   () => ({
     input: __S(8736, __c273, 0) as any as S.Schema<ListSegmentsRequest>,
     output: __S(8738, __c273, 2) as any as S.Schema<ListSegmentsResponse>,
-    errors: [UnknownGrowthBookError],
+    errors: [],
+    serviceErrors: GrowthBookServiceErrors,
     protocol: GrowthBookProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -35183,7 +35462,8 @@ export const listTeams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8768, __c274, 0) as any as S.Schema<ListTeamsRequest>,
   output: __S(8770, __c274, 2) as any as S.Schema<ListTeamsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35200,7 +35480,8 @@ export const listVisualChangesets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<ListVisualChangesetsRequest>,
   output: __S(7393, __c231, 1) as any as S.Schema<ListVisualChangesetsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35217,7 +35498,8 @@ export const lockConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<LockConfigRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<LockConfigResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35234,7 +35516,8 @@ export const lookupSdkConnectionByKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<LookupSdkConnectionByKeyRequest>,
   output: __S(19200, __c600, 0) as any as S.Schema<LookupSdkConnectionByKeyResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35251,7 +35534,8 @@ export const pauseMatchingRampSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<PauseMatchingRampSchedulesRequest>,
   output: __S(8930, __c279, 2) as any as S.Schema<PauseMatchingRampSchedulesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35268,7 +35552,8 @@ export const pauseRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<PauseRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<PauseRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35284,7 +35569,8 @@ export const postCopyTransform: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<PostCopyTransformRequest>,
   output: __S(1696, __c53, 0) as any as S.Schema<PostCopyTransformResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35301,7 +35587,8 @@ export const postDataSourceExploration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9026, __c282, 2) as any as S.Schema<PostDataSourceExplorationRequest>,
   output: __S(9033, __c282, 9) as any as S.Schema<PostDataSourceExplorationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35318,7 +35605,8 @@ export const postFactMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<PostFactMetricRequest>,
   output: __S(4224, __c132, 0) as any as S.Schema<PostFactMetricResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35335,7 +35623,8 @@ export const postFactMetricAnalysis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<PostFactMetricAnalysisRequest>,
   output: __S(9186, __c287, 2) as any as S.Schema<PostFactMetricAnalysisResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35352,7 +35641,8 @@ export const postFactTableExploration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9218, __c288, 2) as any as S.Schema<PostFactTableExplorationRequest>,
   output: __S(9225, __c288, 9) as any as S.Schema<PostFactTableExplorationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35369,7 +35659,8 @@ export const postFeatureRevisionDiscardV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<PostFeatureRevisionDiscardV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionDiscardV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35386,7 +35677,8 @@ export const postFeatureRevisionPublishV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<PostFeatureRevisionPublishV2Request>,
   output: __S(9312, __c291, 0) as any as S.Schema<PostFeatureRevisionPublishV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35403,7 +35695,8 @@ export const postFeatureRevisionRebasePreviewV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<PostFeatureRevisionRebasePreviewV2Request>,
   output: __S(9345, __c292, 1) as any as S.Schema<PostFeatureRevisionRebasePreviewV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35420,7 +35713,8 @@ export const postFeatureRevisionRebaseV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9376, __c293, 0) as any as S.Schema<PostFeatureRevisionRebaseV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionRebaseV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35437,7 +35731,8 @@ export const postFeatureRevisionRecallReviewV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9408, __c294, 0) as any as S.Schema<PostFeatureRevisionRecallReviewV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionRecallReviewV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35454,7 +35749,8 @@ export const postFeatureRevisionReopenV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<PostFeatureRevisionReopenV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionReopenV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35471,7 +35767,8 @@ export const postFeatureRevisionRequestReviewV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<PostFeatureRevisionRequestReviewV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionRequestReviewV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35488,7 +35785,8 @@ export const postFeatureRevisionRevertV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<PostFeatureRevisionRevertV2Request>,
   output: __S(9312, __c291, 0) as any as S.Schema<PostFeatureRevisionRevertV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35505,7 +35803,8 @@ export const postFeatureRevisionRuleAddV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9888, __c309, 0) as any as S.Schema<PostFeatureRevisionRuleAddV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionRuleAddV2Response>,
-  errors: [UnprocessableEntity, UnknownGrowthBookError],
+  errors: [UnprocessableEntity],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35522,7 +35821,8 @@ export const postFeatureRevisionRulesReorderV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9952, __c311, 0) as any as S.Schema<PostFeatureRevisionRulesReorderV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionRulesReorderV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35539,7 +35839,8 @@ export const postFeatureRevisionSchedulePublishV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<PostFeatureRevisionSchedulePublishV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionSchedulePublishV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35556,7 +35857,8 @@ export const postFeatureRevisionSubmitReviewV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<PostFeatureRevisionSubmitReviewV2Request>,
   output: __S(10017, __c313, 1) as any as S.Schema<PostFeatureRevisionSubmitReviewV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35573,7 +35875,8 @@ export const postFeatureRevisionToggleV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10048, __c314, 0) as any as S.Schema<PostFeatureRevisionToggleV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionToggleV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35590,7 +35893,8 @@ export const postFeatureRevisionUndoReviewV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10080, __c315, 0) as any as S.Schema<PostFeatureRevisionUndoReviewV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionUndoReviewV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35607,7 +35911,8 @@ export const postFeatureRevisionV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10112, __c316, 0) as any as S.Schema<PostFeatureRevisionV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PostFeatureRevisionV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35624,7 +35929,8 @@ export const postFeatureV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10145, __c317, 1) as any as S.Schema<PostFeatureV2Request>,
   output: __S(10146, __c317, 2) as any as S.Schema<PostFeatureV2Response>,
-  errors: [UnprocessableEntity, UnknownGrowthBookError],
+  errors: [UnprocessableEntity],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35641,7 +35947,8 @@ export const postFunnelExploration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10212, __c319, 4) as any as S.Schema<PostFunnelExplorationRequest>,
   output: __S(10219, __c319, 11) as any as S.Schema<PostFunnelExplorationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35658,7 +35965,8 @@ export const postJourneyExploration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10246, __c320, 6) as any as S.Schema<PostJourneyExplorationRequest>,
   output: __S(10253, __c320, 13) as any as S.Schema<PostJourneyExplorationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35675,7 +35983,8 @@ export const postMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10371, __c324, 3) as any as S.Schema<PostMetricRequest>,
   output: __S(5568, __c174, 0) as any as S.Schema<PostMetricResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35692,7 +36001,8 @@ export const postMetricExploration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10437, __c326, 5) as any as S.Schema<PostMetricExplorationRequest>,
   output: __S(10444, __c326, 12) as any as S.Schema<PostMetricExplorationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35709,7 +36019,8 @@ export const postSqlExploration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10466, __c327, 2) as any as S.Schema<PostSqlExplorationRequest>,
   output: __S(10473, __c327, 9) as any as S.Schema<PostSqlExplorationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35726,7 +36037,8 @@ export const postVariationImageUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<PostVariationImageUploadRequest>,
   output: __S(10498, __c328, 2) as any as S.Schema<PostVariationImageUploadResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35743,7 +36055,8 @@ export const postVisualChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<PostVisualChangeRequest>,
   output: __S(10529, __c329, 1) as any as S.Schema<PostVisualChangeResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35760,7 +36073,8 @@ export const postVisualChangesets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<PostVisualChangesetsRequest>,
   output: __S(14752, __c461, 0) as any as S.Schema<PostVisualChangesetsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35777,7 +36091,8 @@ export const previewWarehouseColumnValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10624, __c332, 0) as any as S.Schema<PreviewWarehouseColumnValuesRequest>,
   output: __S(10625, __c332, 1) as any as S.Schema<PreviewWarehouseColumnValuesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35794,7 +36109,8 @@ export const putApprovalSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10658, __c333, 2) as any as S.Schema<PutApprovalSettingsRequest>,
   output: __S(10659, __c333, 3) as any as S.Schema<PutApprovalSettingsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35811,7 +36127,8 @@ export const putArchetype: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<PutArchetypeRequest>,
   output: __S(1888, __c59, 0) as any as S.Schema<PutArchetypeResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35828,7 +36145,8 @@ export const putAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<PutAttributeRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<PutAttributeResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35845,7 +36163,8 @@ export const putConfigRevisionArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10816, __c338, 0) as any as S.Schema<PutConfigRevisionArchiveRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<PutConfigRevisionArchiveResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35862,7 +36181,8 @@ export const putConfigRevisionMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<PutConfigRevisionMetadataRequest>,
   output: __S(10880, __c340, 0) as any as S.Schema<PutConfigRevisionMetadataResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35879,7 +36199,8 @@ export const putConfigRevisionProjection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10912, __c341, 0) as any as S.Schema<PutConfigRevisionProjectionRequest>,
   output: __S(10880, __c340, 0) as any as S.Schema<PutConfigRevisionProjectionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35896,7 +36217,8 @@ export const putConfigRevisionProperty: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10944, __c342, 0) as any as S.Schema<PutConfigRevisionPropertyRequest>,
   output: __S(10880, __c340, 0) as any as S.Schema<PutConfigRevisionPropertyResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35913,7 +36235,8 @@ export const putConfigRevisionSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10976, __c343, 0) as any as S.Schema<PutConfigRevisionSchemaRequest>,
   output: __S(10880, __c340, 0) as any as S.Schema<PutConfigRevisionSchemaResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35930,7 +36253,8 @@ export const putConfigRevisionValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11008, __c344, 0) as any as S.Schema<PutConfigRevisionValueRequest>,
   output: __S(10880, __c340, 0) as any as S.Schema<PutConfigRevisionValueResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35947,7 +36271,8 @@ export const putConstantRevisionArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11040, __c345, 0) as any as S.Schema<PutConstantRevisionArchiveRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<PutConstantRevisionArchiveResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35964,7 +36289,8 @@ export const putConstantRevisionMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11072, __c346, 0) as any as S.Schema<PutConstantRevisionMetadataRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<PutConstantRevisionMetadataResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35981,7 +36307,8 @@ export const putConstantRevisionValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11104, __c347, 0) as any as S.Schema<PutConstantRevisionValueRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<PutConstantRevisionValueResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35998,7 +36325,8 @@ export const putEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11136, __c348, 0) as any as S.Schema<PutEnvironmentRequest>,
   output: __S(15328, __c479, 0) as any as S.Schema<PutEnvironmentResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36015,7 +36343,8 @@ export const putExperimentSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11200, __c350, 0) as any as S.Schema<PutExperimentScheduleRequest>,
   output: __S(11201, __c350, 1) as any as S.Schema<PutExperimentScheduleResponse>,
-  errors: [Conflict, UnknownGrowthBookError],
+  errors: [Conflict],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36032,7 +36361,8 @@ export const putFeatureRevisionArchiveV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11232, __c351, 0) as any as S.Schema<PutFeatureRevisionArchiveV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PutFeatureRevisionArchiveV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36049,7 +36379,8 @@ export const putFeatureRevisionDefaultValueV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11264, __c352, 0) as any as S.Schema<PutFeatureRevisionDefaultValueV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PutFeatureRevisionDefaultValueV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36066,7 +36397,8 @@ export const putFeatureRevisionHoldoutV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<PutFeatureRevisionHoldoutV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PutFeatureRevisionHoldoutV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36083,7 +36415,8 @@ export const putFeatureRevisionLogCommentV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11328, __c354, 0) as any as S.Schema<PutFeatureRevisionLogCommentV2Request>,
   output: __S(13696, __c428, 0) as any as S.Schema<PutFeatureRevisionLogCommentV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36100,7 +36433,8 @@ export const putFeatureRevisionMetadataV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11360, __c355, 0) as any as S.Schema<PutFeatureRevisionMetadataV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PutFeatureRevisionMetadataV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36117,7 +36451,8 @@ export const putFeatureRevisionPrerequisitesV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11392, __c356, 0) as any as S.Schema<PutFeatureRevisionPrerequisitesV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PutFeatureRevisionPrerequisitesV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36134,7 +36469,8 @@ export const putFeatureRevisionRuleRampScheduleV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11425, __c357, 1) as any as S.Schema<PutFeatureRevisionRuleRampScheduleV2Request>,
   output: __S(11426, __c357, 2) as any as S.Schema<PutFeatureRevisionRuleRampScheduleV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36151,7 +36487,8 @@ export const putFeatureRevisionRuleV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11457, __c358, 1) as any as S.Schema<PutFeatureRevisionRuleV2Request>,
   output: __S(992, __c31, 0) as any as S.Schema<PutFeatureRevisionRuleV2Response>,
-  errors: [UnprocessableEntity, UnknownGrowthBookError],
+  errors: [UnprocessableEntity],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36168,7 +36505,8 @@ export const putMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11491, __c359, 3) as any as S.Schema<PutMetricRequest>,
   output: __S(11492, __c359, 4) as any as S.Schema<PutMetricResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36185,7 +36523,8 @@ export const putNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11552, __c361, 0) as any as S.Schema<PutNamespaceRequest>,
   output: __S(17280, __c540, 0) as any as S.Schema<PutNamespaceResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36202,7 +36541,8 @@ export const putOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11584, __c362, 0) as any as S.Schema<PutOrganizationRequest>,
   output: __S(17408, __c544, 0) as any as S.Schema<PutOrganizationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36219,7 +36559,8 @@ export const putProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11616, __c363, 0) as any as S.Schema<PutProjectRequest>,
   output: __S(17728, __c554, 0) as any as S.Schema<PutProjectResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36236,7 +36577,8 @@ export const putReportMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11648, __c364, 0) as any as S.Schema<PutReportMetadataRequest>,
   output: __S(18080, __c565, 0) as any as S.Schema<PutReportMetadataResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36253,7 +36595,8 @@ export const putReportSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11682, __c365, 2) as any as S.Schema<PutReportSettingsRequest>,
   output: __S(18080, __c565, 0) as any as S.Schema<PutReportSettingsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36270,7 +36613,8 @@ export const putSavedGroupRevisionArchive: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11712, __c366, 0) as any as S.Schema<PutSavedGroupRevisionArchiveRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<PutSavedGroupRevisionArchiveResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36287,7 +36631,8 @@ export const putSavedGroupRevisionCondition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11744, __c367, 0) as any as S.Schema<PutSavedGroupRevisionConditionRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<PutSavedGroupRevisionConditionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36304,7 +36649,8 @@ export const putSavedGroupRevisionMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11776, __c368, 0) as any as S.Schema<PutSavedGroupRevisionMetadataRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<PutSavedGroupRevisionMetadataResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36321,7 +36667,8 @@ export const putSavedGroupRevisionUploadVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11808, __c369, 0) as any as S.Schema<PutSavedGroupRevisionUploadVersionRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<PutSavedGroupRevisionUploadVersionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36338,7 +36685,8 @@ export const putSavedGroupRevisionValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11840, __c370, 0) as any as S.Schema<PutSavedGroupRevisionValuesRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<PutSavedGroupRevisionValuesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36355,7 +36703,8 @@ export const putSdkConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11904, __c372, 0) as any as S.Schema<PutSdkConnectionRequest>,
   output: __S(19200, __c600, 0) as any as S.Schema<PutSdkConnectionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36372,7 +36721,8 @@ export const putVisualChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11936, __c373, 0) as any as S.Schema<PutVisualChangeRequest>,
   output: __S(11937, __c373, 1) as any as S.Schema<PutVisualChangeResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36389,7 +36739,8 @@ export const putVisualChangeset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11970, __c374, 2) as any as S.Schema<PutVisualChangesetRequest>,
   output: __S(11971, __c374, 3) as any as S.Schema<PutVisualChangesetResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36406,7 +36757,8 @@ export const refreshAggregatedFactTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12000, __c375, 0) as any as S.Schema<RefreshAggregatedFactTableRequest>,
   output: __S(12003, __c375, 3) as any as S.Schema<RefreshAggregatedFactTableResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36423,7 +36775,8 @@ export const refreshContextualBandit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12032, __c376, 0) as any as S.Schema<RefreshContextualBanditRequest>,
   output: __S(12033, __c376, 1) as any as S.Schema<RefreshContextualBanditResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36440,7 +36793,8 @@ export const refreshInterleaving: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<RefreshInterleavingRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<RefreshInterleavingResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36457,7 +36811,8 @@ export const refreshMonitoringRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12096, __c378, 0) as any as S.Schema<RefreshMonitoringRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<RefreshMonitoringRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36474,7 +36829,8 @@ export const removeTeamMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12128, __c379, 0) as any as S.Schema<RemoveTeamMemberRequest>,
   output: __S(13696, __c428, 0) as any as S.Schema<RemoveTeamMemberResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36491,7 +36847,8 @@ export const restartRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12160, __c380, 0) as any as S.Schema<RestartRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<RestartRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36508,7 +36865,8 @@ export const resumeRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12192, __c381, 0) as any as S.Schema<ResumeRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<ResumeRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36525,7 +36883,8 @@ export const revertCustomHook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12256, __c383, 0) as any as S.Schema<RevertCustomHookRequest>,
   output: __S(15008, __c469, 0) as any as S.Schema<RevertCustomHookResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36542,7 +36901,8 @@ export const revertFeatureV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12288, __c384, 0) as any as S.Schema<RevertFeatureV2Request>,
   output: __S(12320, __c385, 0) as any as S.Schema<RevertFeatureV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36559,7 +36919,8 @@ export const rollbackMatchingRampSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12352, __c386, 0) as any as S.Schema<RollbackMatchingRampSchedulesRequest>,
   output: __S(8930, __c279, 2) as any as S.Schema<RollbackMatchingRampSchedulesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36576,7 +36937,8 @@ export const rollbackRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12384, __c387, 0) as any as S.Schema<RollbackRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<RollbackRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36593,7 +36955,8 @@ export const runSqlQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12417, __c388, 1) as any as S.Schema<RunSqlQueryRequest>,
   output: __S(12418, __c388, 2) as any as S.Schema<RunSqlQueryResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36610,7 +36973,8 @@ export const searchLearnings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12448, __c389, 0) as any as S.Schema<SearchLearningsRequest>,
   output: __S(12451, __c389, 3) as any as S.Schema<SearchLearningsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36627,7 +36991,8 @@ export const searchProductAnalyticsResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12480, __c390, 0) as any as S.Schema<SearchProductAnalyticsResourcesRequest>,
   output: __S(12482, __c390, 2) as any as S.Schema<SearchProductAnalyticsResourcesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36644,7 +37009,8 @@ export const searchWarehouseTables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12512, __c391, 0) as any as S.Schema<SearchWarehouseTablesRequest>,
   output: __S(12515, __c391, 3) as any as S.Schema<SearchWarehouseTablesResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36661,7 +37027,8 @@ export const setAutoUpdateRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12544, __c392, 0) as any as S.Schema<SetAutoUpdateRampScheduleRequest>,
   output: __S(9708, __c303, 12) as any as S.Schema<SetAutoUpdateRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36678,7 +37045,8 @@ export const setMonitoringModeRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12576, __c393, 0) as any as S.Schema<SetMonitoringModeRampScheduleRequest>,
   output: __S(9708, __c303, 12) as any as S.Schema<SetMonitoringModeRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36695,7 +37063,8 @@ export const startContextualBandit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12640, __c395, 0) as any as S.Schema<StartContextualBanditRequest>,
   output: __S(14176, __c443, 0) as any as S.Schema<StartContextualBanditResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36712,7 +37081,8 @@ export const startHoldout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<StartHoldoutRequest>,
   output: __S(16672, __c521, 0) as any as S.Schema<StartHoldoutResponse>,
-  errors: [Conflict, UnknownGrowthBookError],
+  errors: [Conflict],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36729,7 +37099,8 @@ export const startHoldoutAnalysis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12704, __c397, 0) as any as S.Schema<StartHoldoutAnalysisRequest>,
   output: __S(16672, __c521, 0) as any as S.Schema<StartHoldoutAnalysisResponse>,
-  errors: [Conflict, UnknownGrowthBookError],
+  errors: [Conflict],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36746,7 +37117,8 @@ export const startInterleaving: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12736, __c398, 0) as any as S.Schema<StartInterleavingRequest>,
   output: __S(16832, __c526, 0) as any as S.Schema<StartInterleavingResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36763,7 +37135,8 @@ export const startRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12768, __c399, 0) as any as S.Schema<StartRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<StartRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36780,7 +37153,8 @@ export const stopContextualBandit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12800, __c400, 0) as any as S.Schema<StopContextualBanditRequest>,
   output: __S(14176, __c443, 0) as any as S.Schema<StopContextualBanditResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36797,7 +37171,8 @@ export const stopHoldout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12832, __c401, 0) as any as S.Schema<StopHoldoutRequest>,
   output: __S(16672, __c521, 0) as any as S.Schema<StopHoldoutResponse>,
-  errors: [Conflict, UnknownGrowthBookError],
+  errors: [Conflict],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36814,7 +37189,8 @@ export const stopInterleaving: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12864, __c402, 0) as any as S.Schema<StopInterleavingRequest>,
   output: __S(16832, __c526, 0) as any as S.Schema<StopInterleavingResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36831,7 +37207,8 @@ export const testCustomHook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12896, __c403, 0) as any as S.Schema<TestCustomHookRequest>,
   output: __S(12898, __c403, 2) as any as S.Schema<TestCustomHookResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36848,7 +37225,8 @@ export const toggleFeatureV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12929, __c404, 1) as any as S.Schema<ToggleFeatureV2Request>,
   output: __S(12320, __c385, 0) as any as S.Schema<ToggleFeatureV2Response>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36865,7 +37243,8 @@ export const unarchiveConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12992, __c406, 0) as any as S.Schema<UnarchiveConfigRequest>,
   output: __S(18432, __c576, 0) as any as S.Schema<UnarchiveConfigResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36882,7 +37261,8 @@ export const unarchiveConstant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13024, __c407, 0) as any as S.Schema<UnarchiveConstantRequest>,
   output: __S(18944, __c592, 0) as any as S.Schema<UnarchiveConstantResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36899,7 +37279,8 @@ export const unarchiveSavedGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13056, __c408, 0) as any as S.Schema<UnarchiveSavedGroupRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<UnarchiveSavedGroupResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36916,7 +37297,8 @@ export const unlockConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13088, __c409, 0) as any as S.Schema<UnlockConfigRequest>,
   output: __S(2080, __c65, 0) as any as S.Schema<UnlockConfigResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36933,7 +37315,8 @@ export const updateAutoRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13121, __c410, 1) as any as S.Schema<UpdateAutoRunRequest>,
   output: __S(2912, __c91, 0) as any as S.Schema<UpdateAutoRunResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36950,7 +37333,8 @@ export const updateConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13152, __c411, 0) as any as S.Schema<UpdateConfigRequest>,
   output: __S(13153, __c411, 1) as any as S.Schema<UpdateConfigResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36967,7 +37351,8 @@ export const updateConfigRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13184, __c412, 0) as any as S.Schema<UpdateConfigRevisionRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<UpdateConfigRevisionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36984,7 +37369,8 @@ export const updateConstant: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13216, __c413, 0) as any as S.Schema<UpdateConstantRequest>,
   output: __S(18944, __c592, 0) as any as S.Schema<UpdateConstantResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37001,7 +37387,8 @@ export const updateConstantRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13248, __c414, 0) as any as S.Schema<UpdateConstantRevisionRequest>,
   output: __S(10336, __c323, 0) as any as S.Schema<UpdateConstantRevisionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37018,7 +37405,8 @@ export const updateContextualBandit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13280, __c415, 0) as any as S.Schema<UpdateContextualBanditRequest>,
   output: __S(14176, __c443, 0) as any as S.Schema<UpdateContextualBanditResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37035,7 +37423,8 @@ export const updateContextualBanditLinkedFeature: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13344, __c417, 0) as any as S.Schema<UpdateContextualBanditLinkedFeatureRequest>,
   output: __S(13345, __c417, 1) as any as S.Schema<UpdateContextualBanditLinkedFeatureResponse>,
-  errors: [UnprocessableEntity, UnknownGrowthBookError],
+  errors: [UnprocessableEntity],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37052,7 +37441,8 @@ export const updateContextualBanditQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13376, __c418, 0) as any as S.Schema<UpdateContextualBanditQueryRequest>,
   output: __S(14624, __c457, 0) as any as S.Schema<UpdateContextualBanditQueryResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37069,7 +37459,8 @@ export const updateContextualBanditVariations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13412, __c419, 4) as any as S.Schema<UpdateContextualBanditVariationsRequest>,
   output: __S(13415, __c419, 7) as any as S.Schema<UpdateContextualBanditVariationsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37086,7 +37477,8 @@ export const updateCustomField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13440, __c420, 0) as any as S.Schema<UpdateCustomFieldRequest>,
   output: __S(14912, __c466, 0) as any as S.Schema<UpdateCustomFieldResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37103,7 +37495,8 @@ export const updateCustomHook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13472, __c421, 0) as any as S.Schema<UpdateCustomHookRequest>,
   output: __S(15008, __c469, 0) as any as S.Schema<UpdateCustomHookResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37120,7 +37513,8 @@ export const updateDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13505, __c422, 1) as any as S.Schema<UpdateDashboardRequest>,
   output: __S(15136, __c473, 0) as any as S.Schema<UpdateDashboardResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37137,7 +37531,8 @@ export const updateDimension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13536, __c423, 0) as any as S.Schema<UpdateDimensionRequest>,
   output: __S(15232, __c476, 0) as any as S.Schema<UpdateDimensionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37154,7 +37549,8 @@ export const updateExperiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13569, __c424, 1) as any as S.Schema<UpdateExperimentRequest>,
   output: __S(13570, __c424, 2) as any as S.Schema<UpdateExperimentResponse>,
-  errors: [Conflict, UnknownGrowthBookError],
+  errors: [Conflict],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37171,7 +37567,8 @@ export const updateExperimentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13600, __c425, 0) as any as S.Schema<UpdateExperimentTemplateRequest>,
   output: __S(16192, __c506, 0) as any as S.Schema<UpdateExperimentTemplateResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37188,7 +37585,8 @@ export const updateFactMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13632, __c426, 0) as any as S.Schema<UpdateFactMetricRequest>,
   output: __S(4224, __c132, 0) as any as S.Schema<UpdateFactMetricResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37205,7 +37603,8 @@ export const updateFactTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13760, __c430, 0) as any as S.Schema<UpdateFactTableRequest>,
   output: __S(16320, __c510, 0) as any as S.Schema<UpdateFactTableResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37222,7 +37621,8 @@ export const updateFactTableFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13792, __c431, 0) as any as S.Schema<UpdateFactTableFilterRequest>,
   output: __S(16512, __c516, 0) as any as S.Schema<UpdateFactTableFilterResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37239,7 +37639,8 @@ export const updateFactTableVirtualColumn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13824, __c432, 0) as any as S.Schema<UpdateFactTableVirtualColumnRequest>,
   output: __S(16576, __c518, 0) as any as S.Schema<UpdateFactTableVirtualColumnResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37256,7 +37657,8 @@ export const updateFeatureV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13857, __c433, 1) as any as S.Schema<UpdateFeatureV2Request>,
   output: __S(12320, __c385, 0) as any as S.Schema<UpdateFeatureV2Response>,
-  errors: [UnprocessableEntity, UnknownGrowthBookError],
+  errors: [UnprocessableEntity],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37273,7 +37675,8 @@ export const updateHoldout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13888, __c434, 0) as any as S.Schema<UpdateHoldoutRequest>,
   output: __S(16672, __c521, 0) as any as S.Schema<UpdateHoldoutResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37290,7 +37693,8 @@ export const updateInterleaving: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13923, __c435, 3) as any as S.Schema<UpdateInterleavingRequest>,
   output: __S(16832, __c526, 0) as any as S.Schema<UpdateInterleavingResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37307,7 +37711,8 @@ export const updateInterleavingExposureQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13952, __c436, 0) as any as S.Schema<UpdateInterleavingExposureQueryRequest>,
   output: __S(16992, __c531, 0) as any as S.Schema<UpdateInterleavingExposureQueryResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37324,7 +37729,8 @@ export const updateLearning: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13984, __c437, 0) as any as S.Schema<UpdateLearningRequest>,
   output: __S(17088, __c534, 0) as any as S.Schema<UpdateLearningResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37341,7 +37747,8 @@ export const updateMemberRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14019, __c438, 3) as any as S.Schema<UpdateMemberRoleRequest>,
   output: __S(14021, __c438, 5) as any as S.Schema<UpdateMemberRoleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37358,7 +37765,8 @@ export const updateMetricGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14048, __c439, 0) as any as S.Schema<UpdateMetricGroupRequest>,
   output: __S(17184, __c537, 0) as any as S.Schema<UpdateMetricGroupResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37375,7 +37783,8 @@ export const updatePopulation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14240, __c445, 0) as any as S.Schema<UpdatePopulationRequest>,
   output: __S(17600, __c550, 0) as any as S.Schema<UpdatePopulationResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37392,7 +37801,8 @@ export const updateRampSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14278, __c446, 6) as any as S.Schema<UpdateRampScheduleRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<UpdateRampScheduleResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37409,7 +37819,8 @@ export const updateRampScheduleLockdown: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14304, __c447, 0) as any as S.Schema<UpdateRampScheduleLockdownRequest>,
   output: __S(9708, __c303, 12) as any as S.Schema<UpdateRampScheduleLockdownResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37426,7 +37837,8 @@ export const updateRampScheduleMonitoring: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14336, __c448, 0) as any as S.Schema<UpdateRampScheduleMonitoringRequest>,
   output: __S(9708, __c303, 12) as any as S.Schema<UpdateRampScheduleMonitoringResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37443,7 +37855,8 @@ export const updateRampScheduleSteps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14370, __c449, 2) as any as S.Schema<UpdateRampScheduleStepsRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<UpdateRampScheduleStepsResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37460,7 +37873,8 @@ export const updateRampScheduleTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14400, __c450, 0) as any as S.Schema<UpdateRampScheduleTemplateRequest>,
   output: __S(17888, __c559, 0) as any as S.Schema<UpdateRampScheduleTemplateResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37477,7 +37891,8 @@ export const updateSavedGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14432, __c451, 0) as any as S.Schema<UpdateSavedGroupRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<UpdateSavedGroupResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37494,7 +37909,8 @@ export const updateSavedGroupRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14464, __c452, 0) as any as S.Schema<UpdateSavedGroupRevisionRequest>,
   output: __S(18272, __c571, 0) as any as S.Schema<UpdateSavedGroupRevisionResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37511,7 +37927,8 @@ export const updateSegment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14496, __c453, 0) as any as S.Schema<UpdateSegmentRequest>,
   output: __S(19296, __c603, 0) as any as S.Schema<UpdateSegmentResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37528,7 +37945,8 @@ export const updateTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14528, __c454, 0) as any as S.Schema<UpdateTeamRequest>,
   output: __S(19392, __c606, 0) as any as S.Schema<UpdateTeamResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37545,7 +37963,8 @@ export const verifyConfigSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14656, __c458, 0) as any as S.Schema<VerifyConfigSchemaRequest>,
   output: __S(14662, __c458, 6) as any as S.Schema<VerifyConfigSchemaResponse>,
-  errors: [UnknownGrowthBookError],
+  errors: [],
+  serviceErrors: GrowthBookServiceErrors,
   protocol: GrowthBookProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -51595,7 +52014,7 @@ function __c599(j: number): any {
           project: S.String,
           projects: S.optional(__S(0, __c0, 0)),
           encryptPayload: S.Boolean,
-          encryptionKey: S.String,
+          encryptionKey: S.String.pipe(T.SensitiveValue({})),
           includeVisualExperiments: S.optional(S.Boolean),
           includeDraftExperiments: S.optional(S.Boolean),
           includeDraftExperimentRefs: S.optional(S.Boolean),
@@ -51610,7 +52029,7 @@ function __c599(j: number): any {
           key: S.String,
           proxyEnabled: S.Boolean,
           proxyHost: S.String,
-          proxySigningKey: S.String,
+          proxySigningKey: S.String.pipe(T.SensitiveValue({})),
           sseEnabled: S.optional(S.Boolean),
           hashSecureAttributes: S.optional(S.Boolean),
           remoteEvalEnabled: S.optional(S.Boolean),

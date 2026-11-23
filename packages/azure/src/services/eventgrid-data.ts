@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -104,7 +104,8 @@ export const PublishCloudEventEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<PublishCloudEventEventsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<PublishCloudEventEventsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -121,7 +122,8 @@ export const PublishCustomEventEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9, __c2, 1) as any as S.Schema<PublishCustomEventEventsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<PublishCustomEventEventsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -138,7 +140,8 @@ export const PublishEventGridEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14, __c3, 2) as any as S.Schema<PublishEventGridEventsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<PublishEventGridEventsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -177,11 +180,13 @@ function __c0(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/",
+            uri: "/api/events",
             code: 200,
             host: "https://{topicHostname}",
             hostRaw: ["topicHostname"],
             apiVersion: "2018-01-01",
+            jsonContentType: "application/cloudevents-batch+json; charset=utf-8",
+            audience: "https://eventgrid.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "PublishCloudEventEventsRequest" });
@@ -207,11 +212,12 @@ function __c2(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/",
+            uri: "/api/events",
             code: 200,
             host: "https://{topicHostname}",
             hostRaw: ["topicHostname"],
             apiVersion: "2018-01-01",
+            audience: "https://eventgrid.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "PublishCustomEventEventsRequest" });
@@ -241,11 +247,12 @@ function __c3(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/",
+            uri: "/api/events",
             code: 200,
             host: "https://{topicHostname}",
             hostRaw: ["topicHostname"],
             apiVersion: "2018-01-01",
+            audience: "https://eventgrid.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "PublishEventGridEventsRequest" });

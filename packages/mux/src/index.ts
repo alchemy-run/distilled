@@ -30,7 +30,7 @@
  * });
  *
  * program.pipe(
- *   Effect.provide(Layer.mergeAll(FetchHttpClient.layer, Mux.CredentialsFromEnv, Mux.MuxProtocol)),
+ *   Effect.provide(Layer.mergeAll(FetchHttpClient.layer, Mux.CredentialsFromEnv)),
  *   Effect.runPromise,
  * );
  * ```

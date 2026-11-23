@@ -1,4 +1,5 @@
-import { ConfigError } from "@distilled.cloud/core/errors";
+import { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import { encodeLabel, originFromConfig } from "@distilled.cloud/core/protocol-http";
 /**
  * UniFi credentials -- hand-written.
  *
@@ -45,6 +46,23 @@ export type ConsoleLocation =
   /** Through the cloud connector, by the console's ID (Site Manager `listHosts`). */
   | { readonly _tag: "Remote"; readonly consoleId: string; readonly apiBaseUrl?: string };
 
+/**
+ * Builds a {@link ConsoleLocation}, for one call's `console` member or for
+ * {@link consoleLayer}.
+ *
+ * @example
+ * ```ts
+ * const office = Unifi.ConsoleLocation.remote("<consoleId>");
+ * Unifi.getSiteOverviewPage({ console: office });
+ * ```
+ */
+export const ConsoleLocation = {
+  /** A console on the local network: a host (`192.168.0.1`, `udm.lan:8443`) or an origin. */
+  local: (host: string): ConsoleLocation => ({ _tag: "Local", host }),
+  /** A console behind the cloud connector, by its ID (`id` in Site Manager's `listHosts`). */
+  remote: (consoleId: string): ConsoleLocation => ({ _tag: "Remote", consoleId }),
+};
+
 /** What a console-hosted call needs: the key and where the console is. */
 export interface ConsoleConfig {
   readonly apiKey: Redacted.Redacted<string>;
@@ -56,16 +74,63 @@ export interface CloudConfig {
   readonly apiKey: Redacted.Redacted<string>;
 }
 
-/** Base URL (everything before `/v1/...`) of one application on a console. */
-export const consoleBaseUrl = (location: ConsoleLocation, app: ConsoleApp): string => {
+/**
+ * Base URL (everything before `/v1/...`) of one application on a console.
+ * Returns a {@link ConfigError} for a local host that is more than a host or
+ * origin (core `originFromConfig`), or a console ID that can't be a path
+ * segment (`.`, `..`, a lone UTF-16 surrogate); the protocol fails the call
+ * with it.
+ */
+export const consoleBaseUrl = (
+  location: ConsoleLocation,
+  app: ConsoleApp,
+): string | ConfigError => {
   if (location._tag === "Local") {
-    const origin = location.host.includes("://") ? location.host : `https://${location.host}`;
-    return `${origin.replace(/\/+$/, "")}/proxy/${app}/integration`;
+    const origin = originFromConfig("UniFi console host", location.host);
+    return origin instanceof ConfigError ? origin : `${origin}/proxy/${app}/integration`;
   }
   const origin = (location.apiBaseUrl ?? DEFAULT_CLOUD_BASE_URL).replace(/\/+$/, "");
+  const encoded = encodeLabel("consoleId", location.consoleId);
+  if (encoded instanceof InvalidInput) {
+    return new ConfigError({
+      message: `The configured UniFi console ID ${JSON.stringify(location.consoleId)} cannot be a URL path segment`,
+    });
+  }
   // `:` is legal in a path segment, and console IDs are `<hex>:<number>`.
-  const id = encodeURIComponent(location.consoleId).replace(/%3A/gi, ":");
+  const id = encoded.replace(/%3A/gi, ":");
   return `${origin}/v1/connector/consoles/${id}/proxy/${app}/integration`;
+};
+
+/**
+ * A `console` given on a call, checked: a Local location with a host, or a
+ * Remote one with a console ID that can be a path segment. Anything else is
+ * an {@link InvalidInput} on the `console` member.
+ */
+export const checkConsoleLocation = (value: unknown): ConsoleLocation | InvalidInput => {
+  const invalid = (why: string) =>
+    new InvalidInput({
+      member: "console",
+      message: `Input member console ${why}: expected ConsoleLocation.local(host) or ConsoleLocation.remote(consoleId)`,
+    });
+  if (value === null || typeof value !== "object") return invalid("is not an object");
+  const location = value as Record<string, unknown>;
+  if (location._tag === "Local") {
+    return typeof location.host === "string" && location.host.trim() !== ""
+      ? { _tag: "Local", host: location.host }
+      : invalid("has no host");
+  }
+  if (location._tag !== "Remote") return invalid("has no Local or Remote _tag");
+  if (typeof location.consoleId !== "string" || location.consoleId.trim() === "") {
+    return invalid("has no consoleId");
+  }
+  if (location.apiBaseUrl !== undefined && typeof location.apiBaseUrl !== "string") {
+    return invalid("has an apiBaseUrl that is not a string");
+  }
+  const encoded = encodeLabel("console", location.consoleId);
+  if (encoded instanceof InvalidInput) return encoded;
+  return location.apiBaseUrl === undefined
+    ? { _tag: "Remote", consoleId: location.consoleId }
+    : { _tag: "Remote", consoleId: location.consoleId, apiBaseUrl: location.apiBaseUrl };
 };
 
 /** The API key, redacted. */
@@ -75,7 +140,11 @@ export class ApiKey
     Effect.Effect<Redacted.Redacted<string>, ConfigError>
   >()("UniFiApiKey") {}
 
-/** Where the console is. Needed by Network, Protect and InnerSpace only. */
+/**
+ * Where the console is, for Network, Protect and InnerSpace. Optional, like
+ * AWS's `Region`: operations do not list it, and a call's own `console`
+ * member takes its place. A call with neither fails with {@link ConfigError}.
+ */
 export class Console
   extends /*@__PURE__*/ Context.Service<Console, Effect.Effect<ConsoleLocation, ConfigError>>()(
     "UniFiConsole",
@@ -86,11 +155,18 @@ export const apiKey = (key: Redacted.Redacted<string>): Layer.Layer<ApiKey> =>
   Layer.succeed(ApiKey, Effect.succeed(key));
 
 /**
+ * Layer that sends every call in its scope to one console, built with
+ * {@link ConsoleLocation}.
+ */
+export const consoleLayer = (location: ConsoleLocation): Layer.Layer<Console> =>
+  Layer.succeed(Console, Effect.succeed(location));
+
+/**
  * Layer for a console on the local network: a host (`192.168.0.1`) or an
  * origin (`https://192.168.0.1`). Use with a key created in the console.
  */
 export const localConsole = (host: string): Layer.Layer<Console> =>
-  Layer.succeed(Console, Effect.succeed({ _tag: "Local", host }));
+  consoleLayer(ConsoleLocation.local(host));
 
 /**
  * Layer for a console behind the cloud connector, by its ID (`id` in Site
@@ -98,13 +174,10 @@ export const localConsole = (host: string): Layer.Layer<Console> =>
  * `https://api.ui.com`.
  */
 export const remoteConsole = (consoleId: string, apiBaseUrl?: string): Layer.Layer<Console> =>
-  Layer.succeed(
-    Console,
-    Effect.succeed({
-      _tag: "Remote",
-      consoleId,
-      ...(apiBaseUrl === undefined ? {} : { apiBaseUrl }),
-    }),
+  consoleLayer(
+    apiBaseUrl === undefined
+      ? ConsoleLocation.remote(consoleId)
+      : { _tag: "Remote", consoleId, apiBaseUrl },
   );
 
 /** Reads `UNIFI_API_KEY`. */

@@ -21,6 +21,7 @@ import { ERROR_MATCHERS_TRAIT, RAW_RESPONSE_TRAIT } from "@distilled.cloud/dev/c
 import { JSON_PRELUDE, TS_JSON_PRELUDE } from "@distilled.cloud/dev/codegen/prelude";
 
 const root = path.resolve(import.meta.dirname, "..");
+const SENSITIVE_TRAIT = "smithy.api#sensitive";
 /** `nodes_lxc` -> `nodesLxc` (the barrel's export name). */
 const camel = (slug: string): string =>
   slug.replace(/_([a-z0-9])/g, (_, c: string) => c.toUpperCase());
@@ -47,6 +48,15 @@ export const lowerFamilies = (code: string): string =>
         : whole;
     });
 
+/** Sensitive member types reference Redacted; pull the import in when used. */
+const withRedactedImport = (code: string): string =>
+  code.includes("Redacted.Redacted<")
+    ? code.replace(
+        `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+        `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
+      )
+    : code;
+
 const spec: SdkSpec = {
   sourceNote: `.generated-specs (pve-docs, specs/spec-mirror-proxmox/specs/api-structure.json)`,
   prelude: {
@@ -69,11 +79,22 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "ProxmoxOpContext",
     commonErrorType: "ProxmoxOpError",
-    commonErrorClasses: ["UnknownProxmoxError"],
+    serviceErrors: "ProxmoxServiceErrors",
     protocol: "ProxmoxProtocol",
     // No retry policy: replaying a write could start its task twice.
   },
-  postProcess: lowerFamilies,
+  // Sensitive strings (passwords, keys, tokens): the schema member carries
+  // T.SensitiveValue; the protocol delivers Redacted values and accepts
+  // string | Redacted on input.
+  memberTraitPipes: {
+    [SENSITIVE_TRAIT]: "T.SensitiveValue",
+  },
+  memberTsType: (m) =>
+    SENSITIVE_TRAIT in m.traits
+      ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
+      : undefined,
+  // Sensitive member types reference Redacted; pull the import in when used.
+  postProcess: (code) => withRedactedImport(lowerFamilies(code)),
 };
 
 runGeneratorCli({

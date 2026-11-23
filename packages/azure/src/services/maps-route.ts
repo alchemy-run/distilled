@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -127,6 +127,8 @@ export interface GetRouteRouteOperationsStatusRequest {
   endpoint?: string | undefined;
   /** System generated unique identifier for the asynchronous operation after it has been submitted. */
   id: string;
+  /** Indicates the account intended for use with the Microsoft Entra ID security model: the Azure Maps account's unique ID. */
+  xMsClientId?: string | undefined;
 }
 /** Current status of the async operation. */
 export type StatusEnum = "NotStarted" | "Running" | "Completed" | "Failed";
@@ -1154,7 +1156,8 @@ export const GetRouteRouteOperationsResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetRouteRouteOperationsResultRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<GetRouteRouteOperationsResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1171,7 +1174,8 @@ export const GetRouteRouteOperationsStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetRouteRouteOperationsStatusRequest>,
   output: __S(130, __c4, 2) as any as S.Schema<RouteOperation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1188,7 +1192,8 @@ export const PostRouteRouteDirections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<PostRouteRouteDirectionsRequest>,
   output: __S(161, __c5, 1) as any as S.Schema<PostRouteRouteDirectionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1205,7 +1210,8 @@ export const PostRouteRouteDirectionsBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(354, __c11, 2) as any as S.Schema<PostRouteRouteDirectionsBatchRequest>,
   output: __S(357, __c11, 5) as any as S.Schema<DirectionsBatchResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1222,7 +1228,8 @@ export const PostRouteRouteMatrix: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<PostRouteRouteMatrixRequest>,
   output: __S(417, __c13, 1) as any as S.Schema<RouteMatrixResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1239,7 +1246,8 @@ export const PostRouteRouteMatrixAsync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<PostRouteRouteMatrixAsyncRequest>,
   output: __S(481, __c15, 1) as any as S.Schema<PostRouteRouteMatrixAsyncResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1256,7 +1264,8 @@ export const PostRouteRouteRange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<PostRouteRouteRangeRequest>,
   output: __S(513, __c16, 1) as any as S.Schema<RouteRangeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1273,7 +1282,8 @@ export const PostRouteRouteRangeBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(578, __c18, 2) as any as S.Schema<PostRouteRouteRangeBatchRequest>,
   output: __S(581, __c18, 5) as any as S.Schema<RouteRangeBatchResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1290,7 +1300,8 @@ export const PostRouteSnapToRoads: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<PostRouteSnapToRoadsRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<SnapToRoadsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1307,7 +1318,8 @@ export const PostRouteSnapToRoadsBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(674, __c21, 2) as any as S.Schema<PostRouteSnapToRoadsBatchRequest>,
   output: __S(677, __c21, 5) as any as S.Schema<SnapToRoadsBatchResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1426,6 +1438,7 @@ function __c4(j: number): any {
         S.Struct({
           endpoint: S.optional(S.String.pipe(T.HostLabel())),
           id: S.String.pipe(T.Label()),
+          xMsClientId: S.optional(S.String.pipe(T.Header("x-ms-client-id"))),
         }).pipe(
           T.Http({
             method: "GET",

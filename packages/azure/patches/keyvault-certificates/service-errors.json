@@ -1,0 +1,107 @@
+{
+  "description": "Type the errors every operation of this data plane can return, matched on the body's `/error/code`: Key Vault's `{ error: { code } }` 404s for a missing certificate, pending certificate operation, issuer or contact list (Microsoft Learn, \"Azure Key Vault REST API error codes\"). Declared on the service shape, so each operation's error union carries them. These codes mean something else at ARM (`AuthenticationFailed`, `ModelNotFound`, `PoolNotFound`), so they cannot go in the client-level `AZURE_ERROR_CODE_MAP`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_certificates#CertificateNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Returned by the Key Vault certificates data plane when the certificate (or deleted certificate) does not exist. Azure error code: `CertificateNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "CertificateNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_certificates#PendingCertificateNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Returned by the Key Vault certificates data plane when a certificate has no pending create operation (it finished and was deleted, or never ran). Azure error code: `PendingCertificateNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "PendingCertificateNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_certificates#CertificateIssuerNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Returned by the Key Vault certificates data plane when the certificate issuer does not exist. Azure error code: `CertificateIssuerNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "CertificateIssuerNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_certificates#CertificateContactsNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Returned by the Key Vault certificates data plane when the vault has no certificate contacts set. Azure error code: `ContactsNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "ContactsNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_certificates#KeyvaultCertificates/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_certificates#CertificateNotFound"
+        },
+        {
+          "target": "com.azure.keyvault_certificates#PendingCertificateNotFound"
+        },
+        {
+          "target": "com.azure.keyvault_certificates#CertificateIssuerNotFound"
+        },
+        {
+          "target": "com.azure.keyvault_certificates#CertificateContactsNotFound"
+        }
+      ]
+    }
+  ]
+}

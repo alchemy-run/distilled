@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { paginateByTotalCount } from "../pagination.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -507,7 +507,7 @@ export interface ValidateMFAOTPRequest {
   /** ID of the MFA OTP. (UUID format) */
   mfa_otp_id: string;
   /** One time password of the MFA OTP. */
-  otp?: string | undefined;
+  otp?: string | Redacted.Redacted<string> | undefined;
 }
 /** Backup codes of the MFA OTP. */
 export type ValidateMFAOTPResponseBackupCodesList = Array<string>;
@@ -525,7 +525,8 @@ export const changeUserEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ChangeUserEmailRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<ChangeUserEmailResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -542,7 +543,8 @@ export const changeUserPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<ChangeUserPasswordRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ChangeUserPasswordResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -559,7 +561,8 @@ export const confirmPhoneValidation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ConfirmPhoneValidationRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<ConfirmPhoneValidationResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -576,7 +579,8 @@ export const createMFAOTP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<CreateMFAOTPRequest>,
   output: __S(160, __c20, 0) as any as S.Schema<MFAOTP>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -593,7 +597,8 @@ export const deleteMFAOTP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<DeleteMFAOTPRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DeleteMFAOTPResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -610,7 +615,8 @@ export const deleteWebAuthnAuthenticator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<DeleteWebAuthnAuthenticatorRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<DeleteWebAuthnAuthenticatorResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -627,7 +633,8 @@ export const finishWebAuthnAuthenticatorUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(186, __c23, 2) as any as S.Schema<FinishWebAuthnAuthenticatorUpgradeRequest>,
   output: __S(187, __c23, 3) as any as S.Schema<FinishWebAuthnAuthenticatorUpgradeResponse2>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -644,7 +651,8 @@ export const finishWebAuthnRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(194, __c24, 2) as any as S.Schema<FinishWebAuthnRegistrationRequest>,
   output: __S(195, __c24, 3) as any as S.Schema<FinishWebAuthnRegistrationResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -657,7 +665,8 @@ export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, Sc
   /*@__PURE__*/ API.make(() => ({
     input: __S(200, __c25, 0) as any as S.Schema<GetUserRequest>,
     output: __S(209, __c26, 1) as any as S.Schema<User>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -674,7 +683,8 @@ export const getUserPreferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<GetUserPreferencesRequest>,
   output: __S(233, __c29, 1) as any as S.Schema<UserPreferences>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -693,7 +703,8 @@ export const listMailingListSubscriptions: API.PaginatedOperationMethod<
   () => ({
     input: __S(24, __c3, 0) as any as S.Schema<ListMailingListSubscriptionsRequest>,
     output: __S(25, __c3, 1) as any as S.Schema<ListMailingListSubscriptionsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -721,7 +732,8 @@ export const listMFAOTPs: API.PaginatedOperationMethod<
   () => ({
     input: __S(40, __c5, 0) as any as S.Schema<ListMFAOTPsRequest>,
     output: __S(42, __c5, 2) as any as S.Schema<ListMFAOTPsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -749,7 +761,8 @@ export const listUserOrganizations: API.PaginatedOperationMethod<
   () => ({
     input: __S(48, __c6, 0) as any as S.Schema<ListUserOrganizationsRequest>,
     output: __S(51, __c6, 3) as any as S.Schema<ListUserOrganizationsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -776,7 +789,8 @@ export const listUserWebAuthnAuthenticators: API.PaginatedOperationMethod<
   () => ({
     input: __S(56, __c7, 0) as any as S.Schema<ListUserWebAuthnAuthenticatorsRequest>,
     output: __S(58, __c7, 2) as any as S.Schema<ListUserWebAuthnAuthenticatorsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -802,7 +816,8 @@ export const sendPhoneValidation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<SendPhoneValidationRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<PhoneValidation>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -819,7 +834,8 @@ export const setMailingListSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<SetMailingListSubscriptionsRequest>,
   output: __S(81, __c10, 1) as any as S.Schema<SetMailingListSubscriptionsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -836,7 +852,8 @@ export const startWebAuthnAuthenticatorUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<StartWebAuthnAuthenticatorUpgradeRequest>,
   output: __S(90, __c11, 2) as any as S.Schema<StartWebAuthnAuthenticatorUpgradeResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -853,7 +870,8 @@ export const startWebAuthnRegistration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<StartWebAuthnRegistrationRequest>,
   output: __S(108, __c13, 4) as any as S.Schema<StartWebAuthnRegistrationResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -870,7 +888,8 @@ export const updateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(209, __c26, 1) as any as S.Schema<User>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -887,7 +906,8 @@ export const updateUserPreferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(121, __c15, 1) as any as S.Schema<UpdateUserPreferencesRequest>,
   output: __S(233, __c29, 1) as any as S.Schema<UserPreferences>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -904,7 +924,8 @@ export const updateWebAuthnAuthenticator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<UpdateWebAuthnAuthenticatorRequest>,
   output: __S(64, __c8, 0) as any as S.Schema<WebAuthnAuthenticator>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -921,7 +942,8 @@ export const validateMFAOTP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ValidateMFAOTPRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<ValidateMFAOTPResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1366,7 +1388,7 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           mfa_otp_id: S.String.pipe(T.Label()),
-          otp: S.optional(S.String),
+          otp: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",

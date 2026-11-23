@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -950,7 +950,8 @@ export const AddTaskComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddTaskCommentRequest>,
   output: __S(30, __c3, 6) as any as S.Schema<Task>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -967,7 +968,8 @@ export const AddTaskExecutionHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<AddTaskExecutionHistoryRequest>,
   output: __S(30, __c3, 6) as any as S.Schema<Task>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -984,7 +986,8 @@ export const CancelToolRunLro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<CancelToolRunLroRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<CancelToolRunLroResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1001,7 +1004,8 @@ export const CreateConversation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<CreateConversationRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<Conversation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1018,7 +1022,8 @@ export const CreateTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<CreateTaskRequest>,
   output: __S(30, __c3, 6) as any as S.Schema<Task>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1035,7 +1040,8 @@ export const DeleteConversation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<DeleteConversationRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<DeleteConversationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1052,7 +1058,8 @@ export const DeleteInvestigation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<DeleteInvestigationRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<DeleteInvestigationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1069,7 +1076,8 @@ export const DeleteTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<DeleteTaskRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<DeleteTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1086,7 +1094,8 @@ export const GetConversation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<GetConversationRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<Conversation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1103,7 +1112,8 @@ export const GetInvestigation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<GetInvestigationRequest>,
   output: __S(298, __c37, 2) as any as S.Schema<Investigation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1120,7 +1130,8 @@ export const GetInvestigationDiscoveryEngine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetInvestigationDiscoveryEngineRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DiscoveryEngine>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1137,7 +1148,8 @@ export const GetInvestigationDiscoveryEngineMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<GetInvestigationDiscoveryEngineMemoryRequest>,
   output: __S(59, __c7, 3) as any as S.Schema<PagedWorkingMemoryEntry>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1154,7 +1166,8 @@ export const GetInvestigationOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetInvestigationOperationStatusRequest>,
   output: __S(65, __c8, 1) as any as S.Schema<InvestigationOperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1167,7 +1180,8 @@ export const GetTask: API.OperationMethod<GetTaskRequest, Task, GetTaskError, Az
   /*@__PURE__*/ API.make(() => ({
     input: __S(80, __c10, 0) as any as S.Schema<GetTaskRequest>,
     output: __S(30, __c3, 6) as any as S.Schema<Task>,
-    errors: [UnknownAzureError],
+    errors: [],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1184,7 +1198,8 @@ export const GetToolComputeUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetToolComputeUsageRequest>,
   output: __S(93, __c11, 5) as any as S.Schema<ComputeUsage>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1201,7 +1216,8 @@ export const GetToolOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<GetToolOperationsRequest>,
   output: __S(99, __c12, 3) as any as S.Schema<PagedOperation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1218,7 +1234,8 @@ export const GetToolRunStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetToolRunStatusRequest>,
   output: __S(109, __c13, 5) as any as S.Schema<GetToolRunStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1235,7 +1252,8 @@ export const InvestigationsCreateOrReplace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<InvestigationsCreateOrReplaceRequest>,
   output: __S(298, __c37, 2) as any as S.Schema<Investigation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1252,7 +1270,8 @@ export const ListConversations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListConversationsRequest>,
   output: __S(122, __c15, 2) as any as S.Schema<PagedConversation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1269,7 +1288,8 @@ export const ListInvestigations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListInvestigationsRequest>,
   output: __S(130, __c16, 2) as any as S.Schema<PagedInvestigation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1287,7 +1307,8 @@ export const ListTasks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<ListTasksRequest>,
   output: __S(154, __c19, 2) as any as S.Schema<PagedTask>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1310,7 +1331,8 @@ export const RunTool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(167, __c20, 7) as any as S.Schema<RunToolRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<RunToolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1327,7 +1349,8 @@ export const StartInvestigationDiscoveryEngine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<StartInvestigationDiscoveryEngineRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DiscoveryEngine>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1344,7 +1367,8 @@ export const StartTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<StartTaskRequest>,
   output: __S(30, __c3, 6) as any as S.Schema<Task>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1361,7 +1385,8 @@ export const StopInvestigationDiscoveryEngine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<StopInvestigationDiscoveryEngineRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DiscoveryEngine>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1378,7 +1403,8 @@ export const UpdateConversation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<UpdateConversationRequest>,
   output: __S(232, __c29, 0) as any as S.Schema<Conversation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1395,7 +1421,8 @@ export const UpdateInvestigation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<UpdateInvestigationRequest>,
   output: __S(298, __c37, 2) as any as S.Schema<Investigation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1412,7 +1439,8 @@ export const UpdateInvestigationDiscoveryEngine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<UpdateInvestigationDiscoveryEngineRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<DiscoveryEngine>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1429,7 +1457,8 @@ export const UpdateTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(217, __c27, 1) as any as S.Schema<UpdateTaskRequest>,
   output: __S(30, __c3, 6) as any as S.Schema<Task>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

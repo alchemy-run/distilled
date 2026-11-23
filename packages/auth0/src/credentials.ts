@@ -1,9 +1,10 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { invalidHostLabelConfig } from "@distilled.cloud/core/protocol-http";
 /**
  * Auth0 credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber). Management API auth is a bearer token sent as
  * `Authorization: Bearer <token>` against `https://{domain}/api/v2`.
  */
@@ -16,6 +17,23 @@ import * as Redacted from "effect/Redacted";
 export const apiBaseUrlForDomain = (domain: string): string => {
   const host = domain.replace(/^https?:\/\//, "").replace(/\/+$/, "");
   return `https://${host}/api/v2`;
+};
+
+/**
+ * `apiBaseUrl` when given, else the tenant domain's Management API root. The
+ * domain is the host name, so it must be DNS labels.
+ */
+const resolveApiBaseUrl = (
+  domain: string,
+  apiBaseUrl: string | undefined,
+): Effect.Effect<string, ConfigError> => {
+  if (apiBaseUrl !== undefined) return Effect.succeed(apiBaseUrl);
+  const invalid = invalidHostLabelConfig(
+    "Auth0 domain",
+    domain.replace(/^https?:\/\//, "").replace(/\/+$/, ""),
+    true,
+  );
+  return invalid === undefined ? Effect.succeed(apiBaseUrlForDomain(domain)) : Effect.fail(invalid);
 };
 
 export interface Config {
@@ -37,11 +55,11 @@ export const fromToken = (config: {
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
-    Effect.succeed({
+    Effect.map(resolveApiBaseUrl(config.domain, config.apiBaseUrl), (apiBaseUrl) => ({
       token: config.token,
       domain: config.domain,
-      apiBaseUrl: config.apiBaseUrl ?? apiBaseUrlForDomain(config.domain),
-    }),
+      apiBaseUrl,
+    })),
   );
 
 /**
@@ -63,7 +81,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
     return {
       token: Redacted.make(token),
       domain,
-      apiBaseUrl: process.env.AUTH0_API_BASE_URL ?? apiBaseUrlForDomain(domain),
+      apiBaseUrl: yield* resolveApiBaseUrl(domain, process.env.AUTH0_API_BASE_URL),
     };
   }),
 );

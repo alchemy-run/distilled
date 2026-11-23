@@ -57,7 +57,7 @@ const program = Effect.gen(function* () {
   };
 });
 
-const MuxLive = Layer.mergeAll(FetchHttpClient.layer, Mux.CredentialsFromEnv, Mux.MuxProtocol);
+const MuxLive = Layer.mergeAll(FetchHttpClient.layer, Mux.CredentialsFromEnv);
 
 program.pipe(Effect.provide(MuxLive), Effect.runPromise).then(console.log);
 ```

@@ -8,6 +8,7 @@ import type * as stream from "effect/Stream";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -300,6 +301,7 @@ export const invokeEndpoint: API.OperationMethod<
     ServiceUnavailable,
     ValidationError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpoint",
@@ -338,6 +340,7 @@ export const invokeEndpointAsync: API.OperationMethod<
   input: __S(8, __c2, 0) as any as S.Schema<InvokeEndpointAsyncInput>,
   output: __S(9, __c2, 1) as any as S.Schema<InvokeEndpointAsyncOutput>,
   errors: [InternalFailure, ServiceUnavailable, ValidationError],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpointAsync",
@@ -395,6 +398,7 @@ export const invokeEndpointWithResponseStream: API.OperationMethod<
     ServiceUnavailable,
     ValidationError,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpointWithResponseStream",

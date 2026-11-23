@@ -1,5 +1,7 @@
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { originFromConfig } from "@distilled.cloud/core/protocol-http";
+import { refreshing } from "@distilled.cloud/core/token-cache";
 /**
  * Starburst Galaxy credentials -- hand-written.
  *
@@ -12,7 +14,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * (https://docs.starburst.io/starburst-galaxy/developer-tools/api/api-auth-token.html).
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials; the protocol layer resolves it per request on the calling
+ * credentials; the protocol resolves it per request on the calling
  * fiber. The client-credentials layers exchange through the provided
  * `HttpClient` on first use, reuse the token, and exchange again shortly
  * before it expires, so long-running programs keep working past the token
@@ -22,15 +24,12 @@ import { ConfigError } from "@distilled.cloud/core/errors";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Equal from "effect/Equal";
-import * as Exit from "effect/Exit";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
-import * as Option from "effect/Option";
 import type * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import * as SynchronizedRef from "effect/SynchronizedRef";
 
 /** The token endpoint, relative to the account's origin. */
 const TOKEN_PATH = "/oauth/v2/token";
@@ -68,18 +67,13 @@ const LOOPBACK = new Set(["127.0.0.1", "localhost", "[::1]"]);
  * test servers.
  */
 const apiBaseUrlFor = (domain: string): Effect.Effect<string, ConfigError> => {
-  const invalid = (reason: string) =>
-    Effect.fail(new ConfigError({ message: `Starburst Galaxy domain ${reason}` }));
-  const candidate = /^[a-z][a-z0-9+.-]*:\/\//i.test(domain) ? domain : `https://${domain}`;
-  if (!URL.canParse(candidate)) return invalid("is not a host name or URL");
-  const url = new URL(candidate);
-  if (url.username || url.password || url.search || url.hash || url.pathname !== "/") {
-    return invalid("must be a host such as yourco.galaxy.starburst.io, without a path");
-  }
+  const origin = originFromConfig("Starburst Galaxy domain", domain);
+  if (typeof origin !== "string") return Effect.fail(origin);
+  const url = new URL(origin);
   if (url.protocol !== "https:" && !(url.protocol === "http:" && LOOPBACK.has(url.hostname))) {
-    return invalid("must use HTTPS");
+    return Effect.fail(new ConfigError({ message: "Starburst Galaxy domain must use HTTPS" }));
   }
-  return Effect.succeed(url.origin);
+  return Effect.succeed(origin);
 };
 
 /** A successful token response; `access_token` is redacted as it is decoded. */
@@ -101,9 +95,9 @@ const reuseFor = (expiresInSeconds: number): number => {
 /**
  * Builds the OAuth client-credentials token cache. The returned effect posts
  * the exchange through the captured `HttpClient` and reuses the token for
- * {@link reuseFor} its `expires_in`. `Effect.cachedWithTTL` shares one
- * in-flight exchange between concurrent resolutions of a cold or stale cache
- * and holds no lock across the request; a failed exchange is not cached.
+ * {@link reuseFor} its `expires_in`. Concurrent resolutions of a cold or
+ * stale cache share one exchange (core `refreshing`); a failed exchange is
+ * not cached.
  * Exchange errors carry the status, never the secret or a token.
  */
 export const makeClientCredentials = (
@@ -134,13 +128,15 @@ export const makeClientCredentials = (
         );
       return {
         config: { accessToken: token.access_token, apiBaseUrl },
-        expiresIn: token.expires_in,
+        refreshAt: Date.now() + reuseFor(token.expires_in),
       };
     });
-    const cached = yield* Effect.cachedWithTTL(exchange, (exit) =>
-      Exit.isSuccess(exit) ? reuseFor(exit.value.expiresIn) : 0,
-    );
-    return Effect.map(cached, (token) => token.config);
+    return refreshing(exchange, (token) => token.refreshAt, {
+      onTimeout: (timeoutMs) =>
+        new ConfigError({
+          message: `Starburst Galaxy token exchange timed out after ${timeoutMs / 1000} s`,
+        }),
+    }).pipe(Effect.map((token) => token.config));
   });
 
 /**
@@ -198,14 +194,18 @@ export const CredentialsFromEnv: Layer.Layer<Credentials, never, HttpClient.Http
     Credentials,
     Effect.gen(function* () {
       const client = yield* HttpClient.HttpClient;
-      const current = yield* SynchronizedRef.make(Option.none<EnvClient>());
+      let current: EnvClient | undefined;
       const resolveFor = (config: ClientCredentials) =>
-        SynchronizedRef.modifyEffect(current, (env) =>
-          Option.isSome(env) && Equal.equals(env.value.config, config)
-            ? Effect.succeed([env.value.resolve, env] as const)
+        Effect.suspend(() =>
+          current !== undefined && Equal.equals(current.config, config)
+            ? Effect.succeed(current.resolve)
             : makeClientCredentials(config).pipe(
                 Effect.provideService(HttpClient.HttpClient, client),
-                Effect.map((resolve) => [resolve, Option.some({ config, resolve })] as const),
+                Effect.tap((resolve) =>
+                  Effect.sync(() => {
+                    current = { config, resolve };
+                  }),
+                ),
               ),
         ).pipe(Effect.flatten);
       return Effect.flatMap(envConfig, resolveFor);

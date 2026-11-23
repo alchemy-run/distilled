@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { paginateByTotalCount } from "../pagination.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -288,7 +288,7 @@ export interface HostingUser {
   /** Contact email used for the hosting. */
   contact_email?: string | undefined;
   /** One-time-password used for the first login to the control panel, cleared after first use, encoded in base64. */
-  one_time_password_b64?: string | null | undefined;
+  one_time_password_b64?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface HostingCommitment {
   /** Offer commitment for the specified hosting. */
@@ -469,7 +469,7 @@ export interface ResetHostingPasswordResponse {
   /** New temporary password (deprecated, use password_b64 instead). */
   one_time_password?: string | Redacted.Redacted<string> | undefined;
   /** New temporary password, encoded in base64. */
-  one_time_password_b64?: string | undefined;
+  one_time_password_b64?: string | Redacted.Redacted<string> | undefined;
 }
 export type UpdateHostingRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
 /** New tags for the Web Hosting plan. */
@@ -513,7 +513,8 @@ export const addCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddCustomDomainRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<HostingSummary>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -530,7 +531,8 @@ export const createHosting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49, __c3, 1) as any as S.Schema<CreateHostingRequest>,
   output: __S(93, __c5, 13) as any as S.Schema<Hosting>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -547,7 +549,8 @@ export const createSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<CreateSessionRequest>,
   output: __S(177, __c11, 1) as any as S.Schema<Session>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -564,7 +567,8 @@ export const deleteHosting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteHostingRequest>,
   output: __S(93, __c5, 13) as any as S.Schema<Hosting>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -581,7 +585,8 @@ export const deleteHostingDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DeleteHostingDomainsRequest>,
   output: __S(93, __c5, 13) as any as S.Schema<Hosting>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -598,7 +603,8 @@ export const getHosting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetHostingRequest>,
   output: __S(93, __c5, 13) as any as S.Schema<Hosting>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -615,7 +621,8 @@ export const getResourceSummary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<GetResourceSummaryRequest>,
   output: __S(241, __c15, 1) as any as S.Schema<ResourceSummary>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -634,7 +641,8 @@ export const listHostings: API.PaginatedOperationMethod<
   () => ({
     input: __S(256, __c16, 0) as any as S.Schema<ListHostingsRequest>,
     output: __S(258, __c16, 2) as any as S.Schema<ListHostingsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -660,7 +668,8 @@ export const migrateControlPanel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<MigrateControlPanelRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<HostingSummary>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -677,7 +686,8 @@ export const removeCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<RemoveCustomDomainRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<HostingSummary>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -694,7 +704,8 @@ export const resetHosting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ResetHostingRequest>,
   output: __S(93, __c5, 13) as any as S.Schema<Hosting>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -711,7 +722,8 @@ export const resetHostingPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ResetHostingPasswordRequest>,
   output: __S(129, __c8, 1) as any as S.Schema<ResetHostingPasswordResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -728,7 +740,8 @@ export const updateHosting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(145, __c9, 1) as any as S.Schema<UpdateHostingRequest>,
   output: __S(93, __c5, 13) as any as S.Schema<Hosting>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -745,7 +758,8 @@ export const updateHostingFreeDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<UpdateHostingFreeDomainRequest>,
   output: __S(93, __c5, 13) as any as S.Schema<Hosting>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -974,7 +988,7 @@ function __c5(j: number): any {
           username: S.optional(S.String),
           one_time_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           contact_email: S.optional(S.String),
-          one_time_password_b64: S.optional(S.NullOr(S.String)),
+          one_time_password_b64: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "HostingUser" });
     case 12:
@@ -1058,7 +1072,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           one_time_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          one_time_password_b64: S.optional(S.String),
+          one_time_password_b64: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ResetHostingPasswordResponse" });
   }

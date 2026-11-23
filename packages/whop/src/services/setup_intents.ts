@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { WhopServiceErrors } from "../errors.ts";
 import { paginateRelay } from "../pagination.ts";
 import { WhopProtocol, type WhopOpError, type WhopOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -98,7 +99,7 @@ export interface CreateSetupIntentRequest {
   /** The account to save the payment method for, prefixed `biz_`. */
   account_id: string;
   /** A confirmation token describing a payment method the buyer just supplied, collected by the payment elements in setup mode. Provide this or `payment_method_id`, not both. The buyer is resolved from the token's billing email, or from `email`, and may still have a step to complete -- poll Retrieve setup status for what to do next. */
-  confirmation_token?: string | null | undefined;
+  confirmation_token?: string | Redacted.Redacted<string> | null | undefined;
   /** The currency the saved payment method will be used with, as a lowercase ISO 4217 code. Controls which currency-specific payment methods are available. Defaults to `usd`. */
   currency?: string | null | undefined;
   /** Overrides the buyer email carried on the confirmation token, resolving or creating the user the method belongs to. Ignored unless `confirmation_token` is provided, and when the token was created by a signed-in buyer or the caller is the buyer. */
@@ -605,6 +606,7 @@ export const createSetupIntent: API.OperationMethod<
   input: __S(9, __c1, 1) as any as S.Schema<CreateSetupIntentRequest>,
   output: __S(31, __c3, 7) as any as S.Schema<SetupIntent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -622,6 +624,7 @@ export const getSetupIntent: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<GetSetupIntentRequest>,
   output: __S(31, __c3, 7) as any as S.Schema<SetupIntent>,
   errors: [Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -639,6 +642,7 @@ export const getStatusSetupIntent: API.OperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<GetStatusSetupIntentRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<SetupStatus>,
   errors: [Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -658,6 +662,7 @@ export const listSetupIntents: API.PaginatedOperationMethod<
     input: __S(56, __c7, 0) as any as S.Schema<ListSetupIntentsRequest>,
     output: __S(59, __c7, 3) as any as S.Schema<ListSetupIntentsResponse>,
     errors: [BadRequest, Forbidden],
+    serviceErrors: WhopServiceErrors,
     protocol: WhopProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -685,6 +690,7 @@ export const updateReturnUrlSetupIntent: API.OperationMethod<
   input: __S(64, __c8, 0) as any as S.Schema<UpdateReturnUrlSetupIntentRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<SetupStatus>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -718,7 +724,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_id: S.String,
-          confirmation_token: S.optional(S.NullOr(S.String)),
+          confirmation_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           currency: S.optional(S.NullOr(S.String)),
           email: S.optional(S.NullOr(S.String)),
           metadata: S.optional(S.NullOr(__S(8, __c1, 0))),

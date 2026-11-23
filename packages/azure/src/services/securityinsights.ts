@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -38,7 +38,7 @@ export interface ActionRequestProperties {
   /** Logic App Resource Id, /subscriptions/{my-subscription}/resourceGroups/{my-resource-group}/providers/Microsoft.Logic/workflows/{my-workflow-id}. */
   logicAppResourceId: string;
   /** Logic App Callback URL for this specific workflow. */
-  triggerUri: string;
+  triggerUri: string | Redacted.Redacted<string>;
 }
 export interface ActionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -862,9 +862,9 @@ export interface AutomationRulesCreateOrUpdateRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the workspace. */
+  /** The name of the monitor workspace. */
   workspaceName: string;
-  /** The automation rule ID. */
+  /** Automation rule ID */
   automationRuleId: string;
   /** Automation rule properties */
   properties: AutomationRulePropertiesInput;
@@ -1263,13 +1263,13 @@ export interface RepositoryAccess {
   /** The kind of repository access credentials */
   kind: RepositoryAccessKind | (string & {});
   /** OAuth Code. Required when `kind` is `OAuth` */
-  code?: string | undefined;
+  code?: string | Redacted.Redacted<string> | undefined;
   /** OAuth State. Required when `kind` is `OAuth` */
-  state?: string | undefined;
+  state?: string | Redacted.Redacted<string> | undefined;
   /** OAuth ClientId. Required when `kind` is `OAuth` */
   clientId?: string | undefined;
   /** Personal Access Token. Required when `kind` is `PAT` */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Application installation ID. Required when `kind` is `App`. Supported by `GitHub` only. */
   installationId?: string | undefined;
 }
@@ -2248,7 +2248,9 @@ export type JwtAuthModelType = "JwtToken";
 /** The user name. If user name and password sent in header request we only need to populate the `value` property with the user name (Same as basic auth). If user name and password sent in body request we need to specify the `Key` and `Value`. */
 export type JwtAuthModelUserNameMap = { [key: string]: string | undefined };
 /** The password */
-export type JwtAuthModelPasswordMap = { [key: string]: string | undefined };
+export type JwtAuthModelPasswordMap = {
+  [key: string]: string | Redacted.Redacted<string> | undefined;
+};
 /** The custom query parameter we want to add once we send request to token endpoint. */
 export type JwtAuthModelQueryParametersMap = { [key: string]: string | undefined };
 /** The custom headers we want to add once we send request to token endpoint. */
@@ -2298,7 +2300,7 @@ export interface OAuthModel {
   /** The auth type */
   type: OAuthModelType;
   /** The user's authorization code. */
-  authorizationCode?: string | undefined;
+  authorizationCode?: string | Redacted.Redacted<string> | undefined;
   /** The Application (client) secret that the OAuth provider assigned to your app. */
   clientSecret: string | Redacted.Redacted<string>;
   /** The Application (client) ID that the OAuth provider assigned to your app. */
@@ -2350,7 +2352,9 @@ export type SessionAuthModelType = "Session";
 /** The user name attribute key value. */
 export type SessionAuthModelUserNameMap = { [key: string]: string | undefined };
 /** The password attribute name. */
-export type SessionAuthModelPasswordMap = { [key: string]: string | undefined };
+export type SessionAuthModelPasswordMap = {
+  [key: string]: string | Redacted.Redacted<string> | undefined;
+};
 /** Query parameters to session service endpoint. */
 export type SessionAuthModelQueryParametersMap = { [key: string]: unknown | undefined };
 /** HTTP request headers to session service endpoint. */
@@ -6921,7 +6925,8 @@ export const ActionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<ActionsCreateOrUpdateRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<ActionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6938,7 +6943,8 @@ export const AlertRulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(103, __c3, 7) as any as S.Schema<AlertRulesCreateOrUpdateRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<AlertRulesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6955,7 +6961,8 @@ export const AutomationRulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(769, __c24, 1) as any as S.Schema<AutomationRulesCreateOrUpdateRequest>,
   output: __S(887, __c27, 23) as any as S.Schema<AutomationRulesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6972,7 +6979,8 @@ export const BookmarksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1249, __c39, 1) as any as S.Schema<BookmarksCreateOrUpdateRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<BookmarksCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6989,7 +6997,8 @@ export const CreateMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<CreateMetadataRequest>,
   output: __S(1985, __c62, 1) as any as S.Schema<CreateMetadataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7006,7 +7015,8 @@ export const CreateSentinelOnboardingState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<CreateSentinelOnboardingStateRequest>,
   output: __S(2625, __c82, 1) as any as S.Schema<CreateSentinelOnboardingStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7023,7 +7033,8 @@ export const CreateSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3013, __c94, 5) as any as S.Schema<CreateSourceControlRequest>,
   output: __S(3083, __c96, 11) as any as S.Schema<CreateSourceControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7040,7 +7051,8 @@ export const CreateThreatIntelligenceIndicator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<CreateThreatIntelligenceIndicatorRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<CreateThreatIntelligenceIndicatorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7061,7 +7073,8 @@ export const CreateThreatIntelligenceIndicatorIndicator: API.OperationMethod<
     __c113,
     0,
   ) as any as S.Schema<CreateThreatIntelligenceIndicatorIndicatorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7078,7 +7091,8 @@ export const DataConnectorDefinitionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4385, __c137, 1) as any as S.Schema<DataConnectorDefinitionsCreateOrUpdateRequest>,
   output: __S(4416, __c138, 0) as any as S.Schema<DataConnectorDefinitionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7095,7 +7109,8 @@ export const DataConnectorsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(330, __c10, 10) as any as S.Schema<DataConnectorsCreateOrUpdateRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<DataConnectorsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7112,7 +7127,8 @@ export const DeleteAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteActionRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteActionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7129,7 +7145,8 @@ export const DeleteAlertRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<DeleteAlertRuleRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteAlertRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7146,7 +7163,8 @@ export const DeleteAutomationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<DeleteAutomationRuleRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<DeleteAutomationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7163,7 +7181,8 @@ export const DeleteBookmark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteBookmarkRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteBookmarkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7180,7 +7199,8 @@ export const DeleteContentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DeleteContentTemplateRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteContentTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7197,7 +7217,8 @@ export const DeleteDataConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteDataConnectorRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteDataConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7214,7 +7235,8 @@ export const DeleteDataConnectorDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DeleteDataConnectorDefinitionRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteDataConnectorDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7231,7 +7253,8 @@ export const DeleteIncident: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<DeleteIncidentRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteIncidentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7248,7 +7271,8 @@ export const DeleteIncidentComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<DeleteIncidentCommentRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteIncidentCommentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7265,7 +7289,8 @@ export const DeleteIncidentRelation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<DeleteIncidentRelationRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteIncidentRelationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7282,7 +7307,8 @@ export const DeleteIncidentTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<DeleteIncidentTaskRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteIncidentTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7299,7 +7325,8 @@ export const DeleteMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<DeleteMetadataRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteMetadataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7316,7 +7343,8 @@ export const DeleteSecurityMLAnalyticsSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<DeleteSecurityMLAnalyticsSettingsRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteSecurityMLAnalyticsSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7333,7 +7361,8 @@ export const DeleteSentinelOnboardingState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<DeleteSentinelOnboardingStateRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteSentinelOnboardingStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7350,7 +7379,8 @@ export const DeleteSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<DeleteSourceControlRequest>,
   output: __S(1059, __c33, 3) as any as S.Schema<Warning>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7367,7 +7397,8 @@ export const DeleteThreatIntelligenceIndicator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<DeleteThreatIntelligenceIndicatorRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteThreatIntelligenceIndicatorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7384,7 +7415,8 @@ export const DeleteWatchlist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<DeleteWatchlistRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<DeleteWatchlistResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7401,7 +7433,8 @@ export const DeleteWatchlistItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<DeleteWatchlistItemRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<DeleteWatchlistItemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7418,7 +7451,8 @@ export const GetAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetActionRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<GetActionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7435,7 +7469,8 @@ export const GetAlertRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetAlertRuleRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetAlertRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7452,7 +7487,8 @@ export const GetAlertRuleTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetAlertRuleTemplateRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<GetAlertRuleTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7469,7 +7505,8 @@ export const GetAutomationRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetAutomationRuleRequest>,
   output: __S(887, __c27, 23) as any as S.Schema<GetAutomationRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7486,7 +7523,8 @@ export const GetBookmark: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetBookmarkRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<GetBookmarkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7503,7 +7541,8 @@ export const GetContentPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetContentPackageRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<GetContentPackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7520,7 +7559,8 @@ export const GetContentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<GetContentTemplateRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<GetContentTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7537,7 +7577,8 @@ export const GetDataConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetDataConnectorRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<GetDataConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7554,7 +7595,8 @@ export const GetDataConnectorDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetDataConnectorDefinitionRequest>,
   output: __S(4416, __c138, 0) as any as S.Schema<GetDataConnectorDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7571,7 +7613,8 @@ export const GetIncident: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<GetIncidentRequest>,
   output: __S(1826, __c57, 2) as any as S.Schema<GetIncidentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7588,7 +7631,8 @@ export const GetIncidentComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetIncidentCommentRequest>,
   output: __S(1889, __c59, 1) as any as S.Schema<GetIncidentCommentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7605,7 +7649,8 @@ export const GetIncidentRelation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<GetIncidentRelationRequest>,
   output: __S(2049, __c64, 1) as any as S.Schema<GetIncidentRelationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7622,7 +7667,8 @@ export const GetIncidentTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GetIncidentTaskRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<GetIncidentTaskResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7639,7 +7685,8 @@ export const GetMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<GetMetadataRequest>,
   output: __S(1985, __c62, 1) as any as S.Schema<GetMetadataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7656,7 +7703,8 @@ export const GetProductPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<GetProductPackageRequest>,
   output: __S(2209, __c69, 1) as any as S.Schema<GetProductPackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7673,7 +7721,8 @@ export const GetProductTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<GetProductTemplateRequest>,
   output: __S(2273, __c71, 1) as any as S.Schema<GetProductTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7690,7 +7739,8 @@ export const GetSecurityMLAnalyticsSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<GetSecurityMLAnalyticsSettingsRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<GetSecurityMLAnalyticsSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7707,7 +7757,8 @@ export const GetSentinelOnboardingState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<GetSentinelOnboardingStateRequest>,
   output: __S(2625, __c82, 1) as any as S.Schema<GetSentinelOnboardingStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7724,7 +7775,8 @@ export const GetSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<GetSourceControlRequest>,
   output: __S(3083, __c96, 11) as any as S.Schema<GetSourceControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7741,7 +7793,8 @@ export const GetThreatIntelligenceIndicator: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<GetThreatIntelligenceIndicatorRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<GetThreatIntelligenceIndicatorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7758,7 +7811,8 @@ export const GetWatchlist: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<GetWatchlistRequest>,
   output: __S(2528, __c79, 0) as any as S.Schema<GetWatchlistResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7775,7 +7829,8 @@ export const GetWatchlistItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<GetWatchlistItemRequest>,
   output: __S(2689, __c84, 1) as any as S.Schema<GetWatchlistItemResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7792,7 +7847,8 @@ export const IncidentCommentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2721, __c85, 1) as any as S.Schema<IncidentCommentsCreateOrUpdateRequest>,
   output: __S(1889, __c59, 1) as any as S.Schema<IncidentCommentsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7809,7 +7865,8 @@ export const IncidentRelationsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2753, __c86, 1) as any as S.Schema<IncidentRelationsCreateOrUpdateRequest>,
   output: __S(2049, __c64, 1) as any as S.Schema<IncidentRelationsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7826,7 +7883,8 @@ export const IncidentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2785, __c87, 1) as any as S.Schema<IncidentsCreateOrUpdateRequest>,
   output: __S(1826, __c57, 2) as any as S.Schema<IncidentsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7843,7 +7901,8 @@ export const IncidentTasksCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2817, __c88, 1) as any as S.Schema<IncidentTasksCreateOrUpdateRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<IncidentTasksCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7860,7 +7919,8 @@ export const InstallContentPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<InstallContentPackageRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<InstallContentPackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7877,7 +7937,8 @@ export const InstallContentTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2881, __c90, 1) as any as S.Schema<InstallContentTemplateRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<InstallContentTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7895,7 +7956,8 @@ export const ListActionByAlertRule: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<ListActionByAlertRuleRequest>,
   output: __S(2914, __c91, 2) as any as S.Schema<ActionsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7919,7 +7981,8 @@ export const ListAlertRules: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<ListAlertRulesRequest>,
   output: __S(2946, __c92, 2) as any as S.Schema<AlertRulesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7943,7 +8006,8 @@ export const ListAlertRuleTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<ListAlertRuleTemplatesRequest>,
   output: __S(2978, __c93, 2) as any as S.Schema<AlertRuleTemplatesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7967,7 +8031,8 @@ export const ListAutomationRules: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<ListAutomationRulesRequest>,
   output: __S(3106, __c97, 2) as any as S.Schema<AutomationRulesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7991,7 +8056,8 @@ export const ListBookmarks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<ListBookmarksRequest>,
   output: __S(3138, __c98, 2) as any as S.Schema<BookmarkList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8015,7 +8081,8 @@ export const ListContentPackages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<ListContentPackagesRequest>,
   output: __S(3170, __c99, 2) as any as S.Schema<PackageList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8039,7 +8106,8 @@ export const ListContentTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<ListContentTemplatesRequest>,
   output: __S(3202, __c100, 2) as any as S.Schema<TemplateList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8063,7 +8131,8 @@ export const ListDataConnectorDefinitions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<ListDataConnectorDefinitionsRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<DataConnectorDefinitionArmCollectionWrapper>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8087,7 +8156,8 @@ export const ListDataConnectors: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<ListDataConnectorsRequest>,
   output: __S(3266, __c102, 2) as any as S.Schema<DataConnectorList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8110,7 +8180,8 @@ export const ListIncidentAlerts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<ListIncidentAlertsRequest>,
   output: __S(3298, __c103, 2) as any as S.Schema<IncidentAlertList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8127,7 +8198,8 @@ export const ListIncidentBookmarks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<ListIncidentBookmarksRequest>,
   output: __S(3362, __c105, 2) as any as S.Schema<IncidentBookmarkList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8145,7 +8217,8 @@ export const ListIncidentComments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<ListIncidentCommentsRequest>,
   output: __S(3426, __c107, 2) as any as S.Schema<IncidentCommentList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8168,7 +8241,8 @@ export const ListIncidentEntities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<ListIncidentEntitiesRequest>,
   output: __S(3502, __c109, 14) as any as S.Schema<IncidentEntitiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8186,7 +8260,8 @@ export const ListIncidentRelations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<ListIncidentRelationsRequest>,
   output: __S(3682, __c115, 2) as any as S.Schema<RelationList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8210,7 +8285,8 @@ export const ListIncidents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<ListIncidentsRequest>,
   output: __S(3714, __c116, 2) as any as S.Schema<IncidentList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8234,7 +8310,8 @@ export const ListIncidentTasks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<ListIncidentTasksRequest>,
   output: __S(3746, __c117, 2) as any as S.Schema<IncidentTaskList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8258,7 +8335,8 @@ export const ListMetadata: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<ListMetadataRequest>,
   output: __S(3778, __c118, 2) as any as S.Schema<MetadataList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8282,7 +8360,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(3812, __c119, 4) as any as S.Schema<OperationsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8306,7 +8385,8 @@ export const ListProductPackages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<ListProductPackagesRequest>,
   output: __S(3842, __c120, 2) as any as S.Schema<ProductPackageList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8330,7 +8410,8 @@ export const ListProductTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<ListProductTemplatesRequest>,
   output: __S(3874, __c121, 2) as any as S.Schema<ProductTemplateList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8354,7 +8435,8 @@ export const ListSecurityMLAnalyticsSettings: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<ListSecurityMLAnalyticsSettingsRequest>,
   output: __S(3906, __c122, 2) as any as S.Schema<SecurityMLAnalyticsSettingsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8377,7 +8459,8 @@ export const ListSentinelOnboardingStates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<ListSentinelOnboardingStatesRequest>,
   output: __S(3938, __c123, 2) as any as S.Schema<SentinelOnboardingStatesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8395,7 +8478,8 @@ export const ListSourceControlRepositories: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<ListSourceControlRepositoriesRequest>,
   output: __S(3971, __c124, 3) as any as S.Schema<RepoList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8419,7 +8503,8 @@ export const ListSourceControls: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<ListSourceControlsRequest>,
   output: __S(4034, __c126, 2) as any as S.Schema<SourceControlList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8442,7 +8527,8 @@ export const ListThreatIntelligenceIndicatorMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<ListThreatIntelligenceIndicatorMetricsRequest>,
   output: __S(4070, __c127, 6) as any as S.Schema<ThreatIntelligenceMetricsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8460,7 +8546,8 @@ export const ListThreatIntelligenceIndicators: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<ListThreatIntelligenceIndicatorsRequest>,
   output: __S(4129, __c129, 1) as any as S.Schema<ThreatIntelligenceInformationList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8484,7 +8571,8 @@ export const ListWatchlistItems: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<ListWatchlistItemsRequest>,
   output: __S(4162, __c130, 2) as any as S.Schema<WatchlistItemList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8508,7 +8596,8 @@ export const ListWatchlists: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<ListWatchlistsRequest>,
   output: __S(4194, __c131, 2) as any as S.Schema<WatchlistList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8531,7 +8620,8 @@ export const ReplaceThreatIntelligenceIndicatorTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<ReplaceThreatIntelligenceIndicatorTagsRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<ReplaceThreatIntelligenceIndicatorTagsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8548,7 +8638,8 @@ export const RunEntityPlaybook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<RunEntityPlaybookRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<RunEntityPlaybookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8565,7 +8656,8 @@ export const RunIncidentPlaybook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<RunIncidentPlaybookRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<RunIncidentPlaybookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8582,7 +8674,8 @@ export const SecurityMLAnalyticsSettingsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4322, __c135, 2) as any as S.Schema<SecurityMLAnalyticsSettingsCreateOrUpdateRequest>,
   output: __S(2368, __c74, 0) as any as S.Schema<SecurityMLAnalyticsSettingsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8599,7 +8692,8 @@ export const ThreatIntelligenceIndicatorAppendTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<ThreatIntelligenceIndicatorAppendTagsRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<ThreatIntelligenceIndicatorAppendTagsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8617,7 +8711,8 @@ export const ThreatIntelligenceIndicatorQueryIndicators: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(4482, __c140, 2) as any as S.Schema<ThreatIntelligenceIndicatorQueryIndicatorsRequest>,
   output: __S(4129, __c129, 1) as any as S.Schema<ThreatIntelligenceInformationList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8640,7 +8735,8 @@ export const UninstallContentPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<UninstallContentPackageRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<UninstallContentPackageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8657,7 +8753,8 @@ export const UpdateMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4545, __c142, 1) as any as S.Schema<UpdateMetadataRequest>,
   output: __S(1985, __c62, 1) as any as S.Schema<UpdateMetadataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8674,7 +8771,8 @@ export const WatchlistItemsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4577, __c143, 1) as any as S.Schema<WatchlistItemsCreateOrUpdateRequest>,
   output: __S(2689, __c84, 1) as any as S.Schema<WatchlistItemsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8691,7 +8789,8 @@ export const WatchlistsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4609, __c144, 1) as any as S.Schema<WatchlistsCreateOrUpdateRequest>,
   output: __S(4610, __c144, 2) as any as S.Schema<WatchlistsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8705,7 +8804,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           logicAppResourceId: S.String,
-          triggerUri: S.String,
+          triggerUri: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ActionRequestProperties" });
     case 1:
@@ -9108,7 +9207,7 @@ function __c10(j: number): any {
         S.Struct({
           kind: S.String,
           etag: S.optional(S.String),
-          properties: S.optional(__S(415, __c12, 31)),
+          properties: S.optional(__S(416, __c13, 0)),
         }),
       ).annotate({ identifier: "RestApiPollerDataConnectorInput" });
     case 8:
@@ -9116,7 +9215,7 @@ function __c10(j: number): any {
         S.Struct({
           kind: S.String,
           etag: S.optional(S.String),
-          properties: S.optional(__S(417, __c13, 1)),
+          properties: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "TIDataConnectorInput" });
     case 9:
@@ -9155,7 +9254,7 @@ function __c10(j: number): any {
 function __c11(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(427, __c13, 11).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(428, __c13, 12).pipe(T.RawResponseRoot())).annotate({
         identifier: "DataConnectorsCreateOrUpdateResponse",
       });
   }
@@ -9316,12 +9415,14 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "GitHubAuthModel" });
     case 21:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+    case 22:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           tokenEndpoint: S.String,
           userName: __S(288, __c9, 0),
-          password: __S(288, __c9, 0),
+          password: __S(405, __c12, 21),
           queryParameters: S.optional(__S(288, __c9, 0)),
           headers: S.optional(__S(288, __c9, 0)),
           isCredentialsInHeaders: S.optional(S.NullOr(S.Boolean)),
@@ -9329,17 +9430,17 @@ function __c12(j: number): any {
           requestTimeoutInSeconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "JwtAuthModel" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
         }),
       ).annotate({ identifier: "NoneAuthModel" });
-    case 23:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          authorizationCode: S.optional(S.String),
+          authorizationCode: S.optional(S.String.pipe(T.SensitiveValue({}))),
           clientSecret: S.String.pipe(T.SensitiveValue({})),
           clientId: S.String,
           isCredentialsInHeaders: S.optional(S.NullOr(S.Boolean)),
@@ -9356,7 +9457,7 @@ function __c12(j: number): any {
           accessTokenPrepend: S.optional(S.String),
         }),
       ).annotate({ identifier: "OAuthModel" });
-    case 24:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
@@ -9366,12 +9467,12 @@ function __c12(j: number): any {
           pemFile: S.String,
         }),
       ).annotate({ identifier: "OracleAuthModel" });
-    case 25:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           userName: __S(288, __c9, 0),
-          password: __S(288, __c9, 0),
+          password: __S(405, __c12, 21),
           queryParameters: S.optional(__S(3552, __c111, 0)),
           isPostPayloadJson: S.optional(S.NullOr(S.Boolean)),
           headers: S.optional(__S(288, __c9, 0)),
@@ -9380,7 +9481,7 @@ function __c12(j: number): any {
           sessionLoginRequestUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "SessionAuthModel" });
-    case 26:
+    case 27:
       return S.Union([
         __S(399, __c12, 15),
         __S(400, __c12, 16),
@@ -9388,13 +9489,13 @@ function __c12(j: number): any {
         __S(402, __c12, 18),
         __S(403, __c12, 19),
         __S(404, __c12, 20),
-        __S(405, __c12, 21),
         __S(406, __c12, 22),
         __S(407, __c12, 23),
         __S(408, __c12, 24),
         __S(409, __c12, 25),
+        __S(410, __c12, 26),
       ]);
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
           apiEndpoint: S.String,
@@ -9415,7 +9516,7 @@ function __c12(j: number): any {
           queryTimeIntervalDelimiter: S.optional(S.String),
         }),
       ).annotate({ identifier: "RestApiPollerRequestConfig" });
-    case 28:
+    case 29:
       return S.suspend(() =>
         S.Struct({
           dataCollectionEndpoint: S.String,
@@ -9423,7 +9524,7 @@ function __c12(j: number): any {
           streamName: S.String,
         }),
       ).annotate({ identifier: "DCRConfiguration" });
-    case 29:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           eventsJsonPaths: __S(128, __c4, 0),
@@ -9439,7 +9540,7 @@ function __c12(j: number): any {
           csvEscape: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CcpResponseConfig" });
-    case 30:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           pagingType: S.String,
@@ -9447,20 +9548,6 @@ function __c12(j: number): any {
           pageSizeParameterName: S.optional(S.String),
         }),
       ).annotate({ identifier: "RestApiPollerRequestPagingConfig" });
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          connectorDefinitionName: S.String,
-          auth: __S(410, __c12, 26),
-          request: __S(411, __c12, 27),
-          dcrConfig: S.optional(__S(412, __c12, 28)),
-          isActive: S.optional(S.Boolean),
-          dataType: S.optional(S.String),
-          response: S.optional(__S(413, __c12, 29)),
-          paging: S.optional(__S(414, __c12, 30)),
-          addOnAttributes: S.optional(__S(288, __c9, 0)),
-        }),
-      ).annotate({ identifier: "RestApiPollerDataConnectorProperties" });
   }
 }
 function __c13(j: number): any {
@@ -9468,18 +9555,32 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          connectorDefinitionName: S.String,
+          auth: __S(411, __c12, 27),
+          request: __S(412, __c12, 28),
+          dcrConfig: S.optional(__S(413, __c12, 29)),
+          isActive: S.optional(S.Boolean),
+          dataType: S.optional(S.String),
+          response: S.optional(__S(414, __c12, 30)),
+          paging: S.optional(__S(415, __c12, 31)),
+          addOnAttributes: S.optional(__S(288, __c9, 0)),
+        }),
+      ).annotate({ identifier: "RestApiPollerDataConnectorProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           indicators: __S(384, __c12, 0),
         }),
       ).annotate({ identifier: "TIDataConnectorDataTypes" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           tenantId: S.String,
           tipLookbackPeriod: S.optional(S.NullOr(S.String)),
-          dataTypes: __S(416, __c13, 0),
+          dataTypes: __S(417, __c13, 1),
         }),
       ).annotate({ identifier: "TIDataConnectorProperties" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9491,7 +9592,7 @@ function __c13(j: number): any {
           properties: S.optional(__S(386, __c12, 2)),
         }),
       ).annotate({ identifier: "AADDataConnector" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9503,7 +9604,7 @@ function __c13(j: number): any {
           properties: S.optional(__S(387, __c12, 3)),
         }),
       ).annotate({ identifier: "ASCDataConnector" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9515,7 +9616,7 @@ function __c13(j: number): any {
           properties: S.optional(__S(389, __c12, 5)),
         }),
       ).annotate({ identifier: "AwsCloudTrailDataConnector" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9527,7 +9628,7 @@ function __c13(j: number): any {
           properties: S.optional(__S(391, __c12, 7)),
         }),
       ).annotate({ identifier: "MCASDataConnector" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9539,7 +9640,7 @@ function __c13(j: number): any {
           properties: S.optional(__S(394, __c12, 10)),
         }),
       ).annotate({ identifier: "MSTIDataConnector" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9551,7 +9652,7 @@ function __c13(j: number): any {
           properties: S.optional(__S(396, __c12, 12)),
         }),
       ).annotate({ identifier: "OfficeDataConnector" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -9563,18 +9664,6 @@ function __c13(j: number): any {
           properties: S.optional(__S(398, __c12, 14)),
         }),
       ).annotate({ identifier: "PremiumMicrosoftDefenderForThreatIntelligence" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(32, __c1, 0)),
-          kind: S.String,
-          etag: S.optional(S.String),
-          properties: S.optional(__S(415, __c12, 31)),
-        }),
-      ).annotate({ identifier: "RestApiPollerDataConnector" });
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -9584,22 +9673,34 @@ function __c13(j: number): any {
           systemData: S.optional(__S(32, __c1, 0)),
           kind: S.String,
           etag: S.optional(S.String),
-          properties: S.optional(__S(417, __c13, 1)),
+          properties: S.optional(__S(416, __c13, 0)),
+        }),
+      ).annotate({ identifier: "RestApiPollerDataConnector" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          kind: S.String,
+          etag: S.optional(S.String),
+          properties: S.optional(__S(418, __c13, 2)),
         }),
       ).annotate({ identifier: "TIDataConnector" });
-    case 11:
+    case 12:
       return S.Union([
-        __S(418, __c13, 2),
-        __S(418, __c13, 2),
+        __S(419, __c13, 3),
         __S(419, __c13, 3),
         __S(420, __c13, 4),
         __S(421, __c13, 5),
-        __S(418, __c13, 2),
         __S(422, __c13, 6),
+        __S(419, __c13, 3),
         __S(423, __c13, 7),
         __S(424, __c13, 8),
         __S(425, __c13, 9),
         __S(426, __c13, 10),
+        __S(427, __c13, 11),
       ]);
   }
 }
@@ -11864,10 +11965,10 @@ function __c95(j: number): any {
       return S.suspend(() =>
         S.Struct({
           kind: S.String,
-          code: S.optional(S.String),
-          state: S.optional(S.String),
+          code: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          state: S.optional(S.String.pipe(T.SensitiveValue({}))),
           clientId: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           installationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "RepositoryAccess" });
@@ -12174,7 +12275,7 @@ function __c102(j: number): any {
         ),
       ).annotate({ identifier: "ListDataConnectorsRequest" });
     case 1:
-      return S.Array(__S(427, __c13, 11));
+      return S.Array(__S(428, __c13, 12));
     case 2:
       return S.suspend(() =>
         S.Struct({

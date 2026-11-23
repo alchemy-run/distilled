@@ -20,6 +20,7 @@
  * `WebSocket`).
  */
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { encodeLabel, InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 import type * as Cause from "effect/Cause";
 import * as Deferred from "effect/Deferred";
@@ -29,6 +30,7 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Queue from "effect/Queue";
+import * as Redacted from "effect/Redacted";
 import type * as Scope from "effect/Scope";
 import * as Socket from "effect/socket/Socket";
 import * as Stream from "effect/Stream";
@@ -114,7 +116,10 @@ const socketUrl = Effect.fn(function* (path: string, query: Record<string, strin
   for (const [key, value] of Object.entries(query)) {
     if (value !== undefined) params.set(key, value);
   }
-  params.set("DAYTONA_SANDBOX_AUTH_KEY", token);
+  params.set(
+    "DAYTONA_SANDBOX_AUTH_KEY",
+    Redacted.isRedacted(token) ? Redacted.value(token) : token,
+  );
   return `${root.replace(/^http/, "ws")}${path}?${params.toString()}`;
 });
 
@@ -407,10 +412,13 @@ const followLogs = (path: string) =>
 export const followSessionCommandLogs = (request: {
   readonly sessionId: string;
   readonly commandId: string;
-}): Stream.Stream<LogOutput, ToolboxSocketOpenError, ToolboxSocketContext> =>
-  followLogs(
-    `/process/session/${encodeURIComponent(request.sessionId)}/command/${encodeURIComponent(request.commandId)}/logs`,
-  );
+}): Stream.Stream<LogOutput, ToolboxSocketOpenError | InvalidInput, ToolboxSocketContext> => {
+  const sessionId = encodeLabel("sessionId", request.sessionId);
+  if (sessionId instanceof InvalidInput) return Stream.fail(sessionId);
+  const commandId = encodeLabel("commandId", request.commandId);
+  if (commandId instanceof InvalidInput) return Stream.fail(commandId);
+  return followLogs(`/process/session/${sessionId}/command/${commandId}/logs`);
+};
 
 /**
  * Follow the sandbox entrypoint's output, as stdout and stderr pieces.
@@ -601,8 +609,12 @@ export const createPty = (
  */
 export const connectPty = (request: {
   readonly sessionId: string;
-}): Effect.Effect<PtyConnection, PtyError, ToolboxSocketContext | Scope.Scope> =>
-  attachPty(request.sessionId, `/process/pty/${encodeURIComponent(request.sessionId)}/connect`, {});
+}): Effect.Effect<PtyConnection, PtyError | InvalidInput, ToolboxSocketContext | Scope.Scope> => {
+  const sessionId = encodeLabel("sessionId", request.sessionId);
+  return sessionId instanceof InvalidInput
+    ? Effect.fail(sessionId)
+    : attachPty(request.sessionId, `/process/pty/${sessionId}/connect`, {});
+};
 
 // ---------------------------------------------------------------------------
 // Bulk file transfer

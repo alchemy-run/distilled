@@ -15,7 +15,7 @@ import { ConfigError } from "@distilled.cloud/core/errors";
  * {@link DEFAULT_API_VERSION}, the version the mirrored spec describes.
  *
  * Following the core convention the `Credentials` service holds an *effect*
- * resolving the current config, which the protocol layer runs per request on
+ * resolving the current config, which the protocol runs per request on
  * the calling fiber.
  */
 import * as Context from "effect/Context";

@@ -29,7 +29,7 @@ export {
 import * as Category from "@distilled.cloud/core/category";
 import { withCategory } from "@distilled.cloud/core/error-category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import { DurationSchema, RETRYABLE } from "@distilled.cloud/core/errors";
+import { API_ERRORS, DurationSchema, RETRYABLE } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -89,3 +89,14 @@ export type ClientErrors = SlackError | SlackRateLimited | SlackHttpError | Slac
  * plus the client-level envelope/decode errors.
  */
 export type DefaultErrors = CoreDefaultErrors | ClientErrors;
+
+/**
+ * The errors declared on the Slack service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. The
+ * envelope's errors ({@link SlackError} for a slug, {@link SlackRateLimited}
+ * for throttling), and each of core's status classes: for the
+ * infrastructure slugs (`Unauthorized`, `ServiceUnavailable`,
+ * `GatewayTimeout`) and for the status of a failure without an envelope.
+ */
+export const SlackServiceErrors = [...API_ERRORS, SlackError, SlackRateLimited] as const;
+export type SlackServiceError = InstanceType<(typeof SlackServiceErrors)[number]>;

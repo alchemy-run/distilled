@@ -1,23 +1,25 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
 import {
   UnknownNamespaceLabsError,
-  type DefaultErrors,
   NamespaceLabsParseError,
+  type NamespaceLabsServiceError,
 } from "./errors.ts";
 
+/**
+ * What every generated Namespace operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, NamespaceLabsOpError, NamespaceLabsOpContext>`
+ * explicitly.
+ */
 export type NamespaceLabsOpError =
-  | DefaultErrors
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | InvalidInput;
+  | NamespaceLabsServiceError
+  | ErrorOf<typeof NamespaceLabsProtocol>;
 
 export type NamespaceLabsOpContext = Credentials | HttpClient.HttpClient;
 
@@ -64,19 +66,18 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
 const errorDetails = (body: unknown): unknown =>
   body !== null && typeof body === "object" ? (body as Record<string, unknown>).details : undefined;
 
-export const NamespaceLabsProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
-    headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.token)}` }),
-    emptyJsonBody: true,
-    errorEnvelope,
-    unknownError: ({ code, message, body }) =>
-      new UnknownNamespaceLabsError({
-        code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-        message,
-        details: errorDetails(body),
-        body,
-      }),
-    parseError: ({ body, cause }) => new NamespaceLabsParseError({ body, cause }),
-  });
+export const NamespaceLabsProtocol = /*@__PURE__*/ restProtocol({
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds, target) => baseUrlFor(creds, target.uri),
+  headers: (creds) => ({ Authorization: `Bearer ${Redacted.value(creds.token)}` }),
+  emptyJsonBody: true,
+  errorEnvelope,
+  unknownError: ({ code, message, body }) =>
+    new UnknownNamespaceLabsError({
+      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
+      message,
+      details: errorDetails(body),
+      body,
+    }),
+  parseError: ({ body, cause }) => new NamespaceLabsParseError({ body, cause }),
+});

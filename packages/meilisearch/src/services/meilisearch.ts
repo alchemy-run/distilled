@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownMeilisearchError } from "../errors.ts";
+import { MeilisearchServiceErrors } from "../errors.ts";
 import {
   MeilisearchProtocol,
   type MeilisearchOpError,
@@ -549,7 +549,7 @@ export type TopLogprobsBytesList = Array<number>;
 /** A most likely token and its log probability at a given position. */
 export interface TopLogprobs {
   /** The token. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The log probability of this token. */
   logprob: number;
   /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token. */
@@ -560,7 +560,7 @@ export type ChatCompletionTokenLogprobTopLogprobsList = Array<TopLogprobs>;
 /** Log probability information for an output token. */
 export interface ChatCompletionTokenLogprob {
   /** The token. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The log probability of this token, if it is within the top 20 most likely tokens. Otherwise, the value `-9999.0` is used to signify that the token is very unlikely. */
   logprob: number;
   /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be `null` if there is no bytes representation for the token. */
@@ -1915,9 +1915,9 @@ export interface Remote {
   /** URL of the remote instance - If the URL of the remote instance is resolving to a non-global IP, make sure that `--experimental-allowed-ip-networks` allows it. For details on how use this parameter, refer to [this documentation](https://www.meilisearch.com/docs/learn/self_hosted/configure_meilisearch_at_launch#allow-requests-to-private-networks). */
   url?: string | null | undefined;
   /** API key for search operations on this remote */
-  searchApiKey?: string | null | undefined;
+  searchApiKey?: string | Redacted.Redacted<string> | null | undefined;
   /** API key for write operations on this remote */
-  writeApiKey?: string | null | undefined;
+  writeApiKey?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** Map of remote instance names to their configurations - Pass `null` as a value for a remote to remove it from the configuration. - Removing a remote will also remove it from all shards. - Remotes that don't appear in this list will be unmodified by the network call. */
 export type NetworkRemotesMap = { [key: string]: Remote | undefined };
@@ -4130,7 +4130,8 @@ export const cancelLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<CancelLogsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<CancelLogsResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4147,7 +4148,8 @@ export const cancelTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<CancelTasksRequest>,
   output: __S(2400, __c75, 0) as any as S.Schema<SummarizedTaskView>,
-  errors: [BadRequest, UnknownMeilisearchError],
+  errors: [BadRequest],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4164,7 +4166,8 @@ export const chat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2796, __c87, 12) as any as S.Schema<ChatRequest>,
   output: __S(2809, __c87, 25) as any as S.Schema<CreateChatCompletionResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4181,7 +4184,8 @@ export const clearAllDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<ClearAllDocumentsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<ClearAllDocumentsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4198,7 +4202,8 @@ export const clearRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<ClearRulesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<ClearRulesResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4215,7 +4220,8 @@ export const compact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<CompactRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<CompactResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4232,7 +4238,8 @@ export const compactTaskQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<CompactTaskQueueRequest>,
   output: __S(5121, __c160, 1) as any as S.Schema<TaskCompactionSummary>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4249,7 +4256,8 @@ export const createApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<CreateApiKeyRequest>,
   output: __S(5600, __c175, 0) as any as S.Schema<KeyView>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4266,7 +4274,8 @@ export const createDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<CreateDumpRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<CreateDumpResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4283,7 +4292,8 @@ export const createIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<CreateIndexRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<CreateIndexResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4300,7 +4310,8 @@ export const createIndexField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(737, __c23, 1) as any as S.Schema<CreateIndexFieldRequest>,
   output: __S(744, __c23, 8) as any as S.Schema<PaginationViewField>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4317,7 +4328,8 @@ export const createSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<CreateSnapshotRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<CreateSnapshotResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4334,7 +4346,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<CreateWebhookResponse>,
-  errors: [BadRequest, UnknownMeilisearchError],
+  errors: [BadRequest],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4351,7 +4364,8 @@ export const deleteAll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<DeleteAllRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteAllResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4368,7 +4382,8 @@ export const deleteApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<DeleteApiKeyRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteApiKeyResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4385,7 +4400,8 @@ export const deletechat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<DeletechatRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletechatResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4402,7 +4418,8 @@ export const deleteChat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<DeleteChatRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteChatResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4419,7 +4436,8 @@ export const deletedictionary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<DeletedictionaryRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletedictionaryResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4436,7 +4454,8 @@ export const deletedisplayedAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<DeletedisplayedAttributesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletedisplayedAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4453,7 +4472,8 @@ export const deletedistinctAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<DeletedistinctAttributeRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletedistinctAttributeResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4470,7 +4490,8 @@ export const deleteDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<DeleteDocumentRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteDocumentResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4487,7 +4508,8 @@ export const deleteDocumentsBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<DeleteDocumentsBatchRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteDocumentsBatchResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4504,7 +4526,8 @@ export const deleteDocumentsByFilter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<DeleteDocumentsByFilterRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteDocumentsByFilterResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4521,7 +4544,8 @@ export const deleteembedders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<DeleteembeddersRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteembeddersResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4538,7 +4562,8 @@ export const deletefaceting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<DeletefacetingRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletefacetingResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4555,7 +4580,8 @@ export const deletefilterableAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<DeletefilterableAttributesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletefilterableAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4572,7 +4598,8 @@ export const deleteforeignKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<DeleteforeignKeysRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteforeignKeysResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4589,7 +4616,8 @@ export const deleteIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<DeleteIndexRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteIndexResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4606,7 +4634,8 @@ export const deletelocalizedAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<DeletelocalizedAttributesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletelocalizedAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4623,7 +4652,8 @@ export const deletenonSeparatorTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<DeletenonSeparatorTokensRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletenonSeparatorTokensResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4640,7 +4670,8 @@ export const deletepagination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<DeletepaginationRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletepaginationResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4657,7 +4688,8 @@ export const deleteproximityPrecision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<DeleteproximityPrecisionRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteproximityPrecisionResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4674,7 +4706,8 @@ export const deleterankingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<DeleterankingRulesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleterankingRulesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4691,7 +4724,8 @@ export const deleteRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<DeleteRuleRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteRuleResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4708,7 +4742,8 @@ export const deletesearchableAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<DeletesearchableAttributesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletesearchableAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4725,7 +4760,8 @@ export const deletesearchCutoffMs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<DeletesearchCutoffMsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletesearchCutoffMsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4742,7 +4778,8 @@ export const deleteseparatorTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<DeleteseparatorTokensRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteseparatorTokensResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4759,7 +4796,8 @@ export const deletesortableAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<DeletesortableAttributesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletesortableAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4776,7 +4814,8 @@ export const deletestopWords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<DeletestopWordsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletestopWordsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4793,7 +4832,8 @@ export const deletesynonyms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<DeletesynonymsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletesynonymsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4810,7 +4850,8 @@ export const deleteTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<DeleteTasksRequest>,
   output: __S(2400, __c75, 0) as any as S.Schema<SummarizedTaskView>,
-  errors: [BadRequest, NotFound, UnknownMeilisearchError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4827,7 +4868,8 @@ export const deletetypoTolerance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<DeletetypoToleranceRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeletetypoToleranceResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4844,7 +4886,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4861,7 +4904,8 @@ export const editDocumentsByFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<EditDocumentsByFunctionRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<EditDocumentsByFunctionResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4878,7 +4922,8 @@ export const Export: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3042, __c95, 2) as any as S.Schema<ExportRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<ExportResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4895,7 +4940,8 @@ export const getAll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<GetAllRequest>,
   output: __S(3073, __c96, 1) as any as S.Schema<SettingsUnchecked>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4912,7 +4958,8 @@ export const getApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<GetApiKeyRequest>,
   output: __S(5600, __c175, 0) as any as S.Schema<KeyView>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4929,7 +4976,8 @@ export const getBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<GetBatchRequest>,
   output: __S(3621, __c113, 5) as any as S.Schema<BatchView>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4946,7 +4994,8 @@ export const getBatches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<GetBatchesRequest>,
   output: __S(3714, __c116, 2) as any as S.Schema<AllBatches>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4963,7 +5012,8 @@ export const getBatchesStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<GetBatchesStreamRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<GetBatchesStreamResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4980,7 +5030,8 @@ export const getchat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<GetchatRequest>,
   output: __S(3168, __c99, 0) as any as S.Schema<ChatSettings>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4997,7 +5048,8 @@ export const getChat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<GetChatRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<GetChatResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5014,7 +5066,8 @@ export const getdictionary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<GetdictionaryRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<GetdictionaryResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5031,7 +5084,8 @@ export const getdisplayedAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<GetdisplayedAttributesRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<GetdisplayedAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5048,7 +5102,8 @@ export const getdistinctAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<GetdistinctAttributeRequest>,
   output: __S(3968, __c124, 0) as any as S.Schema<GetdistinctAttributeResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5065,7 +5120,8 @@ export const getDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<GetDocumentRequest>,
   output: __S(4001, __c125, 1) as any as S.Schema<GetDocumentResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5082,7 +5138,8 @@ export const getDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<GetDocumentsRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<PaginationViewValue>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5099,7 +5156,8 @@ export const getembedders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<GetembeddersRequest>,
   output: __S(4097, __c128, 1) as any as S.Schema<GetembeddersResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5116,7 +5174,8 @@ export const getfaceting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<GetfacetingRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<FacetingSettings>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5133,7 +5192,8 @@ export const getFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<GetFeaturesRequest>,
   output: __S(4256, __c133, 0) as any as S.Schema<RuntimeTogglableFeatures>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5150,7 +5210,8 @@ export const getfilterableAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<GetfilterableAttributesRequest>,
   output: __S(4289, __c134, 1) as any as S.Schema<GetfilterableAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5167,7 +5228,8 @@ export const getforeignKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<GetforeignKeysRequest>,
   output: __S(4321, __c135, 1) as any as S.Schema<GetforeignKeysResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5184,7 +5246,8 @@ export const getHealth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<GetHealthRequest>,
   output: __S(4353, __c136, 1) as any as S.Schema<HealthResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5201,7 +5264,8 @@ export const getIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<GetIndexRequest>,
   output: __S(4416, __c138, 0) as any as S.Schema<IndexView>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5218,7 +5282,8 @@ export const getIndexStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<GetIndexStatsRequest>,
   output: __S(4481, __c140, 1) as any as S.Schema<IndexStats>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5235,7 +5300,8 @@ export const getlocalizedAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<GetlocalizedAttributesRequest>,
   output: __S(4513, __c141, 1) as any as S.Schema<GetlocalizedAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5252,7 +5318,8 @@ export const getLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<GetLogsRequest>,
   output: __S(3968, __c124, 0) as any as S.Schema<GetLogsResponse>,
-  errors: [BadRequest, UnknownMeilisearchError],
+  errors: [BadRequest],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5269,7 +5336,8 @@ export const getMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<GetMetricsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<GetMetricsResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5286,7 +5354,8 @@ export const getNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<GetNetworkRequest>,
   output: __S(4676, __c146, 4) as any as S.Schema<Network>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5303,7 +5372,8 @@ export const getnonSeparatorTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<GetnonSeparatorTokensRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<GetnonSeparatorTokensResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5320,7 +5390,8 @@ export const getpagination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<GetpaginationRequest>,
   output: __S(3424, __c107, 0) as any as S.Schema<PaginationSettings>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5337,7 +5408,8 @@ export const getproximityPrecision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<GetproximityPrecisionRequest>,
   output: __S(4800, __c150, 0) as any as S.Schema<GetproximityPrecisionResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5354,7 +5426,8 @@ export const getrankingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<GetrankingRulesRequest>,
   output: __S(4833, __c151, 1) as any as S.Schema<GetrankingRulesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5371,7 +5444,8 @@ export const getRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<GetRuleRequest>,
   output: __S(4928, __c154, 0) as any as S.Schema<DynamicSearchRule>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5388,7 +5462,8 @@ export const getsearchableAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<GetsearchableAttributesRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<GetsearchableAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5405,7 +5480,8 @@ export const getsearchCutoffMs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<GetsearchCutoffMsRequest>,
   output: __S(5025, __c157, 1) as any as S.Schema<GetsearchCutoffMsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5422,7 +5498,8 @@ export const getseparatorTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<GetseparatorTokensRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<GetseparatorTokensResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5439,7 +5516,8 @@ export const getSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<GetSettingsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<GetSettingsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5456,7 +5534,8 @@ export const getSimilar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<GetSimilarRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<GetSimilarResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5473,7 +5552,8 @@ export const getsortableAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<GetsortableAttributesRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<GetsortableAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5490,7 +5570,8 @@ export const getStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<GetStatsRequest>,
   output: __S(5282, __c165, 2) as any as S.Schema<Stats>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5507,7 +5588,8 @@ export const getstopWords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<GetstopWordsRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<GetstopWordsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5524,7 +5606,8 @@ export const getsynonyms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<GetsynonymsRequest>,
   output: __S(5345, __c167, 1) as any as S.Schema<GetsynonymsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5541,7 +5624,8 @@ export const getTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<GetTaskRequest>,
   output: __S(5408, __c169, 0) as any as S.Schema<TaskView>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5558,7 +5642,8 @@ export const getTaskDocumentsFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<GetTaskDocumentsFileRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<GetTaskDocumentsFileResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5575,7 +5660,8 @@ export const getTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<GetTasksRequest>,
   output: __S(5474, __c171, 2) as any as S.Schema<AllTasks>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5592,7 +5678,8 @@ export const getTasksStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<GetTasksStreamRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<GetTasksStreamResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5609,7 +5696,8 @@ export const gettypoTolerance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<GettypoToleranceRequest>,
   output: __S(3520, __c110, 0) as any as S.Schema<TypoSettings>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5626,7 +5714,8 @@ export const getVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<GetVersionRequest>,
   output: __S(5633, __c176, 1) as any as S.Schema<VersionResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5643,7 +5732,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<GetWebhookResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5660,7 +5750,8 @@ export const getWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<GetWebhooksRequest>,
   output: __S(5698, __c178, 2) as any as S.Schema<WebhookResults>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5677,7 +5768,8 @@ export const listApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<ListApiKeysRequest>,
   output: __S(5730, __c179, 2) as any as S.Schema<PaginationViewKeyView>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5694,7 +5786,8 @@ export const listIndexes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<ListIndexesRequest>,
   output: __S(5762, __c180, 2) as any as S.Schema<PaginationViewIndexView>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5711,7 +5804,8 @@ export const listRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5793, __c181, 1) as any as S.Schema<ListRulesRequest>,
   output: __S(5795, __c181, 3) as any as S.Schema<PaginationViewDynamicSearchRule>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5728,7 +5822,8 @@ export const listWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<ListWorkspacesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<ListWorkspacesResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5741,7 +5836,8 @@ export const mcp: API.OperationMethod<McpRequest, McpResponse, McpError, Meilise
   /*@__PURE__*/ API.make(() => ({
     input: __S(5858, __c183, 2) as any as S.Schema<McpRequest>,
     output: __S(5869, __c183, 13) as any as S.Schema<McpResponse>,
-    errors: [UnknownMeilisearchError],
+    errors: [],
+    serviceErrors: MeilisearchServiceErrors,
     protocol: MeilisearchProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5758,7 +5854,8 @@ export const multiSearchWithPost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5893, __c184, 5) as any as S.Schema<MultiSearchWithPostRequest>,
   output: __S(5899, __c184, 11) as any as S.Schema<MultiSearchWithPostResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5775,7 +5872,8 @@ export const patchApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<PatchApiKeyRequest>,
   output: __S(5600, __c175, 0) as any as S.Schema<KeyView>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5792,7 +5890,8 @@ export const patchchat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<PatchchatRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PatchchatResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5809,7 +5908,8 @@ export const patchembedders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<PatchembeddersRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PatchembeddersResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5826,7 +5926,8 @@ export const patchfaceting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<PatchfacetingRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PatchfacetingResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5843,7 +5944,8 @@ export const patchFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<PatchFeaturesRequest>,
   output: __S(4256, __c133, 0) as any as S.Schema<RuntimeTogglableFeatures>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5860,7 +5962,8 @@ export const patchpagination: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<PatchpaginationRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PatchpaginationResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5877,7 +5980,8 @@ export const patchSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(225, __c7, 1) as any as S.Schema<PatchSettingsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PatchSettingsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5894,7 +5998,8 @@ export const patchtypoTolerance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<PatchtypoToleranceRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PatchtypoToleranceResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5911,7 +6016,8 @@ export const postDocumentsByQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<PostDocumentsByQueryRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<PaginationViewValue>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5928,7 +6034,8 @@ export const postNetworkChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(321, __c10, 1) as any as S.Schema<PostNetworkChangeRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PostNetworkChangeResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5945,7 +6052,8 @@ export const postRender: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(354, __c11, 2) as any as S.Schema<PostRenderRequest>,
   output: __S(355, __c11, 3) as any as S.Schema<RenderResult>,
-  errors: [BadRequest, NotFound, UnknownMeilisearchError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5962,7 +6070,8 @@ export const postSimilar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<PostSimilarRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<PostSimilarResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5979,7 +6088,8 @@ export const putdictionary: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<PutdictionaryRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutdictionaryResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5996,7 +6106,8 @@ export const putdisplayedAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<PutdisplayedAttributesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutdisplayedAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6013,7 +6124,8 @@ export const putdistinctAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<PutdistinctAttributeRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutdistinctAttributeResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6030,7 +6142,8 @@ export const putfilterableAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<PutfilterableAttributesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutfilterableAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6047,7 +6160,8 @@ export const putforeignKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<PutforeignKeysRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutforeignKeysResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6064,7 +6178,8 @@ export const putlocalizedAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<PutlocalizedAttributesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutlocalizedAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6081,7 +6196,8 @@ export const putnonSeparatorTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<PutnonSeparatorTokensRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutnonSeparatorTokensResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6098,7 +6214,8 @@ export const putproximityPrecision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<PutproximityPrecisionRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutproximityPrecisionResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6115,7 +6232,8 @@ export const putrankingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<PutrankingRulesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutrankingRulesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6132,7 +6250,8 @@ export const putsearchableAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<PutsearchableAttributesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutsearchableAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6149,7 +6268,8 @@ export const putsearchCutoffMs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<PutsearchCutoffMsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutsearchCutoffMsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6166,7 +6286,8 @@ export const putseparatorTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<PutseparatorTokensRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutseparatorTokensResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6183,7 +6304,8 @@ export const putsortableAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<PutsortableAttributesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutsortableAttributesResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6200,7 +6322,8 @@ export const putstopWords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<PutstopWordsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutstopWordsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6217,7 +6340,8 @@ export const putsynonyms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<PutsynonymsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<PutsynonymsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6234,7 +6358,8 @@ export const replaceDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ReplaceDocumentsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<ReplaceDocumentsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6251,7 +6376,8 @@ export const resetSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ResetSettingsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<ResetSettingsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6268,7 +6394,8 @@ export const search: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<SearchRequest>,
   output: __S(1027, __c32, 3) as any as S.Schema<FacetSearchResult>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6285,7 +6412,8 @@ export const searchDeletefacet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<SearchDeletefacetRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<SearchDeletefacetResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6302,7 +6430,8 @@ export const searchDeleteprefix: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<SearchDeleteprefixRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<SearchDeleteprefixResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6319,7 +6448,8 @@ export const searchGetfacet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<SearchGetfacetRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<SearchGetfacetResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6336,7 +6466,8 @@ export const searchGetprefix: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<SearchGetprefixRequest>,
   output: __S(4800, __c150, 0) as any as S.Schema<SearchGetprefixResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6353,7 +6484,8 @@ export const searchPutfacet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<SearchPutfacetRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<SearchPutfacetResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6370,7 +6502,8 @@ export const searchPutprefix: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<SearchPutprefixRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<SearchPutprefixResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6387,7 +6520,8 @@ export const searchWithPost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<SearchWithPostRequest>,
   output: __S(1312, __c41, 0) as any as S.Schema<SearchWithPostResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6404,7 +6538,8 @@ export const searchWithUrlQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<SearchWithUrlQueryRequest>,
   output: __S(1312, __c41, 0) as any as S.Schema<SearchWithUrlQueryResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6421,7 +6556,8 @@ export const swapIndexes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1378, __c43, 2) as any as S.Schema<SwapIndexesRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<SwapIndexesResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6438,7 +6574,8 @@ export const updateAll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<UpdateAllRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<UpdateAllResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6455,7 +6592,8 @@ export const updateDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<UpdateDocumentsRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<UpdateDocumentsResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6472,7 +6610,8 @@ export const updateIndex: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<UpdateIndexRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<UpdateIndexResponse>,
-  errors: [NotFound, UnknownMeilisearchError],
+  errors: [NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6489,7 +6628,8 @@ export const updateNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<UpdateNetworkRequest>,
   output: __S(4676, __c146, 4) as any as S.Schema<Network>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6506,7 +6646,8 @@ export const updateOrCreateRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<UpdateOrCreateRuleRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<UpdateOrCreateRuleResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6523,7 +6664,8 @@ export const updateStderrTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<UpdateStderrTargetRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<UpdateStderrTargetResponse>,
-  errors: [UnknownMeilisearchError],
+  errors: [],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6540,7 +6682,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<UpdateWebhookResponse>,
-  errors: [BadRequest, NotFound, UnknownMeilisearchError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MeilisearchServiceErrors,
   protocol: MeilisearchProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8091,7 +8234,7 @@ function __c87(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           logprob: S.Number,
           bytes: S.optional(S.NullOr(__S(2336, __c73, 0))),
         }),
@@ -8101,7 +8244,7 @@ function __c87(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           logprob: S.Number,
           bytes: S.optional(S.NullOr(__S(2336, __c73, 0))),
           top_logprobs: __S(2800, __c87, 16),
@@ -9026,8 +9169,8 @@ function __c146(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.NullOr(S.String)),
-          searchApiKey: S.optional(S.NullOr(S.String)),
-          writeApiKey: S.optional(S.NullOr(S.String)),
+          searchApiKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          writeApiKey: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "Remote" });
     case 1:

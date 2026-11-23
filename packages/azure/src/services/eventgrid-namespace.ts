@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -260,7 +260,8 @@ export const AcknowledgeCloudEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AcknowledgeCloudEventsRequest>,
   output: __S(14, __c1, 6) as any as S.Schema<AcknowledgeResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -277,7 +278,8 @@ export const PublishCloudEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<PublishCloudEventRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PublishCloudEventResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -294,7 +296,8 @@ export const PublishCloudEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(33, __c4, 1) as any as S.Schema<PublishCloudEventsRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<PublishCloudEventsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -311,7 +314,8 @@ export const ReceiveCloudEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ReceiveCloudEventsRequest>,
   output: __S(52, __c6, 4) as any as S.Schema<ReceiveResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -328,7 +332,8 @@ export const RejectCloudEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<RejectCloudEventsRequest>,
   output: __S(14, __c1, 6) as any as S.Schema<RejectResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -345,7 +350,8 @@ export const ReleaseCloudEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ReleaseCloudEventsRequest>,
   output: __S(14, __c1, 6) as any as S.Schema<ReleaseResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -362,7 +368,8 @@ export const RenewCloudEventLocks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<RenewCloudEventLocksRequest>,
   output: __S(14, __c1, 6) as any as S.Schema<RenewCloudEventLocksResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -459,6 +466,7 @@ function __c2(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2024-06-01",
+            jsonContentType: "application/cloudevents+json; charset=utf-8",
             audience: "https://eventgrid.azure.net/.default",
           }),
         ),
@@ -491,6 +499,7 @@ function __c4(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2024-06-01",
+            jsonContentType: "application/cloudevents-batch+json; charset=utf-8",
             audience: "https://eventgrid.azure.net/.default",
           }),
         ),

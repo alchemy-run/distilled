@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { paginateByTotalCount } from "../pagination.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -256,7 +256,7 @@ export interface GenerateKeyMaterialImportParametersResponse {
   /** The public key to wrap the key material. */
   public_key?: string | undefined;
   /** The token generated to authorize the import operation. */
-  import_token?: string | undefined;
+  import_token?: string | Redacted.Redacted<string> | undefined;
 }
 export type GetKeyRequestRegion = "fr-par" | "nl-ams" | "pl-waw";
 export interface GetKeyRequest {
@@ -280,7 +280,7 @@ export interface ImportKeyMaterialRequestEncryptedKeyMaterial {
   /** The encrypted key material to import. This material must be encrypted using the public key and the exact wrapping algorithm returned by the `GetKeyMaterialImportParameters` method. */
   data?: string | undefined;
   /** The secure import token returned by the `GetKeyMaterialImportParameters` method. */
-  import_token?: string | undefined;
+  import_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ImportKeyMaterialRequest {
   /** The region you want to target */
@@ -520,7 +520,8 @@ export const createKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateKeyRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Key>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -537,7 +538,8 @@ export const decrypt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<DecryptRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<DecryptResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -554,7 +556,8 @@ export const deleteKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<DeleteKeyRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<DeleteKeyResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -571,7 +574,8 @@ export const deleteKeyMaterial: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<DeleteKeyMaterialRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<DeleteKeyMaterialResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -588,7 +592,8 @@ export const disableKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<DisableKeyRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Key>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -605,7 +610,8 @@ export const enableKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<EnableKeyRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Key>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -622,7 +628,8 @@ export const encrypt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<EncryptRequest>,
   output: __S(96, __c24, 0) as any as S.Schema<EncryptResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -639,7 +646,8 @@ export const generateDataKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(100, __c25, 0) as any as S.Schema<GenerateDataKeyRequest>,
   output: __S(101, __c25, 1) as any as S.Schema<DataKey>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -656,7 +664,8 @@ export const generateKeyMaterialImportParameters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c26, 0) as any as S.Schema<GenerateKeyMaterialImportParametersRequest>,
   output: __S(105, __c26, 1) as any as S.Schema<GenerateKeyMaterialImportParametersResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -669,7 +678,8 @@ export const getKey: API.OperationMethod<GetKeyRequest, Key, GetKeyError, Scalew
   /*@__PURE__*/ API.make(() => ({
     input: __S(108, __c27, 0) as any as S.Schema<GetKeyRequest>,
     output: __S(7, __c1, 3) as any as S.Schema<Key>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -686,7 +696,8 @@ export const getPublicKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetPublicKeyRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<PublicKey>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -703,7 +714,8 @@ export const importKeyMaterial: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17, __c4, 1) as any as S.Schema<ImportKeyMaterialRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Key>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -720,7 +732,8 @@ export const listAlgorithms: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ListAlgorithmsRequest>,
   output: __S(23, __c5, 3) as any as S.Schema<ListAlgorithmsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -739,7 +752,8 @@ export const listKeyRotations: API.PaginatedOperationMethod<
   () => ({
     input: __S(28, __c7, 0) as any as S.Schema<ListKeyRotationsRequest>,
     output: __S(31, __c7, 3) as any as S.Schema<ListKeyRotationsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -767,7 +781,8 @@ export const listKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(32, __c8, 0) as any as S.Schema<ListKeysRequest>,
     output: __S(34, __c8, 2) as any as S.Schema<ListKeysResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -793,7 +808,8 @@ export const protectKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<ProtectKeyRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Key>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -810,7 +826,8 @@ export const restoreKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<RestoreKeyRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Key>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -827,7 +844,8 @@ export const rotateKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<RotateKeyRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Key>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -840,7 +858,8 @@ export const sign: API.OperationMethod<SignRequest, SignResponse, SignError, Sca
   /*@__PURE__*/ API.make(() => ({
     input: __S(48, __c12, 0) as any as S.Schema<SignRequest>,
     output: __S(49, __c12, 1) as any as S.Schema<SignResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -857,7 +876,8 @@ export const unprotectKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<UnprotectKeyRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Key>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -874,7 +894,8 @@ export const unwrapKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<UnwrapKeyRequest>,
   output: __S(65, __c16, 1) as any as S.Schema<UnwrapKeyResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -891,7 +912,8 @@ export const updateKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(69, __c17, 1) as any as S.Schema<UpdateKeyRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<Key>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -908,7 +930,8 @@ export const verify: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<VerifyRequest>,
   output: __S(73, __c18, 1) as any as S.Schema<VerifyResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -925,7 +948,8 @@ export const wrapKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<WrapKeyRequest>,
   output: __S(96, __c24, 0) as any as S.Schema<WrapKeyResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1063,7 +1087,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           data: S.optional(S.String),
-          import_token: S.optional(S.String),
+          import_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ImportKeyMaterialRequestEncryptedKeyMaterial" });
     case 1:
@@ -1565,7 +1589,7 @@ function __c26(j: number): any {
         S.Struct({
           key_id: S.optional(S.String),
           public_key: S.optional(S.String),
-          import_token: S.optional(S.String),
+          import_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "GenerateKeyMaterialImportParametersResponse" });
   }

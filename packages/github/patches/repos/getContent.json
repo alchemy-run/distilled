@@ -1,0 +1,9 @@
+{
+  "description": "repos.getContent: the spec marks `path` required, but GitHub takes an empty path for the repository root. GET /repos/alchemy-run/distilled/contents/ returned 200 with the root directory listing (live, unauthenticated, 2026-11-22). Mark `path` optional so `path: \"\"` lists the root.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.github.repos#GetContentRequest/members/path/traits/smithy.api#required"
+    }
+  ]
+}

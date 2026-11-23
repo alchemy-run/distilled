@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownPorkbunError } from "../errors.ts";
+import { PorkbunServiceErrors } from "../errors.ts";
 import { PorkbunProtocol, type PorkbunOpError, type PorkbunOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -259,7 +259,7 @@ export interface BulkDomainCheckDomainResponse {
 }
 export interface ClaimApikeyRequest {
   /** The token from the share link (the part after /share/) or the handoff prompt. */
-  shareToken: string;
+  shareToken: string | Redacted.Redacted<string>;
 }
 export interface ClaimApikeyResponse {
   status?: string | undefined;
@@ -421,7 +421,7 @@ export interface CreateAccountInviteRequest {
 export interface CreateAccountInviteResponse {
   status: string;
   /** Opaque token -- pass to `/account/inviteStatus` to track completion */
-  inviteToken: string;
+  inviteToken: string | Redacted.Redacted<string>;
   /** URL to send to the prospective user. Opens Porkbun's standard registration page. */
   inviteUrl: string;
   /** UTC datetime when the invite token expires (48 hours from creation) */
@@ -1738,7 +1738,7 @@ export interface EmailSetupMailboxResponse {
 }
 export interface GetAccountInviteStatusRequest {
   /** The `inviteToken` returned by `/account/invite` */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** Current state of the invite */
 export type GetAccountInviteStatusResponseInviteStatus = "PENDING" | "ACCEPTED" | "EXPIRED";
@@ -3967,7 +3967,8 @@ export const accountVerifyEmailConfirm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<AccountVerifyEmailConfirmRequest>,
   output: __S(2177, __c136, 1) as any as S.Schema<AccountVerifyEmailConfirmResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3984,7 +3985,8 @@ export const accountVerifyEmailSend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<AccountVerifyEmailSendRequest>,
   output: __S(2401, __c150, 1) as any as S.Schema<AccountVerifyEmailSendResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4001,7 +4003,8 @@ export const accountVerifyPhoneConfirm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<AccountVerifyPhoneConfirmRequest>,
   output: __S(2625, __c164, 1) as any as S.Schema<AccountVerifyPhoneConfirmResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4018,7 +4021,8 @@ export const accountVerifyPhoneSend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c180, 0) as any as S.Schema<AccountVerifyPhoneSendRequest>,
   output: __S(2881, __c180, 1) as any as S.Schema<AccountVerifyPhoneSendResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4035,7 +4039,8 @@ export const apikeyRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3089, __c193, 1) as any as S.Schema<ApikeyRequestRequest>,
   output: __S(3090, __c193, 2) as any as S.Schema<ApikeyRequestResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4052,7 +4057,8 @@ export const apikeyRevokeShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c206, 0) as any as S.Schema<ApikeyRevokeShareRequest>,
   output: __S(3297, __c206, 1) as any as S.Schema<ApikeyRevokeShareResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4069,7 +4075,8 @@ export const apikeyShares: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<ApikeySharesRequest>,
   output: __S(34, __c2, 2) as any as S.Schema<ApikeySharesResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4086,7 +4093,8 @@ export const bulkDomainCheckDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<BulkDomainCheckDomainRequest>,
   output: __S(289, __c18, 1) as any as S.Schema<BulkDomainCheckDomainResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4103,7 +4111,8 @@ export const claimApikey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<ClaimApikeyRequest>,
   output: __S(561, __c35, 1) as any as S.Schema<ClaimApikeyResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4120,7 +4129,8 @@ export const closeoutBuy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<CloseoutBuyRequest>,
   output: __S(737, __c46, 1) as any as S.Schema<CloseoutBuyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPorkbunError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4137,7 +4147,8 @@ export const cloudflareCreateRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<CloudflareCreateRecordRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<CloudflareCreateRecordResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4154,7 +4165,8 @@ export const cloudflareDeleteRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<CloudflareDeleteRecordRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<CloudflareDeleteRecordResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4171,7 +4183,8 @@ export const cloudflareEditRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<CloudflareEditRecordRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<CloudflareEditRecordResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4188,7 +4201,8 @@ export const cloudflareGetConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<CloudflareGetConnectionRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<CloudflareGetConnectionResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4205,7 +4219,8 @@ export const cloudflareGetQueue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<CloudflareGetQueueRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<CloudflareGetQueueResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4222,7 +4237,8 @@ export const cloudflareGetRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<CloudflareGetRecordsRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<CloudflareGetRecordsResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4239,7 +4255,8 @@ export const cloudflareGetZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<CloudflareGetZoneRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<CloudflareGetZoneResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4256,7 +4273,8 @@ export const cloudflareGetZoneSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<CloudflareGetZoneSettingsRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<CloudflareGetZoneSettingsResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4273,7 +4291,8 @@ export const cloudflareInventory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<CloudflareInventoryRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<CloudflareInventoryResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4290,7 +4309,8 @@ export const cloudflareRollback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<CloudflareRollbackRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<CloudflareRollbackResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4307,7 +4327,8 @@ export const cloudflareSetProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<CloudflareSetProxyRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<CloudflareSetProxyResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4324,7 +4345,8 @@ export const cloudflareSetZoneSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<CloudflareSetZoneSettingsRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<CloudflareSetZoneSettingsResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4341,7 +4363,8 @@ export const connectCloudflare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<ConnectCloudflareRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<ConnectCloudflareResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4358,7 +4381,8 @@ export const createAccountInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<CreateAccountInviteRequest>,
   output: __S(1857, __c116, 1) as any as S.Schema<CreateAccountInviteResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4375,7 +4399,8 @@ export const createDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1872, __c117, 0) as any as S.Schema<CreateDnsRequest>,
   output: __S(1873, __c117, 1) as any as S.Schema<CreateDnsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4392,7 +4417,8 @@ export const createDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<CreateDomainRequest>,
   output: __S(1889, __c118, 1) as any as S.Schema<CreateDomainResponse2>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4409,7 +4435,8 @@ export const createHosting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<CreateHostingRequest>,
   output: __S(1906, __c119, 2) as any as S.Schema<CreateHostingResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4426,7 +4453,8 @@ export const createLinkInBio: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<CreateLinkInBioRequest>,
   output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4443,7 +4471,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(2016, __c126, 0) as any as S.Schema<WebhookEndpointResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4460,7 +4489,8 @@ export const deleteDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<DeleteDnsRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4477,7 +4507,8 @@ export const deleteHosting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<DeleteHostingRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4494,7 +4525,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(2096, __c131, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [NotFound, UnknownPorkbunError],
+  errors: [NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4511,7 +4543,8 @@ export const deployHosting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2114, __c132, 2) as any as S.Schema<DeployHostingRequest>,
   output: __S(2117, __c132, 5) as any as S.Schema<DeployHostingResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4528,7 +4561,8 @@ export const disconnectCloudflare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<DisconnectCloudflareRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<DisconnectCloudflareResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4545,7 +4579,8 @@ export const dnsCreateDnssecRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<DnsCreateDnssecRecordRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<DnsCreateDnssecRecordResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4562,7 +4597,8 @@ export const dnsDeleteByNameType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<DnsDeleteByNameTypeRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4579,7 +4615,8 @@ export const dnsDeleteDnssecRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<DnsDeleteDnssecRecordRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4596,7 +4633,8 @@ export const dnsDiff: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<DnsDiffRequest>,
   output: __S(2210, __c138, 2) as any as S.Schema<DnsDiffResponse>,
-  errors: [NotFound, UnknownPorkbunError],
+  errors: [NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4613,7 +4651,8 @@ export const dnsEditByNameType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<DnsEditByNameTypeRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4630,7 +4669,8 @@ export const dnsGetDnssecRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<DnsGetDnssecRecordsRequest>,
   output: __S(2274, __c142, 2) as any as S.Schema<DnsGetDnssecRecordsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4647,7 +4687,8 @@ export const dnsHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<DnsHistoryRequest>,
   output: __S(2291, __c143, 3) as any as S.Schema<DnsHistoryResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4664,7 +4705,8 @@ export const dnsPreflight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<DnsPreflightRequest>,
   output: __S(2307, __c144, 3) as any as S.Schema<DnsPreflightResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4681,7 +4723,8 @@ export const dnsRetrieveById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<DnsRetrieveByIdRequest>,
   output: __S(2338, __c146, 2) as any as S.Schema<DnsRecordsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4698,7 +4741,8 @@ export const dnsRetrieveByNameType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2352, __c147, 0) as any as S.Schema<DnsRetrieveByNameTypeRequest>,
   output: __S(2338, __c146, 2) as any as S.Schema<DnsRecordsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4715,7 +4759,8 @@ export const dnsScan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<DnsScanRequest>,
   output: __S(2369, __c148, 1) as any as S.Schema<DnsScanResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4732,7 +4777,8 @@ export const domainAddUrlForward: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<DomainAddUrlForwardRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4749,7 +4795,8 @@ export const domainCancelTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<DomainCancelTransferRequest>,
   output: __S(2417, __c151, 1) as any as S.Schema<DomainCancelTransferResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4766,7 +4813,8 @@ export const domainCheckDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2433, __c152, 1) as any as S.Schema<DomainCheckDomainRequest>,
   output: __S(2439, __c152, 7) as any as S.Schema<CheckDomainResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4783,7 +4831,8 @@ export const domainCreateGlue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<DomainCreateGlueRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4800,7 +4849,8 @@ export const domainDeleteGlue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<DomainDeleteGlueRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4817,7 +4867,8 @@ export const domainDeleteUrlForward: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<DomainDeleteUrlForwardRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4834,7 +4885,8 @@ export const domainGetContacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<DomainGetContactsRequest>,
   output: __S(2497, __c156, 1) as any as S.Schema<DomainGetContactsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4851,7 +4903,8 @@ export const domainGetGlue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c158, 0) as any as S.Schema<DomainGetGlueRequest>,
   output: __S(2531, __c158, 3) as any as S.Schema<DomainGetGlueResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4868,7 +4921,8 @@ export const domainGetNs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<DomainGetNsRequest>,
   output: __S(2576, __c161, 0) as any as S.Schema<DomainGetNsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4885,7 +4939,8 @@ export const domainGetRegistrationRequirements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<DomainGetRegistrationRequirementsRequest>,
   output: __S(2593, __c162, 1) as any as S.Schema<DomainGetRegistrationRequirementsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4902,7 +4957,8 @@ export const domainGetTransferSetup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<DomainGetTransferSetupRequest>,
   output: __S(2609, __c163, 1) as any as S.Schema<DomainGetTransferSetupResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4919,7 +4975,8 @@ export const domainGetUrlForwarding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<DomainGetUrlForwardingRequest>,
   output: __S(2658, __c166, 2) as any as S.Schema<GetUrlForwardingResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4936,7 +4993,8 @@ export const domainStartTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<DomainStartTransferRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<DomainStartTransferResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4953,7 +5011,8 @@ export const domainUpdateAutoRenew: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2704, __c169, 0) as any as S.Schema<DomainUpdateAutoRenewRequest>,
   output: __S(2706, __c169, 2) as any as S.Schema<DomainUpdateAutoRenewResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4970,7 +5029,8 @@ export const domainUpdateContacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c170, 0) as any as S.Schema<DomainUpdateContactsRequest>,
   output: __S(2721, __c170, 1) as any as S.Schema<DomainUpdateContactsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4987,7 +5047,8 @@ export const domainUpdateGlue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2736, __c171, 0) as any as S.Schema<DomainUpdateGlueRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5004,7 +5065,8 @@ export const domainUpdateNs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c172, 0) as any as S.Schema<DomainUpdateNsRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5021,7 +5083,8 @@ export const domainUpdateTransferAuthCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2768, __c173, 0) as any as S.Schema<DomainUpdateTransferAuthCodeRequest>,
   output: __S(2769, __c173, 1) as any as S.Schema<DomainUpdateTransferAuthCodeResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5038,7 +5101,8 @@ export const editDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c174, 0) as any as S.Schema<EditDnsRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5055,7 +5119,8 @@ export const emailAddForward: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2800, __c175, 0) as any as S.Schema<EmailAddForwardRequest>,
   output: __S(2804, __c175, 4) as any as S.Schema<EmailAddForwardResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5072,7 +5137,8 @@ export const emailCreateMailbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2832, __c177, 0) as any as S.Schema<EmailCreateMailboxRequest>,
   output: __S(2864, __c179, 0) as any as S.Schema<EmailCreateMailboxResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5089,7 +5155,8 @@ export const emailDeleteForward: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2896, __c181, 0) as any as S.Schema<EmailDeleteForwardRequest>,
   output: __S(2897, __c181, 1) as any as S.Schema<EmailDeleteForwardResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5106,7 +5173,8 @@ export const emailGetForwards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c182, 0) as any as S.Schema<EmailGetForwardsRequest>,
   output: __S(2930, __c183, 2) as any as S.Schema<EmailGetForwardsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5123,7 +5191,8 @@ export const emailGetMailboxes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c184, 0) as any as S.Schema<EmailGetMailboxesRequest>,
   output: __S(2961, __c185, 1) as any as S.Schema<EmailGetMailboxesResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5140,7 +5209,8 @@ export const emailRenewMailbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c186, 0) as any as S.Schema<EmailRenewMailboxRequest>,
   output: __S(2977, __c186, 1) as any as S.Schema<EmailRenewMailboxResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5157,7 +5227,8 @@ export const emailSetPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2992, __c187, 0) as any as S.Schema<EmailSetPasswordRequest>,
   output: __S(2048, __c128, 0) as any as S.Schema<BasicResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5174,7 +5245,8 @@ export const emailSetupMailbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c188, 0) as any as S.Schema<EmailSetupMailboxRequest>,
   output: __S(2864, __c179, 0) as any as S.Schema<EmailSetupMailboxResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5191,7 +5263,8 @@ export const getAccountInviteStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3024, __c189, 0) as any as S.Schema<GetAccountInviteStatusRequest>,
   output: __S(3025, __c189, 1) as any as S.Schema<GetAccountInviteStatusResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5208,7 +5281,8 @@ export const getApikey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c190, 0) as any as S.Schema<GetApikeyRequest>,
   output: __S(3041, __c190, 1) as any as S.Schema<GetApikeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownPorkbunError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5225,7 +5299,8 @@ export const getApikeyShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3056, __c191, 0) as any as S.Schema<GetApikeyShareRequest>,
   output: __S(34, __c2, 2) as any as S.Schema<GetApikeyShareResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5242,7 +5317,8 @@ export const getApiSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c192, 0) as any as S.Schema<GetApiSettingsRequest>,
   output: __S(3076, __c192, 4) as any as S.Schema<ApiSettingsResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5259,7 +5335,8 @@ export const getAutoTopup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c194, 0) as any as S.Schema<GetAutoTopupRequest>,
   output: __S(3122, __c195, 2) as any as S.Schema<AutoTopupResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5276,7 +5353,8 @@ export const getBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c196, 0) as any as S.Schema<GetBalanceRequest>,
   output: __S(3137, __c196, 1) as any as S.Schema<BalanceResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5293,7 +5371,8 @@ export const getCloseout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3152, __c197, 0) as any as S.Schema<GetCloseoutRequest>,
   output: __S(3153, __c197, 1) as any as S.Schema<GetCloseoutResponse>,
-  errors: [NotFound, UnknownPorkbunError],
+  errors: [NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5310,7 +5389,8 @@ export const getCloudflare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3184, __c199, 0) as any as S.Schema<GetCloudflareRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<GetCloudflareResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5327,7 +5407,8 @@ export const getDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c200, 0) as any as S.Schema<GetDnsRequest>,
   output: __S(2338, __c146, 2) as any as S.Schema<DnsRecordsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5344,7 +5425,8 @@ export const getDnsRecordById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3216, __c201, 0) as any as S.Schema<GetDnsRecordByIdRequest>,
   output: __S(2338, __c146, 2) as any as S.Schema<DnsRecordsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5361,7 +5443,8 @@ export const getDnsRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c202, 0) as any as S.Schema<GetDnsRecordsRequest>,
   output: __S(2338, __c146, 2) as any as S.Schema<DnsRecordsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5378,7 +5461,8 @@ export const getDnsRecordsByNameType: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3248, __c203, 0) as any as S.Schema<GetDnsRecordsByNameTypeRequest>,
   output: __S(2338, __c146, 2) as any as S.Schema<DnsRecordsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5395,7 +5479,8 @@ export const getDnssecRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c204, 0) as any as S.Schema<GetDnssecRecordsRequest>,
   output: __S(2274, __c142, 2) as any as S.Schema<GetDnssecRecordsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5412,7 +5497,8 @@ export const getDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3280, __c205, 0) as any as S.Schema<GetDomainRequest>,
   output: __S(3282, __c205, 2) as any as S.Schema<GetDomainResponse>,
-  errors: [NotFound, UnknownPorkbunError],
+  errors: [NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5429,7 +5515,8 @@ export const getDomainGlue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3312, __c207, 0) as any as S.Schema<GetDomainGlueRequest>,
   output: __S(3315, __c207, 3) as any as S.Schema<GetDomainGlueResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5446,7 +5533,8 @@ export const getDomainNs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c208, 0) as any as S.Schema<GetDomainNsRequest>,
   output: __S(2576, __c161, 0) as any as S.Schema<GetDomainNsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5463,7 +5551,8 @@ export const getDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3344, __c209, 0) as any as S.Schema<GetDomainsRequest>,
   output: __S(3364, __c210, 4) as any as S.Schema<DomainListAllResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5480,7 +5569,8 @@ export const getDomainUrlForwarding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3376, __c211, 0) as any as S.Schema<GetDomainUrlForwardingRequest>,
   output: __S(2658, __c166, 2) as any as S.Schema<GetUrlForwardingResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5497,7 +5587,8 @@ export const getEmailForwards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c212, 0) as any as S.Schema<GetEmailForwardsRequest>,
   output: __S(2930, __c183, 2) as any as S.Schema<GetEmailForwardsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5514,7 +5605,8 @@ export const getEmailMailboxes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3408, __c213, 0) as any as S.Schema<GetEmailMailboxesRequest>,
   output: __S(2961, __c185, 1) as any as S.Schema<GetEmailMailboxesResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5531,7 +5623,8 @@ export const getHosting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c214, 0) as any as S.Schema<GetHostingRequest>,
   output: __S(3434, __c214, 10) as any as S.Schema<GetHostingResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5548,7 +5641,8 @@ export const getHostingBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3440, __c215, 0) as any as S.Schema<GetHostingBackupRequest>,
   output: __S(3458, __c216, 2) as any as S.Schema<GetHostingBackupResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5565,7 +5659,8 @@ export const getInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3472, __c217, 0) as any as S.Schema<GetInvoiceRequest>,
   output: __S(3477, __c217, 5) as any as S.Schema<GetInvoiceResponse>,
-  errors: [NotFound, UnknownPorkbunError],
+  errors: [NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5582,7 +5677,8 @@ export const getInvoicePdf: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c218, 0) as any as S.Schema<GetInvoicePdfRequest>,
   output: __S(3489, __c218, 1) as any as S.Schema<GetInvoicePdfResponse>,
-  errors: [NotFound, UnknownPorkbunError],
+  errors: [NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5595,7 +5691,8 @@ export const getIp: API.OperationMethod<GetIpRequest, IpResponse, GetIpError, Po
   /*@__PURE__*/ API.make(() => ({
     input: __S(48, __c3, 0) as any as S.Schema<GetIpRequest>,
     output: __S(64, __c4, 0) as any as S.Schema<IpResponse>,
-    errors: [UnknownPorkbunError],
+    errors: [],
+    serviceErrors: PorkbunServiceErrors,
     protocol: PorkbunProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5612,7 +5709,8 @@ export const getLinkInBio: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetLinkInBioRequest>,
   output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5629,7 +5727,8 @@ export const getPing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetPingRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<GetPingResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5646,7 +5745,8 @@ export const getPricing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetPricingRequest>,
   output: __S(148, __c9, 4) as any as S.Schema<GetPricingResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5663,7 +5763,8 @@ export const getPricingGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetPricingGetRequest>,
   output: __S(148, __c9, 4) as any as S.Schema<GetPricingGetResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5680,7 +5781,8 @@ export const getSsl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetSslRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<GetSslResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5697,7 +5799,8 @@ export const getSslRetrieve: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetSslRetrieveRequest>,
   output: __S(192, __c12, 0) as any as S.Schema<GetSslRetrieveResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5714,7 +5817,8 @@ export const getTransferGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetTransferGetRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<GetTransferResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5731,7 +5835,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(2016, __c126, 0) as any as S.Schema<WebhookEndpointResponse>,
-  errors: [NotFound, UnknownPorkbunError],
+  errors: [NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5748,7 +5853,8 @@ export const hostingBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<HostingBackupsRequest>,
   output: __S(3458, __c216, 2) as any as S.Schema<HostingBackupsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5765,7 +5871,8 @@ export const hostingCreateBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<HostingCreateBackupRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<HostingCreateBackupResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5782,7 +5889,8 @@ export const hostingCreateStaging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<HostingCreateStagingRequest>,
   output: __S(369, __c23, 1) as any as S.Schema<HostingCreateStagingResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5799,7 +5907,8 @@ export const hostingCreateWpCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<HostingCreateWpCredentialsRequest>,
   output: __S(402, __c25, 2) as any as S.Schema<HostingCreateWpCredentialsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5816,7 +5925,8 @@ export const hostingDeleteBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<HostingDeleteBackupRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<HostingDeleteBackupResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5833,7 +5943,8 @@ export const hostingDeleteFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<HostingDeleteFileRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<HostingDeleteFileResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5850,7 +5961,8 @@ export const hostingDeleteStaging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<HostingDeleteStagingRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<HostingDeleteStagingResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5867,7 +5979,8 @@ export const hostingDeleteWpCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<HostingDeleteWpCredentialsRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<HostingDeleteWpCredentialsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5884,7 +5997,8 @@ export const hostingFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<HostingFilesRequest>,
   output: __S(497, __c31, 1) as any as S.Schema<HostingFilesResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5901,7 +6015,8 @@ export const hostingGetStaging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<HostingGetStagingRequest>,
   output: __S(528, __c33, 0) as any as S.Schema<HostingGetStagingResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5918,7 +6033,8 @@ export const hostingGetStagingGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<HostingGetStagingGetRequest>,
   output: __S(528, __c33, 0) as any as S.Schema<HostingGetStagingGetResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5935,7 +6051,8 @@ export const hostingGetWpCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<HostingGetWpCredentialsRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<HostingGetWpCredentialsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5952,7 +6069,8 @@ export const hostingMakeDir: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<HostingMakeDirRequest>,
   output: __S(593, __c37, 1) as any as S.Schema<HostingMakeDirResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5969,7 +6087,8 @@ export const hostingPlans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<HostingPlansRequest>,
   output: __S(611, __c38, 3) as any as S.Schema<HostingPlansResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5986,7 +6105,8 @@ export const hostingPublishStaging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<HostingPublishStagingRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<HostingPublishStagingResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6003,7 +6123,8 @@ export const hostingReissueSsl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<HostingReissueSslRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<HostingReissueSslResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6020,7 +6141,8 @@ export const hostingResetStaging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<HostingResetStagingRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<HostingResetStagingResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6037,7 +6159,8 @@ export const hostingRestoreBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<HostingRestoreBackupRequest>,
   output: __S(674, __c42, 2) as any as S.Schema<HostingRestoreBackupResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6054,7 +6177,8 @@ export const hostingSetPhpVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<HostingSetPhpVersionRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<HostingSetPhpVersionResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6071,7 +6195,8 @@ export const hostingSetSearchVisibility: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<HostingSetSearchVisibilityRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<HostingSetSearchVisibilityResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6088,7 +6213,8 @@ export const hostingSetStagingEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<HostingSetStagingEnvironmentRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<HostingSetStagingEnvironmentResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6105,7 +6231,8 @@ export const hostingSetStagingGate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<HostingSetStagingGateRequest>,
   output: __S(754, __c47, 2) as any as S.Schema<HostingSetStagingGateResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6122,7 +6249,8 @@ export const hostingSetStagingGuard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<HostingSetStagingGuardRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<HostingSetStagingGuardResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6139,7 +6267,8 @@ export const hostingSetWordPressVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<HostingSetWordPressVersionRequest>,
   output: __S(2688, __c168, 0) as any as S.Schema<HostingSetWordPressVersionResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6156,7 +6285,8 @@ export const hostingUpdateAutoRenew: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<HostingUpdateAutoRenewRequest>,
   output: __S(801, __c50, 1) as any as S.Schema<HostingUpdateAutoRenewResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6173,7 +6303,8 @@ export const hostingWpRequest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<HostingWpRequestRequest>,
   output: __S(817, __c51, 1) as any as S.Schema<HostingWpRequestResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6190,7 +6321,8 @@ export const hostingWpUploadMedia: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<HostingWpUploadMediaRequest>,
   output: __S(834, __c52, 2) as any as S.Schema<HostingWpUploadMediaResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6207,7 +6339,8 @@ export const importDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ImportDnsRequest>,
   output: __S(849, __c53, 1) as any as S.Schema<ImportDnsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6224,7 +6357,8 @@ export const linkInBioAddLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<LinkInBioAddLinkRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<LinkInBioLinkResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6241,7 +6375,8 @@ export const linkInBioDeleteLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<LinkInBioDeleteLinkRequest>,
   output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6258,7 +6393,8 @@ export const linkInBioEditLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<LinkInBioEditLinkRequest>,
   output: __S(881, __c55, 1) as any as S.Schema<LinkInBioLinkResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6275,7 +6411,8 @@ export const linkInBioGetPost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<LinkInBioGetPostRequest>,
   output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6292,7 +6429,8 @@ export const linkInBioReorderLinks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<LinkInBioReorderLinksRequest>,
   output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6309,7 +6447,8 @@ export const linkInBioUpdateAppearance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<LinkInBioUpdateAppearanceRequest>,
   output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6326,7 +6465,8 @@ export const linkInBioUpdateProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<LinkInBioUpdateProfileRequest>,
   output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6343,7 +6483,8 @@ export const linkInBioUpdateSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1041, __c65, 1) as any as S.Schema<LinkInBioUpdateSettingsRequest>,
   output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6360,7 +6501,8 @@ export const linkInBioUpdateSocials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1057, __c66, 1) as any as S.Schema<LinkInBioUpdateSocialsRequest>,
   output: __S(1968, __c123, 0) as any as S.Schema<LinkInBioResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6377,7 +6519,8 @@ export const listDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<ListDomainsRequest>,
   output: __S(3364, __c210, 4) as any as S.Schema<DomainListAllResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6394,7 +6537,8 @@ export const listInvoices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<ListInvoicesRequest>,
   output: __S(1091, __c68, 3) as any as S.Schema<ListInvoicesResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6411,7 +6555,8 @@ export const listMarketplaceListings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<ListMarketplaceListingsRequest>,
   output: __S(1122, __c70, 2) as any as S.Schema<ListMarketplaceListingsResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6428,7 +6573,8 @@ export const listMarketplaceListingsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<ListMarketplaceListingsGetRequest>,
   output: __S(1122, __c70, 2) as any as S.Schema<ListMarketplaceListingsGetResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6445,7 +6591,8 @@ export const listTransfersGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<ListTransfersGetRequest>,
   output: __S(1170, __c73, 2) as any as S.Schema<ListTransfersResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6462,7 +6609,8 @@ export const listWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<ListWebhookRequest>,
   output: __S(1186, __c74, 2) as any as S.Schema<WebhookListResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6479,7 +6627,8 @@ export const mockDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<MockDirectoryRequest>,
   output: __S(1203, __c75, 3) as any as S.Schema<MockDirectoryResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6496,7 +6645,8 @@ export const mockEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<MockEndpointRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<MockEndpointResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6509,7 +6659,8 @@ export const ping: API.OperationMethod<PingRequest, PingResponse, PingError, Por
   /*@__PURE__*/ API.make(() => ({
     input: __S(1232, __c77, 0) as any as S.Schema<PingRequest>,
     output: __S(112, __c7, 0) as any as S.Schema<PingResponse>,
-    errors: [BadRequest, UnknownPorkbunError],
+    errors: [BadRequest],
+    serviceErrors: PorkbunServiceErrors,
     protocol: PorkbunProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6522,7 +6673,8 @@ export const postIp: API.OperationMethod<PostIpRequest, IpResponse, PostIpError,
   /*@__PURE__*/ API.make(() => ({
     input: __S(1248, __c78, 0) as any as S.Schema<PostIpRequest>,
     output: __S(64, __c4, 0) as any as S.Schema<IpResponse>,
-    errors: [UnknownPorkbunError],
+    errors: [],
+    serviceErrors: PorkbunServiceErrors,
     protocol: PorkbunProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6539,7 +6691,8 @@ export const previewCloudflare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<PreviewCloudflareRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<PreviewCloudflareResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6556,7 +6709,8 @@ export const renewDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<RenewDomainRequest>,
   output: __S(1281, __c80, 1) as any as S.Schema<RenewDomainResponse2>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6573,7 +6727,8 @@ export const resendWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<ResendWebhookRequest>,
   output: __S(1297, __c81, 1) as any as S.Schema<WebhookResendResponse>,
-  errors: [BadRequest, NotFound, UnknownPorkbunError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6590,7 +6745,8 @@ export const resetSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<ResetSandboxRequest>,
   output: __S(1329, __c83, 1) as any as S.Schema<ResetSandboxResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6607,7 +6763,8 @@ export const restoreDns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<RestoreDnsRequest>,
   output: __S(1363, __c85, 3) as any as S.Schema<DnsRestoreResponse>,
-  errors: [NotFound, UnknownPorkbunError],
+  errors: [NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6624,7 +6781,8 @@ export const retryCloudflare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<RetryCloudflareRequest>,
   output: __S(944, __c59, 0) as any as S.Schema<RetryCloudflareResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6641,7 +6799,8 @@ export const revokeApikey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<RevokeApikeyRequest>,
   output: __S(1394, __c87, 2) as any as S.Schema<RevokeApikeyResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6658,7 +6817,8 @@ export const sandboxTopup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<SandboxTopupRequest>,
   output: __S(1409, __c88, 1) as any as S.Schema<SandboxTopupResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6675,7 +6835,8 @@ export const sandboxTriggerWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<SandboxTriggerWebhookRequest>,
   output: __S(1425, __c89, 1) as any as S.Schema<SandboxTriggerWebhookResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6692,7 +6853,8 @@ export const searchAftermarket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<SearchAftermarketRequest>,
   output: __S(1443, __c90, 3) as any as S.Schema<SearchAftermarketResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6709,7 +6871,8 @@ export const searchCloseout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<SearchCloseoutRequest>,
   output: __S(1458, __c91, 2) as any as S.Schema<SearchCloseoutResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6726,7 +6889,8 @@ export const setAutoTopup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<SetAutoTopupRequest>,
   output: __S(3122, __c195, 2) as any as S.Schema<AutoTopupResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6743,7 +6907,8 @@ export const shareApikey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<ShareApikeyRequest>,
   output: __S(1489, __c93, 1) as any as S.Schema<ShareApikeyResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6760,7 +6925,8 @@ export const testWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<TestWebhookRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<WebhookTestResponse>,
-  errors: [BadRequest, NotFound, UnknownPorkbunError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6777,7 +6943,8 @@ export const topupAccountCredit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<TopupAccountCreditRequest>,
   output: __S(1540, __c96, 4) as any as S.Schema<TopupAccountCreditResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6794,7 +6961,8 @@ export const topupCrypto: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<TopupCryptoRequest>,
   output: __S(1553, __c97, 1) as any as S.Schema<TopupCryptoResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6811,7 +6979,8 @@ export const topupCryptoStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<TopupCryptoStatusRequest>,
   output: __S(1569, __c98, 1) as any as S.Schema<TopupCryptoStatusResponse>,
-  errors: [NotFound, UnknownPorkbunError],
+  errors: [NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6828,7 +6997,8 @@ export const topupMpp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<TopupMppRequest>,
   output: __S(1585, __c99, 1) as any as S.Schema<TopupMppResponse>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6845,7 +7015,8 @@ export const transferDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<TransferDomainRequest>,
   output: __S(1601, __c100, 1) as any as S.Schema<TransferDomainResponse2>,
-  errors: [UnknownPorkbunError],
+  errors: [],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6862,7 +7033,8 @@ export const transferDomainPrepare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<TransferDomainPrepareRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<TransferDomainPrepareResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6879,7 +7051,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(2016, __c126, 0) as any as S.Schema<WebhookEndpointResponse>,
-  errors: [BadRequest, NotFound, UnknownPorkbunError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6896,7 +7069,8 @@ export const webhookDeliveries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<WebhookDeliveriesRequest>,
   output: __S(1650, __c103, 2) as any as S.Schema<WebhookDeliveryListResponse>,
-  errors: [BadRequest, NotFound, UnknownPorkbunError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6913,7 +7087,8 @@ export const webhookDelivery2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<WebhookDeliveryRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<WebhookDeliveryResponse>,
-  errors: [NotFound, UnknownPorkbunError],
+  errors: [NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6930,7 +7105,8 @@ export const webhookEventTypes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<WebhookEventTypesRequest>,
   output: __S(1681, __c105, 1) as any as S.Schema<WebhookEventTypesResponse>,
-  errors: [BadRequest, UnknownPorkbunError],
+  errors: [BadRequest],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6947,7 +7123,8 @@ export const webhookRotateSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<WebhookRotateSecretRequest>,
   output: __S(2016, __c126, 0) as any as S.Schema<WebhookEndpointResponse>,
-  errors: [NotFound, UnknownPorkbunError],
+  errors: [NotFound],
+  serviceErrors: PorkbunServiceErrors,
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7510,7 +7687,7 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          shareToken: S.String,
+          shareToken: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/apikey/claim", code: 200 })),
       ).annotate({ identifier: "ClaimApikeyRequest" });
     case 1:
@@ -9036,7 +9213,7 @@ function __c116(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          inviteToken: S.String,
+          inviteToken: S.String.pipe(T.SensitiveValue({})),
           inviteUrl: S.String,
           expires: S.String,
         }),
@@ -10549,7 +10726,7 @@ function __c189(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String.pipe(T.Query()),
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
         }).pipe(T.Http({ method: "GET", uri: "/account/inviteStatus", code: 200 })),
       ).annotate({ identifier: "GetAccountInviteStatusRequest" });
     case 1:

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNamespaceLabsError } from "../errors.ts";
+import { NamespaceLabsServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import {
   NamespaceLabsProtocol,
@@ -35,6 +35,7 @@ export class AlreadyExists
     /*@__PURE__*/ S.TaggedError<AlreadyExists>()("AlreadyExists", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/code": "already_exists" } }],
   ) {}
@@ -44,6 +45,7 @@ export class FailedPrecondition
     /*@__PURE__*/ S.TaggedError<FailedPrecondition>()("FailedPrecondition", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, body: { "/code": "failed_precondition" } }],
   ) {}
@@ -53,6 +55,7 @@ export class InvalidArgument
     /*@__PURE__*/ S.TaggedError<InvalidArgument>()("InvalidArgument", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, body: { "/code": "invalid_argument" } }],
   ) {}
@@ -62,6 +65,7 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -71,6 +75,7 @@ export class PermissionDenied
     /*@__PURE__*/ S.TaggedError<PermissionDenied>()("PermissionDenied", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -80,6 +85,8 @@ export class ResourceExhausted
     /*@__PURE__*/ S.TaggedError<ResourceExhausted>()("ResourceExhausted", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withThrottlingError),
     [{ status: 429 }],
   ) {}
@@ -89,6 +96,7 @@ export class Unauthenticated
     /*@__PURE__*/ S.TaggedError<Unauthenticated>()("Unauthenticated", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 401 }],
   ) {}
@@ -516,8 +524,8 @@ export const downloadPrepare: API.OperationMethod<
     NotFound,
     AlreadyExists,
     ResourceExhausted,
-    UnknownNamespaceLabsError,
   ],
+  serviceErrors: NamespaceLabsServiceErrors,
   protocol: NamespaceLabsProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -550,8 +558,8 @@ export const expireResult: API.OperationMethod<
     NotFound,
     AlreadyExists,
     ResourceExhausted,
-    UnknownNamespaceLabsError,
   ],
+  serviceErrors: NamespaceLabsServiceErrors,
   protocol: NamespaceLabsProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -584,8 +592,8 @@ export const fetchResult: API.OperationMethod<
     NotFound,
     AlreadyExists,
     ResourceExhausted,
-    UnknownNamespaceLabsError,
   ],
+  serviceErrors: NamespaceLabsServiceErrors,
   protocol: NamespaceLabsProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -618,8 +626,8 @@ export const finalizeUploadResult: API.OperationMethod<
     NotFound,
     AlreadyExists,
     ResourceExhausted,
-    UnknownNamespaceLabsError,
   ],
+  serviceErrors: NamespaceLabsServiceErrors,
   protocol: NamespaceLabsProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -654,8 +662,8 @@ export const listResults: API.PaginatedOperationMethod<
       NotFound,
       AlreadyExists,
       ResourceExhausted,
-      UnknownNamespaceLabsError,
     ],
+    serviceErrors: NamespaceLabsServiceErrors,
     protocol: NamespaceLabsProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -696,8 +704,8 @@ export const prepareUploadResult: API.OperationMethod<
     NotFound,
     AlreadyExists,
     ResourceExhausted,
-    UnknownNamespaceLabsError,
   ],
+  serviceErrors: NamespaceLabsServiceErrors,
   protocol: NamespaceLabsProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

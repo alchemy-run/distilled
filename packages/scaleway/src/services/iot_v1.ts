@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { paginateByTotalCount } from "../pagination.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -777,7 +777,8 @@ export const createDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateDeviceRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<CreateDeviceResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -794,7 +795,8 @@ export const createHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<CreateHubRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<Hub>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -811,7 +813,8 @@ export const createNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<CreateNetworkRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<CreateNetworkResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -828,7 +831,8 @@ export const createRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(233, __c29, 1) as any as S.Schema<CreateRouteRequest>,
   output: __S(244, __c30, 4) as any as S.Schema<Route>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -845,7 +849,8 @@ export const deleteDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<DeleteDeviceRequest>,
   output: __S(288, __c36, 0) as any as S.Schema<DeleteDeviceResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -862,7 +867,8 @@ export const deleteHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<DeleteHubRequest>,
   output: __S(288, __c36, 0) as any as S.Schema<DeleteHubResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -879,7 +885,8 @@ export const deleteNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<DeleteNetworkRequest>,
   output: __S(288, __c36, 0) as any as S.Schema<DeleteNetworkResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -896,7 +903,8 @@ export const deleteRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<DeleteRouteRequest>,
   output: __S(288, __c36, 0) as any as S.Schema<DeleteRouteResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -913,7 +921,8 @@ export const deleteTwinDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<DeleteTwinDocumentRequest>,
   output: __S(288, __c36, 0) as any as S.Schema<DeleteTwinDocumentResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -930,7 +939,8 @@ export const deleteTwinDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<DeleteTwinDocumentsRequest>,
   output: __S(288, __c36, 0) as any as S.Schema<DeleteTwinDocumentsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -947,7 +957,8 @@ export const disableDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<DisableDeviceRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<Device>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -964,7 +975,8 @@ export const disableHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<DisableHubRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<Hub>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -981,7 +993,8 @@ export const enableDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<EnableDeviceRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<Device>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -998,7 +1011,8 @@ export const enableHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<EnableHubRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<Hub>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1015,7 +1029,8 @@ export const getDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetDeviceRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<Device>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1032,7 +1047,8 @@ export const getDeviceCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetDeviceCertificateRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<GetDeviceCertificateResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1045,7 +1061,8 @@ export const getHub: API.OperationMethod<GetHubRequest, Hub, GetHubError, Scalew
   /*@__PURE__*/ API.make(() => ({
     input: __S(96, __c12, 0) as any as S.Schema<GetHubRequest>,
     output: __S(33, __c4, 1) as any as S.Schema<Hub>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1062,7 +1079,8 @@ export const getHubCA: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetHubCARequest>,
   output: __S(105, __c13, 1) as any as S.Schema<GetHubCAResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1079,7 +1097,8 @@ export const getNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetNetworkRequest>,
   output: __S(136, __c17, 0) as any as S.Schema<Network>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1096,7 +1115,8 @@ export const getRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<GetRouteRequest>,
   output: __S(244, __c30, 4) as any as S.Schema<Route>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1113,7 +1133,8 @@ export const getTwinDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<GetTwinDocumentRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<TwinDocument>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1132,7 +1153,8 @@ export const listDevices: API.PaginatedOperationMethod<
   () => ({
     input: __S(160, __c20, 0) as any as S.Schema<ListDevicesRequest>,
     output: __S(162, __c20, 2) as any as S.Schema<ListDevicesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1160,7 +1182,8 @@ export const listHubs: API.PaginatedOperationMethod<
   () => ({
     input: __S(168, __c21, 0) as any as S.Schema<ListHubsRequest>,
     output: __S(170, __c21, 2) as any as S.Schema<ListHubsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1188,7 +1211,8 @@ export const listNetworks: API.PaginatedOperationMethod<
   () => ({
     input: __S(176, __c22, 0) as any as S.Schema<ListNetworksRequest>,
     output: __S(178, __c22, 2) as any as S.Schema<ListNetworksResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1216,7 +1240,8 @@ export const listRoutes: API.PaginatedOperationMethod<
   () => ({
     input: __S(184, __c23, 0) as any as S.Schema<ListRoutesRequest>,
     output: __S(187, __c23, 3) as any as S.Schema<ListRoutesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1242,7 +1267,8 @@ export const listTwinDocuments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<ListTwinDocumentsRequest>,
   output: __S(195, __c24, 3) as any as S.Schema<ListTwinDocumentsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1259,7 +1285,8 @@ export const patchTwinDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<PatchTwinDocumentRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<TwinDocument>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1276,7 +1303,8 @@ export const putTwinDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<PutTwinDocumentRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<TwinDocument>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1293,7 +1321,8 @@ export const renewDeviceCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<RenewDeviceCertificateRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<RenewDeviceCertificateResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1310,7 +1339,8 @@ export const setDeviceCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<SetDeviceCertificateRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<SetDeviceCertificateResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1323,7 +1353,8 @@ export const setHubCA: API.OperationMethod<SetHubCARequest, Hub, SetHubCAError, 
   /*@__PURE__*/ API.make(() => ({
     input: __S(248, __c31, 0) as any as S.Schema<SetHubCARequest>,
     output: __S(33, __c4, 1) as any as S.Schema<Hub>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1340,7 +1371,8 @@ export const updateDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<UpdateDeviceRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<Device>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1357,7 +1389,8 @@ export const updateHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<UpdateHubRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<Hub>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1374,7 +1407,8 @@ export const updateRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(275, __c34, 3) as any as S.Schema<UpdateRouteRequest>,
   output: __S(244, __c30, 4) as any as S.Schema<Route>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

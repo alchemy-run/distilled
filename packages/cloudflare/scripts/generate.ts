@@ -27,6 +27,7 @@ const DEEP_QUERY_TRAIT = "com.cloudflare.protocols#deepQuery";
 const HOST_TRAIT = "com.cloudflare.protocols#host";
 const JURISDICTION_TRAIT = "com.cloudflare.protocols#jurisdiction";
 const VERBATIM_PAYLOAD_TRAIT = "com.cloudflare.protocols#verbatimPayload";
+const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
 /** Cloudflare's provider spec for the shared smithy→SDK compiler. */
 const makeCfSpec = (
@@ -83,17 +84,32 @@ const makeCfSpec = (
     // Struct-valued query member expanded into dotted query params
     // (`account.id=…`) by core's buildRequest; value = wire base name.
     [DEEP_QUERY_TRAIT]: "T.DeepQuery",
+    // Sensitive strings (tokens, credentials): the schema member carries
+    // T.SensitiveValue; the protocol delivers Redacted values and accepts
+    // string | Redacted on input.
+    [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
 
   // Blob-targeted members accept binary-ish payload forms (v0 surface):
   // a whole-body Blob is a raw object upload; a body-bound Blob is a
   // binary form part (e.g. the KV value).
   memberTsType: (m) =>
-    m.target === "smithy.api#Blob"
-      ? m.binding === "rawBody"
-        ? "Blob | Uint8Array | ArrayBuffer | string"
-        : "string | File | Blob"
-      : undefined,
+    SENSITIVE_TRAIT in m.traits
+      ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
+      : m.target === "smithy.api#Blob"
+        ? m.binding === "rawBody"
+          ? "Blob | Uint8Array | ArrayBuffer | string"
+          : "string | File | Blob"
+        : undefined,
+
+  // Sensitive member types reference Redacted; pull the import in when used.
+  postProcess: (code) =>
+    code.includes("Redacted.Redacted<")
+      ? code.replace(
+          `import * as S from "@distilled.cloud/core/schema-lite";\n`,
+          `import * as S from "@distilled.cloud/core/schema-lite";\nimport * as Redacted from "effect/Redacted";\n`,
+        )
+      : code,
 
   sourceNote: ".generated-specs",
 
@@ -161,7 +177,7 @@ const makeCfSpec = (
   operationDecl: {
     contextType: "CloudflareOpContext",
     commonErrorType: "CloudflareOpError",
-    commonErrorClasses: ["CloudflareRateLimited", "CloudflareError"],
+    serviceErrors: "CloudflareServiceErrors",
     protocol: "CloudflareProtocol",
     retry: "Retry.Retry",
   },

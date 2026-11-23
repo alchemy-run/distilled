@@ -3,6 +3,8 @@ import * as CoreCrypto from "@distilled.cloud/core/crypto";
 import {
   type InvalidInput,
   InvalidInput as InvalidInputError,
+  invalidHostLabel,
+  invalidLabel,
 } from "@distilled.cloud/core/protocol-http";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Clock from "effect/Clock";
@@ -20,12 +22,7 @@ import * as Region from "./region.ts";
 import { dnsSuffix } from "./rules-engine/aws-functions.ts";
 import * as SigV4 from "./sigv4.ts";
 import { toBase64 } from "./util/base64.ts";
-import {
-  encodeGreedyLabel,
-  encodeLabel,
-  invalidAwsLabel,
-  invalidHostLabel,
-} from "./util/serialize-input.ts";
+import { encodeGreedyLabel, encodeLabel, invalidRegion } from "./util/serialize-input.ts";
 import { isStreamBody } from "./util/stream.ts";
 
 /**
@@ -131,8 +128,9 @@ export const presignUrl: (
 /**
  * `path` under the bucket's URL: virtual-hosted
  * (`https://{bucket}.s3.{region}.{dnsSuffix}/{path}`), or path-style under a
- * custom {@link Endpoint.Endpoint}. Fails with `InvalidInput` for a bucket or
- * key that would address another resource.
+ * custom {@link Endpoint.Endpoint}. Fails with `InvalidInput` for a region
+ * that is not a DNS label, or a bucket or key that would address another
+ * resource.
  */
 const objectUrl = (
   bucket: string,
@@ -149,10 +147,13 @@ const objectUrl = (
     ),
     (customEndpoint): Effect.Effect<URL, InvalidInput | SigV4.InvalidSigningUrl> => {
       const invalid =
-        invalidAwsLabel("bucket", bucket, false) ??
-        invalidAwsLabel("key", key, true) ??
+        invalidRegion(region) ??
+        invalidLabel("bucket", bucket, false) ??
+        invalidLabel("key", key, true) ??
+        // A bucket that needs percent-encoding always fails the host check;
+        // the guard keeps unencoded legacy names (`my_bucket`) as before.
         (!customEndpoint && encodeLabel(bucket) !== bucket
-          ? invalidHostLabel("bucket", bucket)
+          ? invalidHostLabel("bucket", bucket, true)
           : undefined);
       if (invalid !== undefined) return Effect.fail(invalid);
       return parseUrl(

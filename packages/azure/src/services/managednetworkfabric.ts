@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2914,7 +2914,7 @@ export interface ExpressRouteConnectionInformation {
   /** The express route circuit Azure resource ID, must be of type Microsoft.Network/expressRouteCircuits/circuitName. The ExpressRoute Circuit is a mandatory attribute. */
   expressRouteCircuitId: string;
   /** Authorization key for the circuit, must be of type Microsoft.Network/expressRouteCircuits/authorizations. The Auth Key is a mandatory attribute. */
-  expressRouteAuthorizationKey: string;
+  expressRouteAuthorizationKey: string | Redacted.Redacted<string>;
 }
 /** As part of an update, the Infrastructure ExpressRoute CircuitID should be provided to create and Provision a NFC. This Express route is dedicated for Infrastructure services. (This is a Mandatory attribute) */
 export type NetworkFabricControllerPropertiesInputInfrastructureExpressRouteConnectionsList =
@@ -11282,7 +11282,8 @@ export const AccessControlListsResync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AccessControlListsResyncRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<AccessControlListsResyncResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11299,7 +11300,8 @@ export const CommitL2IsolationDomainConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<CommitL2IsolationDomainConfigurationRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<CommitL2IsolationDomainConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11316,7 +11318,8 @@ export const CommitL3IsolationDomainConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<CommitL3IsolationDomainConfigurationRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<CommitL3IsolationDomainConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11333,7 +11336,8 @@ export const CommitNetworkFabricBatchStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<CommitNetworkFabricBatchStatusRequest>,
   output: __S(5603, __c175, 3) as any as S.Schema<CommitBatchStatusOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11350,7 +11354,8 @@ export const CommitNetworkFabricConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<CommitNetworkFabricConfigurationRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<CommitConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11367,7 +11372,8 @@ export const CommitRoutePolicyConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<CommitRoutePolicyConfigurationRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<CommitRoutePolicyConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11384,7 +11390,8 @@ export const CreateAccessControlList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7009, __c219, 1) as any as S.Schema<CreateAccessControlListRequest>,
   output: __S(7010, __c219, 2) as any as S.Schema<CreateAccessControlListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11401,7 +11408,8 @@ export const CreateExternalNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7842, __c245, 2) as any as S.Schema<CreateExternalNetworkRequest>,
   output: __S(7843, __c245, 3) as any as S.Schema<CreateExternalNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11418,7 +11426,8 @@ export const CreateInternalNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8803, __c275, 3) as any as S.Schema<CreateInternalNetworkRequest>,
   output: __S(8804, __c275, 4) as any as S.Schema<CreateInternalNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11435,7 +11444,8 @@ export const CreateInternetGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9441, __c295, 1) as any as S.Schema<CreateInternetGatewayRequest>,
   output: __S(9442, __c295, 2) as any as S.Schema<CreateInternetGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11452,7 +11462,8 @@ export const CreateInternetGatewayRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(129, __c4, 1) as any as S.Schema<CreateInternetGatewayRuleRequest>,
   output: __S(130, __c4, 2) as any as S.Schema<CreateInternetGatewayRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11469,7 +11480,8 @@ export const CreateIpCommunity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(641, __c20, 1) as any as S.Schema<CreateIpCommunityRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<CreateIpCommunityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11486,7 +11498,8 @@ export const CreateIpExtendedCommunity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1153, __c36, 1) as any as S.Schema<CreateIpExtendedCommunityRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<CreateIpExtendedCommunityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11503,7 +11516,8 @@ export const CreateIpPrefix: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1633, __c51, 1) as any as S.Schema<CreateIpPrefixRequest>,
   output: __S(1634, __c51, 2) as any as S.Schema<CreateIpPrefixResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11520,7 +11534,8 @@ export const CreateL2IsolationDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2017, __c63, 1) as any as S.Schema<CreateL2IsolationDomainRequest>,
   output: __S(2018, __c63, 2) as any as S.Schema<CreateL2IsolationDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11537,7 +11552,8 @@ export const CreateL3IsolationDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2497, __c78, 1) as any as S.Schema<CreateL3IsolationDomainRequest>,
   output: __S(2498, __c78, 2) as any as S.Schema<CreateL3IsolationDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11554,7 +11570,8 @@ export const CreateNeighborGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2945, __c92, 1) as any as S.Schema<CreateNeighborGroupRequest>,
   output: __S(2946, __c92, 2) as any as S.Schema<CreateNeighborGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11571,7 +11588,8 @@ export const CreateNetworkBootstrapDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3393, __c106, 1) as any as S.Schema<CreateNetworkBootstrapDeviceRequest>,
   output: __S(3394, __c106, 2) as any as S.Schema<CreateNetworkBootstrapDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11588,7 +11606,8 @@ export const CreateNetworkBootstrapInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3809, __c119, 1) as any as S.Schema<CreateNetworkBootstrapInterfaceRequest>,
   output: __S(3810, __c119, 2) as any as S.Schema<CreateNetworkBootstrapInterfaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11605,7 +11624,8 @@ export const CreateNetworkDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4193, __c131, 1) as any as S.Schema<CreateNetworkDeviceRequest>,
   output: __S(4194, __c131, 2) as any as S.Schema<CreateNetworkDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11622,7 +11642,8 @@ export const CreateNetworkFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4677, __c146, 5) as any as S.Schema<CreateNetworkFabricRequest>,
   output: __S(4678, __c146, 6) as any as S.Schema<CreateNetworkFabricResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11639,7 +11660,8 @@ export const CreateNetworkFabricController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4993, __c156, 1) as any as S.Schema<CreateNetworkFabricControllerRequest>,
   output: __S(4994, __c156, 2) as any as S.Schema<CreateNetworkFabricControllerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11656,7 +11678,8 @@ export const CreateNetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<CreateNetworkInterfaceRequest>,
   output: __S(5057, __c158, 1) as any as S.Schema<CreateNetworkInterfaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11673,7 +11696,8 @@ export const CreateNetworkMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5153, __c161, 1) as any as S.Schema<CreateNetworkMonitorRequest>,
   output: __S(5154, __c161, 2) as any as S.Schema<CreateNetworkMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11690,7 +11714,8 @@ export const CreateNetworkPacketBroker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5217, __c163, 1) as any as S.Schema<CreateNetworkPacketBrokerRequest>,
   output: __S(5218, __c163, 2) as any as S.Schema<CreateNetworkPacketBrokerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11707,7 +11732,8 @@ export const CreateNetworkRack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5281, __c165, 1) as any as S.Schema<CreateNetworkRackRequest>,
   output: __S(5282, __c165, 2) as any as S.Schema<CreateNetworkRackResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11724,7 +11750,8 @@ export const CreateNetworkTap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5345, __c167, 1) as any as S.Schema<CreateNetworkTapRequest>,
   output: __S(5346, __c167, 2) as any as S.Schema<CreateNetworkTapResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11741,7 +11768,8 @@ export const CreateNetworkTapRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5409, __c169, 1) as any as S.Schema<CreateNetworkTapRuleRequest>,
   output: __S(5410, __c169, 2) as any as S.Schema<CreateNetworkTapRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11758,7 +11786,8 @@ export const CreateNetworkToNetworkInterconnect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5474, __c171, 2) as any as S.Schema<CreateNetworkToNetworkInterconnectRequest>,
   output: __S(5475, __c171, 3) as any as S.Schema<CreateNetworkToNetworkInterconnectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11775,7 +11804,8 @@ export const CreateRoutePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5537, __c173, 1) as any as S.Schema<CreateRoutePolicyRequest>,
   output: __S(5538, __c173, 2) as any as S.Schema<CreateRoutePolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11792,7 +11822,8 @@ export const DeleteAccessControlList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<DeleteAccessControlListRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteAccessControlListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11809,7 +11840,8 @@ export const DeleteExternalNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<DeleteExternalNetworkRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteExternalNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11826,7 +11858,8 @@ export const DeleteInternalNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<DeleteInternalNetworkRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteInternalNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11843,7 +11876,8 @@ export const DeleteInternetGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<DeleteInternetGatewayRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteInternetGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11860,7 +11894,8 @@ export const DeleteInternetGatewayRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<DeleteInternetGatewayRuleRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteInternetGatewayRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11877,7 +11912,8 @@ export const DeleteIpCommunity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<DeleteIpCommunityRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteIpCommunityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11894,7 +11930,8 @@ export const DeleteIpExtendedCommunity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<DeleteIpExtendedCommunityRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteIpExtendedCommunityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11911,7 +11948,8 @@ export const DeleteIpPrefix: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<DeleteIpPrefixRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteIpPrefixResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11928,7 +11966,8 @@ export const DeleteL2IsolationDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<DeleteL2IsolationDomainRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteL2IsolationDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11945,7 +11984,8 @@ export const DeleteL3IsolationDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<DeleteL3IsolationDomainRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteL3IsolationDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11962,7 +12002,8 @@ export const DeleteNeighborGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<DeleteNeighborGroupRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteNeighborGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11979,7 +12020,8 @@ export const DeleteNetworkBootstrapDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<DeleteNetworkBootstrapDeviceRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteNetworkBootstrapDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11996,7 +12038,8 @@ export const DeleteNetworkBootstrapInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<DeleteNetworkBootstrapInterfaceRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteNetworkBootstrapInterfaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12013,7 +12056,8 @@ export const DeleteNetworkDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<DeleteNetworkDeviceRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteNetworkDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12030,7 +12074,8 @@ export const DeleteNetworkFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<DeleteNetworkFabricRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteNetworkFabricResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12047,7 +12092,8 @@ export const DeleteNetworkFabricController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<DeleteNetworkFabricControllerRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteNetworkFabricControllerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12064,7 +12110,8 @@ export const DeleteNetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<DeleteNetworkInterfaceRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteNetworkInterfaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12081,7 +12128,8 @@ export const DeleteNetworkMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<DeleteNetworkMonitorRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteNetworkMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12098,7 +12146,8 @@ export const DeleteNetworkPacketBroker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<DeleteNetworkPacketBrokerRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteNetworkPacketBrokerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12115,7 +12164,8 @@ export const DeleteNetworkRack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<DeleteNetworkRackRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteNetworkRackResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12132,7 +12182,8 @@ export const DeleteNetworkTap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<DeleteNetworkTapRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteNetworkTapResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12149,7 +12200,8 @@ export const DeleteNetworkTapRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<DeleteNetworkTapRuleRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteNetworkTapRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12166,7 +12218,8 @@ export const DeleteNetworkToNetworkInterconnect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<DeleteNetworkToNetworkInterconnectRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteNetworkToNetworkInterconnectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12183,7 +12236,8 @@ export const DeleteRoutePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<DeleteRoutePolicyRequest>,
   output: __S(5760, __c180, 0) as any as S.Schema<DeleteRoutePolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12200,7 +12254,8 @@ export const GetAccessControlList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<GetAccessControlListRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<GetAccessControlListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12217,7 +12272,8 @@ export const GetExternalNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<GetExternalNetworkRequest>,
   output: __S(6720, __c210, 0) as any as S.Schema<GetExternalNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12234,7 +12290,8 @@ export const GetInternalNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<GetInternalNetworkRequest>,
   output: __S(6784, __c212, 0) as any as S.Schema<GetInternalNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12251,7 +12308,8 @@ export const GetInternetGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<GetInternetGatewayRequest>,
   output: __S(6848, __c214, 0) as any as S.Schema<GetInternetGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12268,7 +12326,8 @@ export const GetInternetGatewayRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<GetInternetGatewayRuleRequest>,
   output: __S(6912, __c216, 0) as any as S.Schema<GetInternetGatewayRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12285,7 +12344,8 @@ export const GetIpCommunity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<GetIpCommunityRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<GetIpCommunityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12302,7 +12362,8 @@ export const GetIpExtendedCommunity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<GetIpExtendedCommunityRequest>,
   output: __S(7232, __c226, 0) as any as S.Schema<GetIpExtendedCommunityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12319,7 +12380,8 @@ export const GetIpPrefix: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<GetIpPrefixRequest>,
   output: __S(7296, __c228, 0) as any as S.Schema<GetIpPrefixResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12336,7 +12398,8 @@ export const GetL2IsolationDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<GetL2IsolationDomainRequest>,
   output: __S(7360, __c230, 0) as any as S.Schema<GetL2IsolationDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12353,7 +12416,8 @@ export const GetL3IsolationDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<GetL3IsolationDomainRequest>,
   output: __S(7424, __c232, 0) as any as S.Schema<GetL3IsolationDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12370,7 +12434,8 @@ export const GetNeighborGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<GetNeighborGroupRequest>,
   output: __S(7488, __c234, 0) as any as S.Schema<GetNeighborGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12387,7 +12452,8 @@ export const GetNetworkBootstrapDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<GetNetworkBootstrapDeviceRequest>,
   output: __S(7552, __c236, 0) as any as S.Schema<GetNetworkBootstrapDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12404,7 +12470,8 @@ export const GetNetworkBootstrapInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<GetNetworkBootstrapInterfaceRequest>,
   output: __S(7616, __c238, 0) as any as S.Schema<GetNetworkBootstrapInterfaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12421,7 +12488,8 @@ export const GetNetworkDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<GetNetworkDeviceRequest>,
   output: __S(7680, __c240, 0) as any as S.Schema<GetNetworkDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12438,7 +12506,8 @@ export const GetNetworkDeviceSkus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<GetNetworkDeviceSkusRequest>,
   output: __S(7751, __c242, 7) as any as S.Schema<GetNetworkDeviceSkusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12455,7 +12524,8 @@ export const GetNetworkFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<GetNetworkFabricRequest>,
   output: __S(7808, __c244, 0) as any as S.Schema<GetNetworkFabricResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12472,7 +12542,8 @@ export const GetNetworkFabricController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<GetNetworkFabricControllerRequest>,
   output: __S(8224, __c257, 0) as any as S.Schema<GetNetworkFabricControllerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12489,7 +12560,8 @@ export const GetNetworkFabricSkus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<GetNetworkFabricSkusRequest>,
   output: __S(8289, __c259, 1) as any as S.Schema<GetNetworkFabricSkusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12506,7 +12578,8 @@ export const GetNetworkFabricTopology: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<GetNetworkFabricTopologyRequest>,
   output: __S(8322, __c260, 2) as any as S.Schema<GetTopologyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12523,7 +12596,8 @@ export const GetNetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<GetNetworkInterfaceRequest>,
   output: __S(8384, __c262, 0) as any as S.Schema<GetNetworkInterfaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12540,7 +12614,8 @@ export const GetNetworkMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<GetNetworkMonitorRequest>,
   output: __S(8448, __c264, 0) as any as S.Schema<GetNetworkMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12557,7 +12632,8 @@ export const GetNetworkPacketBroker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<GetNetworkPacketBrokerRequest>,
   output: __S(8512, __c266, 0) as any as S.Schema<GetNetworkPacketBrokerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12574,7 +12650,8 @@ export const GetNetworkRack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<GetNetworkRackRequest>,
   output: __S(8576, __c268, 0) as any as S.Schema<GetNetworkRackResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12591,7 +12668,8 @@ export const GetNetworkTap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<GetNetworkTapRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<GetNetworkTapResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12608,7 +12686,8 @@ export const GetNetworkTapRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<GetNetworkTapRuleRequest>,
   output: __S(8704, __c272, 0) as any as S.Schema<GetNetworkTapRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12625,7 +12704,8 @@ export const GetNetworkToNetworkInterconnect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<GetNetworkToNetworkInterconnectRequest>,
   output: __S(8768, __c274, 0) as any as S.Schema<GetNetworkToNetworkInterconnectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12642,7 +12722,8 @@ export const GetRoutePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<GetRoutePolicyRequest>,
   output: __S(8992, __c281, 0) as any as S.Schema<GetRoutePolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12660,7 +12741,8 @@ export const ListAccessControlListByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<ListAccessControlListByResourceGroupRequest>,
   output: __S(9057, __c283, 1) as any as S.Schema<AccessControlListsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12684,7 +12766,8 @@ export const ListAccessControlListBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9088, __c284, 0) as any as S.Schema<ListAccessControlListBySubscriptionRequest>,
   output: __S(9057, __c283, 1) as any as S.Schema<AccessControlListsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12708,7 +12791,8 @@ export const ListExternalNetworkByL3IsolationDomain: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<ListExternalNetworkByL3IsolationDomainRequest>,
   output: __S(9122, __c285, 2) as any as S.Schema<ExternalNetworksList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12732,7 +12816,8 @@ export const ListInternalNetworkByL3IsolationDomain: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<ListInternalNetworkByL3IsolationDomainRequest>,
   output: __S(9154, __c286, 2) as any as S.Schema<InternalNetworksList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12756,7 +12841,8 @@ export const ListInternetGatewayByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<ListInternetGatewayByResourceGroupRequest>,
   output: __S(9217, __c288, 1) as any as S.Schema<InternetGatewaysListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12780,7 +12866,8 @@ export const ListInternetGatewayBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<ListInternetGatewayBySubscriptionRequest>,
   output: __S(9217, __c288, 1) as any as S.Schema<InternetGatewaysListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12804,7 +12891,8 @@ export const ListInternetGatewayRuleByResourceGroup: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<ListInternetGatewayRuleByResourceGroupRequest>,
   output: __S(9313, __c291, 1) as any as S.Schema<InternetGatewayRulesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12828,7 +12916,8 @@ export const ListInternetGatewayRuleBySubscription: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<ListInternetGatewayRuleBySubscriptionRequest>,
   output: __S(9313, __c291, 1) as any as S.Schema<InternetGatewayRulesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12852,7 +12941,8 @@ export const ListIpCommunityByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9376, __c293, 0) as any as S.Schema<ListIpCommunityByResourceGroupRequest>,
   output: __S(9409, __c294, 1) as any as S.Schema<IpCommunitiesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12876,7 +12966,8 @@ export const ListIpCommunityBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<ListIpCommunityBySubscriptionRequest>,
   output: __S(9409, __c294, 1) as any as S.Schema<IpCommunitiesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12900,7 +12991,8 @@ export const ListIpExtendedCommunityByResourceGroup: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<ListIpExtendedCommunityByResourceGroupRequest>,
   output: __S(9569, __c299, 1) as any as S.Schema<IpExtendedCommunityListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12924,7 +13016,8 @@ export const ListIpExtendedCommunityBySubscription: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9600, __c300, 0) as any as S.Schema<ListIpExtendedCommunityBySubscriptionRequest>,
   output: __S(9569, __c299, 1) as any as S.Schema<IpExtendedCommunityListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12948,7 +13041,8 @@ export const ListIpPrefixByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<ListIpPrefixByResourceGroupRequest>,
   output: __S(9665, __c302, 1) as any as S.Schema<IpPrefixesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12972,7 +13066,8 @@ export const ListIpPrefixBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9696, __c303, 0) as any as S.Schema<ListIpPrefixBySubscriptionRequest>,
   output: __S(9665, __c302, 1) as any as S.Schema<IpPrefixesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12996,7 +13091,8 @@ export const ListL2IsolationDomainByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<ListL2IsolationDomainByResourceGroupRequest>,
   output: __S(9761, __c305, 1) as any as S.Schema<L2IsolationDomainsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13020,7 +13116,8 @@ export const ListL2IsolationDomainBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<ListL2IsolationDomainBySubscriptionRequest>,
   output: __S(9761, __c305, 1) as any as S.Schema<L2IsolationDomainsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13044,7 +13141,8 @@ export const ListL3IsolationDomainByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<ListL3IsolationDomainByResourceGroupRequest>,
   output: __S(9857, __c308, 1) as any as S.Schema<L3IsolationDomainsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13068,7 +13166,8 @@ export const ListL3IsolationDomainBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9888, __c309, 0) as any as S.Schema<ListL3IsolationDomainBySubscriptionRequest>,
   output: __S(9857, __c308, 1) as any as S.Schema<L3IsolationDomainsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13092,7 +13191,8 @@ export const ListNeighborGroupByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9920, __c310, 0) as any as S.Schema<ListNeighborGroupByResourceGroupRequest>,
   output: __S(9953, __c311, 1) as any as S.Schema<NeighborGroupsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13116,7 +13216,8 @@ export const ListNeighborGroupBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<ListNeighborGroupBySubscriptionRequest>,
   output: __S(9953, __c311, 1) as any as S.Schema<NeighborGroupsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13140,7 +13241,8 @@ export const ListNetworkBootstrapDeviceByResourceGroup: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<ListNetworkBootstrapDeviceByResourceGroupRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<NetworkBootstrapDeviceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13164,7 +13266,8 @@ export const ListNetworkBootstrapDeviceBySubscription: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<ListNetworkBootstrapDeviceBySubscriptionRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<NetworkBootstrapDeviceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13192,7 +13295,8 @@ export const ListNetworkBootstrapInterfaceByNetworkBootstrapDevice: API.Paginate
     0,
   ) as any as S.Schema<ListNetworkBootstrapInterfaceByNetworkBootstrapDeviceRequest>,
   output: __S(322, __c10, 2) as any as S.Schema<NetworkBootstrapInterfaceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13216,7 +13320,8 @@ export const ListNetworkDeviceByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<ListNetworkDeviceByResourceGroupRequest>,
   output: __S(385, __c12, 1) as any as S.Schema<NetworkDevicesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13240,7 +13345,8 @@ export const ListNetworkDeviceBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<ListNetworkDeviceBySubscriptionRequest>,
   output: __S(385, __c12, 1) as any as S.Schema<NetworkDevicesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13264,7 +13370,8 @@ export const ListNetworkDeviceSkusBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ListNetworkDeviceSkusBySubscriptionRequest>,
   output: __S(450, __c14, 2) as any as S.Schema<NetworkDeviceSkusListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13288,7 +13395,8 @@ export const ListNetworkFabricByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<ListNetworkFabricByResourceGroupRequest>,
   output: __S(513, __c16, 1) as any as S.Schema<NetworkFabricsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13312,7 +13420,8 @@ export const ListNetworkFabricBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<ListNetworkFabricBySubscriptionRequest>,
   output: __S(513, __c16, 1) as any as S.Schema<NetworkFabricsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13336,7 +13445,8 @@ export const ListNetworkFabricControllerByResourceGroup: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<ListNetworkFabricControllerByResourceGroupRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<NetworkFabricControllersListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13360,7 +13470,8 @@ export const ListNetworkFabricControllerBySubscription: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ListNetworkFabricControllerBySubscriptionRequest>,
   output: __S(609, __c19, 1) as any as S.Schema<NetworkFabricControllersListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13384,7 +13495,8 @@ export const ListNetworkFabricSkusBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListNetworkFabricSkusBySubscriptionRequest>,
   output: __S(738, __c23, 2) as any as S.Schema<NetworkFabricSkusListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13408,7 +13520,8 @@ export const ListNetworkInterfaceByNetworkDevice: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListNetworkInterfaceByNetworkDeviceRequest>,
   output: __S(770, __c24, 2) as any as S.Schema<NetworkInterfacesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13432,7 +13545,8 @@ export const ListNetworkMonitorByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListNetworkMonitorByResourceGroupRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<NetworkMonitorListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13456,7 +13570,8 @@ export const ListNetworkMonitorBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListNetworkMonitorBySubscriptionRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<NetworkMonitorListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13480,7 +13595,8 @@ export const ListNetworkPacketBrokerByResourceGroup: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListNetworkPacketBrokerByResourceGroupRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<NetworkPacketBrokersListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13504,7 +13620,8 @@ export const ListNetworkPacketBrokerBySubscription: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListNetworkPacketBrokerBySubscriptionRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<NetworkPacketBrokersListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13528,7 +13645,8 @@ export const ListNetworkRackByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListNetworkRackByResourceGroupRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<NetworkRacksListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13552,7 +13670,8 @@ export const ListNetworkRackBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListNetworkRackBySubscriptionRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<NetworkRacksListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13576,7 +13695,8 @@ export const ListNetworkTapByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListNetworkTapByResourceGroupRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<NetworkTapsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13600,7 +13720,8 @@ export const ListNetworkTapBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListNetworkTapBySubscriptionRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<NetworkTapsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13624,7 +13745,8 @@ export const ListNetworkTapRuleByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListNetworkTapRuleByResourceGroupRequest>,
   output: __S(1281, __c40, 1) as any as S.Schema<NetworkTapRulesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13648,7 +13770,8 @@ export const ListNetworkTapRuleBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<ListNetworkTapRuleBySubscriptionRequest>,
   output: __S(1281, __c40, 1) as any as S.Schema<NetworkTapRulesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13676,7 +13799,8 @@ export const ListNetworkToNetworkInterconnectByNetworkFabric: API.PaginatedOpera
     0,
   ) as any as S.Schema<ListNetworkToNetworkInterconnectByNetworkFabricRequest>,
   output: __S(1346, __c42, 2) as any as S.Schema<NetworkToNetworkInterconnectsList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13700,7 +13824,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1380, __c43, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13724,7 +13849,8 @@ export const ListRoutePolicyByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<ListRoutePolicyByResourceGroupRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<RoutePoliciesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13748,7 +13874,8 @@ export const ListRoutePolicyBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<ListRoutePolicyBySubscriptionRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<RoutePoliciesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13771,7 +13898,8 @@ export const LockNetworkFabricFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<LockNetworkFabricFabricRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<LockNetworkFabricFabricResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13788,7 +13916,8 @@ export const NeighborGroupsResync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<NeighborGroupsResyncRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NeighborGroupResyncResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13805,7 +13934,8 @@ export const NetworkBootstrapDevicesResyncPasswords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<NetworkBootstrapDevicesResyncPasswordsRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkBootstrapDeviceResyncPasswordsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13822,7 +13952,8 @@ export const NetworkBootstrapDevicesUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<NetworkBootstrapDevicesUpgradeRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkBootstrapDeviceUpgradeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13839,7 +13970,8 @@ export const NetworkDevicesResyncCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<NetworkDevicesResyncCertificatesRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkFabricResyncCertificatesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13856,7 +13988,8 @@ export const NetworkDevicesResyncPasswords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<NetworkDevicesResyncPasswordsRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkDeviceResyncPasswordsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13873,7 +14006,8 @@ export const NetworkDevicesUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<NetworkDevicesUpgradeRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkDeviceUpgradeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13890,7 +14024,8 @@ export const NetworkFabricsArmConfigurationDiff: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<NetworkFabricsArmConfigurationDiffRequest>,
   output: __S(1826, __c57, 2) as any as S.Schema<ArmConfigurationDiffOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13907,7 +14042,8 @@ export const NetworkFabricsDeprovision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<NetworkFabricsDeprovisionRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<NetworkFabricsDeprovisionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13924,7 +14060,8 @@ export const NetworkFabricsDiscardCommitBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<NetworkFabricsDiscardCommitBatchRequest>,
   output: __S(1890, __c59, 2) as any as S.Schema<DiscardCommitBatchOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13941,7 +14078,8 @@ export const NetworkFabricsResyncCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<NetworkFabricsResyncCertificatesRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkFabricResyncCertificatesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13958,7 +14096,8 @@ export const NetworkFabricsResyncPasswords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<NetworkFabricsResyncPasswordsRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkFabricResyncPasswordsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13975,7 +14114,8 @@ export const NetworkFabricsUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<NetworkFabricsUpgradeRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<NetworkFabricsUpgradeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13992,7 +14132,8 @@ export const NetworkFabricsViewDeviceConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<NetworkFabricsViewDeviceConfigurationRequest>,
   output: __S(2178, __c68, 2) as any as S.Schema<ViewDeviceConfigurationOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14009,7 +14150,8 @@ export const NetworkTapRulesResync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<NetworkTapRulesResyncRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkTapRuleResyncResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14026,7 +14168,8 @@ export const NetworkTapsResync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<NetworkTapsResyncRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkTapResyncResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14043,7 +14186,8 @@ export const ProvisionNetworkFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ProvisionNetworkFabricRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<ProvisionNetworkFabricResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14060,7 +14204,8 @@ export const RebootNetworkBootstrapDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<RebootNetworkBootstrapDeviceRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkBootstrapDeviceRebootResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14077,7 +14222,8 @@ export const RebootNetworkDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<RebootNetworkDeviceRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<RebootNetworkDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14098,7 +14244,8 @@ export const RefreshNetworkBootstrapDeviceConfiguration: API.OperationMethod<
     __c191,
     0,
   ) as any as S.Schema<NetworkBootstrapDeviceRefreshConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14115,7 +14262,8 @@ export const RefreshNetworkDeviceConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<RefreshNetworkDeviceConfigurationRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkDeviceRefreshConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14132,7 +14280,8 @@ export const RefreshNetworkFabricConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<RefreshNetworkFabricConfigurationRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<RefreshNetworkFabricConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14149,7 +14298,8 @@ export const RotateNetworkFabricCertificates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<RotateNetworkFabricCertificatesRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkFabricRotateCertificatesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14166,7 +14316,8 @@ export const RotateNetworkFabricPasswords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<RotateNetworkFabricPasswordsRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkFabricRotatePasswordsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14183,7 +14334,8 @@ export const RunNetworkDeviceRoCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<RunNetworkDeviceRoCommandRequest>,
   output: __S(2594, __c81, 2) as any as S.Schema<RunNetworkDeviceRoCommandResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14200,7 +14352,8 @@ export const RunNetworkDeviceRwCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<RunNetworkDeviceRwCommandRequest>,
   output: __S(2626, __c82, 2) as any as S.Schema<NetworkDeviceRunRwCommandResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14217,7 +14370,8 @@ export const UpdateAccessControlList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2662, __c83, 6) as any as S.Schema<UpdateAccessControlListRequest>,
   output: __S(2663, __c83, 7) as any as S.Schema<UpdateAccessControlListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14234,7 +14388,8 @@ export const UpdateAccessControlListAdministrativeState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<UpdateAccessControlListAdministrativeStateRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14251,7 +14406,8 @@ export const UpdateExternalNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2754, __c86, 2) as any as S.Schema<UpdateExternalNetworkRequest>,
   output: __S(2755, __c86, 3) as any as S.Schema<UpdateExternalNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14268,7 +14424,8 @@ export const UpdateExternalNetworkAdministrativeState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<UpdateExternalNetworkAdministrativeStateRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14289,7 +14446,8 @@ export const UpdateExternalNetworkBfdAdministrativeState: API.OperationMethod<
     __c89,
     1,
   ) as any as S.Schema<ExternalNetworkUpdateBfdAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14310,7 +14468,8 @@ export const UpdateExternalNetworkStaticRouteBfdAdministrativeState: API.Operati
     0,
   ) as any as S.Schema<UpdateExternalNetworkStaticRouteBfdAdministrativeStateRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14327,7 +14486,8 @@ export const UpdateInternalNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2915, __c91, 3) as any as S.Schema<UpdateInternalNetworkRequest>,
   output: __S(2916, __c91, 4) as any as S.Schema<UpdateInternalNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14344,7 +14504,8 @@ export const UpdateInternalNetworkAdministrativeState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<UpdateInternalNetworkAdministrativeStateRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14365,7 +14526,8 @@ export const UpdateInternalNetworkBfdAdministrativeState: API.OperationMethod<
     __c96,
     3,
   ) as any as S.Schema<InternalNetworkUpdateBfdAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14386,7 +14548,8 @@ export const UpdateInternalNetworkBgpAdministrativeState: API.OperationMethod<
     __c96,
     3,
   ) as any as S.Schema<InternalNetworkUpdateBgpAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14407,7 +14570,8 @@ export const UpdateInternalNetworkStaticRouteBfdAdministrativeState: API.Operati
     0,
   ) as any as S.Schema<UpdateInternalNetworkStaticRouteBfdAdministrativeStateRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14424,7 +14588,8 @@ export const UpdateInternetGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3169, __c99, 1) as any as S.Schema<UpdateInternetGatewayRequest>,
   output: __S(3170, __c99, 2) as any as S.Schema<UpdateInternetGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14441,7 +14606,8 @@ export const UpdateInternetGatewayRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<UpdateInternetGatewayRuleRequest>,
   output: __S(3201, __c100, 1) as any as S.Schema<UpdateInternetGatewayRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14458,7 +14624,8 @@ export const UpdateIpCommunity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3233, __c101, 1) as any as S.Schema<UpdateIpCommunityRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<UpdateIpCommunityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14475,7 +14642,8 @@ export const UpdateIpExtendedCommunity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3265, __c102, 1) as any as S.Schema<UpdateIpExtendedCommunityRequest>,
   output: __S(3266, __c102, 2) as any as S.Schema<UpdateIpExtendedCommunityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14492,7 +14660,8 @@ export const UpdateIpPrefix: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3297, __c103, 1) as any as S.Schema<UpdateIpPrefixRequest>,
   output: __S(3298, __c103, 2) as any as S.Schema<UpdateIpPrefixResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14509,7 +14678,8 @@ export const UpdateL2IsolationDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3329, __c104, 1) as any as S.Schema<UpdateL2IsolationDomainRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<UpdateL2IsolationDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14526,7 +14696,8 @@ export const UpdateL2IsolationDomainAdministrativeState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<UpdateL2IsolationDomainAdministrativeStateRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14543,7 +14714,8 @@ export const UpdateL3IsolationDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3489, __c109, 1) as any as S.Schema<UpdateL3IsolationDomainRequest>,
   output: __S(3490, __c109, 2) as any as S.Schema<UpdateL3IsolationDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14560,7 +14732,8 @@ export const UpdateL3IsolationDomainAdministrativeState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<UpdateL3IsolationDomainAdministrativeStateRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14577,7 +14750,8 @@ export const UpdateNeighborGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3553, __c111, 1) as any as S.Schema<UpdateNeighborGroupRequest>,
   output: __S(3554, __c111, 2) as any as S.Schema<UpdateNeighborGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14594,7 +14768,8 @@ export const UpdateNetworkBootstrapDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3585, __c112, 1) as any as S.Schema<UpdateNetworkBootstrapDeviceRequest>,
   output: __S(3586, __c112, 2) as any as S.Schema<UpdateNetworkBootstrapDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14619,7 +14794,8 @@ export const UpdateNetworkBootstrapDeviceAdministrativeState: API.OperationMetho
     __c191,
     0,
   ) as any as S.Schema<NetworkBootstrapDeviceUpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14636,7 +14812,8 @@ export const UpdateNetworkBootstrapInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3649, __c114, 1) as any as S.Schema<UpdateNetworkBootstrapInterfaceRequest>,
   output: __S(3650, __c114, 2) as any as S.Schema<UpdateNetworkBootstrapInterfaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14661,7 +14838,8 @@ export const UpdateNetworkBootstrapInterfaceAdministrativeState: API.OperationMe
     __c2,
     0,
   ) as any as S.Schema<UpdateNetworkBootstrapInterfaceAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14678,7 +14856,8 @@ export const UpdateNetworkDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3713, __c116, 1) as any as S.Schema<UpdateNetworkDeviceRequest>,
   output: __S(3714, __c116, 2) as any as S.Schema<UpdateNetworkDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14695,7 +14874,8 @@ export const UpdateNetworkDeviceAdministrativeState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<UpdateNetworkDeviceAdministrativeStateRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<NetworkDeviceUpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14712,7 +14892,8 @@ export const UpdateNetworkFabric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3878, __c121, 6) as any as S.Schema<UpdateNetworkFabricRequest>,
   output: __S(3879, __c121, 7) as any as S.Schema<UpdateNetworkFabricResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14729,7 +14910,8 @@ export const UpdateNetworkFabricController: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3905, __c122, 1) as any as S.Schema<UpdateNetworkFabricControllerRequest>,
   output: __S(3906, __c122, 2) as any as S.Schema<UpdateNetworkFabricControllerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14750,7 +14932,8 @@ export const UpdateNetworkFabricInfraManagementBfdConfiguration: API.OperationMe
     0,
   ) as any as S.Schema<UpdateNetworkFabricInfraManagementBfdConfigurationRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14771,7 +14954,8 @@ export const UpdateNetworkFabricWorkloadManagementBfdConfiguration: API.Operatio
     0,
   ) as any as S.Schema<UpdateNetworkFabricWorkloadManagementBfdConfigurationRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14788,7 +14972,8 @@ export const UpdateNetworkInterface: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<UpdateNetworkInterfaceRequest>,
   output: __S(4001, __c125, 1) as any as S.Schema<UpdateNetworkInterfaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14805,7 +14990,8 @@ export const UpdateNetworkInterfaceAdministrativeState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<UpdateNetworkInterfaceAdministrativeStateRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14822,7 +15008,8 @@ export const UpdateNetworkMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4065, __c127, 1) as any as S.Schema<UpdateNetworkMonitorRequest>,
   output: __S(4066, __c127, 2) as any as S.Schema<UpdateNetworkMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14839,7 +15026,8 @@ export const UpdateNetworkMonitorAdministrativeState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<UpdateNetworkMonitorAdministrativeStateRequest>,
   output: __S(4097, __c128, 1) as any as S.Schema<UpdateNetworkMonitorAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14856,7 +15044,8 @@ export const UpdateNetworkPacketBroker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<UpdateNetworkPacketBrokerRequest>,
   output: __S(4129, __c129, 1) as any as S.Schema<UpdateNetworkPacketBrokerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14873,7 +15062,8 @@ export const UpdateNetworkRack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<UpdateNetworkRackRequest>,
   output: __S(4161, __c130, 1) as any as S.Schema<UpdateNetworkRackResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14890,7 +15080,8 @@ export const UpdateNetworkTap: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4323, __c135, 3) as any as S.Schema<UpdateNetworkTapRequest>,
   output: __S(4324, __c135, 4) as any as S.Schema<UpdateNetworkTapResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14907,7 +15098,8 @@ export const UpdateNetworkTapAdministrativeState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<UpdateNetworkTapAdministrativeStateRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14924,7 +15116,8 @@ export const UpdateNetworkTapRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4390, __c137, 6) as any as S.Schema<UpdateNetworkTapRuleRequest>,
   output: __S(4391, __c137, 7) as any as S.Schema<UpdateNetworkTapRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14941,7 +15134,8 @@ export const UpdateNetworkTapRuleAdministrativeState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<UpdateNetworkTapRuleAdministrativeStateRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<UpdateNetworkTapRuleAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14958,7 +15152,8 @@ export const UpdateNetworkToNetworkInterconnect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4450, __c139, 2) as any as S.Schema<UpdateNetworkToNetworkInterconnectRequest>,
   output: __S(4451, __c139, 3) as any as S.Schema<UpdateNetworkToNetworkInterconnectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14979,7 +15174,8 @@ export const UpdateNetworkToNetworkInterconnectAdministrativeState: API.Operatio
     0,
   ) as any as S.Schema<UpdateNetworkToNetworkInterconnectAdministrativeStateRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15000,7 +15196,8 @@ export const UpdateNetworkToNetworkInterconnectBfdAdministrativeState: API.Opera
     0,
   ) as any as S.Schema<UpdateNetworkToNetworkInterconnectBfdAdministrativeStateRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<NniUpdateBfdAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15022,7 +15219,8 @@ export const UpdateNetworkToNetworkInterconnectNpbStaticRouteBfdAdministrativeSt
     0,
   ) as any as S.Schema<UpdateNetworkToNetworkInterconnectNpbStaticRouteBfdAdministrativeStateRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15039,7 +15237,8 @@ export const UpdateRoutePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4577, __c143, 1) as any as S.Schema<UpdateRoutePolicyRequest>,
   output: __S(4578, __c143, 2) as any as S.Schema<UpdateRoutePolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15056,7 +15255,8 @@ export const UpdateRoutePolicyAdministrativeState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<UpdateRoutePolicyAdministrativeStateRequest>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateAdministrativeStateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15073,7 +15273,8 @@ export const ValidateAccessControlListConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<ValidateAccessControlListConfigurationRequest>,
   output: __S(4800, __c150, 0) as any as S.Schema<ValidateAccessControlListConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15090,7 +15291,8 @@ export const ValidateL2IsolationDomainConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<ValidateL2IsolationDomainConfigurationRequest>,
   output: __S(4800, __c150, 0) as any as S.Schema<ValidateL2IsolationDomainConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15107,7 +15309,8 @@ export const ValidateL3IsolationDomainConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<ValidateL3IsolationDomainConfigurationRequest>,
   output: __S(4800, __c150, 0) as any as S.Schema<ValidateL3IsolationDomainConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15124,7 +15327,8 @@ export const ValidateNetworkFabricConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<ValidateNetworkFabricConfigurationRequest>,
   output: __S(4800, __c150, 0) as any as S.Schema<ValidateNetworkFabricConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15141,7 +15345,8 @@ export const ValidateNetworkTapRuleConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<ValidateNetworkTapRuleConfigurationRequest>,
   output: __S(4800, __c150, 0) as any as S.Schema<ValidateNetworkTapRuleConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15158,7 +15363,8 @@ export const ValidateRoutePolicyConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<ValidateRoutePolicyConfigurationRequest>,
   output: __S(4800, __c150, 0) as any as S.Schema<ValidateRoutePolicyConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19780,7 +19986,7 @@ function __c157(j: number): any {
       return S.suspend(() =>
         S.Struct({
           expressRouteCircuitId: S.String,
-          expressRouteAuthorizationKey: S.String,
+          expressRouteAuthorizationKey: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ExpressRouteConnectionInformation" });
     case 1:

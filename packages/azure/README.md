@@ -24,7 +24,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Azure.CredentialsFromEnv,
-  Azure.AzureProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -33,7 +32,7 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 ## Data planes
 
 Each data-plane group is its own module (`keyvault-secrets`, `storage-blob`,
-`appconfiguration-data`, …). An operation requests a token for its own
+`servicebus-messaging`, …). An operation requests a token for its own
 audience, so one credentials layer serves ARM and every data plane:
 
 ```ts
@@ -53,7 +52,6 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Azure.fromManagedIdentity(), // inside Functions, Container Apps, VMs, AKS
-  Azure.AzureProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownPolarError } from "../errors.ts";
+import { PolarServiceErrors } from "../errors.ts";
 import { paginatePolar } from "../pagination.ts";
 import { PolarProtocol, type PolarOpError, type PolarOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -3493,7 +3493,7 @@ export interface CheckoutPublicConfirmed {
   discount: CheckoutPublicConfirmedDiscount | null;
   organization: CheckoutOrganization;
   attached_custom_fields: CheckoutPublicConfirmedAttachedCustomFieldsList | null;
-  customer_session_token: string | null;
+  customer_session_token: string | Redacted.Redacted<string> | null;
 }
 /** Schema to manually grant credits on a customer meter using Polar IDs. */
 export interface CustomerMeterCreditsIDCreate {
@@ -5693,14 +5693,14 @@ export interface CustomerSeatsAssignSeatRequest {
 }
 export interface CustomerSeatsClaimSeatRequest {
   /** Invitation token to claim the seat */
-  invitation_token: string;
+  invitation_token: string | Redacted.Redacted<string>;
 }
 /** Response after successfully claiming a seat. */
 export interface CustomerSeatClaimResponse {
   /** The claimed seat */
   seat: CustomerSeat;
   /** Session token for immediate customer portal access */
-  customer_session_token: string;
+  customer_session_token: string | Redacted.Redacted<string>;
 }
 export interface CustomerSeatsListSeatsRequest {
   subscription_id?: string | undefined;
@@ -5748,7 +5748,7 @@ export interface CustomerSession {
   modified_at: string | null;
   /** The ID of the object. */
   id: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   expires_at: string;
   return_url: string | null;
   customer_portal_url: string;
@@ -11411,7 +11411,7 @@ export interface Oauth2ClientsOauth2UpdateClientRequest {
 export type Oauth2ClientsOauth2UpdateClientResponse = unknown;
 export type Oauth2IntrospectTokenRequestTokenTypeHint = "access_token" | "refresh_token";
 export interface Oauth2IntrospectTokenRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   token_type_hint?: Oauth2IntrospectTokenRequestTokenTypeHint | (string & {}) | null | undefined;
   client_id: string;
   client_secret: string | Redacted.Redacted<string>;
@@ -11465,13 +11465,13 @@ export interface TokenResponse {
   access_token: string | Redacted.Redacted<string>;
   token_type: string;
   expires_in: number;
-  refresh_token?: string | null | undefined;
+  refresh_token?: string | Redacted.Redacted<string> | null | undefined;
   scope: string;
-  id_token?: string | null | undefined;
+  id_token?: string | Redacted.Redacted<string> | null | undefined;
 }
 export type Oauth2RevokeTokenRequestTokenTypeHint = "access_token" | "refresh_token";
 export interface Oauth2RevokeTokenRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   token_type_hint?: Oauth2RevokeTokenRequestTokenTypeHint | (string & {}) | null | undefined;
   client_id: string;
   client_secret: string | Redacted.Redacted<string>;
@@ -13577,7 +13577,7 @@ export interface CustomerOrderPaymentConfirmation {
   /** Payment status after confirmation. */
   status: string;
   /** Client secret for handling additional actions. */
-  client_secret?: string | null | undefined;
+  client_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** Error message if confirmation failed. */
   error?: string | null | undefined;
 }
@@ -14048,7 +14048,7 @@ export interface UpdateCheckoutsClientRequest {
   allow_trial?: boolean | null | undefined;
 }
 export interface UpdateCustomerPortalCustomersCheckEmailRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface UpdateCustomerPortalCustomersCheckEmailResponse {}
 export interface UpdateCustomerPortalCustomersRequestEmailRequest {
@@ -14056,10 +14056,10 @@ export interface UpdateCustomerPortalCustomersRequestEmailRequest {
 }
 export interface UpdateCustomerPortalCustomersRequestEmailResponse {}
 export interface UpdateCustomerPortalCustomersVerifyEmailRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CustomerEmailUpdateVerifyResponse {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** The API version that'll be used in event payloads. */
 export type WebhooksCreateWebhookEndpointRequestApiVersion = "2026-04" | "2026-10" | "2027-01";
@@ -14382,7 +14382,8 @@ export const benefitGrantsList: API.PaginatedOperationMethod<
   () => ({
     input: __S(1496, __c187, 0) as any as S.Schema<BenefitGrantsListRequest>,
     output: __S(1507, __c188, 3) as any as S.Schema<ListResourceBenefitGrant>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -14408,7 +14409,8 @@ export const benefitsCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c208, 0) as any as S.Schema<BenefitsCreateRequest>,
   output: __S(1672, __c209, 0) as any as S.Schema<BenefitsCreateResponse>,
-  errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14425,7 +14427,8 @@ export const benefitsDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c226, 0) as any as S.Schema<BenefitsDeleteRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<BenefitsDeleteResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14444,7 +14447,8 @@ export const benefitsFiles: API.PaginatedOperationMethod<
   () => ({
     input: __S(1912, __c239, 0) as any as S.Schema<BenefitsFilesRequest>,
     output: __S(1915, __c239, 3) as any as S.Schema<ListResourceBenefitDownloadableFile>,
-    errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+    errors: [NotFound, UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -14470,7 +14474,8 @@ export const benefitsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c252, 0) as any as S.Schema<BenefitsGetRequest>,
   output: __S(1672, __c209, 0) as any as S.Schema<BenefitsGetResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14489,7 +14494,8 @@ export const benefitsGrants: API.PaginatedOperationMethod<
   () => ({
     input: __S(8, __c1, 0) as any as S.Schema<BenefitsGrantsRequest>,
     output: __S(1507, __c188, 3) as any as S.Schema<ListResourceBenefitGrant>,
-    errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+    errors: [NotFound, UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -14517,7 +14523,8 @@ export const benefitsList: API.PaginatedOperationMethod<
   () => ({
     input: __S(112, __c14, 0) as any as S.Schema<BenefitsListRequest>,
     output: __S(113, __c14, 1) as any as S.Schema<ListResourceBenefit>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -14543,7 +14550,8 @@ export const benefitsUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<BenefitsUpdateRequest>,
   output: __S(1672, __c209, 0) as any as S.Schema<BenefitsUpdateResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14560,7 +14568,8 @@ export const checkoutLinksCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(329, __c41, 1) as any as S.Schema<CheckoutLinksCreateRequest>,
   output: __S(338, __c42, 2) as any as S.Schema<CheckoutLink>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14577,7 +14586,8 @@ export const checkoutLinksDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<CheckoutLinksDeleteRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<CheckoutLinksDeleteResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14594,7 +14604,8 @@ export const checkoutLinksGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c70, 0) as any as S.Schema<CheckoutLinksGetRequest>,
   output: __S(338, __c42, 2) as any as S.Schema<CheckoutLink>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14613,7 +14624,8 @@ export const checkoutLinksList: API.PaginatedOperationMethod<
   () => ({
     input: __S(656, __c82, 0) as any as S.Schema<CheckoutLinksListRequest>,
     output: __S(658, __c82, 2) as any as S.Schema<ListResourceCheckoutLink>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -14639,7 +14651,8 @@ export const checkoutLinksUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(761, __c95, 1) as any as S.Schema<CheckoutLinksUpdateRequest>,
   output: __S(338, __c42, 2) as any as S.Schema<CheckoutLink>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14656,7 +14669,8 @@ export const checkoutsCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c108, 0) as any as S.Schema<CheckoutsCreateRequest>,
   output: __S(874, __c109, 2) as any as S.Schema<Checkout>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14673,7 +14687,8 @@ export const checkoutsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1000, __c125, 0) as any as S.Schema<CheckoutsGetRequest>,
   output: __S(874, __c109, 2) as any as S.Schema<Checkout>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14692,7 +14707,8 @@ export const checkoutsList: API.PaginatedOperationMethod<
   () => ({
     input: __S(1088, __c136, 0) as any as S.Schema<CheckoutsListRequest>,
     output: __S(1090, __c136, 2) as any as S.Schema<ListResourceCheckout>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -14718,7 +14734,8 @@ export const checkoutsUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1099, __c137, 3) as any as S.Schema<CheckoutsUpdateRequest>,
   output: __S(874, __c109, 2) as any as S.Schema<Checkout>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14740,7 +14757,8 @@ export const claimCustomerSeatsGetInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c138, 0) as any as S.Schema<ClaimCustomerSeatsGetInfoRequest>,
   output: __S(1105, __c138, 1) as any as S.Schema<SeatClaimInfo>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14763,7 +14781,8 @@ export const confirmCheckoutsClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1112, __c139, 0) as any as S.Schema<ConfirmCheckoutsClientRequest>,
   output: __S(1114, __c139, 2) as any as S.Schema<CheckoutPublicConfirmed>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14780,7 +14799,8 @@ export const customerMetersCredits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1128, __c141, 0) as any as S.Schema<CustomerMetersCreditsRequest>,
   output: __S(1137, __c142, 1) as any as S.Schema<MeterCreditEvent>,
-  errors: [Forbidden, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14797,7 +14817,8 @@ export const customerMetersGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1144, __c143, 0) as any as S.Schema<CustomerMetersGetRequest>,
   output: __S(1152, __c144, 0) as any as S.Schema<CustomerMeter>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14816,7 +14837,8 @@ export const customerMetersList: API.PaginatedOperationMethod<
   () => ({
     input: __S(1168, __c146, 0) as any as S.Schema<CustomerMetersListRequest>,
     output: __S(1170, __c146, 2) as any as S.Schema<ListResourceCustomerMeter>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -14847,7 +14869,8 @@ export const customerMetersReverseCredit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1176, __c147, 0) as any as S.Schema<CustomerMetersReverseCreditRequest>,
   output: __S(1137, __c142, 1) as any as S.Schema<MeterCreditEvent>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14864,7 +14887,8 @@ export const customerPortalBenefitGrantsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c148, 0) as any as S.Schema<CustomerPortalBenefitGrantsGetRequest>,
   output: __S(1192, __c149, 0) as any as S.Schema<CustomerPortalBenefitGrantsGetResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14883,7 +14907,8 @@ export const customerPortalBenefitGrantsList: API.PaginatedOperationMethod<
   () => ({
     input: __S(1200, __c150, 0) as any as S.Schema<CustomerPortalBenefitGrantsListRequest>,
     output: __S(1202, __c150, 2) as any as S.Schema<ListResourceCustomerBenefitGrant>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -14913,7 +14938,8 @@ export const customerPortalBenefitGrantsUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1208, __c151, 0) as any as S.Schema<CustomerPortalBenefitGrantsUpdateRequest>,
   output: __S(1192, __c149, 0) as any as S.Schema<CustomerPortalBenefitGrantsUpdateResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14930,7 +14956,8 @@ export const customerPortalCustomerMetersGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c152, 0) as any as S.Schema<CustomerPortalCustomerMetersGetRequest>,
   output: __S(1224, __c153, 0) as any as S.Schema<CustomerCustomerMeter>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14949,7 +14976,8 @@ export const customerPortalCustomerMetersList: API.PaginatedOperationMethod<
   () => ({
     input: __S(1240, __c155, 0) as any as S.Schema<CustomerPortalCustomerMetersListRequest>,
     output: __S(1242, __c155, 2) as any as S.Schema<ListResourceCustomerCustomerMeter>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -14978,7 +15006,8 @@ export const customerPortalCustomersAddPaymentMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c156, 0) as any as S.Schema<CustomerPortalCustomersAddPaymentMethodRequest>,
   output: __S(1256, __c157, 0) as any as S.Schema<CustomerPortalCustomersAddPaymentMethodResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15006,7 +15035,8 @@ export const customerPortalCustomersConfirmPaymentMethod: API.OperationMethod<
     __c157,
     0,
   ) as any as S.Schema<CustomerPortalCustomersConfirmPaymentMethodResponse>,
-  errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15031,7 +15061,8 @@ export const customerPortalCustomersDeletePaymentMethod: API.OperationMethod<
     __c227,
     0,
   ) as any as S.Schema<CustomerPortalCustomersDeletePaymentMethodResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15052,7 +15083,8 @@ export const customerPortalCustomerSessionGetAuthenticatedUser: API.OperationMet
     0,
   ) as any as S.Schema<CustomerPortalCustomerSessionGetAuthenticatedUserRequest>,
   output: __S(1281, __c160, 1) as any as S.Schema<PortalAuthenticatedUser>,
-  errors: [UnknownPolarError],
+  errors: [],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15069,7 +15101,8 @@ export const customerPortalCustomerSessionIntrospect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1288, __c161, 0) as any as S.Schema<CustomerPortalCustomerSessionIntrospectRequest>,
   output: __S(1289, __c161, 1) as any as S.Schema<CustomerCustomerSession>,
-  errors: [UnknownPolarError],
+  errors: [],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15086,7 +15119,8 @@ export const customerPortalCustomersGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c162, 0) as any as S.Schema<CustomerPortalCustomersGetRequest>,
   output: __S(1306, __c163, 2) as any as S.Schema<CustomerPortalCustomer>,
-  errors: [UnknownPolarError],
+  errors: [],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15109,7 +15143,8 @@ export const customerPortalCustomersListPaymentMethods: API.PaginatedOperationMe
       0,
     ) as any as S.Schema<CustomerPortalCustomersListPaymentMethodsRequest>,
     output: __S(1322, __c165, 2) as any as S.Schema<ListResourceCustomerPaymentMethod>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -15135,7 +15170,8 @@ export const customerPortalCustomersUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1336, __c167, 0) as any as S.Schema<CustomerPortalCustomersUpdateRequest>,
   output: __S(1306, __c163, 2) as any as S.Schema<CustomerPortalCustomer>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15154,7 +15190,8 @@ export const customerPortalDownloadablesList: API.PaginatedOperationMethod<
   () => ({
     input: __S(1344, __c168, 0) as any as S.Schema<CustomerPortalDownloadablesListRequest>,
     output: __S(1349, __c168, 5) as any as S.Schema<ListResourceDownloadableRead>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -15184,7 +15221,8 @@ export const customerPortalLicenseKeysActivate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1354, __c169, 2) as any as S.Schema<CustomerPortalLicenseKeysActivateRequest>,
   output: __S(1362, __c170, 2) as any as S.Schema<LicenseKeyActivationCreated>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15204,7 +15242,8 @@ export const customerPortalLicenseKeysDeactivate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c174, 0) as any as S.Schema<CustomerPortalLicenseKeysDeactivateRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<CustomerPortalLicenseKeysDeactivateResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15221,7 +15260,8 @@ export const customerPortalLicenseKeysGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1400, __c175, 0) as any as S.Schema<CustomerPortalLicenseKeysGetRequest>,
   output: __S(1409, __c176, 1) as any as S.Schema<LicenseKeyWithActivations>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15240,7 +15280,8 @@ export const customerPortalLicenseKeysList: API.PaginatedOperationMethod<
   () => ({
     input: __S(1424, __c178, 0) as any as S.Schema<CustomerPortalLicenseKeysListRequest>,
     output: __S(1433, __c179, 1) as any as S.Schema<ListResourceLicenseKeyRead>,
-    errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+    errors: [NotFound, UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -15270,7 +15311,8 @@ export const customerPortalLicenseKeysRotate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1448, __c181, 0) as any as S.Schema<CustomerPortalLicenseKeysRotateRequest>,
   output: __S(1440, __c180, 0) as any as S.Schema<RotatedLicenseKey>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15291,7 +15333,8 @@ export const customerPortalLicenseKeysValidate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1457, __c182, 1) as any as S.Schema<CustomerPortalLicenseKeysValidateRequest>,
   output: __S(1464, __c183, 0) as any as S.Schema<ValidatedLicenseKey>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15312,7 +15355,8 @@ export const customerPortalMembersAddMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c184, 0) as any as S.Schema<CustomerPortalMembersAddMemberRequest>,
   output: __S(1480, __c185, 0) as any as S.Schema<CustomerPortalMember>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15331,7 +15375,8 @@ export const customerPortalMembersListMembers: API.PaginatedOperationMethod<
   () => ({
     input: __S(1488, __c186, 0) as any as S.Schema<CustomerPortalMembersListMembersRequest>,
     output: __S(1490, __c186, 2) as any as S.Schema<ListResourceCustomerPortalMember>,
-    errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
+    errors: [Forbidden, UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -15362,7 +15407,8 @@ export const customerPortalMembersRemoveMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c192, 0) as any as S.Schema<CustomerPortalMembersRemoveMemberRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<CustomerPortalMembersRemoveMemberResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15384,7 +15430,8 @@ export const customerPortalMembersUpdateMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1544, __c193, 0) as any as S.Schema<CustomerPortalMembersUpdateMemberRequest>,
   output: __S(1480, __c185, 0) as any as S.Schema<CustomerPortalMember>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15405,7 +15452,8 @@ export const customerPortalOrdersGenerateInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c194, 0) as any as S.Schema<CustomerPortalOrdersGenerateInvoiceRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<CustomerPortalOrdersGenerateInvoiceResponse>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15422,7 +15470,8 @@ export const customerPortalOrdersGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1560, __c195, 0) as any as S.Schema<CustomerPortalOrdersGetRequest>,
   output: __S(1569, __c196, 1) as any as S.Schema<CustomerOrder>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15442,7 +15491,8 @@ export const customerPortalOrdersGetPaymentStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1608, __c201, 0) as any as S.Schema<CustomerPortalOrdersGetPaymentStatusRequest>,
   output: __S(1609, __c201, 1) as any as S.Schema<CustomerOrderPaymentStatus>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15459,7 +15509,8 @@ export const customerPortalOrdersInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c202, 0) as any as S.Schema<CustomerPortalOrdersInvoiceRequest>,
   output: __S(1624, __c203, 0) as any as S.Schema<CustomerOrderInvoice>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15478,7 +15529,8 @@ export const customerPortalOrdersList: API.PaginatedOperationMethod<
   () => ({
     input: __S(1632, __c204, 0) as any as S.Schema<CustomerPortalOrdersListRequest>,
     output: __S(1634, __c204, 2) as any as S.Schema<ListResourceCustomerOrder>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -15504,7 +15556,8 @@ export const customerPortalOrdersReceipt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1640, __c205, 0) as any as S.Schema<CustomerPortalOrdersReceiptRequest>,
   output: __S(1624, __c203, 0) as any as S.Schema<CustomerOrderReceipt>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15521,7 +15574,8 @@ export const customerPortalOrdersUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c206, 0) as any as S.Schema<CustomerPortalOrdersUpdateRequest>,
   output: __S(1569, __c196, 1) as any as S.Schema<CustomerOrder>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15538,7 +15592,8 @@ export const customerPortalOrganizationsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1656, __c207, 0) as any as S.Schema<CustomerPortalOrganizationsGetRequest>,
   output: __S(1659, __c207, 3) as any as S.Schema<CustomerOrganizationData>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15560,7 +15615,8 @@ export const customerPortalSeatsAssignSeat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c210, 0) as any as S.Schema<CustomerPortalSeatsAssignSeatRequest>,
   output: __S(1689, __c211, 1) as any as S.Schema<CustomerSeat>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15583,7 +15639,8 @@ export const customerPortalSeatsListClaimedSubscriptions: API.PaginatedOperation
       0,
     ) as any as S.Schema<CustomerPortalSeatsListClaimedSubscriptionsRequest>,
     output: __S(1721, __c215, 1) as any as S.Schema<ListResourceCustomerSubscription>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -15613,7 +15670,8 @@ export const customerPortalSeatsListSeats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c216, 0) as any as S.Schema<CustomerPortalSeatsListSeatsRequest>,
   output: __S(1737, __c217, 1) as any as S.Schema<SeatsList>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15635,7 +15693,8 @@ export const customerPortalSeatsResendInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c218, 0) as any as S.Schema<CustomerPortalSeatsResendInvitationRequest>,
   output: __S(1689, __c211, 1) as any as S.Schema<CustomerSeat>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15656,7 +15715,8 @@ export const customerPortalSeatsRevokeSeat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1752, __c219, 0) as any as S.Schema<CustomerPortalSeatsRevokeSeatRequest>,
   output: __S(1689, __c211, 1) as any as S.Schema<CustomerSeat>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15677,7 +15737,8 @@ export const customerPortalSubscriptionsCancel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c220, 0) as any as S.Schema<CustomerPortalSubscriptionsCancelRequest>,
   output: __S(1706, __c213, 2) as any as S.Schema<CustomerSubscription>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15694,7 +15755,8 @@ export const customerPortalSubscriptionsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1768, __c221, 0) as any as S.Schema<CustomerPortalSubscriptionsGetRequest>,
   output: __S(1706, __c213, 2) as any as S.Schema<CustomerSubscription>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15713,7 +15775,8 @@ export const customerPortalSubscriptionsList: API.PaginatedOperationMethod<
   () => ({
     input: __S(1776, __c222, 0) as any as S.Schema<CustomerPortalSubscriptionsListRequest>,
     output: __S(1721, __c215, 1) as any as S.Schema<ListResourceCustomerSubscription>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -15744,7 +15807,8 @@ export const customerPortalSubscriptionsUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1784, __c223, 0) as any as S.Schema<CustomerPortalSubscriptionsUpdateRequest>,
   output: __S(1706, __c213, 2) as any as S.Schema<CustomerSubscription>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15761,7 +15825,8 @@ export const customerPortalWalletsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c224, 0) as any as S.Schema<CustomerPortalWalletsGetRequest>,
   output: __S(1800, __c225, 0) as any as S.Schema<CustomerWallet>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15780,7 +15845,8 @@ export const customerPortalWalletsList: API.PaginatedOperationMethod<
   () => ({
     input: __S(1824, __c228, 0) as any as S.Schema<CustomerPortalWalletsListRequest>,
     output: __S(1826, __c228, 2) as any as S.Schema<ListResourceCustomerWallet>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -15806,7 +15872,8 @@ export const customersCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1832, __c229, 0) as any as S.Schema<CustomersCreateRequest>,
   output: __S(1840, __c230, 0) as any as S.Schema<CustomersCreateResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15823,7 +15890,8 @@ export const customersDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1848, __c231, 0) as any as S.Schema<CustomersDeleteRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<CustomersDeleteResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15840,7 +15908,8 @@ export const customersDeleteExternal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c232, 0) as any as S.Schema<CustomersDeleteExternalRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<CustomersDeleteExternalResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15862,7 +15931,8 @@ export const customerSeatsAssignSeat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1864, __c233, 0) as any as S.Schema<CustomerSeatsAssignSeatRequest>,
   output: __S(1689, __c211, 1) as any as S.Schema<CustomerSeat>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15883,7 +15953,8 @@ export const customerSeatsClaimSeat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1872, __c234, 0) as any as S.Schema<CustomerSeatsClaimSeatRequest>,
   output: __S(1873, __c234, 1) as any as S.Schema<CustomerSeatClaimResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15900,7 +15971,8 @@ export const customerSeatsListSeats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1880, __c235, 0) as any as S.Schema<CustomerSeatsListSeatsRequest>,
   output: __S(1737, __c217, 1) as any as S.Schema<SeatsList>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15922,7 +15994,8 @@ export const customerSeatsResendInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c236, 0) as any as S.Schema<CustomerSeatsResendInvitationRequest>,
   output: __S(1689, __c211, 1) as any as S.Schema<CustomerSeat>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15943,7 +16016,8 @@ export const customerSeatsRevokeSeat: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1896, __c237, 0) as any as S.Schema<CustomerSeatsRevokeSeatRequest>,
   output: __S(1689, __c211, 1) as any as S.Schema<CustomerSeat>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15960,7 +16034,8 @@ export const customerSessionsCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c238, 0) as any as S.Schema<CustomerSessionsCreateRequest>,
   output: __S(1905, __c238, 1) as any as S.Schema<CustomerSession>,
-  errors: [Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15977,7 +16052,8 @@ export const customersExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c240, 0) as any as S.Schema<CustomersExportRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<CustomersExportResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -15994,7 +16070,8 @@ export const customersGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1928, __c241, 0) as any as S.Schema<CustomersGetRequest>,
   output: __S(1840, __c230, 0) as any as S.Schema<CustomersGetResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16011,7 +16088,8 @@ export const customersGetExternal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c242, 0) as any as S.Schema<CustomersGetExternalRequest>,
   output: __S(1840, __c230, 0) as any as S.Schema<CustomersGetExternalResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16028,7 +16106,8 @@ export const customersGetState: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1944, __c243, 0) as any as S.Schema<CustomersGetStateRequest>,
   output: __S(1952, __c244, 0) as any as S.Schema<CustomersGetStateResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16045,7 +16124,8 @@ export const customersGetStateExternal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1960, __c245, 0) as any as S.Schema<CustomersGetStateExternalRequest>,
   output: __S(1952, __c244, 0) as any as S.Schema<CustomersGetStateExternalResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16064,7 +16144,8 @@ export const customersList: API.PaginatedOperationMethod<
   () => ({
     input: __S(1968, __c246, 0) as any as S.Schema<CustomersListRequest>,
     output: __S(1970, __c246, 2) as any as S.Schema<ListResourceCustomer>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16092,7 +16173,8 @@ export const customersListPaymentMethods: API.PaginatedOperationMethod<
   () => ({
     input: __S(1976, __c247, 0) as any as S.Schema<CustomersListPaymentMethodsRequest>,
     output: __S(1985, __c248, 1) as any as S.Schema<ListResourcePaymentMethod>,
-    errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+    errors: [NotFound, UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16123,7 +16205,8 @@ export const customersListPaymentMethodsExternal: API.PaginatedOperationMethod<
   () => ({
     input: __S(1992, __c249, 0) as any as S.Schema<CustomersListPaymentMethodsExternalRequest>,
     output: __S(1985, __c248, 1) as any as S.Schema<ListResourcePaymentMethod>,
-    errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+    errors: [NotFound, UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16149,7 +16232,8 @@ export const customersMembersCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c250, 0) as any as S.Schema<CustomersMembersCreateRequest>,
   output: __S(1512, __c189, 0) as any as S.Schema<Member>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16171,7 +16255,8 @@ export const customersMembersCreateExternal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2008, __c251, 0) as any as S.Schema<CustomersMembersCreateExternalRequest>,
   output: __S(1512, __c189, 0) as any as S.Schema<Member>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16188,7 +16273,8 @@ export const customersMembersDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2024, __c253, 0) as any as S.Schema<CustomersMembersDeleteRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<CustomersMembersDeleteResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16209,7 +16295,8 @@ export const customersMembersDeleteExternal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c254, 0) as any as S.Schema<CustomersMembersDeleteExternalRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<CustomersMembersDeleteExternalResponse>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16226,7 +16313,8 @@ export const customersMembersGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2040, __c255, 0) as any as S.Schema<CustomersMembersGetRequest>,
   output: __S(1512, __c189, 0) as any as S.Schema<Member>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16247,7 +16335,8 @@ export const customersMembersGetExternal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c256, 0) as any as S.Schema<CustomersMembersGetExternalRequest>,
   output: __S(1512, __c189, 0) as any as S.Schema<Member>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16266,7 +16355,8 @@ export const customersMembersList: API.PaginatedOperationMethod<
   () => ({
     input: __S(2056, __c257, 0) as any as S.Schema<CustomersMembersListRequest>,
     output: __S(2065, __c258, 1) as any as S.Schema<ListResourceMember>,
-    errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+    errors: [NotFound, UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16298,7 +16388,8 @@ export const customersMembersListExternal: API.PaginatedOperationMethod<
   () => ({
     input: __S(2072, __c259, 0) as any as S.Schema<CustomersMembersListExternalRequest>,
     output: __S(2065, __c258, 1) as any as S.Schema<ListResourceMember>,
-    errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+    errors: [NotFound, Conflict, UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16324,7 +16415,8 @@ export const customersMembersUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c260, 0) as any as S.Schema<CustomersMembersUpdateRequest>,
   output: __S(1512, __c189, 0) as any as S.Schema<Member>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16345,7 +16437,8 @@ export const customersMembersUpdateExternal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2088, __c261, 0) as any as S.Schema<CustomersMembersUpdateExternalRequest>,
   output: __S(1512, __c189, 0) as any as S.Schema<Member>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16362,7 +16455,8 @@ export const customersUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2097, __c262, 1) as any as S.Schema<CustomersUpdateRequest>,
   output: __S(1840, __c230, 0) as any as S.Schema<CustomersUpdateResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16379,7 +16473,8 @@ export const customersUpdateExternal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2105, __c263, 1) as any as S.Schema<CustomersUpdateExternalRequest>,
   output: __S(1840, __c230, 0) as any as S.Schema<CustomersUpdateExternalResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16396,7 +16491,8 @@ export const customFieldsCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CustomFieldsCreateRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<CustomFieldsCreateResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16413,7 +16509,8 @@ export const customFieldsDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<CustomFieldsDeleteRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<CustomFieldsDeleteResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16430,7 +16527,8 @@ export const customFieldsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<CustomFieldsGetRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<CustomFieldsGetResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16449,7 +16547,8 @@ export const customFieldsList: API.PaginatedOperationMethod<
   () => ({
     input: __S(48, __c6, 0) as any as S.Schema<CustomFieldsListRequest>,
     output: __S(50, __c6, 2) as any as S.Schema<ListResourceCustomField>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16475,7 +16574,8 @@ export const customFieldsUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<CustomFieldsUpdateRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<CustomFieldsUpdateResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16492,7 +16592,8 @@ export const discountsCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<DiscountsCreateRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<DiscountsCreateResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16509,7 +16610,8 @@ export const discountsDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<DiscountsDeleteRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<DiscountsDeleteResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16526,7 +16628,8 @@ export const discountsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<DiscountsGetRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<DiscountsGetResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16545,7 +16648,8 @@ export const discountsList: API.PaginatedOperationMethod<
   () => ({
     input: __S(96, __c12, 0) as any as S.Schema<DiscountsListRequest>,
     output: __S(98, __c12, 2) as any as S.Schema<ListResourceDiscount>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16571,7 +16675,8 @@ export const discountsUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(106, __c13, 2) as any as S.Schema<DiscountsUpdateRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<DiscountsUpdateResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16588,7 +16693,8 @@ export const disputesAccept: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<DisputesAcceptRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<Dispute>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16605,7 +16711,8 @@ export const disputesGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<DisputesGetRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<Dispute>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16624,7 +16731,8 @@ export const disputesList: API.PaginatedOperationMethod<
   () => ({
     input: __S(160, __c20, 0) as any as S.Schema<DisputesListRequest>,
     output: __S(162, __c20, 2) as any as S.Schema<ListResourceDispute>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16650,7 +16758,8 @@ export const eventsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<EventsGetRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<EventsGetResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16667,7 +16776,8 @@ export const eventsIngest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(177, __c22, 1) as any as S.Schema<EventsIngestRequest>,
   output: __S(178, __c22, 2) as any as S.Schema<EventsIngestResponse>,
-  errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16684,7 +16794,8 @@ export const eventsList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<EventsListRequest>,
   output: __S(185, __c23, 1) as any as S.Schema<EventsListResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16703,7 +16814,8 @@ export const eventsListNames: API.PaginatedOperationMethod<
   () => ({
     input: __S(192, __c24, 0) as any as S.Schema<EventsListNamesRequest>,
     output: __S(195, __c24, 3) as any as S.Schema<ListResourceEventName>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16731,7 +16843,8 @@ export const eventTypesList: API.PaginatedOperationMethod<
   () => ({
     input: __S(200, __c25, 0) as any as S.Schema<EventTypesListRequest>,
     output: __S(203, __c25, 3) as any as S.Schema<ListResourceEventTypeWithStats>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16757,7 +16870,8 @@ export const eventTypesUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<EventTypesUpdateRequest>,
   output: __S(209, __c26, 1) as any as S.Schema<EventType>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16774,7 +16888,8 @@ export const filesCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<FilesCreateRequest>,
   output: __S(220, __c27, 4) as any as S.Schema<FileUpload>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16791,7 +16906,8 @@ export const filesDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<FilesDeleteRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<FilesDeleteResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16810,7 +16926,8 @@ export const filesList: API.PaginatedOperationMethod<
   () => ({
     input: __S(240, __c30, 0) as any as S.Schema<FilesListRequest>,
     output: __S(242, __c30, 2) as any as S.Schema<ListResourceFileRead>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16836,7 +16953,8 @@ export const filesUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<FilesUpdateRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<FilesUpdateResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16853,7 +16971,8 @@ export const filesUploaded: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(266, __c33, 2) as any as S.Schema<FilesUploadedRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<FilesUploadedResponse>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16870,7 +16989,8 @@ export const getCheckoutsClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<GetCheckoutsClientRequest>,
   output: __S(281, __c35, 1) as any as S.Schema<CheckoutPublic>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16887,7 +17007,8 @@ export const licenseKeysActivate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(290, __c36, 2) as any as S.Schema<LicenseKeysActivateRequest>,
   output: __S(1362, __c170, 2) as any as S.Schema<LicenseKeyActivationCreated>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16904,7 +17025,8 @@ export const licenseKeysDeactivate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<LicenseKeysDeactivateRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<LicenseKeysDeactivateResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16921,7 +17043,8 @@ export const licenseKeysGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<LicenseKeysGetRequest>,
   output: __S(1409, __c176, 1) as any as S.Schema<LicenseKeyWithActivations>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16938,7 +17061,8 @@ export const licenseKeysGetActivation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<LicenseKeysGetActivationRequest>,
   output: __S(314, __c39, 2) as any as S.Schema<LicenseKeyActivationRead>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16957,7 +17081,8 @@ export const licenseKeysList: API.PaginatedOperationMethod<
   () => ({
     input: __S(320, __c40, 0) as any as S.Schema<LicenseKeysListRequest>,
     output: __S(1433, __c179, 1) as any as S.Schema<ListResourceLicenseKeyRead>,
-    errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+    errors: [NotFound, UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -16983,7 +17108,8 @@ export const licenseKeysRotate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<LicenseKeysRotateRequest>,
   output: __S(1440, __c180, 0) as any as S.Schema<RotatedLicenseKey>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17000,7 +17126,8 @@ export const licenseKeysUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<LicenseKeysUpdateRequest>,
   output: __S(1440, __c180, 0) as any as S.Schema<LicenseKeyRead>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17017,7 +17144,8 @@ export const licenseKeysValidate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(393, __c49, 1) as any as S.Schema<LicenseKeysValidateRequest>,
   output: __S(1464, __c183, 0) as any as S.Schema<ValidatedLicenseKey>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17034,7 +17162,8 @@ export const metersCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(401, __c50, 1) as any as S.Schema<MetersCreateRequest>,
   output: __S(1162, __c145, 2) as any as S.Schema<Meter>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17051,7 +17180,8 @@ export const metersGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<MetersGetRequest>,
   output: __S(1162, __c145, 2) as any as S.Schema<Meter>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17068,7 +17198,8 @@ export const metersGetExternal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<MetersGetExternalRequest>,
   output: __S(1162, __c145, 2) as any as S.Schema<Meter>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17087,7 +17218,8 @@ export const metersList: API.PaginatedOperationMethod<
   () => ({
     input: __S(424, __c53, 0) as any as S.Schema<MetersListRequest>,
     output: __S(426, __c53, 2) as any as S.Schema<ListResourceMeter>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17113,7 +17245,8 @@ export const metersQuantities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<MetersQuantitiesRequest>,
   output: __S(435, __c54, 3) as any as S.Schema<MeterQuantities>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17130,7 +17263,8 @@ export const metersUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(441, __c55, 1) as any as S.Schema<MetersUpdateRequest>,
   output: __S(1162, __c145, 2) as any as S.Schema<Meter>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17147,7 +17281,8 @@ export const metricsCreateDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<MetricsCreateDashboardRequest>,
   output: __S(456, __c57, 0) as any as S.Schema<MetricDashboardSchema>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17164,7 +17299,8 @@ export const metricsDeleteDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<MetricsDeleteDashboardRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<MetricsDeleteDashboardResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17181,7 +17317,8 @@ export const metricsExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c60, 0) as any as S.Schema<MetricsExportRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<MetricsExportResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17198,7 +17335,8 @@ export const metricsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(488, __c61, 0) as any as S.Schema<MetricsGetRequest>,
   output: __S(494, __c61, 6) as any as S.Schema<MetricsResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17215,7 +17353,8 @@ export const metricsGetDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c62, 0) as any as S.Schema<MetricsGetDashboardRequest>,
   output: __S(456, __c57, 0) as any as S.Schema<MetricDashboardSchema>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17232,7 +17371,8 @@ export const metricsLimits2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(504, __c63, 0) as any as S.Schema<MetricsLimits2Request>,
   output: __S(507, __c63, 3) as any as S.Schema<MetricsLimits>,
-  errors: [UnknownPolarError],
+  errors: [],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17249,7 +17389,8 @@ export const metricsListDashboards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c64, 0) as any as S.Schema<MetricsListDashboardsRequest>,
   output: __S(514, __c64, 2) as any as S.Schema<MetricsListDashboardsResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17266,7 +17407,8 @@ export const metricsUpdateDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(520, __c65, 0) as any as S.Schema<MetricsUpdateDashboardRequest>,
   output: __S(456, __c57, 0) as any as S.Schema<MetricDashboardSchema>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17283,7 +17425,8 @@ export const oauth2Authorize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c66, 0) as any as S.Schema<Oauth2AuthorizeRequest>,
   output: __S(529, __c66, 1) as any as S.Schema<Oauth2AuthorizeResponse>,
-  errors: [UnknownPolarError],
+  errors: [],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17300,7 +17443,8 @@ export const oauth2ClientsOauth2CreateClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(536, __c67, 0) as any as S.Schema<Oauth2ClientsOauth2CreateClientRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<Oauth2ClientsOauth2CreateClientResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17317,7 +17461,8 @@ export const oauth2ClientsOauth2DeleteClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(552, __c69, 0) as any as S.Schema<Oauth2ClientsOauth2DeleteClientRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<Oauth2ClientsOauth2DeleteClientResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17334,7 +17479,8 @@ export const oauth2ClientsOauth2GetClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<Oauth2ClientsOauth2GetClientRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<Oauth2ClientsOauth2GetClientResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17351,7 +17497,8 @@ export const oauth2ClientsOauth2UpdateClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c72, 0) as any as S.Schema<Oauth2ClientsOauth2UpdateClientRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<Oauth2ClientsOauth2UpdateClientResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17368,7 +17515,8 @@ export const oauth2IntrospectToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(584, __c73, 0) as any as S.Schema<Oauth2IntrospectTokenRequest>,
   output: __S(585, __c73, 1) as any as S.Schema<IntrospectTokenResponse>,
-  errors: [UnknownPolarError],
+  errors: [],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17385,7 +17533,8 @@ export const oauth2RequestToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c74, 0) as any as S.Schema<Oauth2RequestTokenRequest>,
   output: __S(593, __c74, 1) as any as S.Schema<TokenResponse>,
-  errors: [UnknownPolarError],
+  errors: [],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17402,7 +17551,8 @@ export const oauth2RevokeToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<Oauth2RevokeTokenRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<Oauth2RevokeTokenResponse>,
-  errors: [UnknownPolarError],
+  errors: [],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17419,7 +17569,8 @@ export const oauth2Userinfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<Oauth2UserinfoRequest>,
   output: __S(609, __c76, 1) as any as S.Schema<Oauth2UserinfoResponse>,
-  errors: [UnknownPolarError],
+  errors: [],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17436,7 +17587,8 @@ export const ordersCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(618, __c77, 2) as any as S.Schema<OrdersCreateRequest>,
   output: __S(627, __c78, 3) as any as S.Schema<Order>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17453,7 +17605,8 @@ export const ordersExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(632, __c79, 0) as any as S.Schema<OrdersExportRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<OrdersExportResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17470,7 +17623,8 @@ export const ordersFinalize: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c80, 0) as any as S.Schema<OrdersFinalizeRequest>,
   output: __S(627, __c78, 3) as any as S.Schema<Order>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17487,7 +17641,8 @@ export const ordersGenerateInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(648, __c81, 0) as any as S.Schema<OrdersGenerateInvoiceRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<OrdersGenerateInvoiceResponse>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17504,7 +17659,8 @@ export const ordersGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(664, __c83, 0) as any as S.Schema<OrdersGetRequest>,
   output: __S(627, __c78, 3) as any as S.Schema<Order>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17521,7 +17677,8 @@ export const ordersInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c84, 0) as any as S.Schema<OrdersInvoiceRequest>,
   output: __S(1624, __c203, 0) as any as S.Schema<OrderInvoice>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17540,7 +17697,8 @@ export const ordersList: API.PaginatedOperationMethod<
   () => ({
     input: __S(680, __c85, 0) as any as S.Schema<OrdersListRequest>,
     output: __S(682, __c85, 2) as any as S.Schema<ListResourceOrder>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17566,7 +17724,8 @@ export const ordersReceipt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c86, 0) as any as S.Schema<OrdersReceiptRequest>,
   output: __S(1624, __c203, 0) as any as S.Schema<OrderReceipt>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17583,7 +17742,8 @@ export const ordersUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(696, __c87, 0) as any as S.Schema<OrdersUpdateRequest>,
   output: __S(627, __c78, 3) as any as S.Schema<Order>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17600,7 +17760,8 @@ export const organizationsCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c88, 0) as any as S.Schema<OrganizationsCreateRequest>,
   output: __S(719, __c89, 7) as any as S.Schema<Organization>,
-  errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17617,7 +17778,8 @@ export const organizationsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(728, __c91, 0) as any as S.Schema<OrganizationsGetRequest>,
   output: __S(719, __c89, 7) as any as S.Schema<Organization>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17636,7 +17798,8 @@ export const organizationsList: API.PaginatedOperationMethod<
   () => ({
     input: __S(736, __c92, 0) as any as S.Schema<OrganizationsListRequest>,
     output: __S(738, __c92, 2) as any as S.Schema<ListResourceOrganization>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17667,7 +17830,8 @@ export const organizationsUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(745, __c93, 1) as any as S.Schema<OrganizationsUpdateRequest>,
   output: __S(719, __c89, 7) as any as S.Schema<Organization>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17684,7 +17848,8 @@ export const paymentsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c94, 0) as any as S.Schema<PaymentsGetRequest>,
   output: __S(753, __c94, 1) as any as S.Schema<PaymentsGetResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17703,7 +17868,8 @@ export const paymentsList: API.PaginatedOperationMethod<
   () => ({
     input: __S(768, __c96, 0) as any as S.Schema<PaymentsListRequest>,
     output: __S(770, __c96, 2) as any as S.Schema<ListResourcePayment>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17729,7 +17895,8 @@ export const productsCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(776, __c97, 0) as any as S.Schema<ProductsCreateRequest>,
   output: __S(784, __c98, 0) as any as S.Schema<Product>,
-  errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17751,7 +17918,8 @@ export const productsDelete: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(792, __c99, 0) as any as S.Schema<ProductsDeleteRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<ProductsDeleteResponse>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17768,7 +17936,8 @@ export const productsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c100, 0) as any as S.Schema<ProductsGetRequest>,
   output: __S(784, __c98, 0) as any as S.Schema<Product>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17787,7 +17956,8 @@ export const productsList: API.PaginatedOperationMethod<
   () => ({
     input: __S(808, __c101, 0) as any as S.Schema<ProductsListRequest>,
     output: __S(810, __c101, 2) as any as S.Schema<ListResourceProduct>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17813,7 +17983,8 @@ export const productsUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(820, __c102, 4) as any as S.Schema<ProductsUpdateRequest>,
   output: __S(784, __c98, 0) as any as S.Schema<Product>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17830,7 +18001,8 @@ export const productsUpdateBenefits: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(824, __c103, 0) as any as S.Schema<ProductsUpdateBenefitsRequest>,
   output: __S(784, __c98, 0) as any as S.Schema<Product>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17847,7 +18019,8 @@ export const refundsCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(833, __c104, 1) as any as S.Schema<RefundsCreateRequest>,
   output: __S(841, __c105, 1) as any as S.Schema<Refund>,
-  errors: [Forbidden, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17866,7 +18039,8 @@ export const refundsList: API.PaginatedOperationMethod<
   () => ({
     input: __S(848, __c106, 0) as any as S.Schema<RefundsListRequest>,
     output: __S(850, __c106, 2) as any as S.Schema<ListResourceRefund>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17896,7 +18070,8 @@ export const retryCustomerPortalOrdersConfirmPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(856, __c107, 0) as any as S.Schema<RetryCustomerPortalOrdersConfirmPaymentRequest>,
   output: __S(857, __c107, 1) as any as S.Schema<CustomerOrderPaymentConfirmation>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17913,7 +18088,8 @@ export const subscriptionsCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c114, 0) as any as S.Schema<SubscriptionsCreateRequest>,
   output: __S(923, __c115, 3) as any as S.Schema<Subscription>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17930,7 +18106,8 @@ export const subscriptionsExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c116, 0) as any as S.Schema<SubscriptionsExportRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<SubscriptionsExportResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17947,7 +18124,8 @@ export const subscriptionsGet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(936, __c117, 0) as any as S.Schema<SubscriptionsGetRequest>,
   output: __S(923, __c115, 3) as any as S.Schema<Subscription>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -17966,7 +18144,8 @@ export const subscriptionsList: API.PaginatedOperationMethod<
   () => ({
     input: __S(944, __c118, 0) as any as S.Schema<SubscriptionsListRequest>,
     output: __S(946, __c118, 2) as any as S.Schema<ListResourceSubscription>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -17997,7 +18176,8 @@ export const subscriptionsRevoke: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(952, __c119, 0) as any as S.Schema<SubscriptionsRevokeRequest>,
   output: __S(923, __c115, 3) as any as S.Schema<Subscription>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18019,7 +18199,8 @@ export const subscriptionsUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c120, 0) as any as S.Schema<SubscriptionsUpdateRequest>,
   output: __S(923, __c115, 3) as any as S.Schema<Subscription>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18041,7 +18222,8 @@ export const updateCheckoutsClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(969, __c121, 1) as any as S.Schema<UpdateCheckoutsClientRequest>,
   output: __S(281, __c35, 1) as any as S.Schema<CheckoutPublic>,
-  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18058,7 +18240,8 @@ export const updateCustomerPortalCustomersCheckEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c122, 0) as any as S.Schema<UpdateCustomerPortalCustomersCheckEmailRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<UpdateCustomerPortalCustomersCheckEmailResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18079,7 +18262,8 @@ export const updateCustomerPortalCustomersRequestEmail: API.OperationMethod<
     __c227,
     0,
   ) as any as S.Schema<UpdateCustomerPortalCustomersRequestEmailResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18096,7 +18280,8 @@ export const updateCustomerPortalCustomersVerifyEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c124, 0) as any as S.Schema<UpdateCustomerPortalCustomersVerifyEmailRequest>,
   output: __S(993, __c124, 1) as any as S.Schema<CustomerEmailUpdateVerifyResponse>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18113,7 +18298,8 @@ export const webhooksCreateWebhookEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c126, 0) as any as S.Schema<WebhooksCreateWebhookEndpointRequest>,
   output: __S(1016, __c127, 0) as any as S.Schema<WebhookEndpoint>,
-  errors: [UnprocessableEntity, UnknownPolarError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18130,7 +18316,8 @@ export const webhooksDeleteWebhookEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c128, 0) as any as S.Schema<WebhooksDeleteWebhookEndpointRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<WebhooksDeleteWebhookEndpointResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18151,7 +18338,8 @@ export const webhooksGetExternalWebhookEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1032, __c129, 0) as any as S.Schema<WebhooksGetExternalWebhookEndpointRequest>,
   output: __S(1016, __c127, 0) as any as S.Schema<WebhookEndpoint>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18168,7 +18356,8 @@ export const webhooksGetWebhookEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c130, 0) as any as S.Schema<WebhooksGetWebhookEndpointRequest>,
   output: __S(1016, __c127, 0) as any as S.Schema<WebhookEndpoint>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18187,7 +18376,8 @@ export const webhooksListWebhookDeliveries: API.PaginatedOperationMethod<
   () => ({
     input: __S(1048, __c131, 0) as any as S.Schema<WebhooksListWebhookDeliveriesRequest>,
     output: __S(1052, __c131, 4) as any as S.Schema<ListResourceWebhookDelivery>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -18215,7 +18405,8 @@ export const webhooksListWebhookEndpoints: API.PaginatedOperationMethod<
   () => ({
     input: __S(1056, __c132, 0) as any as S.Schema<WebhooksListWebhookEndpointsRequest>,
     output: __S(1058, __c132, 2) as any as S.Schema<ListResourceWebhookEndpoint>,
-    errors: [UnprocessableEntity, UnknownPolarError],
+    errors: [UnprocessableEntity],
+    serviceErrors: PolarServiceErrors,
     protocol: PolarProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -18241,7 +18432,8 @@ export const webhooksRedeliverWebhookEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1064, __c133, 0) as any as S.Schema<WebhooksRedeliverWebhookEventRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<WebhooksRedeliverWebhookEventResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18258,7 +18450,8 @@ export const webhooksResetWebhookEndpointSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c134, 0) as any as S.Schema<WebhooksResetWebhookEndpointSecretRequest>,
   output: __S(1016, __c127, 0) as any as S.Schema<WebhookEndpoint>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -18275,7 +18468,8 @@ export const webhooksUpdateWebhookEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1080, __c135, 0) as any as S.Schema<WebhooksUpdateWebhookEndpointRequest>,
   output: __S(1016, __c127, 0) as any as S.Schema<WebhookEndpoint>,
-  errors: [NotFound, UnprocessableEntity, UnknownPolarError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: PolarServiceErrors,
   protocol: PolarProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -19789,7 +19983,7 @@ function __c73(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           token_type_hint: S.optional(S.NullOr(S.String)),
           client_id: S.String,
           client_secret: S.String.pipe(T.SensitiveValue({})),
@@ -19827,9 +20021,9 @@ function __c74(j: number): any {
           access_token: S.String.pipe(T.SensitiveValue({})),
           token_type: S.String,
           expires_in: S.Number,
-          refresh_token: S.optional(S.NullOr(S.String)),
+          refresh_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           scope: S.String,
-          id_token: S.optional(S.NullOr(S.String)),
+          id_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "TokenResponse" });
   }
@@ -19839,7 +20033,7 @@ function __c75(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           token_type_hint: S.optional(S.NullOr(S.String)),
           client_id: S.String,
           client_secret: S.String.pipe(T.SensitiveValue({})),
@@ -20662,7 +20856,7 @@ function __c107(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          client_secret: S.optional(S.NullOr(S.String)),
+          client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           error: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "CustomerOrderPaymentConfirmation" });
@@ -21027,7 +21221,7 @@ function __c122(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String.pipe(T.Query()),
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "GET",
@@ -21059,7 +21253,7 @@ function __c124(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -21071,7 +21265,7 @@ function __c124(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CustomerEmailUpdateVerifyResponse" });
   }
@@ -21440,7 +21634,7 @@ function __c139(j: number): any {
           discount: S.NullOr(S.Unknown),
           organization: __S(1120, __c140, 0),
           attached_custom_fields: S.NullOr(__S(881, __c110, 1)),
-          customer_session_token: S.NullOr(S.String),
+          customer_session_token: S.NullOr(S.String).pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CheckoutPublicConfirmed" });
   }
@@ -23221,14 +23415,14 @@ function __c234(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          invitation_token: S.String,
+          invitation_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/v1/customer-seats/claim", code: 200 })),
       ).annotate({ identifier: "CustomerSeatsClaimSeatRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           seat: __S(1689, __c211, 1),
-          customer_session_token: S.String,
+          customer_session_token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CustomerSeatClaimResponse" });
   }
@@ -23278,7 +23472,7 @@ function __c238(j: number): any {
           created_at: S.String,
           modified_at: S.NullOr(S.String),
           id: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           expires_at: S.String,
           return_url: S.NullOr(S.String),
           customer_portal_url: S.String,

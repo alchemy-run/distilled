@@ -3,6 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { GithubServiceErrors } from "../errors.ts";
 import { paginateLink } from "../pagination.ts";
 import { GithubProtocol, type GithubOpError, type GithubOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -369,7 +370,7 @@ export interface Authorization {
   url: string;
   /** A list of scopes that this authorization is in. */
   scopes: AuthorizationScopesList | null;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   token_last_eight: string | null;
   hashed_token: string | null;
   app: AuthorizationApp;
@@ -585,7 +586,7 @@ export interface Repository {
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -623,7 +624,7 @@ export type InstallationTokenRepositoriesList = Array<Repository>;
 export type InstallationTokenSingleFilePathsList = Array<string>;
 /** Authentication token for a GitHub App installed on a user or org. */
 export interface InstallationToken {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   expires_at: string;
   permissions?: AppPermissions | undefined;
   repository_selection?: InstallationTokenRepositorySelection | undefined;
@@ -1023,7 +1024,7 @@ export interface ListInstallationReposForAuthenticatedUserResponseRepositoriesIt
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -1272,7 +1273,7 @@ export interface ListReposAccessibleToInstallationResponseRepositoriesItem {
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
-  temp_clone_token?: string | undefined;
+  temp_clone_token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
@@ -1467,6 +1468,7 @@ export const addRepoToInstallationForAuthenticatedUser: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<AddRepoToInstallationForAuthenticatedUserRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<AddRepoToInstallationForAuthenticatedUserResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1484,6 +1486,7 @@ export const checkToken: API.OperationMethod<
   input: __S(8, __c2, 0) as any as S.Schema<CheckTokenRequest>,
   output: __S(26, __c6, 2) as any as S.Schema<Authorization>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1501,6 +1504,7 @@ export const createFromManifest: API.OperationMethod<
   input: __S(92, __c23, 0) as any as S.Schema<CreateFromManifestRequest>,
   output: __S(93, __c23, 1) as any as S.Schema<CreateFromManifestResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1518,6 +1522,7 @@ export const createInstallationAccessToken: API.OperationMethod<
   input: __S(152, __c38, 0) as any as S.Schema<CreateInstallationAccessTokenRequest>,
   output: __S(155, __c38, 3) as any as S.Schema<InstallationToken>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1535,6 +1540,7 @@ export const deleteAuthorization: API.OperationMethod<
   input: __S(192, __c48, 0) as any as S.Schema<DeleteAuthorizationRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteAuthorizationResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1552,6 +1558,7 @@ export const deleteInstallation: API.OperationMethod<
   input: __S(196, __c49, 0) as any as S.Schema<DeleteInstallationRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteInstallationResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1569,6 +1576,7 @@ export const deleteToken: API.OperationMethod<
   input: __S(200, __c50, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DeleteTokenResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1586,6 +1594,7 @@ export const getAuthenticated: API.OperationMethod<
   input: __S(204, __c51, 0) as any as S.Schema<GetAuthenticatedRequest>,
   output: __S(208, __c52, 0) as any as S.Schema<Integration>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1603,6 +1612,7 @@ export const getBySlug: API.OperationMethod<
   input: __S(212, __c53, 0) as any as S.Schema<GetBySlugRequest>,
   output: __S(208, __c52, 0) as any as S.Schema<Integration>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1620,6 +1630,7 @@ export const getInstallation: API.OperationMethod<
   input: __S(216, __c54, 0) as any as S.Schema<GetInstallationRequest>,
   output: __S(220, __c55, 0) as any as S.Schema<Installation>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1637,6 +1648,7 @@ export const getOrgInstallation: API.OperationMethod<
   input: __S(28, __c7, 0) as any as S.Schema<GetOrgInstallationRequest>,
   output: __S(220, __c55, 0) as any as S.Schema<Installation>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1654,6 +1666,7 @@ export const getRepoInstallation: API.OperationMethod<
   input: __S(32, __c8, 0) as any as S.Schema<GetRepoInstallationRequest>,
   output: __S(220, __c55, 0) as any as S.Schema<Installation>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1671,6 +1684,7 @@ export const getSubscriptionPlanForAccount: API.OperationMethod<
   input: __S(36, __c9, 0) as any as S.Schema<GetSubscriptionPlanForAccountRequest>,
   output: __S(42, __c10, 2) as any as S.Schema<MarketplacePurchase>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1688,6 +1702,7 @@ export const getSubscriptionPlanForAccountStubbed: API.OperationMethod<
   input: __S(48, __c12, 0) as any as S.Schema<GetSubscriptionPlanForAccountStubbedRequest>,
   output: __S(42, __c10, 2) as any as S.Schema<MarketplacePurchase>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1705,6 +1720,7 @@ export const getUserInstallation: API.OperationMethod<
   input: __S(52, __c13, 0) as any as S.Schema<GetUserInstallationRequest>,
   output: __S(220, __c55, 0) as any as S.Schema<Installation>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1722,6 +1738,7 @@ export const getWebhookConfigForApp: API.OperationMethod<
   input: __S(56, __c14, 0) as any as S.Schema<GetWebhookConfigForAppRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<WebhookConfig>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1739,6 +1756,7 @@ export const getWebhookDelivery: API.OperationMethod<
   input: __S(64, __c16, 0) as any as S.Schema<GetWebhookDeliveryRequest>,
   output: __S(66, __c16, 2) as any as S.Schema<HookDelivery>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1758,6 +1776,7 @@ export const listAccountsForPlan: API.PaginatedOperationMethod<
     input: __S(72, __c18, 0) as any as S.Schema<ListAccountsForPlanRequest>,
     output: __S(77, __c19, 1) as any as S.Schema<ListAccountsForPlanResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1780,6 +1799,7 @@ export const listAccountsForPlanStubbed: API.PaginatedOperationMethod<
     input: __S(80, __c20, 0) as any as S.Schema<ListAccountsForPlanStubbedRequest>,
     output: __S(77, __c19, 1) as any as S.Schema<ListAccountsForPlanStubbedResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1802,6 +1822,7 @@ export const listInstallationReposForAuthenticatedUser: API.PaginatedOperationMe
     input: __S(84, __c21, 0) as any as S.Schema<ListInstallationReposForAuthenticatedUserRequest>,
     output: __S(85, __c21, 1) as any as S.Schema<ListInstallationReposForAuthenticatedUserResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1837,6 +1858,7 @@ export const listInstallationRequestsForAuthenticatedApp: API.PaginatedOperation
       3,
     ) as any as S.Schema<ListInstallationRequestsForAuthenticatedAppResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1859,6 +1881,7 @@ export const listInstallations: API.PaginatedOperationMethod<
     input: __S(104, __c26, 0) as any as S.Schema<ListInstallationsRequest>,
     output: __S(105, __c26, 1) as any as S.Schema<ListInstallationsResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1881,6 +1904,7 @@ export const listInstallationsForAuthenticatedUser: API.PaginatedOperationMethod
     input: __S(112, __c28, 0) as any as S.Schema<ListInstallationsForAuthenticatedUserRequest>,
     output: __S(113, __c28, 1) as any as S.Schema<ListInstallationsForAuthenticatedUserResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1908,6 +1932,7 @@ export const listPlans: API.PaginatedOperationMethod<
     input: __S(116, __c29, 0) as any as S.Schema<ListPlansRequest>,
     output: __S(121, __c30, 1) as any as S.Schema<ListPlansResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1930,6 +1955,7 @@ export const listPlansStubbed: API.PaginatedOperationMethod<
     input: __S(124, __c31, 0) as any as S.Schema<ListPlansStubbedRequest>,
     output: __S(121, __c30, 1) as any as S.Schema<ListPlansStubbedResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1952,6 +1978,7 @@ export const listReposAccessibleToInstallation: API.PaginatedOperationMethod<
     input: __S(128, __c32, 0) as any as S.Schema<ListReposAccessibleToInstallationRequest>,
     output: __S(129, __c32, 1) as any as S.Schema<ListReposAccessibleToInstallationResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1979,6 +2006,7 @@ export const listSubscriptionsForAuthenticatedUser: API.PaginatedOperationMethod
     input: __S(132, __c33, 0) as any as S.Schema<ListSubscriptionsForAuthenticatedUserRequest>,
     output: __S(139, __c34, 3) as any as S.Schema<ListSubscriptionsForAuthenticatedUserResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2009,6 +2037,7 @@ export const listSubscriptionsForAuthenticatedUserStubbed: API.PaginatedOperatio
       3,
     ) as any as S.Schema<ListSubscriptionsForAuthenticatedUserStubbedResponse>,
     errors: [],
+    serviceErrors: GithubServiceErrors,
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2029,6 +2058,7 @@ export const listWebhookDeliveries: API.OperationMethod<
   input: __S(144, __c36, 0) as any as S.Schema<ListWebhookDeliveriesRequest>,
   output: __S(147, __c36, 3) as any as S.Schema<ListWebhookDeliveriesResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2046,6 +2076,7 @@ export const redeliverWebhookDelivery: API.OperationMethod<
   input: __S(148, __c37, 0) as any as S.Schema<RedeliverWebhookDeliveryRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<RedeliverWebhookDeliveryResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2071,6 +2102,7 @@ export const removeRepoFromInstallationForAuthenticatedUser: API.OperationMethod
     0,
   ) as any as S.Schema<RemoveRepoFromInstallationForAuthenticatedUserResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2088,6 +2120,7 @@ export const resetToken: API.OperationMethod<
   input: __S(168, __c42, 0) as any as S.Schema<ResetTokenRequest>,
   output: __S(26, __c6, 2) as any as S.Schema<Authorization>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2105,6 +2138,7 @@ export const revokeInstallationAccessToken: API.OperationMethod<
   input: __S(172, __c43, 0) as any as S.Schema<RevokeInstallationAccessTokenRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<RevokeInstallationAccessTokenResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2122,6 +2156,7 @@ export const scopeToken: API.OperationMethod<
   input: __S(176, __c44, 0) as any as S.Schema<ScopeTokenRequest>,
   output: __S(26, __c6, 2) as any as S.Schema<Authorization>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2139,6 +2174,7 @@ export const suspendInstallation: API.OperationMethod<
   input: __S(180, __c45, 0) as any as S.Schema<SuspendInstallationRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<SuspendInstallationResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2156,6 +2192,7 @@ export const unsuspendInstallation: API.OperationMethod<
   input: __S(184, __c46, 0) as any as S.Schema<UnsuspendInstallationRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<UnsuspendInstallationResponse>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2173,6 +2210,7 @@ export const updateWebhookConfigForApp: API.OperationMethod<
   input: __S(188, __c47, 0) as any as S.Schema<UpdateWebhookConfigForAppRequest>,
   output: __S(60, __c15, 0) as any as S.Schema<WebhookConfig>,
   errors: [],
+  serviceErrors: GithubServiceErrors,
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2347,7 +2385,7 @@ function __c6(j: number): any {
           id: S.Number,
           url: S.String,
           scopes: S.NullOr(__S(12, __c3, 0)),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           token_last_eight: S.NullOr(S.String),
           hashed_token: S.NullOr(S.String),
           app: __S(24, __c6, 0),
@@ -2708,7 +2746,7 @@ function __c22(j: number): any {
           created_at: S.NullOr(S.String),
           updated_at: S.NullOr(S.String),
           allow_rebase_merge: S.optional(S.Boolean),
-          temp_clone_token: S.optional(S.String),
+          temp_clone_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           allow_squash_merge: S.optional(S.Boolean),
           allow_auto_merge: S.optional(S.Boolean),
           delete_branch_on_merge: S.optional(S.Boolean),
@@ -3107,7 +3145,7 @@ function __c38(j: number): any {
           created_at: S.NullOr(S.String),
           updated_at: S.NullOr(S.String),
           allow_rebase_merge: S.optional(S.Boolean),
-          temp_clone_token: S.optional(S.String),
+          temp_clone_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           allow_squash_merge: S.optional(S.Boolean),
           allow_auto_merge: S.optional(S.Boolean),
           delete_branch_on_merge: S.optional(S.Boolean),
@@ -3133,7 +3171,7 @@ function __c38(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           expires_at: S.String,
           permissions: S.optional(__S(20, __c5, 0)),
           repository_selection: S.optional(S.String),

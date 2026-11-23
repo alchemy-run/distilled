@@ -1,0 +1,256 @@
+{
+  "description": "Type the errors every operation of this data plane can return, matched on the body's `/error/code`: the error codes each operation's own description lists (\"Status codes: ... 404 Not Found * DigitalTwinNotFound ...\") in the spec. Declared on the service shape, so each operation's error union carries them. These codes mean something else at ARM (`AuthenticationFailed`, `ModelNotFound`, `PoolNotFound`), so they cannot go in the client-level `AZURE_ERROR_CODE_MAP`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Digital Twins data plane: the digital twin does not exist. Azure error code: `DigitalTwinNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "DigitalTwinNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinComponentNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Digital Twins data plane: the component path does not exist on the twin. Azure error code: `ComponentNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "ComponentNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinRelationshipNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Digital Twins data plane: the relationship does not exist. Azure error code: `RelationshipNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "RelationshipNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinTargetNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Digital Twins data plane: the target twin of a relationship does not exist. Azure error code: `TargetTwinNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "TargetTwinNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinRelationshipsNotDeleted",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Digital Twins data plane: the twin still has relationships, so it cannot be deleted. Azure error code: `RelationshipsNotDeleted` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "RelationshipsNotDeleted"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinModelNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Digital Twins data plane: the model does not exist. Azure error code: `ModelNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "ModelNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinModelAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Digital Twins data plane: a model with this ID already exists (HTTP 409). Azure error code: `ModelAlreadyExists`, or a 409 with no code and \"Some of the model ids already exist\" (matched by message). /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "ModelAlreadyExists"
+              }
+            },
+            {
+              "message": {
+                "includes": "Some of the model ids already exist"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinModelReferencesNotDeleted",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "Digital Twins data plane: other models still reference this model (HTTP 409). Azure error code: `ModelReferencesNotDeleted` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "ModelReferencesNotDeleted"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinEventRouteNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Digital Twins data plane: the event route does not exist. Azure error code: `EventRouteNotFound` /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "EventRouteNotFound"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinJobNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "Digital Twins data plane: the import or delete job does not exist. The 404 carries no code, only \"There is no job available that matches the provided id ...\" (matched by message). /",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/error/code": "JobNotFound"
+              },
+              "message": {
+                "includes": "There is no job available that matches the provided id"
+              }
+            }
+          ],
+          "distilled.errors#categories": ["NotFoundError"]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitaltwinsData/errors",
+      "value": [
+        {
+          "target": "com.azure.digitaltwins_data#DigitalTwinNotFound"
+        },
+        {
+          "target": "com.azure.digitaltwins_data#DigitalTwinComponentNotFound"
+        },
+        {
+          "target": "com.azure.digitaltwins_data#DigitalTwinRelationshipNotFound"
+        },
+        {
+          "target": "com.azure.digitaltwins_data#DigitalTwinTargetNotFound"
+        },
+        {
+          "target": "com.azure.digitaltwins_data#DigitalTwinRelationshipsNotDeleted"
+        },
+        {
+          "target": "com.azure.digitaltwins_data#DigitalTwinModelNotFound"
+        },
+        {
+          "target": "com.azure.digitaltwins_data#DigitalTwinModelAlreadyExists"
+        },
+        {
+          "target": "com.azure.digitaltwins_data#DigitalTwinModelReferencesNotDeleted"
+        },
+        {
+          "target": "com.azure.digitaltwins_data#DigitalTwinEventRouteNotFound"
+        },
+        {
+          "target": "com.azure.digitaltwins_data#DigitalTwinJobNotFound"
+        }
+      ]
+    }
+  ]
+}

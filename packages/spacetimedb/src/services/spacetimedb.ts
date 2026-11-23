@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownSpacetimeDBError } from "../errors.ts";
+import { SpacetimeDBServiceErrors } from "../errors.ts";
 import {
   SpacetimeDBProtocol,
   type SpacetimeDBOpError,
@@ -215,7 +215,8 @@ export const addDatabaseName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<AddDatabaseNameRequest>,
   output: __S(46, __c11, 2) as any as S.Schema<AddDatabaseNameResponse>,
-  errors: [UnknownSpacetimeDBError],
+  errors: [],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -232,7 +233,8 @@ export const callReducer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<CallReducerRequest>,
   output: __S(49, __c12, 1) as any as S.Schema<CallReducerResponse>,
-  errors: [NotFound, UnknownSpacetimeDBError],
+  errors: [NotFound],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -249,7 +251,8 @@ export const createIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<CreateIdentityRequest>,
   output: __S(57, __c14, 1) as any as S.Schema<CreateIdentityResponse>,
-  errors: [UnknownSpacetimeDBError],
+  errors: [],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -266,7 +269,8 @@ export const createWebsocketToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<CreateWebsocketTokenRequest>,
   output: __S(61, __c15, 1) as any as S.Schema<CreateWebsocketTokenResponse>,
-  errors: [UnknownSpacetimeDBError],
+  errors: [],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -283,7 +287,8 @@ export const deleteDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<DeleteDatabaseResponse>,
-  errors: [NotFound, UnknownSpacetimeDBError],
+  errors: [NotFound],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -300,7 +305,8 @@ export const executeSql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<ExecuteSqlRequest>,
   output: __S(75, __c18, 3) as any as S.Schema<ExecuteSqlResponse>,
-  errors: [NotFound, UnknownSpacetimeDBError],
+  errors: [NotFound],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -317,7 +323,8 @@ export const getDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<GetDatabaseRequest>,
   output: __S(77, __c19, 1) as any as S.Schema<GetDatabaseResponse>,
-  errors: [NotFound, UnknownSpacetimeDBError],
+  errors: [NotFound],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -334,7 +341,8 @@ export const getDatabaseIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<GetDatabaseIdentityRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<GetDatabaseIdentityResponse>,
-  errors: [NotFound, UnknownSpacetimeDBError],
+  errors: [NotFound],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -351,7 +359,8 @@ export const getDatabaseLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetDatabaseLogsRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<GetDatabaseLogsResponse>,
-  errors: [NotFound, UnknownSpacetimeDBError],
+  errors: [NotFound],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -368,7 +377,8 @@ export const getDatabaseNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<GetDatabaseNamesRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<GetDatabaseNamesResponse>,
-  errors: [NotFound, UnknownSpacetimeDBError],
+  errors: [NotFound],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -385,7 +395,8 @@ export const getDatabaseSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetDatabaseSchemaRequest>,
   output: __S(14, __c3, 2) as any as S.Schema<GetDatabaseSchemaResponse>,
-  errors: [NotFound, UnknownSpacetimeDBError],
+  errors: [NotFound],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -402,7 +413,8 @@ export const getPublicKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetPublicKeyRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<GetPublicKeyResponse>,
-  errors: [UnknownSpacetimeDBError],
+  errors: [],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -419,7 +431,8 @@ export const listIdentityDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ListIdentityDatabasesRequest>,
   output: __S(21, __c5, 1) as any as S.Schema<ListIdentityDatabasesResponse>,
-  errors: [UnknownSpacetimeDBError],
+  errors: [],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -432,7 +445,8 @@ export const ping: API.OperationMethod<PingRequest, PingResponse, PingError, Spa
   /*@__PURE__*/ API.make(() => ({
     input: __S(24, __c6, 0) as any as S.Schema<PingRequest>,
     output: __S(68, __c17, 0) as any as S.Schema<PingResponse>,
-    errors: [UnknownSpacetimeDBError],
+    errors: [],
+    serviceErrors: SpacetimeDBServiceErrors,
     protocol: SpacetimeDBProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -449,7 +463,8 @@ export const publishDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<PublishDatabaseRequest>,
   output: __S(30, __c7, 2) as any as S.Schema<PublishDatabaseResponse>,
-  errors: [UnknownSpacetimeDBError],
+  errors: [],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -466,7 +481,8 @@ export const setDatabaseNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<SetDatabaseNamesRequest>,
   output: __S(33, __c8, 1) as any as S.Schema<SetDatabaseNamesResponse>,
-  errors: [UnknownSpacetimeDBError],
+  errors: [],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -483,7 +499,8 @@ export const updateDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<UpdateDatabaseRequest>,
   output: __S(38, __c9, 2) as any as S.Schema<UpdateDatabaseResponse>,
-  errors: [UnknownSpacetimeDBError],
+  errors: [],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -500,7 +517,8 @@ export const verifyIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<VerifyIdentityRequest>,
   output: __S(68, __c17, 0) as any as S.Schema<VerifyIdentityResponse>,
-  errors: [BadRequest, UnknownSpacetimeDBError],
+  errors: [BadRequest],
+  serviceErrors: SpacetimeDBServiceErrors,
   protocol: SpacetimeDBProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

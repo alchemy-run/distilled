@@ -66,7 +66,7 @@ const temporalSpec: SdkSpec = {
   operationDecl: {
     contextType: "TemporalOpContext",
     commonErrorType: "TemporalOpError",
-    commonErrorClasses: ["UnknownTemporalError"],
+    serviceErrors: "TemporalServiceErrors",
     protocol: "TemporalProtocol",
     retry: "Retry.Retry",
   },

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownMollieError } from "../errors.ts";
+import { MollieServiceErrors } from "../errors.ts";
 import { paginateNextPage } from "../pagination.ts";
 import { MollieProtocol, type MollieOpError, type MollieOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -1391,13 +1391,13 @@ export interface CreateCustomerPaymentRequest {
   storeCredentials?: boolean | undefined;
   testmode?: boolean | null | undefined;
   /** The [Apple Pay Payment](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypayment) token object (encoded as JSON) that is part of the result of authorizing a payment request. The token contains the payment information needed to authorize the payment. The object should be passed encoded in a JSON string. For example: `{"paymentData": {"version": "EC_v1", "data": "vK3BbrCbI/...."}}` */
-  applePayPaymentToken?: string | undefined;
+  applePayPaymentToken?: string | Redacted.Redacted<string> | undefined;
   /** Billie is a business-to-business (B2B) payment method. It requires extra information to identify the organization that is completing the payment. It is recommended to include these parameters up front for a seamless flow. Otherwise, Billie will ask the customer to complete the missing fields during checkout. * `billingAddress.organizationName`: The organization's name. * `registrationNumber` _string_: The organization's registration number. * `vatNumber` _string_: The organization's VAT number. * `entityType` _string_: The organization's entity type. */
   company?: CreateCustomerPaymentRequestCompany | undefined;
   /** When creating credit card payments using Mollie Components, you need to provide the card token you received from the card component in this field. The token represents the customer's card information needed to complete the payment. **Note:** field only valid for `oneoff` and `first` payments. For recurring payments, the `customerId` alone is enough. */
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   /** The Google Pay payment token object (encoded as JSON) returned by the Google Pay SDK after the customer authorizes the payment. The token contains the payment information needed to complete the payment. The object should be passed encoded in a JSON string. */
-  googlePayPaymentToken?: string | undefined;
+  googlePayPaymentToken?: string | Redacted.Redacted<string> | undefined;
   /** Number of the voucher. */
   voucherNumber?: string | undefined;
   /** The PIN on the gift card. You can supply this to prefill the PIN, if the card has any. */
@@ -1786,13 +1786,13 @@ export interface CreatePaymentRequest {
   storeCredentials?: boolean | undefined;
   testmode?: boolean | null | undefined;
   /** The [Apple Pay Payment](https://developer.apple.com/documentation/apple_pay_on_the_web/applepaypayment) token object (encoded as JSON) that is part of the result of authorizing a payment request. The token contains the payment information needed to authorize the payment. The object should be passed encoded in a JSON string. For example: `{"paymentData": {"version": "EC_v1", "data": "vK3BbrCbI/...."}}` */
-  applePayPaymentToken?: string | undefined;
+  applePayPaymentToken?: string | Redacted.Redacted<string> | undefined;
   /** Billie is a business-to-business (B2B) payment method. It requires extra information to identify the organization that is completing the payment. It is recommended to include these parameters up front for a seamless flow. Otherwise, Billie will ask the customer to complete the missing fields during checkout. * `billingAddress.organizationName`: The organization's name. * `registrationNumber` _string_: The organization's registration number. * `vatNumber` _string_: The organization's VAT number. * `entityType` _string_: The organization's entity type. */
   company?: CreateCustomerPaymentRequestCompany | undefined;
   /** When creating credit card payments using Mollie Components, you need to provide the card token you received from the card component in this field. The token represents the customer's card information needed to complete the payment. **Note:** field only valid for `oneoff` and `first` payments. For recurring payments, the `customerId` alone is enough. */
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   /** The Google Pay payment token object (encoded as JSON) returned by the Google Pay SDK after the customer authorizes the payment. The token contains the payment information needed to complete the payment. The object should be passed encoded in a JSON string. */
-  googlePayPaymentToken?: string | undefined;
+  googlePayPaymentToken?: string | Redacted.Redacted<string> | undefined;
   /** Number of the voucher. */
   voucherNumber?: string | undefined;
   /** The PIN on the gift card. You can supply this to prefill the PIN, if the card has any. */
@@ -4724,7 +4724,7 @@ export interface GetPartnerStatusRequest {
 export type GetPartnerStatusResponsePartnerType = "oauth" | "signuplink" | "useragent";
 export interface GetPartnerStatusResponseUserAgentTokensItem {
   /** The unique User-Agent token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The date from which the token is active, in ISO 8601 format. */
   startsAt?: string | undefined;
   /** The date until when the token will be active, in ISO 8601 format. Will be `null` if the token does not have an end date (yet). */
@@ -9244,7 +9244,8 @@ export const cancelDraftTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<CancelDraftTransferRequest>,
   output: __S(2080, __c130, 0) as any as S.Schema<CancelDraftTransferResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9261,7 +9262,8 @@ export const cancelPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<CancelPaymentRequest>,
   output: __S(2417, __c151, 1) as any as S.Schema<CancelPaymentResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9278,7 +9280,8 @@ export const cancelPayout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2768, __c173, 0) as any as S.Schema<CancelPayoutRequest>,
   output: __S(2800, __c175, 0) as any as S.Schema<EntityPayoutResponseOutput>,
-  errors: [NotFound, Conflict, UnknownMollieError],
+  errors: [NotFound, Conflict],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9295,7 +9298,8 @@ export const cancelRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3024, __c189, 0) as any as S.Schema<CancelRefundRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<CancelRefundResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9312,7 +9316,8 @@ export const cancelSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CancelSubscriptionRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<CancelSubscriptionResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9333,7 +9338,8 @@ export const createBusinessAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<CreateBusinessAccountRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<CreateBusinessAccountResponse>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownMollieError],
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9350,7 +9356,8 @@ export const createCapture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<CreateCaptureRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<CreateCaptureResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9367,7 +9374,8 @@ export const createClientLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(642, __c40, 2) as any as S.Schema<CreateClientLinkRequest>,
   output: __S(644, __c40, 4) as any as S.Schema<CreateClientLinkResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9384,7 +9392,8 @@ export const createConnectBalanceTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<CreateConnectBalanceTransferRequest>,
   output: __S(753, __c47, 1) as any as S.Schema<EntityBalanceTransferResponseOutput>,
-  errors: [UnprocessableEntity, UnknownMollieError],
+  errors: [UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9401,7 +9410,8 @@ export const createCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<CreateCustomerRequest>,
   output: __S(785, __c49, 1) as any as S.Schema<CreateCustomerResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9418,7 +9428,8 @@ export const createCustomerPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<CreateCustomerPaymentRequest>,
   output: __S(2417, __c151, 1) as any as S.Schema<CreateCustomerPaymentResponse>,
-  errors: [UnprocessableEntity, UnknownMollieError],
+  errors: [UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9435,7 +9446,8 @@ export const createDraftTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<CreateDraftTransferRequest>,
   output: __S(2080, __c130, 0) as any as S.Schema<CreateDraftTransferResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownMollieError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9452,7 +9464,8 @@ export const createMandate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<CreateMandateRequest>,
   output: __S(865, __c54, 1) as any as S.Schema<CreateMandateResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9469,7 +9482,8 @@ export const createPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<CreatePaymentRequest>,
   output: __S(2417, __c151, 1) as any as S.Schema<CreatePaymentResponse>,
-  errors: [UnprocessableEntity, UnknownMollieError],
+  errors: [UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9486,7 +9500,8 @@ export const createPaymentLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<CreatePaymentLinkRequest>,
   output: __S(928, __c58, 0) as any as S.Schema<CreatePaymentLinkResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9503,7 +9518,8 @@ export const createPaymentRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<CreatePaymentRouteRequest>,
   output: __S(961, __c60, 1) as any as S.Schema<CreatePaymentRouteResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9520,7 +9536,8 @@ export const createPayout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<CreatePayoutRequest>,
   output: __S(2800, __c175, 0) as any as S.Schema<EntityPayoutResponseOutput>,
-  errors: [UnprocessableEntity, UnknownMollieError],
+  errors: [UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9537,7 +9554,8 @@ export const createProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<CreateProfileRequest>,
   output: __S(1041, __c65, 1) as any as S.Schema<CreateProfileResponse>,
-  errors: [Forbidden, UnprocessableEntity, UnknownMollieError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9554,7 +9572,8 @@ export const createRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1075, __c67, 3) as any as S.Schema<CreateRefundRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<CreateRefundResponse>,
-  errors: [NotFound, Conflict, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9571,7 +9590,8 @@ export const createReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<CreateReportRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<CreateReportResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownMollieError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9588,7 +9608,8 @@ export const createSalesInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<CreateSalesInvoiceRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<CreateSalesInvoiceResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9605,7 +9626,8 @@ export const createSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<CreateSessionRequest>,
   output: __S(1235, __c77, 3) as any as S.Schema<CreateSessionResponse>,
-  errors: [UnprocessableEntity, UnknownMollieError],
+  errors: [UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9622,7 +9644,8 @@ export const createSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<CreateSubscriptionRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<CreateSubscriptionResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9639,7 +9662,8 @@ export const createTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<CreateTransferRequest>,
   output: __S(1300, __c81, 4) as any as S.Schema<CreateTransferResponse>,
-  errors: [UnprocessableEntity, UnknownMollieError],
+  errors: [UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9656,7 +9680,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(1313, __c82, 1) as any as S.Schema<CreateWebhookResponse>,
-  errors: [UnprocessableEntity, UnknownMollieError],
+  errors: [UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9673,7 +9698,8 @@ export const deleteCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<DeleteCustomerRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<DeleteCustomerResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9690,7 +9716,8 @@ export const deletePaymentLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<DeletePaymentLinkRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<DeletePaymentLinkResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9707,7 +9734,8 @@ export const deleteProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<DeleteProfileRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<DeleteProfileResponse>,
-  errors: [NotFound, Gone, UnknownMollieError],
+  errors: [NotFound, Gone],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9724,7 +9752,8 @@ export const deleteSalesInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<DeleteSalesInvoiceRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<DeleteSalesInvoiceResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9741,7 +9770,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9758,7 +9788,8 @@ export const disableMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<DisableMethodRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<DisableMethodResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9775,7 +9806,8 @@ export const disableMethodIssuer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<DisableMethodIssuerRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<DisableMethodIssuerResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9792,7 +9824,8 @@ export const enableMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<EnableMethodRequest>,
   output: __S(1456, __c91, 0) as any as S.Schema<EnableMethodResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9809,7 +9842,8 @@ export const enableMethodIssuer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<EnableMethodIssuerRequest>,
   output: __S(1505, __c94, 1) as any as S.Schema<EnableMethodIssuerResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9826,7 +9860,8 @@ export const getBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<GetBalanceRequest>,
   output: __S(1552, __c97, 0) as any as S.Schema<EntityBalance>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9843,7 +9878,8 @@ export const getBalanceReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<GetBalanceReportRequest>,
   output: __S(1595, __c99, 11) as any as S.Schema<EntityBalanceReport>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9860,7 +9896,8 @@ export const getBusinessAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<GetBusinessAccountRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<GetBusinessAccountResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9877,7 +9914,8 @@ export const getBusinessAccountTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<GetBusinessAccountTransactionRequest>,
   output: __S(1633, __c102, 1) as any as S.Schema<GetBusinessAccountTransactionResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9894,7 +9932,8 @@ export const getCapture: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<GetCaptureRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<GetCaptureResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9911,7 +9950,8 @@ export const getChargeback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<GetChargebackRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<EntityChargeback>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9928,7 +9968,8 @@ export const getClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<GetClientRequest>,
   output: __S(1698, __c106, 2) as any as S.Schema<GetClientResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9945,7 +9986,8 @@ export const getConnectBalanceTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<GetConnectBalanceTransferRequest>,
   output: __S(753, __c47, 1) as any as S.Schema<EntityBalanceTransferResponseOutput>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9962,7 +10004,8 @@ export const getCurrentOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<GetCurrentOrganizationRequest>,
   output: __S(1713, __c107, 1) as any as S.Schema<EntityOrganization>,
-  errors: [UnknownMollieError],
+  errors: [],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9979,7 +10022,8 @@ export const getCurrentProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<GetCurrentProfileRequest>,
   output: __S(1041, __c65, 1) as any as S.Schema<GetCurrentProfileResponse>,
-  errors: [UnknownMollieError],
+  errors: [],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9996,7 +10040,8 @@ export const getCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<GetCustomerRequest>,
   output: __S(785, __c49, 1) as any as S.Schema<GetCustomerResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10013,7 +10058,8 @@ export const getDraftTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<GetDraftTransferRequest>,
   output: __S(2080, __c130, 0) as any as S.Schema<GetDraftTransferResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10030,7 +10076,8 @@ export const getInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1872, __c117, 0) as any as S.Schema<GetInvoiceRequest>,
   output: __S(1874, __c117, 2) as any as S.Schema<EntityInvoice>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10047,7 +10094,8 @@ export const getMandate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<GetMandateRequest>,
   output: __S(865, __c54, 1) as any as S.Schema<GetMandateResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10064,7 +10112,8 @@ export const getMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<GetMethodRequest>,
   output: __S(1456, __c91, 0) as any as S.Schema<GetMethodResponse>,
-  errors: [BadRequest, NotFound, UnknownMollieError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10081,7 +10130,8 @@ export const getNextSettlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<GetNextSettlementRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<GetNextSettlementResponse>,
-  errors: [UnknownMollieError],
+  errors: [],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10098,7 +10148,8 @@ export const getOnboardingStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<GetOnboardingStatusRequest>,
   output: __S(1745, __c109, 1) as any as S.Schema<EntityOnboardingStatus>,
-  errors: [UnknownMollieError],
+  errors: [],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10115,7 +10166,8 @@ export const getOpenSettlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<GetOpenSettlementRequest>,
   output: __S(1952, __c122, 0) as any as S.Schema<GetOpenSettlementResponse>,
-  errors: [UnknownMollieError],
+  errors: [],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10132,7 +10184,8 @@ export const getOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<GetOrganizationRequest>,
   output: __S(1713, __c107, 1) as any as S.Schema<EntityOrganization>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10149,7 +10202,8 @@ export const getPartnerStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<GetPartnerStatusRequest>,
   output: __S(2036, __c127, 4) as any as S.Schema<GetPartnerStatusResponse>,
-  errors: [UnknownMollieError],
+  errors: [],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10166,7 +10220,8 @@ export const getPayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<GetPaymentRequest>,
   output: __S(2417, __c151, 1) as any as S.Schema<GetPaymentResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10183,7 +10238,8 @@ export const getPaymentLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<GetPaymentLinkRequest>,
   output: __S(928, __c58, 0) as any as S.Schema<GetPaymentLinkResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10200,7 +10256,8 @@ export const getPaymentRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<GetPaymentRouteRequest>,
   output: __S(2193, __c137, 1) as any as S.Schema<GetPaymentRouteResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10217,7 +10274,8 @@ export const getPayout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<GetPayoutRequest>,
   output: __S(2800, __c175, 0) as any as S.Schema<EntityPayoutResponseOutput>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10234,7 +10292,8 @@ export const getPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<GetPermissionRequest>,
   output: __S(2225, __c139, 1) as any as S.Schema<EntityPermission>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10251,7 +10310,8 @@ export const getPrimaryBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<GetPrimaryBalanceRequest>,
   output: __S(1552, __c97, 0) as any as S.Schema<EntityBalance>,
-  errors: [UnknownMollieError],
+  errors: [],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10268,7 +10328,8 @@ export const getProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<GetProfileRequest>,
   output: __S(1041, __c65, 1) as any as S.Schema<GetProfileResponse>,
-  errors: [NotFound, Gone, UnknownMollieError],
+  errors: [NotFound, Gone],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10285,7 +10346,8 @@ export const getRefund: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<GetRefundRequest>,
   output: __S(1104, __c69, 0) as any as S.Schema<GetRefundResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10302,7 +10364,8 @@ export const getReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<GetReportRequest>,
   output: __S(2290, __c143, 2) as any as S.Schema<EntityReport>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownMollieError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10319,7 +10382,8 @@ export const getSalesInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<GetSalesInvoiceRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<GetSalesInvoiceResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10336,7 +10400,8 @@ export const getSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<GetSessionRequest>,
   output: __S(1235, __c77, 3) as any as S.Schema<GetSessionResponse>,
-  errors: [UnknownMollieError],
+  errors: [],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10353,7 +10418,8 @@ export const getSettlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<GetSettlementRequest>,
   output: __S(2513, __c157, 1) as any as S.Schema<GetSettlementResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10370,7 +10436,8 @@ export const getSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c158, 0) as any as S.Schema<GetSubscriptionRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<GetSubscriptionResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10387,7 +10454,8 @@ export const getTerminal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<GetTerminalRequest>,
   output: __S(2545, __c159, 1) as any as S.Schema<EntityTerminal>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10404,7 +10472,8 @@ export const getTerminalPairingCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<GetTerminalPairingCodeRequest>,
   output: __S(2578, __c161, 2) as any as S.Schema<EntityPairingCode>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10421,7 +10490,8 @@ export const getTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<GetTransferRequest>,
   output: __S(1300, __c81, 4) as any as S.Schema<GetTransferResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10438,7 +10508,8 @@ export const getUnmatchedCreditTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<GetUnmatchedCreditTransferRequest>,
   output: __S(2609, __c163, 1) as any as S.Schema<EntityUnmatchedCreditTransfer>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10455,7 +10526,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c166, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(2672, __c167, 0) as any as S.Schema<EntityWebhook>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10472,7 +10544,8 @@ export const getWebhookEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<GetWebhookEventRequest>,
   output: __S(2691, __c168, 3) as any as S.Schema<EntityWebhookEventOutput>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10491,7 +10564,8 @@ export const listAllChargebacks: API.PaginatedOperationMethod<
   () => ({
     input: __S(2704, __c169, 0) as any as S.Schema<ListAllChargebacksRequest>,
     output: __S(2755, __c172, 3) as any as S.Schema<ListAllChargebacksResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10517,7 +10591,8 @@ export const listAllMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c176, 0) as any as S.Schema<ListAllMethodsRequest>,
   output: __S(2822, __c176, 6) as any as S.Schema<ListAllMethodsResponse>,
-  errors: [BadRequest, UnknownMollieError],
+  errors: [BadRequest],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10536,7 +10611,8 @@ export const listAllRefunds: API.PaginatedOperationMethod<
   () => ({
     input: __S(2832, __c177, 0) as any as S.Schema<ListAllRefundsRequest>,
     output: __S(2851, __c178, 3) as any as S.Schema<ListAllRefundsResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10564,7 +10640,8 @@ export const listAllSubscriptions: API.PaginatedOperationMethod<
   () => ({
     input: __S(2864, __c179, 0) as any as S.Schema<ListAllSubscriptionsRequest>,
     output: __S(2884, __c180, 4) as any as S.Schema<ListAllSubscriptionsResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10592,7 +10669,8 @@ export const listBalances: API.PaginatedOperationMethod<
   () => ({
     input: __S(2896, __c181, 0) as any as S.Schema<ListBalancesRequest>,
     output: __S(2901, __c181, 5) as any as S.Schema<ListBalancesResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10620,7 +10698,8 @@ export const listBalanceTransactions: API.PaginatedOperationMethod<
   () => ({
     input: __S(2912, __c182, 0) as any as S.Schema<ListBalanceTransactionsRequest>,
     output: __S(2918, __c182, 6) as any as S.Schema<ListBalanceTransactionsResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10646,7 +10725,8 @@ export const listBusinessAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2928, __c183, 0) as any as S.Schema<ListBusinessAccountsRequest>,
   output: __S(2931, __c183, 3) as any as S.Schema<ListBusinessAccountsResponse>,
-  errors: [BadRequest, UnknownMollieError],
+  errors: [BadRequest],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10663,7 +10743,8 @@ export const listBusinessAccountTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c184, 0) as any as S.Schema<ListBusinessAccountTransactionsRequest>,
   output: __S(2947, __c184, 3) as any as S.Schema<ListBusinessAccountTransactionsResponse>,
-  errors: [BadRequest, UnknownMollieError],
+  errors: [BadRequest],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10680,7 +10761,8 @@ export const listCapabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2960, __c185, 0) as any as S.Schema<ListCapabilitiesRequest>,
   output: __S(2963, __c185, 3) as any as S.Schema<ListCapabilitiesResponse>,
-  errors: [UnknownMollieError],
+  errors: [],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10699,7 +10781,8 @@ export const listCaptures: API.PaginatedOperationMethod<
   () => ({
     input: __S(2976, __c186, 0) as any as S.Schema<ListCapturesRequest>,
     output: __S(2980, __c186, 4) as any as S.Schema<ListCapturesResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10727,7 +10810,8 @@ export const listChargebacks: API.PaginatedOperationMethod<
   () => ({
     input: __S(3008, __c188, 0) as any as S.Schema<ListChargebacksRequest>,
     output: __S(2755, __c172, 3) as any as S.Schema<ListChargebacksResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10755,7 +10839,8 @@ export const listClients: API.PaginatedOperationMethod<
   () => ({
     input: __S(3056, __c191, 0) as any as S.Schema<ListClientsRequest>,
     output: __S(3061, __c191, 5) as any as S.Schema<ListClientsResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10783,7 +10868,8 @@ export const listConnectBalanceTransfers: API.PaginatedOperationMethod<
   () => ({
     input: __S(3072, __c192, 0) as any as S.Schema<ListConnectBalanceTransfersRequest>,
     output: __S(3075, __c192, 3) as any as S.Schema<ListConnectBalanceTransfersResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10811,7 +10897,8 @@ export const listCustomerPayments: API.PaginatedOperationMethod<
   () => ({
     input: __S(3088, __c193, 0) as any as S.Schema<ListCustomerPaymentsRequest>,
     output: __S(3123, __c195, 3) as any as S.Schema<ListCustomerPaymentsResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10839,7 +10926,8 @@ export const listCustomers: API.PaginatedOperationMethod<
   () => ({
     input: __S(3136, __c196, 0) as any as S.Schema<ListCustomersRequest>,
     output: __S(3141, __c196, 5) as any as S.Schema<ListCustomersResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10867,7 +10955,8 @@ export const listDraftTransfers: API.PaginatedOperationMethod<
   () => ({
     input: __S(3153, __c197, 1) as any as S.Schema<ListDraftTransfersRequest>,
     output: __S(3156, __c197, 4) as any as S.Schema<ListDraftTransfersResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10895,7 +10984,8 @@ export const listInvoices: API.PaginatedOperationMethod<
   () => ({
     input: __S(3168, __c198, 0) as any as S.Schema<ListInvoicesRequest>,
     output: __S(3173, __c198, 5) as any as S.Schema<ListInvoicesResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10923,7 +11013,8 @@ export const listMandates: API.PaginatedOperationMethod<
   () => ({
     input: __S(3184, __c199, 0) as any as S.Schema<ListMandatesRequest>,
     output: __S(3189, __c199, 5) as any as S.Schema<ListMandatesResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10949,7 +11040,8 @@ export const listMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c200, 0) as any as S.Schema<ListMethodsRequest>,
   output: __S(3204, __c200, 4) as any as S.Schema<ListMethodsResponse>,
-  errors: [BadRequest, UnknownMollieError],
+  errors: [BadRequest],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10968,7 +11060,8 @@ export const listPaymentLinkPayments: API.PaginatedOperationMethod<
   () => ({
     input: __S(3216, __c201, 0) as any as S.Schema<ListPaymentLinkPaymentsRequest>,
     output: __S(3123, __c195, 3) as any as S.Schema<ListPaymentLinkPaymentsResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -10996,7 +11089,8 @@ export const listPaymentLinks: API.PaginatedOperationMethod<
   () => ({
     input: __S(3233, __c202, 1) as any as S.Schema<ListPaymentLinksRequest>,
     output: __S(3236, __c202, 4) as any as S.Schema<ListPaymentLinksResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11022,7 +11116,8 @@ export const listPaymentRoutes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ListPaymentRoutesRequest>,
   output: __S(68, __c4, 4) as any as S.Schema<ListPaymentRoutesResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11041,7 +11136,8 @@ export const listPayments: API.PaginatedOperationMethod<
   () => ({
     input: __S(80, __c5, 0) as any as S.Schema<ListPaymentsRequest>,
     output: __S(3123, __c195, 3) as any as S.Schema<ListPaymentsResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11069,7 +11165,8 @@ export const listPayouts: API.PaginatedOperationMethod<
   () => ({
     input: __S(96, __c6, 0) as any as S.Schema<ListPayoutsRequest>,
     output: __S(100, __c6, 4) as any as S.Schema<ListPayoutsResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11095,7 +11192,8 @@ export const listPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListPermissionsRequest>,
   output: __S(116, __c7, 4) as any as S.Schema<ListPermissionsResponse>,
-  errors: [BadRequest, UnknownMollieError],
+  errors: [BadRequest],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11114,7 +11212,8 @@ export const listProfiles: API.PaginatedOperationMethod<
   () => ({
     input: __S(128, __c8, 0) as any as S.Schema<ListProfilesRequest>,
     output: __S(133, __c8, 5) as any as S.Schema<ListProfilesResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11142,7 +11241,8 @@ export const listRefunds: API.PaginatedOperationMethod<
   () => ({
     input: __S(144, __c9, 0) as any as S.Schema<ListRefundsRequest>,
     output: __S(2851, __c178, 3) as any as S.Schema<ListRefundsResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11170,7 +11270,8 @@ export const listSalesInvoices: API.PaginatedOperationMethod<
   () => ({
     input: __S(160, __c10, 0) as any as S.Schema<ListSalesInvoicesRequest>,
     output: __S(165, __c10, 5) as any as S.Schema<ListSalesInvoicesResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11198,7 +11299,8 @@ export const listSettlementCaptures: API.PaginatedOperationMethod<
   () => ({
     input: __S(176, __c11, 0) as any as S.Schema<ListSettlementCapturesRequest>,
     output: __S(180, __c11, 4) as any as S.Schema<ListSettlementCapturesResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11226,7 +11328,8 @@ export const listSettlementChargebacks: API.PaginatedOperationMethod<
   () => ({
     input: __S(192, __c12, 0) as any as S.Schema<ListSettlementChargebacksRequest>,
     output: __S(196, __c12, 4) as any as S.Schema<ListSettlementChargebacksResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11254,7 +11357,8 @@ export const listSettlementPayments: API.PaginatedOperationMethod<
   () => ({
     input: __S(208, __c13, 0) as any as S.Schema<ListSettlementPaymentsRequest>,
     output: __S(212, __c13, 4) as any as S.Schema<ListSettlementPaymentsResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11282,7 +11386,8 @@ export const listSettlementRefunds: API.PaginatedOperationMethod<
   () => ({
     input: __S(272, __c17, 0) as any as S.Schema<ListSettlementRefundsRequest>,
     output: __S(276, __c17, 4) as any as S.Schema<ListSettlementRefundsResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11310,7 +11415,8 @@ export const listSettlements: API.PaginatedOperationMethod<
   () => ({
     input: __S(288, __c18, 0) as any as S.Schema<ListSettlementsRequest>,
     output: __S(291, __c18, 3) as any as S.Schema<ListSettlementsResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11338,7 +11444,8 @@ export const listSubscriptionPayments: API.PaginatedOperationMethod<
   () => ({
     input: __S(304, __c19, 0) as any as S.Schema<ListSubscriptionPaymentsRequest>,
     output: __S(3123, __c195, 3) as any as S.Schema<ListSubscriptionPaymentsResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11366,7 +11473,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   () => ({
     input: __S(320, __c20, 0) as any as S.Schema<ListSubscriptionsRequest>,
     output: __S(2884, __c180, 4) as any as S.Schema<ListSubscriptionsResponse>,
-    errors: [BadRequest, NotFound, UnknownMollieError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11394,7 +11502,8 @@ export const listTerminalPairingCodes: API.PaginatedOperationMethod<
   () => ({
     input: __S(336, __c21, 0) as any as S.Schema<ListTerminalPairingCodesRequest>,
     output: __S(339, __c21, 3) as any as S.Schema<ListTerminalPairingCodesResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11422,7 +11531,8 @@ export const listTerminals: API.PaginatedOperationMethod<
   () => ({
     input: __S(352, __c22, 0) as any as S.Schema<ListTerminalsRequest>,
     output: __S(356, __c22, 4) as any as S.Schema<ListTerminalsResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11450,7 +11560,8 @@ export const listUnmatchedCreditTransfers: API.PaginatedOperationMethod<
   () => ({
     input: __S(368, __c23, 0) as any as S.Schema<ListUnmatchedCreditTransfersRequest>,
     output: __S(373, __c23, 5) as any as S.Schema<ListUnmatchedCreditTransfersResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11478,7 +11589,8 @@ export const listWebhooks: API.PaginatedOperationMethod<
   () => ({
     input: __S(384, __c24, 0) as any as S.Schema<ListWebhooksRequest>,
     output: __S(388, __c24, 4) as any as S.Schema<ListWebhooksResponse>,
-    errors: [BadRequest, UnknownMollieError],
+    errors: [BadRequest],
+    serviceErrors: MollieServiceErrors,
     protocol: MollieProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -11504,7 +11616,8 @@ export const matchUnmatchedCreditTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<MatchUnmatchedCreditTransferRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<MatchUnmatchedCreditTransferResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11521,7 +11634,8 @@ export const releaseAuthorization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<ReleaseAuthorizationRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<ReleaseAuthorizationResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11538,7 +11652,8 @@ export const requestApplePayPaymentSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<RequestApplePayPaymentSessionRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<RequestApplePayPaymentSessionResponse>,
-  errors: [UnprocessableEntity, UnknownMollieError],
+  errors: [UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11555,7 +11670,8 @@ export const requestTerminalPairingCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<RequestTerminalPairingCodeRequest>,
   output: __S(2578, __c161, 2) as any as S.Schema<EntityPairingCode>,
-  errors: [Forbidden, UnprocessableEntity, UnknownMollieError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11572,7 +11688,8 @@ export const returnUnmatchedCreditTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ReturnUnmatchedCreditTransferRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<ReturnUnmatchedCreditTransferResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11589,7 +11706,8 @@ export const revokeMandate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<RevokeMandateRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<RevokeMandateResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11606,7 +11724,8 @@ export const revokeTerminalPairingCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<RevokeTerminalPairingCodeRequest>,
   output: __S(2578, __c161, 2) as any as S.Schema<EntityPairingCode>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11623,7 +11742,8 @@ export const submitOnboardingData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(562, __c35, 2) as any as S.Schema<SubmitOnboardingDataRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<SubmitOnboardingDataResponse>,
-  errors: [UnknownMollieError],
+  errors: [],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11640,7 +11760,8 @@ export const testWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<TestWebhookRequest>,
   output: __S(3040, __c190, 0) as any as S.Schema<TestWebhookResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11657,7 +11778,8 @@ export const updateCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<UpdateCustomerRequest>,
   output: __S(785, __c49, 1) as any as S.Schema<UpdateCustomerResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11674,7 +11796,8 @@ export const updatePayment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<UpdatePaymentRequest>,
   output: __S(2417, __c151, 1) as any as S.Schema<UpdatePaymentResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11691,7 +11814,8 @@ export const updatePaymentLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<UpdatePaymentLinkRequest>,
   output: __S(928, __c58, 0) as any as S.Schema<UpdatePaymentLinkResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11708,7 +11832,8 @@ export const updateProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<UpdateProfileRequest>,
   output: __S(1041, __c65, 1) as any as S.Schema<UpdateProfileResponse>,
-  errors: [Forbidden, NotFound, Gone, UnprocessableEntity, UnknownMollieError],
+  errors: [Forbidden, NotFound, Gone, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11725,7 +11850,8 @@ export const updateSalesInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(673, __c42, 1) as any as S.Schema<UpdateSalesInvoiceRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<UpdateSalesInvoiceResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11742,7 +11868,8 @@ export const updateSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<UpdateSubscriptionRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<UpdateSubscriptionResponse>,
-  errors: [NotFound, UnknownMollieError],
+  errors: [NotFound],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11759,7 +11886,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(2672, __c167, 0) as any as S.Schema<EntityWebhook>,
-  errors: [NotFound, UnprocessableEntity, UnknownMollieError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11776,7 +11904,8 @@ export const verifyPayee: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(721, __c45, 1) as any as S.Schema<VerifyPayeeRequest>,
   output: __S(723, __c45, 3) as any as S.Schema<VerificationOfPayeeResponse>,
-  errors: [UnprocessableEntity, UnknownMollieError],
+  errors: [UnprocessableEntity],
+  serviceErrors: MollieServiceErrors,
   protocol: MollieProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13457,10 +13586,10 @@ function __c50(j: number): any {
           dueDate: S.optional(S.NullOr(S.String)),
           storeCredentials: S.optional(S.Boolean),
           testmode: S.optional(S.NullOr(S.Boolean)),
-          applePayPaymentToken: S.optional(S.String),
+          applePayPaymentToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           company: S.optional(__S(818, __c51, 2)),
-          cardToken: S.optional(S.String),
-          googlePayPaymentToken: S.optional(S.String),
+          cardToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          googlePayPaymentToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           voucherNumber: S.optional(S.String),
           voucherPin: S.optional(S.String),
           consumerDateOfBirth: S.optional(S.String),
@@ -13624,10 +13753,10 @@ function __c56(j: number): any {
           dueDate: S.optional(S.NullOr(S.String)),
           storeCredentials: S.optional(S.Boolean),
           testmode: S.optional(S.NullOr(S.Boolean)),
-          applePayPaymentToken: S.optional(S.String),
+          applePayPaymentToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           company: S.optional(__S(818, __c51, 2)),
-          cardToken: S.optional(S.String),
-          googlePayPaymentToken: S.optional(S.String),
+          cardToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          googlePayPaymentToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           voucherNumber: S.optional(S.String),
           voucherPin: S.optional(S.String),
           consumerDateOfBirth: S.optional(S.String),
@@ -15408,7 +15537,7 @@ function __c127(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           startsAt: S.optional(S.String),
           endsAt: S.optional(S.NullOr(S.String)),
         }),

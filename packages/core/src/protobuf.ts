@@ -85,6 +85,11 @@ export class ProtobufDecodeError extends Error {
   readonly _tag: string = "ProtobufDecodeError";
 }
 
+/** A frame whose header announces more bytes than the reader accepts. */
+export class FrameTooLargeError extends ProtobufDecodeError {
+  override readonly _tag: string = "FrameTooLargeError";
+}
+
 /**
  * Valid protobuf whose value proto3 JSON can't represent: a Timestamp
  * outside years 0001 to 9999, or a Duration beyond 10,000 years.
@@ -1295,6 +1300,9 @@ export const frame = (payload: Uint8Array): Uint8Array => {
 export class FrameReader {
   private buf: Uint8Array<ArrayBufferLike> = new Uint8Array(0);
 
+  /** `maxBytes`: the largest frame payload accepted; a larger one throws {@link FrameTooLargeError}. */
+  constructor(private readonly maxBytes: number = Infinity) {}
+
   /** The trailers of the gRPC-Web trailer frames read so far, names lowercase. */
   readonly trailers: Record<string, string> = {};
 
@@ -1316,6 +1324,12 @@ export class FrameReader {
     while (pos + 5 <= this.buf.length) {
       const flag = this.buf[pos]!;
       const len = view.getUint32(pos + 1, false);
+      // Checked before waiting for the payload, so it is never buffered.
+      if (len > this.maxBytes) {
+        throw new FrameTooLargeError(
+          `a ${len}-byte gRPC message is over the ${this.maxBytes}-byte limit (maxMessageBytes)`,
+        );
+      }
       if (pos + 5 + len > this.buf.length) break;
       if (flag & 1 && !(flag & 0x80)) {
         throw new ProtobufDecodeError("compressed gRPC frames are not supported");

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDokployError } from "../errors.ts";
+import { DokployServiceErrors } from "../errors.ts";
 import { DokployProtocol, type DokployOpError, type DokployOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -85,7 +85,7 @@ export interface CreateDnsProviderRequestConfigCase1 {
 export interface CreateDnsProviderRequestConfigCase2 {
   providerType: string;
   apiKey: string | Redacted.Redacted<string>;
-  secretApiKey: string;
+  secretApiKey: string | Redacted.Redacted<string>;
 }
 export type CreateDnsProviderRequestConfigCase3 = CreateDnsProviderRequestConfigCase0;
 export type CreateDnsProviderRequestConfigCase4Endpoint =
@@ -100,7 +100,7 @@ export interface CreateDnsProviderRequestConfigCase4 {
   providerType: string;
   endpoint?: CreateDnsProviderRequestConfigCase4Endpoint | (string & {}) | undefined;
   applicationKey: string;
-  applicationSecret: string;
+  applicationSecret: string | Redacted.Redacted<string>;
   consumerKey: string;
   zone?: string | undefined;
 }
@@ -176,7 +176,7 @@ export interface TestDnsProviderConnectionRequestConfigCase4 {
   providerType: string;
   endpoint?: TestDnsProviderConnectionRequestConfigCase4Endpoint | (string & {}) | undefined;
   applicationKey: string;
-  applicationSecret: string;
+  applicationSecret: string | Redacted.Redacted<string>;
   consumerKey: string;
   zone?: string | undefined;
 }
@@ -207,7 +207,7 @@ export interface UpdateDnsProviderRequestConfigCase4 {
   providerType: string;
   endpoint?: UpdateDnsProviderRequestConfigCase4Endpoint | (string & {}) | undefined;
   applicationKey: string;
-  applicationSecret: string;
+  applicationSecret: string | Redacted.Redacted<string>;
   consumerKey: string;
   zone?: string | undefined;
 }
@@ -291,7 +291,8 @@ export const createDnsProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<CreateDnsProviderRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<CreateDnsProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -307,7 +308,8 @@ export const createDnsProviderRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<CreateDnsProviderRecordRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<CreateDnsProviderRecordResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -323,7 +325,8 @@ export const deleteDnsProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<DeleteDnsProviderRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<DeleteDnsProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -339,7 +342,8 @@ export const deleteDnsProviderRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<DeleteDnsProviderRecordRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<DeleteDnsProviderRecordResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -355,7 +359,8 @@ export const getDnsProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<GetDnsProviderRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<GetDnsProviderResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -371,7 +376,8 @@ export const listDnsProviderRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<ListDnsProviderRecordsRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<ListDnsProviderRecordsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -387,7 +393,8 @@ export const listDnsProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<ListDnsProvidersRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<ListDnsProvidersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -403,7 +410,8 @@ export const listDnsProviderZones: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<ListDnsProviderZonesRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<ListDnsProviderZonesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -419,7 +427,8 @@ export const testDnsProviderConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<TestDnsProviderConnectionRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<TestDnsProviderConnectionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -435,7 +444,8 @@ export const updateDnsProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<UpdateDnsProviderRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<UpdateDnsProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -451,7 +461,8 @@ export const updateDnsProviderRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<UpdateDnsProviderRecordRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<UpdateDnsProviderRecordResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -1,0 +1,20 @@
+{
+  "description": "The `key` of /v1/apps/{project}/r2/{bucket}/objects/{key} spans path segments. The spec says so on the parameter (\"May contain `/`, which must stay literal in the path. Percent-encoded dots, slashes and backslashes are refused.\") and marks it `allowReserved: true`, which the converter does not read. As a plain label, `assets/logo.png` would be sent as `assets%2Flogo.png`, which Sproutboat refuses. Make it a greedy `{key+}` label on getR2Object, putR2Object and deleteR2Object, so each `/` stays literal and every segment is still percent-encoded.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.sproutboat#GetR2Object/traits/smithy.api#http/uri",
+      "value": "/v1/apps/{project}/r2/{bucket}/objects/{key+}"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.sproutboat#PutR2Object/traits/smithy.api#http/uri",
+      "value": "/v1/apps/{project}/r2/{bucket}/objects/{key+}"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.sproutboat#DeleteR2Object/traits/smithy.api#http/uri",
+      "value": "/v1/apps/{project}/r2/{bucket}/objects/{key+}"
+    }
+  ]
+}

@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1838,9 +1838,9 @@ export interface DatabaseAccountsGetReadOnlyKeysRequest {
 /** The read-only access keys for the given database account. */
 export interface DatabaseAccountListReadOnlyKeysResult {
   /** Base 64 encoded value of the primary read-only key. */
-  primaryReadonlyMasterKey?: string | undefined;
+  primaryReadonlyMasterKey?: string | Redacted.Redacted<string> | undefined;
   /** Base 64 encoded value of the secondary read-only key. */
-  secondaryReadonlyMasterKey?: string | undefined;
+  secondaryReadonlyMasterKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface DatabaseAccountsListReadOnlyKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3866,7 +3866,7 @@ export interface ClientEncryptionKeyGetPropertiesResource {
   /** Encryption algorithm that will be used along with this client encryption key to encrypt/decrypt data. */
   encryptionAlgorithm?: string | undefined;
   /** Wrapped (encrypted) form of the key represented as a byte array. */
-  wrappedDataEncryptionKey?: string | undefined;
+  wrappedDataEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** Metadata for the wrapping provider that can be used to unwrap the wrapped client encryption key. */
   keyWrapMetadata?: KeyWrapMetadata | undefined;
   /** A system generated property. A unique identifier. */
@@ -5348,13 +5348,13 @@ export interface ListDatabaseAccountKeysRequest {
 }
 export interface ListDatabaseAccountKeysResponse {
   /** Base 64 encoded value of the primary read-only key. */
-  primaryReadonlyMasterKey?: string | undefined;
+  primaryReadonlyMasterKey?: string | Redacted.Redacted<string> | undefined;
   /** Base 64 encoded value of the secondary read-only key. */
-  secondaryReadonlyMasterKey?: string | undefined;
+  secondaryReadonlyMasterKey?: string | Redacted.Redacted<string> | undefined;
   /** Base 64 encoded value of the primary read-write key. */
-  primaryMasterKey?: string | undefined;
+  primaryMasterKey?: string | Redacted.Redacted<string> | undefined;
   /** Base 64 encoded value of the secondary read-write key. */
-  secondaryMasterKey?: string | undefined;
+  secondaryMasterKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListDatabaseAccountMetricDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5982,7 +5982,7 @@ export interface ListNotebookWorkspaceConnectionInfoRequest {
 /** The connection info for the given notebook workspace */
 export interface NotebookWorkspaceConnectionInfoResult {
   /** Specifies auth token used for connecting to Notebook server (uses token-based auth). */
-  authToken?: string | undefined;
+  authToken?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the endpoint of Notebook server. */
   notebookServerEndpoint?: string | undefined;
 }
@@ -8387,7 +8387,7 @@ export interface ClientEncryptionKeyResource {
   /** Encryption algorithm that will be used along with this client encryption key to encrypt/decrypt data. */
   encryptionAlgorithm?: string | undefined;
   /** Wrapped (encrypted) form of the key represented as a byte array. */
-  wrappedDataEncryptionKey?: string | undefined;
+  wrappedDataEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** Metadata for the wrapping provider that can be used to unwrap the wrapped client encryption key. */
   keyWrapMetadata?: KeyWrapMetadata | undefined;
 }
@@ -9818,7 +9818,8 @@ export const CassandraClustersCreateUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CassandraClustersCreateUpdateRequest>,
   output: __S(130, __c4, 2) as any as S.Schema<CassandraClustersCreateUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9835,7 +9836,8 @@ export const CassandraClustersDeallocate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<CassandraClustersDeallocateRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<CassandraClustersDeallocateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9852,7 +9854,8 @@ export const CassandraClustersStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<CassandraClustersStatusRequest>,
   output: __S(4841, __c151, 9) as any as S.Schema<CassandraClusterPublicStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9869,7 +9872,8 @@ export const CassandraDataCentersCreateUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<CassandraDataCentersCreateUpdateRequest>,
   output: __S(6465, __c202, 1) as any as S.Schema<CassandraDataCentersCreateUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9894,7 +9898,8 @@ export const CassandraResourcesCreateUpdateCassandraKeyspace: API.OperationMetho
     __c214,
     3,
   ) as any as S.Schema<CassandraResourcesCreateUpdateCassandraKeyspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9919,7 +9924,8 @@ export const CassandraResourcesCreateUpdateCassandraRoleAssignment: API.Operatio
     __c230,
     0,
   ) as any as S.Schema<CassandraResourcesCreateUpdateCassandraRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9944,7 +9950,8 @@ export const CassandraResourcesCreateUpdateCassandraRoleDefinition: API.Operatio
     __c253,
     0,
   ) as any as S.Schema<CassandraResourcesCreateUpdateCassandraRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9969,7 +9976,8 @@ export const CassandraResourcesCreateUpdateCassandraTable: API.OperationMethod<
     __c277,
     3,
   ) as any as S.Schema<CassandraResourcesCreateUpdateCassandraTableResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9986,7 +9994,8 @@ export const CreateFleet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<CreateFleetRequest>,
   output: __S(9601, __c300, 1) as any as S.Schema<CreateFleetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10003,7 +10012,8 @@ export const CreateFleetspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<CreateFleetspaceRequest>,
   output: __S(10273, __c321, 1) as any as S.Schema<CreateFleetspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10020,7 +10030,8 @@ export const CreateFleetspaceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<CreateFleetspaceAccountRequest>,
   output: __S(321, __c10, 1) as any as S.Schema<CreateFleetspaceAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10037,7 +10048,8 @@ export const CreateService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(835, __c26, 3) as any as S.Schema<CreateServiceRequest>,
   output: __S(836, __c26, 4) as any as S.Schema<CreateServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10054,7 +10066,8 @@ export const DatabaseAccountsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1441, __c45, 1) as any as S.Schema<DatabaseAccountsCreateOrUpdateRequest>,
   output: __S(1474, __c46, 2) as any as S.Schema<DatabaseAccountsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10071,7 +10084,8 @@ export const DatabaseAccountsFailoverPriorityChange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1986, __c62, 2) as any as S.Schema<DatabaseAccountsFailoverPriorityChangeRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<DatabaseAccountsFailoverPriorityChangeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10088,7 +10102,8 @@ export const DatabaseAccountsGetReadOnlyKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<DatabaseAccountsGetReadOnlyKeysRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<DatabaseAccountListReadOnlyKeysResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10105,7 +10120,8 @@ export const DatabaseAccountsListReadOnlyKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<DatabaseAccountsListReadOnlyKeysRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<DatabaseAccountListReadOnlyKeysResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10122,7 +10138,8 @@ export const DatabaseAccountsOfflineRegion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<DatabaseAccountsOfflineRegionRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<DatabaseAccountsOfflineRegionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10139,7 +10156,8 @@ export const DatabaseAccountsOnlineRegion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<DatabaseAccountsOnlineRegionRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<DatabaseAccountsOnlineRegionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10156,7 +10174,8 @@ export const DeleteCassandraCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<DeleteCassandraClusterRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<DeleteCassandraClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10173,7 +10192,8 @@ export const DeleteCassandraDataCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<DeleteCassandraDataCenterRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<DeleteCassandraDataCenterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10190,7 +10210,8 @@ export const DeleteCassandraResourceCassandraKeyspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<DeleteCassandraResourceCassandraKeyspaceRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteCassandraResourceCassandraKeyspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10215,7 +10236,8 @@ export const DeleteCassandraResourceCassandraRoleAssignment: API.OperationMethod
     __c153,
     0,
   ) as any as S.Schema<DeleteCassandraResourceCassandraRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10240,7 +10262,8 @@ export const DeleteCassandraResourceCassandraRoleDefinition: API.OperationMethod
     __c153,
     0,
   ) as any as S.Schema<DeleteCassandraResourceCassandraRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10257,7 +10280,8 @@ export const DeleteCassandraResourceCassandraTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<DeleteCassandraResourceCassandraTableRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteCassandraResourceCassandraTableResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10274,7 +10298,8 @@ export const DeleteDatabaseAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<DeleteDatabaseAccountRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteDatabaseAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10291,7 +10316,8 @@ export const DeleteFleet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<DeleteFleetRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<DeleteFleetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10308,7 +10334,8 @@ export const DeleteFleetspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<DeleteFleetspaceRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<DeleteFleetspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10325,7 +10352,8 @@ export const DeleteFleetspaceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<DeleteFleetspaceAccountRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<DeleteFleetspaceAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10342,7 +10370,8 @@ export const DeleteGremlinResourceGremlinDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<DeleteGremlinResourceGremlinDatabaseRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteGremlinResourceGremlinDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10359,7 +10388,8 @@ export const DeleteGremlinResourceGremlinGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<DeleteGremlinResourceGremlinGraphRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteGremlinResourceGremlinGraphResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10380,7 +10410,8 @@ export const DeleteGremlinResourceGremlinRoleAssignment: API.OperationMethod<
     __c153,
     0,
   ) as any as S.Schema<DeleteGremlinResourceGremlinRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10401,7 +10432,8 @@ export const DeleteGremlinResourceGremlinRoleDefinition: API.OperationMethod<
     __c153,
     0,
   ) as any as S.Schema<DeleteGremlinResourceGremlinRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10418,7 +10450,8 @@ export const DeleteMongoDBResourceMongoDBCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<DeleteMongoDBResourceMongoDBCollectionRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteMongoDBResourceMongoDBCollectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10435,7 +10468,8 @@ export const DeleteMongoDBResourceMongoDBDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<DeleteMongoDBResourceMongoDBDatabaseRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteMongoDBResourceMongoDBDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10452,7 +10486,8 @@ export const DeleteMongoDBResourceMongoRoleDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<DeleteMongoDBResourceMongoRoleDefinitionRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<DeleteMongoDBResourceMongoRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10469,7 +10504,8 @@ export const DeleteMongoDBResourceMongoUserDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<DeleteMongoDBResourceMongoUserDefinitionRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<DeleteMongoDBResourceMongoUserDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10490,7 +10526,8 @@ export const DeleteMongoMIResourceMongoMIRoleAssignment: API.OperationMethod<
     __c153,
     0,
   ) as any as S.Schema<DeleteMongoMIResourceMongoMIRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10511,7 +10548,8 @@ export const DeleteMongoMIResourceMongoMIRoleDefinition: API.OperationMethod<
     __c153,
     0,
   ) as any as S.Schema<DeleteMongoMIResourceMongoMIRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10528,7 +10566,8 @@ export const DeleteNotebookWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<DeleteNotebookWorkspaceRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<DeleteNotebookWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10545,7 +10584,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10562,7 +10602,8 @@ export const DeleteService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<DeleteServiceRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10579,7 +10620,8 @@ export const DeleteSqlResourceSqlContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<DeleteSqlResourceSqlContainerRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteSqlResourceSqlContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10596,7 +10638,8 @@ export const DeleteSqlResourceSqlDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<DeleteSqlResourceSqlDatabaseRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteSqlResourceSqlDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10613,7 +10656,8 @@ export const DeleteSqlResourceSqlRoleAssignment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<DeleteSqlResourceSqlRoleAssignmentRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<DeleteSqlResourceSqlRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10630,7 +10674,8 @@ export const DeleteSqlResourceSqlRoleDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<DeleteSqlResourceSqlRoleDefinitionRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<DeleteSqlResourceSqlRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10647,7 +10692,8 @@ export const DeleteSqlResourceSqlStoredProcedure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<DeleteSqlResourceSqlStoredProcedureRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteSqlResourceSqlStoredProcedureResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10664,7 +10710,8 @@ export const DeleteSqlResourceSqlUserDefinedFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<DeleteSqlResourceSqlUserDefinedFunctionRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteSqlResourceSqlUserDefinedFunctionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10681,7 +10728,8 @@ export const DeleteTableResourceTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<DeleteTableResourceTableRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteTableResourceTableResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10698,7 +10746,8 @@ export const DeleteTableResourceTableRoleAssignment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<DeleteTableResourceTableRoleAssignmentRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteTableResourceTableRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10715,7 +10764,8 @@ export const DeleteTableResourceTableRoleDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<DeleteTableResourceTableRoleDefinitionRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<DeleteTableResourceTableRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10732,7 +10782,8 @@ export const GetCassandraCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<GetCassandraClusterRequest>,
   output: __S(7488, __c234, 0) as any as S.Schema<GetCassandraClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10749,7 +10800,8 @@ export const GetCassandraDataCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<GetCassandraDataCenterRequest>,
   output: __S(7552, __c236, 0) as any as S.Schema<GetCassandraDataCenterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10766,7 +10818,8 @@ export const GetCassandraResourceCassandraKeyspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<GetCassandraResourceCassandraKeyspaceRequest>,
   output: __S(7616, __c238, 0) as any as S.Schema<GetCassandraResourceCassandraKeyspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10791,7 +10844,8 @@ export const GetCassandraResourceCassandraKeyspaceThroughput: API.OperationMetho
     __c240,
     0,
   ) as any as S.Schema<GetCassandraResourceCassandraKeyspaceThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10816,7 +10870,8 @@ export const GetCassandraResourceCassandraRoleAssignment: API.OperationMethod<
     __c243,
     0,
   ) as any as S.Schema<GetCassandraResourceCassandraRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10841,7 +10896,8 @@ export const GetCassandraResourceCassandraRoleDefinition: API.OperationMethod<
     __c245,
     0,
   ) as any as S.Schema<GetCassandraResourceCassandraRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10858,7 +10914,8 @@ export const GetCassandraResourceCassandraTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<GetCassandraResourceCassandraTableRequest>,
   output: __S(7904, __c247, 0) as any as S.Schema<GetCassandraResourceCassandraTableResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10883,7 +10940,8 @@ export const GetCassandraResourceCassandraTableThroughput: API.OperationMethod<
     __c240,
     0,
   ) as any as S.Schema<GetCassandraResourceCassandraTableThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10900,7 +10958,8 @@ export const GetDatabaseAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<GetDatabaseAccountRequest>,
   output: __S(8000, __c250, 0) as any as S.Schema<GetDatabaseAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10917,7 +10976,8 @@ export const GetFleet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<GetFleetRequest>,
   output: __S(9601, __c300, 1) as any as S.Schema<GetFleetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10934,7 +10994,8 @@ export const GetFleetspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<GetFleetspaceRequest>,
   output: __S(8224, __c257, 0) as any as S.Schema<GetFleetspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10951,7 +11012,8 @@ export const GetFleetspaceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<GetFleetspaceAccountRequest>,
   output: __S(8288, __c259, 0) as any as S.Schema<GetFleetspaceAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10972,7 +11034,8 @@ export const GetGremlinResourceContinuousBackupInformation: API.OperationMethod<
     0,
   ) as any as S.Schema<GetGremlinResourceContinuousBackupInformationRequest>,
   output: __S(8353, __c261, 1) as any as S.Schema<BackupInformation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10989,7 +11052,8 @@ export const GetGremlinResourceGremlinDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<GetGremlinResourceGremlinDatabaseRequest>,
   output: __S(8448, __c264, 0) as any as S.Schema<GetGremlinResourceGremlinDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11014,7 +11078,8 @@ export const GetGremlinResourceGremlinDatabaseThroughput: API.OperationMethod<
     __c240,
     0,
   ) as any as S.Schema<GetGremlinResourceGremlinDatabaseThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11031,7 +11096,8 @@ export const GetGremlinResourceGremlinGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<GetGremlinResourceGremlinGraphRequest>,
   output: __S(8608, __c269, 0) as any as S.Schema<GetGremlinResourceGremlinGraphResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11048,7 +11114,8 @@ export const GetGremlinResourceGremlinGraphThroughput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<GetGremlinResourceGremlinGraphThroughputRequest>,
   output: __S(7680, __c240, 0) as any as S.Schema<GetGremlinResourceGremlinGraphThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11065,7 +11132,8 @@ export const GetGremlinResourceGremlinRoleAssignment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<GetGremlinResourceGremlinRoleAssignmentRequest>,
   output: __S(7776, __c243, 0) as any as S.Schema<GetGremlinResourceGremlinRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11082,7 +11150,8 @@ export const GetGremlinResourceGremlinRoleDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8768, __c274, 0) as any as S.Schema<GetGremlinResourceGremlinRoleDefinitionRequest>,
   output: __S(7840, __c245, 0) as any as S.Schema<GetGremlinResourceGremlinRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11099,7 +11168,8 @@ export const GetLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<GetLocationRequest>,
   output: __S(8833, __c276, 1) as any as S.Schema<GetLocationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11120,7 +11190,8 @@ export const GetMongoDBResourceContinuousBackupInformation: API.OperationMethod<
     0,
   ) as any as S.Schema<GetMongoDBResourceContinuousBackupInformationRequest>,
   output: __S(8353, __c261, 1) as any as S.Schema<BackupInformation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11137,7 +11208,8 @@ export const GetMongoDBResourceMongoDBCollection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<GetMongoDBResourceMongoDBCollectionRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<GetMongoDBResourceMongoDBCollectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11162,7 +11234,8 @@ export const GetMongoDBResourceMongoDBCollectionThroughput: API.OperationMethod<
     __c240,
     0,
   ) as any as S.Schema<GetMongoDBResourceMongoDBCollectionThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11179,7 +11252,8 @@ export const GetMongoDBResourceMongoDBDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<GetMongoDBResourceMongoDBDatabaseRequest>,
   output: __S(8448, __c264, 0) as any as S.Schema<GetMongoDBResourceMongoDBDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11204,7 +11278,8 @@ export const GetMongoDBResourceMongoDBDatabaseThroughput: API.OperationMethod<
     __c240,
     0,
   ) as any as S.Schema<GetMongoDBResourceMongoDBDatabaseThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11221,7 +11296,8 @@ export const GetMongoDBResourceMongoRoleDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<GetMongoDBResourceMongoRoleDefinitionRequest>,
   output: __S(9216, __c288, 0) as any as S.Schema<GetMongoDBResourceMongoRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11238,7 +11314,8 @@ export const GetMongoDBResourceMongoUserDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<GetMongoDBResourceMongoUserDefinitionRequest>,
   output: __S(9344, __c292, 0) as any as S.Schema<GetMongoDBResourceMongoUserDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11255,7 +11332,8 @@ export const GetMongoMIResourceMongoMIRoleAssignment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9408, __c294, 0) as any as S.Schema<GetMongoMIResourceMongoMIRoleAssignmentRequest>,
   output: __S(7776, __c243, 0) as any as S.Schema<GetMongoMIResourceMongoMIRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11272,7 +11350,8 @@ export const GetMongoMIResourceMongoMIRoleDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<GetMongoMIResourceMongoMIRoleDefinitionRequest>,
   output: __S(7840, __c245, 0) as any as S.Schema<GetMongoMIResourceMongoMIRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11289,7 +11368,8 @@ export const GetNotebookWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<GetNotebookWorkspaceRequest>,
   output: __S(9504, __c297, 0) as any as S.Schema<GetNotebookWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11306,7 +11386,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11323,7 +11404,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
   output: __S(9697, __c303, 1) as any as S.Schema<GetPrivateLinkResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11340,7 +11422,8 @@ export const GetRestorableDatabaseAccountByLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<GetRestorableDatabaseAccountByLocationRequest>,
   output: __S(9763, __c305, 3) as any as S.Schema<GetRestorableDatabaseAccountByLocationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11357,7 +11440,8 @@ export const GetService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<GetServiceRequest>,
   output: __S(9824, __c307, 0) as any as S.Schema<GetServiceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11374,7 +11458,8 @@ export const GetSqlResourceClientEncryptionKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9856, __c308, 0) as any as S.Schema<GetSqlResourceClientEncryptionKeyRequest>,
   output: __S(9888, __c309, 0) as any as S.Schema<GetSqlResourceClientEncryptionKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11391,7 +11476,8 @@ export const GetSqlResourceContinuousBackupInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9952, __c311, 0) as any as S.Schema<GetSqlResourceContinuousBackupInformationRequest>,
   output: __S(8353, __c261, 1) as any as S.Schema<BackupInformation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11408,7 +11494,8 @@ export const GetSqlResourceSqlContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<GetSqlResourceSqlContainerRequest>,
   output: __S(10048, __c314, 0) as any as S.Schema<GetSqlResourceSqlContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11425,7 +11512,8 @@ export const GetSqlResourceSqlContainerThroughput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10112, __c316, 0) as any as S.Schema<GetSqlResourceSqlContainerThroughputRequest>,
   output: __S(7680, __c240, 0) as any as S.Schema<GetSqlResourceSqlContainerThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11442,7 +11530,8 @@ export const GetSqlResourceSqlDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10144, __c317, 0) as any as S.Schema<GetSqlResourceSqlDatabaseRequest>,
   output: __S(10176, __c318, 0) as any as S.Schema<GetSqlResourceSqlDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11459,7 +11548,8 @@ export const GetSqlResourceSqlDatabaseThroughput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10240, __c320, 0) as any as S.Schema<GetSqlResourceSqlDatabaseThroughputRequest>,
   output: __S(7680, __c240, 0) as any as S.Schema<GetSqlResourceSqlDatabaseThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11476,7 +11566,8 @@ export const GetSqlResourceSqlRoleAssignment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10336, __c323, 0) as any as S.Schema<GetSqlResourceSqlRoleAssignmentRequest>,
   output: __S(10368, __c324, 0) as any as S.Schema<GetSqlResourceSqlRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11493,7 +11584,8 @@ export const GetSqlResourceSqlRoleDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10400, __c325, 0) as any as S.Schema<GetSqlResourceSqlRoleDefinitionRequest>,
   output: __S(10432, __c326, 0) as any as S.Schema<GetSqlResourceSqlRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11510,7 +11602,8 @@ export const GetSqlResourceSqlStoredProcedure: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<GetSqlResourceSqlStoredProcedureRequest>,
   output: __S(10528, __c329, 0) as any as S.Schema<GetSqlResourceSqlStoredProcedureResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11527,7 +11620,8 @@ export const GetSqlResourceSqlUserDefinedFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<GetSqlResourceSqlUserDefinedFunctionRequest>,
   output: __S(10528, __c329, 0) as any as S.Schema<GetSqlResourceSqlUserDefinedFunctionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11548,7 +11642,8 @@ export const GetTableResourceContinuousBackupInformation: API.OperationMethod<
     0,
   ) as any as S.Schema<GetTableResourceContinuousBackupInformationRequest>,
   output: __S(8353, __c261, 1) as any as S.Schema<BackupInformation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11565,7 +11660,8 @@ export const GetTableResourceTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<GetTableResourceTableRequest>,
   output: __S(8448, __c264, 0) as any as S.Schema<GetTableResourceTableResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11582,7 +11678,8 @@ export const GetTableResourceTableRoleAssignment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<GetTableResourceTableRoleAssignmentRequest>,
   output: __S(7776, __c243, 0) as any as S.Schema<GetTableResourceTableRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11599,7 +11696,8 @@ export const GetTableResourceTableRoleDefinition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10720, __c335, 0) as any as S.Schema<GetTableResourceTableRoleDefinitionRequest>,
   output: __S(7840, __c245, 0) as any as S.Schema<GetTableResourceTableRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11616,7 +11714,8 @@ export const GetTableResourceTableThroughput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10752, __c336, 0) as any as S.Schema<GetTableResourceTableThroughputRequest>,
   output: __S(7680, __c240, 0) as any as S.Schema<GetTableResourceTableThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11641,7 +11740,8 @@ export const GremlinResourcesCreateUpdateGremlinDatabase: API.OperationMethod<
     __c339,
     0,
   ) as any as S.Schema<GremlinResourcesCreateUpdateGremlinDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11658,7 +11758,8 @@ export const GremlinResourcesCreateUpdateGremlinGraph: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(386, __c12, 2) as any as S.Schema<GremlinResourcesCreateUpdateGremlinGraphRequest>,
   output: __S(387, __c12, 3) as any as S.Schema<GremlinResourcesCreateUpdateGremlinGraphResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11683,7 +11784,8 @@ export const GremlinResourcesCreateUpdateGremlinRoleAssignment: API.OperationMet
     __c230,
     0,
   ) as any as S.Schema<GremlinResourcesCreateUpdateGremlinRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11708,7 +11810,8 @@ export const GremlinResourcesCreateUpdateGremlinRoleDefinition: API.OperationMet
     __c253,
     0,
   ) as any as S.Schema<GremlinResourcesCreateUpdateGremlinRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11725,7 +11828,8 @@ export const InvokeCassandraClusterCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<InvokeCassandraClusterCommandRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<InvokeCassandraClusterCommandResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11743,7 +11847,8 @@ export const ListCassandraClusterByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<ListCassandraClusterByResourceGroupRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<ListClusters>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11767,7 +11872,8 @@ export const ListCassandraClusterBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListCassandraClusterBySubscriptionRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<ListClusters>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11791,7 +11897,8 @@ export const ListCassandraDataCenters: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ListCassandraDataCentersRequest>,
   output: __S(642, __c20, 2) as any as S.Schema<ListDataCenters>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11815,7 +11922,8 @@ export const ListCassandraResourceCassandraKeyspaces: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListCassandraResourceCassandraKeyspacesRequest>,
   output: __S(674, __c21, 2) as any as S.Schema<CassandraKeyspaceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11843,7 +11951,8 @@ export const ListCassandraResourceCassandraRoleAssignments: API.PaginatedOperati
     0,
   ) as any as S.Schema<ListCassandraResourceCassandraRoleAssignmentsRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<CassandraRoleAssignmentListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11871,7 +11980,8 @@ export const ListCassandraResourceCassandraRoleDefinitions: API.PaginatedOperati
     0,
   ) as any as S.Schema<ListCassandraResourceCassandraRoleDefinitionsRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<CassandraRoleDefinitionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11895,7 +12005,8 @@ export const ListCassandraResourceCassandraTables: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListCassandraResourceCassandraTablesRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<CassandraTableListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11919,7 +12030,8 @@ export const ListCollectionMetricDefinitions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListCollectionMetricDefinitionsRequest>,
   output: __S(996, __c31, 4) as any as S.Schema<MetricDefinitionsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11943,7 +12055,8 @@ export const ListCollectionMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListCollectionMetricsRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<MetricListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11967,7 +12080,8 @@ export const ListCollectionPartitionMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListCollectionPartitionMetricsRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<PartitionMetricListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11991,7 +12105,8 @@ export const ListCollectionPartitionRegionMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListCollectionPartitionRegionMetricsRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<PartitionMetricListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12015,7 +12130,8 @@ export const ListCollectionPartitionUsages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListCollectionPartitionUsagesRequest>,
   output: __S(1219, __c38, 3) as any as S.Schema<PartitionUsagesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12039,7 +12155,8 @@ export const ListCollectionRegionMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListCollectionRegionMetricsRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<MetricListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12063,7 +12180,8 @@ export const ListCollectionUsages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListCollectionUsagesRequest>,
   output: __S(1314, __c41, 2) as any as S.Schema<UsagesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12087,7 +12205,8 @@ export const ListDatabaseAccountByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<ListDatabaseAccountByResourceGroupRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<DatabaseAccountsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12110,7 +12229,8 @@ export const ListDatabaseAccountConnectionStrings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<ListDatabaseAccountConnectionStringsRequest>,
   output: __S(1411, __c44, 3) as any as S.Schema<DatabaseAccountListConnectionStringsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12127,7 +12247,8 @@ export const ListDatabaseAccountKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<ListDatabaseAccountKeysRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<ListDatabaseAccountKeysResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12145,7 +12266,8 @@ export const ListDatabaseAccountMetricDefinitions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ListDatabaseAccountMetricDefinitionsRequest>,
   output: __S(996, __c31, 4) as any as S.Schema<MetricDefinitionsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12169,7 +12291,8 @@ export const ListDatabaseAccountMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<ListDatabaseAccountMetricsRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<MetricListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12193,7 +12316,8 @@ export const ListDatabaseAccountRegionMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListDatabaseAccountRegionMetricsRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<MetricListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12217,7 +12341,8 @@ export const ListDatabaseAccounts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<ListDatabaseAccountsRequest>,
   output: __S(1377, __c43, 1) as any as S.Schema<DatabaseAccountsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12241,7 +12366,8 @@ export const ListDatabaseAccountUsages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ListDatabaseAccountUsagesRequest>,
   output: __S(1314, __c41, 2) as any as S.Schema<UsagesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12265,7 +12391,8 @@ export const ListDatabaseMetricDefinitions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<ListDatabaseMetricDefinitionsRequest>,
   output: __S(996, __c31, 4) as any as S.Schema<MetricDefinitionsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12289,7 +12416,8 @@ export const ListDatabaseMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ListDatabaseMetricsRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<MetricListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12313,7 +12441,8 @@ export const ListDatabaseUsages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ListDatabaseUsagesRequest>,
   output: __S(1314, __c41, 2) as any as S.Schema<UsagesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12337,7 +12466,8 @@ export const ListFleet: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<ListFleetRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<FleetListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12361,7 +12491,8 @@ export const ListFleetByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListFleetByResourceGroupRequest>,
   output: __S(1953, __c61, 1) as any as S.Schema<FleetListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12385,7 +12516,8 @@ export const ListFleetspace: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ListFleetspaceRequest>,
   output: __S(2082, __c65, 2) as any as S.Schema<FleetspaceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12409,7 +12541,8 @@ export const ListFleetspaceAccount: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ListFleetspaceAccountRequest>,
   output: __S(2114, __c66, 2) as any as S.Schema<FleetspaceAccountListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12433,7 +12566,8 @@ export const ListGremlinResourceGremlinDatabases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListGremlinResourceGremlinDatabasesRequest>,
   output: __S(2177, __c68, 1) as any as S.Schema<GremlinDatabaseListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12457,7 +12591,8 @@ export const ListGremlinResourceGremlinGraphs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListGremlinResourceGremlinGraphsRequest>,
   output: __S(2210, __c69, 2) as any as S.Schema<GremlinGraphListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12481,7 +12616,8 @@ export const ListGremlinResourceGremlinRoleAssignments: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListGremlinResourceGremlinRoleAssignmentsRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<GremlinRoleAssignmentListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12505,7 +12641,8 @@ export const ListGremlinResourceGremlinRoleDefinitions: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListGremlinResourceGremlinRoleDefinitionsRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<GremlinRoleDefinitionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12529,7 +12666,8 @@ export const ListLocations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListLocationsRequest>,
   output: __S(2306, __c72, 2) as any as S.Schema<LocationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12553,7 +12691,8 @@ export const ListMongoDBResourceMongoDBCollections: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListMongoDBResourceMongoDBCollectionsRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<MongoDBCollectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12577,7 +12716,8 @@ export const ListMongoDBResourceMongoDBDatabases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ListMongoDBResourceMongoDBDatabasesRequest>,
   output: __S(2177, __c68, 1) as any as S.Schema<MongoDBDatabaseListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12601,7 +12741,8 @@ export const ListMongoDBResourceMongoRoleDefinitions: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<ListMongoDBResourceMongoRoleDefinitionsRequest>,
   output: __S(2466, __c77, 2) as any as S.Schema<MongoRoleDefinitionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12625,7 +12766,8 @@ export const ListMongoDBResourceMongoUserDefinitions: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListMongoDBResourceMongoUserDefinitionsRequest>,
   output: __S(2498, __c78, 2) as any as S.Schema<MongoUserDefinitionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12649,7 +12791,8 @@ export const ListMongoMIResourceMongoMIRoleAssignments: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListMongoMIResourceMongoMIRoleAssignmentsRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<MongoMIRoleAssignmentListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12673,7 +12816,8 @@ export const ListMongoMIResourceMongoMIRoleDefinitions: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<ListMongoMIResourceMongoMIRoleDefinitionsRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<MongoMIRoleDefinitionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12697,7 +12841,8 @@ export const ListNotebookWorkspaceByDatabaseAccount: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ListNotebookWorkspaceByDatabaseAccountRequest>,
   output: __S(2594, __c81, 2) as any as S.Schema<NotebookWorkspaceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12720,7 +12865,8 @@ export const ListNotebookWorkspaceConnectionInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ListNotebookWorkspaceConnectionInfoRequest>,
   output: __S(2625, __c82, 1) as any as S.Schema<NotebookWorkspaceConnectionInfoResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12738,7 +12884,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2660, __c83, 4) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12762,7 +12909,8 @@ export const ListPartitionKeyRangeIdMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<ListPartitionKeyRangeIdMetricsRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<PartitionMetricListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12786,7 +12934,8 @@ export const ListPartitionKeyRangeIdRegionMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<ListPartitionKeyRangeIdRegionMetricsRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<PartitionMetricListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12810,7 +12959,8 @@ export const ListPercentileMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<ListPercentileMetricsRequest>,
   output: __S(2788, __c87, 4) as any as S.Schema<PercentileMetricListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12834,7 +12984,8 @@ export const ListPercentileSourceTargetMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<ListPercentileSourceTargetMetricsRequest>,
   output: __S(2788, __c87, 4) as any as S.Schema<PercentileMetricListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12858,7 +13009,8 @@ export const ListPercentileTargetMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<ListPercentileTargetMetricsRequest>,
   output: __S(2788, __c87, 4) as any as S.Schema<PercentileMetricListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12886,7 +13038,8 @@ export const ListPrivateEndpointConnectionByDatabaseAccount: API.PaginatedOperat
     0,
   ) as any as S.Schema<ListPrivateEndpointConnectionByDatabaseAccountRequest>,
   output: __S(2913, __c91, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12910,7 +13063,8 @@ export const ListPrivateLinkResourceByDatabaseAccount: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<ListPrivateLinkResourceByDatabaseAccountRequest>,
   output: __S(2946, __c92, 2) as any as S.Schema<PrivateLinkResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12934,7 +13088,8 @@ export const ListRestorableDatabaseAccountByLocation: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<ListRestorableDatabaseAccountByLocationRequest>,
   output: __S(3009, __c94, 1) as any as S.Schema<RestorableDatabaseAccountsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12958,7 +13113,8 @@ export const ListRestorableDatabaseAccounts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<ListRestorableDatabaseAccountsRequest>,
   output: __S(3009, __c94, 1) as any as S.Schema<RestorableDatabaseAccountsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12982,7 +13138,8 @@ export const ListRestorableGremlinDatabases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<ListRestorableGremlinDatabasesRequest>,
   output: __S(3108, __c97, 4) as any as S.Schema<RestorableGremlinDatabasesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13006,7 +13163,8 @@ export const ListRestorableGremlinGraphs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<ListRestorableGremlinGraphsRequest>,
   output: __S(3108, __c97, 4) as any as S.Schema<RestorableGremlinGraphsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13030,7 +13188,8 @@ export const ListRestorableGremlinResources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<ListRestorableGremlinResourcesRequest>,
   output: __S(3171, __c99, 3) as any as S.Schema<RestorableGremlinResourcesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13054,7 +13213,8 @@ export const ListRestorableMongodbCollections: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<ListRestorableMongodbCollectionsRequest>,
   output: __S(3108, __c97, 4) as any as S.Schema<RestorableMongodbCollectionsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13078,7 +13238,8 @@ export const ListRestorableMongodbDatabases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<ListRestorableMongodbDatabasesRequest>,
   output: __S(3108, __c97, 4) as any as S.Schema<RestorableMongodbDatabasesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13102,7 +13263,8 @@ export const ListRestorableMongodbResources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<ListRestorableMongodbResourcesRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<RestorableMongodbResourcesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13126,7 +13288,8 @@ export const ListRestorableSqlContainers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<ListRestorableSqlContainersRequest>,
   output: __S(3366, __c105, 6) as any as S.Schema<RestorableSqlContainersListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13150,7 +13313,8 @@ export const ListRestorableSqlDatabases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<ListRestorableSqlDatabasesRequest>,
   output: __S(3398, __c106, 6) as any as S.Schema<RestorableSqlDatabasesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13174,7 +13338,8 @@ export const ListRestorableSqlResources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<ListRestorableSqlResourcesRequest>,
   output: __S(3330, __c104, 2) as any as S.Schema<RestorableSqlResourcesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13198,7 +13363,8 @@ export const ListRestorableTableResources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<ListRestorableTableResourcesRequest>,
   output: __S(3459, __c108, 3) as any as S.Schema<RestorableTableResourcesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13222,7 +13388,8 @@ export const ListRestorableTables: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<ListRestorableTablesRequest>,
   output: __S(3108, __c97, 4) as any as S.Schema<RestorableTablesListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13246,7 +13413,8 @@ export const ListService: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<ListServiceRequest>,
   output: __S(3522, __c110, 2) as any as S.Schema<ServiceResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13270,7 +13438,8 @@ export const ListSqlResourceClientEncryptionKeys: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<ListSqlResourceClientEncryptionKeysRequest>,
   output: __S(3554, __c111, 2) as any as S.Schema<ClientEncryptionKeysListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13294,7 +13463,8 @@ export const ListSqlResourceSqlContainers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<ListSqlResourceSqlContainersRequest>,
   output: __S(3586, __c112, 2) as any as S.Schema<SqlContainerListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13318,7 +13488,8 @@ export const ListSqlResourceSqlDatabases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<ListSqlResourceSqlDatabasesRequest>,
   output: __S(3650, __c114, 2) as any as S.Schema<SqlDatabaseListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13342,7 +13513,8 @@ export const ListSqlResourceSqlRoleAssignments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<ListSqlResourceSqlRoleAssignmentsRequest>,
   output: __S(3682, __c115, 2) as any as S.Schema<SqlRoleAssignmentListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13366,7 +13538,8 @@ export const ListSqlResourceSqlRoleDefinitions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<ListSqlResourceSqlRoleDefinitionsRequest>,
   output: __S(3714, __c116, 2) as any as S.Schema<SqlRoleDefinitionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13390,7 +13563,8 @@ export const ListSqlResourceSqlStoredProcedures: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<ListSqlResourceSqlStoredProceduresRequest>,
   output: __S(3777, __c118, 1) as any as S.Schema<SqlStoredProcedureListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13414,7 +13588,8 @@ export const ListSqlResourceSqlTriggers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<ListSqlResourceSqlTriggersRequest>,
   output: __S(3810, __c119, 2) as any as S.Schema<SqlTriggerListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13438,7 +13613,8 @@ export const ListSqlResourceSqlUserDefinedFunctions: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<ListSqlResourceSqlUserDefinedFunctionsRequest>,
   output: __S(3777, __c118, 1) as any as S.Schema<SqlUserDefinedFunctionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13462,7 +13638,8 @@ export const ListTableResourceTableRoleAssignments: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<ListTableResourceTableRoleAssignmentsRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<TableRoleAssignmentListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13486,7 +13663,8 @@ export const ListTableResourceTableRoleDefinitions: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<ListTableResourceTableRoleDefinitionsRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<TableRoleDefinitionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13510,7 +13688,8 @@ export const ListTableResourceTables: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<ListTableResourceTablesRequest>,
   output: __S(2177, __c68, 1) as any as S.Schema<TableListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13541,7 +13720,8 @@ export const MigrateCassandraResourceCassandraKeyspaceToAutoscale: API.Operation
     __c127,
     0,
   ) as any as S.Schema<MigrateCassandraResourceCassandraKeyspaceToAutoscaleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13566,7 +13746,8 @@ export const MigrateCassandraResourceCassandraKeyspaceToManualThroughput: API.Op
     __c127,
     0,
   ) as any as S.Schema<MigrateCassandraResourceCassandraKeyspaceToManualThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13591,7 +13772,8 @@ export const MigrateCassandraResourceCassandraTableToAutoscale: API.OperationMet
     __c127,
     0,
   ) as any as S.Schema<MigrateCassandraResourceCassandraTableToAutoscaleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13616,7 +13798,8 @@ export const MigrateCassandraResourceCassandraTableToManualThroughput: API.Opera
     __c127,
     0,
   ) as any as S.Schema<MigrateCassandraResourceCassandraTableToManualThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13641,7 +13824,8 @@ export const MigrateGremlinResourceGremlinDatabaseToAutoscale: API.OperationMeth
     __c127,
     0,
   ) as any as S.Schema<MigrateGremlinResourceGremlinDatabaseToAutoscaleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13666,7 +13850,8 @@ export const MigrateGremlinResourceGremlinDatabaseToManualThroughput: API.Operat
     __c127,
     0,
   ) as any as S.Schema<MigrateGremlinResourceGremlinDatabaseToManualThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13691,7 +13876,8 @@ export const MigrateGremlinResourceGremlinGraphToAutoscale: API.OperationMethod<
     __c127,
     0,
   ) as any as S.Schema<MigrateGremlinResourceGremlinGraphToAutoscaleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13716,7 +13902,8 @@ export const MigrateGremlinResourceGremlinGraphToManualThroughput: API.Operation
     __c127,
     0,
   ) as any as S.Schema<MigrateGremlinResourceGremlinGraphToManualThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13741,7 +13928,8 @@ export const MigrateMongoDBResourceMongoDBCollectionToAutoscale: API.OperationMe
     __c127,
     0,
   ) as any as S.Schema<MigrateMongoDBResourceMongoDBCollectionToAutoscaleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13766,7 +13954,8 @@ export const MigrateMongoDBResourceMongoDBCollectionToManualThroughput: API.Oper
     __c127,
     0,
   ) as any as S.Schema<MigrateMongoDBResourceMongoDBCollectionToManualThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13791,7 +13980,8 @@ export const MigrateMongoDBResourceMongoDBDatabaseToAutoscale: API.OperationMeth
     __c127,
     0,
   ) as any as S.Schema<MigrateMongoDBResourceMongoDBDatabaseToAutoscaleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13816,7 +14006,8 @@ export const MigrateMongoDBResourceMongoDBDatabaseToManualThroughput: API.Operat
     __c127,
     0,
   ) as any as S.Schema<MigrateMongoDBResourceMongoDBDatabaseToManualThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13837,7 +14028,8 @@ export const MigrateSqlResourceSqlContainerToAutoscale: API.OperationMethod<
     __c142,
     0,
   ) as any as S.Schema<MigrateSqlResourceSqlContainerToAutoscaleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13862,7 +14054,8 @@ export const MigrateSqlResourceSqlContainerToManualThroughput: API.OperationMeth
     __c142,
     0,
   ) as any as S.Schema<MigrateSqlResourceSqlContainerToManualThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13879,7 +14072,8 @@ export const MigrateSqlResourceSqlDatabaseToAutoscale: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<MigrateSqlResourceSqlDatabaseToAutoscaleRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<MigrateSqlResourceSqlDatabaseToAutoscaleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13904,7 +14098,8 @@ export const MigrateSqlResourceSqlDatabaseToManualThroughput: API.OperationMetho
     __c127,
     0,
   ) as any as S.Schema<MigrateSqlResourceSqlDatabaseToManualThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13921,7 +14116,8 @@ export const MigrateTableResourceTableToAutoscale: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<MigrateTableResourceTableToAutoscaleRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<MigrateTableResourceTableToAutoscaleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13946,7 +14142,8 @@ export const MigrateTableResourceTableToManualThroughput: API.OperationMethod<
     __c127,
     0,
   ) as any as S.Schema<MigrateTableResourceTableToManualThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13971,7 +14168,8 @@ export const MongoDBResourcesCreateUpdateMongoDBCollection: API.OperationMethod<
     __c148,
     3,
   ) as any as S.Schema<MongoDBResourcesCreateUpdateMongoDBCollectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -13996,7 +14194,8 @@ export const MongoDBResourcesCreateUpdateMongoDBDatabase: API.OperationMethod<
     __c339,
     0,
   ) as any as S.Schema<MongoDBResourcesCreateUpdateMongoDBDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14021,7 +14220,8 @@ export const MongoDBResourcesCreateUpdateMongoRoleDefinition: API.OperationMetho
     __c150,
     1,
   ) as any as S.Schema<MongoDBResourcesCreateUpdateMongoRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14046,7 +14246,8 @@ export const MongoDBResourcesCreateUpdateMongoUserDefinition: API.OperationMetho
     __c154,
     1,
   ) as any as S.Schema<MongoDBResourcesCreateUpdateMongoUserDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14071,7 +14272,8 @@ export const MongoMIResourcesCreateUpdateMongoMIRoleAssignment: API.OperationMet
     __c230,
     0,
   ) as any as S.Schema<MongoMIResourcesCreateUpdateMongoMIRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14096,7 +14298,8 @@ export const MongoMIResourcesCreateUpdateMongoMIRoleDefinition: API.OperationMet
     __c253,
     0,
   ) as any as S.Schema<MongoMIResourcesCreateUpdateMongoMIRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14113,7 +14316,8 @@ export const NotebookWorkspacesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<NotebookWorkspacesCreateOrUpdateRequest>,
   output: __S(5025, __c157, 1) as any as S.Schema<NotebookWorkspacesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14130,7 +14334,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5058, __c158, 2) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
   output: __S(5059, __c158, 3) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14147,7 +14352,8 @@ export const RegenerateDatabaseAccountKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<RegenerateDatabaseAccountKeyRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<RegenerateDatabaseAccountKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14164,7 +14370,8 @@ export const RegenerateNotebookWorkspaceAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<RegenerateNotebookWorkspaceAuthTokenRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<RegenerateNotebookWorkspaceAuthTokenResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14189,7 +14396,8 @@ export const SqlResourcesCreateUpdateClientEncryptionKey: API.OperationMethod<
     __c161,
     3,
   ) as any as S.Schema<SqlResourcesCreateUpdateClientEncryptionKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14206,7 +14414,8 @@ export const SqlResourcesCreateUpdateSqlContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5186, __c162, 2) as any as S.Schema<SqlResourcesCreateUpdateSqlContainerRequest>,
   output: __S(5187, __c162, 3) as any as S.Schema<SqlResourcesCreateUpdateSqlContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14223,7 +14432,8 @@ export const SqlResourcesCreateUpdateSqlDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<SqlResourcesCreateUpdateSqlDatabaseRequest>,
   output: __S(5217, __c163, 1) as any as S.Schema<SqlResourcesCreateUpdateSqlDatabaseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14244,7 +14454,8 @@ export const SqlResourcesCreateUpdateSqlRoleAssignment: API.OperationMethod<
     __c165,
     1,
   ) as any as S.Schema<SqlResourcesCreateUpdateSqlRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14265,7 +14476,8 @@ export const SqlResourcesCreateUpdateSqlRoleDefinition: API.OperationMethod<
     __c166,
     1,
   ) as any as S.Schema<SqlResourcesCreateUpdateSqlRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14286,7 +14498,8 @@ export const SqlResourcesCreateUpdateSqlStoredProcedure: API.OperationMethod<
     __c168,
     2,
   ) as any as S.Schema<SqlResourcesCreateUpdateSqlStoredProcedureResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14303,7 +14516,8 @@ export const SqlResourcesCreateUpdateSqlTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5410, __c169, 2) as any as S.Schema<SqlResourcesCreateUpdateSqlTriggerRequest>,
   output: __S(5411, __c169, 3) as any as S.Schema<SqlResourcesCreateUpdateSqlTriggerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14328,7 +14542,8 @@ export const SqlResourcesCreateUpdateSqlUserDefinedFunction: API.OperationMethod
     __c168,
     2,
   ) as any as S.Schema<SqlResourcesCreateUpdateSqlUserDefinedFunctionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14345,7 +14560,8 @@ export const SqlResourcesDeleteSqlTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<SqlResourcesDeleteSqlTriggerRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<SqlResourcesDeleteSqlTriggerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14362,7 +14578,8 @@ export const SqlResourcesGetSqlTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<SqlResourcesGetSqlTriggerRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<SqlResourcesGetSqlTriggerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14379,7 +14596,8 @@ export const StartCassandraCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<StartCassandraClusterRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<StartCassandraClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14396,7 +14614,8 @@ export const StartNotebookWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<StartNotebookWorkspaceRequest>,
   output: __S(288, __c9, 0) as any as S.Schema<StartNotebookWorkspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14413,7 +14632,8 @@ export const TableResourcesCreateUpdateTable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<TableResourcesCreateUpdateTableRequest>,
   output: __S(10848, __c339, 0) as any as S.Schema<TableResourcesCreateUpdateTableResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14438,7 +14658,8 @@ export const TableResourcesCreateUpdateTableRoleAssignment: API.OperationMethod<
     __c230,
     0,
   ) as any as S.Schema<TableResourcesCreateUpdateTableRoleAssignmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14463,7 +14684,8 @@ export const TableResourcesCreateUpdateTableRoleDefinition: API.OperationMethod<
     __c178,
     1,
   ) as any as S.Schema<TableResourcesCreateUpdateTableRoleDefinitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14480,7 +14702,8 @@ export const UpdateCassandraCluster: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<UpdateCassandraClusterRequest>,
   output: __S(130, __c4, 2) as any as S.Schema<UpdateCassandraClusterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14497,7 +14720,8 @@ export const UpdateCassandraDataCenter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<UpdateCassandraDataCenterRequest>,
   output: __S(6465, __c202, 1) as any as S.Schema<UpdateCassandraDataCenterResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14522,7 +14746,8 @@ export const UpdateCassandraResourceCassandraKeyspaceThroughput: API.OperationMe
     __c127,
     0,
   ) as any as S.Schema<UpdateCassandraResourceCassandraKeyspaceThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14547,7 +14772,8 @@ export const UpdateCassandraResourceCassandraTableThroughput: API.OperationMetho
     __c127,
     0,
   ) as any as S.Schema<UpdateCassandraResourceCassandraTableThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14564,7 +14790,8 @@ export const UpdateDatabaseAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5889, __c184, 1) as any as S.Schema<UpdateDatabaseAccountRequest>,
   output: __S(1474, __c46, 2) as any as S.Schema<UpdateDatabaseAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14581,7 +14808,8 @@ export const UpdateFleet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<UpdateFleetRequest>,
   output: __S(9601, __c300, 1) as any as S.Schema<UpdateFleetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14598,7 +14826,8 @@ export const UpdateFleetspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<UpdateFleetspaceRequest>,
   output: __S(5953, __c186, 1) as any as S.Schema<UpdateFleetspaceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14623,7 +14852,8 @@ export const UpdateGremlinResourceGremlinDatabaseThroughput: API.OperationMethod
     __c127,
     0,
   ) as any as S.Schema<UpdateGremlinResourceGremlinDatabaseThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14648,7 +14878,8 @@ export const UpdateGremlinResourceGremlinGraphThroughput: API.OperationMethod<
     __c127,
     0,
   ) as any as S.Schema<UpdateGremlinResourceGremlinGraphThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14673,7 +14904,8 @@ export const UpdateMongoDBResourceMongoDBCollectionThroughput: API.OperationMeth
     __c127,
     0,
   ) as any as S.Schema<UpdateMongoDBResourceMongoDBCollectionThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14698,7 +14930,8 @@ export const UpdateMongoDBResourceMongoDBDatabaseThroughput: API.OperationMethod
     __c127,
     0,
   ) as any as S.Schema<UpdateMongoDBResourceMongoDBDatabaseThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14715,7 +14948,8 @@ export const UpdateSqlResourceSqlContainerThroughput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<UpdateSqlResourceSqlContainerThroughputRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<UpdateSqlResourceSqlContainerThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14732,7 +14966,8 @@ export const UpdateSqlResourceSqlDatabaseThroughput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<UpdateSqlResourceSqlDatabaseThroughputRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<UpdateSqlResourceSqlDatabaseThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -14749,7 +14984,8 @@ export const UpdateTableResourceTableThroughput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<UpdateTableResourceTableThroughputRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<UpdateTableResourceTableThroughputResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -16295,10 +16531,10 @@ function __c51(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          primaryReadonlyMasterKey: S.optional(S.String),
-          secondaryReadonlyMasterKey: S.optional(S.String),
-          primaryMasterKey: S.optional(S.String),
-          secondaryMasterKey: S.optional(S.String),
+          primaryReadonlyMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryReadonlyMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          primaryMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ListDatabaseAccountKeysResponse" });
   }
@@ -16843,8 +17079,8 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          primaryReadonlyMasterKey: S.optional(S.String),
-          secondaryReadonlyMasterKey: S.optional(S.String),
+          primaryReadonlyMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryReadonlyMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DatabaseAccountListReadOnlyKeysResult" });
   }
@@ -17002,7 +17238,7 @@ function __c82(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          authToken: S.optional(S.String),
+          authToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           notebookServerEndpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "NotebookWorkspaceConnectionInfoResult" });
@@ -19106,7 +19342,7 @@ function __c161(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           encryptionAlgorithm: S.optional(S.String),
-          wrappedDataEncryptionKey: S.optional(S.String),
+          wrappedDataEncryptionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           keyWrapMetadata: S.optional(__S(9920, __c310, 0)),
         }),
       ).annotate({ identifier: "ClientEncryptionKeyResource" });
@@ -22589,7 +22825,7 @@ function __c310(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           encryptionAlgorithm: S.optional(S.String),
-          wrappedDataEncryptionKey: S.optional(S.String),
+          wrappedDataEncryptionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           keyWrapMetadata: S.optional(__S(9920, __c310, 0)),
           _rid: S.optional(S.String),
           _ts: S.optional(S.Number),

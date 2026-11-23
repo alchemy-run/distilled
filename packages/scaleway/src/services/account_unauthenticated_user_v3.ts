@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -63,7 +63,7 @@ export interface Account {
   /** Email used for the account request. */
   email?: string | undefined;
   /** Token used to validate the account without email validation. */
-  token?: string | null | undefined;
+  token?: string | Redacted.Redacted<string> | null | undefined;
   /** The SRN of the account. */
   srn?: string | undefined;
 }
@@ -81,7 +81,7 @@ export interface CreateLoginSessionRequestPasswordless {
   /** Email of the user. */
   email?: string | undefined;
   /** Token of the magic link. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateLoginSessionRequestOIDC {
   /** Code received from the identity provider. */
@@ -159,9 +159,9 @@ export interface OrganizationLogin {
   /** Data of the JWT created by the login request. */
   jwt?: JWT | undefined;
   /** Encoded JWT token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Encoded JWT renew token. */
-  renew_token?: string | undefined;
+  renew_token?: string | Redacted.Redacted<string> | undefined;
 }
 /** List of organizations and their associated login information. */
 export type LogInOrganizationsResponseOrganizationsLoginInformationList = Array<OrganizationLogin>;
@@ -197,7 +197,7 @@ export interface InitiateOIDCSignupResponse {
   /** URL to redirect the user to. */
   url?: string | undefined;
   /** Security token to check when receiving a code from the identity provider. */
-  security_token?: string | undefined;
+  security_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface FinishWebAuthnAuthenticationRequest2 {
   /** ID of the authentication ceremony to finish. */
@@ -211,7 +211,7 @@ export interface LogInRequest {
   /** ID of the login session. */
   login_session_id?: string | undefined;
   /** OTP of the user. Precisely one of otp, webauthn can be set. */
-  otp?: string | null | undefined;
+  otp?: string | Redacted.Redacted<string> | null | undefined;
   /** Optional organization_id to specify the organization we want to log in. */
   organization_id?: string | null | undefined;
   /** WebAuthn response to the authentication ceremony. Precisely one of otp, webauthn can be set. */
@@ -221,9 +221,9 @@ export interface LogInResponse {
   /** Data of the JWT created by the login request. */
   jwt?: JWT | undefined;
   /** Encoded JWT token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Encoded JWT renew token. */
-  renew_token?: string | undefined;
+  renew_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface LoginInitiateAuthenticationCodeRequest {
   /** Email of the user to login. */
@@ -242,7 +242,7 @@ export interface InitiateOIDCLoginResponse {
   /** URL to redirect the user to. */
   url?: string | undefined;
   /** Security token to check when receiving a code from the identity provider. */
-  security_token?: string | undefined;
+  security_token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface LoginInitiatePasswordlessRequest {
   /** Email of the user. */
@@ -255,7 +255,7 @@ export interface LogInOrganizationsRequest {
   /** ID of the login session. */
   login_session_id?: string | undefined;
   /** OTP of the user. Precisely one of otp, webauthn can be set. */
-  otp?: string | null | undefined;
+  otp?: string | Redacted.Redacted<string> | null | undefined;
   /** WebAuthn response to the authentication ceremony. Precisely one of otp, webauthn can be set. */
   webauthn?: FinishWebAuthnAuthenticationRequest2 | null | undefined;
 }
@@ -268,7 +268,7 @@ export interface RejectEmailUpdateRequest {
   /** ID of the user. */
   account_root_user_id: string;
   /** Token received to reject the email update. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface RejectEmailUpdateResponse {}
 export type ResendAuthenticationCodeRequestOperation = "unknown_operation" | "sign_up" | "sign_in";
@@ -281,7 +281,7 @@ export interface ResendAuthenticationCodeRequest {
 export interface ResendAuthenticationCodeResponse {}
 export interface ResetPasswordRequest {
   /** Token received to reset the password. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** New password. */
   password?: string | Redacted.Redacted<string> | undefined;
 }
@@ -356,7 +356,7 @@ export interface ValidateAccountRequest {
   /** Email used for the account request. */
   email?: string | undefined;
   /** Token received to validate the account. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Details of the professional organization. Precisely one of professional_organization, personal_organization can be set. */
   professional_organization?: ProfessionalOrganization | null | undefined;
   /** Details of the personal organization. Precisely one of professional_organization, personal_organization can be set. */
@@ -454,7 +454,7 @@ export interface ValidateEmailUpdateRequest {
   /** ID of the user. */
   account_root_user_id: string;
   /** Token received to validate the email update. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ValidateEmailUpdateResponse {}
 export interface ValidateOIDCSignupRequest {
@@ -487,7 +487,8 @@ export const createAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CreateAccountRequest>,
   output: __S(2, __c0, 2) as any as S.Schema<Account>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -504,7 +505,8 @@ export const createLoginSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c1, 4) as any as S.Schema<CreateLoginSessionRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<LoginSession>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -521,7 +523,8 @@ export const finishWebAuthnAuthentication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<FinishWebAuthnAuthenticationRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<LogInOrganizationsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -538,7 +541,8 @@ export const initiateOIDCSignup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<InitiateOIDCSignupRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<InitiateOIDCSignupResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -555,7 +559,8 @@ export const logIn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<LogInRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<LogInResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -572,7 +577,8 @@ export const loginInitiateAuthenticationCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<LoginInitiateAuthenticationCodeRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<LoginInitiateAuthenticationCodeResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -589,7 +595,8 @@ export const loginInitiateOIDC: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<LoginInitiateOIDCRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<InitiateOIDCLoginResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -606,7 +613,8 @@ export const loginInitiatePasswordless: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<LoginInitiatePasswordlessRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<LoginInitiatePasswordlessResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -623,7 +631,8 @@ export const logInOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<LogInOrganizationsRequest>,
   output: __S(121, __c15, 1) as any as S.Schema<LogInOrganizationsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -640,7 +649,8 @@ export const notifyAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<NotifyAccountRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<NotifyAccountResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -657,7 +667,8 @@ export const rejectEmailUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<RejectEmailUpdateRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<RejectEmailUpdateResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -674,7 +685,8 @@ export const resendAuthenticationCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ResendAuthenticationCodeRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<ResendAuthenticationCodeResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -691,7 +703,8 @@ export const resetPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ResetPasswordRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<ResetPasswordResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -708,7 +721,8 @@ export const sendResetPasswordEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<SendResetPasswordEmailRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<SendResetPasswordEmailResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -725,7 +739,8 @@ export const startWebAuthnAuthentication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<StartWebAuthnAuthenticationRequest>,
   output: __S(59, __c7, 3) as any as S.Schema<StartWebAuthnAuthenticationResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -742,7 +757,8 @@ export const validateAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(66, __c8, 2) as any as S.Schema<ValidateAccountRequest>,
   output: __S(70, __c8, 6) as any as S.Schema<ValidateAccountResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -759,7 +775,8 @@ export const validateAuthenticationCodeSignUp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<ValidateAuthenticationCodeSignUpRequest>,
   output: __S(73, __c9, 1) as any as S.Schema<ValidateAuthenticationCodeSignUpResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -776,7 +793,8 @@ export const validateEmailUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<ValidateEmailUpdateRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<ValidateEmailUpdateResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -793,7 +811,8 @@ export const validateOIDCSignup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ValidateOIDCSignupRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<ValidateOIDCSignupResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -834,7 +853,7 @@ function __c0(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           email: S.optional(S.String),
-          token: S.optional(S.NullOr(S.String)),
+          token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           srn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Account" });
@@ -855,7 +874,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateLoginSessionRequestPasswordless" });
     case 2:
@@ -907,7 +926,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_root_user_id: S.String.pipe(T.Label()),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -942,7 +961,7 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
@@ -1027,7 +1046,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           email: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           professional_organization: S.optional(S.NullOr(__S(64, __c8, 0))),
           personal_organization: S.optional(S.NullOr(__S(65, __c8, 1))),
           account_type: S.optional(S.String),
@@ -1124,7 +1143,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_root_user_id: S.String.pipe(T.Label()),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1245,8 +1264,8 @@ function __c16(j: number): any {
           organization_id: S.optional(S.String),
           organization_name: S.optional(S.String),
           jwt: S.optional(__S(112, __c14, 0)),
-          token: S.optional(S.String),
-          renew_token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          renew_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "OrganizationLogin" });
     case 1:
@@ -1279,7 +1298,7 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           url: S.optional(S.String),
-          security_token: S.optional(S.String),
+          security_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "InitiateOIDCSignupResponse" });
   }
@@ -1290,7 +1309,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           login_session_id: S.optional(S.String),
-          otp: S.optional(S.NullOr(S.String)),
+          otp: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           organization_id: S.optional(S.NullOr(S.String)),
           webauthn: S.optional(S.NullOr(__S(160, __c20, 0))),
         }).pipe(
@@ -1306,8 +1325,8 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           jwt: S.optional(__S(112, __c14, 0)),
-          token: S.optional(S.String),
-          renew_token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          renew_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LogInResponse" });
   }
@@ -1396,7 +1415,7 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           login_session_id: S.optional(S.String),
-          otp: S.optional(S.NullOr(S.String)),
+          otp: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           webauthn: S.optional(S.NullOr(__S(160, __c20, 0))),
         }).pipe(
           T.Http({

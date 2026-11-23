@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -450,6 +451,7 @@ export const describeStream: API.OperationMethod<
   input: __S(1, __c0, 1) as any as S.Schema<DescribeStreamInput>,
   output: __S(8, __c0, 8) as any as S.Schema<DescribeStreamOutput>,
   errors: [InternalServerError, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStream",
@@ -491,6 +493,7 @@ export const getRecords: API.OperationMethod<
     ResourceNotFoundException,
     TrimmedDataAccessException,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecords",
@@ -521,6 +524,7 @@ export const getShardIterator: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<GetShardIteratorInput>,
   output: __S(33, __c2, 1) as any as S.Schema<GetShardIteratorOutput>,
   errors: [InternalServerError, ResourceNotFoundException, TrimmedDataAccessException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetShardIterator",
@@ -545,6 +549,7 @@ export const listStreams: API.OperationMethod<
   input: __S(48, __c3, 0) as any as S.Schema<ListStreamsInput>,
   output: __S(51, __c3, 3) as any as S.Schema<ListStreamsOutput>,
   errors: [InternalServerError, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStreams",

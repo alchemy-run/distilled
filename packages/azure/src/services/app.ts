@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -53,7 +53,7 @@ export interface AgentConnectorPropertiesInput {
   /** Endpoint of the connector */
   endpoint?: string | undefined;
   /** Data source connection string or endpoint supplied when creating or updating a connector. */
-  dataSource?: string | undefined;
+  dataSource?: string | Redacted.Redacted<string> | undefined;
   /** Identity used to access the data source */
   identity?: string | undefined;
   /** Additional properties for the data connector which can be used to store custom key-value pairs */
@@ -106,7 +106,7 @@ export interface AgentConnectorProperties {
   /** Endpoint of the connector */
   endpoint?: string | undefined;
   /** Data source connection string or endpoint supplied when creating or updating a connector. */
-  dataSource?: string | undefined;
+  dataSource?: string | Redacted.Redacted<string> | undefined;
   /** Identity used to access the data source */
   identity?: string | undefined;
   /** Provisioning state of the connector */
@@ -177,9 +177,9 @@ export interface IncidentManagementConfiguration {
   /** The name of the connection */
   connectionName?: string | undefined;
   /** The URL of the connection */
-  connectionUrl?: string | undefined;
+  connectionUrl?: string | Redacted.Redacted<string> | undefined;
   /** The key supplied when creating or updating the connection. */
-  connectionKey?: string | undefined;
+  connectionKey?: string | Redacted.Redacted<string> | undefined;
   /** The user for the connection */
   oboUser?: string | undefined;
 }
@@ -425,7 +425,7 @@ export interface CertificatePropertiesInput {
   /** Certificate password. */
   password?: string | Redacted.Redacted<string> | undefined;
   /** PFX or PEM blob */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CertificatesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -470,7 +470,7 @@ export interface CertificateProperties {
   /** Subject alternative names the certificate applies to. */
   subjectAlternativeNames?: CertificatePropertiesSubjectAlternativeNamesList | undefined;
   /** PFX or PEM blob */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** Certificate issuer. */
   issuer?: string | undefined;
   /** Certificate issue Date. */
@@ -632,7 +632,7 @@ export interface CustomDomainConfigurationInput {
   /** Certificate stored in Azure Key Vault. */
   certificateKeyVaultProperties?: CertificateKeyVaultProperties | undefined;
   /** PFX or PEM blob */
-  certificateValue?: string | undefined;
+  certificateValue?: string | Redacted.Redacted<string> | undefined;
   /** Certificate password */
   certificatePassword?: string | Redacted.Redacted<string> | undefined;
 }
@@ -641,7 +641,7 @@ export interface ConnectedEnvironmentPropertiesInput {
   /** Static IP of the connectedEnvironment */
   staticIp?: string | undefined;
   /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
-  daprAIConnectionString?: string | undefined;
+  daprAIConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Custom domain configuration for the environment */
   customDomainConfiguration?: CustomDomainConfigurationInput | undefined;
 }
@@ -693,7 +693,7 @@ export interface CustomDomainConfiguration {
   /** Certificate stored in Azure Key Vault. */
   certificateKeyVaultProperties?: CertificateKeyVaultProperties | undefined;
   /** PFX or PEM blob */
-  certificateValue?: string | undefined;
+  certificateValue?: string | Redacted.Redacted<string> | undefined;
   /** Certificate password */
   certificatePassword?: string | Redacted.Redacted<string> | undefined;
   /** Certificate expiration date. */
@@ -714,7 +714,7 @@ export interface ConnectedEnvironmentProperties {
   /** Static IP of the connectedEnvironment */
   staticIp?: string | undefined;
   /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
-  daprAIConnectionString?: string | undefined;
+  daprAIConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Custom domain configuration for the environment */
   customDomainConfiguration?: CustomDomainConfiguration | undefined;
 }
@@ -745,7 +745,7 @@ export interface Secret {
   /** Secret Name. */
   name?: string | undefined;
   /** Secret Value. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** Resource ID of a managed identity to authenticate with Azure Key Vault, or System to use a system-assigned identity. */
   identity?: string | undefined;
   /** Azure Key Vault URL pointing to the secret referenced by the container app. */
@@ -863,7 +863,7 @@ export interface AzureFileProperties {
   /** Storage account name for azure file. */
   accountName?: string | undefined;
   /** Storage account key for azure file. */
-  accountKey?: string | undefined;
+  accountKey?: string | Redacted.Redacted<string> | undefined;
   /** Storage account key stored as an Azure Key Vault secret. */
   accountKeyVaultProperties?: SecretKeyVaultProperties | undefined;
   /** Access mode for storage */
@@ -2218,7 +2218,7 @@ export interface SessionPoolSecret {
   /** Secret Name. */
   name?: string | undefined;
   /** Secret Value. */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** The secrets of the session pool. */
 export type SessionPoolPropertiesInputSecretsList = Array<SessionPoolSecret>;
@@ -2473,11 +2473,11 @@ export interface RegistryInfo {
 /** Container App credentials. */
 export interface AzureCredentials {
   /** Client Id. */
-  clientId?: string | undefined;
+  clientId?: string | Redacted.Redacted<string> | undefined;
   /** Client Secret. */
   clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Tenant Id. */
-  tenantId?: string | undefined;
+  tenantId?: string | Redacted.Redacted<string> | undefined;
   /** Kind of auth github does for deploying the template */
   kind?: string | undefined;
   /** Subscription Id. */
@@ -2492,7 +2492,7 @@ export interface GithubActionConfiguration {
   /** Context path */
   contextPath?: string | undefined;
   /** One time Github PAT to configure github environment */
-  githubPersonalAccessToken?: string | undefined;
+  githubPersonalAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** Image name */
   image?: string | undefined;
   /** Code or Image */
@@ -3421,7 +3421,7 @@ export type GetContainerAppAuthTokenResponseTagsMap = { [key: string]: string | 
 /** Container App auth token resource specific properties */
 export interface ContainerAppAuthTokenProperties {
   /** Auth token value. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Token expiration date. */
   expires?: string | undefined;
 }
@@ -4666,7 +4666,7 @@ export interface ManagedCertificateProperties {
   /** Selected type of domain control validation for managed certificates. */
   domainControlValidation?: ManagedCertificateDomainControlValidation | undefined;
   /** A TXT token used for DNS TXT domain control validation when issuing this type of managed certificates. */
-  validationToken?: string | undefined;
+  validationToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetManagedCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -4724,7 +4724,7 @@ export interface LogAnalyticsConfiguration {
   /** Log analytics customer id */
   customerId?: string | undefined;
   /** Log analytics customer key */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** Configuration of application logs */
 export interface AppLogsConfiguration {
@@ -4743,7 +4743,7 @@ export interface DataDogConfiguration {
   /** The data dog site */
   site?: string | undefined;
   /** The data dog api key */
-  key?: string | undefined;
+  key?: string | Redacted.Redacted<string> | undefined;
 }
 /** Header of otlp configuration */
 export interface Header {
@@ -4893,9 +4893,9 @@ export interface ManagedEnvironmentProperties {
   /** Provisioning state of the Environment. */
   provisioningState?: EnvironmentProvisioningState | undefined;
   /** Azure Monitor instrumentation key used by Dapr to export Service to Service communication telemetry */
-  daprAIInstrumentationKey?: string | undefined;
+  daprAIInstrumentationKey?: string | Redacted.Redacted<string> | undefined;
   /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
-  daprAIConnectionString?: string | undefined;
+  daprAIConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Vnet configuration for the environment */
   vnetConfiguration?: VnetConfiguration | undefined;
   /** Any errors that occurred during deployment or deployment validation */
@@ -5158,6 +5158,8 @@ export interface SandboxGroupProperties {
   /** Whether detailed sandbox metrics are emitted. */
   enableDetailedMetrics?: boolean | undefined;
 }
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type GetSandboxGroupResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface GetSandboxGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -5173,6 +5175,8 @@ export interface GetSandboxGroupResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SandboxGroupProperties | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetVnetConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5631,7 +5635,7 @@ export interface AgentConnectorPropertiesWithSecrets {
   /** Additional properties for the data connector which can be used to store custom key-value pairs */
   extendedProperties?: AgentConnectorPropertiesWithSecretsExtendedPropertiesMap | undefined;
   /** Data source connection string or endpoint. */
-  dataSource?: string | undefined;
+  dataSource?: string | Redacted.Redacted<string> | undefined;
   /** The type of the data connector. */
   dataConnectorType?: string | undefined;
 }
@@ -6992,6 +6996,8 @@ export interface ListSandboxGroupByResourceGroupRequest {
 }
 /** Resource tags. */
 export type SandboxGroupTagsMap = { [key: string]: string | undefined };
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type SandboxGroupIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 /** A SandboxGroup resource, representing a group of sandboxes that share configuration defaults and quotas. */
 export interface SandboxGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -7008,6 +7014,8 @@ export interface SandboxGroup {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SandboxGroupProperties | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
 }
 /** The SandboxGroup items on this page */
 export type SandboxGroupListResultValueList = Array<SandboxGroup>;
@@ -7247,9 +7255,9 @@ export type DaprConfigurationInput = UserAssignedIdentityInput;
 /** Managed environment resource specific properties */
 export interface ManagedEnvironmentPropertiesInput {
   /** Azure Monitor instrumentation key used by Dapr to export Service to Service communication telemetry */
-  daprAIInstrumentationKey?: string | undefined;
+  daprAIInstrumentationKey?: string | Redacted.Redacted<string> | undefined;
   /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
-  daprAIConnectionString?: string | undefined;
+  daprAIConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** Vnet configuration for the environment */
   vnetConfiguration?: VnetConfiguration | undefined;
   /** Cluster configuration which enables the log daemon to export app logs to configured destination */
@@ -7411,6 +7419,8 @@ export interface SandboxGroupPropertiesInput {
   /** The resource ID of the Azure Container Apps environment to link to the sandbox group. A sandbox group can be linked after creation, but the link cannot then be changed or removed. For subsequent create-or-update (PUT) requests, specify the same environment ID; omitting or changing it returns 409 Conflict. Omitting it from an update (PATCH) request leaves the existing link unchanged. */
   environmentId?: string | undefined;
 }
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type SandboxGroupsCreateOrUpdateRequestIdentity = ContainerAppsCreateOrUpdateRequestIdentity;
 export interface SandboxGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -7424,9 +7434,14 @@ export interface SandboxGroupsCreateOrUpdateRequest {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SandboxGroupPropertiesInput | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ContainerAppsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type SandboxGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type SandboxGroupsCreateOrUpdateResponseIdentity =
+  ContainerAppsCreateOrUpdateResponseIdentity;
 export interface SandboxGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -7442,6 +7457,8 @@ export interface SandboxGroupsCreateOrUpdateResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SandboxGroupProperties | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
   azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -8277,6 +8294,25 @@ export interface UpdateManagedEnvironmentResponse {
 export type UpdateSandboxGroupRequestTagsMap = { [key: string]: string | undefined };
 /** SandboxGroup resource specific properties for patch requests. */
 export type SandboxGroupPatchProperties = SandboxGroupPropertiesInput;
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export type SandboxGroupIdentityInputType =
+  | "None"
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned,UserAssigned";
+/** User assigned identity properties */
+export type SandboxGroupIdentityInputUserAssignedIdentitiesValue = UserAssignedIdentityInput;
+/** The identities assigned to this resource by the user. */
+export type SandboxGroupIdentityInputUserAssignedIdentitiesMap = {
+  [key: string]: UserAssignedIdentityInput | undefined;
+};
+/** The managed identity properties that can be updated on a SandboxGroup. */
+export interface SandboxGroupIdentityInput {
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type?: SandboxGroupIdentityInputType | (string & {}) | undefined;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: SandboxGroupIdentityInputUserAssignedIdentitiesMap | undefined;
+}
 export interface UpdateSandboxGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -8288,9 +8324,13 @@ export interface UpdateSandboxGroupRequest {
   tags?: UpdateSandboxGroupRequestTagsMap | undefined;
   /** SandboxGroup properties that can be updated. */
   properties?: SandboxGroupPropertiesInput | undefined;
+  /** Managed identity updates. Omit to preserve the current identities. */
+  identity?: SandboxGroupIdentityInput | undefined;
 }
 /** Resource tags. */
 export type UpdateSandboxGroupResponseTagsMap = { [key: string]: string | undefined };
+/** Managed service identity (system assigned and/or user assigned identities) */
+export type UpdateSandboxGroupResponseIdentity = ContainerAppsCreateOrUpdateResponseIdentity;
 export interface UpdateSandboxGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -8306,6 +8346,8 @@ export interface UpdateSandboxGroupResponse {
   location: string;
   /** The resource-specific properties for this resource. */
   properties?: SandboxGroupProperties | undefined;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ContainerAppsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
   azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
@@ -8349,7 +8391,8 @@ export const ActivateContainerAppsRevisionRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ActivateContainerAppsRevisionRevisionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ActivateContainerAppsRevisionRevisionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8366,7 +8409,8 @@ export const AgentsConnectorsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(65, __c2, 1) as any as S.Schema<AgentsConnectorsCreateOrUpdateRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<AgentsConnectorsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8383,7 +8427,8 @@ export const AgentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4802, __c150, 2) as any as S.Schema<AgentsCreateOrUpdateRequest>,
   output: __S(4803, __c150, 3) as any as S.Schema<AgentsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8400,7 +8445,8 @@ export const CertificatesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<CertificatesCreateOrUpdateRequest>,
   output: __S(5344, __c167, 0) as any as S.Schema<CertificatesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8421,7 +8467,8 @@ export const CheckConnectedEnvironmentNameAvailability: API.OperationMethod<
     __c182,
     0,
   ) as any as S.Schema<CheckConnectedEnvironmentNameAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8442,7 +8489,8 @@ export const CheckManagedEnvironmentMigrationEligibility: API.OperationMethod<
     0,
   ) as any as S.Schema<CheckManagedEnvironmentMigrationEligibilityRequest>,
   output: __S(6339, __c198, 3) as any as S.Schema<CheckMigrationEligibilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8459,7 +8507,8 @@ export const CheckNamespaceNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<CheckNamespaceNameAvailabilityRequest>,
   output: __S(5824, __c182, 0) as any as S.Schema<CheckNamespaceNameAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8484,7 +8533,8 @@ export const ConnectedEnvironmentsCertificatesCreateOrUpdate: API.OperationMetho
     __c232,
     1,
   ) as any as S.Schema<ConnectedEnvironmentsCertificatesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8501,7 +8551,8 @@ export const ConnectedEnvironmentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8033, __c251, 1) as any as S.Schema<ConnectedEnvironmentsCreateOrUpdateRequest>,
   output: __S(8034, __c251, 2) as any as S.Schema<ConnectedEnvironmentsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8526,7 +8577,8 @@ export const ConnectedEnvironmentsDaprComponentsCreateOrUpdate: API.OperationMet
     __c274,
     1,
   ) as any as S.Schema<ConnectedEnvironmentsDaprComponentsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8543,7 +8595,8 @@ export const ConnectedEnvironmentsStoragesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(193, __c6, 1) as any as S.Schema<ConnectedEnvironmentsStoragesCreateOrUpdateRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<ConnectedEnvironmentsStoragesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8568,7 +8621,8 @@ export const ContainerAppPrivateEndpointConnectionsCreateOrUpdate: API.Operation
     __c25,
     1,
   ) as any as S.Schema<ContainerAppPrivateEndpointConnectionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8585,7 +8639,8 @@ export const ContainerAppsAuthConfigsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<ContainerAppsAuthConfigsCreateOrUpdateRequest>,
   output: __S(1446, __c45, 6) as any as S.Schema<ContainerAppsAuthConfigsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8602,7 +8657,8 @@ export const ContainerAppsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ContainerAppsCreateOrUpdateRequest>,
   output: __S(1857, __c58, 1) as any as S.Schema<ContainerAppsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8619,7 +8675,8 @@ export const ContainerAppsSessionPoolsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2625, __c82, 1) as any as S.Schema<ContainerAppsSessionPoolsCreateOrUpdateRequest>,
   output: __S(2626, __c82, 2) as any as S.Schema<ContainerAppsSessionPoolsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8636,7 +8693,8 @@ export const ContainerAppsSourceControlsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<ContainerAppsSourceControlsCreateOrUpdateRequest>,
   output: __S(3105, __c97, 1) as any as S.Schema<ContainerAppsSourceControlsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8661,7 +8719,8 @@ export const DaprComponentResiliencyPoliciesCreateOrUpdate: API.OperationMethod<
     __c111,
     6,
   ) as any as S.Schema<DaprComponentResiliencyPoliciesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8678,7 +8737,8 @@ export const DaprComponentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<DaprComponentsCreateOrUpdateRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<DaprComponentsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8695,7 +8755,8 @@ export const DeactivateContainerAppsRevisionRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<DeactivateContainerAppsRevisionRevisionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeactivateContainerAppsRevisionRevisionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8712,7 +8773,8 @@ export const DeleteAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<DeleteAgentRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8729,7 +8791,8 @@ export const DeleteAgentsConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<DeleteAgentsConnectorRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteAgentsConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8746,7 +8809,8 @@ export const DeleteCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<DeleteCertificateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8763,7 +8827,8 @@ export const DeleteConnectedEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<DeleteConnectedEnvironmentRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteConnectedEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8780,7 +8845,8 @@ export const DeleteConnectedEnvironmentsCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<DeleteConnectedEnvironmentsCertificateRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteConnectedEnvironmentsCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8797,7 +8863,8 @@ export const DeleteConnectedEnvironmentsDaprComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<DeleteConnectedEnvironmentsDaprComponentRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteConnectedEnvironmentsDaprComponentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8814,7 +8881,8 @@ export const DeleteConnectedEnvironmentsStorage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<DeleteConnectedEnvironmentsStorageRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteConnectedEnvironmentsStorageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8831,7 +8899,8 @@ export const DeleteContainerApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<DeleteContainerAppRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteContainerAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8856,7 +8925,8 @@ export const DeleteContainerAppPrivateEndpointConnection: API.OperationMethod<
     __c149,
     0,
   ) as any as S.Schema<DeleteContainerAppPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8873,7 +8943,8 @@ export const DeleteContainerAppsAuthConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<DeleteContainerAppsAuthConfigRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteContainerAppsAuthConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8894,7 +8965,8 @@ export const DeleteContainerAppsLabelHistoryLabelHistory: API.OperationMethod<
     0,
   ) as any as S.Schema<DeleteContainerAppsLabelHistoryLabelHistoryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteContainerAppsLabelHistoryLabelHistoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8911,7 +8983,8 @@ export const DeleteContainerAppsSessionPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<DeleteContainerAppsSessionPoolRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteContainerAppsSessionPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8928,7 +9001,8 @@ export const DeleteContainerAppsSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<DeleteContainerAppsSourceControlRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteContainerAppsSourceControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8945,7 +9019,8 @@ export const DeleteDaprComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<DeleteDaprComponentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteDaprComponentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8962,7 +9037,8 @@ export const DeleteDaprComponentResiliencyPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<DeleteDaprComponentResiliencyPolicyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteDaprComponentResiliencyPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8979,7 +9055,8 @@ export const DeleteDotNetComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<DeleteDotNetComponentRequest>,
   output: __S(5601, __c175, 1) as any as S.Schema<DeleteDotNetComponentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8996,7 +9073,8 @@ export const DeleteHttpRouteConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<DeleteHttpRouteConfigRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteHttpRouteConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9013,7 +9091,8 @@ export const DeleteJavaComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<DeleteJavaComponentRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteJavaComponentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9030,7 +9109,8 @@ export const DeleteJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<DeleteJobRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9047,7 +9127,8 @@ export const DeleteLogicApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<DeleteLogicAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteLogicAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9064,7 +9145,8 @@ export const DeleteMaintenanceConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<DeleteMaintenanceConfigurationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteMaintenanceConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9081,7 +9163,8 @@ export const DeleteManagedCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<DeleteManagedCertificateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteManagedCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9098,7 +9181,8 @@ export const DeleteManagedEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<DeleteManagedEnvironmentRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<DeleteManagedEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9123,7 +9207,8 @@ export const DeleteManagedEnvironmentPrivateEndpointConnection: API.OperationMet
     __c149,
     0,
   ) as any as S.Schema<DeleteManagedEnvironmentPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9140,7 +9225,8 @@ export const DeleteManagedEnvironmentsStorage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<DeleteManagedEnvironmentsStorageRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteManagedEnvironmentsStorageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9157,7 +9243,8 @@ export const DeleteSandboxGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<DeleteSandboxGroupRequest>,
   output: __S(6016, __c188, 0) as any as S.Schema<DeleteSandboxGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9174,7 +9261,8 @@ export const DeleteVnetConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<DeleteVnetConnectionRequest>,
   output: __S(6016, __c188, 0) as any as S.Schema<DeleteVnetConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9191,7 +9279,8 @@ export const DotNetComponentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<DotNetComponentsCreateOrUpdateRequest>,
   output: __S(6081, __c190, 1) as any as S.Schema<DotNetComponentsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9208,7 +9297,8 @@ export const GetAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<GetAgentRequest>,
   output: __S(6208, __c194, 0) as any as S.Schema<GetAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9225,7 +9315,8 @@ export const GetAgentsConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<GetAgentsConnectorRequest>,
   output: __S(6272, __c196, 0) as any as S.Schema<GetAgentsConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9243,7 +9334,8 @@ export const GetAvailableWorkloadProfile: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<GetAvailableWorkloadProfileRequest>,
   output: __S(6308, __c197, 4) as any as S.Schema<AvailableWorkloadProfilesCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9266,7 +9358,8 @@ export const GetBillingMeter: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<GetBillingMeterRequest>,
   output: __S(6372, __c199, 4) as any as S.Schema<BillingMeterCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9283,7 +9376,8 @@ export const GetCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<GetCertificateRequest>,
   output: __S(5344, __c167, 0) as any as S.Schema<GetCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9300,7 +9394,8 @@ export const GetConnectedEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<GetConnectedEnvironmentRequest>,
   output: __S(6464, __c202, 0) as any as S.Schema<GetConnectedEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9317,7 +9412,8 @@ export const GetConnectedEnvironmentsCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<GetConnectedEnvironmentsCertificateRequest>,
   output: __S(5344, __c167, 0) as any as S.Schema<GetConnectedEnvironmentsCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9334,7 +9430,8 @@ export const GetConnectedEnvironmentsDaprComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<GetConnectedEnvironmentsDaprComponentRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<GetConnectedEnvironmentsDaprComponentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9351,7 +9448,8 @@ export const GetConnectedEnvironmentsStorage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<GetConnectedEnvironmentsStorageRequest>,
   output: __S(6592, __c206, 0) as any as S.Schema<GetConnectedEnvironmentsStorageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9368,7 +9466,8 @@ export const GetContainerApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<GetContainerAppRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<GetContainerAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9385,7 +9484,8 @@ export const GetContainerAppAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<GetContainerAppAuthTokenRequest>,
   output: __S(6721, __c210, 1) as any as S.Schema<GetContainerAppAuthTokenResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9402,7 +9502,8 @@ export const GetContainerAppPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<GetContainerAppPrivateEndpointConnectionRequest>,
   output: __S(6784, __c212, 0) as any as S.Schema<GetContainerAppPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9419,7 +9520,8 @@ export const GetContainerAppPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<GetContainerAppPrivateLinkResourceRequest>,
   output: __S(6849, __c214, 1) as any as S.Schema<GetContainerAppPrivateLinkResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9436,7 +9538,8 @@ export const GetContainerAppsAuthConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<GetContainerAppsAuthConfigRequest>,
   output: __S(1446, __c45, 6) as any as S.Schema<GetContainerAppsAuthConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9452,8 +9555,9 @@ export const GetContainerAppsDiagnosticDetector: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<GetContainerAppsDiagnosticDetectorRequest>,
-  output: __S(6989, __c218, 13) as any as S.Schema<GetContainerAppsDiagnosticDetectorResponse>,
-  errors: [UnknownAzureError],
+  output: __S(6991, __c218, 15) as any as S.Schema<GetContainerAppsDiagnosticDetectorResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9470,7 +9574,8 @@ export const GetContainerAppsDiagnosticRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<GetContainerAppsDiagnosticRevisionRequest>,
   output: __S(7041, __c220, 1) as any as S.Schema<GetContainerAppsDiagnosticRevisionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9487,7 +9592,8 @@ export const GetContainerAppsDiagnosticRoot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<GetContainerAppsDiagnosticRootRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<GetContainerAppsDiagnosticRootResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9504,7 +9610,8 @@ export const GetContainerAppsFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<GetContainerAppsFunctionRequest>,
   output: __S(7137, __c223, 1) as any as S.Schema<GetContainerAppsFunctionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9521,7 +9628,8 @@ export const GetContainerAppsLabelHistoryLabelHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<GetContainerAppsLabelHistoryLabelHistoryRequest>,
   output: __S(7203, __c225, 3) as any as S.Schema<GetContainerAppsLabelHistoryLabelHistoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9538,7 +9646,8 @@ export const GetContainerAppsRevisionFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<GetContainerAppsRevisionFunctionRequest>,
   output: __S(7137, __c223, 1) as any as S.Schema<GetContainerAppsRevisionFunctionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9555,7 +9664,8 @@ export const GetContainerAppsRevisionReplicasReplica: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<GetContainerAppsRevisionReplicasReplicaRequest>,
   output: __S(7299, __c228, 3) as any as S.Schema<GetContainerAppsRevisionReplicasReplicaResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9572,7 +9682,8 @@ export const GetContainerAppsRevisionRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<GetContainerAppsRevisionRevisionRequest>,
   output: __S(7041, __c220, 1) as any as S.Schema<GetContainerAppsRevisionRevisionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9589,7 +9700,8 @@ export const GetContainerAppsSessionPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7360, __c230, 0) as any as S.Schema<GetContainerAppsSessionPoolRequest>,
   output: __S(7392, __c231, 0) as any as S.Schema<GetContainerAppsSessionPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9606,7 +9718,8 @@ export const GetContainerAppsSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<GetContainerAppsSourceControlRequest>,
   output: __S(7488, __c234, 0) as any as S.Schema<GetContainerAppsSourceControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9623,7 +9736,8 @@ export const GetCustomDomainVerificationId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<GetCustomDomainVerificationIdRequest>,
   output: __S(7552, __c236, 0) as any as S.Schema<GetCustomDomainVerificationIdResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9640,7 +9754,8 @@ export const GetDaprComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<GetDaprComponentRequest>,
   output: __S(4096, __c128, 0) as any as S.Schema<GetDaprComponentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9657,7 +9772,8 @@ export const GetDaprComponentResiliencyPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<GetDaprComponentResiliencyPolicyRequest>,
   output: __S(3558, __c111, 6) as any as S.Schema<GetDaprComponentResiliencyPolicyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9674,7 +9790,8 @@ export const GetDotNetComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<GetDotNetComponentRequest>,
   output: __S(7680, __c240, 0) as any as S.Schema<GetDotNetComponentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9691,7 +9808,8 @@ export const GetHttpRouteConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<GetHttpRouteConfigRequest>,
   output: __S(7755, __c242, 11) as any as S.Schema<GetHttpRouteConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9708,7 +9826,8 @@ export const GetJavaComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<GetJavaComponentRequest>,
   output: __S(7808, __c244, 0) as any as S.Schema<GetJavaComponentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9725,7 +9844,8 @@ export const GetJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<GetJobRequest>,
   output: __S(7904, __c247, 0) as any as S.Schema<GetJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9741,8 +9861,9 @@ export const GetJobDetector: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<GetJobDetectorRequest>,
-  output: __S(6989, __c218, 13) as any as S.Schema<GetJobDetectorResponse>,
-  errors: [UnknownAzureError],
+  output: __S(6991, __c218, 15) as any as S.Schema<GetJobDetectorResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9759,7 +9880,8 @@ export const GetJobsProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<GetJobsProxyRequest>,
   output: __S(7904, __c247, 0) as any as S.Schema<GetJobsProxyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9776,7 +9898,8 @@ export const GetLogicApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<GetLogicAppRequest>,
   output: __S(8224, __c257, 0) as any as S.Schema<GetLogicAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9793,7 +9916,8 @@ export const GetLogicAppWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<GetLogicAppWorkflowRequest>,
   output: __S(8292, __c259, 4) as any as S.Schema<GetLogicAppWorkflowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9810,7 +9934,8 @@ export const GetMaintenanceConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<GetMaintenanceConfigurationRequest>,
   output: __S(8355, __c261, 3) as any as S.Schema<GetMaintenanceConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9827,7 +9952,8 @@ export const GetManagedCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<GetManagedCertificateRequest>,
   output: __S(8448, __c264, 0) as any as S.Schema<GetManagedCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9844,7 +9970,8 @@ export const GetManagedEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<GetManagedEnvironmentRequest>,
   output: __S(8544, __c267, 0) as any as S.Schema<GetManagedEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9861,7 +9988,8 @@ export const GetManagedEnvironmentAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<GetManagedEnvironmentAuthTokenRequest>,
   output: __S(6721, __c210, 1) as any as S.Schema<GetManagedEnvironmentAuthTokenResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9877,8 +10005,9 @@ export const GetManagedEnvironmentDiagnosticDetector: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<GetManagedEnvironmentDiagnosticDetectorRequest>,
-  output: __S(6989, __c218, 13) as any as S.Schema<GetManagedEnvironmentDiagnosticDetectorResponse>,
-  errors: [UnknownAzureError],
+  output: __S(6991, __c218, 15) as any as S.Schema<GetManagedEnvironmentDiagnosticDetectorResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9903,7 +10032,8 @@ export const GetManagedEnvironmentPrivateEndpointConnection: API.OperationMethod
     __c212,
     0,
   ) as any as S.Schema<GetManagedEnvironmentPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9920,7 +10050,8 @@ export const GetManagedEnvironmentPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<GetManagedEnvironmentPrivateLinkResourceRequest>,
   output: __S(6849, __c214, 1) as any as S.Schema<GetManagedEnvironmentPrivateLinkResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9937,7 +10068,8 @@ export const GetManagedEnvironmentsDiagnosticRoot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<GetManagedEnvironmentsDiagnosticRootRequest>,
   output: __S(8544, __c267, 0) as any as S.Schema<GetManagedEnvironmentsDiagnosticRootResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9954,7 +10086,8 @@ export const GetManagedEnvironmentsStorage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<GetManagedEnvironmentsStorageRequest>,
   output: __S(8962, __c280, 2) as any as S.Schema<GetManagedEnvironmentsStorageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9971,7 +10104,8 @@ export const GetSandboxGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<GetSandboxGroupRequest>,
   output: __S(9024, __c282, 0) as any as S.Schema<GetSandboxGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9988,7 +10122,8 @@ export const GetVnetConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9088, __c284, 0) as any as S.Schema<GetVnetConnectionRequest>,
   output: __S(9121, __c285, 1) as any as S.Schema<GetVnetConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10005,7 +10140,8 @@ export const HttpRouteConfigCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<HttpRouteConfigCreateOrUpdateRequest>,
   output: __S(7755, __c242, 11) as any as S.Schema<HttpRouteConfigCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10022,7 +10158,8 @@ export const InvokeFunctionsExtensionFunctionsHost: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<InvokeFunctionsExtensionFunctionsHostRequest>,
   output: __S(7552, __c236, 0) as any as S.Schema<InvokeFunctionsExtensionFunctionsHostResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10039,7 +10176,8 @@ export const JavaComponentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<JavaComponentsCreateOrUpdateRequest>,
   output: __S(9249, __c289, 1) as any as S.Schema<JavaComponentsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10056,7 +10194,8 @@ export const JobExecution2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<JobExecutionRequest>,
   output: __S(9353, __c292, 9) as any as S.Schema<JobExecutionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10073,7 +10212,8 @@ export const JobsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9377, __c293, 1) as any as S.Schema<JobsCreateOrUpdateRequest>,
   output: __S(9378, __c293, 2) as any as S.Schema<JobsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10091,7 +10231,8 @@ export const ListAgentByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<ListAgentByResourceGroupRequest>,
   output: __S(9473, __c296, 1) as any as S.Schema<AgentListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10115,7 +10256,8 @@ export const ListAgentBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<ListAgentBySubscriptionRequest>,
   output: __S(9473, __c296, 1) as any as S.Schema<AgentListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10139,7 +10281,8 @@ export const ListAgentsConnectorByAgent: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<ListAgentsConnectorByAgentRequest>,
   output: __S(290, __c9, 2) as any as S.Schema<AgentConnectorListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10162,7 +10305,8 @@ export const ListAgentsConnectorSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ListAgentsConnectorSecretsRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<ListAgentsConnectorSecretsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10179,7 +10323,8 @@ export const ListAgentsConnectorWithSecretsByAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<ListAgentsConnectorWithSecretsByAgentRequest>,
   output: __S(386, __c12, 2) as any as S.Schema<AgentConnectorWithSecretsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10197,7 +10342,8 @@ export const ListAvailableEnvironmentModes: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<ListAvailableEnvironmentModesRequest>,
   output: __S(420, __c13, 4) as any as S.Schema<AvailableEnvironmentModesCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10221,7 +10367,8 @@ export const ListCertificates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ListCertificatesRequest>,
   output: __S(481, __c15, 1) as any as S.Schema<CertificateCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10245,7 +10392,8 @@ export const ListConnectedEnvironmentByResourceGroup: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<ListConnectedEnvironmentByResourceGroupRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<ConnectedEnvironmentCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10269,7 +10417,8 @@ export const ListConnectedEnvironmentBySubscription: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<ListConnectedEnvironmentBySubscriptionRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<ConnectedEnvironmentCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10293,7 +10442,8 @@ export const ListConnectedEnvironmentsCertificates: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListConnectedEnvironmentsCertificatesRequest>,
   output: __S(481, __c15, 1) as any as S.Schema<CertificateCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10317,7 +10467,8 @@ export const ListConnectedEnvironmentsDaprComponents: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ListConnectedEnvironmentsDaprComponentsRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<DaprComponentsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10344,7 +10495,8 @@ export const ListConnectedEnvironmentsDaprComponentSecrets: API.OperationMethod<
     0,
   ) as any as S.Schema<ListConnectedEnvironmentsDaprComponentSecretsRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<DaprSecretsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10361,7 +10513,8 @@ export const ListConnectedEnvironmentsStorages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListConnectedEnvironmentsStoragesRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<ConnectedEnvironmentStoragesCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10379,7 +10532,8 @@ export const ListContainerAppByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListContainerAppByResourceGroupRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<ContainerAppCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10403,7 +10557,8 @@ export const ListContainerAppBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListContainerAppBySubscriptionRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<ContainerAppCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10426,7 +10581,8 @@ export const ListContainerAppCustomHostNameAnalysis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListContainerAppCustomHostNameAnalysisRequest>,
   output: __S(996, __c31, 4) as any as S.Schema<CustomHostnameAnalysisResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10444,7 +10600,8 @@ export const ListContainerAppPrivateEndpointConnections: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListContainerAppPrivateEndpointConnectionsRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<PrivateEndpointConnectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10468,7 +10625,8 @@ export const ListContainerAppPrivateLinkResources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListContainerAppPrivateLinkResourcesRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<PrivateLinkResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10492,7 +10650,8 @@ export const ListContainerAppsAuthConfigByContainerApp: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ListContainerAppsAuthConfigByContainerAppRequest>,
   output: __S(1154, __c36, 2) as any as S.Schema<AuthConfigCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10516,7 +10675,8 @@ export const ListContainerAppsDiagnosticDetectors: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListContainerAppsDiagnosticDetectorsRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<DiagnosticsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10540,7 +10700,8 @@ export const ListContainerAppsDiagnosticRevisions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListContainerAppsDiagnosticRevisionsRequest>,
   output: __S(1281, __c40, 1) as any as S.Schema<RevisionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10563,7 +10724,8 @@ export const ListContainerAppSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<ListContainerAppSecretsRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<SecretsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10581,7 +10743,8 @@ export const ListContainerAppsFunctions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<ListContainerAppsFunctionsRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<ContainerAppsFunctionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10605,7 +10768,8 @@ export const ListContainerAppsLabelHistoryLabelHistory: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<ListContainerAppsLabelHistoryLabelHistoryRequest>,
   output: __S(1538, __c48, 2) as any as S.Schema<LabelHistoryCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10629,7 +10793,8 @@ export const ListContainerAppsRevisionFunctions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ListContainerAppsRevisionFunctionsRequest>,
   output: __S(1505, __c47, 1) as any as S.Schema<ContainerAppsFunctionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10652,7 +10817,8 @@ export const ListContainerAppsRevisionReplicasReplicas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<ListContainerAppsRevisionReplicasReplicasRequest>,
   output: __S(1602, __c50, 2) as any as S.Schema<ReplicaCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10670,7 +10836,8 @@ export const ListContainerAppsRevisionRevisions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<ListContainerAppsRevisionRevisionsRequest>,
   output: __S(1281, __c40, 1) as any as S.Schema<RevisionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10694,7 +10861,8 @@ export const ListContainerAppsSessionPoolByResourceGroup: API.PaginatedOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ListContainerAppsSessionPoolByResourceGroupRequest>,
   output: __S(1697, __c53, 1) as any as S.Schema<SessionPoolCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10718,7 +10886,8 @@ export const ListContainerAppsSessionPoolBySubscription: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListContainerAppsSessionPoolBySubscriptionRequest>,
   output: __S(1697, __c53, 1) as any as S.Schema<SessionPoolCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10746,7 +10915,8 @@ export const ListContainerAppsSourceControlByContainerApp: API.PaginatedOperatio
     0,
   ) as any as S.Schema<ListContainerAppsSourceControlByContainerAppRequest>,
   output: __S(1762, __c55, 2) as any as S.Schema<SourceControlCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10770,7 +10940,8 @@ export const ListDaprComponentResiliencyPolicies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ListDaprComponentResiliencyPoliciesRequest>,
   output: __S(1794, __c56, 2) as any as S.Schema<DaprComponentResiliencyPoliciesCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10794,7 +10965,8 @@ export const ListDaprComponents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<ListDaprComponentsRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<DaprComponentsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10817,7 +10989,8 @@ export const ListDaprComponentSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListDaprComponentSecretsRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<DaprSecretsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10835,7 +11008,8 @@ export const ListDotNetComponents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListDotNetComponentsRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<DotNetComponentsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10859,7 +11033,8 @@ export const ListHttpRouteConfig: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListHttpRouteConfigRequest>,
   output: __S(2306, __c72, 2) as any as S.Schema<HttpRouteConfigCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10883,7 +11058,8 @@ export const ListJavaComponents: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListJavaComponentsRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<JavaComponentsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10907,7 +11083,8 @@ export const ListJobByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ListJobByResourceGroupRequest>,
   output: __S(2401, __c75, 1) as any as S.Schema<JobsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10931,7 +11108,8 @@ export const ListJobBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ListJobBySubscriptionRequest>,
   output: __S(2401, __c75, 1) as any as S.Schema<JobsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10955,7 +11133,8 @@ export const ListJobDetectors: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<ListJobDetectorsRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<DiagnosticsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10978,7 +11157,8 @@ export const ListJobSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListJobSecretsRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<JobSecretsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10996,7 +11176,8 @@ export const ListJobsExecutions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListJobsExecutionsRequest>,
   output: __S(2529, __c79, 1) as any as S.Schema<ContainerAppJobExecutions>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11020,7 +11201,8 @@ export const ListLogicAppWorkflows: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ListLogicAppWorkflowsRequest>,
   output: __S(2594, __c81, 2) as any as S.Schema<WorkflowEnvelopeCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11043,7 +11225,8 @@ export const ListLogicAppWorkflowsConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<ListLogicAppWorkflowsConnectionsRequest>,
   output: __S(8292, __c259, 4) as any as S.Schema<ListLogicAppWorkflowsConnectionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11061,7 +11244,8 @@ export const ListMaintenanceConfigurations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<ListMaintenanceConfigurationsRequest>,
   output: __S(2754, __c86, 2) as any as S.Schema<MaintenanceConfigurationCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11085,7 +11269,8 @@ export const ListManagedCertificates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<ListManagedCertificatesRequest>,
   output: __S(2786, __c87, 2) as any as S.Schema<ManagedCertificateCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11109,7 +11294,8 @@ export const ListManagedEnvironmentByResourceGroup: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<ListManagedEnvironmentByResourceGroupRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<ManagedEnvironmentsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11133,7 +11319,8 @@ export const ListManagedEnvironmentBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<ListManagedEnvironmentBySubscriptionRequest>,
   output: __S(2849, __c89, 1) as any as S.Schema<ManagedEnvironmentsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11156,7 +11343,8 @@ export const ListManagedEnvironmentDiagnosticDetectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<ListManagedEnvironmentDiagnosticDetectorsRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<DiagnosticsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11178,7 +11366,8 @@ export const ListManagedEnvironmentPrivateEndpointConnections: API.PaginatedOper
     0,
   ) as any as S.Schema<ListManagedEnvironmentPrivateEndpointConnectionsRequest>,
   output: __S(1056, __c33, 0) as any as S.Schema<PrivateEndpointConnectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11202,7 +11391,8 @@ export const ListManagedEnvironmentPrivateLinkResources: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<ListManagedEnvironmentPrivateLinkResourcesRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<PrivateLinkResourceListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11225,7 +11415,8 @@ export const ListManagedEnvironmentsStorages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<ListManagedEnvironmentsStoragesRequest>,
   output: __S(3010, __c94, 2) as any as S.Schema<ManagedEnvironmentStoragesCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11243,7 +11434,8 @@ export const ListManagedEnvironmentUsages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<ListManagedEnvironmentUsagesRequest>,
   output: __S(3075, __c96, 3) as any as S.Schema<ListUsagesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11267,7 +11459,8 @@ export const ListManagedEnvironmentWorkloadProfileStates: API.PaginatedOperation
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<ListManagedEnvironmentWorkloadProfileStatesRequest>,
   output: __S(3172, __c99, 4) as any as S.Schema<WorkloadProfileStatesCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11291,7 +11484,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(3204, __c100, 4) as any as S.Schema<AvailableOperations>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11315,7 +11509,8 @@ export const ListSandboxGroupByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<ListSandboxGroupByResourceGroupRequest>,
   output: __S(3265, __c102, 1) as any as S.Schema<SandboxGroupListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11339,7 +11534,8 @@ export const ListSandboxGroupBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<ListSandboxGroupBySubscriptionRequest>,
   output: __S(3265, __c102, 1) as any as S.Schema<SandboxGroupListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11363,7 +11559,8 @@ export const ListSupportedAgentModelByLocation: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<ListSupportedAgentModelByLocationRequest>,
   output: __S(3332, __c104, 4) as any as S.Schema<SupportedAgentModelListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11387,7 +11584,8 @@ export const ListUsages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<ListUsagesRequest>,
   output: __S(3075, __c96, 3) as any as S.Schema<ListUsagesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11411,7 +11609,8 @@ export const ListVnetConnectionBySandboxGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<ListVnetConnectionBySandboxGroupRequest>,
   output: __S(3394, __c106, 2) as any as S.Schema<VnetConnectionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11434,7 +11633,8 @@ export const LogicAppsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<LogicAppsCreateOrUpdateRequest>,
   output: __S(8224, __c257, 0) as any as S.Schema<LogicAppsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11451,7 +11651,8 @@ export const MaintenanceConfigurationsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<MaintenanceConfigurationsCreateOrUpdateRequest>,
   output: __S(8355, __c261, 3) as any as S.Schema<MaintenanceConfigurationsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11468,7 +11669,8 @@ export const ManagedCertificatesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3489, __c109, 1) as any as S.Schema<ManagedCertificatesCreateOrUpdateRequest>,
   output: __S(3490, __c109, 2) as any as S.Schema<ManagedCertificatesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11493,7 +11695,8 @@ export const ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdate: API.Ope
     __c25,
     1,
   ) as any as S.Schema<ManagedEnvironmentPrivateEndpointConnectionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11510,7 +11713,8 @@ export const ManagedEnvironmentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<ManagedEnvironmentsCreateOrUpdateRequest>,
   output: __S(3649, __c114, 1) as any as S.Schema<ManagedEnvironmentsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11531,7 +11735,8 @@ export const ManagedEnvironmentsStoragesCreateOrUpdate: API.OperationMethod<
     __c280,
     2,
   ) as any as S.Schema<ManagedEnvironmentsStoragesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11548,7 +11753,8 @@ export const RestartContainerAppsRevisionRevision: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<RestartContainerAppsRevisionRevisionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RestartContainerAppsRevisionRevisionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11565,7 +11771,8 @@ export const ResumeJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<ResumeJobRequest>,
   output: __S(3776, __c118, 0) as any as S.Schema<ResumeJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11582,7 +11789,8 @@ export const SandboxGroupsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<SandboxGroupsCreateOrUpdateRequest>,
   output: __S(3809, __c119, 1) as any as S.Schema<SandboxGroupsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11599,7 +11807,8 @@ export const StartAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<StartAgentRequest>,
   output: __S(3904, __c122, 0) as any as S.Schema<StartAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11616,7 +11825,8 @@ export const StartContainerApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<StartContainerAppRequest>,
   output: __S(3968, __c124, 0) as any as S.Schema<StartContainerAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11633,7 +11843,8 @@ export const StartJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4002, __c125, 2) as any as S.Schema<StartJobRequest>,
   output: __S(4003, __c125, 3) as any as S.Schema<JobExecutionBase>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11650,7 +11861,8 @@ export const StopAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<StopAgentRequest>,
   output: __S(3904, __c122, 0) as any as S.Schema<StopAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11667,7 +11879,8 @@ export const StopContainerApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<StopContainerAppRequest>,
   output: __S(3968, __c124, 0) as any as S.Schema<StopContainerAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11684,7 +11897,8 @@ export const StopJobExecution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<StopJobExecutionRequest>,
   output: __S(4768, __c149, 0) as any as S.Schema<StopJobExecutionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11701,7 +11915,8 @@ export const StopJobMultipleExecutions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<StopJobMultipleExecutionsRequest>,
   output: __S(4193, __c131, 1) as any as S.Schema<StopJobMultipleExecutionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11718,7 +11933,8 @@ export const SuspendJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<SuspendJobRequest>,
   output: __S(3776, __c118, 0) as any as S.Schema<SuspendJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11735,7 +11951,8 @@ export const UpdateAgent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4258, __c133, 2) as any as S.Schema<UpdateAgentRequest>,
   output: __S(3904, __c122, 0) as any as S.Schema<UpdateAgentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11752,7 +11969,8 @@ export const UpdateCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<UpdateCertificateRequest>,
   output: __S(5344, __c167, 0) as any as S.Schema<UpdateCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11769,7 +11987,8 @@ export const UpdateConnectedEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<UpdateConnectedEnvironmentRequest>,
   output: __S(6464, __c202, 0) as any as S.Schema<UpdateConnectedEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11786,7 +12005,8 @@ export const UpdateConnectedEnvironmentsCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<UpdateConnectedEnvironmentsCertificateRequest>,
   output: __S(4353, __c136, 1) as any as S.Schema<UpdateConnectedEnvironmentsCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11803,7 +12023,8 @@ export const UpdateContainerApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<UpdateContainerAppRequest>,
   output: __S(3968, __c124, 0) as any as S.Schema<UpdateContainerAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11820,7 +12041,8 @@ export const UpdateContainerAppsSessionPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4417, __c138, 1) as any as S.Schema<UpdateContainerAppsSessionPoolRequest>,
   output: __S(4418, __c138, 2) as any as S.Schema<UpdateContainerAppsSessionPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11837,7 +12059,8 @@ export const UpdateDotNetComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<UpdateDotNetComponentRequest>,
   output: __S(4481, __c140, 1) as any as S.Schema<UpdateDotNetComponentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11854,7 +12077,8 @@ export const UpdateHttpRouteConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<UpdateHttpRouteConfigRequest>,
   output: __S(7755, __c242, 11) as any as S.Schema<UpdateHttpRouteConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11871,7 +12095,8 @@ export const UpdateJavaComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<UpdateJavaComponentRequest>,
   output: __S(4545, __c142, 1) as any as S.Schema<UpdateJavaComponentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11888,7 +12113,8 @@ export const UpdateJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4577, __c143, 1) as any as S.Schema<UpdateJobRequest>,
   output: __S(4578, __c143, 2) as any as S.Schema<UpdateJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11905,7 +12131,8 @@ export const UpdateManagedCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<UpdateManagedCertificateRequest>,
   output: __S(8448, __c264, 0) as any as S.Schema<UpdateManagedCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11922,7 +12149,8 @@ export const UpdateManagedEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<UpdateManagedEnvironmentRequest>,
   output: __S(3649, __c114, 1) as any as S.Schema<UpdateManagedEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11937,9 +12165,10 @@ export const UpdateSandboxGroup: API.OperationMethod<
   UpdateSandboxGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<UpdateSandboxGroupRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<UpdateSandboxGroupResponse>,
-  errors: [UnknownAzureError],
+  input: __S(4674, __c146, 2) as any as S.Schema<UpdateSandboxGroupRequest>,
+  output: __S(4675, __c146, 3) as any as S.Schema<UpdateSandboxGroupResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11956,7 +12185,8 @@ export const VnetConnectionsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<VnetConnectionsCreateOrUpdateRequest>,
   output: __S(9121, __c285, 1) as any as S.Schema<VnetConnectionsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11998,7 +12228,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.optional(S.String),
-          dataSource: S.optional(S.String),
+          dataSource: S.optional(S.String.pipe(T.SensitiveValue({}))),
           identity: S.optional(S.String),
           extendedProperties: S.optional(__S(160, __c5, 0)),
           dataConnectorType: S.optional(S.String),
@@ -12056,7 +12286,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.optional(S.String),
-          dataSource: S.optional(S.String),
+          dataSource: S.optional(S.String.pipe(T.SensitiveValue({}))),
           identity: S.optional(S.String),
           provisioningState: S.optional(S.String),
           deploymentError: S.optional(S.String),
@@ -12129,7 +12359,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountName: S.optional(S.String),
-          accountKey: S.optional(S.String),
+          accountKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           accountKeyVaultProperties: S.optional(__S(5440, __c170, 0)),
           accessMode: S.optional(S.String),
           shareName: S.optional(S.String),
@@ -12197,7 +12427,7 @@ function __c11(j: number): any {
           provisioningState: S.optional(S.String),
           deploymentError: S.optional(S.String),
           extendedProperties: S.optional(__S(160, __c5, 0)),
-          dataSource: S.optional(S.String),
+          dataSource: S.optional(S.String.pipe(T.SensitiveValue({}))),
           dataConnectorType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentConnectorPropertiesWithSecrets" });
@@ -12787,7 +13017,7 @@ function __c37(j: number): any {
 function __c38(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6989, __c218, 13));
+      return S.Array(__S(6991, __c218, 15));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -14338,7 +14568,7 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "SessionPoolSecret" });
     case 1:
@@ -14753,9 +14983,9 @@ function __c98(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clientId: S.optional(S.String),
+          clientId: S.optional(S.String.pipe(T.SensitiveValue({}))),
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          tenantId: S.optional(S.String),
+          tenantId: S.optional(S.String.pipe(T.SensitiveValue({}))),
           kind: S.optional(S.String),
           subscriptionId: S.optional(S.String),
         }),
@@ -14766,7 +14996,7 @@ function __c98(j: number): any {
           registryInfo: S.optional(__S(3136, __c98, 0)),
           azureCredentials: S.optional(__S(3137, __c98, 1)),
           contextPath: S.optional(S.String),
-          githubPersonalAccessToken: S.optional(S.String),
+          githubPersonalAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           image: S.optional(S.String),
           publishType: S.optional(S.String),
           os: S.optional(S.String),
@@ -15247,8 +15477,8 @@ function __c114(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          daprAIInstrumentationKey: S.optional(S.String),
-          daprAIConnectionString: S.optional(S.String),
+          daprAIInstrumentationKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          daprAIConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           vnetConfiguration: S.optional(__S(8576, __c268, 0)),
           appLogsConfiguration: S.optional(__S(8578, __c268, 2)),
           appInsightsConfiguration: S.optional(__S(8579, __c268, 3)),
@@ -15375,6 +15605,7 @@ function __c119(j: number): any {
           tags: S.optional(__S(4896, __c153, 0)),
           location: S.String,
           properties: S.optional(__S(3840, __c120, 0)),
+          identity: S.optional(__S(4865, __c152, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15394,6 +15625,7 @@ function __c119(j: number): any {
           tags: S.optional(__S(4896, __c153, 0)),
           location: S.String,
           properties: S.optional(__S(9056, __c283, 0)),
+          identity: S.optional(__S(4834, __c151, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -16067,6 +16299,15 @@ function __c145(j: number): any {
 function __c146(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, __S(32, __c1, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          userAssignedIdentities: S.optional(__S(4672, __c146, 0)),
+        }),
+      ).annotate({ identifier: "SandboxGroupIdentityInput" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -16074,6 +16315,7 @@ function __c146(j: number): any {
           sandboxGroupName: S.String.pipe(T.Label()),
           tags: S.optional(__S(4896, __c153, 0)),
           properties: S.optional(__S(3840, __c120, 0)),
+          identity: S.optional(__S(4673, __c146, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16083,7 +16325,7 @@ function __c146(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateSandboxGroupRequest" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -16093,6 +16335,7 @@ function __c146(j: number): any {
           tags: S.optional(__S(4896, __c153, 0)),
           location: S.String,
           properties: S.optional(__S(9056, __c283, 0)),
+          identity: S.optional(__S(4834, __c151, 2)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
         }),
@@ -16291,8 +16534,8 @@ function __c155(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           connectionName: S.optional(S.String),
-          connectionUrl: S.optional(S.String),
-          connectionKey: S.optional(S.String),
+          connectionUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          connectionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           oboUser: S.optional(S.String),
         }),
       ).annotate({ identifier: "IncidentManagementConfiguration" });
@@ -16618,7 +16861,7 @@ function __c168(j: number): any {
         S.Struct({
           certificateKeyVaultProperties: S.optional(__S(5440, __c170, 0)),
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CertificatePropertiesInput" });
   }
@@ -16634,7 +16877,7 @@ function __c169(j: number): any {
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           subjectName: S.optional(S.String),
           subjectAlternativeNames: S.optional(__S(4928, __c154, 0)),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           issuer: S.optional(S.String),
           issueDate: S.optional(S.String),
           expirationDate: S.optional(S.String),
@@ -17491,7 +17734,7 @@ function __c210(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expires: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerAppAuthTokenProperties" });
@@ -17719,27 +17962,36 @@ function __c218(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DiagnosticDataProviderMetadataPropertyBagItem" });
+    case 12:
+      return S.Array(__S(6987, __c218, 11));
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
           providerName: S.optional(S.String),
-          propertyBag: S.optional(__S(2657, __c83, 1)),
+          propertyBag: S.optional(__S(6988, __c218, 12)),
         }),
       ).annotate({ identifier: "DiagnosticDataProviderMetadata" });
-    case 12:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(6978, __c218, 2)),
           dataset: S.optional(__S(6985, __c218, 9)),
           status: S.optional(__S(6986, __c218, 10)),
-          dataProviderMetadata: S.optional(__S(6987, __c218, 11)),
+          dataProviderMetadata: S.optional(__S(6989, __c218, 13)),
         }),
       ).annotate({ identifier: "DiagnosticsProperties" });
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(6988, __c218, 12)),
+          properties: S.optional(__S(6990, __c218, 14)),
         }),
       ).annotate({ identifier: "GetContainerAppsDiagnosticDetectorResponse" });
   }
@@ -18554,7 +18806,7 @@ function __c251(j: number): any {
       return S.suspend(() =>
         S.Struct({
           staticIp: S.optional(S.String),
-          daprAIConnectionString: S.optional(S.String),
+          daprAIConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customDomainConfiguration: S.optional(__S(8096, __c253, 0)),
         }),
       ).annotate({ identifier: "ConnectedEnvironmentPropertiesInput" });
@@ -18612,7 +18864,7 @@ function __c253(j: number): any {
         S.Struct({
           dnsSuffix: S.optional(S.String),
           certificateKeyVaultProperties: S.optional(__S(5440, __c170, 0)),
-          certificateValue: S.optional(S.String),
+          certificateValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
           certificatePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CustomDomainConfigurationInput" });
@@ -18627,7 +18879,7 @@ function __c254(j: number): any {
           deploymentErrors: S.optional(S.String),
           defaultDomain: S.optional(S.String),
           staticIp: S.optional(S.String),
-          daprAIConnectionString: S.optional(S.String),
+          daprAIConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customDomainConfiguration: S.optional(__S(8160, __c255, 0)),
         }),
       ).annotate({ identifier: "ConnectedEnvironmentProperties" });
@@ -18641,7 +18893,7 @@ function __c255(j: number): any {
           customDomainVerificationId: S.optional(S.String),
           dnsSuffix: S.optional(S.String),
           certificateKeyVaultProperties: S.optional(__S(5440, __c170, 0)),
-          certificateValue: S.optional(S.String),
+          certificateValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
           certificatePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expirationDate: S.optional(S.String),
           thumbprint: S.optional(S.String),
@@ -18829,7 +19081,7 @@ function __c263(j: number): any {
           subjectName: S.optional(S.String),
           error: S.optional(S.String),
           domainControlValidation: S.optional(S.String),
-          validationToken: S.optional(S.String),
+          validationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ManagedCertificateProperties" });
   }
@@ -18909,7 +19161,7 @@ function __c268(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customerId: S.optional(S.String),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LogAnalyticsConfiguration" });
     case 2:
@@ -18929,7 +19181,7 @@ function __c268(j: number): any {
       return S.suspend(() =>
         S.Struct({
           site: S.optional(S.String),
-          key: S.optional(S.String),
+          key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DataDogConfiguration" });
     case 5:
@@ -19036,8 +19288,8 @@ function __c268(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provisioningState: S.optional(S.String),
-          daprAIInstrumentationKey: S.optional(S.String),
-          daprAIConnectionString: S.optional(S.String),
+          daprAIInstrumentationKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          daprAIConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           vnetConfiguration: S.optional(__S(8576, __c268, 0)),
           deploymentErrors: S.optional(S.String),
           defaultDomain: S.optional(S.String),
@@ -19213,7 +19465,7 @@ function __c276(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           identity: S.optional(S.String),
           keyVaultUrl: S.optional(S.String),
         }),
@@ -19338,6 +19590,7 @@ function __c282(j: number): any {
           tags: S.optional(__S(4896, __c153, 0)),
           location: S.String,
           properties: S.optional(__S(9056, __c283, 0)),
+          identity: S.optional(__S(4834, __c151, 2)),
         }),
       ).annotate({ identifier: "GetSandboxGroupResponse" });
   }

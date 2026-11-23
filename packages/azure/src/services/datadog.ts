@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -44,15 +44,15 @@ export interface DatadogOrganizationProperties {
   /** Id of the Datadog organization. */
   id?: string | undefined;
   /** The auth code used to linking to an existing Datadog organization. */
-  linkingAuthCode?: string | undefined;
+  linkingAuthCode?: string | Redacted.Redacted<string> | undefined;
   /** The client_id from an existing in exchange for an auth token to link organization. */
-  linkingClientId?: string | undefined;
+  linkingClientId?: string | Redacted.Redacted<string> | undefined;
   /** The redirect URI for linking. */
   redirectUri?: string | undefined;
   /** Api key associated to the Datadog organization. */
   apiKey?: string | Redacted.Redacted<string> | undefined;
   /** Application key associated to the Datadog organization. */
-  applicationKey?: string | undefined;
+  applicationKey?: string | Redacted.Redacted<string> | undefined;
   /** The Id of the Enterprise App used for Single sign on. */
   enterpriseAppId?: string | undefined;
   /** The configuration which describes the state of cloud security posture management. This collects configuration information for all resources in a subscription and track conformance to industry benchmarks. */
@@ -1139,7 +1139,8 @@ export const CreateMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<CreateMonitorRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<CreateMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1156,7 +1157,8 @@ export const DeleteMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<DeleteMonitorRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<DeleteMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1173,7 +1175,8 @@ export const DeleteMonitoredSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<DeleteMonitoredSubscriptionRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<DeleteMonitoredSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1190,7 +1193,8 @@ export const GetBillingInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<GetBillingInfoRequest>,
   output: __S(251, __c31, 3) as any as S.Schema<BillingInfoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1207,7 +1211,8 @@ export const GetCreationSupported: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<GetCreationSupportedRequest>,
   output: __S(273, __c34, 1) as any as S.Schema<CreateResourceSupportedResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1224,7 +1229,8 @@ export const GetMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<GetMonitorRequest>,
   output: __S(288, __c36, 0) as any as S.Schema<GetMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1241,7 +1247,8 @@ export const GetMonitorDefaultKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<GetMonitorDefaultKeyRequest>,
   output: __S(304, __c38, 0) as any as S.Schema<DatadogApiKey>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1258,7 +1265,8 @@ export const GetMonitoredSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<GetMonitoredSubscriptionRequest>,
   output: __S(320, __c40, 0) as any as S.Schema<GetMonitoredSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1275,7 +1283,8 @@ export const GetSingleSignOnConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<GetSingleSignOnConfigurationRequest>,
   output: __S(352, __c44, 0) as any as S.Schema<GetSingleSignOnConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1292,7 +1301,8 @@ export const GetTagRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<GetTagRuleRequest>,
   output: __S(376, __c47, 0) as any as S.Schema<GetTagRuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1310,7 +1320,8 @@ export const ListCreationSupported: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListCreationSupportedRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<CreateResourceSupportedResponseList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1334,7 +1345,8 @@ export const ListMarketplaceAgreements: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListMarketplaceAgreementsRequest>,
   output: __S(50, __c6, 2) as any as S.Schema<DatadogAgreementResourceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1358,7 +1370,8 @@ export const ListMonitorApiKeys: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListMonitorApiKeysRequest>,
   output: __S(66, __c8, 2) as any as S.Schema<DatadogApiKeyListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1382,7 +1395,8 @@ export const ListMonitorByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<ListMonitorByResourceGroupRequest>,
   output: __S(81, __c10, 1) as any as S.Schema<DatadogMonitorResourceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1406,7 +1420,8 @@ export const ListMonitoredSubscriptions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListMonitoredSubscriptionsRequest>,
   output: __S(90, __c11, 2) as any as S.Schema<MonitoredSubscriptionPropertiesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1430,7 +1445,8 @@ export const ListMonitorHosts: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<ListMonitorHostsRequest>,
   output: __S(103, __c12, 7) as any as S.Schema<DatadogHostListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1454,7 +1470,8 @@ export const ListMonitorLinkedResources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ListMonitorLinkedResourcesRequest>,
   output: __S(107, __c13, 3) as any as S.Schema<LinkedResourceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1478,7 +1495,8 @@ export const ListMonitorMonitoredResources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListMonitorMonitoredResourcesRequest>,
   output: __S(115, __c14, 3) as any as S.Schema<MonitoredResourceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1502,7 +1520,8 @@ export const ListMonitors: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListMonitorsRequest>,
   output: __S(81, __c10, 1) as any as S.Schema<DatadogMonitorResourceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1526,7 +1545,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(132, __c16, 4) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1550,7 +1570,8 @@ export const ListSingleSignOnConfigurations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListSingleSignOnConfigurationsRequest>,
   output: __S(146, __c18, 2) as any as S.Schema<DatadogSingleSignOnResourceListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1574,7 +1595,8 @@ export const ListTagRules: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<ListTagRulesRequest>,
   output: __S(154, __c19, 2) as any as S.Schema<MonitoringTagRulesListResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1597,7 +1619,8 @@ export const MarketplaceAgreementsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<MarketplaceAgreementsCreateOrUpdateRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<DatadogAgreementResource>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1614,7 +1637,8 @@ export const OrganizationsResubscribe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<OrganizationsResubscribeRequest>,
   output: __S(176, __c22, 0) as any as S.Schema<OrganizationsResubscribeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1631,7 +1655,8 @@ export const RefreshMonitorSetPasswordLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<RefreshMonitorSetPasswordLinkRequest>,
   output: __S(185, __c23, 1) as any as S.Schema<DatadogSetPasswordLink>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1648,7 +1673,8 @@ export const SetMonitorDefaultKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<SetMonitorDefaultKeyRequest>,
   output: __S(193, __c24, 1) as any as S.Schema<SetMonitorDefaultKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1665,7 +1691,8 @@ export const SingleSignOnConfigurationsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(201, __c25, 1) as any as S.Schema<SingleSignOnConfigurationsCreateOrUpdateRequest>,
   output: __S(202, __c25, 2) as any as S.Schema<SingleSignOnConfigurationsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1682,7 +1709,8 @@ export const TagRulesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<TagRulesCreateOrUpdateRequest>,
   output: __S(376, __c47, 0) as any as S.Schema<TagRulesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1699,7 +1727,8 @@ export const UpdateMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(225, __c28, 1) as any as S.Schema<UpdateMonitorRequest>,
   output: __S(176, __c22, 0) as any as S.Schema<UpdateMonitorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1716,7 +1745,8 @@ export const UpdateMonitoredSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<UpdateMonitoredSubscriptionRequest>,
   output: __S(243, __c30, 3) as any as S.Schema<UpdateMonitoredSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1733,7 +1763,8 @@ export const UpdateMonitoredSubscriptionsCreateor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<UpdateMonitoredSubscriptionsCreateorRequest>,
   output: __S(243, __c30, 3) as any as S.Schema<UpdateMonitoredSubscriptionsCreateorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1804,11 +1835,11 @@ function __c1(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           id: S.optional(S.String),
-          linkingAuthCode: S.optional(S.String),
-          linkingClientId: S.optional(S.String),
+          linkingAuthCode: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          linkingClientId: S.optional(S.String.pipe(T.SensitiveValue({}))),
           redirectUri: S.optional(S.String),
           apiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          applicationKey: S.optional(S.String),
+          applicationKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enterpriseAppId: S.optional(S.String),
           cspm: S.optional(S.Boolean),
           resourceCollection: S.optional(S.Boolean),

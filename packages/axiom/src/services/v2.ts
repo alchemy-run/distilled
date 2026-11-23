@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAxiomError } from "../errors.ts";
+import { AxiomServiceErrors } from "../errors.ts";
 import { AxiomProtocol, type AxiomOpError, type AxiomOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1244,7 +1244,7 @@ export interface AmpConfig {
 /** Published ChatGPT Workspace Agent API channel. Axiom sends {"input": "<monitor summary>"}. */
 export interface ChatGPTWorkspaceAgentConfig {
   /** ChatGPT access token with the Workspace Agents scope */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** API channel trigger ID beginning with agtch_ */
   triggerId: string;
 }
@@ -1253,12 +1253,12 @@ export interface ClaudeCodeConfig {
   /** Routine ID from a Claude Code API trigger */
   routineId: string;
   /** Bearer token for the routine */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 /** Cursor automation webhook. Axiom sends a fixed context body when the monitor fires. */
 export interface CursorConfig {
   /** Bearer token for the automation webhook */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Automation webhook URL from a Cursor automation */
   webhookUrl: string;
 }
@@ -3082,7 +3082,8 @@ export const createAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<CreateAnnotationRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<Annotation>,
-  errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3099,7 +3100,8 @@ export const createAPIToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<CreateAPITokenRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<CreateAPITokenResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3116,7 +3118,8 @@ export const createDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<CreateDashboardRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<DashboardWriteResponse>,
-  errors: [BadRequest, Conflict, UnknownAxiomError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3139,7 +3142,8 @@ export const createDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<CreateDatasetRequest>,
   output: __S(3328, __c104, 0) as any as S.Schema<Dataset>,
-  errors: [BadRequest, BadRequest, UnprocessableEntity, Forbidden, Conflict, UnknownAxiomError],
+  errors: [BadRequest, BadRequest, UnprocessableEntity, Forbidden, Conflict],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3156,7 +3160,8 @@ export const createGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<CreateGroupRequest>,
   output: __S(3712, __c116, 0) as any as S.Schema<CreateGroupResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3173,7 +3178,8 @@ export const createLabel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<CreateLabelRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<LabelSummary>,
-  errors: [BadRequest, Conflict, UnknownAxiomError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3190,7 +3196,8 @@ export const createMapField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<CreateMapFieldRequest>,
   output: __S(161, __c5, 1) as any as S.Schema<MapField>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3207,7 +3214,8 @@ export const createMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<CreateMonitorRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<CreateMonitorResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3224,7 +3232,8 @@ export const createNotifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<CreateNotifierRequest>,
   output: __S(337, __c10, 17) as any as S.Schema<CreateNotifierResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3237,7 +3246,8 @@ export const createOrg: API.OperationMethod<CreateOrgRequest, Org, CreateOrgErro
   /*@__PURE__*/ API.make(() => ({
     input: __S(352, __c11, 0) as any as S.Schema<CreateOrgRequest>,
     output: __S(386, __c12, 2) as any as S.Schema<Org>,
-    errors: [BadRequest, UnknownAxiomError],
+    errors: [BadRequest],
+    serviceErrors: AxiomServiceErrors,
     protocol: AxiomProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3254,7 +3264,8 @@ export const createRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<CreateRoleRequest>,
   output: __S(448, __c14, 0) as any as S.Schema<CreateRoleResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3271,7 +3282,8 @@ export const createStarred: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<CreateStarredRequest>,
   output: __S(516, __c16, 4) as any as S.Schema<CreateStarredResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3288,7 +3300,8 @@ export const createUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<CreateUserRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<User>,
-  errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3305,7 +3318,8 @@ export const createView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<CreateViewRequest>,
   output: __S(640, __c20, 0) as any as S.Schema<View>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3322,7 +3336,8 @@ export const createVirtualField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<CreateVirtualFieldRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<CreateVirtualFieldResponse>,
-  errors: [UnprocessableEntity, UnknownAxiomError],
+  errors: [UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3339,7 +3354,8 @@ export const deleteAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<DeleteAnnotationRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteAnnotationResponse>,
-  errors: [BadRequest, NotFound, UnknownAxiomError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3356,7 +3372,8 @@ export const deleteAPIToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<DeleteAPITokenRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteAPITokenResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3373,7 +3390,8 @@ export const deleteDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<DeleteDashboardRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteDashboardResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3390,7 +3408,8 @@ export const deleteDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<DeleteDatasetRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<JobCreateResponse>,
-  errors: [Forbidden, NotFound, NotFound, UnknownAxiomError],
+  errors: [Forbidden, NotFound, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3407,7 +3426,8 @@ export const deleteDatasetFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<DeleteDatasetFieldsRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<DeleteDatasetFieldsResult>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3424,7 +3444,8 @@ export const deleteFieldForDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<DeleteFieldForDatasetRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<DeleteDatasetFieldsResult>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3441,7 +3462,8 @@ export const deleteGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<DeleteGroupRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteGroupResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3458,7 +3480,8 @@ export const deleteLabel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<DeleteLabelRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteLabelResponse>,
-  errors: [BadRequest, NotFound, UnknownAxiomError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3475,7 +3498,8 @@ export const deleteMapField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DeleteMapFieldRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteMapFieldResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3492,7 +3516,8 @@ export const deleteMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<DeleteMonitorRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteMonitorResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3509,7 +3534,8 @@ export const deleteNotifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<DeleteNotifierRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteNotifierResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3526,7 +3552,8 @@ export const deleteRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<DeleteRoleRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteRoleResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3543,7 +3570,8 @@ export const deleteStarred: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<DeleteStarredRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteStarredResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3560,7 +3588,8 @@ export const deleteView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<DeleteViewRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteViewResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3577,7 +3606,8 @@ export const deleteVirtualField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<DeleteVirtualFieldRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<DeleteVirtualFieldResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3594,7 +3624,8 @@ export const getAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetAnnotationRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<Annotation>,
-  errors: [BadRequest, NotFound, UnknownAxiomError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3611,7 +3642,8 @@ export const getAnnotations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetAnnotationsRequest>,
   output: __S(1346, __c42, 2) as any as S.Schema<GetAnnotationsResponse>,
-  errors: [BadRequest, UnknownAxiomError],
+  errors: [BadRequest],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3628,7 +3660,8 @@ export const getAPIToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetAPITokenRequest>,
   output: __S(1408, __c44, 0) as any as S.Schema<APIToken>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3645,7 +3678,8 @@ export const getAPITokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetAPITokensRequest>,
   output: __S(1442, __c45, 2) as any as S.Schema<GetAPITokensResponse>,
-  errors: [UnknownAxiomError],
+  errors: [],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3662,7 +3696,8 @@ export const getCurrentUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetCurrentUserRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<User>,
-  errors: [Forbidden, UnknownAxiomError],
+  errors: [Forbidden],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3679,7 +3714,8 @@ export const getDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetDashboardRequest>,
   output: __S(2854, __c89, 6) as any as S.Schema<DashboardResource>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3696,7 +3732,8 @@ export const getDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetDatasetRequest>,
   output: __S(3328, __c104, 0) as any as S.Schema<Dataset>,
-  errors: [Forbidden, NotFound, UnknownAxiomError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3713,7 +3750,8 @@ export const getDatasets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetDatasetsRequest>,
   output: __S(1570, __c49, 2) as any as S.Schema<GetDatasetsResponse>,
-  errors: [BadRequest, Forbidden, UnknownAxiomError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3730,7 +3768,8 @@ export const getFieldForDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetFieldForDatasetRequest>,
   output: __S(1632, __c51, 0) as any as S.Schema<DatasetField>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3747,7 +3786,8 @@ export const getFieldsForDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<GetFieldsForDatasetRequest>,
   output: __S(1666, __c52, 2) as any as S.Schema<GetFieldsForDatasetResponse>,
-  errors: [BadRequest, Forbidden, NotFound, NotFound, UnknownAxiomError],
+  errors: [BadRequest, Forbidden, NotFound, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3764,7 +3804,8 @@ export const getGroupById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<GetGroupByIdRequest>,
   output: __S(3712, __c116, 0) as any as S.Schema<GetGroupByIdResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3781,7 +3822,8 @@ export const getLabel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetLabelRequest>,
   output: __S(1729, __c54, 1) as any as S.Schema<LabelDetails>,
-  errors: [BadRequest, NotFound, UnknownAxiomError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3798,7 +3840,8 @@ export const getMapFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetMapFieldsRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<GetMapFieldsResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3815,7 +3858,8 @@ export const getMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<GetMonitorRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<GetMonitorResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3832,7 +3876,8 @@ export const getMonitorHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetMonitorHistoryRequest>,
   output: __S(1923, __c60, 3) as any as S.Schema<GetMonitorHistoryResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3849,7 +3894,8 @@ export const getMonitors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<GetMonitorsRequest>,
   output: __S(2050, __c64, 2) as any as S.Schema<GetMonitorsResponse>,
-  errors: [BadRequest, UnknownAxiomError],
+  errors: [BadRequest],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3866,7 +3912,8 @@ export const getNotifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GetNotifierRequest>,
   output: __S(337, __c10, 17) as any as S.Schema<GetNotifierResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3883,7 +3930,8 @@ export const getNotifiers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<GetNotifiersRequest>,
   output: __S(2114, __c66, 2) as any as S.Schema<GetNotifiersResponse>,
-  errors: [BadRequest, UnknownAxiomError],
+  errors: [BadRequest],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3896,7 +3944,8 @@ export const getOrg: API.OperationMethod<GetOrgRequest, Org, GetOrgError, AxiomO
   /*@__PURE__*/ API.make(() => ({
     input: __S(2144, __c67, 0) as any as S.Schema<GetOrgRequest>,
     output: __S(386, __c12, 2) as any as S.Schema<Org>,
-    errors: [NotFound, UnknownAxiomError],
+    errors: [NotFound],
+    serviceErrors: AxiomServiceErrors,
     protocol: AxiomProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3913,7 +3962,8 @@ export const getOrgs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<GetOrgsRequest>,
   output: __S(2178, __c68, 2) as any as S.Schema<GetOrgsResponse>,
-  errors: [UnknownAxiomError],
+  errors: [],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3930,7 +3980,8 @@ export const getRoleById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<GetRoleByIdRequest>,
   output: __S(448, __c14, 0) as any as S.Schema<GetRoleByIdResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3947,7 +3998,8 @@ export const getStarred: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<GetStarredRequest>,
   output: __S(516, __c16, 4) as any as S.Schema<GetStarredResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3964,7 +4016,8 @@ export const getStarredQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<GetStarredQueriesRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<GetStarredQueriesResponse>,
-  errors: [BadRequest, NotFound, UnknownAxiomError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3977,7 +4030,8 @@ export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, Ax
   /*@__PURE__*/ API.make(() => ({
     input: __S(2304, __c72, 0) as any as S.Schema<GetUserRequest>,
     output: __S(577, __c18, 1) as any as S.Schema<User>,
-    errors: [NotFound, UnknownAxiomError],
+    errors: [NotFound],
+    serviceErrors: AxiomServiceErrors,
     protocol: AxiomProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3994,7 +4048,8 @@ export const getUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<GetUsersRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<GetUsersResponse>,
-  errors: [UnknownAxiomError],
+  errors: [],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4007,7 +4062,8 @@ export const getView: API.OperationMethod<GetViewRequest, View, GetViewError, Ax
   /*@__PURE__*/ API.make(() => ({
     input: __S(2464, __c77, 0) as any as S.Schema<GetViewRequest>,
     output: __S(640, __c20, 0) as any as S.Schema<View>,
-    errors: [NotFound, UnknownAxiomError],
+    errors: [NotFound],
+    serviceErrors: AxiomServiceErrors,
     protocol: AxiomProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4024,7 +4080,8 @@ export const getViews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<GetViewsRequest>,
   output: __S(2498, __c78, 2) as any as S.Schema<GetViewsResponse>,
-  errors: [UnknownAxiomError],
+  errors: [],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4041,7 +4098,8 @@ export const getVirtualField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<GetVirtualFieldRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<GetVirtualFieldResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4058,7 +4116,8 @@ export const getVirtualFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<GetVirtualFieldsRequest>,
   output: __S(2562, __c80, 2) as any as S.Schema<GetVirtualFieldsResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4075,7 +4134,8 @@ export const listDashboards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ListDashboardsRequest>,
   output: __S(2594, __c81, 2) as any as S.Schema<ListDashboardsResponse>,
-  errors: [BadRequest, UnknownAxiomError],
+  errors: [BadRequest],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4092,7 +4152,8 @@ export const listGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ListGroupsRequest>,
   output: __S(2626, __c82, 2) as any as S.Schema<ListGroupsResponse>,
-  errors: [UnknownAxiomError],
+  errors: [],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4109,7 +4170,8 @@ export const listLabelAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListLabelAssignmentsRequest>,
   output: __S(2658, __c83, 2) as any as S.Schema<ListLabelAssignmentsResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownAxiomError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4126,7 +4188,8 @@ export const listLabels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<ListLabelsRequest>,
   output: __S(2722, __c85, 2) as any as S.Schema<ListLabelsResponse>,
-  errors: [UnknownAxiomError],
+  errors: [],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4143,7 +4206,8 @@ export const listRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<ListRolesRequest>,
   output: __S(2754, __c86, 2) as any as S.Schema<ListRolesResponse>,
-  errors: [UnknownAxiomError],
+  errors: [],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4160,7 +4224,8 @@ export const patchDashboardChart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2785, __c87, 1) as any as S.Schema<PatchDashboardChartRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<DashboardWriteResponse>,
-  errors: [BadRequest, NotFound, UnknownAxiomError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4177,7 +4242,8 @@ export const provisionOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<ProvisionOrgRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<ProvisionOrgResponse>,
-  errors: [BadRequest, UnknownAxiomError],
+  errors: [BadRequest],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4194,7 +4260,8 @@ export const regenerateAPIToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3009, __c94, 1) as any as S.Schema<RegenerateAPITokenRequest>,
   output: __S(2432, __c76, 0) as any as S.Schema<RegenerateAPITokenResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4211,7 +4278,8 @@ export const removeUserFromOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<RemoveUserFromOrgRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<RemoveUserFromOrgResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4233,7 +4301,8 @@ export const replaceLabelAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<ReplaceLabelAssignmentsRequest>,
   output: __S(2688, __c84, 0) as any as S.Schema<LabelAssignmentResult>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4250,7 +4319,8 @@ export const trimDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<TrimDatasetRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<JobCreateResponse>,
-  errors: [Forbidden, NotFound, UnknownAxiomError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4267,7 +4337,8 @@ export const updateAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<UpdateAnnotationRequest>,
   output: __S(1984, __c62, 0) as any as S.Schema<Annotation>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4284,7 +4355,8 @@ export const updateCurrentUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<UpdateCurrentUserRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<User>,
-  errors: [BadRequest, UnknownAxiomError],
+  errors: [BadRequest],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4301,7 +4373,8 @@ export const updateDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<UpdateDashboardRequest>,
   output: __S(2880, __c90, 0) as any as S.Schema<DashboardWriteResponse>,
-  errors: [BadRequest, Conflict, UnknownAxiomError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4324,7 +4397,8 @@ export const updateDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<UpdateDatasetRequest>,
   output: __S(3328, __c104, 0) as any as S.Schema<Dataset>,
-  errors: [BadRequest, Forbidden, NotFound, NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [BadRequest, Forbidden, NotFound, NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4341,7 +4415,8 @@ export const updateFieldForDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<UpdateFieldForDatasetRequest>,
   output: __S(1632, __c51, 0) as any as S.Schema<DatasetField>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4358,7 +4433,8 @@ export const updateGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<UpdateGroupRequest>,
   output: __S(3712, __c116, 0) as any as S.Schema<UpdateGroupResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4375,7 +4451,8 @@ export const updateLabel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3392, __c106, 0) as any as S.Schema<UpdateLabelRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<LabelSummary>,
-  errors: [BadRequest, NotFound, Conflict, UnknownAxiomError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4392,7 +4469,8 @@ export const updateMapFields: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<UpdateMapFieldsRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<UpdateMapFieldsResponse>,
-  errors: [NotFound, UnknownAxiomError],
+  errors: [NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4409,7 +4487,8 @@ export const updateMonitor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<UpdateMonitorRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<UpdateMonitorResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4426,7 +4505,8 @@ export const updateNotifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<UpdateNotifierRequest>,
   output: __S(337, __c10, 17) as any as S.Schema<UpdateNotifierResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4439,7 +4519,8 @@ export const updateOrg: API.OperationMethod<UpdateOrgRequest, Org, UpdateOrgErro
   /*@__PURE__*/ API.make(() => ({
     input: __S(3520, __c110, 0) as any as S.Schema<UpdateOrgRequest>,
     output: __S(386, __c12, 2) as any as S.Schema<Org>,
-    errors: [NotFound, UnknownAxiomError],
+    errors: [NotFound],
+    serviceErrors: AxiomServiceErrors,
     protocol: AxiomProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -4456,7 +4537,8 @@ export const updateRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<UpdateRoleRequest>,
   output: __S(448, __c14, 0) as any as S.Schema<UpdateRoleResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4473,7 +4555,8 @@ export const updateStarred: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<UpdateStarredRequest>,
   output: __S(516, __c16, 4) as any as S.Schema<UpdateStarredResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4490,7 +4573,8 @@ export const updateUserRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<UpdateUserRoleRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<User>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4507,7 +4591,8 @@ export const updateView: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<UpdateViewRequest>,
   output: __S(640, __c20, 0) as any as S.Schema<View>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4524,7 +4609,8 @@ export const updateVirtualField: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<UpdateVirtualFieldRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<UpdateVirtualFieldResponse>,
-  errors: [NotFound, UnprocessableEntity, UnknownAxiomError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4541,7 +4627,8 @@ export const vacuumDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<VacuumDatasetRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<JobCreateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownAxiomError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: AxiomServiceErrors,
   protocol: AxiomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4748,7 +4835,7 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           triggerId: S.String,
         }),
       ).annotate({ identifier: "ChatGPTWorkspaceAgentConfig" });
@@ -4756,13 +4843,13 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           routineId: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ClaudeCodeConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           webhookUrl: S.String,
         }),
       ).annotate({ identifier: "CursorConfig" });

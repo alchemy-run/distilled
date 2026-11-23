@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDokployError } from "../errors.ts";
+import { DokployServiceErrors } from "../errors.ts";
 import { DokployProtocol, type DokployOpError, type DokployOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -76,7 +76,7 @@ export class NotFound
 export interface CreateVaultProviderRequestConfigCase0 {
   providerType: string;
   url: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   namespace?: string | undefined;
   mount?: string | undefined;
 }
@@ -106,7 +106,7 @@ export interface CreateVaultProviderRequestConfigCase3 {
 }
 export interface CreateVaultProviderRequestConfigCase4 {
   providerType: string;
-  serviceToken: string;
+  serviceToken: string | Redacted.Redacted<string>;
   project?: string | undefined;
   config?: string | undefined;
 }
@@ -126,7 +126,7 @@ export interface CreateVaultProviderRequestConfigCase6 {
 }
 export interface CreateVaultProviderRequestConfigCase7 {
   providerType: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   appId: string;
   env: string;
   path?: string | undefined;
@@ -270,7 +270,8 @@ export const createVaultProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<CreateVaultProviderRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<CreateVaultProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -286,7 +287,8 @@ export const deleteVaultProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DeleteVaultProviderRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<DeleteVaultProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -302,7 +304,8 @@ export const getVaultProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<GetVaultProviderRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<GetVaultProviderResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -318,7 +321,8 @@ export const listVaultProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ListVaultProvidersRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<ListVaultProvidersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -334,7 +338,8 @@ export const listVaultProviderSecretNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ListVaultProviderSecretNamesRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<ListVaultProviderSecretNamesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -350,7 +355,8 @@ export const testVaultProviderConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<TestVaultProviderConnectionRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<TestVaultProviderConnectionResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -366,7 +372,8 @@ export const updateVaultProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<UpdateVaultProviderRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<UpdateVaultProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

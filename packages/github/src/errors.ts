@@ -33,19 +33,24 @@ import type {
   NotFound,
   UnprocessableEntity,
 } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
+import { applyErrorMatchers } from "@distilled.cloud/core/trait";
 
 /**
  * HTTP 410 -- the resource existed and no longer serves: issues disabled on a
  * repository, a migration archive that has been deleted, a gist that was
- * removed. Core's shared status map has no entry for it (410 is rare outside
- * GitHub), so the package adds one.
+ * removed. Core has no class for the status (410 is rare outside GitHub), so
+ * the package adds one, matched by its status like an operation's own
+ * errors.
  */
 export class Gone
-  extends /*@__PURE__*/ Schema.TaggedError<Gone>()("Gone", {
-    message: Schema.String,
-  }).pipe(Category.withNotFoundError) {}
+  extends /*@__PURE__*/ applyErrorMatchers(
+    /*@__PURE__*/ Schema.TaggedError<Gone>()("Gone", {
+      message: Schema.String,
+    }).pipe(Category.withNotFoundError),
+    [{ status: 410 }],
+  ) {}
 
 /**
  * Unknown GitHub error -- returned when a failed response's HTTP status has no
@@ -118,3 +123,11 @@ export type ClientErrors =
  * plus the client-level fallback/decode errors.
  */
 export type DefaultErrors = CoreDefaultErrors | ClientErrors;
+
+/**
+ * The errors declared on the GitHub service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. Each of
+ * core's status classes, and {@link Gone} for 410.
+ */
+export const GithubServiceErrors = [...API_ERRORS, Gone] as const;
+export type GithubServiceError = InstanceType<(typeof GithubServiceErrors)[number]>;

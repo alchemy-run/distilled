@@ -1,0 +1,37 @@
+{
+  "description": "Type the 409 `blobs-missing` that putAssetManifest (PUT /v1/assets/manifests/{sha256}) gets when a blob the manifest names is not uploaded. The spec documents it on that operation (\"If a blob is missing the answer is 409 `blobs-missing` with up to 100 digests in `missing` (and the full count in `missing_count`)\"), with `missing` and `missing_count` in its 409 schema. It generated as the generic Conflict. The fields stay on the error body (`body.missing`, `body.missing_count`), typed from that 409 schema.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.sproutboat#BlobsMissing",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The manifest names asset blobs that are not uploaded. `body.missing` lists up to 100 of their digests, `body.missing_count` how many there are. Upload them with `putAssetBlob`, then the manifest again.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/reason": "blobs-missing"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.sproutboat#PutAssetManifest/errors/-",
+      "value": {
+        "target": "com.sproutboat#BlobsMissing"
+      }
+    }
+  ]
+}

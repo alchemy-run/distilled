@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownPrismaError } from "../errors.ts";
+import { PrismaServiceErrors } from "../errors.ts";
 import { PrismaProtocol, type PrismaOpError, type PrismaOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -146,7 +146,7 @@ export class UnprocessableEntity
 
 export interface CreateAuthGithubActionsTokenRequest {
   /** The GitHub Actions OIDC token with audience `prisma-cloud`. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Requested token lifetime in seconds. Defaults to 1800 (30 min); capped at 3600 (60 min). */
   expiresInSeconds?: number | undefined;
 }
@@ -155,7 +155,7 @@ export interface CreateAuthGithubActionsTokenResponseData {
   id: string;
   type: string;
   /** The minted integration token. Returned once -- copy it immediately. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** ISO 8601 instant after which the token is invalid. */
   expiresAt: string;
   /** Prefixed workspace ID the token is scoped to. */
@@ -1002,7 +1002,7 @@ export interface CreateProjectDatabaseResponse {
 }
 export interface CreateProjectTransferRequest {
   id: string;
-  recipientAccessToken: string;
+  recipientAccessToken: string | Redacted.Redacted<string>;
 }
 export interface CreateProjectTransferResponse {}
 export type CreateScmInstallationsInstallIntentRequestProvider = "github";
@@ -1447,7 +1447,7 @@ export interface CreateWorkspaceServiceTokenResponseData {
   valueHint: string;
   createdAt: string;
   expiresAt?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface CreateWorkspaceServiceTokenResponse {
   data: CreateWorkspaceServiceTokenResponseData;
@@ -3703,7 +3703,8 @@ export const createAuthGithubActionsToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<CreateAuthGithubActionsTokenRequest>,
   output: __S(1954, __c122, 2) as any as S.Schema<CreateAuthGithubActionsTokenResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3720,7 +3721,8 @@ export const createBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<CreateBucketRequest>,
   output: __S(2208, __c138, 0) as any as S.Schema<CreateBucketResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3737,7 +3739,8 @@ export const createBucketKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<CreateBucketKeyRequest>,
   output: __S(2482, __c155, 2) as any as S.Schema<CreateBucketKeyResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3754,7 +3757,8 @@ export const createBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49, __c3, 1) as any as S.Schema<CreateBuildRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<CreateBuildResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3776,7 +3780,8 @@ export const createConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<CreateConnectionRequest>,
   output: __S(291, __c18, 3) as any as S.Schema<CreateConnectionResponse>,
-  errors: [BadRequest, Conflict, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Conflict, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3793,7 +3798,8 @@ export const createConnectionRotate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<CreateConnectionRotateRequest>,
   output: __S(291, __c18, 3) as any as S.Schema<CreateConnectionRotateResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3816,7 +3822,8 @@ export const createDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(577, __c36, 1) as any as S.Schema<CreateDatabaseRequest>,
   output: __S(580, __c36, 4) as any as S.Schema<CreateDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3837,7 +3844,8 @@ export const createDatabaseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<CreateDatabaseConnectionRequest>,
   output: __S(291, __c18, 3) as any as S.Schema<CreateDatabaseConnectionResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3859,7 +3867,8 @@ export const createDatabaseRestore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<CreateDatabaseRestoreRequest>,
   output: __S(674, __c42, 2) as any as S.Schema<CreateDatabaseRestoreResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3881,7 +3890,8 @@ export const createDeploymentStart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<CreateDeploymentStartRequest>,
   output: __S(738, __c46, 2) as any as S.Schema<CreateDeploymentStartResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3903,7 +3913,8 @@ export const createDeploymentStop: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<CreateDeploymentStopRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<CreateDeploymentStopResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3920,7 +3931,8 @@ export const createDomainOwnershipVerify: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<CreateDomainOwnershipVerifyRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<CreateDomainOwnershipVerifyResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3937,7 +3949,8 @@ export const createDomainRetry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<CreateDomainRetryRequest>,
   output: __S(848, __c53, 0) as any as S.Schema<CreateDomainRetryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3959,7 +3972,8 @@ export const createEnvironmentVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<CreateEnvironmentVariableRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<CreateEnvironmentVariableResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3976,7 +3990,8 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<CreateProjectRequest>,
   output: __S(932, __c58, 4) as any as S.Schema<CreateProjectResponse>,
-  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3998,7 +4013,8 @@ export const createProjectBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<CreateProjectBranchRequest>,
   output: __S(976, __c61, 0) as any as S.Schema<CreateProjectBranchResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4019,7 +4035,8 @@ export const createProjectBranchAlchemyStateLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseRequest>,
   output: __S(1025, __c64, 1) as any as S.Schema<CreateProjectBranchAlchemyStateLeaseResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4042,7 +4059,8 @@ export const createProjectDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1042, __c65, 2) as any as S.Schema<CreateProjectDatabaseRequest>,
   output: __S(1045, __c65, 5) as any as S.Schema<CreateProjectDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4064,7 +4082,8 @@ export const createProjectTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<CreateProjectTransferRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<CreateProjectTransferResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4086,7 +4105,8 @@ export const createScmInstallationsInstallIntent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<CreateScmInstallationsInstallIntentRequest>,
   output: __S(1074, __c67, 2) as any as S.Schema<CreateScmInstallationsInstallIntentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4109,7 +4129,8 @@ export const createService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<CreateServiceRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<CreateServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4131,7 +4152,8 @@ export const createServiceDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1137, __c71, 1) as any as S.Schema<CreateServiceDeploymentRequest>,
   output: __S(1139, __c71, 3) as any as S.Schema<CreateServiceDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4164,8 +4186,8 @@ export const createServiceDomain: API.OperationMethod<
     UnprocessableEntity,
     DomainOwnershipRequired,
     DomainDnsNotConfigured,
-    UnknownPrismaError,
   ],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4188,7 +4210,8 @@ export const createServicePromote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<CreateServicePromoteRequest>,
   output: __S(1185, __c74, 1) as any as S.Schema<CreateServicePromoteResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4211,7 +4234,8 @@ export const createServiceRollback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<CreateServiceRollbackRequest>,
   output: __S(1185, __c74, 1) as any as S.Schema<CreateServiceRollbackResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4233,7 +4257,8 @@ export const createServiceUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<CreateServiceUrlRequest>,
   output: __S(1232, __c77, 0) as any as S.Schema<CreateServiceUrlResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4256,7 +4281,8 @@ export const createSourceRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<CreateSourceRepositoryRequest>,
   output: __S(1296, __c81, 0) as any as S.Schema<CreateSourceRepositoryResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4273,7 +4299,8 @@ export const createUrlCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<CreateUrlCheckRequest>,
   output: __S(1232, __c77, 0) as any as S.Schema<CreateUrlCheckResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4290,7 +4317,8 @@ export const createWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<CreateWorkspaceRequest>,
   output: __S(1344, __c84, 0) as any as S.Schema<CreateWorkspaceResponse>,
-  errors: [BadRequest, Forbidden, UnknownPrismaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4312,7 +4340,8 @@ export const createWorkspaceDomainOwnership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<CreateWorkspaceDomainOwnershipResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, DomainOwnershipRequired, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity, DomainOwnershipRequired],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4333,7 +4362,8 @@ export const createWorkspaceServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<CreateWorkspaceServiceTokenRequest>,
   output: __S(1394, __c87, 2) as any as S.Schema<CreateWorkspaceServiceTokenResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4355,7 +4385,8 @@ export const deleteBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<DeleteBranchRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteBranchResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4372,7 +4403,8 @@ export const deleteBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<DeleteBucketRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteBucketResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4389,7 +4421,8 @@ export const deleteBucketKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<DeleteBucketKeyRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteBucketKeyResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4406,7 +4439,8 @@ export const deleteConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<DeleteConnectionRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteConnectionResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4428,7 +4462,8 @@ export const deleteDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4445,7 +4480,8 @@ export const deleteDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<DeleteDeploymentRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4462,7 +4498,8 @@ export const deleteDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<DeleteDomainRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteDomainResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4479,7 +4516,8 @@ export const deleteDomainOwnership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<DeleteDomainOwnershipRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteDomainOwnershipResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4500,7 +4538,8 @@ export const deleteEnvironmentVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<DeleteEnvironmentVariableRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteEnvironmentVariableResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4517,7 +4556,8 @@ export const deleteIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<DeleteIntegrationRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4539,7 +4579,8 @@ export const deleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4556,7 +4597,8 @@ export const deleteProjectBranchAlchemyStateLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateLeaseRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateLeaseResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4577,7 +4619,8 @@ export const deleteProjectBranchAlchemyStateStateStack: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4606,7 +4649,8 @@ export const deleteProjectBranchAlchemyStateStateStackStageResource: API.Operati
     __c48,
     0,
   ) as any as S.Schema<DeleteProjectBranchAlchemyStateStateStackStageResourceResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4623,7 +4667,8 @@ export const deleteService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<DeleteServiceRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4640,7 +4685,8 @@ export const deleteSourceRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<DeleteSourceRepositoryRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteSourceRepositoryResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4657,7 +4703,8 @@ export const deleteUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<DeleteUrlRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteUrlResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4678,7 +4725,8 @@ export const deleteWorkspaceIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<DeleteWorkspaceIntegrationRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteWorkspaceIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4695,7 +4743,8 @@ export const deleteWorkspaceServiceToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<DeleteWorkspaceServiceTokenRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<DeleteWorkspaceServiceTokenResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4712,7 +4761,8 @@ export const getAgentApproval: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<GetAgentApprovalRequest>,
   output: __S(1713, __c107, 1) as any as S.Schema<GetAgentApprovalResponse>,
-  errors: [NotFound, UnknownPrismaError],
+  errors: [NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4729,7 +4779,8 @@ export const getBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<GetBranchRequest>,
   output: __S(976, __c61, 0) as any as S.Schema<GetBranchResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4746,7 +4797,8 @@ export const getBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<GetBucketRequest>,
   output: __S(2208, __c138, 0) as any as S.Schema<GetBucketResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4763,7 +4815,8 @@ export const getBucketKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<GetBucketKeysRequest>,
   output: __S(1763, __c110, 3) as any as S.Schema<GetBucketKeysResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4780,7 +4833,8 @@ export const getBuckets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<GetBucketsRequest>,
   output: __S(1794, __c112, 2) as any as S.Schema<GetBucketsResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4797,7 +4851,8 @@ export const getBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<GetBuildRequest>,
   output: __S(1812, __c113, 4) as any as S.Schema<GetBuildResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4814,7 +4869,8 @@ export const getBuilds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<GetBuildsRequest>,
   output: __S(1826, __c114, 2) as any as S.Schema<GetBuildsResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4831,7 +4887,8 @@ export const getConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<GetConnectionRequest>,
   output: __S(1841, __c115, 1) as any as S.Schema<GetConnectionResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4848,7 +4905,8 @@ export const getConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<GetConnectionsRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<GetConnectionsResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4870,7 +4928,8 @@ export const getDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<GetDatabaseRequest>,
   output: __S(1891, __c118, 3) as any as S.Schema<GetDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4887,7 +4946,8 @@ export const getDatabaseBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<GetDatabaseBackupsRequest>,
   output: __S(1909, __c119, 5) as any as S.Schema<GetDatabaseBackupsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4904,7 +4964,8 @@ export const getDatabaseConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<GetDatabaseConnectionsRequest>,
   output: __S(1872, __c117, 0) as any as S.Schema<GetDatabaseConnectionsResponse>,
-  errors: [UnprocessableEntity, UnknownPrismaError],
+  errors: [UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4921,7 +4982,8 @@ export const getDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<GetDatabasesRequest>,
   output: __S(1940, __c121, 4) as any as S.Schema<GetDatabasesResponse>,
-  errors: [BadRequest, Forbidden, UnknownPrismaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4938,7 +5000,8 @@ export const getDatabaseUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<GetDatabaseUsageRequest>,
   output: __S(1972, __c123, 4) as any as S.Schema<GetDatabaseUsageResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4955,7 +5018,8 @@ export const getDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<GetDeploymentRequest>,
   output: __S(1988, __c124, 4) as any as S.Schema<GetDeploymentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4972,7 +5036,8 @@ export const getDeploymentLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<GetDeploymentLogsRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<GetDeploymentLogsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4989,7 +5054,8 @@ export const getDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<GetDomainRequest>,
   output: __S(848, __c53, 0) as any as S.Schema<GetDomainResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5006,7 +5072,8 @@ export const getDomainOwnership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<GetDomainOwnershipRequest>,
   output: __S(800, __c50, 0) as any as S.Schema<GetDomainOwnershipResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5027,7 +5094,8 @@ export const getEnvironmentVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<GetEnvironmentVariableRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<GetEnvironmentVariableResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5048,7 +5116,8 @@ export const getEnvironmentVariables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<GetEnvironmentVariablesRequest>,
   output: __S(2066, __c129, 2) as any as S.Schema<GetEnvironmentVariablesResponse>,
-  errors: [NotFound, BadRequest, UnprocessableEntity, UnknownPrismaError],
+  errors: [NotFound, BadRequest, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5065,7 +5134,8 @@ export const getIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<GetIntegrationRequest>,
   output: __S(2081, __c130, 1) as any as S.Schema<GetIntegrationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5082,7 +5152,8 @@ export const getIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<GetIntegrationsRequest>,
   output: __S(2145, __c134, 1) as any as S.Schema<GetIntegrationsResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5095,7 +5166,8 @@ export const getMe: API.OperationMethod<GetMeRequest, GetMeResponse, GetMeError,
   /*@__PURE__*/ API.make(() => ({
     input: __S(2160, __c135, 0) as any as S.Schema<GetMeRequest>,
     output: __S(2164, __c135, 4) as any as S.Schema<GetMeResponse>,
-    errors: [UnknownPrismaError],
+    errors: [],
+    serviceErrors: PrismaServiceErrors,
     protocol: PrismaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5112,7 +5184,8 @@ export const getProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(2256, __c141, 0) as any as S.Schema<GetProjectResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5133,7 +5206,8 @@ export const getProjectBranchAlchemyStateStateStacks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<GetProjectBranchAlchemyStateStateStacksRequest>,
   output: __S(2304, __c144, 0) as any as S.Schema<GetProjectBranchAlchemyStateStateStacksResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5162,7 +5236,8 @@ export const getProjectBranchAlchemyStateStateStackStageOutput: API.OperationMet
     __c146,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageOutputResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5191,7 +5266,8 @@ export const getProjectBranchAlchemyStateStateStackStageReplacedResources: API.O
     __c147,
     1,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageReplacedResourcesResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5220,7 +5296,8 @@ export const getProjectBranchAlchemyStateStateStackStageResource: API.OperationM
     __c146,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourceResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5249,7 +5326,8 @@ export const getProjectBranchAlchemyStateStateStackStageResources: API.Operation
     __c144,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStageResourcesResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5278,7 +5356,8 @@ export const getProjectBranchAlchemyStateStateStackStages: API.OperationMethod<
     __c144,
     0,
   ) as any as S.Schema<GetProjectBranchAlchemyStateStateStackStagesResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5295,7 +5374,8 @@ export const getProjectBranchAlchemyStateVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<GetProjectBranchAlchemyStateVersionRequest>,
   output: __S(2417, __c151, 1) as any as S.Schema<GetProjectBranchAlchemyStateVersionResponse>,
-  errors: [UnknownPrismaError],
+  errors: [],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5312,7 +5392,8 @@ export const getProjectBranchApplicationTopology: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c152, 0) as any as S.Schema<GetProjectBranchApplicationTopologyRequest>,
   output: __S(2456, __c153, 8) as any as S.Schema<GetProjectBranchApplicationTopologyResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5329,7 +5410,8 @@ export const getProjectBranches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c154, 0) as any as S.Schema<GetProjectBranchesRequest>,
   output: __S(2466, __c154, 2) as any as S.Schema<GetProjectBranchesResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5346,7 +5428,8 @@ export const getProjectBranchUrls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<GetProjectBranchUrlsRequest>,
   output: __S(2529, __c158, 1) as any as S.Schema<GetProjectBranchUrlsResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5363,7 +5446,8 @@ export const getProjectDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<GetProjectDatabasesRequest>,
   output: __S(2548, __c159, 4) as any as S.Schema<GetProjectDatabasesResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5380,7 +5464,8 @@ export const getProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<GetProjectsRequest>,
   output: __S(2562, __c160, 2) as any as S.Schema<GetProjectsResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5397,7 +5482,8 @@ export const getRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2576, __c161, 0) as any as S.Schema<GetRegionsRequest>,
   output: __S(2579, __c161, 3) as any as S.Schema<GetRegionsResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5414,7 +5500,8 @@ export const getRegionsAccelerate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c162, 0) as any as S.Schema<GetRegionsAccelerateRequest>,
   output: __S(2595, __c162, 3) as any as S.Schema<GetRegionsAccelerateResponse>,
-  errors: [UnknownPrismaError],
+  errors: [],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5431,7 +5518,8 @@ export const getRegionsPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<GetRegionsPostgresRequest>,
   output: __S(2611, __c163, 3) as any as S.Schema<GetRegionsPostgresResponse>,
-  errors: [UnknownPrismaError],
+  errors: [],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5452,7 +5540,8 @@ export const getScmInstallationRepositories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<GetScmInstallationRepositoriesRequest>,
   output: __S(2627, __c164, 3) as any as S.Schema<GetScmInstallationRepositoriesResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5469,7 +5558,8 @@ export const getScmInstallations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<GetScmInstallationsRequest>,
   output: __S(2643, __c165, 3) as any as S.Schema<GetScmInstallationsResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5486,7 +5576,8 @@ export const getService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c166, 0) as any as S.Schema<GetServiceRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<GetServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5503,7 +5594,8 @@ export const getServiceDeployments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<GetServiceDeploymentsRequest>,
   output: __S(2675, __c167, 3) as any as S.Schema<GetServiceDeploymentsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5520,7 +5612,8 @@ export const getServiceDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetServiceDomainsRequest>,
   output: __S(98, __c6, 2) as any as S.Schema<GetServiceDomainsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5542,7 +5635,8 @@ export const getServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetServicesRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<GetServicesResponse>,
-  errors: [BadRequest, NotFound, Forbidden, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Forbidden, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5559,7 +5653,8 @@ export const getServiceUrls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<GetServiceUrlsRequest>,
   output: __S(2529, __c158, 1) as any as S.Schema<GetServiceUrlsResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5576,7 +5671,8 @@ export const getSourceRepositories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetSourceRepositoriesRequest>,
   output: __S(146, __c9, 2) as any as S.Schema<GetSourceRepositoriesResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5593,7 +5689,8 @@ export const getSourceRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<GetSourceRepositoryRequest>,
   output: __S(1296, __c81, 0) as any as S.Schema<GetSourceRepositoryResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5610,7 +5707,8 @@ export const getUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<GetUrlRequest>,
   output: __S(1232, __c77, 0) as any as S.Schema<GetUrlResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5627,7 +5725,8 @@ export const getWorkspace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<GetWorkspaceRequest>,
   output: __S(1344, __c84, 0) as any as S.Schema<GetWorkspaceResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5648,7 +5747,8 @@ export const getWorkspaceDomainOwnerships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<GetWorkspaceDomainOwnershipsRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<GetWorkspaceDomainOwnershipsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5669,7 +5769,8 @@ export const getWorkspaceDomainOwnershipsVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<GetWorkspaceDomainOwnershipsVerificationRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<GetWorkspaceDomainOwnershipsVerificationResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5690,7 +5791,8 @@ export const getWorkspaceIntegrations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<GetWorkspaceIntegrationsRequest>,
   output: __S(2145, __c134, 1) as any as S.Schema<GetWorkspaceIntegrationsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5707,7 +5809,8 @@ export const getWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetWorkspacesRequest>,
   output: __S(306, __c19, 2) as any as S.Schema<GetWorkspacesResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5724,7 +5827,8 @@ export const getWorkspaceServiceTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetWorkspaceServiceTokensRequest>,
   output: __S(323, __c20, 3) as any as S.Schema<GetWorkspaceServiceTokensResponse>,
-  errors: [BadRequest, UnknownPrismaError],
+  errors: [BadRequest],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5741,7 +5845,8 @@ export const getWorkspaceSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetWorkspaceSubscriptionRequest>,
   output: __S(338, __c21, 2) as any as S.Schema<GetWorkspaceSubscriptionResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5758,7 +5863,8 @@ export const putBuildResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<PutBuildResourceRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<PutBuildResourceResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5787,7 +5893,8 @@ export const putProjectBranchAlchemyStateStateStackStageOutput: API.OperationMet
     __c146,
     0,
   ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageOutputResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5816,7 +5923,8 @@ export const putProjectBranchAlchemyStateStateStackStageResource: API.OperationM
     __c146,
     0,
   ) as any as S.Schema<PutProjectBranchAlchemyStateStateStackStageResourceResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5837,7 +5945,8 @@ export const putProjectBranchApplicationTopology: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<PutProjectBranchApplicationTopologyRequest>,
   output: __S(2456, __c153, 8) as any as S.Schema<PutProjectBranchApplicationTopologyResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5854,7 +5963,8 @@ export const updateBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<UpdateBranchRequest>,
   output: __S(976, __c61, 0) as any as S.Schema<UpdateBranchResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5876,7 +5986,8 @@ export const updateBucket: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<UpdateBucketRequest>,
   output: __S(2208, __c138, 0) as any as S.Schema<UpdateBucketResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5893,7 +6004,8 @@ export const updateBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<UpdateBuildRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<UpdateBuildResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5916,7 +6028,8 @@ export const updateDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<UpdateDatabaseRequest>,
   output: __S(483, __c30, 3) as any as S.Schema<UpdateDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5937,7 +6050,8 @@ export const updateEnvironmentVariable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<UpdateEnvironmentVariableRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<UpdateEnvironmentVariableResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5959,7 +6073,8 @@ export const updateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(513, __c32, 1) as any as S.Schema<UpdateProjectRequest>,
   output: __S(2256, __c141, 0) as any as S.Schema<UpdateProjectResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5976,7 +6091,8 @@ export const updateProjectBranchAlchemyStateLease: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<UpdateProjectBranchAlchemyStateLeaseRequest>,
   output: __S(1025, __c64, 1) as any as S.Schema<UpdateProjectBranchAlchemyStateLeaseResponse>,
-  errors: [BadRequest, NotFound, UnknownPrismaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5999,7 +6115,8 @@ export const updateService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<UpdateServiceRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<UpdateServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6016,7 +6133,8 @@ export const updateUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<UpdateUrlRequest>,
   output: __S(1232, __c77, 0) as any as S.Schema<UpdateUrlResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownPrismaError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: PrismaServiceErrors,
   protocol: PrismaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7326,7 +7444,7 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          recipientAccessToken: S.String,
+          recipientAccessToken: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/v1/projects/{id}/transfer", code: 200 })),
       ).annotate({ identifier: "CreateProjectTransferRequest" });
   }
@@ -7733,7 +7851,7 @@ function __c87(j: number): any {
           valueHint: S.String,
           createdAt: S.String,
           expiresAt: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateWorkspaceServiceTokenResponseData" });
     case 2:
@@ -8347,7 +8465,7 @@ function __c122(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           expiresInSeconds: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/v1/auth/github-actions/token", code: 200 })),
       ).annotate({ identifier: "CreateAuthGithubActionsTokenRequest" });
@@ -8356,7 +8474,7 @@ function __c122(j: number): any {
         S.Struct({
           id: S.String,
           type: S.String,
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           expiresAt: S.String,
           workspaceId: S.String,
         }),

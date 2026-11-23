@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -71,6 +71,8 @@ export interface DownloadHSMSecurityDomainResponse {
   azureAsyncOperation?: string | undefined;
   /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
   retryAfter?: number | undefined;
+  /** The Security Domain, encrypted to the certificates in the request. */
+  value?: string | undefined;
 }
 export interface DownloadHSMSecurityDomainPendingRequest {
   vaultBaseUrl: string;
@@ -104,6 +106,10 @@ export interface UploadHSMSecurityDomainResponse {
   azureAsyncOperation?: string | undefined;
   /** The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation. */
   retryAfter?: number | undefined;
+  /** Operation status. */
+  status?: OperationStatus | undefined;
+  /** Details of the operation status. */
+  status_details?: string | undefined;
 }
 export interface UploadHSMSecurityDomainPendingRequest {
   vaultBaseUrl: string;
@@ -117,8 +123,9 @@ export const DownloadHSMSecurityDomain: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<DownloadHSMSecurityDomainRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<DownloadHSMSecurityDomainResponse>,
-  errors: [UnknownAzureError],
+  output: __S(2, __c0, 2) as any as S.Schema<DownloadHSMSecurityDomainResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -133,9 +140,10 @@ export const DownloadHSMSecurityDomainPending: API.OperationMethod<
   DownloadHSMSecurityDomainPendingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<DownloadHSMSecurityDomainPendingRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<SecurityDomainOperationStatus>,
-  errors: [UnknownAzureError],
+  input: __S(8, __c2, 0) as any as S.Schema<DownloadHSMSecurityDomainPendingRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<SecurityDomainOperationStatus>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -150,9 +158,10 @@ export const TransferHSMSecurityDomainKey: API.OperationMethod<
   TransferHSMSecurityDomainKeyError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<TransferHSMSecurityDomainKeyRequest>,
-  output: __S(11, __c5, 1) as any as S.Schema<TransferKey>,
-  errors: [UnknownAzureError],
+  input: __S(16, __c4, 0) as any as S.Schema<TransferHSMSecurityDomainKeyRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<TransferKey>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -167,9 +176,10 @@ export const UploadHSMSecurityDomain: API.OperationMethod<
   UploadHSMSecurityDomainError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<UploadHSMSecurityDomainRequest>,
-  output: __S(4, __c2, 0) as any as S.Schema<UploadHSMSecurityDomainResponse>,
-  errors: [UnknownAzureError],
+  input: __S(20, __c5, 0) as any as S.Schema<UploadHSMSecurityDomainRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<UploadHSMSecurityDomainResponse>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -184,9 +194,10 @@ export const UploadHSMSecurityDomainPending: API.OperationMethod<
   UploadHSMSecurityDomainPendingError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c7, 0) as any as S.Schema<UploadHSMSecurityDomainPendingRequest>,
-  output: __S(8, __c4, 0) as any as S.Schema<SecurityDomainOperationStatus>,
-  errors: [UnknownAzureError],
+  input: __S(24, __c6, 0) as any as S.Schema<UploadHSMSecurityDomainPendingRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<SecurityDomainOperationStatus>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -197,7 +208,7 @@ export const UploadHSMSecurityDomainPending: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3, __c1, 1));
+      return S.Array(__S(5, __c1, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -208,14 +219,22 @@ function __c0(j: number): any {
           T.Http({
             method: "POST",
             uri: "/securitydomain/download",
-            code: 200,
+            code: 202,
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DownloadHSMSecurityDomainRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DownloadHSMSecurityDomainResponse" });
   }
 }
 function __c1(j: number): any {
@@ -227,10 +246,10 @@ function __c1(j: number): any {
         S.Struct({
           kid: S.String,
           kty: S.String,
-          key_ops: __S(2, __c1, 0),
+          key_ops: __S(4, __c1, 0),
           n: S.String,
           e: S.String,
-          x5c: __S(2, __c1, 0),
+          x5c: __S(4, __c1, 0),
           use: S.optional(S.String),
           x5t: S.optional(S.String),
           x5t_S256: S.String.pipe(T.Body("x5t#S256")),
@@ -244,17 +263,6 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-        }),
-      ).annotate({ identifier: "DownloadHSMSecurityDomainResponse" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           vaultBaseUrl: S.String.pipe(T.HostLabel()),
         }).pipe(
           T.Http({
@@ -264,13 +272,13 @@ function __c3(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "DownloadHSMSecurityDomainPendingRequest" });
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -281,7 +289,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "SecurityDomainOperationStatus" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -295,7 +303,7 @@ function __c5(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "TransferHSMSecurityDomainKeyRequest" });
@@ -303,12 +311,12 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           key_format: S.optional(S.String),
-          transfer_key: __S(3, __c1, 1),
+          transfer_key: __S(5, __c1, 1),
         }),
       ).annotate({ identifier: "TransferKey" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -319,17 +327,26 @@ function __c6(j: number): any {
           T.Http({
             method: "POST",
             uri: "/securitydomain/upload",
-            code: 200,
+            code: 202,
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "UploadHSMSecurityDomainRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+          status: S.optional(S.String),
+          status_details: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UploadHSMSecurityDomainResponse" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -343,7 +360,7 @@ function __c7(j: number): any {
             host: "{vaultBaseUrl}",
             hostRaw: ["vaultBaseUrl"],
             apiVersion: "2026-04-01",
-            audience: "https://vault.azure.net/.default",
+            audience: "https://managedhsm.azure.net/.default",
           }),
         ),
       ).annotate({ identifier: "UploadHSMSecurityDomainPendingRequest" });

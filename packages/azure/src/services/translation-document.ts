@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -378,7 +378,8 @@ export const CancelDocumentTranslationOperationTranslation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelDocumentTranslationOperationTranslationRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<TranslationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -399,7 +400,8 @@ export const DocumentTranslationOperationsDocumentTranslate: API.OperationMethod
     __c3,
     1,
   ) as any as S.Schema<DocumentTranslationOperationsDocumentTranslateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -417,7 +419,8 @@ export const GetDocumentTranslationOperationDocumentsStatus: API.PaginatedOperat
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<GetDocumentTranslationOperationDocumentsStatusRequest>,
   output: __S(66, __c4, 2) as any as S.Schema<DocumentsStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -440,7 +443,8 @@ export const GetDocumentTranslationOperationDocumentStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<GetDocumentTranslationOperationDocumentStatusRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<DocumentStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -461,7 +465,8 @@ export const GetDocumentTranslationOperationSupportedFormats: API.OperationMetho
     0,
   ) as any as S.Schema<GetDocumentTranslationOperationSupportedFormatsRequest>,
   output: __S(131, __c8, 3) as any as S.Schema<SupportedFileFormats>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -483,7 +488,8 @@ export const GetDocumentTranslationOperationTranslationsStatus: API.PaginatedOpe
     0,
   ) as any as S.Schema<GetDocumentTranslationOperationTranslationsStatusRequest>,
   output: __S(146, __c9, 2) as any as S.Schema<TranslationsStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -510,7 +516,8 @@ export const GetDocumentTranslationOperationTranslationStatus: API.OperationMeth
     0,
   ) as any as S.Schema<GetDocumentTranslationOperationTranslationStatusRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<TranslationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -531,7 +538,8 @@ export const StartDocumentTranslationOperationTranslation: API.OperationMethod<
     __c11,
     10,
   ) as any as S.Schema<StartDocumentTranslationOperationTranslationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

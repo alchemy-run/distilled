@@ -4,7 +4,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -61,7 +61,7 @@ export interface CreateApiTokenResponse {
   /** Unique ID of the API token. */
   id?: string | undefined;
   /** Value of the API token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** String-formatted date representing the time when the token expires. */
   expiry?: string | undefined;
 }
@@ -809,7 +809,7 @@ export interface GetApiTokenResponse {
   /** Unique ID of the API token. */
   id?: string | undefined;
   /** Value of the API token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** String-formatted date representing the time when the token expires. */
   expiry?: string | undefined;
 }
@@ -1201,7 +1201,7 @@ export interface ApiToken {
   /** Unique ID of the API token. */
   id?: string | undefined;
   /** Value of the API token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** String-formatted date representing the time when the token expires. */
   expiry?: string | undefined;
 }
@@ -1830,7 +1830,8 @@ export const CreateApiToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateApiTokenRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<CreateApiTokenResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1847,7 +1848,8 @@ export const CreateDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<CreateDeviceRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<Device>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1864,7 +1866,8 @@ export const CreateDeviceAttestation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<CreateDeviceAttestationRequest>,
   output: __S(212, __c26, 4) as any as S.Schema<CreateDeviceAttestationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1881,7 +1884,8 @@ export const CreateDeviceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<CreateDeviceGroupRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<DeviceGroup>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1898,7 +1902,8 @@ export const CreateDeviceRelationship: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(424, __c53, 0) as any as S.Schema<CreateDeviceRelationshipRequest>,
   output: __S(432, __c54, 0) as any as S.Schema<DeviceRelationship>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1915,7 +1920,8 @@ export const CreateDeviceTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(536, __c67, 0) as any as S.Schema<CreateDeviceTemplateRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<DeviceTemplate>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1932,7 +1938,8 @@ export const CreateEnrollmentGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(648, __c81, 0) as any as S.Schema<CreateEnrollmentGroupRequest>,
   output: __S(661, __c82, 5) as any as S.Schema<EnrollmentGroup>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1949,7 +1956,8 @@ export const CreateEnrollmentGroupX509: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c94, 0) as any as S.Schema<CreateEnrollmentGroupX509Request>,
   output: __S(664, __c83, 0) as any as S.Schema<SigningX509Certificate>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1966,7 +1974,8 @@ export const CreateFileUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(840, __c105, 0) as any as S.Schema<CreateFileUploadRequest>,
   output: __S(848, __c106, 0) as any as S.Schema<FileUpload>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1979,7 +1988,8 @@ export const CreateJob: API.OperationMethod<CreateJobRequest, Job, CreateJobErro
   /*@__PURE__*/ API.make(() => ({
     input: __S(936, __c117, 0) as any as S.Schema<CreateJobRequest>,
     output: __S(953, __c119, 1) as any as S.Schema<Job>,
-    errors: [UnknownAzureError],
+    errors: [],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1996,7 +2006,8 @@ export const CreateOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<CreateOrganizationRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<Organization>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2013,7 +2024,8 @@ export const CreateScheduledJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<CreateScheduledJobRequest>,
   output: __S(76, __c9, 4) as any as S.Schema<ScheduledJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2030,7 +2042,8 @@ export const CreateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(83, __c10, 3) as any as S.Schema<CreateUserRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<CreateUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2047,7 +2060,8 @@ export const GenerateEnrollmentGroupVerificationCodeX509: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GenerateEnrollmentGroupVerificationCodeX509Request>,
   output: __S(105, __c13, 1) as any as S.Schema<X509VerificationCode>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2064,7 +2078,8 @@ export const GetApiToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetApiTokenRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<GetApiTokenResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2081,7 +2096,8 @@ export const GetDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<GetDeviceRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<Device>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2098,7 +2114,8 @@ export const GetDeviceAttestation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetDeviceAttestationRequest>,
   output: __S(212, __c26, 4) as any as S.Schema<GetDeviceAttestationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2116,7 +2133,8 @@ export const GetDeviceCommandHistory: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<GetDeviceCommandHistoryRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<DeviceCommandCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2140,7 +2158,8 @@ export const GetDeviceComponentCommandHistory: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<GetDeviceComponentCommandHistoryRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<DeviceCommandCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2163,7 +2182,8 @@ export const GetDeviceComponentProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<GetDeviceComponentPropertiesRequest>,
   output: __S(176, __c22, 0) as any as S.Schema<GetDeviceComponentPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2180,7 +2200,8 @@ export const GetDeviceComponentTelemetryValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<GetDeviceComponentTelemetryValueRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<DeviceTelemetry>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2197,7 +2218,8 @@ export const GetDeviceCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<GetDeviceCredentialsRequest>,
   output: __S(249, __c31, 1) as any as S.Schema<DeviceCredentials>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2214,7 +2236,8 @@ export const GetDeviceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<GetDeviceGroupRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<DeviceGroup>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2232,7 +2255,8 @@ export const GetDeviceGroupDevices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<GetDeviceGroupDevicesRequest>,
   output: __S(273, __c34, 1) as any as S.Schema<DeviceGroupDeviceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2256,7 +2280,8 @@ export const GetDeviceModuleCommandHistory: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<GetDeviceModuleCommandHistoryRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<DeviceCommandCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2280,7 +2305,8 @@ export const GetDeviceModuleComponentCommandHistory: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<GetDeviceModuleComponentCommandHistoryRequest>,
   output: __S(145, __c18, 1) as any as S.Schema<DeviceCommandCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2303,7 +2329,8 @@ export const GetDeviceModuleComponentProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<GetDeviceModuleComponentPropertiesRequest>,
   output: __S(176, __c22, 0) as any as S.Schema<GetDeviceModuleComponentPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2320,7 +2347,8 @@ export const GetDeviceModuleComponentTelemetryValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<GetDeviceModuleComponentTelemetryValueRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<DeviceTelemetry>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2337,7 +2365,8 @@ export const GetDeviceModuleProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<GetDeviceModulePropertiesRequest>,
   output: __S(176, __c22, 0) as any as S.Schema<GetDeviceModulePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2354,7 +2383,8 @@ export const GetDeviceModuleTelemetryValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<GetDeviceModuleTelemetryValueRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<DeviceTelemetry>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2371,7 +2401,8 @@ export const GetDeviceProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<GetDevicePropertiesRequest>,
   output: __S(176, __c22, 0) as any as S.Schema<GetDevicePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2388,7 +2419,8 @@ export const GetDeviceRelationship: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<GetDeviceRelationshipRequest>,
   output: __S(432, __c54, 0) as any as S.Schema<DeviceRelationship>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2405,7 +2437,8 @@ export const GetDeviceTelemetryValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<GetDeviceTelemetryValueRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<DeviceTelemetry>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2422,7 +2455,8 @@ export const GetDeviceTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<GetDeviceTemplateRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<DeviceTemplate>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2439,7 +2473,8 @@ export const GetEnrollmentGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<GetEnrollmentGroupRequest>,
   output: __S(661, __c82, 5) as any as S.Schema<EnrollmentGroup>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2456,7 +2491,8 @@ export const GetEnrollmentGroupX509: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<GetEnrollmentGroupX509Request>,
   output: __S(664, __c83, 0) as any as S.Schema<SigningX509Certificate>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2473,7 +2509,8 @@ export const GetFileUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<GetFileUploadRequest>,
   output: __S(848, __c106, 0) as any as S.Schema<FileUpload>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2486,7 +2523,8 @@ export const GetJob: API.OperationMethod<GetJobRequest, Job, GetJobError, AzureO
   /*@__PURE__*/ API.make(() => ({
     input: __S(400, __c50, 0) as any as S.Schema<GetJobRequest>,
     output: __S(953, __c119, 1) as any as S.Schema<Job>,
-    errors: [UnknownAzureError],
+    errors: [],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2504,7 +2542,8 @@ export const GetJobDevices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<GetJobDevicesRequest>,
   output: __S(411, __c51, 3) as any as S.Schema<JobDeviceStatusCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2527,7 +2566,8 @@ export const GetOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<GetOrganizationRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<Organization>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2540,7 +2580,8 @@ export const GetRole: API.OperationMethod<GetRoleRequest, Role, GetRoleError, Az
   /*@__PURE__*/ API.make(() => ({
     input: __S(440, __c55, 0) as any as S.Schema<GetRoleRequest>,
     output: __S(448, __c56, 0) as any as S.Schema<Role>,
-    errors: [UnknownAzureError],
+    errors: [],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2557,7 +2598,8 @@ export const GetScheduledJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(456, __c57, 0) as any as S.Schema<GetScheduledJobRequest>,
   output: __S(76, __c9, 4) as any as S.Schema<ScheduledJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2574,7 +2616,8 @@ export const GetUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<GetUserRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<GetUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2587,7 +2630,8 @@ export const JobsRerun: API.OperationMethod<JobsRerunRequest, Job, JobsRerunErro
   /*@__PURE__*/ API.make(() => ({
     input: __S(472, __c59, 0) as any as S.Schema<JobsRerunRequest>,
     output: __S(953, __c119, 1) as any as S.Schema<Job>,
-    errors: [UnknownAzureError],
+    errors: [],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2605,7 +2649,8 @@ export const ListApiTokens: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c60, 0) as any as S.Schema<ListApiTokensRequest>,
   output: __S(482, __c60, 2) as any as S.Schema<ApiTokenCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2628,7 +2673,8 @@ export const ListDeviceComponents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(488, __c61, 0) as any as S.Schema<ListDeviceComponentsRequest>,
   output: __S(497, __c62, 1) as any as S.Schema<Collection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2646,7 +2692,8 @@ export const ListDeviceGroups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(504, __c63, 0) as any as S.Schema<ListDeviceGroupsRequest>,
   output: __S(506, __c63, 2) as any as S.Schema<DeviceGroupCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2669,7 +2716,8 @@ export const ListDeviceModuleComponents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c64, 0) as any as S.Schema<ListDeviceModuleComponentsRequest>,
   output: __S(497, __c62, 1) as any as S.Schema<Collection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2686,7 +2734,8 @@ export const ListDeviceModules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(520, __c65, 0) as any as S.Schema<ListDeviceModulesRequest>,
   output: __S(497, __c62, 1) as any as S.Schema<Collection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2704,7 +2753,8 @@ export const ListDeviceRelationships: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c66, 0) as any as S.Schema<ListDeviceRelationshipsRequest>,
   output: __S(530, __c66, 2) as any as S.Schema<DeviceRelationshipCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2728,7 +2778,8 @@ export const ListDevices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(552, __c69, 0) as any as S.Schema<ListDevicesRequest>,
   output: __S(273, __c34, 1) as any as S.Schema<DeviceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2752,7 +2803,8 @@ export const ListDeviceTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(560, __c70, 0) as any as S.Schema<ListDeviceTemplatesRequest>,
   output: __S(562, __c70, 2) as any as S.Schema<DeviceTemplateCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2776,7 +2828,8 @@ export const ListEnrollmentGroups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<ListEnrollmentGroupsRequest>,
   output: __S(570, __c71, 2) as any as S.Schema<EnrollmentGroupCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2800,7 +2853,8 @@ export const ListJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c72, 0) as any as S.Schema<ListJobsRequest>,
   output: __S(585, __c73, 1) as any as S.Schema<JobCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2824,7 +2878,8 @@ export const ListOrganizations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(592, __c74, 0) as any as S.Schema<ListOrganizationsRequest>,
   output: __S(594, __c74, 2) as any as S.Schema<OrganizationCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2848,7 +2903,8 @@ export const ListRoles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<ListRolesRequest>,
   output: __S(602, __c75, 2) as any as S.Schema<RoleCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2872,7 +2928,8 @@ export const ListScheduledJobJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<ListScheduledJobJobsRequest>,
   output: __S(585, __c73, 1) as any as S.Schema<JobCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2896,7 +2953,8 @@ export const ListScheduledJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(616, __c77, 0) as any as S.Schema<ListScheduledJobsRequest>,
   output: __S(618, __c77, 2) as any as S.Schema<ScheduledJobCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2920,7 +2978,8 @@ export const ListUsers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(624, __c78, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(626, __c78, 2) as any as S.Schema<UserCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2943,7 +3002,8 @@ export const RemoveApiToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(632, __c79, 0) as any as S.Schema<RemoveApiTokenRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<RemoveApiTokenResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2960,7 +3020,8 @@ export const RemoveDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c84, 0) as any as S.Schema<RemoveDeviceRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<RemoveDeviceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2977,7 +3038,8 @@ export const RemoveDeviceAttestation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(680, __c85, 0) as any as S.Schema<RemoveDeviceAttestationRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<RemoveDeviceAttestationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2994,7 +3056,8 @@ export const RemoveDeviceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c86, 0) as any as S.Schema<RemoveDeviceGroupRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<RemoveDeviceGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3011,7 +3074,8 @@ export const RemoveDeviceRelationship: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(696, __c87, 0) as any as S.Schema<RemoveDeviceRelationshipRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<RemoveDeviceRelationshipResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3028,7 +3092,8 @@ export const RemoveDeviceTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c88, 0) as any as S.Schema<RemoveDeviceTemplateRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<RemoveDeviceTemplateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3045,7 +3110,8 @@ export const RemoveEnrollmentGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(712, __c89, 0) as any as S.Schema<RemoveEnrollmentGroupRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<RemoveEnrollmentGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3062,7 +3128,8 @@ export const RemoveEnrollmentGroupX509: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c90, 0) as any as S.Schema<RemoveEnrollmentGroupX509Request>,
   output: __S(640, __c80, 0) as any as S.Schema<RemoveEnrollmentGroupX509Response>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3079,7 +3146,8 @@ export const RemoveFileUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(728, __c91, 0) as any as S.Schema<RemoveFileUploadRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<RemoveFileUploadResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3096,7 +3164,8 @@ export const RemoveOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c92, 0) as any as S.Schema<RemoveOrganizationRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<RemoveOrganizationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3113,7 +3182,8 @@ export const RemoveScheduledJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(744, __c93, 0) as any as S.Schema<RemoveScheduledJobRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<RemoveScheduledJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3130,7 +3200,8 @@ export const RemoveUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(760, __c95, 0) as any as S.Schema<RemoveUserRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<RemoveUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3147,7 +3218,8 @@ export const ReplaceDeviceComponentProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c96, 0) as any as S.Schema<ReplaceDeviceComponentPropertiesRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<ReplaceDeviceComponentPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3164,7 +3236,8 @@ export const ReplaceDeviceModuleComponentProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(776, __c97, 0) as any as S.Schema<ReplaceDeviceModuleComponentPropertiesRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<ReplaceDeviceModuleComponentPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3181,7 +3254,8 @@ export const ReplaceDeviceModuleProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c98, 0) as any as S.Schema<ReplaceDeviceModulePropertiesRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<ReplaceDeviceModulePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3198,7 +3272,8 @@ export const ReplaceDeviceProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(792, __c99, 0) as any as S.Schema<ReplaceDevicePropertiesRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<ReplaceDevicePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3215,7 +3290,8 @@ export const ResumeJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c100, 0) as any as S.Schema<ResumeJobRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<ResumeJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3232,7 +3308,8 @@ export const RunDeviceCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(808, __c101, 0) as any as S.Schema<RunDeviceCommandRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<DeviceCommand>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3249,7 +3326,8 @@ export const RunDeviceComponentCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c102, 0) as any as S.Schema<RunDeviceComponentCommandRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<DeviceCommand>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3266,7 +3344,8 @@ export const RunDeviceModuleCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(824, __c103, 0) as any as S.Schema<RunDeviceModuleCommandRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<DeviceCommand>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3283,7 +3362,8 @@ export const RunDeviceModuleComponentCommand: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c104, 0) as any as S.Schema<RunDeviceModuleComponentCommandRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<DeviceCommand>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3300,7 +3380,8 @@ export const StopJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(856, __c107, 0) as any as S.Schema<StopJobRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<StopJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3317,7 +3398,8 @@ export const UpdateDevice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c108, 0) as any as S.Schema<UpdateDeviceRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<Device>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3334,7 +3416,8 @@ export const UpdateDeviceAttestation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(872, __c109, 0) as any as S.Schema<UpdateDeviceAttestationRequest>,
   output: __S(212, __c26, 4) as any as S.Schema<UpdateDeviceAttestationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3351,7 +3434,8 @@ export const UpdateDeviceComponentProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c110, 0) as any as S.Schema<UpdateDeviceComponentPropertiesRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<UpdateDeviceComponentPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3368,7 +3452,8 @@ export const UpdateDeviceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(888, __c111, 0) as any as S.Schema<UpdateDeviceGroupRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<DeviceGroup>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3385,7 +3470,8 @@ export const UpdateDeviceModuleComponentProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c112, 0) as any as S.Schema<UpdateDeviceModuleComponentPropertiesRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<UpdateDeviceModuleComponentPropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3402,7 +3488,8 @@ export const UpdateDeviceModuleProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(904, __c113, 0) as any as S.Schema<UpdateDeviceModulePropertiesRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<UpdateDeviceModulePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3419,7 +3506,8 @@ export const UpdateDeviceProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c114, 0) as any as S.Schema<UpdateDevicePropertiesRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<UpdateDevicePropertiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3436,7 +3524,8 @@ export const UpdateDeviceRelationship: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(920, __c115, 0) as any as S.Schema<UpdateDeviceRelationshipRequest>,
   output: __S(432, __c54, 0) as any as S.Schema<DeviceRelationship>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3453,7 +3542,8 @@ export const UpdateDeviceTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c116, 0) as any as S.Schema<UpdateDeviceTemplateRequest>,
   output: __S(544, __c68, 0) as any as S.Schema<DeviceTemplate>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3470,7 +3560,8 @@ export const UpdateEnrollmentGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c120, 0) as any as S.Schema<UpdateEnrollmentGroupRequest>,
   output: __S(661, __c82, 5) as any as S.Schema<EnrollmentGroup>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3487,7 +3578,8 @@ export const UpdateFileUpload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(968, __c121, 0) as any as S.Schema<UpdateFileUploadRequest>,
   output: __S(848, __c106, 0) as any as S.Schema<FileUpload>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3504,7 +3596,8 @@ export const UpdateOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c122, 0) as any as S.Schema<UpdateOrganizationRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<Organization>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3521,7 +3614,8 @@ export const UpdateScheduledJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(984, __c123, 0) as any as S.Schema<UpdateScheduledJobRequest>,
   output: __S(76, __c9, 4) as any as S.Schema<ScheduledJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3538,7 +3632,8 @@ export const UpdateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c124, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<UpdateUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3555,7 +3650,8 @@ export const VerifyEnrollmentGroupX509: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1000, __c125, 0) as any as S.Schema<VerifyEnrollmentGroupX509Request>,
   output: __S(640, __c80, 0) as any as S.Schema<VerifyEnrollmentGroupX509Response>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3582,6 +3678,7 @@ function __c0(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateApiTokenRequest" });
@@ -3607,7 +3704,7 @@ function __c2(j: number): any {
         S.Struct({
           roles: __S(9, __c1, 1),
           id: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expiry: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateApiTokenResponse" });
@@ -3636,6 +3733,7 @@ function __c3(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateDeviceRequest" });
@@ -3683,6 +3781,7 @@ function __c6(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateOrganizationRequest" });
@@ -3727,6 +3826,7 @@ function __c8(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateScheduledJobRequest" });
@@ -3814,6 +3914,7 @@ function __c10(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateUserRequest" });
@@ -3870,6 +3971,7 @@ function __c13(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GenerateEnrollmentGroupVerificationCodeX509Request" });
@@ -3898,6 +4000,7 @@ function __c14(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetApiTokenRequest" });
@@ -3920,6 +4023,7 @@ function __c15(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceRequest" });
@@ -3942,6 +4046,7 @@ function __c16(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceAttestationRequest" });
@@ -3967,6 +4072,7 @@ function __c17(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceCommandHistoryRequest" });
@@ -4021,6 +4127,7 @@ function __c20(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceComponentCommandHistoryRequest" });
@@ -4044,6 +4151,7 @@ function __c21(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceComponentPropertiesRequest" });
@@ -4081,6 +4189,7 @@ function __c24(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateDeviceAttestationRequest" });
@@ -4187,6 +4296,7 @@ function __c29(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceComponentTelemetryValueRequest" });
@@ -4220,6 +4330,7 @@ function __c31(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceCredentialsRequest" });
@@ -4251,6 +4362,7 @@ function __c32(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceGroupRequest" });
@@ -4275,6 +4387,7 @@ function __c33(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceGroupDevicesRequest" });
@@ -4314,6 +4427,7 @@ function __c35(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceModuleCommandHistoryRequest" });
@@ -4341,6 +4455,7 @@ function __c36(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceModuleComponentCommandHistoryRequest" });
@@ -4365,6 +4480,7 @@ function __c37(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceModuleComponentPropertiesRequest" });
@@ -4390,6 +4506,7 @@ function __c38(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceModuleComponentTelemetryValueRequest" });
@@ -4413,6 +4530,7 @@ function __c39(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceModulePropertiesRequest" });
@@ -4437,6 +4555,7 @@ function __c40(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceModuleTelemetryValueRequest" });
@@ -4464,6 +4583,7 @@ function __c41(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateDeviceGroupRequest" });
@@ -4501,6 +4621,7 @@ function __c43(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDevicePropertiesRequest" });
@@ -4524,6 +4645,7 @@ function __c44(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceRelationshipRequest" });
@@ -4547,6 +4669,7 @@ function __c45(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceTelemetryValueRequest" });
@@ -4569,6 +4692,7 @@ function __c46(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDeviceTemplateRequest" });
@@ -4591,6 +4715,7 @@ function __c47(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetEnrollmentGroupRequest" });
@@ -4614,6 +4739,7 @@ function __c48(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetEnrollmentGroupX509Request" });
@@ -4635,6 +4761,7 @@ function __c49(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFileUploadRequest" });
@@ -4657,6 +4784,7 @@ function __c50(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetJobRequest" });
@@ -4681,6 +4809,7 @@ function __c51(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetJobDevicesRequest" });
@@ -4719,6 +4848,7 @@ function __c52(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetOrganizationRequest" });
@@ -4744,6 +4874,7 @@ function __c53(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateDeviceRelationshipRequest" });
@@ -4778,6 +4909,7 @@ function __c55(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetRoleRequest" });
@@ -4811,6 +4943,7 @@ function __c57(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetScheduledJobRequest" });
@@ -4833,6 +4966,7 @@ function __c58(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetUserRequest" });
@@ -4856,6 +4990,7 @@ function __c59(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "JobsRerunRequest" });
@@ -4879,6 +5014,7 @@ function __c60(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListApiTokensRequest" });
@@ -4910,6 +5046,7 @@ function __c61(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDeviceComponentsRequest" });
@@ -4946,6 +5083,7 @@ function __c63(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDeviceGroupsRequest" });
@@ -4978,6 +5116,7 @@ function __c64(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDeviceModuleComponentsRequest" });
@@ -5000,6 +5139,7 @@ function __c65(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDeviceModulesRequest" });
@@ -5024,6 +5164,7 @@ function __c66(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDeviceRelationshipsRequest" });
@@ -5060,6 +5201,7 @@ function __c67(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateDeviceTemplateRequest" });
@@ -5098,6 +5240,7 @@ function __c69(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDevicesRequest" });
@@ -5121,6 +5264,7 @@ function __c70(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDeviceTemplatesRequest" });
@@ -5153,6 +5297,7 @@ function __c71(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListEnrollmentGroupsRequest" });
@@ -5185,6 +5330,7 @@ function __c72(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListJobsRequest" });
@@ -5221,6 +5367,7 @@ function __c74(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListOrganizationsRequest" });
@@ -5253,6 +5400,7 @@ function __c75(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListRolesRequest" });
@@ -5286,6 +5434,7 @@ function __c76(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListScheduledJobJobsRequest" });
@@ -5309,6 +5458,7 @@ function __c77(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListScheduledJobsRequest" });
@@ -5341,6 +5491,7 @@ function __c78(j: number): any {
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
             nextLink: "nextLink",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListUsersRequest" });
@@ -5372,6 +5523,7 @@ function __c79(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveApiTokenRequest" });
@@ -5405,6 +5557,7 @@ function __c81(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateEnrollmentGroupRequest" });
@@ -5484,6 +5637,7 @@ function __c84(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveDeviceRequest" });
@@ -5506,6 +5660,7 @@ function __c85(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveDeviceAttestationRequest" });
@@ -5528,6 +5683,7 @@ function __c86(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveDeviceGroupRequest" });
@@ -5551,6 +5707,7 @@ function __c87(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveDeviceRelationshipRequest" });
@@ -5573,6 +5730,7 @@ function __c88(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveDeviceTemplateRequest" });
@@ -5595,6 +5753,7 @@ function __c89(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveEnrollmentGroupRequest" });
@@ -5618,6 +5777,7 @@ function __c90(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveEnrollmentGroupX509Request" });
@@ -5639,6 +5799,7 @@ function __c91(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveFileUploadRequest" });
@@ -5661,6 +5822,7 @@ function __c92(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveOrganizationRequest" });
@@ -5683,6 +5845,7 @@ function __c93(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveScheduledJobRequest" });
@@ -5709,6 +5872,7 @@ function __c94(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateEnrollmentGroupX509Request" });
@@ -5731,6 +5895,7 @@ function __c95(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RemoveUserRequest" });
@@ -5755,6 +5920,7 @@ function __c96(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ReplaceDeviceComponentPropertiesRequest" });
@@ -5780,6 +5946,7 @@ function __c97(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ReplaceDeviceModuleComponentPropertiesRequest" });
@@ -5804,6 +5971,7 @@ function __c98(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ReplaceDeviceModulePropertiesRequest" });
@@ -5827,6 +5995,7 @@ function __c99(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ReplaceDevicePropertiesRequest" });
@@ -5849,6 +6018,7 @@ function __c100(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "ResumeJobRequest" });
@@ -5875,6 +6045,7 @@ function __c101(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RunDeviceCommandRequest" });
@@ -5902,6 +6073,7 @@ function __c102(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RunDeviceComponentCommandRequest" });
@@ -5929,6 +6101,7 @@ function __c103(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RunDeviceModuleCommandRequest" });
@@ -5957,6 +6130,7 @@ function __c104(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "RunDeviceModuleComponentCommandRequest" });
@@ -5983,6 +6157,7 @@ function __c105(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateFileUploadRequest" });
@@ -6020,6 +6195,7 @@ function __c107(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "StopJobRequest" });
@@ -6042,6 +6218,7 @@ function __c108(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceRequest" });
@@ -6064,6 +6241,7 @@ function __c109(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceAttestationRequest" });
@@ -6087,6 +6265,7 @@ function __c110(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceComponentPropertiesRequest" });
@@ -6109,6 +6288,7 @@ function __c111(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceGroupRequest" });
@@ -6133,6 +6313,7 @@ function __c112(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceModuleComponentPropertiesRequest" });
@@ -6156,6 +6337,7 @@ function __c113(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceModulePropertiesRequest" });
@@ -6178,6 +6360,7 @@ function __c114(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDevicePropertiesRequest" });
@@ -6201,6 +6384,7 @@ function __c115(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceRelationshipRequest" });
@@ -6223,6 +6407,7 @@ function __c116(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDeviceTemplateRequest" });
@@ -6253,6 +6438,7 @@ function __c117(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateJobRequest" });
@@ -6350,6 +6536,7 @@ function __c120(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateEnrollmentGroupRequest" });
@@ -6371,6 +6558,7 @@ function __c121(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateFileUploadRequest" });
@@ -6393,6 +6581,7 @@ function __c122(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateOrganizationRequest" });
@@ -6415,6 +6604,7 @@ function __c123(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateScheduledJobRequest" });
@@ -6437,6 +6627,7 @@ function __c124(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateUserRequest" });
@@ -6461,6 +6652,7 @@ function __c125(j: number): any {
             hostRaw: ["baseDomain"],
             hostDefaults: { baseDomain: "azureiotcentral.com" },
             apiVersion: "2022-07-31",
+            audience: "https://apps.azureiotcentral.com/.default",
           }),
         ),
       ).annotate({ identifier: "VerifyEnrollmentGroupX509Request" });

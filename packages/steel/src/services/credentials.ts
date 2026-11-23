@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownSteelError } from "../errors.ts";
+import { SteelServiceErrors } from "../errors.ts";
 import { SteelProtocol, type SteelOpError, type SteelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -183,7 +183,8 @@ export const createCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<CreateCredentialRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<CredentialMetadata>,
-  errors: [BadRequest, Conflict, UnknownSteelError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -200,7 +201,8 @@ export const deleteCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DeleteCredentialRequest>,
   output: __S(17, __c4, 1) as any as S.Schema<SuccessResponse>,
-  errors: [NotFound, UnknownSteelError],
+  errors: [NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -217,7 +219,8 @@ export const listCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ListCredentialsRequest>,
   output: __S(22, __c5, 2) as any as S.Schema<CredentialList>,
-  errors: [BadRequest, NotFound, UnknownSteelError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -234,7 +237,8 @@ export const updateCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<UpdateCredentialRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<CredentialMetadata>,
-  errors: [BadRequest, NotFound, UnknownSteelError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

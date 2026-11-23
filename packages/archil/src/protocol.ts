@@ -1,7 +1,5 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * ArchilProtocol -- hand-written.
  *
@@ -19,34 +17,26 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownArchilError, ArchilParseError } from "./errors.ts";
+import { Credentials } from "./credentials.ts";
+import { UnknownArchilError, ArchilParseError, type ArchilServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Archil operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, ArchilOpError,
- * ArchilOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated Archil operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, ArchilOpError, ArchilOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
  */
-export type ArchilOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownArchilError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | ArchilParseError
-  | InvalidInput
-  | SdkError;
+export type ArchilOpError = ArchilServiceError | ErrorOf<typeof ArchilProtocol>;
 
 /** Context (requirements) shared by every generated Archil operation. */
 export type ArchilOpContext = Credentials | HttpClient.HttpClient;
 
-export const ArchilProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const ArchilProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   // Archil's control plane authenticates with the raw API key, not Bearer.
   headers: (creds) => ({

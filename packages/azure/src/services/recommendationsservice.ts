@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -82,7 +82,7 @@ export interface AccountsCreateOrUpdateRequestProperties {
   /** The list of CORS details. */
   cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string | undefined;
+  reportsConnectionString?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AccountsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -111,7 +111,7 @@ export interface AccountsCreateOrUpdateResponseProperties {
   /** The list of CORS details. */
   cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string | undefined;
+  reportsConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** The resource provisioning state. */
   provisioningState?: string | undefined;
 }
@@ -228,7 +228,7 @@ export interface GetAccountResponseProperties {
   /** The list of CORS details. */
   cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string | undefined;
+  reportsConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** The resource provisioning state. */
   provisioningState?: string | undefined;
 }
@@ -551,7 +551,7 @@ export interface AccountResourceProperties {
   /** The list of CORS details. */
   cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string | undefined;
+  reportsConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** The resource provisioning state. */
   provisioningState?: string | undefined;
 }
@@ -985,7 +985,7 @@ export interface UpdateAccountRequestProperties {
   /** The list of CORS details. */
   cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string | undefined;
+  reportsConnectionString?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpdateAccountRequest {
   /** The ID of the target subscription. */
@@ -1012,7 +1012,7 @@ export interface UpdateAccountResponseProperties {
   /** The list of CORS details. */
   cors?: CorsRuleList | undefined;
   /** Connection string to write Accounts reports to. */
-  reportsConnectionString?: string | undefined;
+  reportsConnectionString?: string | Redacted.Redacted<string> | undefined;
   /** The resource provisioning state. */
   provisioningState?: string | undefined;
 }
@@ -1211,7 +1211,8 @@ export const AccountsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<AccountsCreateOrUpdateRequest>,
   output: __S(22, __c1, 6) as any as S.Schema<AccountsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1228,7 +1229,8 @@ export const CheckAccountNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CheckAccountNameAvailabilityRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<CheckAccountNameAvailabilityResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1245,7 +1247,8 @@ export const DeleteAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<DeleteAccountRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<DeleteAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1262,7 +1265,8 @@ export const DeleteModeling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<DeleteModelingRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<DeleteModelingResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1279,7 +1283,8 @@ export const DeleteServiceEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteServiceEndpointRequest>,
   output: __S(256, __c16, 0) as any as S.Schema<DeleteServiceEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1296,7 +1301,8 @@ export const GetAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<GetAccountRequest>,
   output: __S(22, __c1, 6) as any as S.Schema<GetAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1313,7 +1319,8 @@ export const GetAccountStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<GetAccountStatusRequest>,
   output: __S(325, __c20, 5) as any as S.Schema<AccountStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1330,7 +1337,8 @@ export const GetModeling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<GetModelingRequest>,
   output: __S(354, __c22, 2) as any as S.Schema<GetModelingResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1347,7 +1355,8 @@ export const GetOperationStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<GetOperationStatusRequest>,
   output: __S(376, __c23, 8) as any as S.Schema<GetOperationStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1364,7 +1373,8 @@ export const GetServiceEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetServiceEndpointRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<GetServiceEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1382,7 +1392,8 @@ export const ListAccountByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ListAccountByResourceGroupRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<AccountResourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1406,7 +1417,8 @@ export const ListAccountBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ListAccountBySubscriptionRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<AccountResourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1430,7 +1442,8 @@ export const ListModelingByAccountResource: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<ListModelingByAccountResourceRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<ModelingResourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1454,7 +1467,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(132, __c8, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1478,7 +1492,8 @@ export const ListServiceEndpointByAccountResource: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<ListServiceEndpointByAccountResourceRequest>,
   output: __S(146, __c9, 2) as any as S.Schema<ServiceEndpointResourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1501,7 +1516,8 @@ export const ModelingCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(161, __c10, 1) as any as S.Schema<ModelingCreateOrUpdateRequest>,
   output: __S(354, __c22, 2) as any as S.Schema<ModelingCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1518,7 +1534,8 @@ export const ServiceEndpointsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(177, __c11, 1) as any as S.Schema<ServiceEndpointsCreateOrUpdateRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<ServiceEndpointsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1535,7 +1552,8 @@ export const UpdateAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(193, __c12, 1) as any as S.Schema<UpdateAccountRequest>,
   output: __S(22, __c1, 6) as any as S.Schema<UpdateAccountResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1552,7 +1570,8 @@ export const UpdateModeling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(209, __c13, 1) as any as S.Schema<UpdateModelingRequest>,
   output: __S(354, __c22, 2) as any as S.Schema<UpdateModelingResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1569,7 +1588,8 @@ export const UpdateServiceEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<UpdateServiceEndpointRequest>,
   output: __S(401, __c25, 1) as any as S.Schema<UpdateServiceEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1585,7 +1605,7 @@ function __c0(j: number): any {
           configuration: S.optional(S.String),
           endpointAuthentications: S.optional(__S(17, __c1, 1)),
           cors: S.optional(__S(20, __c1, 4)),
-          reportsConnectionString: S.optional(S.String),
+          reportsConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AccountsCreateOrUpdateRequestProperties" });
     case 1:
@@ -1640,7 +1660,7 @@ function __c1(j: number): any {
           configuration: S.optional(S.String),
           endpointAuthentications: S.optional(__S(17, __c1, 1)),
           cors: S.optional(__S(20, __c1, 4)),
-          reportsConnectionString: S.optional(S.String),
+          reportsConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "AccountsCreateOrUpdateResponseProperties" });
@@ -1928,7 +1948,7 @@ function __c12(j: number): any {
         S.Struct({
           endpointAuthentications: S.optional(__S(17, __c1, 1)),
           cors: S.optional(__S(20, __c1, 4)),
-          reportsConnectionString: S.optional(S.String),
+          reportsConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "UpdateAccountRequestProperties" });
     case 1:

@@ -1,18 +1,16 @@
 import * as Signer from "@distilled.cloud/aws4signer";
 import { UnsignableBody } from "@distilled.cloud/aws4signer/AwsClient";
-import * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { ErrorOf, Protocol, ProtocolOf } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * OpenSearchProtocol -- hand-written.
  *
  * OpenSearch speaks JSON REST with no response envelope, so the request and
- * response handling is one `makeRestProtocol` call from `core/protocol-rest`:
+ * response handling is one `restProtocol` call from `core/protocol-rest`:
  *
  *   request:  credentials -> base URL + `Authorization` (basic or bearer),
  *             resolved from the calling fiber on every request
@@ -28,35 +26,30 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
-import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import { type Auth, Credentials, type Config } from "./credentials.ts";
-import { OpenSearchParseError, UnknownOpenSearchError } from "./errors.ts";
+import { type Auth, Credentials } from "./credentials.ts";
+import {
+  OpenSearchParseError,
+  UnknownOpenSearchError,
+  type OpenSearchServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated OpenSearch operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * OpenSearchOpError, OpenSearchOpContext>` explicitly so the compiler
- * never infers these back out of the schema generics.
+ * What every generated OpenSearch operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, OpenSearchOpError, OpenSearchOpContext>`
+ * explicitly so the compiler never infers these back out of the schema
+ * generics.
  */
-export type OpenSearchOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownOpenSearchError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | OpenSearchParseError
-  | InvalidInput
-  | Signer.SigningError
-  | UnsignableBody
-  | SdkError;
+export type OpenSearchOpError = OpenSearchServiceError | ErrorOf<typeof OpenSearchProtocol>;
 
 /** Context (requirements) shared by every generated OpenSearch operation. */
 export type OpenSearchOpContext = Credentials | HttpClient.HttpClient;
 
-const resolveCredentials = /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve);
+const resolveCredentials = /*@__PURE__*/ Effect.flatten(Credentials);
 
 const authorization = (auth: Auth): Record<string, string> => {
   switch (auth.type) {
@@ -92,7 +85,7 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return undefined;
 };
 
-const OpenSearchRestProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+const OpenSearchRestProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
   credentials: resolveCredentials,
@@ -168,23 +161,20 @@ const signSigV4 = (
     );
   });
 
+const openSearchProtocolMethods = {
+  encode: (args) =>
+    Effect.gen(function* () {
+      const request = yield* OpenSearchRestProtocol.encode(args);
+      const creds = yield* resolveCredentials;
+      if (creds.auth.type !== "sigv4") return request;
+      return yield* signSigV4(request, creds.auth);
+    }),
+  decode: OpenSearchRestProtocol.decode,
+} satisfies Protocol<unknown, unknown>;
+
 /**
  * The REST protocol, with requests signed when the credentials are `sigv4`.
  * Only `encode`/`decode` are exposed, so every call goes through signing.
  */
-export const OpenSearchProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.effect(
-  API.Protocol,
-  /*@__PURE__*/ Effect.gen(function* () {
-    const rest = yield* API.Protocol;
-    return API.Protocol.of({
-      encode: (args) =>
-        Effect.gen(function* () {
-          const request = yield* rest.encode(args);
-          const creds = yield* resolveCredentials;
-          if (creds.auth.type !== "sigv4") return request;
-          return yield* signSigV4(request, creds.auth);
-        }) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-      decode: rest.decode,
-    });
-  }),
-).pipe(/*@__PURE__*/ Layer.provide(OpenSearchRestProtocol));
+export const OpenSearchProtocol: ProtocolOf<typeof openSearchProtocolMethods> =
+  openSearchProtocolMethods;

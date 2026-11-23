@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -585,6 +585,8 @@ export interface StartUploadFileRequest {
   filename: string;
   bytes: number;
   mime_type: string;
+  /** The intended purpose of the uploaded file. */
+  purpose: Purpose | (string & {});
 }
 export interface StartUploadFileResponse {
   object?: TypeDiscriminator | undefined;
@@ -604,6 +606,10 @@ export interface StartUploadFileResponse {
 export interface UploadFileRequest {
   /** Supported Cognitive Services endpoints (protocol and hostname, for example: https://aoairesource.openai.azure.com. Replace "aoairesource" with your Azure OpenAI account name). */
   endpoint: string;
+  /** The intended purpose of the uploaded file: "fine-tune" for fine-tuning, "batch" for batch requests. */
+  purpose: Purpose | (string & {});
+  /** The file to upload: a File (its name is the uploaded filename, e.g. training.jsonl) or a Blob. */
+  file: unknown;
 }
 /** A file is a document usable for training and validation. It can also be a service generated document with result details. */
 export interface UploadFileResponse {
@@ -628,6 +634,8 @@ export interface UploadFilePartRequest {
   endpoint: string;
   /** The identifier of the upload. */
   uploadId: string;
+  /** The chunk of bytes for this part (a Blob or File). */
+  data: unknown;
 }
 export interface UploadPartResource {
   object?: TypeDiscriminator | undefined;
@@ -648,7 +656,8 @@ export const CancelBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CancelBatchRequest>,
   output: __S(12, __c1, 4) as any as S.Schema<Batch>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -665,7 +674,8 @@ export const CancelFineTuning: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CancelFineTuningRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<FineTuningJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -682,7 +692,8 @@ export const CancelUploadFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<CancelUploadFileRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<UploadResource>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -699,7 +710,8 @@ export const CompleteUploadFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<CompleteUploadFileRequest>,
   output: __S(152, __c19, 0) as any as S.Schema<UploadResource>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -716,7 +728,8 @@ export const CreateBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<CreateBatchRequest>,
   output: __S(12, __c1, 4) as any as S.Schema<Batch>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -733,7 +746,8 @@ export const CreateFineTuning: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<CreateFineTuningRequest>,
   output: __S(209, __c26, 1) as any as S.Schema<CreateFineTuningResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -750,7 +764,8 @@ export const DeleteFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<DeleteFileRequest>,
   output: __S(217, __c27, 1) as any as S.Schema<FileDelete>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -767,7 +782,8 @@ export const DeleteFineTuning: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<DeleteFineTuningRequest>,
   output: __S(225, __c28, 1) as any as S.Schema<DeleteFineTuningResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -780,7 +796,8 @@ export const GetBatch: API.OperationMethod<GetBatchRequest, Batch, GetBatchError
   /*@__PURE__*/ API.make(() => ({
     input: __S(232, __c29, 0) as any as S.Schema<GetBatchRequest>,
     output: __S(12, __c1, 4) as any as S.Schema<Batch>,
-    errors: [UnknownAzureError],
+    errors: [],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -793,7 +810,8 @@ export const GetFile: API.OperationMethod<GetFileRequest, File, GetFileError, Az
   /*@__PURE__*/ API.make(() => ({
     input: __S(240, __c30, 0) as any as S.Schema<GetFileRequest>,
     output: __S(160, __c20, 0) as any as S.Schema<File>,
-    errors: [UnknownAzureError],
+    errors: [],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -810,7 +828,8 @@ export const GetFileContent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<GetFileContentRequest>,
   output: __S(49, __c6, 1) as any as S.Schema<GetFileContentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -827,7 +846,8 @@ export const GetFineTuning: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<GetFineTuningRequest>,
   output: __S(24, __c3, 0) as any as S.Schema<FineTuningJob>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -844,7 +864,8 @@ export const GetFineTuningCheckpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetFineTuningCheckpointsRequest>,
   output: __S(68, __c8, 4) as any as S.Schema<FineTuningJobCheckpointList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -861,7 +882,8 @@ export const GetFineTuningEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetFineTuningEventsRequest>,
   output: __S(75, __c9, 3) as any as S.Schema<FineTuningJobEventList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -874,7 +896,8 @@ export const GetModel: API.OperationMethod<GetModelRequest, Model, GetModelError
   /*@__PURE__*/ API.make(() => ({
     input: __S(80, __c10, 0) as any as S.Schema<GetModelRequest>,
     output: __S(90, __c11, 2) as any as S.Schema<Model>,
-    errors: [UnknownAzureError],
+    errors: [],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureDataPlaneProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -891,7 +914,8 @@ export const ImportFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<ImportFileRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<ImportFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -908,7 +932,8 @@ export const ListBatch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListBatchRequest>,
   output: __S(114, __c14, 2) as any as S.Schema<BatchesList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -925,7 +950,8 @@ export const ListFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListFilesRequest>,
   output: __S(122, __c15, 2) as any as S.Schema<FileList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -942,7 +968,8 @@ export const ListFineTuning: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListFineTuningRequest>,
   output: __S(130, __c16, 2) as any as S.Schema<FineTuningJobList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -959,7 +986,8 @@ export const ListModels: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListModelsRequest>,
   output: __S(138, __c17, 2) as any as S.Schema<ModelList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -976,7 +1004,8 @@ export const StartUploadFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<StartUploadFileRequest>,
   output: __S(169, __c21, 1) as any as S.Schema<StartUploadFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -993,7 +1022,8 @@ export const UploadFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<UploadFileRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<UploadFileResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1010,7 +1040,8 @@ export const UploadFilePart: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<UploadFilePartRequest>,
   output: __S(185, __c23, 1) as any as S.Schema<UploadPartResource>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1033,6 +1064,7 @@ function __c0(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CancelBatchRequest" });
@@ -1108,6 +1140,7 @@ function __c2(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CancelFineTuningRequest" });
@@ -1180,6 +1213,7 @@ function __c6(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFileContentRequest" });
@@ -1204,6 +1238,7 @@ function __c7(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFineTuningRequest" });
@@ -1226,6 +1261,7 @@ function __c8(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFineTuningCheckpointsRequest" });
@@ -1272,6 +1308,7 @@ function __c9(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFineTuningEventsRequest" });
@@ -1314,6 +1351,7 @@ function __c10(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetModelRequest" });
@@ -1370,6 +1408,7 @@ function __c12(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ImportFileRequest" });
@@ -1409,6 +1448,7 @@ function __c14(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListBatchRequest" });
@@ -1441,6 +1481,7 @@ function __c15(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListFilesRequest" });
@@ -1471,6 +1512,7 @@ function __c16(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListFineTuningRequest" });
@@ -1500,6 +1542,7 @@ function __c17(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListModelsRequest" });
@@ -1529,6 +1572,7 @@ function __c18(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CancelUploadFileRequest" });
@@ -1578,6 +1622,7 @@ function __c21(j: number): any {
           filename: S.String,
           bytes: S.Number,
           mime_type: S.String,
+          purpose: S.String,
         }).pipe(
           T.Http({
             method: "POST",
@@ -1586,6 +1631,7 @@ function __c21(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "StartUploadFileRequest" });
@@ -1612,6 +1658,8 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
+          purpose: S.String,
+          file: S.Unknown,
         }).pipe(
           T.Http({
             method: "POST",
@@ -1620,6 +1668,8 @@ function __c22(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            contentType: "multipart",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UploadFileRequest" });
@@ -1632,6 +1682,7 @@ function __c23(j: number): any {
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
           uploadId: S.String.pipe(T.Label()),
+          data: S.Unknown,
         }).pipe(
           T.Http({
             method: "POST",
@@ -1640,6 +1691,8 @@ function __c23(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            contentType: "multipart",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UploadFilePartRequest" });
@@ -1672,6 +1725,7 @@ function __c24(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CompleteUploadFileRequest" });
@@ -1694,6 +1748,7 @@ function __c25(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateBatchRequest" });
@@ -1719,6 +1774,7 @@ function __c26(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateFineTuningRequest" });
@@ -1762,6 +1818,7 @@ function __c27(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteFileRequest" });
@@ -1790,6 +1847,7 @@ function __c28(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteFineTuningRequest" });
@@ -1812,6 +1870,7 @@ function __c29(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetBatchRequest" });
@@ -1832,6 +1891,7 @@ function __c30(j: number): any {
             host: "{endpoint}/openai",
             hostRaw: ["endpoint"],
             apiVersion: "2024-10-21",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetFileRequest" });

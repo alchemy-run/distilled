@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownInngestError } from "../errors.ts";
+import { InngestServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { InngestProtocol, type InngestOpError, type InngestOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -1862,7 +1862,8 @@ export const cancelV2Build: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CancelV2BuildRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<V2BuildResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1879,7 +1880,8 @@ export const cancelV2Run: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<CancelV2RunRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<V2CancelRunResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1896,7 +1898,8 @@ export const commitV2Build: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<CommitV2BuildRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<V2BuildResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1913,7 +1916,8 @@ export const createV2Build: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<CreateV2BuildRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<V2CreateBuildResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1930,7 +1934,8 @@ export const createV2Cancellation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<CreateV2CancellationRequest>,
   output: __S(194, __c12, 2) as any as S.Schema<V2CreateCancellationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownInngestError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1947,7 +1952,8 @@ export const createV2Env: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<CreateV2EnvRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<V2CreateEnvResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownInngestError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1964,7 +1970,8 @@ export const createV2PartnerAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<CreateV2PartnerAccountRequest>,
   output: __S(258, __c16, 2) as any as S.Schema<V2CreateAccountResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownInngestError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1981,7 +1988,8 @@ export const createV2Replay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<CreateV2ReplayRequest>,
   output: __S(274, __c17, 2) as any as S.Schema<V2CreateReplayResponse>,
-  errors: [BadRequest, UnknownInngestError],
+  errors: [BadRequest],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1998,7 +2006,8 @@ export const createV2Sandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<CreateV2SandboxRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<V2CreateSandboxResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2015,7 +2024,8 @@ export const createV2SandboxSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<CreateV2SandboxSnapshotRequest>,
   output: __S(416, __c26, 0) as any as S.Schema<V2CreateSandboxSnapshotResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2032,7 +2042,8 @@ export const createV2Score: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(451, __c28, 3) as any as S.Schema<CreateV2ScoreRequest>,
   output: __S(454, __c28, 6) as any as S.Schema<V2CreateScoreResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2054,7 +2065,8 @@ export const createV2Webhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<CreateV2WebhookRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<V2CreateWebhookResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownInngestError],
+  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2071,7 +2083,8 @@ export const deleteV2SandboxSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<DeleteV2SandboxSnapshotRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<DeleteV2SandboxSnapshotResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2088,7 +2101,8 @@ export const execV2Sandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ExecV2SandboxRequest>,
   output: __S(530, __c33, 2) as any as S.Schema<V2ExecSandboxResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2105,7 +2119,8 @@ export const fetchV2Account: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<FetchV2AccountRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<V2FetchAccountResponse>,
-  errors: [Forbidden, UnknownInngestError],
+  errors: [Forbidden],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2124,7 +2139,8 @@ export const fetchV2AccountEnvs: API.PaginatedOperationMethod<
   () => ({
     input: __S(576, __c36, 0) as any as S.Schema<FetchV2AccountEnvsRequest>,
     output: __S(578, __c36, 2) as any as S.Schema<V2FetchAccountEnvsResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownInngestError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2152,7 +2168,8 @@ export const fetchV2AccountEventKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(608, __c38, 0) as any as S.Schema<FetchV2AccountEventKeysRequest>,
     output: __S(626, __c39, 2) as any as S.Schema<V2FetchAccountEventKeysResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownInngestError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2180,7 +2197,8 @@ export const fetchV2AccountSigningKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(640, __c40, 0) as any as S.Schema<FetchV2AccountSigningKeysRequest>,
     output: __S(626, __c39, 2) as any as S.Schema<V2FetchAccountSigningKeysResponse>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownInngestError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2208,7 +2226,8 @@ export const fetchV2PartnerAccounts: API.PaginatedOperationMethod<
   () => ({
     input: __S(656, __c41, 0) as any as S.Schema<FetchV2PartnerAccountsRequest>,
     output: __S(658, __c41, 2) as any as S.Schema<V2FetchAccountsResponse>,
-    errors: [BadRequest, Forbidden, UnknownInngestError],
+    errors: [BadRequest, Forbidden],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2234,7 +2253,8 @@ export const getV2App: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetV2AppRequest>,
   output: __S(673, __c42, 1) as any as S.Schema<V2GetAppResponse>,
-  errors: [AppNotFound, UnknownInngestError],
+  errors: [AppNotFound],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2253,7 +2273,8 @@ export const getV2Apps: API.PaginatedOperationMethod<
   () => ({
     input: __S(704, __c44, 0) as any as S.Schema<GetV2AppsRequest>,
     output: __S(706, __c44, 2) as any as S.Schema<V2GetAppsResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2279,7 +2300,8 @@ export const getV2Build: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<GetV2BuildRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<V2BuildResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2296,7 +2318,8 @@ export const getV2Event: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<GetV2EventRequest>,
   output: __S(737, __c46, 1) as any as S.Schema<V2GetEventResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2315,7 +2338,8 @@ export const getV2EventRuns: API.PaginatedOperationMethod<
   () => ({
     input: __S(768, __c48, 0) as any as S.Schema<GetV2EventRunsRequest>,
     output: __S(833, __c52, 1) as any as S.Schema<V2GetEventRunsResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2341,7 +2365,8 @@ export const getV2Experiment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<GetV2ExperimentRequest>,
   output: __S(856, __c53, 8) as any as S.Schema<V2GetExperimentResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2358,7 +2383,8 @@ export const getV2Function: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<GetV2FunctionRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<V2GetFunctionResponse>,
-  errors: [FunctionNotFound, UnknownInngestError],
+  errors: [FunctionNotFound],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2375,7 +2401,8 @@ export const getV2FunctionRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<GetV2FunctionRunRequest>,
   output: __S(913, __c57, 1) as any as S.Schema<V2GetFunctionRunResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2394,7 +2421,8 @@ export const getV2Functions: API.PaginatedOperationMethod<
   () => ({
     input: __S(928, __c58, 0) as any as S.Schema<GetV2FunctionsRequest>,
     output: __S(930, __c58, 2) as any as S.Schema<V2GetFunctionsResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2420,7 +2448,8 @@ export const getV2FunctionTrace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<GetV2FunctionTraceRequest>,
   output: __S(950, __c59, 6) as any as S.Schema<V2GetFunctionTraceResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2437,7 +2466,8 @@ export const getV2Sandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<GetV2SandboxRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<V2GetSandboxResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2454,7 +2484,8 @@ export const getV2SandboxProcess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<GetV2SandboxProcessRequest>,
   output: __S(1024, __c64, 0) as any as S.Schema<V2GetSandboxProcessResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2471,7 +2502,8 @@ export const getV2SandboxProcessOutput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<GetV2SandboxProcessOutputRequest>,
   output: __S(1043, __c65, 3) as any as S.Schema<V2GetSandboxProcessOutputResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2488,7 +2520,8 @@ export const getV2SandboxSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<GetV2SandboxSnapshotRequest>,
   output: __S(416, __c26, 0) as any as S.Schema<V2GetSandboxSnapshotResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2511,7 +2544,8 @@ export const invokeV2Function: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<InvokeV2FunctionRequest>,
   output: __S(1217, __c76, 1) as any as S.Schema<V2InvokeFunctionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownInngestError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2528,7 +2562,8 @@ export const listV2Builds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<ListV2BuildsRequest>,
   output: __S(1121, __c70, 1) as any as S.Schema<V2ListBuildsResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2545,7 +2580,8 @@ export const listV2Deploys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<ListV2DeploysRequest>,
   output: __S(1121, __c70, 1) as any as S.Schema<V2ListDeploysResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2564,7 +2600,8 @@ export const listV2Events: API.PaginatedOperationMethod<
   () => ({
     input: __S(1152, __c72, 0) as any as S.Schema<ListV2EventsRequest>,
     output: __S(1154, __c72, 2) as any as S.Schema<V2ListEventsResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2592,7 +2629,8 @@ export const listV2Experiments: API.PaginatedOperationMethod<
   () => ({
     input: __S(1168, __c73, 0) as any as S.Schema<ListV2ExperimentsRequest>,
     output: __S(1186, __c74, 2) as any as S.Schema<V2ListExperimentsResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2620,7 +2658,8 @@ export const listV2Experiments2: API.PaginatedOperationMethod<
   () => ({
     input: __S(1200, __c75, 0) as any as S.Schema<ListV2Experiments2Request>,
     output: __S(1186, __c74, 2) as any as S.Schema<V2ListExperimentsResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2648,7 +2687,8 @@ export const listV2FunctionRuns: API.PaginatedOperationMethod<
   () => ({
     input: __S(1232, __c77, 0) as any as S.Schema<ListV2FunctionRunsRequest>,
     output: __S(833, __c52, 1) as any as S.Schema<V2ListFunctionRunsResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2676,7 +2716,8 @@ export const listV2InsightsEventSchemas: API.PaginatedOperationMethod<
   () => ({
     input: __S(1248, __c78, 0) as any as S.Schema<ListV2InsightsEventSchemasRequest>,
     output: __S(1251, __c78, 3) as any as S.Schema<V2ListInsightsEventSchemasResponse>,
-    errors: [BadRequest, Forbidden, UnknownInngestError],
+    errors: [BadRequest, Forbidden],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2702,7 +2743,8 @@ export const listV2InsightsTables: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<ListV2InsightsTablesRequest>,
   output: __S(1269, __c79, 5) as any as S.Schema<V2ListInsightsTablesResponse>,
-  errors: [Forbidden, UnknownInngestError],
+  errors: [Forbidden],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2721,7 +2763,8 @@ export const listV2Runs: API.PaginatedOperationMethod<
   () => ({
     input: __S(1280, __c80, 0) as any as S.Schema<ListV2RunsRequest>,
     output: __S(833, __c52, 1) as any as S.Schema<V2ListRunsResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2749,7 +2792,8 @@ export const listV2Sandboxes: API.PaginatedOperationMethod<
   () => ({
     input: __S(1296, __c81, 0) as any as S.Schema<ListV2SandboxesRequest>,
     output: __S(1298, __c81, 2) as any as S.Schema<V2ListSandboxesResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2777,7 +2821,8 @@ export const listV2SandboxProcesses: API.PaginatedOperationMethod<
   () => ({
     input: __S(1312, __c82, 0) as any as S.Schema<ListV2SandboxProcessesRequest>,
     output: __S(1314, __c82, 2) as any as S.Schema<V2ListSandboxProcessesResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2805,7 +2850,8 @@ export const listV2SandboxSnapshots: API.PaginatedOperationMethod<
   () => ({
     input: __S(1328, __c83, 0) as any as S.Schema<ListV2SandboxSnapshotsRequest>,
     output: __S(1330, __c83, 2) as any as S.Schema<V2ListSandboxSnapshotsResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2833,7 +2879,8 @@ export const listV2SessionKeys: API.PaginatedOperationMethod<
   () => ({
     input: __S(1344, __c84, 0) as any as S.Schema<ListV2SessionKeysRequest>,
     output: __S(1347, __c84, 3) as any as S.Schema<V2ListSessionKeysResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2861,7 +2908,8 @@ export const listV2SessionRuns: API.PaginatedOperationMethod<
   () => ({
     input: __S(1360, __c85, 0) as any as S.Schema<ListV2SessionRunsRequest>,
     output: __S(1363, __c85, 3) as any as S.Schema<V2ListSessionRunsResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2889,7 +2937,8 @@ export const listV2Sessions: API.PaginatedOperationMethod<
   () => ({
     input: __S(1376, __c86, 0) as any as S.Schema<ListV2SessionsRequest>,
     output: __S(1380, __c86, 4) as any as S.Schema<V2ListSessionsResponse>,
-    errors: [UnknownInngestError],
+    errors: [],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2917,7 +2966,8 @@ export const listV2Webhooks: API.PaginatedOperationMethod<
   () => ({
     input: __S(1392, __c87, 0) as any as S.Schema<ListV2WebhooksRequest>,
     output: __S(1394, __c87, 2) as any as S.Schema<V2ListWebhooksResponse>,
-    errors: [BadRequest, Forbidden, UnknownInngestError],
+    errors: [BadRequest, Forbidden],
+    serviceErrors: InngestServiceErrors,
     protocol: InngestProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2949,14 +2999,8 @@ export const patchV2Env: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c88, 0) as any as S.Schema<PatchV2EnvRequest>,
   output: __S(240, __c15, 0) as any as S.Schema<V2PatchEnvsResponse>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    NotFound,
-    UnprocessableEntity,
-    EnvironmentNotFound,
-    UnknownInngestError,
-  ],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, EnvironmentNotFound],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2973,7 +3017,8 @@ export const pauseV2Function: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<PauseV2FunctionRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<V2PauseFunctionResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2990,7 +3035,8 @@ export const pauseV2Functions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<PauseV2FunctionsRequest>,
   output: __S(1458, __c91, 2) as any as S.Schema<V2PauseFunctionsResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3007,7 +3053,8 @@ export const pauseV2Sandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<PauseV2SandboxRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<V2PauseSandboxResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3024,7 +3071,8 @@ export const readV2SandboxFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<ReadV2SandboxFileRequest>,
   output: __S(1489, __c93, 1) as any as S.Schema<ReadV2SandboxFileResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3041,7 +3089,8 @@ export const resumeV2Function: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<ResumeV2FunctionRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<V2ResumeFunctionResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3058,7 +3107,8 @@ export const resumeV2Functions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<ResumeV2FunctionsRequest>,
   output: __S(1458, __c91, 2) as any as S.Schema<V2ResumeFunctionsResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3075,7 +3125,8 @@ export const resumeV2Sandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<ResumeV2SandboxRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<V2ResumeSandboxResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3092,7 +3143,8 @@ export const sendV2Event: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c97, 0) as any as S.Schema<SendV2EventRequest>,
   output: __S(1554, __c97, 2) as any as S.Schema<V2SendEventResponse>,
-  errors: [BadRequest, Forbidden, UnknownInngestError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3109,7 +3161,8 @@ export const signalV2SandboxProcess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<SignalV2SandboxProcessRequest>,
   output: __S(512, __c32, 0) as any as S.Schema<SignalV2SandboxProcessResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3126,7 +3179,8 @@ export const startV2SandboxProcess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<StartV2SandboxProcessRequest>,
   output: __S(1024, __c64, 0) as any as S.Schema<V2StartSandboxProcessResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3143,7 +3197,8 @@ export const submitV2Feedback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<SubmitV2FeedbackRequest>,
   output: __S(1602, __c100, 2) as any as S.Schema<V2SubmitFeedbackResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3176,8 +3231,8 @@ export const syncV2App: API.OperationMethod<
     AppIdMismatch,
     AppUnreachable,
     AppUnauthorized,
-    UnknownInngestError,
   ],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3194,7 +3249,8 @@ export const v2CancelDeploy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<V2CancelDeployRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<V2DeployResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3211,7 +3267,8 @@ export const v2CommitDeploy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<V2CommitDeployRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<V2DeployResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3228,7 +3285,8 @@ export const v2CreateDeploy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1669, __c104, 5) as any as S.Schema<V2CreateDeployRequest>,
   output: __S(176, __c11, 0) as any as S.Schema<V2CreateDeployResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3245,7 +3303,8 @@ export const v2DestroySandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<V2DestroySandboxRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<V2DestroySandboxResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3262,7 +3321,8 @@ export const v2GetDeploy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<V2GetDeployRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<V2DeployResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3284,7 +3344,8 @@ export const v2QueryInsights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<V2QueryInsightsRequest>,
   output: __S(1726, __c107, 14) as any as S.Schema<V2QueryInsightsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownInngestError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3305,7 +3366,8 @@ export const v2QueryInsightsPrompt: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<V2QueryInsightsPromptRequest>,
   output: __S(1746, __c109, 2) as any as S.Schema<V2QueryInsightsPromptResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownInngestError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3322,7 +3384,8 @@ export const v2Rerun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1761, __c110, 1) as any as S.Schema<V2RerunRequest>,
   output: __S(113, __c7, 1) as any as S.Schema<V2RerunResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3339,7 +3402,8 @@ export const v2StreamSandboxLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<V2StreamSandboxLogsRequest>,
   output: __S(1794, __c112, 2) as any as S.Schema<V2StreamSandboxLogsResponse2>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3356,7 +3420,8 @@ export const v2StreamSandboxProcessOutput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<V2StreamSandboxProcessOutputRequest>,
   output: __S(1794, __c112, 2) as any as S.Schema<V2StreamSandboxProcessOutputResponse2>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3373,7 +3438,8 @@ export const v2WriteSandboxFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<V2WriteSandboxFileRequest>,
   output: __S(1842, __c115, 2) as any as S.Schema<V2WriteSandboxFileResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3390,7 +3456,8 @@ export const waitV2SandboxProcess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<WaitV2SandboxProcessRequest>,
   output: __S(1024, __c64, 0) as any as S.Schema<V2WaitSandboxProcessResponse>,
-  errors: [UnknownInngestError],
+  errors: [],
+  serviceErrors: InngestServiceErrors,
   protocol: InngestProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

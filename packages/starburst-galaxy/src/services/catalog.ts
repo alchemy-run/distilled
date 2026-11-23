@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStarburstGalaxyError } from "../errors.ts";
+import { StarburstGalaxyServiceErrors } from "../errors.ts";
 import { paginateToken } from "../pagination.ts";
 import {
   StarburstGalaxyProtocol,
@@ -2591,7 +2591,8 @@ export const createBigQueryCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<CreateBigQueryCatalogRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<BigQueryCatalog>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2612,7 +2613,8 @@ export const createCassandraCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(403, __c50, 3) as any as S.Schema<CreateCassandraCatalogRequest2>,
   output: __S(416, __c52, 0) as any as S.Schema<CreateCassandraCatalogResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2629,7 +2631,8 @@ export const createGcsCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(507, __c63, 3) as any as S.Schema<CreateGcsCatalogRequest2>,
   output: __S(520, __c65, 0) as any as S.Schema<CreateGcsCatalogResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2646,7 +2649,8 @@ export const createMongoDBCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(620, __c77, 4) as any as S.Schema<CreateMongoDBCatalogRequest2>,
   output: __S(640, __c80, 0) as any as S.Schema<CreateMongoDBCatalogResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2663,7 +2667,8 @@ export const createMySQLCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(660, __c82, 4) as any as S.Schema<CreateMySQLCatalogRequest2>,
   output: __S(672, __c84, 0) as any as S.Schema<CreateMySQLCatalogResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2684,7 +2689,8 @@ export const createOpenSearchCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(684, __c85, 4) as any as S.Schema<CreateOpenSearchCatalogRequest2>,
   output: __S(696, __c87, 0) as any as S.Schema<CreateOpenSearchCatalogResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2705,7 +2711,8 @@ export const createPostgresqlCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreatePostgresqlCatalogRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostgresqlCatalog>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2722,7 +2729,8 @@ export const createRedshiftCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c2, 4) as any as S.Schema<CreateRedshiftCatalogRequest2>,
   output: __S(32, __c4, 0) as any as S.Schema<CreateRedshiftCatalogResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2739,7 +2747,8 @@ export const createS3Catalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c5, 4) as any as S.Schema<CreateS3CatalogRequest2>,
   output: __S(56, __c7, 0) as any as S.Schema<CreateS3CatalogResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2760,7 +2769,8 @@ export const createSnowflakeCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<CreateSnowflakeCatalogRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<SnowflakeCatalog>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2781,7 +2791,8 @@ export const createSqlServerCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<CreateSqlServerCatalogRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<SqlServerCatalog>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2798,7 +2809,8 @@ export const deleteBigQueryCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<DeleteBigQueryCatalogRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<DeleteBigQueryCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2819,7 +2831,8 @@ export const deleteCassandraCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<DeleteCassandraCatalogRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<DeleteCassandraCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2836,7 +2849,8 @@ export const deleteGcsCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<DeleteGcsCatalogRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<DeleteGcsCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2853,7 +2867,8 @@ export const deleteMongoDBCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<DeleteMongoDBCatalogRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<DeleteMongoDBCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2870,7 +2885,8 @@ export const deleteMySQLCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<DeleteMySQLCatalogRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<DeleteMySQLCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2891,7 +2907,8 @@ export const deleteOpenSearchCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<DeleteOpenSearchCatalogRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<DeleteOpenSearchCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2912,7 +2929,8 @@ export const deletePostgresqlCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<DeletePostgresqlCatalogRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<DeletePostgresqlCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2929,7 +2947,8 @@ export const deleteRedshiftCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c20, 0) as any as S.Schema<DeleteRedshiftCatalogRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<DeleteRedshiftCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2946,7 +2965,8 @@ export const deleteS3Catalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<DeleteS3CatalogRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<DeleteS3CatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2967,7 +2987,8 @@ export const deleteSnowflakeCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<DeleteSnowflakeCatalogRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<DeleteSnowflakeCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2988,7 +3009,8 @@ export const deleteSqlServerCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<DeleteSqlServerCatalogRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<DeleteSqlServerCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3005,7 +3027,8 @@ export const getBigQueryCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<GetBigQueryCatalogRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<BigQueryCatalog>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3022,7 +3045,8 @@ export const getCassandraCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<GetCassandraCatalogRequest>,
   output: __S(416, __c52, 0) as any as S.Schema<GetCassandraCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3039,7 +3063,8 @@ export const getGcsCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<GetGcsCatalogRequest>,
   output: __S(520, __c65, 0) as any as S.Schema<GetGcsCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3056,7 +3081,8 @@ export const getMongoDBCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<GetMongoDBCatalogRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<GetMongoDBCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3073,7 +3099,8 @@ export const getMySQLCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<GetMySQLCatalogRequest>,
   output: __S(672, __c84, 0) as any as S.Schema<GetMySQLCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3090,7 +3117,8 @@ export const getOpenSearchCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<GetOpenSearchCatalogRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<GetOpenSearchCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3107,7 +3135,8 @@ export const getPostgresqlCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<GetPostgresqlCatalogRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostgresqlCatalog>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3124,7 +3153,8 @@ export const getRedshiftCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<GetRedshiftCatalogRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<GetRedshiftCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3141,7 +3171,8 @@ export const getS3Catalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<GetS3CatalogRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<GetS3CatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3158,7 +3189,8 @@ export const getSnowflakeCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<GetSnowflakeCatalogRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<SnowflakeCatalog>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3175,7 +3207,8 @@ export const getSqlServerCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<GetSqlServerCatalogRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<SqlServerCatalog>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3194,7 +3227,8 @@ export const listBigQueryCatalogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(280, __c35, 0) as any as S.Schema<ListBigQueryCatalogsRequest>,
     output: __S(282, __c35, 2) as any as S.Schema<PaginatedBigQueryCatalog>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3222,7 +3256,8 @@ export const listCassandraCatalogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(288, __c36, 0) as any as S.Schema<ListCassandraCatalogsRequest>,
     output: __S(290, __c36, 2) as any as S.Schema<PaginatedCassandraCatalog>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3250,7 +3285,8 @@ export const listCatalogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(296, __c37, 0) as any as S.Schema<ListCatalogsRequest>,
     output: __S(299, __c37, 3) as any as S.Schema<PaginatedCatalog>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3278,7 +3314,8 @@ export const listGcsCatalogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(320, __c40, 0) as any as S.Schema<ListGcsCatalogsRequest>,
     output: __S(322, __c40, 2) as any as S.Schema<PaginatedGcsCatalog>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3306,7 +3343,8 @@ export const listMongoDBCatalogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(328, __c41, 0) as any as S.Schema<ListMongoDBCatalogsRequest>,
     output: __S(330, __c41, 2) as any as S.Schema<PaginatedMongoDBCatalog>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3334,7 +3372,8 @@ export const listMySQLCatalogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(336, __c42, 0) as any as S.Schema<ListMySQLCatalogsRequest>,
     output: __S(338, __c42, 2) as any as S.Schema<PaginatedMySQLCatalog>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3366,7 +3405,8 @@ export const listOpenSearchCatalogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(344, __c43, 0) as any as S.Schema<ListOpenSearchCatalogsRequest>,
     output: __S(346, __c43, 2) as any as S.Schema<PaginatedOpenSearchCatalog>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3398,7 +3438,8 @@ export const listPostgresqlCatalogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(352, __c44, 0) as any as S.Schema<ListPostgresqlCatalogsRequest>,
     output: __S(354, __c44, 2) as any as S.Schema<PaginatedPostgresqlCatalog>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3426,7 +3467,8 @@ export const listRedshiftCatalogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(360, __c45, 0) as any as S.Schema<ListRedshiftCatalogsRequest>,
     output: __S(362, __c45, 2) as any as S.Schema<PaginatedRedshiftCatalog>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3454,7 +3496,8 @@ export const listS3Catalogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(368, __c46, 0) as any as S.Schema<ListS3CatalogsRequest>,
     output: __S(370, __c46, 2) as any as S.Schema<PaginatedS3Catalog>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3482,7 +3525,8 @@ export const listSnowflakeCatalogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(376, __c47, 0) as any as S.Schema<ListSnowflakeCatalogsRequest>,
     output: __S(378, __c47, 2) as any as S.Schema<PaginatedSnowflakeCatalog>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3510,7 +3554,8 @@ export const listSqlServerCatalogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(384, __c48, 0) as any as S.Schema<ListSqlServerCatalogsRequest>,
     output: __S(386, __c48, 2) as any as S.Schema<PaginatedSqlServerCatalog>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3541,7 +3586,8 @@ export const updateBigQueryCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<UpdateBigQueryCatalogRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<BigQueryCatalog>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3563,7 +3609,8 @@ export const updateCassandraCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(427, __c53, 3) as any as S.Schema<UpdateCassandraCatalogRequest>,
   output: __S(416, __c52, 0) as any as S.Schema<UpdateCassandraCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3585,7 +3632,8 @@ export const updateGcsCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(435, __c54, 3) as any as S.Schema<UpdateGcsCatalogRequest>,
   output: __S(520, __c65, 0) as any as S.Schema<UpdateGcsCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3607,7 +3655,8 @@ export const updateMongoDBCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(444, __c55, 4) as any as S.Schema<UpdateMongoDBCatalogRequest>,
   output: __S(640, __c80, 0) as any as S.Schema<UpdateMongoDBCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3629,7 +3678,8 @@ export const updateMySQLCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(452, __c56, 4) as any as S.Schema<UpdateMySQLCatalogRequest>,
   output: __S(672, __c84, 0) as any as S.Schema<UpdateMySQLCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3651,7 +3701,8 @@ export const updateOpenSearchCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(460, __c57, 4) as any as S.Schema<UpdateOpenSearchCatalogRequest>,
   output: __S(696, __c87, 0) as any as S.Schema<UpdateOpenSearchCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3673,7 +3724,8 @@ export const updatePostgresqlCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<UpdatePostgresqlCatalogRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<PostgresqlCatalog>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3695,7 +3747,8 @@ export const updateRedshiftCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(476, __c59, 4) as any as S.Schema<UpdateRedshiftCatalogRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<UpdateRedshiftCatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3717,7 +3770,8 @@ export const updateS3Catalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(484, __c60, 4) as any as S.Schema<UpdateS3CatalogRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<UpdateS3CatalogResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3739,7 +3793,8 @@ export const updateSnowflakeCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(488, __c61, 0) as any as S.Schema<UpdateSnowflakeCatalogRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<SnowflakeCatalog>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3761,7 +3816,8 @@ export const updateSqlServerCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c62, 0) as any as S.Schema<UpdateSqlServerCatalogRequest>,
   output: __S(88, __c11, 0) as any as S.Schema<SqlServerCatalog>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3782,7 +3838,8 @@ export const validateBigQueryCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c66, 0) as any as S.Schema<ValidateBigQueryCatalogRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<Validate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3803,7 +3860,8 @@ export const validateCassandraCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c68, 0) as any as S.Schema<ValidateCassandraCatalogRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<Validate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3820,7 +3878,8 @@ export const validateGcsCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(552, __c69, 0) as any as S.Schema<ValidateGcsCatalogRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<Validate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3841,7 +3900,8 @@ export const validateMongoDBCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c70, 0) as any as S.Schema<ValidateMongoDBCatalogRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<Validate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3858,7 +3918,8 @@ export const validateMySQLCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<ValidateMySQLCatalogRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<Validate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3879,7 +3940,8 @@ export const validateOpenSearchCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c72, 0) as any as S.Schema<ValidateOpenSearchCatalogRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<Validate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3900,7 +3962,8 @@ export const validatePostgresqlCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(584, __c73, 0) as any as S.Schema<ValidatePostgresqlCatalogRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<Validate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3921,7 +3984,8 @@ export const validateRedshiftCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c74, 0) as any as S.Schema<ValidateRedshiftCatalogRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<Validate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3938,7 +4002,8 @@ export const validateS3Catalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<ValidateS3CatalogRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<Validate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3959,7 +4024,8 @@ export const validateSnowflakeCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<ValidateSnowflakeCatalogRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<Validate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3980,7 +4046,8 @@ export const validateSqlServerCatalog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(648, __c81, 0) as any as S.Schema<ValidateSqlServerCatalogRequest>,
   output: __S(536, __c67, 0) as any as S.Schema<Validate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

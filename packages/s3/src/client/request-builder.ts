@@ -13,6 +13,7 @@
  */
 
 import { InvalidInput } from "@distilled.cloud/core/protocol-http";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import type { ParseError } from "../errors.ts";
 import { getMiddleware } from "../traits.ts";
@@ -29,12 +30,13 @@ import type { Request } from "./request.ts";
  * synchronously: the builder returns it directly, returns a failed effect
  * for a path label that would address another resource, and throws the
  * `ParseError` of an input that does not match the schema. Other
- * operations return an effect.
+ * operations return an effect, which fails with `SdkError` when a middleware
+ * or codec module does not load.
  */
 export const makeRequestBuilder = (
   operation: Operation,
   protocol: ProtocolHandler,
-): ((input: unknown) => Request | Effect.Effect<Request, ParseError | InvalidInput>) => {
+): ((input: unknown) => Request | Effect.Effect<Request, ParseError | InvalidInput | SdkError>) => {
   const inputSchema = operation.input;
   const middleware = getMiddleware(inputSchema.ast);
   const serialize = (input: unknown) => protocol.serialize(input);

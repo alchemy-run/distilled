@@ -75,7 +75,7 @@ const paypalSpec: SdkSpec = {
   operationDecl: {
     contextType: "PaypalOpContext",
     commonErrorType: "PaypalOpError",
-    commonErrorClasses: ["UnknownPaypalError"],
+    serviceErrors: "PaypalServiceErrors",
     protocol: "PaypalProtocol",
     retry: "Retry.Retry",
   },

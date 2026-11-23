@@ -65,7 +65,7 @@ const openSearchSpec: SdkSpec = {
   operationDecl: {
     contextType: "OpenSearchOpContext",
     commonErrorType: "OpenSearchOpError",
-    commonErrorClasses: ["UnknownOpenSearchError"],
+    serviceErrors: "OpenSearchServiceErrors",
     protocol: "OpenSearchProtocol",
     retry: "Retry.Retry",
   },

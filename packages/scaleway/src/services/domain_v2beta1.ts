@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownScalewayError } from "../errors.ts";
+import { ScalewayServiceErrors } from "../errors.ts";
 import { paginateByTotalCount } from "../pagination.ts";
 import { ScalewayProtocol, type ScalewayOpError, type ScalewayOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -259,7 +259,7 @@ export interface GetSSLCertificateRequest {
   dns_zone: string;
 }
 export interface ImportProviderDNSZoneRequestOnlineV1 {
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ImportProviderDNSZoneRequest {
   dns_zone: string;
@@ -500,7 +500,8 @@ export const clearDNSZoneRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ClearDNSZoneRecordsRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<ClearDNSZoneRecordsResponse2>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -517,7 +518,8 @@ export const cloneDNSZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<CloneDNSZoneRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<DNSZone>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -534,7 +536,8 @@ export const createDNSZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<CreateDNSZoneRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<DNSZone>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -551,7 +554,8 @@ export const createSSLCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<CreateSSLCertificateRequest>,
   output: __S(448, __c28, 0) as any as S.Schema<SSLCertificate>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -568,7 +572,8 @@ export const deleteDNSZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<DeleteDNSZoneRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteDNSZoneResponse2>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -585,7 +590,8 @@ export const deleteDNSZoneTsigKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<DeleteDNSZoneTsigKeyRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<DeleteDNSZoneTsigKeyResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -602,7 +608,8 @@ export const deleteSSLCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<DeleteSSLCertificateRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<DeleteSSLCertificateResponse2>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -619,7 +626,8 @@ export const exportRawDNSZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ExportRawDNSZoneRequest>,
   output: __S(513, __c32, 1) as any as S.Schema<ScalewayStdFile>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -636,7 +644,8 @@ export const exportRawDNSZoneRaw: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ExportRawDNSZoneRawRequest>,
   output: __S(529, __c33, 1) as any as S.Schema<ExportRawDNSZoneRawResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -653,7 +662,8 @@ export const getDNSZoneTsigKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<GetDNSZoneTsigKeyRequest>,
   output: __S(560, __c35, 0) as any as S.Schema<GetDNSZoneTsigKeyResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -670,7 +680,8 @@ export const getDNSZoneVersionDiff: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<GetDNSZoneVersionDiffRequest>,
   output: __S(81, __c5, 1) as any as S.Schema<GetDNSZoneVersionDiffResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -687,7 +698,8 @@ export const getSSLCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<GetSSLCertificateRequest>,
   output: __S(448, __c28, 0) as any as S.Schema<SSLCertificate>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -704,7 +716,8 @@ export const importProviderDNSZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(161, __c10, 1) as any as S.Schema<ImportProviderDNSZoneRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<ImportProviderDNSZoneResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -721,7 +734,8 @@ export const importRawDNSZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(178, __c11, 2) as any as S.Schema<ImportRawDNSZoneRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<ImportRawDNSZoneResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -738,7 +752,8 @@ export const listDNSZoneNameservers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<ListDNSZoneNameserversRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<ListDNSZoneNameserversResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -757,7 +772,8 @@ export const listDNSZoneRecords: API.PaginatedOperationMethod<
   () => ({
     input: __S(224, __c14, 0) as any as S.Schema<ListDNSZoneRecordsRequest>,
     output: __S(240, __c15, 0) as any as S.Schema<ListDNSZoneRecordsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -785,7 +801,8 @@ export const listDNSZones: API.PaginatedOperationMethod<
   () => ({
     input: __S(256, __c16, 0) as any as S.Schema<ListDNSZonesRequest>,
     output: __S(257, __c16, 1) as any as S.Schema<ListDNSZonesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -813,7 +830,8 @@ export const listDNSZoneVersionRecords: API.PaginatedOperationMethod<
   () => ({
     input: __S(288, __c18, 0) as any as S.Schema<ListDNSZoneVersionRecordsRequest>,
     output: __S(240, __c15, 0) as any as S.Schema<ListDNSZoneVersionRecordsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -841,7 +859,8 @@ export const listDNSZoneVersions: API.PaginatedOperationMethod<
   () => ({
     input: __S(304, __c19, 0) as any as S.Schema<ListDNSZoneVersionsRequest>,
     output: __S(307, __c19, 3) as any as S.Schema<ListDNSZoneVersionsResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -869,7 +888,8 @@ export const listSSLCertificates: API.PaginatedOperationMethod<
   () => ({
     input: __S(320, __c20, 0) as any as S.Schema<ListSSLCertificatesRequest>,
     output: __S(322, __c20, 2) as any as S.Schema<ListSSLCertificatesResponse>,
-    errors: [UnknownScalewayError],
+    errors: [],
+    serviceErrors: ScalewayServiceErrors,
     protocol: ScalewayProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -895,7 +915,8 @@ export const refreshDNSZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<RefreshDNSZoneRequest>,
   output: __S(353, __c22, 1) as any as S.Schema<RefreshDNSZoneResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -912,7 +933,8 @@ export const restoreDNSZoneVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<RestoreDNSZoneVersionRequest>,
   output: __S(16, __c1, 0) as any as S.Schema<RestoreDNSZoneVersionResponse2>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -929,7 +951,8 @@ export const updateDNSZone: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<UpdateDNSZoneRequest>,
   output: __S(49, __c3, 1) as any as S.Schema<DNSZone>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -946,7 +969,8 @@ export const updateDNSZoneNameservers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<UpdateDNSZoneNameserversRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<UpdateDNSZoneNameserversResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -963,7 +987,8 @@ export const updateDNSZoneRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<UpdateDNSZoneRecordsRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<UpdateDNSZoneRecordsResponse>,
-  errors: [UnknownScalewayError],
+  errors: [],
+  serviceErrors: ScalewayServiceErrors,
   protocol: ScalewayProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1219,7 +1244,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ImportProviderDNSZoneRequestOnlineV1" });
     case 1:

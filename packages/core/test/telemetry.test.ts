@@ -10,6 +10,7 @@ import * as Schema from "effect/Schema";
 import * as Tracer from "effect/Tracer";
 import { describe, expect, test } from "vitest";
 import * as API from "../src/api.ts";
+import { API_ERRORS } from "../src/errors.ts";
 import {
   GqlTransport,
   root,
@@ -17,7 +18,7 @@ import {
   type GraphQLTelemetry,
   type TypeMeta,
 } from "../src/graphql.ts";
-import { makeRestProtocol } from "../src/protocol-rest.ts";
+import { restProtocol } from "../src/protocol-rest.ts";
 import { Query } from "../src/query.ts";
 import * as S from "../src/schema.ts";
 import { TelemetryDebug } from "../src/telemetry-debug.ts";
@@ -38,7 +39,7 @@ class TestUnknownError extends Schema.TaggedError<TestUnknownError>()("TestUnkno
   info: Schema.Unknown,
 }) {}
 
-const Protocol = makeRestProtocol<CredsShape>({
+const Protocol = restProtocol({
   credentials: Effect.gen(function* () {
     return yield* Creds;
   }),
@@ -63,6 +64,7 @@ const getZone = API.make(() => ({
     token: S.optional(S.String.pipe(T.Query("token"))),
   }).pipe(T.Http({ method: "GET", uri: "/zones/{zone_id}" })),
   output: S.Struct({ id: S.optional(S.String) }),
+  serviceErrors: API_ERRORS,
   protocol: Protocol,
   telemetry: TELEMETRY,
   span: {
@@ -159,6 +161,7 @@ const propagatingOp = (propagate: Telemetry.ServiceTelemetry["propagate"]) =>
       T.Http({ method: "GET", uri: "/zones/{zone_id}" }),
     ),
     output: S.Struct({ id: S.optional(S.String) }),
+    serviceErrors: API_ERRORS,
     protocol: Protocol,
     telemetry: { ...TELEMETRY, propagate },
     span: { name: "Test.GetZone", method: "Zones/GetZone" },
@@ -285,6 +288,7 @@ const queueOp = (span: Telemetry.SpanConfig) =>
       AttributeNames: S.optional(S.Unknown),
     }).pipe(T.Http({ method: "POST", uri: "/queues/{queue}" })),
     output: S.Struct({ Messages: S.optional(S.Unknown) }),
+    serviceErrors: API_ERRORS,
     protocol: Protocol,
     telemetry: QUEUE_TELEMETRY,
     span: {

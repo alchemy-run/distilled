@@ -4,9 +4,9 @@ Effect-native UniFi SDK, generated from the OpenAPI specs Ubiquiti publishes at 
 
 | Service        | Import                                  | Reached                                | Layers it needs   |
 | -------------- | --------------------------------------- | -------------------------------------- | ----------------- |
-| Network        | `@distilled.cloud/unifi` (package root) | on the console, local or via connector | `ApiKey`, `Console` |
-| Protect        | `@distilled.cloud/unifi/protect`        | on the console, local or via connector | `ApiKey`, `Console` |
-| InnerSpace     | `@distilled.cloud/unifi/innerspace`     | on the console, local or via connector | `ApiKey`, `Console` |
+| Network        | `@distilled.cloud/unifi` (package root) | on the console, local or via connector | `ApiKey`, and `Console` or a per-call `console` |
+| Protect        | `@distilled.cloud/unifi/protect`        | on the console, local or via connector | `ApiKey`, and `Console` or a per-call `console` |
+| InnerSpace     | `@distilled.cloud/unifi/innerspace`     | on the console, local or via connector | `ApiKey`, and `Console` or a per-call `console` |
 | Site Manager   | `@distilled.cloud/unifi/site_manager`   | `api.ui.com` only                      | `ApiKey`          |
 | Mobility       | `@distilled.cloud/unifi/mobility`       | `api.ui.com` only                      | `ApiKey`          |
 | Carrier Fabric | `@distilled.cloud/unifi/carrier_fabric` | `api.ui.com` only                      | `ApiKey`          |
@@ -39,16 +39,14 @@ const program = Effect.gen(function* () {
 const Live = Layer.mergeAll(
   FetchHttpClient.layer,
   Unifi.CredentialsFromEnv,
-  Unifi.UniFiNetworkProtocol,
-  Unifi.UniFiCloudProtocol,
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
 
-Each service has its own protocol layer: `UniFiNetworkProtocol`, `UniFiProtectProtocol`,
+Each service has its own protocol: `UniFiNetworkProtocol`, `UniFiProtectProtocol`,
 `UniFiInnerSpaceProtocol` and `UniFiCloudProtocol` (Site Manager, Mobility, Carrier Fabric).
-Provide the ones you call.
+Every operation names the one it uses, so a program provides only an `HttpClient` and credentials.
 
 List operations (`get…Page`, `listDevices`, …) take `offset`/`limit`, `pageSize`/`nextToken`
 or `limit`/`cursor` as the API does, and `.pages()` / `.items()` stream every page
@@ -102,6 +100,20 @@ Swap the `Console` layer to move between local and remote, or between consoles. 
 is `id` in Site Manager's `listHosts`. Ubiquiti issues the two kinds of key in different
 places (the console's Integrations settings for local, unifi.ui.com for the connector and the
 cloud-only APIs), so provide the `ApiKey` that matches the way in.
+
+Every Network, Protect and InnerSpace operation also takes an optional `console`, which wins
+over the layer for that call and is not sent. Build it with `Unifi.ConsoleLocation`; the same
+value makes a layer with `Unifi.consoleLayer`. Like AWS's `Region`, `Console` is an optional
+layer that operations do not list in their types: a call with neither fails with `ConfigError`,
+and a malformed `console` fails it with `InvalidInput`:
+
+```ts
+const office = Unifi.ConsoleLocation.remote("<consoleId>");
+const home = Unifi.ConsoleLocation.local("192.168.0.1");
+
+const sites = yield* Unifi.getSiteOverviewPage({ console: office }); // one call
+program.pipe(Effect.provide(Unifi.consoleLayer(home))); // every call in a scope
+```
 
 From the environment, `Unifi.CredentialsFromEnv` provides both layers (a layer is only
 resolved by the calls that need it):

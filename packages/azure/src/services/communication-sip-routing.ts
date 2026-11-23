@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -90,7 +90,8 @@ export const GetSipRouting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetSipRoutingRequest>,
   output: __S(13, __c1, 5) as any as S.Schema<SipConfiguration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -107,7 +108,8 @@ export const UpdateSipRouting: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18, __c2, 2) as any as S.Schema<UpdateSipRoutingRequest>,
   output: __S(13, __c1, 5) as any as S.Schema<SipConfiguration>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -129,6 +131,7 @@ function __c0(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-03-01",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetSipRoutingRequest" });
@@ -190,6 +193,8 @@ function __c2(j: number): any {
             host: "{endpoint}",
             hostRaw: ["endpoint"],
             apiVersion: "2023-03-01",
+            jsonContentType: "application/merge-patch+json",
+            audience: "https://communication.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateSipRoutingRequest" });

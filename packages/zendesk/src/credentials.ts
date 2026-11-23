@@ -1,9 +1,10 @@
 import { ConfigError } from "@distilled.cloud/core/errors";
+import { originFromConfig } from "@distilled.cloud/core/protocol-http";
 /**
  * Zendesk credentials -- hand-written.
  *
  * The `Credentials` service holds an *effect* that resolves the current
- * credentials on every request (the protocol layer resolves it per request
+ * credentials on every request (the protocol resolves it per request
  * on the calling fiber).
  *
  * Zendesk Support authenticates as HTTP Basic with `{email}/token:{apiToken}`
@@ -50,12 +51,24 @@ const basicToken = (
 const bearerToken = (accessToken: Redacted.Redacted<string>): Redacted.Redacted<string> =>
   Redacted.make(`Bearer ${Redacted.value(accessToken)}`);
 
+/**
+ * {@link originFromSubdomain}, failing with `ConfigError` when the subdomain
+ * or host carries more than a host (a path, query or user).
+ */
+const checkedOrigin = (subdomain: string): Effect.Effect<string, ConfigError> => {
+  const origin = originFromConfig(
+    "Zendesk subdomain",
+    originFromSubdomain(subdomain).slice("https://".length),
+  );
+  return typeof origin === "string" ? Effect.succeed(origin) : Effect.fail(origin);
+};
+
 const resolveBaseUrl = (config: {
   readonly subdomain?: string;
   readonly apiBaseUrl?: string;
 }): Effect.Effect<string, ConfigError> => {
   if (config.apiBaseUrl) return Effect.succeed(stripTrailingSlash(config.apiBaseUrl));
-  if (config.subdomain) return Effect.succeed(originFromSubdomain(config.subdomain));
+  if (config.subdomain) return checkedOrigin(config.subdomain);
   return Effect.fail(new ConfigError({ message: "Zendesk subdomain or apiBaseUrl is required" }));
 };
 
@@ -109,7 +122,7 @@ export const CredentialsFromEnv: Layer.Layer<Credentials> = /*@__PURE__*/ Layer.
       });
     }
 
-    const origin = apiBaseUrl ? stripTrailingSlash(apiBaseUrl) : originFromSubdomain(subdomain!);
+    const origin = apiBaseUrl ? stripTrailingSlash(apiBaseUrl) : yield* checkedOrigin(subdomain!);
 
     if (accessToken) {
       return {

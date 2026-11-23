@@ -2,7 +2,7 @@
  * Forgejo credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl }` per request; the
- * protocol layer formats the `Authorization: token <token>` header from it.
+ * protocol formats the `Authorization: token <token>` header from it.
  *
  * Forgejo is self-hosted, so -- unlike a single-tenant SaaS -- there is no
  * default API root: the instance URL is part of the credential. The token is

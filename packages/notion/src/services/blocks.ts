@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownNotionError } from "../errors.ts";
+import { NotionServiceErrors } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { NotionProtocol, type NotionOpError, type NotionOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -2505,7 +2505,8 @@ export const appendBlockChildren: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<AppendBlockChildrenRequest>,
   output: __S(4, __c0, 4) as any as S.Schema<AppendBlockChildrenResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2522,7 +2523,8 @@ export const deleteBlock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<DeleteBlockRequest>,
   output: __S(9, __c1, 1) as any as S.Schema<DeleteBlockResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2539,7 +2541,8 @@ export const getBlock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<GetBlockRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<GetBlockResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2558,7 +2561,8 @@ export const listBlockChildren: API.PaginatedOperationMethod<
   () => ({
     input: __S(24, __c3, 0) as any as S.Schema<ListBlockChildrenRequest>,
     output: __S(26, __c3, 2) as any as S.Schema<ListBlockChildrenResponse>,
-    errors: [UnknownNotionError],
+    errors: [],
+    serviceErrors: NotionServiceErrors,
     protocol: NotionProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2583,7 +2587,8 @@ export const updateBlock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<UpdateBlockRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<UpdateBlockResponse>,
-  errors: [UnknownNotionError],
+  errors: [],
+  serviceErrors: NotionServiceErrors,
   protocol: NotionProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

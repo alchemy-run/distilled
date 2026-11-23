@@ -4,7 +4,7 @@
  * Re-exports the common HTTP errors from core and adds the unknown-error and
  * parse-error wrappers. The Hub types its failures with the plain HTTP
  * vocabulary core already covers (400/404/409/422 per operation,
- * 401/429/5xx via the protocol's status map) -- no provider-specific
+ * 401/429/5xx via the service's error list) -- no provider-specific
  * statuses to add.
  */
 export {
@@ -27,7 +27,7 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -58,3 +58,11 @@ export type ClientErrors = UnknownHuggingFaceError | HuggingFaceParseError;
  * core plus the client-level fallback/decode errors.
  */
 export type DefaultErrors = CoreDefaultErrors | ClientErrors;
+
+/**
+ * The errors declared on the Hugging Face service: any operation can return
+ * them, and every generated operation lists them as its `serviceErrors`. Today
+ * that is each of core's status classes (401, 403, 404, 429, the 5xx ...).
+ */
+export const HuggingFaceServiceErrors = API_ERRORS;
+export type HuggingFaceServiceError = InstanceType<(typeof HuggingFaceServiceErrors)[number]>;

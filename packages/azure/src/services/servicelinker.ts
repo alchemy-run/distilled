@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -113,7 +113,7 @@ export interface ValueSecretInfo {
   /** The secret type. */
   secretType: ValueSecretInfoSecretType;
   /** The actual value of the secret. */
-  value?: string | null | undefined;
+  value?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** The secret type. */
 export type KeyVaultSecretReferenceSecretInfoSecretType = "keyVaultSecretReference";
@@ -133,7 +133,7 @@ export interface KeyVaultSecretUriSecretInfo {
   /** The secret type. */
   secretType: KeyVaultSecretUriSecretInfoSecretType;
   /** URI to the keyvault secret */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** The secret info */
 export type SecretInfoBase =
@@ -1292,7 +1292,8 @@ export const ConnectorCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ConnectorCreateOrUpdateRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<ConnectorCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1309,7 +1310,8 @@ export const CreateConnectorDryrun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<CreateConnectorDryrunRequest>,
   output: __S(328, __c10, 8) as any as S.Schema<CreateConnectorDryrunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1326,7 +1328,8 @@ export const CreateLinkerDryrun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<CreateLinkerDryrunRequest>,
   output: __S(328, __c10, 8) as any as S.Schema<CreateLinkerDryrunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1348,7 +1351,8 @@ export const DeleteConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DeleteConnectorRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<DeleteConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1365,7 +1369,8 @@ export const DeleteConnectorDryrun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<DeleteConnectorDryrunRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<DeleteConnectorDryrunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1382,7 +1387,8 @@ export const DeleteLinker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<DeleteLinkerRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<DeleteLinkerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1404,7 +1410,8 @@ export const DeleteLinkerDryrun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<DeleteLinkerDryrunRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<DeleteLinkerDryrunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1426,7 +1433,8 @@ export const GenerateConnectorConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GenerateConnectorConfigurationsRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<ConfigurationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1443,7 +1451,8 @@ export const GenerateLinkerConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GenerateLinkerConfigurationsRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<ConfigurationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1466,7 +1475,8 @@ export const GetConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetConnectorRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<GetConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1483,7 +1493,8 @@ export const GetConnectorDryrun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetConnectorDryrunRequest>,
   output: __S(328, __c10, 8) as any as S.Schema<GetConnectorDryrunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1500,7 +1511,8 @@ export const GetLinker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetLinkerRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<GetLinkerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1522,7 +1534,8 @@ export const GetLinkerDryrun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetLinkerDryrunRequest>,
   output: __S(328, __c10, 8) as any as S.Schema<GetLinkerDryrunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1544,7 +1557,8 @@ export const LinkerCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<LinkerCreateOrUpdateRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<LinkerCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1567,7 +1581,8 @@ export const ListConfigurationNames: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<ListConfigurationNamesRequest>,
   output: __S(518, __c16, 6) as any as S.Schema<ConfigurationNameResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1591,7 +1606,8 @@ export const ListConnector: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<ListConnectorRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<ResourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1615,7 +1631,8 @@ export const ListConnectorDryrun: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListConnectorDryrunRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<DryrunList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1639,7 +1656,8 @@ export const ListLinker: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListLinkerRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<ResourceList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1665,7 +1683,8 @@ export const ListLinkerConfigurations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ListLinkerConfigurationsRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<ConfigurationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1689,7 +1708,8 @@ export const ListLinkerDaprConfigurations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListLinkerDaprConfigurationsRequest>,
   output: __S(740, __c23, 4) as any as S.Schema<DaprConfigurationList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1718,7 +1738,8 @@ export const ListLinkerDryrun: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListLinkerDryrunRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<DryrunList>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1745,7 +1766,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(836, __c26, 4) as any as S.Schema<ListOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1768,7 +1790,8 @@ export const UpdateConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<UpdateConnectorRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<UpdateConnectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1785,7 +1808,8 @@ export const UpdateConnectorDryrun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<UpdateConnectorDryrunRequest>,
   output: __S(328, __c10, 8) as any as S.Schema<UpdateConnectorDryrunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1802,7 +1826,8 @@ export const UpdateLinker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<UpdateLinkerRequest>,
   output: __S(257, __c8, 1) as any as S.Schema<UpdateLinkerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1824,7 +1849,8 @@ export const UpdateLinkerDryrun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<UpdateLinkerDryrunRequest>,
   output: __S(328, __c10, 8) as any as S.Schema<UpdateLinkerDryrunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1846,7 +1872,8 @@ export const ValidateConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ValidateConnectorRequest>,
   output: __S(1027, __c32, 3) as any as S.Schema<ValidateOperationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1863,7 +1890,8 @@ export const ValidateLinker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ValidateLinkerRequest>,
   output: __S(1027, __c32, 3) as any as S.Schema<ValidateOperationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2014,7 +2042,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           secretType: S.String,
-          value: S.optional(S.NullOr(S.String)),
+          value: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ValueSecretInfo" });
     case 7:
@@ -2029,7 +2057,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           secretType: S.String,
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "KeyVaultSecretUriSecretInfo" });
     case 9:

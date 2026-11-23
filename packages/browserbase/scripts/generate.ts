@@ -97,7 +97,7 @@ const spec: SdkSpec = {
   operationDecl: {
     contextType: "BrowserbaseOpContext",
     commonErrorType: "BrowserbaseOpError",
-    commonErrorClasses: ["UnknownBrowserbaseError"],
+    serviceErrors: "BrowserbaseServiceErrors",
     protocol: "BrowserbaseProtocol",
     retry: "Retry.Retry",
   },

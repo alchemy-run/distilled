@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { isHostLabel } from "@distilled.cloud/core/protocol-http";
 import { dnsSuffix } from "@distilled.cloud/s3/rules-engine/aws-functions";
 import * as Console from "effect/Console";
 import * as Effect from "effect/Effect";
@@ -110,6 +111,23 @@ export const makeAuthService = () =>
     const path = yield* Path.Path;
     const client = yield* HttpClient.HttpClient;
 
+    /**
+     * Write an SSO cache file that only its owner can read: the file is 600,
+     * like the AWS CLI's own cache files, and a missing folder is made 700.
+     * `mode` applies only when the write creates the file, so an existing
+     * file is tightened first.
+     */
+    const writePrivateFile = (file: string, data: string) =>
+      fs.chmod(file, 0o600).pipe(
+        Effect.catchReason("PlatformError", "NotFound", () => Effect.void),
+        Effect.andThen(fs.writeFileString(file, data, { mode: 0o600 })),
+        Effect.catchReason("PlatformError", "NotFound", () =>
+          fs
+            .makeDirectory(path.dirname(file), { recursive: true, mode: 0o700 })
+            .pipe(Effect.andThen(fs.writeFileString(file, data, { mode: 0o600 }))),
+        ),
+      );
+
     const loadProfile = Effect.fn(function* (profileName: string) {
       // One read of both files: profiles come from the merged map, and
       // `[sso-session]` sections from the config file alone, as in the AWS CLI.
@@ -189,6 +207,14 @@ export const makeAuthService = () =>
               `"sso_region", "sso_role_name", "sso_start_url". Got ${Object.keys(profile).join(
                 ", ",
               )}\nReference: https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html`,
+          });
+        }
+        // The SSO OIDC and portal hosts are built from it.
+        if (!isHostLabel(profile.sso_region)) {
+          return yield* new InvalidSSOProfile({
+            profile: profileName,
+            missingFields: [],
+            message: `Profile ${profileName} sets sso_region = ${JSON.stringify(profile.sso_region)}, which is not a region: it must be one DNS label, such as "us-east-1".`,
           });
         }
         // Every field in `ssoFields` was just checked to be present.
@@ -307,9 +333,9 @@ export const makeAuthService = () =>
       };
       // Other processes (the AWS CLI, other SDKs) read the same file. A
       // failed write still leaves this process with a valid token.
-      yield* fs
-        .writeFileString(ssoTokenFilepath, JSON.stringify(updated, null, 2))
-        .pipe(Effect.ignore);
+      yield* writePrivateFile(ssoTokenFilepath, JSON.stringify(updated, null, 2)).pipe(
+        Effect.ignore,
+      );
       return accessToken;
     });
 
@@ -487,7 +513,7 @@ export const makeAuthService = () =>
         }
         const credentials = body.roleCredentials;
 
-        yield* fs.writeFileString(
+        yield* writePrivateFile(
           cachedCredsFilePath,
           JSON.stringify({
             accessKeyId: credentials.accessKeyId,

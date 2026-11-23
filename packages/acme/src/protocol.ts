@@ -1,9 +1,11 @@
-import * as API from "@distilled.cloud/core/api";
-import {
-  HTTP_STATUS_MAP,
-  InternalServerError,
-  type ConfigError,
-} from "@distilled.cloud/core/errors";
+import { InternalServerError } from "@distilled.cloud/core/errors";
+import type {
+  DecodeArgs,
+  EncodeArgs,
+  ErrorOf,
+  Protocol,
+  ProtocolOf,
+} from "@distilled.cloud/core/protocol";
 import {
   getAnn,
   getProps,
@@ -11,7 +13,7 @@ import {
   mapKeys,
   matchTypedError,
 } from "@distilled.cloud/core/protocol-http";
-import { unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
+import { declaredStatusClass, unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
 /**
  * AcmeProtocol -- hand-written.
  *
@@ -37,6 +39,8 @@ import { unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
  * `Link` headers are folded into declared output members. Failures are
  * RFC 7807 problem documents matched on their `type` URN against the
  * operation's typed error classes; an unmatched URN is `UnknownAcmeError`.
+ * A failure that is not a problem document becomes core's class for its
+ * status, which the service declares (`AcmeServiceErrors`).
  */
 import {
   failUnlessLenient,
@@ -49,30 +53,34 @@ import { httpSymbol, labelSymbol } from "@distilled.cloud/core/trait";
 import * as Effect from "effect/Effect";
 import type * as HttpBody from "effect/http/HttpBody";
 import * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
-import { Credentials, type Config } from "./credentials.ts";
+import { Credentials } from "./credentials.ts";
 import {
   AcmeParseError,
   DirectoryMissingResource,
   JoseError,
   UnknownAcmeError,
-  type DefaultErrors,
+  type AcmeServiceError,
 } from "./errors.ts";
 import { parseJwk, signExternalAccountBinding, signRequest, type SignOptions } from "./jose.ts";
 
 /**
- * Error channel shared by every generated ACME operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, AcmeOpError,
- * AcmeOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated ACME operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, AcmeOpError, AcmeOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
-export type AcmeOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError | SdkError;
+export type AcmeOpError =
+  | AcmeServiceError
+  | ErrorOf<typeof AcmeProtocol>
+  // Not the protocol's: core fails a call with it when the operation can't
+  // be loaded (`API.make`), and its type does not say so yet.
+  | SdkError;
 
 /** Context (requirements) shared by every generated ACME operation. */
 export type AcmeOpContext = Credentials | HttpClient.HttpClient;
@@ -104,7 +112,7 @@ const signedRequests = /*@__PURE__*/ new WeakMap<HttpBody.HttpBody, SigningConte
 
 const resolveCredentials = /*@__PURE__*/ Effect.gen(function* () {
   const resolve = yield* Credentials;
-  return yield* resolve as Effect.Effect<Config>;
+  return yield* resolve;
 });
 
 const fetchDirectory = (directoryUrl: string) =>
@@ -116,7 +124,7 @@ const fetchDirectory = (directoryUrl: string) =>
     rememberNonce(directoryUrl, response);
     if (response.status >= 400) {
       const text = yield* response.text;
-      return yield* fail(
+      return yield* Effect.fail(
         new UnknownAcmeError({
           message: `GET ${directoryUrl} answered ${response.status}`,
           status: response.status,
@@ -155,7 +163,7 @@ const takeNonce = (directoryUrl: string, directory: Directory) =>
     const response = yield* client.execute(HttpClientRequest.head(directory.newNonce));
     const nonce = response.headers["replay-nonce"];
     if (typeof nonce !== "string" || nonce.length === 0) {
-      return yield* fail(
+      return yield* Effect.fail(
         new UnknownAcmeError({
           message: `HEAD ${directory.newNonce} returned no Replay-Nonce header`,
           status: response.status,
@@ -208,19 +216,12 @@ const POST_AS_GET = /*@__PURE__*/ new Set(["GetOrder", "GetAuthorization", "Down
 
 const JOSE_ACCEPT = "application/json, application/pem-certificate-chain";
 
-const encode = ({
-  input,
-  inputAst,
-}: {
-  readonly input: unknown;
-  readonly inputAst: AST.AST;
-  readonly config: API.ProtocolOperationConfig;
-}) =>
+const encode = ({ input, inputAst }: EncodeArgs) =>
   Effect.gen(function* () {
     const creds = yield* resolveCredentials;
     const operation = operationOf(inputAst);
     if (operation === "") {
-      return yield* fail(
+      return yield* Effect.fail(
         new JoseError({
           message: "The operation's input carries no known ACME `T.Http` uri.",
         }),
@@ -247,7 +248,7 @@ const encode = ({
     if (directoryKey !== undefined) {
       const resolved = directory[directoryKey];
       if (typeof resolved !== "string") {
-        return yield* fail(
+        return yield* Effect.fail(
           new DirectoryMissingResource({
             resource: directoryKey,
             directoryUrl: creds.directoryUrl,
@@ -259,7 +260,7 @@ const encode = ({
       const label = getProps(inputAst).find((p) => hasPropAnn(p, labelSymbol));
       const value = label ? inputObj[String(label.name)] : undefined;
       if (typeof value !== "string") {
-        return yield* fail(
+        return yield* Effect.fail(
           new JoseError({
             message: `${operation} needs the resource URL the CA returned (\`url\`).`,
           }),
@@ -346,16 +347,7 @@ const parseLinkAlternates = (link: string | undefined): string[] => {
   return out;
 };
 
-const decode = ({
-  response,
-  outputAst,
-  errors: errorClasses,
-}: {
-  readonly response: HttpClientResponse.HttpClientResponse;
-  readonly outputAst: AST.AST;
-  readonly errors: ReadonlyArray<unknown>;
-  readonly config: API.ProtocolOperationConfig;
-}) =>
+const decode = ({ response, outputAst, errors: errorClasses }: DecodeArgs) =>
   Effect.gen(function* () {
     const signing = signedRequests.get(response.request.body);
     signedRequests.delete(response.request.body);
@@ -404,8 +396,8 @@ const decode = ({
             [{ code: status, message: problem.detail ?? problem.type ?? `HTTP ${status}` }],
             { body: problem, headers },
           );
-          if (typed !== undefined) return yield* fail(typed);
-          return yield* fail(
+          if (typed !== undefined) return yield* Effect.fail(typed);
+          return yield* Effect.fail(
             new UnknownAcmeError({
               type: problem.type,
               detail: problem.detail,
@@ -417,14 +409,9 @@ const decode = ({
           );
         }
         const message = `HTTP ${status}`;
-        const StatusClass = (HTTP_STATUS_MAP as Record<number, unknown>)[status] as
-          | (new (args: {
-              message: string;
-              retryAfter?: ReturnType<typeof parseRetryAfterForStatus>;
-            }) => unknown)
-          | undefined;
+        const StatusClass = declaredStatusClass(status, errorClasses);
         if (StatusClass) {
-          return yield* fail(
+          return yield* Effect.fail(
             new StatusClass({
               message,
               retryAfter: parseRetryAfterForStatus(status, headers),
@@ -432,14 +419,14 @@ const decode = ({
           );
         }
         if (status >= 500) {
-          return yield* fail(
+          return yield* Effect.fail(
             new InternalServerError({
               message,
               retryAfter: parseRetryAfterForStatus(status, headers),
             }),
           );
         }
-        return yield* fail(
+        return yield* Effect.fail(
           new UnknownAcmeError({
             message,
             status,
@@ -466,7 +453,7 @@ const decode = ({
       } else {
         // Lenient mode returns a non-object body as read.
         if (!(yield* isValidating)) return json;
-        return yield* fail(parseError("Expected a JSON object"));
+        return yield* Effect.fail(parseError("Expected a JSON object"));
       }
       // Validating modes (core/response-validation) check the output schema.
       return yield* validateResponse(outputAst, mapKeys(outputAst, body, "decode"), () =>
@@ -490,15 +477,12 @@ const parseJson = (text: string) =>
     catch: () => parseError("Invalid JSON response"),
   });
 
-const fail = <E>(error: E) => Effect.fail(error) as Effect.Effect<never, E>;
+const acmeProtocolMethods = {
+  encode,
+  decode,
+} satisfies Protocol<unknown, unknown>;
 
-export const AcmeProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    encode: (args) => encode(args) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: (args) => decode(args) as Effect.Effect<unknown>,
-  }),
-);
+export const AcmeProtocol: ProtocolOf<typeof acmeProtocolMethods> = acmeProtocolMethods;
 
 /** Forget cached directories and nonces (tests, CA switches). */
 export const resetProtocolCaches = (): void => {

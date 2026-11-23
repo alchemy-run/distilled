@@ -4,7 +4,7 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2076,7 +2076,8 @@ export const CommitDatasetBlocks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c0, 2) as any as S.Schema<CommitDatasetBlocksRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CommitDatasetBlocksResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2093,7 +2094,8 @@ export const CopyModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<CopyModelRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<CopyModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2110,7 +2112,8 @@ export const CreateDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(137, __c17, 1) as any as S.Schema<CreateDatasetRequest>,
   output: __S(138, __c17, 2) as any as S.Schema<CreateDatasetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2127,7 +2130,8 @@ export const CreateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(321, __c40, 1) as any as S.Schema<CreateEndpointRequest>,
   output: __S(322, __c40, 2) as any as S.Schema<CreateEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2144,7 +2148,8 @@ export const CreateEvaluation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<CreateEvaluationRequest>,
   output: __S(465, __c58, 1) as any as S.Schema<CreateEvaluationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2161,7 +2166,8 @@ export const CreateModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(577, __c72, 1) as any as S.Schema<CreateModelRequest>,
   output: __S(578, __c72, 2) as any as S.Schema<CreateModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2178,7 +2184,8 @@ export const CreateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c86, 0) as any as S.Schema<CreateProjectRequest>,
   output: __S(689, __c86, 1) as any as S.Schema<CreateProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2195,7 +2202,8 @@ export const CreateWebHook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(760, __c95, 0) as any as S.Schema<CreateWebHookRequest>,
   output: __S(761, __c95, 1) as any as S.Schema<CreateWebHookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2212,7 +2220,8 @@ export const DeleteDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c98, 0) as any as S.Schema<DeleteDatasetRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteDatasetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2229,7 +2238,8 @@ export const DeleteEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(792, __c99, 0) as any as S.Schema<DeleteEndpointRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2246,7 +2256,8 @@ export const DeleteEvaluation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<DeleteEvaluationRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteEvaluationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2263,7 +2274,8 @@ export const DeleteModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<DeleteModelRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2280,7 +2292,8 @@ export const DeleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2297,7 +2310,8 @@ export const DeleteTranscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<DeleteTranscriptionRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteTranscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2314,7 +2328,8 @@ export const DeleteWebHook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<DeleteWebHookRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteWebHookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2331,7 +2346,8 @@ export const GetDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetDatasetRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<GetDatasetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2348,7 +2364,8 @@ export const GetDatasetBlocks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<GetDatasetBlocksRequest>,
   output: __S(83, __c10, 3) as any as S.Schema<UploadedBlocks>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2365,7 +2382,8 @@ export const GetDatasetFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetDatasetFileRequest>,
   output: __S(98, __c12, 2) as any as S.Schema<File>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2382,7 +2400,8 @@ export const GetEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetEndpointRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<GetEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2399,7 +2418,8 @@ export const GetEvaluation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<GetEvaluationRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<GetEvaluationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2416,7 +2436,8 @@ export const GetEvaluationFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<GetEvaluationFileRequest>,
   output: __S(98, __c12, 2) as any as S.Schema<File>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2433,7 +2454,8 @@ export const GetModelBaseModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<GetModelBaseModelRequest>,
   output: __S(196, __c24, 4) as any as S.Schema<GetModelBaseModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2450,7 +2472,8 @@ export const GetModelBaseModelManifest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<GetModelBaseModelManifestRequest>,
   output: __S(211, __c26, 3) as any as S.Schema<ModelManifest>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2467,7 +2490,8 @@ export const GetModelCustomModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<GetModelCustomModelRequest>,
   output: __S(224, __c28, 0) as any as S.Schema<GetModelCustomModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2484,7 +2508,8 @@ export const GetModelCustomModelManifest: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<GetModelCustomModelManifestRequest>,
   output: __S(211, __c26, 3) as any as S.Schema<ModelManifest>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2501,7 +2526,8 @@ export const GetModelFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<GetModelFileRequest>,
   output: __S(98, __c12, 2) as any as S.Schema<File>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2518,7 +2544,8 @@ export const GetProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<Project>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2535,7 +2562,8 @@ export const GetTranscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<GetTranscriptionRequest>,
   output: __S(288, __c36, 0) as any as S.Schema<GetTranscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2552,7 +2580,8 @@ export const GetTranscriptionFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<GetTranscriptionFileRequest>,
   output: __S(98, __c12, 2) as any as S.Schema<File>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2569,7 +2598,8 @@ export const GetWebHook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c38, 0) as any as S.Schema<GetWebHookRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<GetWebHookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2587,7 +2617,8 @@ export const ListDatasetFiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<ListDatasetFilesRequest>,
   output: __S(345, __c43, 1) as any as S.Schema<PaginatedFiles>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2611,7 +2642,8 @@ export const ListDatasets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<ListDatasetsRequest>,
   output: __S(362, __c45, 2) as any as S.Schema<PaginatedDatasets>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2634,7 +2666,8 @@ export const ListDatasetSupportedLocales: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<ListDatasetSupportedLocalesRequest>,
   output: __S(369, __c46, 1) as any as S.Schema<DatasetLocales>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2652,7 +2685,8 @@ export const ListEndpoints: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<ListEndpointsRequest>,
   output: __S(386, __c48, 2) as any as S.Schema<PaginatedEndpoints>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2675,7 +2709,8 @@ export const ListEndpointSupportedLocales: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<ListEndpointSupportedLocalesRequest>,
   output: __S(400, __c50, 0) as any as S.Schema<ListEndpointSupportedLocalesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2693,7 +2728,8 @@ export const ListEvaluationFiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<ListEvaluationFilesRequest>,
   output: __S(345, __c43, 1) as any as S.Schema<PaginatedFiles>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2717,7 +2753,8 @@ export const ListEvaluations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<ListEvaluationsRequest>,
   output: __S(426, __c53, 2) as any as S.Schema<PaginatedEvaluations>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2740,7 +2777,8 @@ export const ListEvaluationSupportedLocales: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<ListEvaluationSupportedLocalesRequest>,
   output: __S(400, __c50, 0) as any as S.Schema<ListEvaluationSupportedLocalesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2758,7 +2796,8 @@ export const ListModelBaseModels: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<ListModelBaseModelsRequest>,
   output: __S(442, __c55, 2) as any as S.Schema<PaginatedBaseModels>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2782,7 +2821,8 @@ export const ListModelCustomModels: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<ListModelCustomModelsRequest>,
   output: __S(458, __c57, 2) as any as S.Schema<PaginatedCustomModels>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2806,7 +2846,8 @@ export const ListModelFiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(488, __c61, 0) as any as S.Schema<ListModelFilesRequest>,
   output: __S(345, __c43, 1) as any as S.Schema<PaginatedFiles>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2829,7 +2870,8 @@ export const ListModelSupportedLocales: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c62, 0) as any as S.Schema<ListModelSupportedLocalesRequest>,
   output: __S(400, __c50, 0) as any as S.Schema<ListModelSupportedLocalesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2847,7 +2889,8 @@ export const ListProjectDatasets: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(504, __c63, 0) as any as S.Schema<ListProjectDatasetsRequest>,
   output: __S(362, __c45, 2) as any as S.Schema<PaginatedDatasets>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2871,7 +2914,8 @@ export const ListProjectEndpoints: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c64, 0) as any as S.Schema<ListProjectEndpointsRequest>,
   output: __S(386, __c48, 2) as any as S.Schema<PaginatedEndpoints>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2895,7 +2939,8 @@ export const ListProjectEvaluations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(520, __c65, 0) as any as S.Schema<ListProjectEvaluationsRequest>,
   output: __S(426, __c53, 2) as any as S.Schema<PaginatedEvaluations>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2919,7 +2964,8 @@ export const ListProjectModels: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c66, 0) as any as S.Schema<ListProjectModelsRequest>,
   output: __S(458, __c57, 2) as any as S.Schema<PaginatedCustomModels>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2943,7 +2989,8 @@ export const ListProjects: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(536, __c67, 0) as any as S.Schema<ListProjectsRequest>,
   output: __S(538, __c67, 2) as any as S.Schema<PaginatedProjects>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2966,7 +3013,8 @@ export const ListProjectSupportedLocales: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c68, 0) as any as S.Schema<ListProjectSupportedLocalesRequest>,
   output: __S(400, __c50, 0) as any as S.Schema<ListProjectSupportedLocalesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2984,7 +3032,8 @@ export const ListProjectTranscriptions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(552, __c69, 0) as any as S.Schema<ListProjectTranscriptionsRequest>,
   output: __S(562, __c70, 2) as any as S.Schema<PaginatedTranscriptions>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3008,7 +3057,8 @@ export const ListTranscriptionFiles: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<ListTranscriptionFilesRequest>,
   output: __S(345, __c43, 1) as any as S.Schema<PaginatedFiles>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3032,7 +3082,8 @@ export const ListTranscriptions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<ListTranscriptionsRequest>,
   output: __S(562, __c70, 2) as any as S.Schema<PaginatedTranscriptions>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3055,7 +3106,8 @@ export const ListTranscriptionSupportedLocales: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<ListTranscriptionSupportedLocalesRequest>,
   output: __S(609, __c76, 1) as any as S.Schema<TranscriptionLocales>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3073,7 +3125,8 @@ export const ListWebHooks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(616, __c77, 0) as any as S.Schema<ListWebHooksRequest>,
   output: __S(619, __c77, 3) as any as S.Schema<PaginatedWebHooks>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3096,7 +3149,8 @@ export const ModelsAuthorizeCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c78, 0) as any as S.Schema<ModelsAuthorizeCopyRequest>,
   output: __S(625, __c78, 1) as any as S.Schema<ModelCopyAuthorization>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3113,7 +3167,8 @@ export const OperationsGetModelCopy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(632, __c79, 0) as any as S.Schema<OperationsGetModelCopyRequest>,
   output: __S(634, __c79, 2) as any as S.Schema<Operation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3130,7 +3185,8 @@ export const PingWebHook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c80, 0) as any as S.Schema<PingWebHookRequest>,
   output: __S(648, __c81, 0) as any as S.Schema<PingWebHookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3147,7 +3203,8 @@ export const SubmitTranscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(657, __c82, 1) as any as S.Schema<SubmitTranscriptionRequest>,
   output: __S(658, __c82, 2) as any as S.Schema<SubmitTranscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3164,7 +3221,8 @@ export const TestWebHook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(664, __c83, 0) as any as S.Schema<TestWebHookRequest>,
   output: __S(648, __c81, 0) as any as S.Schema<TestWebHookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3181,7 +3239,8 @@ export const TranscriptionsTranscribe: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c84, 0) as any as S.Schema<TranscriptionsTranscribeRequest>,
   output: __S(679, __c84, 7) as any as S.Schema<TranscribeResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3198,7 +3257,8 @@ export const UpdateDataset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(680, __c85, 0) as any as S.Schema<UpdateDatasetRequest>,
   output: __S(72, __c9, 0) as any as S.Schema<UpdateDatasetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3215,7 +3275,8 @@ export const UpdateEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(705, __c88, 1) as any as S.Schema<UpdateEndpointRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<UpdateEndpointResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3232,7 +3293,8 @@ export const UpdateEvaluation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(712, __c89, 0) as any as S.Schema<UpdateEvaluationRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<UpdateEvaluationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3249,7 +3311,8 @@ export const UpdateModel: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c90, 0) as any as S.Schema<UpdateModelRequest>,
   output: __S(224, __c28, 0) as any as S.Schema<UpdateModelResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3266,7 +3329,8 @@ export const UpdateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(728, __c91, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(256, __c32, 0) as any as S.Schema<Project>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3283,7 +3347,8 @@ export const UpdateTranscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c92, 0) as any as S.Schema<UpdateTranscriptionRequest>,
   output: __S(288, __c36, 0) as any as S.Schema<UpdateTranscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3300,7 +3365,8 @@ export const UpdateWebHook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(744, __c93, 0) as any as S.Schema<UpdateWebHookRequest>,
   output: __S(312, __c39, 0) as any as S.Schema<UpdateWebHookResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3317,7 +3383,8 @@ export const UploadDatasetBlock: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c94, 0) as any as S.Schema<UploadDatasetBlockRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UploadDatasetBlockResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3350,6 +3417,7 @@ function __c0(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CommitDatasetBlocksRequest" });
@@ -3381,6 +3449,7 @@ function __c2(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CopyModelRequest" });
@@ -3408,6 +3477,7 @@ function __c3(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteEvaluationRequest" });
@@ -3428,6 +3498,7 @@ function __c4(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteModelRequest" });
@@ -3448,6 +3519,7 @@ function __c5(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteProjectRequest" });
@@ -3468,6 +3540,7 @@ function __c6(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteTranscriptionRequest" });
@@ -3488,6 +3561,7 @@ function __c7(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteWebHookRequest" });
@@ -3508,6 +3582,7 @@ function __c8(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDatasetRequest" });
@@ -3551,6 +3626,7 @@ function __c10(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDatasetBlocksRequest" });
@@ -3590,6 +3666,7 @@ function __c11(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetDatasetFileRequest" });
@@ -3638,6 +3715,7 @@ function __c13(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetEndpointRequest" });
@@ -3680,6 +3758,7 @@ function __c15(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetEvaluationRequest" });
@@ -3739,6 +3818,7 @@ function __c17(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateDatasetRequest" });
@@ -3830,6 +3910,7 @@ function __c22(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetEvaluationFileRequest" });
@@ -3850,6 +3931,7 @@ function __c23(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetModelBaseModelRequest" });
@@ -3921,6 +4003,7 @@ function __c25(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetModelBaseModelManifestRequest" });
@@ -3964,6 +4047,7 @@ function __c27(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetModelCustomModelRequest" });
@@ -4008,6 +4092,7 @@ function __c29(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetModelCustomModelManifestRequest" });
@@ -4030,6 +4115,7 @@ function __c30(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetModelFileRequest" });
@@ -4050,6 +4136,7 @@ function __c31(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetProjectRequest" });
@@ -4087,6 +4174,7 @@ function __c33(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetTranscriptionRequest" });
@@ -4179,6 +4267,7 @@ function __c37(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetTranscriptionFileRequest" });
@@ -4199,6 +4288,7 @@ function __c38(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "GetWebHookRequest" });
@@ -4252,6 +4342,7 @@ function __c40(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateEndpointRequest" });
@@ -4313,6 +4404,7 @@ function __c42(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDatasetFilesRequest" });
@@ -4351,6 +4443,7 @@ function __c44(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDatasetsRequest" });
@@ -4402,6 +4495,7 @@ function __c46(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListDatasetSupportedLocalesRequest" });
@@ -4437,6 +4531,7 @@ function __c47(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListEndpointsRequest" });
@@ -4487,6 +4582,7 @@ function __c49(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListEndpointSupportedLocalesRequest" });
@@ -4521,6 +4617,7 @@ function __c51(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListEvaluationFilesRequest" });
@@ -4545,6 +4642,7 @@ function __c52(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListEvaluationsRequest" });
@@ -4599,6 +4697,7 @@ function __c54(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListEvaluationSupportedLocalesRequest" });
@@ -4623,6 +4722,7 @@ function __c55(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListModelBaseModelsRequest" });
@@ -4656,6 +4756,7 @@ function __c56(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListModelCustomModelsRequest" });
@@ -4717,6 +4818,7 @@ function __c58(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateEvaluationRequest" });
@@ -4832,6 +4934,7 @@ function __c61(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListModelFilesRequest" });
@@ -4851,6 +4954,7 @@ function __c62(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListModelSupportedLocalesRequest" });
@@ -4876,6 +4980,7 @@ function __c63(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectDatasetsRequest" });
@@ -4901,6 +5006,7 @@ function __c64(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectEndpointsRequest" });
@@ -4926,6 +5032,7 @@ function __c65(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectEvaluationsRequest" });
@@ -4951,6 +5058,7 @@ function __c66(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectModelsRequest" });
@@ -4975,6 +5083,7 @@ function __c67(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectsRequest" });
@@ -5003,6 +5112,7 @@ function __c68(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectSupportedLocalesRequest" });
@@ -5028,6 +5138,7 @@ function __c69(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListProjectTranscriptionsRequest" });
@@ -5088,6 +5199,7 @@ function __c71(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListTranscriptionFilesRequest" });
@@ -5121,6 +5233,7 @@ function __c72(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateModelRequest" });
@@ -5209,6 +5322,7 @@ function __c75(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListTranscriptionsRequest" });
@@ -5228,6 +5342,7 @@ function __c76(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListTranscriptionSupportedLocalesRequest" });
@@ -5259,6 +5374,7 @@ function __c77(j: number): any {
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
             nextLink: "nextLink",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ListWebHooksRequest" });
@@ -5305,6 +5421,7 @@ function __c78(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "ModelsAuthorizeCopyRequest" });
@@ -5336,6 +5453,7 @@ function __c79(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "OperationsGetModelCopyRequest" });
@@ -5375,6 +5493,7 @@ function __c80(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "PingWebHookRequest" });
@@ -5428,6 +5547,7 @@ function __c82(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "SubmitTranscriptionRequest" });
@@ -5469,6 +5589,7 @@ function __c83(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TestWebHookRequest" });
@@ -5488,6 +5609,7 @@ function __c84(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TranscriptionsTranscribeRequest" });
@@ -5554,6 +5676,7 @@ function __c85(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateDatasetRequest" });
@@ -5578,6 +5701,7 @@ function __c86(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateProjectRequest" });
@@ -5638,6 +5762,7 @@ function __c88(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateEndpointRequest" });
@@ -5662,6 +5787,7 @@ function __c89(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateEvaluationRequest" });
@@ -5686,6 +5812,7 @@ function __c90(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateModelRequest" });
@@ -5710,6 +5837,7 @@ function __c91(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateProjectRequest" });
@@ -5734,6 +5862,7 @@ function __c92(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateTranscriptionRequest" });
@@ -5760,6 +5889,7 @@ function __c93(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UpdateWebHookRequest" });
@@ -5782,6 +5912,7 @@ function __c94(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "UploadDatasetBlockRequest" });
@@ -5807,6 +5938,7 @@ function __c95(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "CreateWebHookRequest" });
@@ -5900,6 +6032,7 @@ function __c98(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteDatasetRequest" });
@@ -5920,6 +6053,7 @@ function __c99(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "DeleteEndpointRequest" });

@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { WhopServiceErrors } from "../errors.ts";
 import { paginateRelay } from "../pagination.ts";
 import { WhopProtocol, type WhopOpError, type WhopOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -602,7 +603,7 @@ export interface CreatePaymentRequest {
   /** Whether to capture a card payment immediately. Defaults to true. Pass false to place an authorization hold that must be captured in full within five days via the capture endpoint, or automatically after `auto_capture_after_minutes`. */
   capture?: boolean | null | undefined;
   /** A confirmation token describing a payment method the buyer just supplied. Provide this instead of `member_id` and `payment_method_id`; the buyer is resolved from the token's billing email, or from `email`. The buyer may still have a step to complete -- poll the payment's status for what to do next. */
-  confirmation_token?: string | null | undefined;
+  confirmation_token?: string | Redacted.Redacted<string> | null | undefined;
   /** Overrides the buyer email carried on the confirmation token, resolving or creating the user the payment belongs to. Ignored unless `confirmation_token` is provided, and when the token was created by a signed-in buyer. */
   email?: string | null | undefined;
   /** What the buyer is purchasing. One entry charges that plan; several entries form a cart, which requires every plan to be a compatible plan from this account in the same currency. */
@@ -1427,6 +1428,7 @@ export const capturePayment: API.OperationMethod<
   input: __S(96, __c6, 0) as any as S.Schema<CapturePaymentRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<PaymentStatus>,
   errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1444,6 +1446,7 @@ export const createPayment: API.OperationMethod<
   input: __S(134, __c8, 6) as any as S.Schema<CreatePaymentRequest>,
   output: __S(175, __c10, 15) as any as S.Schema<Payment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1461,6 +1464,7 @@ export const getPayment: API.OperationMethod<
   input: __S(176, __c11, 0) as any as S.Schema<GetPaymentRequest>,
   output: __S(175, __c10, 15) as any as S.Schema<Payment>,
   errors: [Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1478,6 +1482,7 @@ export const getStatusPayment: API.OperationMethod<
   input: __S(192, __c12, 0) as any as S.Schema<GetStatusPaymentRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<PaymentStatus>,
   errors: [Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1495,6 +1500,7 @@ export const listPaymentFees: API.OperationMethod<
   input: __S(208, __c13, 0) as any as S.Schema<ListPaymentFeesRequest>,
   output: __S(211, __c13, 3) as any as S.Schema<ListPaymentFeesResponse>,
   errors: [NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1514,6 +1520,7 @@ export const listPayments: API.PaginatedOperationMethod<
     input: __S(240, __c15, 0) as any as S.Schema<ListPaymentsRequest>,
     output: __S(242, __c15, 2) as any as S.Schema<ListPaymentsResponse>,
     errors: [BadRequest],
+    serviceErrors: WhopServiceErrors,
     protocol: WhopProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -1541,6 +1548,7 @@ export const refundPayment: API.OperationMethod<
   input: __S(16, __c1, 0) as any as S.Schema<RefundPaymentRequest>,
   output: __S(175, __c10, 15) as any as S.Schema<Payment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1558,6 +1566,7 @@ export const resumePayment: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<ResumePaymentRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<PaymentStatus>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1575,6 +1584,7 @@ export const retryPayment: API.OperationMethod<
   input: __S(48, __c3, 0) as any as S.Schema<RetryPaymentRequest>,
   output: __S(175, __c10, 15) as any as S.Schema<Payment>,
   errors: [NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1592,6 +1602,7 @@ export const updateReturnUrlPayment: API.OperationMethod<
   input: __S(64, __c4, 0) as any as S.Schema<UpdateReturnUrlPaymentRequest>,
   output: __S(115, __c7, 3) as any as S.Schema<PaymentStatus>,
   errors: [BadRequest],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1609,6 +1620,7 @@ export const voidPayment: API.OperationMethod<
   input: __S(80, __c5, 0) as any as S.Schema<VoidPaymentRequest>,
   output: __S(175, __c10, 15) as any as S.Schema<Payment>,
   errors: [NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1819,7 +1831,7 @@ function __c8(j: number): any {
           account_id: S.String,
           auto_capture_after_minutes: S.optional(S.NullOr(S.Number)),
           capture: S.optional(S.NullOr(S.Boolean)),
-          confirmation_token: S.optional(S.NullOr(S.String)),
+          confirmation_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           email: S.optional(S.NullOr(S.String)),
           line_items: S.optional(__S(129, __c8, 1)),
           member_id: S.optional(S.NullOr(S.String)),

@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { HuggingFaceServiceErrors } from "../errors.ts";
 import {
   HuggingFaceProtocol,
   type HuggingFaceOpError,
@@ -358,7 +359,7 @@ export interface RegistryTokenRequest {
 }
 export interface RegistryTokenResponse {
   /** EdDSA JWT signed by the moon JWT key, carrying `access[]`. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Identical to `token` -- Docker Distribution v2 accepts either field. */
   access_token: string | Redacted.Redacted<string>;
   /** JWT lifetime in seconds. */
@@ -443,6 +444,7 @@ export const addResourceGroup: API.OperationMethod<
   input: __S(56, __c14, 0) as any as S.Schema<AddResourceGroupRequest>,
   output: __S(57, __c14, 1) as any as S.Schema<AddResourceGroupResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -460,6 +462,7 @@ export const batchFileOperations: API.OperationMethod<
   input: __S(60, __c15, 0) as any as S.Schema<BatchFileOperationsRequest>,
   output: __S(54, __c13, 2) as any as S.Schema<BatchFileOperationsResponse>,
   errors: [UnprocessableEntity],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -477,6 +480,7 @@ export const createBucket: API.OperationMethod<
   input: __S(64, __c16, 0) as any as S.Schema<CreateBucketRequest>,
   output: __S(65, __c16, 1) as any as S.Schema<CreateBucketResponse>,
   errors: [Conflict],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -494,6 +498,7 @@ export const deleteBucket: API.OperationMethod<
   input: __S(72, __c18, 0) as any as S.Schema<DeleteBucketRequest>,
   output: __S(76, __c19, 0) as any as S.Schema<DeleteBucketResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -511,6 +516,7 @@ export const deleteTag: API.OperationMethod<
   input: __S(80, __c20, 0) as any as S.Schema<DeleteTagRequest>,
   output: __S(76, __c19, 0) as any as S.Schema<DeleteTagResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -528,6 +534,7 @@ export const getBucketDetails: API.OperationMethod<
   input: __S(84, __c21, 0) as any as S.Schema<GetBucketDetailsRequest>,
   output: __S(94, __c23, 2) as any as S.Schema<GetBucketDetailsResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -545,6 +552,7 @@ export const getFileMetadata: API.OperationMethod<
   input: __S(8, __c2, 0) as any as S.Schema<GetFileMetadataRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<GetFileMetadataResponse>,
   errors: [BadRequest, NotFound],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -562,6 +570,7 @@ export const getResourceGroup: API.OperationMethod<
   input: __S(12, __c3, 0) as any as S.Schema<GetResourceGroupRequest>,
   output: __S(88, __c22, 0) as any as S.Schema<GetResourceGroupResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -579,6 +588,7 @@ export const listFiles: API.OperationMethod<
   input: __S(16, __c4, 0) as any as S.Schema<ListFilesRequest>,
   output: __S(22, __c5, 2) as any as S.Schema<ListFilesResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -596,6 +606,7 @@ export const listNamespaceBuckets: API.OperationMethod<
   input: __S(24, __c6, 0) as any as S.Schema<ListNamespaceBucketsRequest>,
   output: __S(26, __c6, 2) as any as S.Schema<ListNamespaceBucketsResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -613,6 +624,7 @@ export const listPathsInfo: API.OperationMethod<
   input: __S(28, __c7, 0) as any as S.Schema<ListPathsInfoRequest>,
   output: __S(22, __c5, 2) as any as S.Schema<ListPathsInfoResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -630,6 +642,7 @@ export const registryToken: API.OperationMethod<
   input: __S(32, __c8, 0) as any as S.Schema<RegistryTokenRequest>,
   output: __S(33, __c8, 1) as any as S.Schema<RegistryTokenResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -647,6 +660,7 @@ export const updateBucketSettings: API.OperationMethod<
   input: __S(36, __c9, 0) as any as S.Schema<UpdateBucketSettingsRequest>,
   output: __S(37, __c9, 1) as any as S.Schema<UpdateBucketSettingsResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -664,6 +678,7 @@ export const xetReadToken: API.OperationMethod<
   input: __S(40, __c10, 0) as any as S.Schema<XetReadTokenRequest>,
   output: __S(44, __c11, 0) as any as S.Schema<XetReadTokenResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -681,6 +696,7 @@ export const xetWriteToken: API.OperationMethod<
   input: __S(48, __c12, 0) as any as S.Schema<XetWriteTokenRequest>,
   output: __S(44, __c11, 0) as any as S.Schema<XetWriteTokenResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -854,7 +870,7 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           access_token: S.String.pipe(T.SensitiveValue({})),
           expires_in: S.Number,
           issued_at: S.String,

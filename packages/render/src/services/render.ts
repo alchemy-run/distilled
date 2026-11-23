@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownRenderError } from "../errors.ts";
+import { RenderServiceErrors } from "../errors.ts";
 import { RenderProtocol, type RenderOpError, type RenderOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -241,7 +241,7 @@ export interface DeployImage {
   /** SHA that the image reference was resolved to when creating the deploy */
   sha?: string | undefined;
   /** Name of credential used to pull the image, if provided */
-  registryCredential?: string | undefined;
+  registryCredential?: string | Redacted.Redacted<string> | undefined;
 }
 export type DeployStatus =
   | "created"
@@ -323,7 +323,7 @@ export interface Schema26 {
   /** Identifier for this execution. */
   executionId: string;
   /** Short-lived bearer token authorizing exactly this operation against the sandbox. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The sandbox-proxy endpoint to invoke. */
   uri: string;
   /** HTTP method to use against `uri`. */
@@ -346,7 +346,7 @@ export interface ConnectSandboxRunResponse {
   /** Identifier for this execution. */
   executionId: string;
   /** Short-lived bearer token authorizing exactly this operation against the sandbox. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The sandbox-proxy endpoint to invoke. */
   uri: string;
   /** HTTP method to use against `uri`. */
@@ -776,7 +776,7 @@ export interface CreatePostgresRequest {
   databaseName?: string | undefined;
   databaseUser?: string | undefined;
   /** The Datadog API key for the Datadog agent to monitor the new database. */
-  datadogAPIKey?: string | undefined;
+  datadogAPIKey?: string | Redacted.Redacted<string> | undefined;
   /** Datadog region to use for monitoring the new database. Defaults to 'US1'. */
   datadogSite?: string | undefined;
   /** The name of the database as it will appear in the Render Dashboard */
@@ -949,7 +949,7 @@ export interface CreateRegistryCredentialRequest {
   registry: RegistryCredentialRegistry | (string & {});
   name: string;
   username: string;
-  authToken: string;
+  authToken: string | Redacted.Redacted<string>;
   ownerId: string;
 }
 export interface RegistryCredential {
@@ -3105,11 +3105,11 @@ export interface GetKeyValueConnectionInfoRequest {
 /** A Key Value instance */
 export interface KeyValueConnectionInfo {
   /** The connection string to use from within Render */
-  internalConnectionString: string;
+  internalConnectionString: string | Redacted.Redacted<string>;
   /** The connection string to use from outside Render */
-  externalConnectionString: string;
+  externalConnectionString: string | Redacted.Redacted<string>;
   /** The CLI (redis-cli or valkey-cli) command to connect to the Key Value instance */
-  cliCommand: string;
+  cliCommand: string | Redacted.Redacted<string>;
 }
 export interface GetMaintenanceRequest {
   maintenanceRunID: string;
@@ -3313,11 +3313,11 @@ export interface GetPostgresConnectionInfoRequest {
 }
 export interface PostgresConnectionInfo {
   password: string | Redacted.Redacted<string>;
-  internalConnectionString: string;
-  externalConnectionString: string;
-  internalConnectionPoolString?: string | undefined;
-  externalConnectionPoolString?: string | undefined;
-  psqlCommand: string;
+  internalConnectionString: string | Redacted.Redacted<string>;
+  externalConnectionString: string | Redacted.Redacted<string>;
+  internalConnectionPoolString?: string | Redacted.Redacted<string> | undefined;
+  externalConnectionPoolString?: string | Redacted.Redacted<string> | undefined;
+  psqlCommand: string | Redacted.Redacted<string>;
 }
 export interface GetPostgresRecoveryInfoRequest {
   postgresId: string;
@@ -5732,7 +5732,7 @@ export interface RecoverPostgresRequest {
   /** The point in time to restore the database to. See `/recovery-info` for restore availability */
   restoreTime?: string | undefined;
   /** Datadog API key to use for monitoring the new database. Defaults to the API key of the original database. Use an empty string to prevent copying of the API key to the new database. */
-  datadogApiKey?: string | undefined;
+  datadogApiKey?: string | Redacted.Redacted<string> | undefined;
   /** Datadog region code to use for monitoring the new database. Defaults to the region code of the original database. Use an empty string to prevent copying of the region code to the new database. */
   datadogSite?: string | undefined;
   /** The plan to use for the new database. Defaults to the same plan as the original database. Cannot be a lower tier plan than the original database. */
@@ -6197,7 +6197,7 @@ export interface UpdateOwnerLogStreamRequest {
   /** The endpoint to stream logs to. */
   endpoint?: string | undefined;
   /** The optional token to authenticate the log stream. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to send logs or drop them. */
   preview: UpdateOwnerLogStreamRequestPreview | (string & {});
 }
@@ -6220,7 +6220,7 @@ export interface UpdatePostgresRequest {
   connectionPool?: string | undefined;
   enableHighAvailability?: boolean | undefined;
   /** The Datadog API key for the Datadog agent to monitor the database. Pass empty string to remove. Restarts Postgres on change. */
-  datadogAPIKey?: string | undefined;
+  datadogAPIKey?: string | Redacted.Redacted<string> | undefined;
   /** Datadog region to use for monitoring the new database. Defaults to 'US1'. */
   datadogSite?: string | undefined;
   ipAllowList?: UpdatePostgresRequestIpAllowListList | undefined;
@@ -6236,13 +6236,13 @@ export interface UpdateRegistryCredentialRequest {
   registry: RegistryCredentialRegistry | (string & {});
   name: string;
   username: string;
-  authToken: string;
+  authToken: string | Redacted.Redacted<string>;
 }
 export interface UpdateResourceLogStreamRequest {
   /** The ID of the resource (server, cron job, postgres, or redis) to update log stream override information for */
   resourceId: string;
   endpoint?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   setting: Items3 | (string & {});
 }
 export interface UpdateResourceLogStreamResponse {
@@ -6407,7 +6407,7 @@ export interface UpsertOwnerMetricsStreamRequest {
   /** The endpoint URL to stream metrics to */
   url?: string | undefined;
   /** Authentication token for the metrics stream */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpsertOwnerMetricsStreamResponse {
   /** The ID of the owner */
@@ -6483,7 +6483,8 @@ export const addDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c232, 0) as any as S.Schema<AddDiskRequest>,
   output: __S(1864, __c233, 0) as any as S.Schema<AddDiskResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6500,7 +6501,8 @@ export const addHeaders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c244, 0) as any as S.Schema<AddHeadersRequest>,
   output: __S(1953, __c244, 1) as any as S.Schema<AddHeadersResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6521,7 +6523,8 @@ export const addOrUpdateBuildSourceSecretFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c256, 0) as any as S.Schema<AddOrUpdateBuildSourceSecretFileRequest>,
   output: __S(2056, __c257, 0) as any as S.Schema<SecretFile>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6538,7 +6541,8 @@ export const addOrUpdateSecretFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2152, __c269, 0) as any as S.Schema<AddOrUpdateSecretFileRequest>,
   output: __S(2056, __c257, 0) as any as S.Schema<SecretFile>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6555,7 +6559,8 @@ export const addResourcesToEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2248, __c281, 0) as any as S.Schema<AddResourcesToEnvironmentRequest>,
   output: __S(2272, __c284, 0) as any as S.Schema<Environment>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6568,7 +6573,8 @@ export const addRoute: API.OperationMethod<AddRouteRequest, Route, AddRouteError
   /*@__PURE__*/ API.make(() => ({
     input: __S(2360, __c295, 0) as any as S.Schema<AddRouteRequest>,
     output: __S(2368, __c296, 0) as any as S.Schema<Route>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RenderServiceErrors,
     protocol: RenderProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6585,7 +6591,8 @@ export const autoscaleService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10, __c1, 2) as any as S.Schema<AutoscaleServiceRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<Schema5>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6602,7 +6609,8 @@ export const cancelCronJobRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<CancelCronJobRunRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<CancelCronJobRunResponse>,
-  errors: [UnknownRenderError],
+  errors: [],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6619,7 +6627,8 @@ export const cancelDeploy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<CancelDeployRequest>,
   output: __S(258, __c32, 2) as any as S.Schema<Deploy>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6636,7 +6645,8 @@ export const cancelFlowRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<CancelFlowRunRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<CancelFlowRunResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6653,7 +6663,8 @@ export const cancelJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<CancelJobRequest>,
   output: __S(480, __c60, 0) as any as S.Schema<Schema7>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6670,7 +6681,8 @@ export const cancelTaskRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(568, __c71, 0) as any as S.Schema<CancelTaskRunRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<CancelTaskRunResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6687,7 +6699,8 @@ export const connectSandboxFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c84, 0) as any as S.Schema<ConnectSandboxFilesRequest>,
   output: __S(680, __c85, 0) as any as S.Schema<Schema26>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6704,7 +6717,8 @@ export const connectSandboxRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(776, __c97, 0) as any as S.Schema<ConnectSandboxRunRequest>,
   output: __S(680, __c85, 0) as any as S.Schema<ConnectSandboxRunResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6721,7 +6735,8 @@ export const createBuildSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c108, 0) as any as S.Schema<CreateBuildSourceRequest>,
   output: __S(914, __c114, 2) as any as S.Schema<CreateBuildSourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6738,7 +6753,8 @@ export const createCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c126, 0) as any as S.Schema<CreateCustomDomainRequest>,
   output: __S(1010, __c126, 2) as any as S.Schema<CreateCustomDomainResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6755,7 +6771,8 @@ export const createDedicatedIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1104, __c138, 0) as any as S.Schema<CreateDedicatedIpRequest>,
   output: __S(1112, __c139, 0) as any as S.Schema<DedicatedIP>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6772,7 +6789,8 @@ export const createDeploy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c150, 0) as any as S.Schema<CreateDeployRequest>,
   output: __S(258, __c32, 2) as any as S.Schema<Deploy>,
-  errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6789,7 +6807,8 @@ export const createEnvGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1288, __c161, 0) as any as S.Schema<CreateEnvGroupRequest>,
   output: __S(1313, __c164, 1) as any as S.Schema<CreateEnvGroupResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6806,7 +6825,8 @@ export const createEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1400, __c175, 0) as any as S.Schema<CreateEnvironmentRequest>,
   output: __S(2272, __c284, 0) as any as S.Schema<Environment>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6823,7 +6843,8 @@ export const createKeyValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c186, 0) as any as S.Schema<CreateKeyValueRequest>,
   output: __S(1504, __c188, 0) as any as S.Schema<KeyValueDetail>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6840,7 +6861,8 @@ export const createPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1608, __c201, 0) as any as S.Schema<CreatePostgresRequest>,
   output: __S(1616, __c202, 0) as any as S.Schema<PostgresDetail>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6857,7 +6879,8 @@ export const createPostgresExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c206, 0) as any as S.Schema<CreatePostgresExportRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<CreatePostgresExportResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6874,7 +6897,8 @@ export const createPostgresUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1656, __c207, 0) as any as S.Schema<CreatePostgresUserRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<CreatePostgresUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6891,7 +6915,8 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1666, __c208, 2) as any as S.Schema<CreateProjectRequest>,
   output: __S(1672, __c209, 0) as any as S.Schema<Project>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6908,7 +6933,8 @@ export const createRegistryCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c210, 0) as any as S.Schema<CreateRegistryCredentialRequest>,
   output: __S(1688, __c211, 0) as any as S.Schema<RegistryCredential>,
-  errors: [BadRequest, Conflict, UnknownRenderError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6925,7 +6951,8 @@ export const createSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1697, __c212, 1) as any as S.Schema<CreateSandboxRequest>,
   output: __S(1698, __c212, 2) as any as S.Schema<CreateSandboxResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6942,7 +6969,8 @@ export const createSandboxBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1721, __c215, 1) as any as S.Schema<CreateSandboxBuildRequest>,
   output: __S(1729, __c216, 1) as any as S.Schema<CreateSandboxBuildResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6959,7 +6987,8 @@ export const createSandboxGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1736, __c217, 0) as any as S.Schema<CreateSandboxGroupRequest>,
   output: __S(1744, __c218, 0) as any as S.Schema<CreateSandboxGroupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6981,7 +7010,8 @@ export const createSandboxSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1752, __c219, 0) as any as S.Schema<CreateSandboxSnapshotRequest>,
   output: __S(1753, __c219, 1) as any as S.Schema<CreateSandboxSnapshotResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6998,7 +7028,8 @@ export const createService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c220, 0) as any as S.Schema<CreateServiceRequest>,
   output: __S(1776, __c222, 0) as any as S.Schema<ServiceAndDeploy>,
-  errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7015,7 +7046,8 @@ export const createTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c224, 0) as any as S.Schema<CreateTaskRequest>,
   output: __S(1802, __c225, 2) as any as S.Schema<CreateTaskResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7032,7 +7064,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c226, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<CreateWebhookResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7049,7 +7082,8 @@ export const createWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c228, 0) as any as S.Schema<CreateWorkflowRequest>,
   output: __S(1833, __c229, 1) as any as S.Schema<CreateWorkflowResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7066,7 +7100,8 @@ export const createWorkflowVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c230, 0) as any as S.Schema<CreateWorkflowVersionRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<CreateWorkflowVersionResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7083,7 +7118,8 @@ export const deleteAutoscalingConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1848, __c231, 0) as any as S.Schema<DeleteAutoscalingConfigRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteAutoscalingConfigResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7100,7 +7136,8 @@ export const deleteBuildSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1872, __c234, 0) as any as S.Schema<DeleteBuildSourceRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteBuildSourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7117,7 +7154,8 @@ export const deleteBuildSourceEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1880, __c235, 0) as any as S.Schema<DeleteBuildSourceEnvVarRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteBuildSourceEnvVarResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7134,7 +7172,8 @@ export const deleteBuildSourceSecretFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c236, 0) as any as S.Schema<DeleteBuildSourceSecretFileRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteBuildSourceSecretFileResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7151,7 +7190,8 @@ export const deleteCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1896, __c237, 0) as any as S.Schema<DeleteCustomDomainRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteCustomDomainResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7168,7 +7208,8 @@ export const deleteDedicatedIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c238, 0) as any as S.Schema<DeleteDedicatedIpRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteDedicatedIpResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7185,7 +7226,8 @@ export const deleteDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1912, __c239, 0) as any as S.Schema<DeleteDiskRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteDiskResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7202,7 +7244,8 @@ export const deleteEnvGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c240, 0) as any as S.Schema<DeleteEnvGroupRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteEnvGroupResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7219,7 +7262,8 @@ export const deleteEnvGroupEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1928, __c241, 0) as any as S.Schema<DeleteEnvGroupEnvVarRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteEnvGroupEnvVarResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7236,7 +7280,8 @@ export const deleteEnvGroupSecretFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c242, 0) as any as S.Schema<DeleteEnvGroupSecretFileRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteEnvGroupSecretFileResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7253,7 +7298,8 @@ export const deleteEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1944, __c243, 0) as any as S.Schema<DeleteEnvironmentRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteEnvironmentResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7270,7 +7316,8 @@ export const deleteEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c246, 0) as any as S.Schema<DeleteEnvVarRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteEnvVarResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7287,7 +7334,8 @@ export const deleteHeader: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1976, __c247, 0) as any as S.Schema<DeleteHeaderRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteHeaderResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7304,7 +7352,8 @@ export const deleteKeyValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c248, 0) as any as S.Schema<DeleteKeyValueRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteKeyValueResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7321,7 +7370,8 @@ export const deleteOwnerLogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1992, __c249, 0) as any as S.Schema<DeleteOwnerLogStreamRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteOwnerLogStreamResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7338,7 +7388,8 @@ export const deleteOwnerMetricsStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c250, 0) as any as S.Schema<DeleteOwnerMetricsStreamRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteOwnerMetricsStreamResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7355,7 +7406,8 @@ export const deletePostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2008, __c251, 0) as any as S.Schema<DeletePostgresRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeletePostgresResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7372,7 +7424,8 @@ export const deletePostgresUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c252, 0) as any as S.Schema<DeletePostgresUserRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeletePostgresUserResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7389,7 +7442,8 @@ export const deleteProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2024, __c253, 0) as any as S.Schema<DeleteProjectRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteProjectResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7406,7 +7460,8 @@ export const deleteRegistryCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c254, 0) as any as S.Schema<DeleteRegistryCredentialRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteRegistryCredentialResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7423,7 +7478,8 @@ export const deleteResourceLogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2040, __c255, 0) as any as S.Schema<DeleteResourceLogStreamRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteResourceLogStreamResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7440,7 +7496,8 @@ export const deleteRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c258, 0) as any as S.Schema<DeleteRouteRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteRouteResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7462,7 +7519,8 @@ export const deleteSandboxSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2072, __c259, 0) as any as S.Schema<DeleteSandboxSnapshotRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteSandboxSnapshotResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7479,7 +7537,8 @@ export const deleteSecretFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c260, 0) as any as S.Schema<DeleteSecretFileRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteSecretFileResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7496,7 +7555,8 @@ export const deleteService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2088, __c261, 0) as any as S.Schema<DeleteServiceRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteServiceResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7513,7 +7573,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2096, __c262, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [NotFound, UnknownRenderError],
+  errors: [NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7530,7 +7591,8 @@ export const deleteWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2104, __c263, 0) as any as S.Schema<DeleteWorkflowRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DeleteWorkflowResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7547,7 +7609,8 @@ export const deployRollback: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c264, 0) as any as S.Schema<DeployRollbackRequest>,
   output: __S(258, __c32, 2) as any as S.Schema<Deploy>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7564,7 +7627,8 @@ export const disconnectBlueprint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2120, __c265, 0) as any as S.Schema<DisconnectBlueprintRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<DisconnectBlueprintResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7581,7 +7645,8 @@ export const failoverPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c266, 0) as any as S.Schema<FailoverPostgresRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<FailoverPostgresResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7598,7 +7663,8 @@ export const getActiveConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2136, __c267, 0) as any as S.Schema<GetActiveConnectionsRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetActiveConnectionsResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7615,7 +7681,8 @@ export const getBandwidth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2160, __c270, 0) as any as S.Schema<GetBandwidthRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetBandwidthResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7632,7 +7699,8 @@ export const getBandwidthSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2168, __c271, 0) as any as S.Schema<GetBandwidthSourcesRequest>,
   output: __S(2174, __c271, 6) as any as S.Schema<GetBandwidthSourcesResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7649,7 +7717,8 @@ export const getBlueprint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c272, 0) as any as S.Schema<GetBlueprintRequest>,
   output: __S(2177, __c272, 1) as any as S.Schema<GetBlueprintResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7666,7 +7735,8 @@ export const getBuildSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2184, __c273, 0) as any as S.Schema<GetBuildSourceRequest>,
   output: __S(914, __c114, 2) as any as S.Schema<Schema12>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7683,7 +7753,8 @@ export const getBuildSourceBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2192, __c274, 0) as any as S.Schema<GetBuildSourceBuildRequest>,
   output: __S(2202, __c275, 2) as any as S.Schema<Schema13>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7700,7 +7771,8 @@ export const getBuildSourceEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c276, 0) as any as S.Schema<GetBuildSourceEnvVarRequest>,
   output: __S(1304, __c163, 0) as any as S.Schema<EnvVar>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7717,7 +7789,8 @@ export const getBuildSourceSecretFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2216, __c277, 0) as any as S.Schema<GetBuildSourceSecretFileRequest>,
   output: __S(2056, __c257, 0) as any as S.Schema<SecretFile>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7734,7 +7807,8 @@ export const getCpu: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c278, 0) as any as S.Schema<GetCpuRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetCpuResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7751,7 +7825,8 @@ export const getCpuLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2232, __c279, 0) as any as S.Schema<GetCpuLimitRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetCpuLimitResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7768,7 +7843,8 @@ export const getCpuTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c280, 0) as any as S.Schema<GetCpuTargetRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetCpuTargetResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7785,7 +7861,8 @@ export const getCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2280, __c285, 0) as any as S.Schema<GetCustomDomainRequest>,
   output: __S(1017, __c127, 1) as any as S.Schema<CustomDomain>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7802,7 +7879,8 @@ export const getDedicatedIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c286, 0) as any as S.Schema<GetDedicatedIpRequest>,
   output: __S(1112, __c139, 0) as any as S.Schema<DedicatedIP>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7819,7 +7897,8 @@ export const getDeploy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2296, __c287, 0) as any as S.Schema<GetDeployRequest>,
   output: __S(258, __c32, 2) as any as S.Schema<Deploy>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7832,7 +7911,8 @@ export const getDisk: API.OperationMethod<GetDiskRequest, Schema2, GetDiskError,
   /*@__PURE__*/ API.make(() => ({
     input: __S(2304, __c288, 0) as any as S.Schema<GetDiskRequest>,
     output: __S(1864, __c233, 0) as any as S.Schema<Schema2>,
-    errors: [Forbidden, NotFound, UnknownRenderError],
+    errors: [Forbidden, NotFound],
+    serviceErrors: RenderServiceErrors,
     protocol: RenderProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7849,7 +7929,8 @@ export const getDiskCapacity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2312, __c289, 0) as any as S.Schema<GetDiskCapacityRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetDiskCapacityResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7866,7 +7947,8 @@ export const getDiskUsage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2320, __c290, 0) as any as S.Schema<GetDiskUsageRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetDiskUsageResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7883,7 +7965,8 @@ export const getEnvGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2328, __c291, 0) as any as S.Schema<GetEnvGroupRequest>,
   output: __S(1313, __c164, 1) as any as S.Schema<GetEnvGroupResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7900,7 +7983,8 @@ export const getEnvGroupEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c292, 0) as any as S.Schema<GetEnvGroupEnvVarRequest>,
   output: __S(1304, __c163, 0) as any as S.Schema<EnvVar>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7917,7 +8001,8 @@ export const getEnvGroupSecretFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2344, __c293, 0) as any as S.Schema<GetEnvGroupSecretFileRequest>,
   output: __S(2056, __c257, 0) as any as S.Schema<SecretFile>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7934,7 +8019,8 @@ export const getEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2352, __c294, 0) as any as S.Schema<GetEnvironmentRequest>,
   output: __S(2272, __c284, 0) as any as S.Schema<Environment>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7951,7 +8037,8 @@ export const getEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2376, __c297, 0) as any as S.Schema<GetEnvVarRequest>,
   output: __S(1304, __c163, 0) as any as S.Schema<EnvVar>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7968,7 +8055,8 @@ export const getEnvVarsForBuildSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c298, 0) as any as S.Schema<GetEnvVarsForBuildSourceRequest>,
   output: __S(2394, __c299, 2) as any as S.Schema<GetEnvVarsForBuildSourceResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7985,7 +8073,8 @@ export const getEnvVarsForService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c300, 0) as any as S.Schema<GetEnvVarsForServiceRequest>,
   output: __S(2394, __c299, 2) as any as S.Schema<GetEnvVarsForServiceResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8002,7 +8091,8 @@ export const getEvent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2408, __c301, 0) as any as S.Schema<GetEventRequest>,
   output: __S(2409, __c301, 1) as any as S.Schema<GetEventResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8019,7 +8109,8 @@ export const getFlow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2416, __c302, 0) as any as S.Schema<GetFlowRequest>,
   output: __S(2424, __c303, 0) as any as S.Schema<GetFlowResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8036,7 +8127,8 @@ export const getFlowRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c304, 0) as any as S.Schema<GetFlowRunRequest>,
   output: __S(2436, __c304, 4) as any as S.Schema<GetFlowRunResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8053,7 +8145,8 @@ export const getFlowRunStep: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c306, 0) as any as S.Schema<GetFlowRunStepRequest>,
   output: __S(2449, __c306, 1) as any as S.Schema<GetFlowRunStepResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8070,7 +8163,8 @@ export const getHttpLatency: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2456, __c307, 0) as any as S.Schema<GetHttpLatencyRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetHttpLatencyResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8087,7 +8181,8 @@ export const getHttpRequests: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c308, 0) as any as S.Schema<GetHttpRequestsRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetHttpRequestsResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8104,7 +8199,8 @@ export const getInstanceCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2472, __c309, 0) as any as S.Schema<GetInstanceCountRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetInstanceCountResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8117,7 +8213,8 @@ export const getJob: API.OperationMethod<GetJobRequest, Schema7, GetJobError, Re
   /*@__PURE__*/ API.make(() => ({
     input: __S(16, __c2, 0) as any as S.Schema<GetJobRequest>,
     output: __S(480, __c60, 0) as any as S.Schema<Schema7>,
-    errors: [BadRequest, NotFound, UnknownRenderError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: RenderServiceErrors,
     protocol: RenderProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8134,7 +8231,8 @@ export const getKeyValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetKeyValueRequest>,
   output: __S(1504, __c188, 0) as any as S.Schema<KeyValueDetail>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8151,7 +8249,8 @@ export const getKeyValueConnectionInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<GetKeyValueConnectionInfoRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<KeyValueConnectionInfo>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8168,7 +8267,8 @@ export const getMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetMaintenanceRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<GetMaintenanceResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8185,7 +8285,8 @@ export const getMemory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<GetMemoryRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetMemoryResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8202,7 +8303,8 @@ export const getMemoryLimit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<GetMemoryLimitRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetMemoryLimitResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8219,7 +8321,8 @@ export const getMemoryTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetMemoryTargetRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetMemoryTargetResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8232,7 +8335,8 @@ export const getOwner: API.OperationMethod<GetOwnerRequest, Owner, GetOwnerError
   /*@__PURE__*/ API.make(() => ({
     input: __S(80, __c10, 0) as any as S.Schema<GetOwnerRequest>,
     output: __S(1520, __c190, 0) as any as S.Schema<Owner>,
-    errors: [NotFound, UnknownRenderError],
+    errors: [NotFound],
+    serviceErrors: RenderServiceErrors,
     protocol: RenderProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8249,7 +8353,8 @@ export const getOwnerLogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetOwnerLogStreamRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<GetOwnerLogStreamResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8266,7 +8371,8 @@ export const getOwnerMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<GetOwnerMembersRequest>,
   output: __S(106, __c13, 2) as any as S.Schema<GetOwnerMembersResponse>,
-  errors: [NotFound, UnknownRenderError],
+  errors: [NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8283,7 +8389,8 @@ export const getOwnerMetricsStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<GetOwnerMetricsStreamRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<Schema10>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8300,7 +8407,8 @@ export const getOwnerNotificationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<GetOwnerNotificationSettingsRequest>,
   output: __S(160, __c20, 0) as any as S.Schema<GetOwnerNotificationSettingsResponse>,
-  errors: [UnknownRenderError],
+  errors: [],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8317,7 +8425,8 @@ export const getPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<GetPostgresRequest>,
   output: __S(1616, __c202, 0) as any as S.Schema<PostgresDetail>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8334,7 +8443,8 @@ export const getPostgresConnectionInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<GetPostgresConnectionInfoRequest>,
   output: __S(177, __c22, 1) as any as S.Schema<PostgresConnectionInfo>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8351,7 +8461,8 @@ export const getPostgresRecoveryInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<GetPostgresRecoveryInfoRequest>,
   output: __S(185, __c23, 1) as any as S.Schema<GetPostgresRecoveryInfoResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8368,7 +8479,8 @@ export const getProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(1672, __c209, 0) as any as S.Schema<Project>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8385,7 +8497,8 @@ export const getRegistryCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<GetRegistryCredentialRequest>,
   output: __S(1688, __c211, 0) as any as S.Schema<RegistryCredential>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8402,7 +8515,8 @@ export const getReplicationLag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<GetReplicationLagRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetReplicationLagResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8419,7 +8533,8 @@ export const getResourceLogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<GetResourceLogStreamRequest>,
   output: __S(224, __c28, 0) as any as S.Schema<GetResourceLogStreamResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8436,7 +8551,8 @@ export const getSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<GetSandboxRequest>,
   output: __S(240, __c30, 0) as any as S.Schema<Schema21>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8453,7 +8569,8 @@ export const getSandboxBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c33, 0) as any as S.Schema<GetSandboxBuildRequest>,
   output: __S(1729, __c216, 1) as any as S.Schema<Schema24>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8470,7 +8587,8 @@ export const getSandboxExecution: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<GetSandboxExecutionRequest>,
   output: __S(280, __c35, 0) as any as S.Schema<GetSandboxExecutionResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8487,7 +8605,8 @@ export const getSandboxGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<GetSandboxGroupRequest>,
   output: __S(1744, __c218, 0) as any as S.Schema<Schema22>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8504,7 +8623,8 @@ export const getSandboxSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<GetSandboxSnapshotRequest>,
   output: __S(304, __c38, 0) as any as S.Schema<Schema25>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8521,7 +8641,8 @@ export const getSecretFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<GetSecretFileRequest>,
   output: __S(2056, __c257, 0) as any as S.Schema<SecretFile>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8538,7 +8659,8 @@ export const getService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<GetServiceRequest>,
   output: __S(1768, __c221, 0) as any as S.Schema<Service>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8555,7 +8677,8 @@ export const getServiceNotificationOverrides: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<GetServiceNotificationOverridesRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<GetServiceNotificationOverridesResponse>,
-  errors: [UnknownRenderError],
+  errors: [],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8572,7 +8695,8 @@ export const getServiceOutboundIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(344, __c43, 0) as any as S.Schema<GetServiceOutboundIpsRequest>,
   output: __S(345, __c43, 1) as any as S.Schema<OutboundIps>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8589,7 +8713,8 @@ export const getTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<GetTaskRequest>,
   output: __S(2424, __c303, 0) as any as S.Schema<GetTaskResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8606,7 +8731,8 @@ export const getTaskRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<GetTaskRunRequest>,
   output: __S(363, __c45, 3) as any as S.Schema<GetTaskRunResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8623,7 +8749,8 @@ export const getTaskRunsCompleted: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<GetTaskRunsCompletedRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetTaskRunsCompletedResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8640,7 +8767,8 @@ export const getTaskRunsQueued: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c48, 0) as any as S.Schema<GetTaskRunsQueuedRequest>,
   output: __S(2150, __c268, 6) as any as S.Schema<GetTaskRunsQueuedResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8653,7 +8781,8 @@ export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, Re
   /*@__PURE__*/ API.make(() => ({
     input: __S(392, __c49, 0) as any as S.Schema<GetUserRequest>,
     output: __S(393, __c49, 1) as any as S.Schema<User>,
-    errors: [UnknownRenderError],
+    errors: [],
+    serviceErrors: RenderServiceErrors,
     protocol: RenderProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8670,7 +8799,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<Schema14>,
-  errors: [NotFound, UnknownRenderError],
+  errors: [NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8687,7 +8817,8 @@ export const getWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<GetWorkflowRequest>,
   output: __S(1833, __c229, 1) as any as S.Schema<Schema15>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8704,7 +8835,8 @@ export const getWorkflowVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<GetWorkflowVersionRequest>,
   output: __S(424, __c53, 0) as any as S.Schema<GetWorkflowVersionResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8721,7 +8853,8 @@ export const linkEnvGroupToBuildSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<LinkEnvGroupToBuildSourceRequest>,
   output: __S(1313, __c164, 1) as any as S.Schema<LinkEnvGroupToBuildSourceResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8738,7 +8871,8 @@ export const linkServiceToEnvGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(440, __c55, 0) as any as S.Schema<LinkServiceToEnvGroupRequest>,
   output: __S(1313, __c164, 1) as any as S.Schema<LinkServiceToEnvGroupResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8755,7 +8889,8 @@ export const listApplicationFilterValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<ListApplicationFilterValuesRequest>,
   output: __S(458, __c57, 2) as any as S.Schema<ListApplicationFilterValuesResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8772,7 +8907,8 @@ export const listBlueprints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c58, 0) as any as S.Schema<ListBlueprintsRequest>,
   output: __S(468, __c58, 4) as any as S.Schema<ListBlueprintsResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8789,7 +8925,8 @@ export const listBlueprintSyncs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(489, __c61, 1) as any as S.Schema<ListBlueprintSyncsRequest>,
   output: __S(493, __c61, 5) as any as S.Schema<ListBlueprintSyncsResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8806,7 +8943,8 @@ export const listBuildsInBuildSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c62, 0) as any as S.Schema<ListBuildsInBuildSourceRequest>,
   output: __S(499, __c62, 3) as any as S.Schema<ListBuildsInBuildSourceResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8823,7 +8961,8 @@ export const listBuildSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(504, __c63, 0) as any as S.Schema<ListBuildSourcesRequest>,
   output: __S(507, __c63, 3) as any as S.Schema<ListBuildSourcesResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8840,7 +8979,8 @@ export const listCustomDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c64, 0) as any as S.Schema<ListCustomDomainsRequest>,
   output: __S(515, __c64, 3) as any as S.Schema<ListCustomDomainsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8857,7 +8997,8 @@ export const listDedicatedIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(520, __c65, 0) as any as S.Schema<ListDedicatedIpsRequest>,
   output: __S(522, __c65, 2) as any as S.Schema<ListDedicatedIpsResponse>,
-  errors: [BadRequest, Forbidden, UnknownRenderError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8874,7 +9015,8 @@ export const listDeploys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(528, __c66, 0) as any as S.Schema<ListDeploysRequest>,
   output: __S(531, __c66, 3) as any as S.Schema<ListDeploysResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8891,7 +9033,8 @@ export const listDisks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(536, __c67, 0) as any as S.Schema<ListDisksRequest>,
   output: __S(539, __c67, 3) as any as S.Schema<ListDisksResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8908,7 +9051,8 @@ export const listEnvGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c68, 0) as any as S.Schema<ListEnvGroupsRequest>,
   output: __S(547, __c68, 3) as any as S.Schema<ListEnvGroupsResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8925,7 +9069,8 @@ export const listEnvironments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(552, __c69, 0) as any as S.Schema<ListEnvironmentsRequest>,
   output: __S(555, __c69, 3) as any as S.Schema<ListEnvironmentsResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8942,7 +9087,8 @@ export const listEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c70, 0) as any as S.Schema<ListEventsRequest>,
   output: __S(564, __c70, 4) as any as S.Schema<ListEventsResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8959,7 +9105,8 @@ export const listFlowRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c72, 0) as any as S.Schema<ListFlowRunsRequest>,
   output: __S(579, __c72, 3) as any as S.Schema<ListFlowRunsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8976,7 +9123,8 @@ export const listFlowRunSteps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c74, 0) as any as S.Schema<ListFlowRunStepsRequest>,
   output: __S(595, __c74, 3) as any as S.Schema<ListFlowRunStepsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8993,7 +9141,8 @@ export const listFlows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(600, __c75, 0) as any as S.Schema<ListFlowsRequest>,
   output: __S(603, __c75, 3) as any as S.Schema<ListFlowsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9010,7 +9159,8 @@ export const listHeaders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c76, 0) as any as S.Schema<ListHeadersRequest>,
   output: __S(611, __c76, 3) as any as S.Schema<ListHeadersResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9027,7 +9177,8 @@ export const listHttpFilterValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(616, __c77, 0) as any as S.Schema<ListHttpFilterValuesRequest>,
   output: __S(458, __c57, 2) as any as S.Schema<ListHttpFilterValuesResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9044,7 +9195,8 @@ export const listInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c78, 0) as any as S.Schema<ListInstancesRequest>,
   output: __S(627, __c78, 3) as any as S.Schema<ListInstancesResponse>,
-  errors: [NotFound, UnknownRenderError],
+  errors: [NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9061,7 +9213,8 @@ export const listJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(632, __c79, 0) as any as S.Schema<ListJobRequest>,
   output: __S(635, __c79, 3) as any as S.Schema<ListJobResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9078,7 +9231,8 @@ export const listKeyValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c80, 0) as any as S.Schema<ListKeyValueRequest>,
   output: __S(644, __c80, 4) as any as S.Schema<ListKeyValueResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9095,7 +9249,8 @@ export const listLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(648, __c81, 0) as any as S.Schema<ListLogsRequest>,
   output: __S(653, __c81, 5) as any as S.Schema<ListLogsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9112,7 +9267,8 @@ export const listLogsValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c82, 0) as any as S.Schema<ListLogsValuesRequest>,
   output: __S(664, __c83, 0) as any as S.Schema<ListLogsValuesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9129,7 +9285,8 @@ export const listMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c86, 0) as any as S.Schema<ListMaintenanceRequest>,
   output: __S(690, __c86, 2) as any as S.Schema<ListMaintenanceResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9146,7 +9303,8 @@ export const listNotificationOverrides: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(696, __c87, 0) as any as S.Schema<ListNotificationOverridesRequest>,
   output: __S(699, __c87, 3) as any as S.Schema<ListNotificationOverridesResponse>,
-  errors: [UnknownRenderError],
+  errors: [],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9163,7 +9321,8 @@ export const listOrganizationAuditLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c88, 0) as any as S.Schema<ListOrganizationAuditLogsRequest>,
   output: __S(716, __c89, 4) as any as S.Schema<ListOrganizationAuditLogsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9180,7 +9339,8 @@ export const listOwnerAuditLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c90, 0) as any as S.Schema<ListOwnerAuditLogsRequest>,
   output: __S(716, __c89, 4) as any as S.Schema<ListOwnerAuditLogsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9197,7 +9357,8 @@ export const listOwners: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(728, __c91, 0) as any as S.Schema<ListOwnersRequest>,
   output: __S(731, __c91, 3) as any as S.Schema<ListOwnersResponse>,
-  errors: [UnknownRenderError],
+  errors: [],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9214,7 +9375,8 @@ export const listPathFilterValues: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c92, 0) as any as S.Schema<ListPathFilterValuesRequest>,
   output: __S(664, __c83, 0) as any as S.Schema<ListPathFilterValuesResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9231,7 +9393,8 @@ export const listPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(744, __c93, 0) as any as S.Schema<ListPostgresRequest>,
   output: __S(748, __c93, 4) as any as S.Schema<ListPostgresResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9248,7 +9411,8 @@ export const listPostgresExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c94, 0) as any as S.Schema<ListPostgresExportRequest>,
   output: __S(755, __c94, 3) as any as S.Schema<ListPostgresExportResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9265,7 +9429,8 @@ export const listPostgresProcesses: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(760, __c95, 0) as any as S.Schema<ListPostgresProcessesRequest>,
   output: __S(763, __c95, 3) as any as S.Schema<ListPostgresProcessesResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9282,7 +9447,8 @@ export const listPostgresSizes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c96, 0) as any as S.Schema<ListPostgresSizesRequest>,
   output: __S(771, __c96, 3) as any as S.Schema<ListPostgresSizesResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9299,7 +9465,8 @@ export const listPostgresTableScans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c98, 0) as any as S.Schema<ListPostgresTableScansRequest>,
   output: __S(787, __c98, 3) as any as S.Schema<ListPostgresTableScansResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9316,7 +9483,8 @@ export const listPostgresTopQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(792, __c99, 0) as any as S.Schema<ListPostgresTopQueriesRequest>,
   output: __S(795, __c99, 3) as any as S.Schema<ListPostgresTopQueriesResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9333,7 +9501,8 @@ export const listPostgresUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c100, 0) as any as S.Schema<ListPostgresUsersRequest>,
   output: __S(803, __c100, 3) as any as S.Schema<ListPostgresUsersResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9350,7 +9519,8 @@ export const listProjects: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(808, __c101, 0) as any as S.Schema<ListProjectsRequest>,
   output: __S(811, __c101, 3) as any as S.Schema<ListProjectsResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9367,7 +9537,8 @@ export const listRegistryCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c102, 0) as any as S.Schema<ListRegistryCredentialsRequest>,
   output: __S(818, __c102, 2) as any as S.Schema<ListRegistryCredentialsResponse>,
-  errors: [UnknownRenderError],
+  errors: [],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9384,7 +9555,8 @@ export const listResourceLogStreams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(824, __c103, 0) as any as S.Schema<ListResourceLogStreamsRequest>,
   output: __S(826, __c103, 2) as any as S.Schema<ListResourceLogStreamsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9401,7 +9573,8 @@ export const listRoutes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c104, 0) as any as S.Schema<ListRoutesRequest>,
   output: __S(835, __c104, 3) as any as S.Schema<ListRoutesResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9418,7 +9591,8 @@ export const listSandboxBuilds: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(840, __c105, 0) as any as S.Schema<ListSandboxBuildsRequest>,
   output: __S(843, __c105, 3) as any as S.Schema<ListSandboxBuildsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9435,7 +9609,8 @@ export const listSandboxes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c106, 0) as any as S.Schema<ListSandboxesRequest>,
   output: __S(851, __c106, 3) as any as S.Schema<ListSandboxesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9452,7 +9627,8 @@ export const listSandboxExecutions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(856, __c107, 0) as any as S.Schema<ListSandboxExecutionsRequest>,
   output: __S(859, __c107, 3) as any as S.Schema<ListSandboxExecutionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9469,7 +9645,8 @@ export const listSandboxGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(920, __c115, 0) as any as S.Schema<ListSandboxGroupsRequest>,
   output: __S(923, __c115, 3) as any as S.Schema<ListSandboxGroupsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9486,7 +9663,8 @@ export const listSandboxSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c116, 0) as any as S.Schema<ListSandboxSnapshotsRequest>,
   output: __S(931, __c116, 3) as any as S.Schema<ListSandboxSnapshotsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9503,7 +9681,8 @@ export const listSecretFilesForBuildSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(936, __c117, 0) as any as S.Schema<ListSecretFilesForBuildSourceRequest>,
   output: __S(946, __c118, 2) as any as S.Schema<ListSecretFilesForBuildSourceResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9520,7 +9699,8 @@ export const listSecretFilesForService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(952, __c119, 0) as any as S.Schema<ListSecretFilesForServiceRequest>,
   output: __S(946, __c118, 2) as any as S.Schema<ListSecretFilesForServiceResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9537,7 +9717,8 @@ export const listServices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c120, 0) as any as S.Schema<ListServicesRequest>,
   output: __S(963, __c120, 3) as any as S.Schema<ListServicesResponse>,
-  errors: [UnknownRenderError],
+  errors: [],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9554,7 +9735,8 @@ export const listSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(968, __c121, 0) as any as S.Schema<ListSnapshotsRequest>,
   output: __S(971, __c121, 3) as any as S.Schema<ListSnapshotsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9571,7 +9753,8 @@ export const listTaskRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c122, 0) as any as S.Schema<ListTaskRunsRequest>,
   output: __S(979, __c122, 3) as any as S.Schema<ListTaskRunsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9588,7 +9771,8 @@ export const listTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(984, __c123, 0) as any as S.Schema<ListTasksRequest>,
   output: __S(987, __c123, 3) as any as S.Schema<ListTasksResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9605,7 +9789,8 @@ export const listWebhookEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c124, 0) as any as S.Schema<ListWebhookEventsRequest>,
   output: __S(996, __c124, 4) as any as S.Schema<ListWebhookEventsResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9622,7 +9807,8 @@ export const listWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1000, __c125, 0) as any as S.Schema<ListWebhooksRequest>,
   output: __S(1003, __c125, 3) as any as S.Schema<ListWebhooksResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9639,7 +9825,8 @@ export const listWorkflows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c128, 0) as any as S.Schema<ListWorkflowsRequest>,
   output: __S(1027, __c128, 3) as any as S.Schema<ListWorkflowsResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9656,7 +9843,8 @@ export const listWorkflowVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1032, __c129, 0) as any as S.Schema<ListWorkflowVersionsRequest>,
   output: __S(1035, __c129, 3) as any as S.Schema<ListWorkflowVersionsResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9673,7 +9861,8 @@ export const patchOwnerNotificationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c130, 0) as any as S.Schema<PatchOwnerNotificationSettingsRequest>,
   output: __S(160, __c20, 0) as any as S.Schema<Schema3>,
-  errors: [UnknownRenderError],
+  errors: [],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9690,7 +9879,8 @@ export const patchRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1048, __c131, 0) as any as S.Schema<PatchRouteRequest>,
   output: __S(1049, __c131, 1) as any as S.Schema<PatchRouteResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9707,7 +9897,8 @@ export const patchServiceNotificationOverrides: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c132, 0) as any as S.Schema<PatchServiceNotificationOverridesRequest>,
   output: __S(336, __c42, 0) as any as S.Schema<Schema4>,
-  errors: [UnknownRenderError],
+  errors: [],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9724,7 +9915,8 @@ export const postJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1064, __c133, 0) as any as S.Schema<PostJobRequest>,
   output: __S(480, __c60, 0) as any as S.Schema<PostJobResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9741,7 +9933,8 @@ export const previewService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c134, 0) as any as S.Schema<PreviewServiceRequest>,
   output: __S(1776, __c222, 0) as any as S.Schema<ServiceAndDeploy>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9758,7 +9951,8 @@ export const purgeCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1080, __c135, 0) as any as S.Schema<PurgeCacheRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<PurgeCacheResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9775,7 +9969,8 @@ export const putRoutes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1090, __c136, 2) as any as S.Schema<PutRoutesRequest>,
   output: __S(1092, __c136, 4) as any as S.Schema<PutRoutesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9792,7 +9987,8 @@ export const recoverPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1096, __c137, 0) as any as S.Schema<RecoverPostgresRequest>,
   output: __S(1616, __c202, 0) as any as S.Schema<PostgresDetail>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9809,7 +10005,8 @@ export const refreshCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c140, 0) as any as S.Schema<RefreshCustomDomainRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<RefreshCustomDomainResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9826,7 +10023,8 @@ export const removeResourcesFromEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1128, __c141, 0) as any as S.Schema<RemoveResourcesFromEnvironmentRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<RemoveResourcesFromEnvironmentResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9843,7 +10041,8 @@ export const removeWorkspaceMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1136, __c142, 0) as any as S.Schema<RemoveWorkspaceMemberRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<RemoveWorkspaceMemberResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9860,7 +10059,8 @@ export const restartPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1144, __c143, 0) as any as S.Schema<RestartPostgresRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<RestartPostgresResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9877,7 +10077,8 @@ export const restartService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c144, 0) as any as S.Schema<RestartServiceRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<RestartServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9894,7 +10095,8 @@ export const restoreSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1160, __c145, 0) as any as S.Schema<RestoreSnapshotRequest>,
   output: __S(1864, __c233, 0) as any as S.Schema<Schema2>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9911,7 +10113,8 @@ export const resumeKeyValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c146, 0) as any as S.Schema<ResumeKeyValueRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<ResumeKeyValueResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9928,7 +10131,8 @@ export const resumePostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1176, __c147, 0) as any as S.Schema<ResumePostgresRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<ResumePostgresResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9945,7 +10149,8 @@ export const resumeService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c148, 0) as any as S.Schema<ResumeServiceRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<ResumeServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9962,7 +10167,8 @@ export const runCronJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1192, __c149, 0) as any as S.Schema<RunCronJobRequest>,
   output: __S(1193, __c149, 1) as any as S.Schema<CronJobRun>,
-  errors: [UnknownRenderError],
+  errors: [],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9979,7 +10185,8 @@ export const scaleService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1208, __c151, 0) as any as S.Schema<ScaleServiceRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<ScaleServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9996,7 +10203,8 @@ export const startFlowRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c152, 0) as any as S.Schema<StartFlowRunRequest>,
   output: __S(584, __c73, 0) as any as S.Schema<StartFlowRunResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10013,7 +10221,8 @@ export const streamTaskRunsEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1224, __c153, 0) as any as S.Schema<StreamTaskRunsEventsRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<StreamTaskRunsEventsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10030,7 +10239,8 @@ export const subscribeLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c154, 0) as any as S.Schema<SubscribeLogsRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<SubscribeLogsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10047,7 +10257,8 @@ export const suspendKeyValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1240, __c155, 0) as any as S.Schema<SuspendKeyValueRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<SuspendKeyValueResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10064,7 +10275,8 @@ export const suspendPostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c156, 0) as any as S.Schema<SuspendPostgresRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<SuspendPostgresResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10081,7 +10293,8 @@ export const suspendService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1256, __c157, 0) as any as S.Schema<SuspendServiceRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<SuspendServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10098,7 +10311,8 @@ export const terminateSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c158, 0) as any as S.Schema<TerminateSandboxRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<TerminateSandboxResponse>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10115,7 +10329,8 @@ export const triggerBuildSourceBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1272, __c159, 0) as any as S.Schema<TriggerBuildSourceBuildRequest>,
   output: __S(2202, __c275, 2) as any as S.Schema<TriggerBuildSourceBuildResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10132,7 +10347,8 @@ export const triggerMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c160, 0) as any as S.Schema<TriggerMaintenanceRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<TriggerMaintenanceResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10149,7 +10365,8 @@ export const unlinkEnvGroupFromBuildSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1320, __c165, 0) as any as S.Schema<UnlinkEnvGroupFromBuildSourceRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<UnlinkEnvGroupFromBuildSourceResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10166,7 +10383,8 @@ export const unlinkServiceFromEnvGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c166, 0) as any as S.Schema<UnlinkServiceFromEnvGroupRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<UnlinkServiceFromEnvGroupResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10183,7 +10401,8 @@ export const updateBlueprint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1336, __c167, 0) as any as S.Schema<UpdateBlueprintRequest>,
   output: __S(1337, __c167, 1) as any as S.Schema<UpdateBlueprintResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10200,7 +10419,8 @@ export const updateBuildSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1346, __c168, 2) as any as S.Schema<UpdateBuildSourceRequest>,
   output: __S(914, __c114, 2) as any as S.Schema<Schema12>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10217,7 +10437,8 @@ export const updateBuildSourceEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1352, __c169, 0) as any as S.Schema<UpdateBuildSourceEnvVarRequest>,
   output: __S(1304, __c163, 0) as any as S.Schema<EnvVar>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10234,7 +10455,8 @@ export const updateDedicatedIp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c170, 0) as any as S.Schema<UpdateDedicatedIpRequest>,
   output: __S(1112, __c139, 0) as any as S.Schema<DedicatedIP>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10251,7 +10473,8 @@ export const updateDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1368, __c171, 0) as any as S.Schema<UpdateDiskRequest>,
   output: __S(1864, __c233, 0) as any as S.Schema<Schema2>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10268,7 +10491,8 @@ export const updateEnvGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c172, 0) as any as S.Schema<UpdateEnvGroupRequest>,
   output: __S(1313, __c164, 1) as any as S.Schema<UpdateEnvGroupResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10285,7 +10509,8 @@ export const updateEnvGroupEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1384, __c173, 0) as any as S.Schema<UpdateEnvGroupEnvVarRequest>,
   output: __S(1313, __c164, 1) as any as S.Schema<UpdateEnvGroupEnvVarResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10302,7 +10527,8 @@ export const updateEnvGroupSecretFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c174, 0) as any as S.Schema<UpdateEnvGroupSecretFileRequest>,
   output: __S(1313, __c164, 1) as any as S.Schema<UpdateEnvGroupSecretFileResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10319,7 +10545,8 @@ export const updateEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c176, 0) as any as S.Schema<UpdateEnvironmentRequest>,
   output: __S(2272, __c284, 0) as any as S.Schema<Environment>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10336,7 +10563,8 @@ export const updateEnvVar: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1416, __c177, 0) as any as S.Schema<UpdateEnvVarRequest>,
   output: __S(1304, __c163, 0) as any as S.Schema<EnvVar>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10353,7 +10581,8 @@ export const updateEnvVarsForBuildSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c178, 0) as any as S.Schema<UpdateEnvVarsForBuildSourceRequest>,
   output: __S(2394, __c299, 2) as any as S.Schema<UpdateEnvVarsForBuildSourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10370,7 +10599,8 @@ export const updateEnvVarsForService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1433, __c179, 1) as any as S.Schema<UpdateEnvVarsForServiceRequest>,
   output: __S(2394, __c299, 2) as any as S.Schema<UpdateEnvVarsForServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10387,7 +10617,8 @@ export const updateHeaders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1442, __c180, 2) as any as S.Schema<UpdateHeadersRequest>,
   output: __S(1444, __c180, 4) as any as S.Schema<UpdateHeadersResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10404,7 +10635,8 @@ export const updateKeyValue: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1448, __c181, 0) as any as S.Schema<UpdateKeyValueRequest>,
   output: __S(1504, __c188, 0) as any as S.Schema<KeyValueDetail>,
-  errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10421,7 +10653,8 @@ export const updateMaintenance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c182, 0) as any as S.Schema<UpdateMaintenanceRequest>,
   output: __S(128, __c16, 0) as any as S.Schema<UpdateMaintenanceResponse>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10438,7 +10671,8 @@ export const updateOwnerLogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1464, __c183, 0) as any as S.Schema<UpdateOwnerLogStreamRequest>,
   output: __S(96, __c12, 0) as any as S.Schema<UpdateOwnerLogStreamResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10455,7 +10689,8 @@ export const updatePostgres: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c184, 0) as any as S.Schema<UpdatePostgresRequest>,
   output: __S(1616, __c202, 0) as any as S.Schema<PostgresDetail>,
-  errors: [BadRequest, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10472,7 +10707,8 @@ export const updateProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1480, __c185, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(1672, __c209, 0) as any as S.Schema<Project>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10494,7 +10730,8 @@ export const updateRegistryCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1528, __c191, 0) as any as S.Schema<UpdateRegistryCredentialRequest>,
   output: __S(1688, __c211, 0) as any as S.Schema<RegistryCredential>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10511,7 +10748,8 @@ export const updateResourceLogStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c192, 0) as any as S.Schema<UpdateResourceLogStreamRequest>,
   output: __S(224, __c28, 0) as any as S.Schema<UpdateResourceLogStreamResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10528,7 +10766,8 @@ export const updateSandboxGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1544, __c193, 0) as any as S.Schema<UpdateSandboxGroupRequest>,
   output: __S(1744, __c218, 0) as any as S.Schema<Schema22>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10549,7 +10788,8 @@ export const updateSecretFilesForBuildSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1552, __c194, 0) as any as S.Schema<UpdateSecretFilesForBuildSourceRequest>,
   output: __S(946, __c118, 2) as any as S.Schema<UpdateSecretFilesForBuildSourceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10566,7 +10806,8 @@ export const updateSecretFilesForService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1560, __c195, 0) as any as S.Schema<UpdateSecretFilesForServiceRequest>,
   output: __S(946, __c118, 2) as any as S.Schema<UpdateSecretFilesForServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10583,7 +10824,8 @@ export const updateService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c196, 0) as any as S.Schema<UpdateServiceRequest>,
   output: __S(1768, __c221, 0) as any as S.Schema<Service>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10600,7 +10842,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1576, __c197, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(1816, __c227, 0) as any as S.Schema<Schema14>,
-  errors: [BadRequest, NotFound, UnknownRenderError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10617,7 +10860,8 @@ export const updateWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1585, __c198, 1) as any as S.Schema<UpdateWorkflowRequest>,
   output: __S(1833, __c229, 1) as any as S.Schema<Schema15>,
-  errors: [Forbidden, NotFound, UnknownRenderError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10639,7 +10883,8 @@ export const updateWorkspaceMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1592, __c199, 0) as any as S.Schema<UpdateWorkspaceMemberRequest>,
   output: __S(112, __c14, 0) as any as S.Schema<TeamMember>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRenderError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10656,7 +10901,8 @@ export const upsertOwnerMetricsStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c200, 0) as any as S.Schema<UpsertOwnerMetricsStreamRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<UpsertOwnerMetricsStreamResponse>,
-  errors: [BadRequest, UnknownRenderError],
+  errors: [BadRequest],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10673,7 +10919,8 @@ export const validateBlueprint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1640, __c205, 0) as any as S.Schema<ValidateBlueprintRequest>,
   output: __S(1644, __c205, 4) as any as S.Schema<ValidateBlueprintResponse>,
-  errors: [BadRequest, Forbidden, UnknownRenderError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: RenderServiceErrors,
   protocol: RenderProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10762,9 +11009,9 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          internalConnectionString: S.String,
-          externalConnectionString: S.String,
-          cliCommand: S.String,
+          internalConnectionString: S.String.pipe(T.SensitiveValue({})),
+          externalConnectionString: S.String.pipe(T.SensitiveValue({})),
+          cliCommand: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "KeyValueConnectionInfo" });
   }
@@ -10990,11 +11237,11 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           password: S.String.pipe(T.SensitiveValue({})),
-          internalConnectionString: S.String,
-          externalConnectionString: S.String,
-          internalConnectionPoolString: S.optional(S.String),
-          externalConnectionPoolString: S.optional(S.String),
-          psqlCommand: S.String,
+          internalConnectionString: S.String.pipe(T.SensitiveValue({})),
+          externalConnectionString: S.String.pipe(T.SensitiveValue({})),
+          internalConnectionPoolString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          externalConnectionPoolString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          psqlCommand: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "PostgresConnectionInfo" });
   }
@@ -11136,7 +11383,7 @@ function __c32(j: number): any {
         S.Struct({
           ref: S.optional(S.String),
           sha: S.optional(S.String),
-          registryCredential: S.optional(S.String),
+          registryCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DeployImage" });
     case 2:
@@ -12307,7 +12554,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           executionId: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           uri: S.String,
           method: S.String,
           expiresAt: S.String,
@@ -13521,7 +13768,7 @@ function __c137(j: number): any {
           postgresId: S.String.pipe(T.Label()),
           restoreName: S.optional(S.String),
           restoreTime: S.optional(S.String),
-          datadogApiKey: S.optional(S.String),
+          datadogApiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           datadogSite: S.optional(S.String),
           plan: S.optional(S.String),
           environmentId: S.optional(S.String),
@@ -14201,7 +14448,7 @@ function __c183(j: number): any {
         S.Struct({
           ownerId: S.String.pipe(T.Label()),
           endpoint: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           preview: S.String,
         }).pipe(T.Http({ method: "PUT", uri: "/logs/streams/owner/{ownerId}", code: 200 })),
       ).annotate({ identifier: "UpdateOwnerLogStreamRequest" });
@@ -14219,7 +14466,7 @@ function __c184(j: number): any {
           enableDiskAutoscaling: S.optional(S.Boolean),
           connectionPool: S.optional(S.String),
           enableHighAvailability: S.optional(S.Boolean),
-          datadogAPIKey: S.optional(S.String),
+          datadogAPIKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           datadogSite: S.optional(S.String),
           ipAllowList: S.optional(__S(2265, __c283, 1)),
           readReplicas: S.optional(__S(1625, __c203, 1)),
@@ -14326,7 +14573,7 @@ function __c191(j: number): any {
           registry: S.String,
           name: S.String,
           username: S.String,
-          authToken: S.String,
+          authToken: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14344,7 +14591,7 @@ function __c192(j: number): any {
         S.Struct({
           resourceId: S.String.pipe(T.Label()),
           endpoint: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           setting: S.String,
         }).pipe(T.Http({ method: "PUT", uri: "/logs/streams/resource/{resourceId}", code: 200 })),
       ).annotate({ identifier: "UpdateResourceLogStreamRequest" });
@@ -14463,7 +14710,7 @@ function __c200(j: number): any {
           ownerId: S.String.pipe(T.Label()),
           provider: S.optional(S.String),
           url: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "PUT", uri: "/metrics-stream/{ownerId}", code: 200 })),
       ).annotate({ identifier: "UpsertOwnerMetricsStreamRequest" });
   }
@@ -14475,7 +14722,7 @@ function __c201(j: number): any {
         S.Struct({
           databaseName: S.optional(S.String),
           databaseUser: S.optional(S.String),
-          datadogAPIKey: S.optional(S.String),
+          datadogAPIKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           datadogSite: S.optional(S.String),
           name: S.String,
           enableHighAvailability: S.optional(S.Boolean),
@@ -14660,7 +14907,7 @@ function __c210(j: number): any {
           registry: S.String,
           name: S.String,
           username: S.String,
-          authToken: S.String,
+          authToken: S.String.pipe(T.SensitiveValue({})),
           ownerId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/registrycredentials", code: 200 })),
       ).annotate({ identifier: "CreateRegistryCredentialRequest" });

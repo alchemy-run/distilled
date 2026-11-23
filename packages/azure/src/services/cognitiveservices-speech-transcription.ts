@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -30,9 +30,50 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export type TranscriptionLocalesList = Array<string>;
+/** Speaker diarization settings; set them to enable diarization. */
+export interface TranscriptionDiarizationOptions {
+  enabled?: boolean | undefined;
+  /** Hint for the maximum number of speakers (2-35). */
+  maxSpeakers?: number | undefined;
+}
+export type TranscriptionChannelsList = Array<number>;
+export type TranscriptionPhrasesList = Array<string>;
+/** Phrase list properties for transcription. */
+export interface PhraseListProperties {
+  phrases?: TranscriptionPhrasesList | undefined;
+  /** Biasing weight (0.0-2.0). */
+  biasingWeight?: number | undefined;
+}
+export type TranscriptionPromptList = Array<string>;
+/** Enhanced mode properties for transcription. */
+export interface EnhancedModeProperties {
+  enabled?: boolean | undefined;
+  task?: string | undefined;
+  targetLanguage?: string | undefined;
+  prompt?: TranscriptionPromptList | undefined;
+}
+/** Metadata for a transcription request. */
+export interface TranscriptionOptions {
+  /** URL of the audio to transcribe; send it instead of the `audio` part. */
+  audioUrl?: string | undefined;
+  /** Candidate locales of the audio (e.g. `en-US`); omit to detect the language. */
+  locales?: TranscriptionLocalesList | undefined;
+  /** `None`, `Removed`, `Tags`, or `Masked` (default). */
+  profanityFilterMode?: string | undefined;
+  diarization?: TranscriptionDiarizationOptions | undefined;
+  /** 0-based channels to transcribe separately (at most two). */
+  channels?: TranscriptionChannelsList | undefined;
+  phraseList?: PhraseListProperties | undefined;
+  enhancedMode?: EnhancedModeProperties | undefined;
+}
 export interface TranscribeRequest {
   /** Supported Cognitive Services endpoints (protocol and hostname, for example: https://westus.api.cognitive.microsoft.com). */
   endpoint: string;
+  /** Transcription options, sent as the JSON `definition` part. */
+  definition: TranscriptionOptions;
+  /** Audio file bytes (under 2 hours and 250 MB); optional when `definition.audioUrl` is set. */
+  audio?: Uint8Array | undefined;
 }
 /** The full transcript per channel. */
 export interface ChannelCombinedPhrases {
@@ -92,9 +133,10 @@ export const Transcribe: API.OperationMethod<
   TranscribeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<TranscribeRequest>,
-  output: __S(7, __c0, 7) as any as S.Schema<TranscriptionResult>,
-  errors: [UnknownAzureError],
+  input: __S(6, __c0, 6) as any as S.Schema<TranscribeRequest>,
+  output: __S(13, __c0, 13) as any as S.Schema<TranscriptionResult>,
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -105,9 +147,50 @@ export const Transcribe: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          maxSpeakers: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TranscriptionDiarizationOptions" });
+    case 2:
+      return S.Array(S.Number);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          phrases: S.optional(__S(0, __c0, 0)),
+          biasingWeight: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PhraseListProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          task: S.optional(S.String),
+          targetLanguage: S.optional(S.String),
+          prompt: S.optional(__S(0, __c0, 0)),
+        }),
+      ).annotate({ identifier: "EnhancedModeProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          audioUrl: S.optional(S.String),
+          locales: S.optional(__S(0, __c0, 0)),
+          profanityFilterMode: S.optional(S.String),
+          diarization: S.optional(__S(1, __c0, 1)),
+          channels: S.optional(__S(2, __c0, 2)),
+          phraseList: S.optional(__S(3, __c0, 3)),
+          enhancedMode: S.optional(__S(4, __c0, 4)),
+        }),
+      ).annotate({ identifier: "TranscriptionOptions" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String.pipe(T.HostLabel()),
+          definition: __S(5, __c0, 5),
+          audio: S.optional(S.instanceOf(Uint8Array)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -116,20 +199,21 @@ function __c0(j: number): any {
             host: "{endpoint}/speechtotext",
             hostRaw: ["endpoint"],
             apiVersion: "2025-10-15",
+            contentType: "multipart",
             audience: "https://cognitiveservices.azure.com/.default",
           }),
         ),
       ).annotate({ identifier: "TranscribeRequest" });
-    case 1:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           channel: S.optional(S.Number),
           text: S.String,
         }),
       ).annotate({ identifier: "ChannelCombinedPhrases" });
-    case 2:
-      return S.Array(__S(1, __c0, 1));
-    case 3:
+    case 8:
+      return S.Array(__S(7, __c0, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           text: S.String,
@@ -137,9 +221,9 @@ function __c0(j: number): any {
           durationMilliseconds: S.Number,
         }),
       ).annotate({ identifier: "TranscribedWord" });
-    case 4:
-      return S.Array(__S(3, __c0, 3));
-    case 5:
+    case 10:
+      return S.Array(__S(9, __c0, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           channel: S.optional(S.Number),
@@ -147,19 +231,19 @@ function __c0(j: number): any {
           offsetMilliseconds: S.Number,
           durationMilliseconds: S.Number,
           text: S.String,
-          words: S.optional(__S(4, __c0, 4)),
+          words: S.optional(__S(10, __c0, 10)),
           locale: S.optional(S.String),
           confidence: S.Number,
         }),
       ).annotate({ identifier: "TranscribedPhrase" });
-    case 6:
-      return S.Array(__S(5, __c0, 5));
-    case 7:
+    case 12:
+      return S.Array(__S(11, __c0, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           durationMilliseconds: S.Number,
-          combinedPhrases: __S(2, __c0, 2),
-          phrases: __S(6, __c0, 6),
+          combinedPhrases: __S(8, __c0, 8),
+          phrases: __S(12, __c0, 12),
         }),
       ).annotate({ identifier: "TranscriptionResult" });
   }

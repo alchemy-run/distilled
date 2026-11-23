@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { TursoServiceErrors } from "../errors.ts";
 import { TursoProtocol, type TursoOpError, type TursoOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -229,7 +230,7 @@ export type CreateDatabaseRequestRemoteEncryptionEncryptionCipher =
 /** Encryption configuration for the database. Can be used when creating a new encrypted database, creating a encrypted database from upload (`seed.type = "database_upload"`), or forking from an encrypted database (required when the source database is encrypted). */
 export interface CreateDatabaseRequestRemoteEncryption {
   /** Base64-encoded encryption key. Key size depends on cipher: 32 bytes for aes256gcm, chacha20poly1305, aegis256 variants; 16 bytes for aes128gcm, aegis128l variants. */
-  encryption_key?: string | undefined;
+  encryption_key?: Redacted.Redacted<string> | undefined;
   /** The encryption cipher to use. */
   encryption_cipher?:
     | CreateDatabaseRequestRemoteEncryptionEncryptionCipher
@@ -1084,7 +1085,7 @@ export interface RevokeAPITokenRequest {
 }
 export interface RevokeAPITokenResponse {
   /** The revoked token name. */
-  token?: string | undefined;
+  token?: Redacted.Redacted<string> | undefined;
 }
 export interface RevokeOrganizationAPITokenRequest {
   /** The slug of the organization or user account. */
@@ -1094,7 +1095,7 @@ export interface RevokeOrganizationAPITokenRequest {
 }
 export interface RevokeOrganizationAPITokenResponse {
   /** The ID of the revoked token. */
-  token?: string | undefined;
+  token?: Redacted.Redacted<string> | undefined;
 }
 export interface TransferGroupRequest {
   /** The slug of the organization or user account. */
@@ -1243,6 +1244,7 @@ export const addLocationToGroup: API.OperationMethod<
   input: __S(352, __c44, 0) as any as S.Schema<AddLocationToGroupRequest>,
   output: __S(376, __c47, 0) as any as S.Schema<AddLocationToGroupResponse>,
   errors: [BadRequest, NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1260,6 +1262,7 @@ export const addOrganizationMember: API.OperationMethod<
   input: __S(472, __c59, 0) as any as S.Schema<AddOrganizationMemberRequest>,
   output: __S(473, __c59, 1) as any as S.Schema<AddOrganizationMemberResponse>,
   errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1277,6 +1280,7 @@ export const createAPIToken: API.OperationMethod<
   input: __S(537, __c67, 1) as any as S.Schema<CreateAPITokenRequest>,
   output: __S(538, __c67, 2) as any as S.Schema<CreateAPITokenResponse>,
   errors: [BadRequest, NotFound, Conflict],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1294,6 +1298,7 @@ export const createDatabase: API.OperationMethod<
   input: __S(546, __c68, 2) as any as S.Schema<CreateDatabaseRequest>,
   output: __S(548, __c68, 4) as any as S.Schema<CreateDatabaseResponse>,
   errors: [BadRequest, Conflict],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1311,6 +1316,7 @@ export const createDatabaseToken: API.OperationMethod<
   input: __S(552, __c69, 0) as any as S.Schema<CreateDatabaseTokenRequest>,
   output: __S(562, __c70, 2) as any as S.Schema<CreateDatabaseTokenResponse>,
   errors: [BadRequest, NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1328,6 +1334,7 @@ export const createGroup: API.OperationMethod<
   input: __S(568, __c71, 0) as any as S.Schema<CreateGroupRequest>,
   output: __S(376, __c47, 0) as any as S.Schema<CreateGroupResponse>,
   errors: [BadRequest, Conflict],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1345,6 +1352,7 @@ export const createGroupToken: API.OperationMethod<
   input: __S(8, __c1, 0) as any as S.Schema<CreateGroupTokenRequest>,
   output: __S(562, __c70, 2) as any as S.Schema<CreateGroupTokenResponse>,
   errors: [BadRequest, NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1362,6 +1370,7 @@ export const deleteDatabase: API.OperationMethod<
   input: __S(16, __c2, 0) as any as S.Schema<DeleteDatabaseRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<DeleteDatabaseResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1379,6 +1388,7 @@ export const deleteGroup: API.OperationMethod<
   input: __S(24, __c3, 0) as any as S.Schema<DeleteGroupRequest>,
   output: __S(376, __c47, 0) as any as S.Schema<DeleteGroupResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1396,6 +1406,7 @@ export const deleteOrganizationInviteByEmailV2: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<DeleteOrganizationInviteByEmailV2Request>,
   output: __S(40, __c5, 0) as any as S.Schema<DeleteOrganizationInviteByEmailV2Response>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1413,6 +1424,7 @@ export const getCurrentUser: API.OperationMethod<
   input: __S(48, __c6, 0) as any as S.Schema<GetCurrentUserRequest>,
   output: __S(50, __c6, 2) as any as S.Schema<GetCurrentUserResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1430,6 +1442,7 @@ export const getDatabase: API.OperationMethod<
   input: __S(56, __c7, 0) as any as S.Schema<GetDatabaseRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<GetDatabaseResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1447,6 +1460,7 @@ export const getDatabaseConfiguration: API.OperationMethod<
   input: __S(72, __c9, 0) as any as S.Schema<GetDatabaseConfigurationRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DatabaseConfigurationResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1464,6 +1478,7 @@ export const getDatabaseInstance: API.OperationMethod<
   input: __S(88, __c11, 0) as any as S.Schema<GetDatabaseInstanceRequest>,
   output: __S(89, __c11, 1) as any as S.Schema<GetDatabaseInstanceResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1481,6 +1496,7 @@ export const getDatabaseStats: API.OperationMethod<
   input: __S(104, __c13, 0) as any as S.Schema<GetDatabaseStatsRequest>,
   output: __S(107, __c13, 3) as any as S.Schema<GetDatabaseStatsResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1498,6 +1514,7 @@ export const getDatabaseUsage: API.OperationMethod<
   input: __S(112, __c14, 0) as any as S.Schema<GetDatabaseUsageRequest>,
   output: __S(113, __c14, 1) as any as S.Schema<GetDatabaseUsageResponse>,
   errors: [BadRequest, NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1515,6 +1532,7 @@ export const getGroup: API.OperationMethod<
   input: __S(128, __c16, 0) as any as S.Schema<GetGroupRequest>,
   output: __S(376, __c47, 0) as any as S.Schema<GetGroupResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1532,6 +1550,7 @@ export const getGroupConfiguration: API.OperationMethod<
   input: __S(136, __c17, 0) as any as S.Schema<GetGroupConfigurationRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<GroupConfigurationResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1549,6 +1568,7 @@ export const getOrganization: API.OperationMethod<
   input: __S(152, __c19, 0) as any as S.Schema<GetOrganizationRequest>,
   output: __S(168, __c21, 0) as any as S.Schema<GetOrganizationResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1566,6 +1586,7 @@ export const getOrganizationMember: API.OperationMethod<
   input: __S(176, __c22, 0) as any as S.Schema<GetOrganizationMemberRequest>,
   output: __S(177, __c22, 1) as any as S.Schema<GetOrganizationMemberResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1583,6 +1604,7 @@ export const getOrganizationSubscription: API.OperationMethod<
   input: __S(192, __c24, 0) as any as S.Schema<GetOrganizationSubscriptionRequest>,
   output: __S(194, __c24, 2) as any as S.Schema<GetOrganizationSubscriptionResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1600,6 +1622,7 @@ export const getOrganizationUsage: API.OperationMethod<
   input: __S(200, __c25, 0) as any as S.Schema<GetOrganizationUsageRequest>,
   output: __S(204, __c25, 4) as any as S.Schema<GetOrganizationUsageResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1617,6 +1640,7 @@ export const invalidateDatabaseTokens: API.OperationMethod<
   input: __S(208, __c26, 0) as any as S.Schema<InvalidateDatabaseTokensRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<InvalidateDatabaseTokensResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1634,6 +1658,7 @@ export const invalidateGroupTokens: API.OperationMethod<
   input: __S(216, __c27, 0) as any as S.Schema<InvalidateGroupTokensRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<InvalidateGroupTokensResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1651,6 +1676,7 @@ export const inviteOrganizationMemberV2: API.OperationMethod<
   input: __S(224, __c28, 0) as any as S.Schema<InviteOrganizationMemberV2Request>,
   output: __S(226, __c28, 2) as any as S.Schema<InviteOrganizationMemberV2Response>,
   errors: [BadRequest],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1668,6 +1694,7 @@ export const listAPITokens: API.OperationMethod<
   input: __S(232, __c29, 0) as any as S.Schema<ListAPITokensRequest>,
   output: __S(235, __c29, 3) as any as S.Schema<ListAPITokensResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1685,6 +1712,7 @@ export const listDatabaseInstances: API.OperationMethod<
   input: __S(240, __c30, 0) as any as S.Schema<ListDatabaseInstancesRequest>,
   output: __S(242, __c30, 2) as any as S.Schema<ListDatabaseInstancesResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1702,6 +1730,7 @@ export const listDatabases: API.OperationMethod<
   input: __S(248, __c31, 0) as any as S.Schema<ListDatabasesRequest>,
   output: __S(250, __c31, 2) as any as S.Schema<ListDatabasesResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1719,6 +1748,7 @@ export const listDeletedDatabases: API.OperationMethod<
   input: __S(256, __c32, 0) as any as S.Schema<ListDeletedDatabasesRequest>,
   output: __S(257, __c32, 1) as any as S.Schema<ListDeletedDatabasesResponse>,
   errors: [Forbidden],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1736,6 +1766,7 @@ export const listDeletedGroups: API.OperationMethod<
   input: __S(288, __c36, 0) as any as S.Schema<ListDeletedGroupsRequest>,
   output: __S(291, __c36, 3) as any as S.Schema<ListDeletedGroupsResponse>,
   errors: [Forbidden],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1753,6 +1784,7 @@ export const listGroups: API.OperationMethod<
   input: __S(296, __c37, 0) as any as S.Schema<ListGroupsRequest>,
   output: __S(298, __c37, 2) as any as S.Schema<ListGroupsResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1770,6 +1802,7 @@ export const listLocations: API.OperationMethod<
   input: __S(304, __c38, 0) as any as S.Schema<ListLocationsRequest>,
   output: __S(305, __c38, 1) as any as S.Schema<ListLocationsResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1787,6 +1820,7 @@ export const listOrganizationAPITokens: API.OperationMethod<
   input: __S(320, __c40, 0) as any as S.Schema<ListOrganizationAPITokensRequest>,
   output: __S(324, __c40, 4) as any as S.Schema<ListOrganizationAPITokensResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1804,6 +1838,7 @@ export const listOrganizationAuditLogs: API.OperationMethod<
   input: __S(328, __c41, 0) as any as S.Schema<ListOrganizationAuditLogsRequest>,
   output: __S(332, __c41, 4) as any as S.Schema<ListOrganizationAuditLogsResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1821,6 +1856,7 @@ export const listOrganizationInvitesV2: API.OperationMethod<
   input: __S(336, __c42, 0) as any as S.Schema<ListOrganizationInvitesV2Request>,
   output: __S(339, __c42, 3) as any as S.Schema<ListOrganizationInvitesV2Response>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1838,6 +1874,7 @@ export const listOrganizationInvoices: API.OperationMethod<
   input: __S(344, __c43, 0) as any as S.Schema<ListOrganizationInvoicesRequest>,
   output: __S(347, __c43, 3) as any as S.Schema<ListOrganizationInvoicesResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1855,6 +1892,7 @@ export const listOrganizationMembers: API.OperationMethod<
   input: __S(384, __c48, 0) as any as S.Schema<ListOrganizationMembersRequest>,
   output: __S(386, __c48, 2) as any as S.Schema<ListOrganizationMembersResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1872,6 +1910,7 @@ export const listOrganizationPlans: API.OperationMethod<
   input: __S(392, __c49, 0) as any as S.Schema<ListOrganizationPlansRequest>,
   output: __S(398, __c49, 6) as any as S.Schema<ListOrganizationPlansResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1889,6 +1928,7 @@ export const listOrganizations: API.OperationMethod<
   input: __S(400, __c50, 0) as any as S.Schema<ListOrganizationsRequest>,
   output: __S(402, __c50, 2) as any as S.Schema<ListOrganizationsResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1906,6 +1946,7 @@ export const removeLocationFromGroup: API.OperationMethod<
   input: __S(408, __c51, 0) as any as S.Schema<RemoveLocationFromGroupRequest>,
   output: __S(376, __c47, 0) as any as S.Schema<RemoveLocationFromGroupResponse>,
   errors: [BadRequest, NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1923,6 +1964,7 @@ export const removeOrganizationMember: API.OperationMethod<
   input: __S(416, __c52, 0) as any as S.Schema<RemoveOrganizationMemberRequest>,
   output: __S(417, __c52, 1) as any as S.Schema<RemoveOrganizationMemberResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1940,6 +1982,7 @@ export const restoreDatabase: API.OperationMethod<
   input: __S(424, __c53, 0) as any as S.Schema<RestoreDatabaseRequest>,
   output: __S(425, __c53, 1) as any as S.Schema<RestoreDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1957,6 +2000,7 @@ export const restoreGroup: API.OperationMethod<
   input: __S(432, __c54, 0) as any as S.Schema<RestoreGroupRequest>,
   output: __S(433, __c54, 1) as any as S.Schema<RestoreGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1974,6 +2018,7 @@ export const revokeAPIToken: API.OperationMethod<
   input: __S(440, __c55, 0) as any as S.Schema<RevokeAPITokenRequest>,
   output: __S(448, __c56, 0) as any as S.Schema<RevokeAPITokenResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1991,6 +2036,7 @@ export const revokeOrganizationAPIToken: API.OperationMethod<
   input: __S(456, __c57, 0) as any as S.Schema<RevokeOrganizationAPITokenRequest>,
   output: __S(448, __c56, 0) as any as S.Schema<RevokeOrganizationAPITokenResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2008,6 +2054,7 @@ export const transferGroup: API.OperationMethod<
   input: __S(464, __c58, 0) as any as S.Schema<TransferGroupRequest>,
   output: __S(368, __c46, 0) as any as S.Schema<TransferGroupResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2025,6 +2072,7 @@ export const unarchiveGroup: API.OperationMethod<
   input: __S(480, __c60, 0) as any as S.Schema<UnarchiveGroupRequest>,
   output: __S(376, __c47, 0) as any as S.Schema<UnarchiveGroupResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2042,6 +2090,7 @@ export const updateDatabaseConfiguration: API.OperationMethod<
   input: __S(488, __c61, 0) as any as S.Schema<UpdateDatabaseConfigurationRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<DatabaseConfigurationResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2059,6 +2108,7 @@ export const updateGroupConfiguration: API.OperationMethod<
   input: __S(496, __c62, 0) as any as S.Schema<UpdateGroupConfigurationRequest>,
   output: __S(144, __c18, 0) as any as S.Schema<GroupConfigurationResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2076,6 +2126,7 @@ export const updateGroupDatabases: API.OperationMethod<
   input: __S(504, __c63, 0) as any as S.Schema<UpdateGroupDatabasesRequest>,
   output: __S(40, __c5, 0) as any as S.Schema<UpdateGroupDatabasesResponse>,
   errors: [NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2093,6 +2144,7 @@ export const updateMemberRole: API.OperationMethod<
   input: __S(512, __c64, 0) as any as S.Schema<UpdateMemberRoleRequest>,
   output: __S(514, __c64, 2) as any as S.Schema<UpdateMemberRoleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2110,6 +2162,7 @@ export const updateOrganization: API.OperationMethod<
   input: __S(520, __c65, 0) as any as S.Schema<UpdateOrganizationRequest>,
   output: __S(168, __c21, 0) as any as S.Schema<UpdateOrganizationResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2127,6 +2180,7 @@ export const validateAPIToken: API.OperationMethod<
   input: __S(528, __c66, 0) as any as S.Schema<ValidateAPITokenRequest>,
   output: __S(529, __c66, 1) as any as S.Schema<ValidateAPITokenResponse>,
   errors: [],
+  serviceErrors: TursoServiceErrors,
   protocol: TursoProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3329,7 +3383,7 @@ function __c56(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "RevokeAPITokenResponse" });
   }
@@ -3567,7 +3621,7 @@ function __c68(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          encryption_key: S.optional(S.String),
+          encryption_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encryption_cipher: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDatabaseRequestRemoteEncryption" });

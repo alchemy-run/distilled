@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownRedisCloudError } from "../errors.ts";
+import { RedisCloudServiceErrors } from "../errors.ts";
 import {
   RedisCloudProtocol,
   type RedisCloudOpError,
@@ -3695,7 +3695,8 @@ export const acceptActiveActiveTgwResourceShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<AcceptActiveActiveTgwResourceShareRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<AcceptActiveActiveTgwResourceShareResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3717,7 +3718,8 @@ export const acceptTgwResourceShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<AcceptTgwResourceShareRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<AcceptTgwResourceShareResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3739,7 +3741,8 @@ export const addNewRegionToActiveActiveSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5250, __c164, 2) as any as S.Schema<AddNewRegionToActiveActiveSubscriptionRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3756,7 +3759,8 @@ export const backupDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<BackupDatabaseRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3773,7 +3777,8 @@ export const backupDatabase1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<BackupDatabase1Request>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3796,7 +3801,8 @@ export const createActiveActivePrivateLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateActiveActivePrivateLinkRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3819,7 +3825,8 @@ export const createActiveActivePrivateLinkPrincipal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<CreateActiveActivePrivateLinkPrincipalRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3842,7 +3849,8 @@ export const createActiveActivePscService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<CreateActiveActivePscServiceRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateActiveActivePscServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3865,7 +3873,8 @@ export const createActiveActivePscServiceEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<CreateActiveActivePscServiceEndpointRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateActiveActivePscServiceEndpointResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3888,7 +3897,8 @@ export const createActiveActiveTgwAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<CreateActiveActiveTgwAttachmentRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateActiveActiveTgwAttachmentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3911,7 +3921,8 @@ export const createActiveActiveVpcPeering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<CreateActiveActiveVpcPeeringRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3934,7 +3945,8 @@ export const createCloudAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<CreateCloudAccountRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateCloudAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3957,7 +3969,8 @@ export const createCostReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2625, __c82, 1) as any as S.Schema<CreateCostReportRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateCostReportResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3980,7 +3993,8 @@ export const createDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<CreateDatabaseRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4003,7 +4017,8 @@ export const createEndpointsRedirection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<CreateEndpointsRedirectionRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<EndpointsRedirectionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4026,7 +4041,8 @@ export const createFixedDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<CreateFixedDatabaseRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4049,7 +4065,8 @@ export const createMemoryStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3297, __c103, 1) as any as S.Schema<CreateMemoryStoreRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateMemoryStoreResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4072,7 +4089,8 @@ export const createMemoryStoreApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<CreateMemoryStoreApiKeyRequest>,
   output: __S(3425, __c107, 1) as any as S.Schema<MemoryStoreApiKeyCreateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4095,7 +4113,8 @@ export const createPrivateLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<CreatePrivateLinkRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4118,7 +4137,8 @@ export const createPrivateLinkPrincipal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<CreatePrivateLinkPrincipalRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4141,7 +4161,8 @@ export const createPscService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<CreatePscServiceRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreatePscServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4164,7 +4185,8 @@ export const createPscServiceEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<CreatePscServiceEndpointRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreatePscServiceEndpointResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4187,7 +4209,8 @@ export const createRedisRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<CreateRedisRuleRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateRedisRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4210,7 +4233,8 @@ export const createRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<CreateRoleRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateRoleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4233,7 +4257,8 @@ export const createSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3690, __c115, 10) as any as S.Schema<CreateSubscriptionRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateSubscriptionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4256,7 +4281,8 @@ export const createSubscription1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<CreateSubscription1Request>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateSubscription1Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4279,7 +4305,8 @@ export const createTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<CreateTagRequest>,
   output: __S(3808, __c119, 0) as any as S.Schema<CloudTag>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4302,7 +4329,8 @@ export const createTag1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<CreateTag1Request>,
   output: __S(3808, __c119, 0) as any as S.Schema<CloudTag>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4325,7 +4353,8 @@ export const createTgwAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<CreateTgwAttachmentRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateTgwAttachmentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4348,7 +4377,8 @@ export const createUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<CreateUserRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4371,7 +4401,8 @@ export const createVpcPeering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<CreateVpcPeeringRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<CreateVpcPeeringResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4388,7 +4419,8 @@ export const deleteAclRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<DeleteAclRoleRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4410,7 +4442,8 @@ export const deleteActiveActivePrivateLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<DeleteActiveActivePrivateLinkRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4432,7 +4465,8 @@ export const deleteActiveActivePrivateLinkPrincipals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<DeleteActiveActivePrivateLinkPrincipalsRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4454,7 +4488,8 @@ export const deleteActiveActivePscService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<DeleteActiveActivePscServiceRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<DeleteActiveActivePscServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4476,7 +4511,8 @@ export const deleteActiveActivePscServiceEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<DeleteActiveActivePscServiceEndpointRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<DeleteActiveActivePscServiceEndpointResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4498,7 +4534,8 @@ export const deleteActiveActiveTgwAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<DeleteActiveActiveTgwAttachmentRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<DeleteActiveActiveTgwAttachmentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4520,7 +4557,8 @@ export const deleteActiveActiveVpcPeering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<DeleteActiveActiveVpcPeeringRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4542,7 +4580,8 @@ export const deleteCloudAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<DeleteCloudAccountRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4564,7 +4603,8 @@ export const deleteDatabaseById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<DeleteDatabaseByIdRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4586,7 +4626,8 @@ export const deleteFixedDatabaseByID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<DeleteFixedDatabaseByIDRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4608,7 +4649,8 @@ export const deleteFixedDatabaseByID1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<DeleteFixedDatabaseByID1Request>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4630,7 +4672,8 @@ export const deleteMemoryStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<DeleteMemoryStoreRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<DeleteMemoryStoreResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4652,7 +4695,8 @@ export const deleteMemoryStoreApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<DeleteMemoryStoreApiKeyRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<DeleteMemoryStoreApiKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4674,7 +4718,8 @@ export const deletePrivateLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<DeletePrivateLinkRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4696,7 +4741,8 @@ export const deletePrivateLinkPrincipals: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<DeletePrivateLinkPrincipalsRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4718,7 +4764,8 @@ export const deletePscService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<DeletePscServiceRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<DeletePscServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4740,7 +4787,8 @@ export const deletePscServiceEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<DeletePscServiceEndpointRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<DeletePscServiceEndpointResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4757,7 +4805,8 @@ export const deleteRedisRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<DeleteRedisRuleRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<DeleteRedisRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4779,7 +4828,8 @@ export const deleteRegionsFromActiveActiveSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4610, __c144, 2) as any as S.Schema<DeleteRegionsFromActiveActiveSubscriptionRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4801,7 +4851,8 @@ export const deleteSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<DeleteSubscriptionRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4823,7 +4874,8 @@ export const deleteSubscriptionById1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<DeleteSubscriptionById1Request>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4840,7 +4892,8 @@ export const deleteTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<DeleteTagRequest>,
   output: __S(4736, __c148, 0) as any as S.Schema<DeleteTagResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4857,7 +4910,8 @@ export const deleteTag1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<DeleteTag1Request>,
   output: __S(4736, __c148, 0) as any as S.Schema<DeleteTag1Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4879,7 +4933,8 @@ export const deleteTgwAttachment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<DeleteTgwAttachmentRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<DeleteTgwAttachmentResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4896,7 +4951,8 @@ export const deleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4913,7 +4969,8 @@ export const deleteUser2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<DeleteUserRequest2>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4935,7 +4992,8 @@ export const deleteVpcPeering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<DeleteVpcPeeringRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<DeleteVpcPeeringResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4965,7 +5023,8 @@ export const disassociateActiveActivePrivateLinkConnections: API.OperationMethod
     __c139,
     0,
   ) as any as S.Schema<DisassociateActiveActivePrivateLinkConnectionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4987,7 +5046,8 @@ export const disassociatePrivateLinkConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<DisassociatePrivateLinkConnectionsRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<DisassociatePrivateLinkConnectionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5009,7 +5069,8 @@ export const emptyMemoryStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<EmptyMemoryStoreRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<EmptyMemoryStoreResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5026,7 +5087,8 @@ export const flushCrdb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<FlushCrdbRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5048,7 +5110,8 @@ export const flushMemoryStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<FlushMemoryStoreRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<FlushMemoryStoreResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5065,7 +5128,8 @@ export const getAccountPaymentMethods: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<GetAccountPaymentMethodsRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<PaymentMethods>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5082,7 +5146,8 @@ export const getAccountSessionLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<GetAccountSessionLogsRequest>,
   output: __S(5219, __c163, 3) as any as S.Schema<AccountSessionLogEntries>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5099,7 +5164,8 @@ export const getAccountSystemLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<GetAccountSystemLogsRequest>,
   output: __S(5411, __c169, 3) as any as S.Schema<AccountSystemLogEntries>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5116,7 +5182,8 @@ export const getActiveActivePrivateLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<GetActiveActivePrivateLinkRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetActiveActivePrivateLinkResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5137,7 +5204,8 @@ export const getActiveActivePrivateLinkEndpointScript: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<GetActiveActivePrivateLinkEndpointScriptRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetActiveActivePrivateLinkEndpointScriptResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5154,7 +5222,8 @@ export const getActiveActivePscService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<GetActiveActivePscServiceRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetActiveActivePscServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5175,7 +5244,8 @@ export const getActiveActivePscServiceEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<GetActiveActivePscServiceEndpointsRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetActiveActivePscServiceEndpointsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5192,7 +5262,8 @@ export const getActiveActiveTgws: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<GetActiveActiveTgwsRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5213,7 +5284,8 @@ export const getActiveActiveTgwSharedInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<GetActiveActiveTgwSharedInvitationsRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5230,7 +5302,8 @@ export const getActiveActiveVpcPeerings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<GetActiveActiveVpcPeeringsRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5259,7 +5332,8 @@ export const getActiveActivPscServiceEndpointCreationScript: API.OperationMethod
     __c139,
     0,
   ) as any as S.Schema<GetActiveActivPscServiceEndpointCreationScriptResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5288,7 +5362,8 @@ export const getActiveActivPscServiceEndpointDeletionScript: API.OperationMethod
     __c139,
     0,
   ) as any as S.Schema<GetActiveActivPscServiceEndpointDeletionScriptResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5309,7 +5384,8 @@ export const getAllFixedSubscriptionsPlans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<GetAllFixedSubscriptionsPlansRequest>,
   output: __S(5792, __c181, 0) as any as S.Schema<FixedSubscriptionsPlans>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5326,7 +5402,8 @@ export const getAllRedisRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<GetAllRedisRulesRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<AccountACLRedisRules>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5343,7 +5420,8 @@ export const getAllSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<GetAllSubscriptionsRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<AccountSubscriptions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5360,7 +5438,8 @@ export const getAllSubscriptions1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<GetAllSubscriptions1Request>,
   output: __S(5184, __c162, 0) as any as S.Schema<FixedSubscriptions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5377,7 +5456,8 @@ export const getAllTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<GetAllTasksRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetAllTasksResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5394,7 +5474,8 @@ export const getAllUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<GetAllUsersRequest>,
   output: __S(5953, __c186, 1) as any as S.Schema<AccountUsers>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5411,7 +5492,8 @@ export const getAllUsers1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<GetAllUsers1Request>,
   output: __S(5184, __c162, 0) as any as S.Schema<AccountACLUsers>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5428,7 +5510,8 @@ export const getCidrWhiteList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<GetCidrWhiteListRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetCidrWhiteListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5445,7 +5528,8 @@ export const getCloudAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<GetCloudAccountRequest>,
   output: __S(6049, __c189, 1) as any as S.Schema<CloudAccount>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5462,7 +5546,8 @@ export const getCloudAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<GetCloudAccountsRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<CloudAccounts>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5479,7 +5564,8 @@ export const getCostReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<GetCostReportRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetCostReportResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5496,7 +5582,8 @@ export const getCurrentAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<GetCurrentAccountRequest>,
   output: __S(5792, __c181, 0) as any as S.Schema<RootAccount>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5517,7 +5604,8 @@ export const getDatabaseAvailableVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<GetDatabaseAvailableVersionsRequest>,
   output: __S(6242, __c195, 2) as any as S.Schema<DatabaseAvailableVersionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5534,7 +5622,8 @@ export const getDatabaseBackupStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<GetDatabaseBackupStatusRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5551,7 +5640,8 @@ export const getDatabaseBackupStatus1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<GetDatabaseBackupStatus1Request>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5568,7 +5658,8 @@ export const getDatabaseImportStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<GetDatabaseImportStatusRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5585,7 +5676,8 @@ export const getDatabaseImportStatus1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<GetDatabaseImportStatus1Request>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5606,7 +5698,8 @@ export const getDatabaseRedisVersionUpgradeStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<GetDatabaseRedisVersionUpgradeStatusRequest>,
   output: __S(6432, __c201, 0) as any as S.Schema<DatabaseVersionUpgradeStatus>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5623,7 +5716,8 @@ export const getDatabaseTraffic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<GetDatabaseTrafficRequest>,
   output: __S(6496, __c203, 0) as any as S.Schema<DatabaseTrafficStateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5640,7 +5734,8 @@ export const getDatabaseTraffic1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<GetDatabaseTraffic1Request>,
   output: __S(6496, __c203, 0) as any as S.Schema<DatabaseTrafficStateResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5661,7 +5756,8 @@ export const getDataIntegrationWorkspaces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<GetDataIntegrationWorkspacesRequest>,
   output: __S(4736, __c148, 0) as any as S.Schema<GetDataIntegrationWorkspacesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5678,7 +5774,8 @@ export const getDataPersistenceOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetDataPersistenceOptionsRequest>,
   output: __S(67, __c2, 3) as any as S.Schema<DataPersistenceOptions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5699,7 +5796,8 @@ export const getEndpointsRedirectionStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetEndpointsRedirectionStatusRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<EndpointsRedirectionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5720,7 +5818,8 @@ export const getEssentialsDatabaseAvailableVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetEssentialsDatabaseAvailableVersionsRequest>,
   output: __S(6242, __c195, 2) as any as S.Schema<DatabaseAvailableVersionsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5745,7 +5844,8 @@ export const getEssentialsDatabaseRedisVersionUpgradeStatus: API.OperationMethod
     0,
   ) as any as S.Schema<GetEssentialsDatabaseRedisVersionUpgradeStatusRequest>,
   output: __S(6432, __c201, 0) as any as S.Schema<DatabaseVersionUpgradeStatus>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5766,7 +5866,8 @@ export const getFixedSubscriptionDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetFixedSubscriptionDatabasesRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<AccountFixedSubscriptionDatabases>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5787,7 +5888,8 @@ export const getFixedSubscriptionsPlanById: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<GetFixedSubscriptionsPlanByIdRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<FixedSubscriptionsPlan>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5808,7 +5910,8 @@ export const getFixedSubscriptionsPlansBySubscriptionId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetFixedSubscriptionsPlansBySubscriptionIdRequest>,
   output: __S(5792, __c181, 0) as any as S.Schema<FixedSubscriptionsPlans>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5825,7 +5928,8 @@ export const getMemoryStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetMemoryStoreRequest>,
   output: __S(292, __c9, 4) as any as S.Schema<MemoryStoreResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5842,7 +5946,8 @@ export const getPrivateLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetPrivateLinkRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetPrivateLinkResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5863,7 +5968,8 @@ export const getPrivateLinkEndpointScript: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetPrivateLinkEndpointScriptRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetPrivateLinkEndpointScriptResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5880,7 +5986,8 @@ export const getPscService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetPscServiceRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetPscServiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5901,7 +6008,8 @@ export const getPscServiceEndpointCreationScript: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetPscServiceEndpointCreationScriptRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetPscServiceEndpointCreationScriptResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5922,7 +6030,8 @@ export const getPscServiceEndpointDeletionScript: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetPscServiceEndpointDeletionScriptRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetPscServiceEndpointDeletionScriptResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5939,7 +6048,8 @@ export const getPscServiceEndpoints: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetPscServiceEndpointsRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetPscServiceEndpointsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5956,7 +6066,8 @@ export const getRedisVersions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetRedisVersionsRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<RedisVersions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5973,7 +6084,8 @@ export const getRedisVersions1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GetRedisVersions1Request>,
   output: __S(610, __c19, 2) as any as S.Schema<RedisVersions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5994,7 +6106,8 @@ export const getRegionsFromActiveActiveSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetRegionsFromActiveActiveSubscriptionRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<ActiveActiveSubscriptionRegions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6011,7 +6124,8 @@ export const getRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<GetRolesRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<AccountACLRoles>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6028,7 +6142,8 @@ export const getSlowLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<GetSlowLogRequest>,
   output: __S(770, __c24, 2) as any as S.Schema<DatabaseSlowLogEntries>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6045,7 +6160,8 @@ export const getSlowLog1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetSlowLog1Request>,
   output: __S(770, __c24, 2) as any as S.Schema<DatabaseSlowLogEntries>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6062,7 +6178,8 @@ export const getSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetSubscriptionRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<Subscription>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6079,7 +6196,8 @@ export const getSubscriptionById1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<GetSubscriptionById1Request>,
   output: __S(897, __c28, 1) as any as S.Schema<FixedSubscription>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6096,7 +6214,8 @@ export const getSubscriptionDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetSubscriptionDatabaseRequest>,
   output: __S(929, __c29, 1) as any as S.Schema<Database>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6117,7 +6236,8 @@ export const getSubscriptionDatabaseByID1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetSubscriptionDatabaseByID1Request>,
   output: __S(962, __c30, 2) as any as S.Schema<FixedDatabase>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6138,7 +6258,8 @@ export const getSubscriptionDatabaseCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetSubscriptionDatabaseCertificateRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<DatabaseCertificate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6155,7 +6276,8 @@ export const getSubscriptionDatabases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetSubscriptionDatabasesRequest>,
   output: __S(5184, __c162, 0) as any as S.Schema<AccountSubscriptionDatabases>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6176,7 +6298,8 @@ export const getSubscriptionMaintenanceWindows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetSubscriptionMaintenanceWindowsRequest>,
   output: __S(1060, __c33, 4) as any as S.Schema<SubscriptionMaintenanceWindows>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6193,7 +6316,8 @@ export const getSubscriptionPricing: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetSubscriptionPricingRequest>,
   output: __S(1091, __c34, 3) as any as S.Schema<SubscriptionPricings>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6214,7 +6338,8 @@ export const getSupportedDatabaseModules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetSupportedDatabaseModulesRequest>,
   output: __S(1123, __c35, 3) as any as S.Schema<ModulesData>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6231,7 +6356,8 @@ export const getSupportedRegions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetSupportedRegionsRequest>,
   output: __S(1187, __c37, 3) as any as S.Schema<Regions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6252,7 +6378,8 @@ export const getSupportedSearchScalingFactors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetSupportedSearchScalingFactorsRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<SearchScalingFactorsData>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6269,7 +6396,8 @@ export const getTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GetTagsRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<CloudTags>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6286,7 +6414,8 @@ export const getTags1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetTags1Request>,
   output: __S(1280, __c40, 0) as any as S.Schema<CloudTags>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6303,7 +6432,8 @@ export const getTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetTaskRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6320,7 +6450,8 @@ export const getTgws: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetTgwsRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6337,7 +6468,8 @@ export const getTgwSharedInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetTgwSharedInvitationsRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6354,7 +6486,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetUserRequest>,
   output: __S(1442, __c45, 2) as any as S.Schema<AccountUser>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6371,7 +6504,8 @@ export const getUserByID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetUserByIDRequest>,
   output: __S(1473, __c46, 1) as any as S.Schema<ACLUser>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6388,7 +6522,8 @@ export const getVpcPeering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetVpcPeeringRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<GetVpcPeeringResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6405,7 +6540,8 @@ export const importDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ImportDatabaseRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6422,7 +6558,8 @@ export const importDatabase1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<ImportDatabase1Request>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6444,7 +6581,8 @@ export const listMemoryStoreApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<ListMemoryStoreApiKeysRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<ListMemoryStoreApiKeysResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6466,7 +6604,8 @@ export const listMemoryStores: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ListMemoryStoresRequest>,
   output: __S(1667, __c52, 3) as any as S.Schema<MemoryStoreListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6488,7 +6627,8 @@ export const proxyDataIntegrationWorkspace5: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<ProxyDataIntegrationWorkspace5Request>,
   output: __S(4736, __c148, 0) as any as S.Schema<ProxyDataIntegrationWorkspace5Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6510,7 +6650,8 @@ export const proxyDataIntegrationWorkspace6: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ProxyDataIntegrationWorkspace6Request>,
   output: __S(4736, __c148, 0) as any as S.Schema<ProxyDataIntegrationWorkspace6Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6532,7 +6673,8 @@ export const proxyDataIntegrationWorkspace7: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<ProxyDataIntegrationWorkspace7Request>,
   output: __S(4736, __c148, 0) as any as S.Schema<ProxyDataIntegrationWorkspace7Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6554,7 +6696,8 @@ export const proxyDataIntegrationWorkspace8: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ProxyDataIntegrationWorkspace8Request>,
   output: __S(4736, __c148, 0) as any as S.Schema<ProxyDataIntegrationWorkspace8Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6576,7 +6719,8 @@ export const proxyDataIntegrationWorkspace9: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<ProxyDataIntegrationWorkspace9Request>,
   output: __S(4736, __c148, 0) as any as S.Schema<ProxyDataIntegrationWorkspace9Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6598,7 +6742,8 @@ export const rejectActiveActiveTgwResourceShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<RejectActiveActiveTgwResourceShareRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<RejectActiveActiveTgwResourceShareResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6620,7 +6765,8 @@ export const rejectTgwResourceShare: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<RejectTgwResourceShareRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<RejectTgwResourceShareResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6642,7 +6788,8 @@ export const resumeBdbTraffic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ResumeBdbTrafficRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<ResumeBdbTrafficResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6664,7 +6811,8 @@ export const resumeBdbTraffic1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ResumeBdbTraffic1Request>,
   output: __S(4448, __c139, 0) as any as S.Schema<ResumeBdbTraffic1Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6686,7 +6834,8 @@ export const revertEndpointsRedirection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<RevertEndpointsRedirectionRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<EndpointsRedirectionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6708,7 +6857,8 @@ export const updateActiveActivePscServiceEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<UpdateActiveActivePscServiceEndpointRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<UpdateActiveActivePscServiceEndpointResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6730,7 +6880,8 @@ export const updateActiveActiveTgwAttachmentCidrs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<UpdateActiveActiveTgwAttachmentCidrsRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<UpdateActiveActiveTgwAttachmentCidrsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6752,7 +6903,8 @@ export const updateActiveActiveVpcPeering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<UpdateActiveActiveVpcPeeringRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6774,7 +6926,8 @@ export const updateCloudAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<UpdateCloudAccountRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<UpdateCloudAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6796,7 +6949,8 @@ export const updateCrdbLocalProperties: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2210, __c69, 2) as any as S.Schema<UpdateCrdbLocalPropertiesRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6813,7 +6967,8 @@ export const updateDatabase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<UpdateDatabaseRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6835,7 +6990,8 @@ export const updateMemoryStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2307, __c72, 3) as any as S.Schema<UpdateMemoryStoreRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<UpdateMemoryStoreResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6857,7 +7013,8 @@ export const updatePscServiceEndpoint: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<UpdatePscServiceEndpointRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<UpdatePscServiceEndpointResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6874,7 +7031,8 @@ export const updateRedisRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<UpdateRedisRuleRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<UpdateRedisRuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6891,7 +7049,8 @@ export const updateRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<UpdateRoleRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<UpdateRoleResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6913,7 +7072,8 @@ export const updateSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<UpdateSubscriptionRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6935,7 +7095,8 @@ export const updateSubscription1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<UpdateSubscription1Request>,
   output: __S(4448, __c139, 0) as any as S.Schema<UpdateSubscription1Response>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6957,7 +7118,8 @@ export const updateSubscriptionCidrWhiteList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<UpdateSubscriptionCidrWhiteListRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<UpdateSubscriptionCidrWhiteListResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6979,7 +7141,8 @@ export const updateSubscriptionMaintenanceWindows: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2530, __c79, 2) as any as S.Schema<UpdateSubscriptionMaintenanceWindowsRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7001,7 +7164,8 @@ export const updateSubscriptionResourceTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<UpdateSubscriptionResourceTagsRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<UpdateSubscriptionResourceTagsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7018,7 +7182,8 @@ export const updateTag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<UpdateTagRequest>,
   output: __S(3808, __c119, 0) as any as S.Schema<CloudTag>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7035,7 +7200,8 @@ export const updateTag1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<UpdateTag1Request>,
   output: __S(3808, __c119, 0) as any as S.Schema<CloudTag>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7052,7 +7218,8 @@ export const updateTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<UpdateTagsRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<CloudTags>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7069,7 +7236,8 @@ export const updateTags1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<UpdateTags1Request>,
   output: __S(1280, __c40, 0) as any as S.Schema<CloudTags>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7091,7 +7259,8 @@ export const updateTgwAttachmentCidrs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<UpdateTgwAttachmentCidrsRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<UpdateTgwAttachmentCidrsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7108,7 +7277,8 @@ export const updateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7125,7 +7295,8 @@ export const updateUser1: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<UpdateUser1Request>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7147,7 +7318,8 @@ export const updateVpcPeering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<UpdateVpcPeeringRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<UpdateVpcPeeringResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7169,7 +7341,8 @@ export const upgradeDatabaseRedisVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<UpgradeDatabaseRedisVersionRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7191,7 +7364,8 @@ export const upgradeEssentialsDatabaseRedisVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<UpgradeEssentialsDatabaseRedisVersionRequest>,
   output: __S(5377, __c168, 1) as any as S.Schema<TaskStateUpdate>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownRedisCloudError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: RedisCloudServiceErrors,
   protocol: RedisCloudProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

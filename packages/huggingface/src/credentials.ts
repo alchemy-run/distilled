@@ -2,7 +2,7 @@
  * Hugging Face credentials -- hand-written.
  *
  * The `Credentials` service resolves `{ token, apiBaseUrl }` per request; the
- * protocol layer formats the `Authorization: Bearer <token>` header from it.
+ * protocol formats the `Authorization: Bearer <token>` header from it.
  * The token is a Hub access token (`hf_...` -- fine-grained, read, or write) or
  * an OAuth access token; the API accepts all of them as bearer tokens.
  *

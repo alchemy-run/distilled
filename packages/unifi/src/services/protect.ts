@@ -4,7 +4,8 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownUniFiError } from "../errors.ts";
+import type { ConsoleLocation } from "../credentials.ts";
+import { UniFiServiceErrors } from "../errors.ts";
 import {
   UniFiProtectProtocol,
   type UniFiOpError,
@@ -68,10 +69,14 @@ export interface ActivateRelayOutputRequest {
   state?: ActivateRelayOutputRequestState | (string & {}) | undefined;
   /** Auto-off duration in milliseconds (only applies when state is "on"). If greater than 0, the output auto-turns off after the specified duration. */
   pulseDuration?: number | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface ActivateRelayOutputResponse {}
 export interface ArmExternalArmProfileRequest {
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type ExternalArmProfileAlarmIdsList = Array<string>;
 /** External Alarm Manager profile arm state. Use this when `nvr.featureFlags.useExternalAlarmManager` is true. When it is false, see `nvr.armMode` for Local Alarm Manager profile arm state. */
@@ -248,6 +253,8 @@ export interface CreateArmProfileRequest {
   schedules: Schedules;
   recordEverything: boolean;
   activationDelay: number;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface ArmProfile {
   id: string;
@@ -267,6 +274,8 @@ export interface CreateCameraRtspsStreamRequest {
   /** The primary key of camera */
   id: string;
   qualities: CreatedQualities;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** The RTSPS stream URLs for the camera */
 export interface CreatedRtspsStreams {
@@ -278,6 +287,8 @@ export interface CreatedRtspsStreams {
 export interface CreateCameraTalkbackSessionRequest {
   /** The primary key of camera */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Talkback session information */
 export interface TalkbackSession {
@@ -487,6 +498,8 @@ export interface CreateExternalArmProfileRequest {
   schedule?: CreateExternalArmProfileRequestSchedule | undefined;
   alarm_ids?: CreateExternalArmProfileRequestAlarmIdsList | undefined;
   pin_code?: string | null | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type CreateLiveviewRequestSlotsItemCamerasList = Array<string>;
 /** Whether to switch to next camera in slot based on motion events or a strict time interval */
@@ -515,6 +528,8 @@ export interface CreateLiveviewRequest {
   layout: number;
   /** List of cameras visible in each given slot. And cycling settings for each slot if it has multiple cameras listed. */
   slots: CreateLiveviewRequestSlotsList;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type LiveviewSlotsItemCamerasList = Array<string>;
 /** Whether to switch to next camera in slot based on motion events or a strict time interval */
@@ -580,6 +595,8 @@ export interface CreatePosTransactionRequest {
   paymentTypes?: CreatePosTransactionRequestPaymentTypesList | undefined;
   /** Transaction time in epoch milliseconds. Must be within the last 24 hours and no more than 5 minutes ahead of server time; out-of-range values are rejected. A value within the allowed skew is clamped to now. */
   timestamp?: number | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Result of POS transaction ingestion */
 export interface PosTransactionResponse {
@@ -592,6 +609,8 @@ export interface PosTransactionResponse {
 export interface DeleteArmProfileRequest {
   /** The primary key of armProfile */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface DeleteArmProfileResponse {}
 export type RemovedQualitiesCase0List = Array<ChannelQuality | (string & {})>;
@@ -602,17 +621,26 @@ export interface DeleteCameraRtspsStreamRequest {
   id: string;
   /** The array of quality levels for the RTSPS streams to be removed. All qualities (high, medium, low) are available for all cameras. The package quality is only available for cameras with hasPackageCamera: true. */
   qualities: RemovedQualities;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface DeleteCameraRtspsStreamResponse {}
 export interface DeleteExternalArmProfileRequest {
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface DeleteExternalArmProfileResponse {}
-export interface DisableArmAlarmRequest {}
+export interface DisableArmAlarmRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export interface DisableArmAlarmResponse {}
 export interface DisableCameraMicPermanentlyRequest {
   /** The primary key of camera */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Connection state of the device. */
 export type DeviceState = "CONNECTED" | "CONNECTING" | "DISCONNECTED";
@@ -751,12 +779,19 @@ export interface Camera {
 }
 export interface DisarmExternalArmProfileRequest {
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
-export interface EnableArmAlarmRequest {}
+export interface EnableArmAlarmRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export interface EnableArmAlarmResponse {}
 export interface GetAlarmHubRequest {
   /** The primary key of linkStation */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Status LED settings. */
 export interface LinkStationLedSettings {
@@ -1123,6 +1158,8 @@ export interface LinkStation {
 export interface GetBridgeRequest {
   /** The primary key of bridge */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Array of IoT devices mac that bridge is reserving for */
 export type BridgeClients = Array<string>;
@@ -1141,10 +1178,14 @@ export interface Bridge {
 export interface GetCameraRequest {
   /** The primary key of camera */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface GetCameraRtspsStreamRequest {
   /** The primary key of camera */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** The RTSPS stream URLs for the camera. All qualities (high, medium, low) are available for all cameras. The package quality is only available for cameras with hasPackageCamera: true. */
 export interface ExistingRtspsStreams {
@@ -1156,6 +1197,8 @@ export interface ExistingRtspsStreams {
 export interface GetChimeRequest {
   /** The primary key of chime */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** The list of (doorbell-only) cameras which this chime is paired to. */
 export type ChimeCameraIdsList = Array<string>;
@@ -1186,12 +1229,16 @@ export interface Chime {
 }
 export interface GetExternalArmProfileRequest {
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Device asset file type */
 export type GetFileRequestFileType = "animations";
 export interface GetFileRequest {
   /** Device asset file type */
   fileType: GetFileRequestFileType | (string & {});
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Device asset file type */
 export type AssetFileType = "animations";
@@ -1206,6 +1253,8 @@ export type GetFileResponse = GetFileResponseBodyList;
 export interface GetFobRequest {
   /** The primary key of fob */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Fob presence/away state. */
 export type FobAwayState = "ONLINE" | "RECENTLY_SEEN" | "NO_RECENT_HEARTBEAT" | "DEVICE_LOST";
@@ -1281,6 +1330,8 @@ export interface Fob {
 export interface GetLightRequest {
   /** The primary key of light */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Settings for when and how your light gets activated */
 export interface LightModeSettings {
@@ -1319,16 +1370,26 @@ export interface Light {
 export interface GetLinkStationRequest {
   /** The primary key of linkStation */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface GetLiveviewRequest {
   /** The primary key of liveview */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
-export interface GetMetaInfoRequest {}
+export interface GetMetaInfoRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export interface GetMetaInfoResponse {
   applicationVersion: string;
 }
-export interface GetNvrRequest {}
+export interface GetNvrRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 /** Feature flags. */
 export interface NvrFeatureFlags {
   /** Whether UniFi OS runs the external Alarm Manager instead of Protect. When false, Protect runs the local Alarm Manager; when true, UniFi OS runs the external Alarm Manager. */
@@ -1387,6 +1448,8 @@ export interface Nvr {
 export interface GetRelayRequest {
   /** The primary key of relay */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Status LED settings. */
 export type RelayLedSettings = LinkStationLedSettings;
@@ -1439,6 +1502,8 @@ export interface Relay {
 export interface GetSensorRequest {
   /** The primary key of sensor */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Mounting type of the sensor. */
 export type SensorMountType = "door" | "window" | "garage" | "leak" | "none";
@@ -1596,6 +1661,8 @@ export interface Sensor {
 export interface GetSirenRequest {
   /** The primary key of siren */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Status LED settings. */
 export type SirenLedSettingsExternal = LinkStationLedSettings;
@@ -1624,6 +1691,8 @@ export interface Siren {
 export interface GetSpeakerRequest {
   /** The primary key of speaker */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Current status of the speaker */
 export type SpeakerStateStatus = "idle" | "streaming" | "playing" | "tts_playing" | "uploading";
@@ -1655,6 +1724,8 @@ export interface Speaker {
 export interface GetUlpUserRequest {
   /** The primary key of ulpUser */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Active status of ulp user */
 export type UlpUserStatus = "ACTIVE" | "DEACTIVATED";
@@ -1675,6 +1746,8 @@ export interface UlpUser {
 export interface GetUserRequest {
   /** The primary key of user */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface User {
   id: string;
@@ -1693,6 +1766,8 @@ export interface User {
 export interface GetViewerRequest {
   /** The primary key of viewer */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface Viewer {
   id: string;
@@ -1710,57 +1785,110 @@ export interface GotoCameraPtzPresetRequest {
   id: string;
   /** Which slot this preset belongs to (-1 home preset, >=0 other presets). */
   slot: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface GotoCameraPtzPresetResponse {}
-export interface ListAlarmHubsRequest {}
+export interface ListAlarmHubsRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListAlarmHubsResponseBodyList = Array<LinkStation>;
 export type ListAlarmHubsResponse = ListAlarmHubsResponseBodyList;
-export interface ListArmProfilesRequest {}
+export interface ListArmProfilesRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListArmProfilesResponseBodyList = Array<ArmProfile>;
 export type ListArmProfilesResponse = ListArmProfilesResponseBodyList;
-export interface ListBridgesRequest {}
+export interface ListBridgesRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListBridgesResponseBodyList = Array<Bridge>;
 export type ListBridgesResponse = ListBridgesResponseBodyList;
-export interface ListCamerasRequest {}
+export interface ListCamerasRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListCamerasResponseBodyList = Array<Camera>;
 export type ListCamerasResponse = ListCamerasResponseBodyList;
-export interface ListChimesRequest {}
+export interface ListChimesRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListChimesResponseBodyList = Array<Chime>;
 export type ListChimesResponse = ListChimesResponseBodyList;
-export interface ListExternalArmProfilesRequest {}
+export interface ListExternalArmProfilesRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ExternalArmProfiles = Array<ExternalArmProfile>;
 export type ListExternalArmProfilesResponse = ExternalArmProfiles;
-export interface ListFobsRequest {}
+export interface ListFobsRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListFobsResponseBodyList = Array<Fob>;
 export type ListFobsResponse = ListFobsResponseBodyList;
-export interface ListLightsRequest {}
+export interface ListLightsRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListLightsResponseBodyList = Array<Light>;
 export type ListLightsResponse = ListLightsResponseBodyList;
-export interface ListLinkStationsRequest {}
+export interface ListLinkStationsRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListLinkStationsResponseBodyList = Array<LinkStation>;
 export type ListLinkStationsResponse = ListLinkStationsResponseBodyList;
-export interface ListLiveviewsRequest {}
+export interface ListLiveviewsRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListLiveviewsResponseBodyList = Array<Liveview>;
 export type ListLiveviewsResponse = ListLiveviewsResponseBodyList;
-export interface ListRelaysRequest {}
+export interface ListRelaysRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListRelaysResponseBodyList = Array<Relay>;
 export type ListRelaysResponse = ListRelaysResponseBodyList;
-export interface ListSensorsRequest {}
+export interface ListSensorsRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListSensorsResponseBodyList = Array<Sensor>;
 export type ListSensorsResponse = ListSensorsResponseBodyList;
-export interface ListSirensRequest {}
+export interface ListSirensRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListSirensResponseBodyList = Array<Siren>;
 export type ListSirensResponse = ListSirensResponseBodyList;
-export interface ListSpeakersRequest {}
+export interface ListSpeakersRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListSpeakersResponseBodyList = Array<Speaker>;
 export type ListSpeakersResponse = ListSpeakersResponseBodyList;
-export interface ListUlpUsersRequest {}
+export interface ListUlpUsersRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListUlpUsersResponseBodyList = Array<UlpUser>;
 export type ListUlpUsersResponse = ListUlpUsersResponseBodyList;
-export interface ListUsersRequest {}
+export interface ListUsersRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListUsersResponseBodyList = Array<User>;
 export type ListUsersResponse = ListUsersResponseBodyList;
-export interface ListViewersRequest {}
+export interface ListViewersRequest {
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
+}
 export type ListViewersResponseBodyList = Array<Viewer>;
 export type ListViewersResponse = ListViewersResponseBodyList;
 export interface PlaySirenRequest {
@@ -1768,15 +1896,21 @@ export interface PlaySirenRequest {
   id: string;
   /** Duration of the siren activation in seconds. Defaults to 5 seconds. */
   duration?: number | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface PlaySirenResponse {}
 export interface SendAlarmManagerWebhookRequest {
   /** User defined string used to trigger only specific alarms. Alarm should be configured with the same ID to be triggered. */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface SendAlarmManagerWebhookResponse {}
 export interface SetArmProfileSettingsRequest {
   armProfileId: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface SetArmProfileSettingsResponse {}
 export interface StartCameraPtzPatrolRequest {
@@ -1784,20 +1918,28 @@ export interface StartCameraPtzPatrolRequest {
   id: string;
   /** The slot number (0-4) of the patrol that is currently running, or null if no patrol is running */
   slot: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface StartCameraPtzPatrolResponse {}
 export interface StopCameraPtzPatrolRequest {
   /** The primary key of camera */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface StopCameraPtzPatrolResponse {}
 export interface StopSirenRequest {
   /** The primary key of siren */
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface StopSirenResponse {}
 export interface StopSpeakerSirenRequest {
   id: string;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface StopSpeakerSirenResponse {}
 export interface TestSirenSoundRequest {
@@ -1805,6 +1947,8 @@ export interface TestSirenSoundRequest {
   id: string;
   /** The volume for testing the siren sound. Defaults to the configured device volume. */
   volume?: number | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface TestSirenSoundResponse {}
 export interface TestSpeakerSoundRequest {
@@ -1812,6 +1956,8 @@ export interface TestSpeakerSoundRequest {
   id: string;
   /** The volume for testing the speaker sound. Defaults to the configured device volume. */
   volume?: number | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface TestSpeakerSoundResponse {}
 export interface TriggerAlarmHubOutputRequest {
@@ -1825,12 +1971,16 @@ export interface TriggerAlarmHubOutputRequest {
   delay?: number | undefined;
   /** Duration in milliseconds to keep the output active. 0 means indefinite until manually turned off. */
   duration?: number | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface TriggerAlarmHubOutputResponse {}
 export interface UpdateAlarmHubRequest {
   /** The primary key of linkStation */
   id: string;
   name?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface UpdateArmProfileRequest {
   /** The primary key of armProfile */
@@ -1840,11 +1990,15 @@ export interface UpdateArmProfileRequest {
   schedules?: Schedules | undefined;
   recordEverything?: boolean | undefined;
   activationDelay?: number | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface UpdateBridgeRequest {
   /** The primary key of bridge */
   id: string;
   name?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** On Screen Display settings. */
 export interface UpdateCameraRequestOsdSettings {
@@ -1907,6 +2061,8 @@ export interface UpdateCameraRequest {
   hdrType?: HdrType | (string & {}) | undefined;
   /** Smart detection settings for the camera. */
   smartDetectSettings?: UpdateCameraRequestSmartDetectSettings | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** The list of (doorbell-only) cameras which this chime is paired to. */
 export type UpdateChimeRequestCameraIdsList = Array<string>;
@@ -1921,6 +2077,8 @@ export interface UpdateChimeRequest {
   cameraIds?: UpdateChimeRequestCameraIdsList | undefined;
   /** List of custom ringtone settings for (doorbell-only) cameras paired to this chime. */
   ringSettings?: UpdateChimeRequestRingSettingsList | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type UpdateExternalArmProfileRequestScheduleSunCase0EntriesItemStart =
   ExternalArmProfileScheduleSunCase0EntriesItemStart;
@@ -2128,11 +2286,15 @@ export interface UpdateExternalArmProfileRequest {
   alarm_ids?: UpdateExternalArmProfileRequestAlarmIdsList | null | undefined;
   /** Omit to retain the existing PIN; use null to clear it. */
   pin_code?: string | null | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface UpdateFobRequest {
   /** The primary key of fob */
   id: string;
   name?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface UpdateLightRequest {
   /** The primary key of light */
@@ -2141,11 +2303,15 @@ export interface UpdateLightRequest {
   isLightForceEnabled?: boolean | undefined;
   lightModeSettings?: LightModeSettings | undefined;
   lightDeviceSettings?: LightDeviceSettings | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface UpdateLinkStationRequest {
   /** The primary key of linkStation */
   id: string;
   name?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type UpdateLiveviewRequestSlotsItemCamerasList = Array<string>;
 /** Whether to switch to next camera in slot based on motion events or a strict time interval */
@@ -2175,6 +2341,8 @@ export interface UpdateLiveviewRequest {
   layout: number;
   /** List of cameras visible in each given slot. And cycling settings for each slot if it has multiple cameras listed. */
   slots: UpdateLiveviewRequestSlotsList;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Status LED settings. */
 export interface UpdateRelayRequestLedSettings {
@@ -2186,6 +2354,8 @@ export interface UpdateRelayRequest {
   name?: string | undefined;
   /** Status LED settings. */
   ledSettings?: UpdateRelayRequestLedSettings | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export type UpdateSensorRequestScheduleMode = "always" | "when_armed";
 export type UpdateSensorRequestArmProfileIdsList = Array<string>;
@@ -2202,6 +2372,8 @@ export interface UpdateSensorRequest {
   armProfileIds?: UpdateSensorRequestArmProfileIdsList | null | undefined;
   hasCustomSensitivityWhenArmed?: boolean | undefined;
   alarmSettings?: AlarmSettings | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface UpdateSirenRequest {
   /** The primary key of siren */
@@ -2209,6 +2381,8 @@ export interface UpdateSirenRequest {
   name?: string | undefined;
   volume?: number | undefined;
   ledSettings?: LinkStationLedSettings | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface UpdateSpeakerRequest {
   /** The primary key of speaker */
@@ -2217,12 +2391,16 @@ export interface UpdateSpeakerRequest {
   volume?: number | undefined;
   micVolume?: number | undefined;
   isMicEnabled?: boolean | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 export interface UpdateViewerRequest {
   /** The primary key of viewer */
   id: string;
   name?: string | undefined;
   liveview?: string | null | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** Device asset file type */
 export type UploadFileRequestFileType = "animations";
@@ -2230,6 +2408,8 @@ export interface UploadFileRequest {
   /** Device asset file type */
   fileType: UploadFileRequestFileType | (string & {});
   body?: string | undefined;
+  /** The console this call goes to, over the Console layer: `ConsoleLocation.local(host)` or `ConsoleLocation.remote(consoleId)`. Not sent. */
+  console?: ConsoleLocation | undefined;
 }
 /** An optional nested cause for the parent error */
 export type IdRequiredErrorCauseMap = { [key: string]: unknown | undefined };
@@ -2251,7 +2431,8 @@ export const activateRelayOutput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<ActivateRelayOutputRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<ActivateRelayOutputResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2268,7 +2449,8 @@ export const armExternalArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ArmExternalArmProfileRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<ExternalArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2285,7 +2467,8 @@ export const createArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<CreateArmProfileRequest>,
   output: __S(1762, __c55, 2) as any as S.Schema<ArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2302,7 +2485,8 @@ export const createCameraRtspsStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<CreateCameraRtspsStreamRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<CreatedRtspsStreams>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2319,7 +2503,8 @@ export const createCameraTalkbackSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<CreateCameraTalkbackSessionRequest>,
   output: __S(2497, __c78, 1) as any as S.Schema<TalkbackSession>,
-  errors: [Conflict, UnknownUniFiError],
+  errors: [Conflict],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2336,7 +2521,8 @@ export const createExternalArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2849, __c89, 1) as any as S.Schema<CreateExternalArmProfileRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<ExternalArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2353,7 +2539,8 @@ export const createLiveview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<CreateLiveviewRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<Liveview>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2370,7 +2557,8 @@ export const createPosTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3299, __c103, 3) as any as S.Schema<CreatePosTransactionRequest>,
   output: __S(3300, __c103, 4) as any as S.Schema<PosTransactionResponse>,
-  errors: [Conflict, UnknownUniFiError],
+  errors: [Conflict],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2387,7 +2575,8 @@ export const deleteArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<DeleteArmProfileRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<DeleteArmProfileResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2404,7 +2593,8 @@ export const deleteCameraRtspsStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<DeleteCameraRtspsStreamRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<DeleteCameraRtspsStreamResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2421,7 +2611,8 @@ export const deleteExternalArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<DeleteExternalArmProfileRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<DeleteExternalArmProfileResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2438,7 +2629,8 @@ export const disableArmAlarm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<DisableArmAlarmRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<DisableArmAlarmResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2455,7 +2647,8 @@ export const disableCameraMicPermanently: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<DisableCameraMicPermanentlyRequest>,
   output: __S(197, __c6, 5) as any as S.Schema<Camera>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2472,7 +2665,8 @@ export const disarmExternalArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<DisarmExternalArmProfileRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<ExternalArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2489,7 +2683,8 @@ export const enableArmAlarm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<EnableArmAlarmRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<EnableArmAlarmResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2506,7 +2701,8 @@ export const getAlarmHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetAlarmHubRequest>,
   output: __S(381, __c11, 29) as any as S.Schema<LinkStation>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2523,7 +2719,8 @@ export const getBridge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetBridgeRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<Bridge>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2540,7 +2737,8 @@ export const getCamera: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetCameraRequest>,
   output: __S(197, __c6, 5) as any as S.Schema<Camera>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2557,7 +2755,8 @@ export const getCameraRtspsStream: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetCameraRtspsStreamRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<ExistingRtspsStreams>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2574,7 +2773,8 @@ export const getChime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetChimeRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<Chime>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2591,7 +2791,8 @@ export const getExternalArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GetExternalArmProfileRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<ExternalArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2608,7 +2809,8 @@ export const getFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetFileRequest>,
   output: __S(674, __c21, 2) as any as S.Schema<GetFileResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2621,7 +2823,8 @@ export const getFob: API.OperationMethod<GetFobRequest, Fob, GetFobError, UniFiC
   /*@__PURE__*/ API.make(() => ({
     input: __S(736, __c23, 0) as any as S.Schema<GetFobRequest>,
     output: __S(803, __c25, 3) as any as S.Schema<Fob>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiProtectProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2638,7 +2841,8 @@ export const getLight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetLightRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<Light>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2655,7 +2859,8 @@ export const getLinkStation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<GetLinkStationRequest>,
   output: __S(381, __c11, 29) as any as S.Schema<LinkStation>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2672,7 +2877,8 @@ export const getLiveview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetLiveviewRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<Liveview>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2689,7 +2895,8 @@ export const getMetaInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetMetaInfoRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<GetMetaInfoResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2702,7 +2909,8 @@ export const getNvr: API.OperationMethod<GetNvrRequest, Nvr, GetNvrError, UniFiC
   /*@__PURE__*/ API.make(() => ({
     input: __S(992, __c31, 0) as any as S.Schema<GetNvrRequest>,
     output: __S(998, __c31, 6) as any as S.Schema<Nvr>,
-    errors: [UnknownUniFiError],
+    errors: [],
+    serviceErrors: UniFiServiceErrors,
     protocol: UniFiProtectProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -2719,7 +2927,8 @@ export const getRelay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetRelayRequest>,
   output: __S(1156, __c36, 4) as any as S.Schema<Relay>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2736,7 +2945,8 @@ export const getSensor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetSensorRequest>,
   output: __S(1256, __c39, 8) as any as S.Schema<Sensor>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2753,7 +2963,8 @@ export const getSiren: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetSirenRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<Siren>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2770,7 +2981,8 @@ export const getSpeaker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetSpeakerRequest>,
   output: __S(1378, __c43, 2) as any as S.Schema<Speaker>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2787,7 +2999,8 @@ export const getUlpUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetUlpUserRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<UlpUser>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2804,7 +3017,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetUserRequest>,
   output: __S(1504, __c47, 0) as any as S.Schema<User>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2821,7 +3035,8 @@ export const getViewer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetViewerRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<Viewer>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2838,7 +3053,8 @@ export const gotoCameraPtzPreset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GotoCameraPtzPresetRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<GotoCameraPtzPresetResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2855,7 +3071,8 @@ export const listAlarmHubs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<ListAlarmHubsRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<ListAlarmHubsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2872,7 +3089,8 @@ export const listArmProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<ListArmProfilesRequest>,
   output: __S(1698, __c53, 2) as any as S.Schema<ListArmProfilesResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2889,7 +3107,8 @@ export const listBridges: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ListBridgesRequest>,
   output: __S(1794, __c56, 2) as any as S.Schema<ListBridgesResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2906,7 +3125,8 @@ export const listCameras: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<ListCamerasRequest>,
   output: __S(1826, __c57, 2) as any as S.Schema<ListCamerasResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2923,7 +3143,8 @@ export const listChimes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ListChimesRequest>,
   output: __S(1858, __c58, 2) as any as S.Schema<ListChimesResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2940,7 +3161,8 @@ export const listExternalArmProfiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ListExternalArmProfilesRequest>,
   output: __S(1890, __c59, 2) as any as S.Schema<ListExternalArmProfilesResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2957,7 +3179,8 @@ export const listFobs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<ListFobsRequest>,
   output: __S(1922, __c60, 2) as any as S.Schema<ListFobsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2974,7 +3197,8 @@ export const listLights: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListLightsRequest>,
   output: __S(1954, __c61, 2) as any as S.Schema<ListLightsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2991,7 +3215,8 @@ export const listLinkStations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListLinkStationsRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<ListLinkStationsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3008,7 +3233,8 @@ export const listLiveviews: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<ListLiveviewsRequest>,
   output: __S(2018, __c63, 2) as any as S.Schema<ListLiveviewsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3025,7 +3251,8 @@ export const listRelays: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListRelaysRequest>,
   output: __S(2050, __c64, 2) as any as S.Schema<ListRelaysResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3042,7 +3269,8 @@ export const listSensors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ListSensorsRequest>,
   output: __S(2082, __c65, 2) as any as S.Schema<ListSensorsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3059,7 +3287,8 @@ export const listSirens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ListSirensRequest>,
   output: __S(2178, __c68, 2) as any as S.Schema<ListSirensResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3076,7 +3305,8 @@ export const listSpeakers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListSpeakersRequest>,
   output: __S(2210, __c69, 2) as any as S.Schema<ListSpeakersResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3093,7 +3323,8 @@ export const listUlpUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListUlpUsersRequest>,
   output: __S(2242, __c70, 2) as any as S.Schema<ListUlpUsersResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3110,7 +3341,8 @@ export const listUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListUsersRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<ListUsersResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3127,7 +3359,8 @@ export const listViewers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListViewersRequest>,
   output: __S(2306, __c72, 2) as any as S.Schema<ListViewersResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3144,7 +3377,8 @@ export const playSiren: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<PlaySirenRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<PlaySirenResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3161,7 +3395,8 @@ export const sendAlarmManagerWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<SendAlarmManagerWebhookRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<SendAlarmManagerWebhookResponse>,
-  errors: [BadRequest, UnknownUniFiError],
+  errors: [BadRequest],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3178,7 +3413,8 @@ export const setArmProfileSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<SetArmProfileSettingsRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<SetArmProfileSettingsResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3195,7 +3431,8 @@ export const startCameraPtzPatrol: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<StartCameraPtzPatrolRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<StartCameraPtzPatrolResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3212,7 +3449,8 @@ export const stopCameraPtzPatrol: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<StopCameraPtzPatrolRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<StopCameraPtzPatrolResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3229,7 +3467,8 @@ export const stopSiren: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<StopSirenRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<StopSirenResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3246,7 +3485,8 @@ export const stopSpeakerSiren: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<StopSpeakerSirenRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<StopSpeakerSirenResponse>,
-  errors: [BadRequest, UnknownUniFiError],
+  errors: [BadRequest],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3263,7 +3503,8 @@ export const testSirenSound: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<TestSirenSoundRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<TestSirenSoundResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3280,7 +3521,8 @@ export const testSpeakerSound: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<TestSpeakerSoundRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<TestSpeakerSoundResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3297,7 +3539,8 @@ export const triggerAlarmHubOutput: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<TriggerAlarmHubOutputRequest>,
   output: __S(512, __c16, 0) as any as S.Schema<TriggerAlarmHubOutputResponse>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3314,7 +3557,8 @@ export const updateAlarmHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<UpdateAlarmHubRequest>,
   output: __S(381, __c11, 29) as any as S.Schema<LinkStation>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3331,7 +3575,8 @@ export const updateArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<UpdateArmProfileRequest>,
   output: __S(1762, __c55, 2) as any as S.Schema<ArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3348,7 +3593,8 @@ export const updateBridge: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<UpdateBridgeRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<Bridge>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3365,7 +3611,8 @@ export const updateCamera: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2787, __c87, 3) as any as S.Schema<UpdateCameraRequest>,
   output: __S(197, __c6, 5) as any as S.Schema<Camera>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3382,7 +3629,8 @@ export const updateChime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<UpdateChimeRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<Chime>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3399,7 +3647,8 @@ export const updateExternalArmProfile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2881, __c90, 1) as any as S.Schema<UpdateExternalArmProfileRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<ExternalArmProfile>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3416,7 +3665,8 @@ export const updateFob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<UpdateFobRequest>,
   output: __S(803, __c25, 3) as any as S.Schema<Fob>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3433,7 +3683,8 @@ export const updateLight: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<UpdateLightRequest>,
   output: __S(866, __c27, 2) as any as S.Schema<Light>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3450,7 +3701,8 @@ export const updateLinkStation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<UpdateLinkStationRequest>,
   output: __S(381, __c11, 29) as any as S.Schema<LinkStation>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3467,7 +3719,8 @@ export const updateLiveview: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<UpdateLiveviewRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<Liveview>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3484,7 +3737,8 @@ export const updateRelay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<UpdateRelayRequest>,
   output: __S(1156, __c36, 4) as any as S.Schema<Relay>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3501,7 +3755,8 @@ export const updateSensor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<UpdateSensorRequest>,
   output: __S(1256, __c39, 8) as any as S.Schema<Sensor>,
-  errors: [Conflict, UnknownUniFiError],
+  errors: [Conflict],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3518,7 +3773,8 @@ export const updateSiren: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<UpdateSirenRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<Siren>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3535,7 +3791,8 @@ export const updateSpeaker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<UpdateSpeakerRequest>,
   output: __S(1378, __c43, 2) as any as S.Schema<Speaker>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3552,7 +3809,8 @@ export const updateViewer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<UpdateViewerRequest>,
   output: __S(1568, __c49, 0) as any as S.Schema<Viewer>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3569,7 +3827,8 @@ export const uploadFile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<UploadFileRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<FileSchema>,
-  errors: [UnknownUniFiError],
+  errors: [],
+  serviceErrors: UniFiServiceErrors,
   protocol: UniFiProtectProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3597,6 +3856,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "DELETE", uri: "/v1/arm-profiles/{id}", code: 200 })),
       ).annotate({ identifier: "DeleteArmProfileRequest" });
   }
@@ -3608,6 +3868,7 @@ function __c2(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           qualities: S.Unknown.pipe(T.Query()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "DELETE", uri: "/v1/cameras/{id}/rtsps-stream", code: 200 })),
       ).annotate({ identifier: "DeleteCameraRtspsStreamRequest" });
   }
@@ -3618,6 +3879,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "DELETE", uri: "/v1/external/arm-profiles/{id}", code: 200 })),
       ).annotate({ identifier: "DeleteExternalArmProfileRequest" });
   }
@@ -3626,7 +3888,9 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/v1/arm-profiles/disable", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/arm-profiles/disable", code: 200 })),
       ).annotate({ identifier: "DisableArmAlarmRequest" });
   }
 }
@@ -3636,6 +3900,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/cameras/{id}/disable-mic-permanently", code: 200 }),
         ),
@@ -3721,6 +3986,7 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3735,7 +4001,9 @@ function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/v1/arm-profiles/enable", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/arm-profiles/enable", code: 200 })),
       ).annotate({ identifier: "EnableArmAlarmRequest" });
   }
 }
@@ -3745,6 +4013,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/alarm-hubs/{id}", code: 200 })),
       ).annotate({ identifier: "GetAlarmHubRequest" });
   }
@@ -4005,6 +4274,7 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/bridges/{id}", code: 200 })),
       ).annotate({ identifier: "GetBridgeRequest" });
   }
@@ -4034,6 +4304,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/cameras/{id}", code: 200 })),
       ).annotate({ identifier: "GetCameraRequest" });
   }
@@ -4047,6 +4318,7 @@ function __c15(j: number): any {
           outputId: S.Number.pipe(T.Label()),
           state: S.optional(S.String),
           pulseDuration: S.optional(S.Number),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/relays/{id}/outputs/{outputId}/activate", code: 200 }),
         ),
@@ -4065,6 +4337,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/cameras/{id}/rtsps-stream", code: 200 })),
       ).annotate({ identifier: "GetCameraRtspsStreamRequest" });
     case 1:
@@ -4084,6 +4357,7 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/chimes/{id}", code: 200 })),
       ).annotate({ identifier: "GetChimeRequest" });
   }
@@ -4123,6 +4397,7 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/external/arm-profiles/{id}", code: 200 })),
       ).annotate({ identifier: "GetExternalArmProfileRequest" });
   }
@@ -4133,6 +4408,7 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           fileType: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/files/{fileType}", code: 200 })),
       ).annotate({ identifier: "GetFileRequest" });
     case 1:
@@ -4162,6 +4438,7 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/fobs/{id}", code: 200 })),
       ).annotate({ identifier: "GetFobRequest" });
   }
@@ -4242,6 +4519,7 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/lights/{id}", code: 200 })),
       ).annotate({ identifier: "GetLightRequest" });
   }
@@ -4292,6 +4570,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/link-stations/{id}", code: 200 })),
       ).annotate({ identifier: "GetLinkStationRequest" });
   }
@@ -4302,6 +4581,7 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/liveviews/{id}", code: 200 })),
       ).annotate({ identifier: "GetLiveviewRequest" });
   }
@@ -4310,7 +4590,9 @@ function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/meta/info", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/meta/info", code: 200 })),
       ).annotate({ identifier: "GetMetaInfoRequest" });
     case 1:
       return S.suspend(() =>
@@ -4324,7 +4606,9 @@ function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/nvrs", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/nvrs", code: 200 })),
       ).annotate({ identifier: "GetNvrRequest" });
     case 1:
       return S.suspend(() =>
@@ -4385,6 +4669,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/external/arm-profiles/{id}/actions/arm", code: 200 }),
         ),
@@ -4442,6 +4727,7 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/relays/{id}", code: 200 })),
       ).annotate({ identifier: "GetRelayRequest" });
   }
@@ -4499,6 +4785,7 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sensors/{id}", code: 200 })),
       ).annotate({ identifier: "GetSensorRequest" });
   }
@@ -4624,6 +4911,7 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sirens/{id}", code: 200 })),
       ).annotate({ identifier: "GetSirenRequest" });
   }
@@ -4663,6 +4951,7 @@ function __c42(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/speakers/{id}", code: 200 })),
       ).annotate({ identifier: "GetSpeakerRequest" });
   }
@@ -4707,6 +4996,7 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/ulp-users/{id}", code: 200 })),
       ).annotate({ identifier: "GetUlpUserRequest" });
   }
@@ -4733,6 +5023,7 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/users/{id}", code: 200 })),
       ).annotate({ identifier: "GetUserRequest" });
   }
@@ -4759,6 +5050,7 @@ function __c48(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "GET", uri: "/v1/viewers/{id}", code: 200 })),
       ).annotate({ identifier: "GetViewerRequest" });
   }
@@ -4788,6 +5080,7 @@ function __c50(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/cameras/{id}/ptz/goto/{slot}", code: 200 })),
       ).annotate({ identifier: "GotoCameraPtzPresetRequest" });
   }
@@ -4796,7 +5089,9 @@ function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/alarm-hubs", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/alarm-hubs", code: 200 })),
       ).annotate({ identifier: "ListAlarmHubsRequest" });
   }
 }
@@ -4814,7 +5109,9 @@ function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/arm-profiles", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/arm-profiles", code: 200 })),
       ).annotate({ identifier: "ListArmProfilesRequest" });
     case 1:
       return S.Array(__S(1762, __c55, 2));
@@ -4834,6 +5131,7 @@ function __c54(j: number): any {
           schedules: __S(1761, __c55, 1),
           recordEverything: S.Boolean,
           activationDelay: S.Number,
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/arm-profiles", code: 200 })),
       ).annotate({ identifier: "CreateArmProfileRequest" });
   }
@@ -4869,7 +5167,9 @@ function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/bridges", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/bridges", code: 200 })),
       ).annotate({ identifier: "ListBridgesRequest" });
     case 1:
       return S.Array(__S(416, __c13, 0));
@@ -4883,7 +5183,9 @@ function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/cameras", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/cameras", code: 200 })),
       ).annotate({ identifier: "ListCamerasRequest" });
     case 1:
       return S.Array(__S(197, __c6, 5));
@@ -4897,7 +5199,9 @@ function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/chimes", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/chimes", code: 200 })),
       ).annotate({ identifier: "ListChimesRequest" });
     case 1:
       return S.Array(__S(610, __c19, 2));
@@ -4911,7 +5215,9 @@ function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/external/arm-profiles", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/external/arm-profiles", code: 200 })),
       ).annotate({ identifier: "ListExternalArmProfilesRequest" });
     case 1:
       return S.Array(__S(1089, __c34, 1));
@@ -4925,7 +5231,9 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/fobs", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/fobs", code: 200 })),
       ).annotate({ identifier: "ListFobsRequest" });
     case 1:
       return S.Array(__S(803, __c25, 3));
@@ -4939,7 +5247,9 @@ function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/lights", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/lights", code: 200 })),
       ).annotate({ identifier: "ListLightsRequest" });
     case 1:
       return S.Array(__S(866, __c27, 2));
@@ -4953,7 +5263,9 @@ function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/link-stations", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/link-stations", code: 200 })),
       ).annotate({ identifier: "ListLinkStationsRequest" });
   }
 }
@@ -4961,7 +5273,9 @@ function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/liveviews", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/liveviews", code: 200 })),
       ).annotate({ identifier: "ListLiveviewsRequest" });
     case 1:
       return S.Array(__S(3234, __c101, 2));
@@ -4975,7 +5289,9 @@ function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/relays", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/relays", code: 200 })),
       ).annotate({ identifier: "ListRelaysRequest" });
     case 1:
       return S.Array(__S(1156, __c36, 4));
@@ -4989,7 +5305,9 @@ function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/sensors", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/sensors", code: 200 })),
       ).annotate({ identifier: "ListSensorsRequest" });
     case 1:
       return S.Array(__S(1256, __c39, 8));
@@ -5006,6 +5324,7 @@ function __c66(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           qualities: __S(2144, __c67, 0),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/cameras/{id}/rtsps-stream", code: 200 })),
       ).annotate({ identifier: "CreateCameraRtspsStreamRequest" });
     case 1:
@@ -5029,7 +5348,9 @@ function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/sirens", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/sirens", code: 200 })),
       ).annotate({ identifier: "ListSirensRequest" });
     case 1:
       return S.Array(__S(1313, __c41, 1));
@@ -5043,7 +5364,9 @@ function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/speakers", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/speakers", code: 200 })),
       ).annotate({ identifier: "ListSpeakersRequest" });
     case 1:
       return S.Array(__S(1378, __c43, 2));
@@ -5057,7 +5380,9 @@ function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/ulp-users", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/ulp-users", code: 200 })),
       ).annotate({ identifier: "ListUlpUsersRequest" });
     case 1:
       return S.Array(__S(1440, __c45, 0));
@@ -5071,7 +5396,9 @@ function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/users", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/users", code: 200 })),
       ).annotate({ identifier: "ListUsersRequest" });
     case 1:
       return S.Array(__S(1504, __c47, 0));
@@ -5085,7 +5412,9 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/viewers", code: 200 })),
+        S.Struct({
+          console: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "GET", uri: "/v1/viewers", code: 200 })),
       ).annotate({ identifier: "ListViewersRequest" });
     case 1:
       return S.Array(__S(1568, __c49, 0));
@@ -5102,6 +5431,7 @@ function __c73(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           duration: S.optional(S.Number),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sirens/{id}/play", code: 200 })),
       ).annotate({ identifier: "PlaySirenRequest" });
   }
@@ -5112,6 +5442,7 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/alarm-manager/webhook/{id}", code: 200 })),
       ).annotate({ identifier: "SendAlarmManagerWebhookRequest" });
   }
@@ -5122,6 +5453,7 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           armProfileId: S.String,
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/arm-profiles/settings", code: 200 })),
       ).annotate({ identifier: "SetArmProfileSettingsRequest" });
   }
@@ -5133,6 +5465,7 @@ function __c76(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           slot: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/cameras/{id}/ptz/patrol/start/{slot}", code: 200 }),
         ),
@@ -5145,6 +5478,7 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/cameras/{id}/ptz/patrol/stop", code: 200 })),
       ).annotate({ identifier: "StopCameraPtzPatrolRequest" });
   }
@@ -5155,6 +5489,7 @@ function __c78(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/cameras/{id}/talkback-session", code: 200 })),
       ).annotate({ identifier: "CreateCameraTalkbackSessionRequest" });
     case 1:
@@ -5174,6 +5509,7 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sirens/{id}/stop", code: 200 })),
       ).annotate({ identifier: "StopSirenRequest" });
   }
@@ -5184,6 +5520,7 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/speakers/{id}/stop-siren", code: 200 })),
       ).annotate({ identifier: "StopSpeakerSirenRequest" });
   }
@@ -5195,6 +5532,7 @@ function __c81(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           volume: S.optional(S.Number),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sirens/{id}/test-sound", code: 200 })),
       ).annotate({ identifier: "TestSirenSoundRequest" });
   }
@@ -5206,6 +5544,7 @@ function __c82(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           volume: S.optional(S.Number),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/speakers/{id}/test-sound", code: 200 })),
       ).annotate({ identifier: "TestSpeakerSoundRequest" });
   }
@@ -5220,6 +5559,7 @@ function __c83(j: number): any {
           enable: S.optional(S.Boolean),
           delay: S.optional(S.Number),
           duration: S.optional(S.Number),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5237,6 +5577,7 @@ function __c84(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/alarm-hubs/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateAlarmHubRequest" });
   }
@@ -5252,6 +5593,7 @@ function __c85(j: number): any {
           schedules: S.optional(__S(1761, __c55, 1)),
           recordEverything: S.optional(S.Boolean),
           activationDelay: S.optional(S.Number),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/arm-profiles/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateArmProfileRequest" });
   }
@@ -5263,6 +5605,7 @@ function __c86(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/bridges/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateBridgeRequest" });
   }
@@ -5306,6 +5649,7 @@ function __c87(j: number): any {
           videoMode: S.optional(S.String),
           hdrType: S.optional(S.String),
           smartDetectSettings: S.optional(__S(2786, __c87, 2)),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/cameras/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateCameraRequest" });
   }
@@ -5319,6 +5663,7 @@ function __c88(j: number): any {
           name: S.optional(S.String),
           cameraIds: S.optional(__S(1056, __c33, 0)),
           ringSettings: S.optional(__S(609, __c19, 1)),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/chimes/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateChimeRequest" });
   }
@@ -5346,6 +5691,7 @@ function __c89(j: number): any {
           schedule: S.optional(__S(2848, __c89, 0)),
           alarm_ids: S.optional(__S(1056, __c33, 0)),
           pin_code: S.optional(S.NullOr(S.String)),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/external/arm-profiles", code: 200 })),
       ).annotate({ identifier: "CreateExternalArmProfileRequest" });
   }
@@ -5374,6 +5720,7 @@ function __c90(j: number): any {
           schedule: S.optional(S.NullOr(__S(2880, __c90, 0))),
           alarm_ids: S.optional(S.NullOr(__S(1056, __c33, 0))),
           pin_code: S.optional(S.NullOr(S.String)),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/external/arm-profiles/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateExternalArmProfileRequest" });
   }
@@ -5385,6 +5732,7 @@ function __c91(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/fobs/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateFobRequest" });
   }
@@ -5399,6 +5747,7 @@ function __c92(j: number): any {
           isLightForceEnabled: S.optional(S.Boolean),
           lightModeSettings: S.optional(__S(864, __c27, 0)),
           lightDeviceSettings: S.optional(__S(865, __c27, 1)),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/lights/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateLightRequest" });
   }
@@ -5410,6 +5759,7 @@ function __c93(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/link-stations/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateLinkStationRequest" });
   }
@@ -5427,6 +5777,7 @@ function __c94(j: number): any {
           owner: S.String,
           layout: S.Number,
           slots: __S(3233, __c101, 1),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/liveviews/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateLiveviewRequest" });
   }
@@ -5439,6 +5790,7 @@ function __c95(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           ledSettings: S.optional(__S(1216, __c38, 0)),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/relays/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateRelayRequest" });
   }
@@ -5459,6 +5811,7 @@ function __c96(j: number): any {
           armProfileIds: S.optional(S.NullOr(__S(1056, __c33, 0))),
           hasCustomSensitivityWhenArmed: S.optional(S.Boolean),
           alarmSettings: S.optional(__S(1216, __c38, 0)),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/sensors/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateSensorRequest" });
   }
@@ -5472,6 +5825,7 @@ function __c97(j: number): any {
           name: S.optional(S.String),
           volume: S.optional(S.Number),
           ledSettings: S.optional(__S(320, __c10, 0)),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/sirens/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateSirenRequest" });
   }
@@ -5486,6 +5840,7 @@ function __c98(j: number): any {
           volume: S.optional(S.Number),
           micVolume: S.optional(S.Number),
           isMicEnabled: S.optional(S.Boolean),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/speakers/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateSpeakerRequest" });
   }
@@ -5498,6 +5853,7 @@ function __c99(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           liveview: S.optional(S.NullOr(S.String)),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/viewers/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateViewerRequest" });
   }
@@ -5515,6 +5871,7 @@ function __c100(j: number): any {
           owner: S.String,
           layout: S.Number,
           slots: __S(3233, __c101, 1),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/liveviews", code: 200 })),
       ).annotate({ identifier: "CreateLiveviewRequest" });
   }
@@ -5553,6 +5910,7 @@ function __c102(j: number): any {
         S.Struct({
           fileType: S.String.pipe(T.Label()),
           body: S.optional(S.String.pipe(T.HttpBody())),
+          console: S.optional(S.Unknown),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5594,6 +5952,7 @@ function __c103(j: number): any {
           location: S.optional(__S(3298, __c103, 2)),
           paymentTypes: S.optional(__S(1056, __c33, 0)),
           timestamp: S.optional(S.Number),
+          console: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "POST", uri: "/v1/pos/cameras/{id}/transactions", code: 200 })),
       ).annotate({ identifier: "CreatePosTransactionRequest" });
     case 4:

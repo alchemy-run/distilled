@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -444,9 +444,9 @@ export interface RoutingCosmosDBSqlApiProperties {
   /** Managed identity properties of routing cosmos DB container endpoint. */
   identity?: ManagedIdentity | undefined;
   /** The primary key of the cosmos DB account. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** The secondary key of the cosmos DB account. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
   /** The name of the cosmos DB database in the cosmos DB account. */
   databaseName: string;
   /** The name of the cosmos DB sql container in the cosmos DB database. */
@@ -1356,9 +1356,9 @@ export interface RoutingCosmosDBSqlApiPropertiesInput {
   /** Managed identity properties of routing cosmos DB container endpoint. */
   identity?: ManagedIdentity | undefined;
   /** The primary key of the cosmos DB account. */
-  primaryKey?: string | undefined;
+  primaryKey?: string | Redacted.Redacted<string> | undefined;
   /** The secondary key of the cosmos DB account. */
-  secondaryKey?: string | undefined;
+  secondaryKey?: string | Redacted.Redacted<string> | undefined;
   /** The name of the cosmos DB database in the cosmos DB account. */
   databaseName: string;
   /** The name of the cosmos DB sql container in the cosmos DB database. */
@@ -1961,7 +1961,8 @@ export const CertificatesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CertificatesCreateOrUpdateRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<CertificatesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1978,7 +1979,8 @@ export const CheckIotHubResourceNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<CheckIotHubResourceNameAvailabilityRequest>,
   output: __S(97, __c3, 1) as any as S.Schema<IotHubNameAvailabilityInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1995,7 +1997,8 @@ export const CreateIotHubResourceEventHubConsumerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(513, __c16, 1) as any as S.Schema<CreateIotHubResourceEventHubConsumerGroupRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<CreateIotHubResourceEventHubConsumerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2012,7 +2015,8 @@ export const DeleteCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<DeleteCertificateRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<DeleteCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2029,7 +2033,8 @@ export const DeleteIotHubResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<DeleteIotHubResourceRequest>,
   output: __S(1664, __c52, 0) as any as S.Schema<DeleteIotHubResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2046,7 +2051,8 @@ export const DeleteIotHubResourceEventHubConsumerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<DeleteIotHubResourceEventHubConsumerGroupRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<DeleteIotHubResourceEventHubConsumerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2063,7 +2069,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(1793, __c56, 1) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2080,7 +2087,8 @@ export const ExportIotHubResourceDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<ExportIotHubResourceDevicesRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<JobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2097,7 +2105,8 @@ export const GenerateCertificateVerificationCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<GenerateCertificateVerificationCodeRequest>,
   output: __S(1890, __c59, 2) as any as S.Schema<CertificateWithNonceDescription>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2114,7 +2123,8 @@ export const GetCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetCertificateRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<GetCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2131,7 +2141,8 @@ export const GetIotHubResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetIotHubResourceRequest>,
   output: __S(160, __c5, 0) as any as S.Schema<GetIotHubResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2149,7 +2160,8 @@ export const GetIotHubResourceEndpointHealth: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetIotHubResourceEndpointHealthRequest>,
   output: __S(195, __c6, 3) as any as S.Schema<EndpointHealthDataListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2172,7 +2184,8 @@ export const GetIotHubResourceEventHubConsumerGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<GetIotHubResourceEventHubConsumerGroupRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<GetIotHubResourceEventHubConsumerGroupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2189,7 +2202,8 @@ export const GetIotHubResourceJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetIotHubResourceJobRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<JobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2206,7 +2220,8 @@ export const GetIotHubResourceKeysForKeyName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetIotHubResourceKeysForKeyNameRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<SharedAccessSignatureAuthorizationRule>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2224,7 +2239,8 @@ export const GetIotHubResourceQuotaMetrics: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetIotHubResourceQuotaMetricsRequest>,
   output: __S(323, __c10, 3) as any as S.Schema<IotHubQuotaMetricInfoListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2247,7 +2263,8 @@ export const GetIotHubResourceStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetIotHubResourceStatsRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<RegistryStatistics>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2265,7 +2282,8 @@ export const GetIotHubResourceValidSkus: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<GetIotHubResourceValidSkusRequest>,
   output: __S(388, __c12, 4) as any as S.Schema<IotHubSkuDescriptionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2288,7 +2306,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2305,7 +2324,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
   output: __S(481, __c15, 1) as any as S.Schema<GroupIdInformation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2322,7 +2342,8 @@ export const GetResourceProviderCommonSubscriptionQuota: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetResourceProviderCommonSubscriptionQuotaRequest>,
   output: __S(612, __c19, 4) as any as S.Schema<UserSubscriptionQuotaListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2339,7 +2360,8 @@ export const ImportIotHubResourceDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ImportIotHubResourceDevicesRequest>,
   output: __S(1856, __c58, 0) as any as S.Schema<JobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2356,7 +2378,8 @@ export const IotHubManualFailover: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<IotHubManualFailoverRequest>,
   output: __S(673, __c21, 1) as any as S.Schema<IotHubManualFailoverResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2373,7 +2396,8 @@ export const IotHubResourceCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(717, __c22, 13) as any as S.Schema<IotHubResourceCreateOrUpdateRequest>,
   output: __S(718, __c22, 14) as any as S.Schema<IotHubResourceCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2390,7 +2414,8 @@ export const ListCertificateByIotHub: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListCertificateByIotHubRequest>,
   output: __S(770, __c24, 2) as any as S.Schema<CertificateListDescription>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2408,7 +2433,8 @@ export const ListIotHubResourceByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListIotHubResourceByResourceGroupRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<IotHubDescriptionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2432,7 +2458,8 @@ export const ListIotHubResourceBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListIotHubResourceBySubscriptionRequest>,
   output: __S(833, __c26, 1) as any as S.Schema<IotHubDescriptionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2456,7 +2483,8 @@ export const ListIotHubResourceEventHubConsumerGroups: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListIotHubResourceEventHubConsumerGroupsRequest>,
   output: __S(898, __c28, 2) as any as S.Schema<EventHubConsumerGroupsListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2480,7 +2508,8 @@ export const ListIotHubResourceJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListIotHubResourceJobsRequest>,
   output: __S(930, __c29, 2) as any as S.Schema<JobResponseListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2504,7 +2533,8 @@ export const ListIotHubResourceKeys: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListIotHubResourceKeysRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<SharedAccessSignatureAuthorizationRuleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2528,7 +2558,8 @@ export const ListOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1060, __c33, 4) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2551,7 +2582,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<ListPrivateEndpointConnectionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2568,7 +2600,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
   output: __S(1122, __c35, 2) as any as S.Schema<PrivateLinkResources>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2585,7 +2618,8 @@ export const TestIotHubResourceAllRoutes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<TestIotHubResourceAllRoutesRequest>,
   output: __S(1155, __c36, 3) as any as S.Schema<TestAllRoutesResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2602,7 +2636,8 @@ export const TestIotHubResourceRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<TestIotHubResourceRouteRequest>,
   output: __S(1222, __c38, 6) as any as S.Schema<TestRouteResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2619,7 +2654,8 @@ export const UpdateIotHubResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<UpdateIotHubResourceRequest>,
   output: __S(1664, __c52, 0) as any as S.Schema<UpdateIotHubResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2636,7 +2672,8 @@ export const UpdatePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>,
   output: __S(1281, __c40, 1) as any as S.Schema<UpdatePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2653,7 +2690,8 @@ export const VerifyCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<VerifyCertificateRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<VerifyCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3249,8 +3287,8 @@ function __c22(j: number): any {
           endpointUri: S.String,
           authenticationType: S.optional(S.String),
           identity: S.optional(__S(1728, __c54, 0)),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           databaseName: S.String,
           containerName: S.String,
           partitionKeyName: S.optional(S.String),
@@ -4043,8 +4081,8 @@ function __c50(j: number): any {
           endpointUri: S.String,
           authenticationType: S.optional(S.String),
           identity: S.optional(__S(1728, __c54, 0)),
-          primaryKey: S.optional(S.String),
-          secondaryKey: S.optional(S.String),
+          primaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           databaseName: S.String,
           containerName: S.String,
           partitionKeyName: S.optional(S.String),

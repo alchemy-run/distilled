@@ -1,12 +1,10 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import { restProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 /**
  * PlaidProtocol -- hand-written.
  *
  * Plaid speaks header-authenticated JSON REST (no response envelope), so
- * the whole protocol is one `makeRestProtocol` call from
+ * the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `PLAID-CLIENT-ID` / `PLAID-SECRET` /
@@ -21,33 +19,25 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
-import { Credentials, formatHeaders, type Config } from "./credentials.ts";
-import { UnknownPlaidError, PlaidParseError } from "./errors.ts";
+import { Credentials, formatHeaders } from "./credentials.ts";
+import { UnknownPlaidError, PlaidParseError, type PlaidServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Plaid operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, PlaidOpError,
- * PlaidOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * What every generated Plaid operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, PlaidOpError, PlaidOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
  */
-export type PlaidOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownPlaidError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | PlaidParseError
-  | InvalidInput
-  | SdkError;
+export type PlaidOpError = PlaidServiceError | ErrorOf<typeof PlaidProtocol>;
 
 /** Context (requirements) shared by every generated Plaid operation. */
 export type PlaidOpContext = Credentials | HttpClient.HttpClient;
 
-export const PlaidProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
+export const PlaidProtocol = /*@__PURE__*/ restProtocol({
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
   baseUrl: (creds) => creds.apiBaseUrl,
   headers: (creds) => formatHeaders(creds),
   // Plaid's error body is `{ error_type, error_code, error_message }`.

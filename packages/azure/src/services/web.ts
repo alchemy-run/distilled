@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -619,7 +619,7 @@ export interface AzureStorageInfoValue {
   /** Name of the file share (container name, for Blob storage). */
   shareName?: string | undefined;
   /** Access key for the storage account. */
-  accessKey?: string | undefined;
+  accessKey?: string | Redacted.Redacted<string> | undefined;
   /** Path to mount the storage within the site's runtime environment. */
   mountPath?: string | undefined;
   /** State of the storage account. */
@@ -4930,11 +4930,11 @@ export interface ArcConfiguration {
   artifactStorageNodeName?: string | undefined;
   artifactStorageAccessMode?: string | undefined;
   frontEndServiceConfiguration?: FrontEndConfiguration | undefined;
-  kubeConfig?: string | undefined;
+  kubeConfig?: string | Redacted.Redacted<string> | undefined;
 }
 export interface LogAnalyticsConfiguration {
   customerId?: string | undefined;
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AppLogsConfiguration {
   destination?: string | undefined;
@@ -6104,9 +6104,9 @@ export interface GetSourceControlRequest {
 /** SourceControl resource specific properties */
 export interface SourceControlProperties {
   /** OAuth access token. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** OAuth access token secret. */
-  tokenSecret?: string | undefined;
+  tokenSecret?: string | Redacted.Redacted<string> | undefined;
   /** OAuth refresh token. */
   refreshToken?: string | Redacted.Redacted<string> | undefined;
   /** OAuth token expiration. */
@@ -6697,7 +6697,7 @@ export interface StaticSite {
   /** The custom domains associated with this static site. */
   customDomains?: StaticSiteCustomDomainsList | undefined;
   /** A user's github repository token. This is used to setup the Github Actions workflow file and API secrets. */
-  repositoryToken?: string | undefined;
+  repositoryToken?: string | Redacted.Redacted<string> | undefined;
   /** Build properties to configure on the repository. */
   buildProperties?: StaticSiteBuildProperties | undefined;
   /** Private endpoint connections */
@@ -6922,7 +6922,7 @@ export interface StaticSiteCustomDomainOverviewARMResourceProperties {
   /** The status of the custom domain */
   status?: CustomDomainStatus | undefined;
   /** The TXT record validation token */
-  validationToken?: string | undefined;
+  validationToken?: string | Redacted.Redacted<string> | undefined;
   errorMessage?: string | undefined;
 }
 export interface GetStaticSiteStaticSiteCustomDomainResponse {
@@ -7355,7 +7355,7 @@ export interface SiteAuthSettingsProperties {
   /** The OpenID Connect Client ID for the Google web application. This setting is required for enabling Google Sign-In. Google Sign-In documentation: https://developers.google.com/identity/sign-in/web/ */
   googleClientId?: string | undefined;
   /** The client secret associated with the Google web application. This setting is required for enabling Google Sign-In. Google Sign-In documentation: https://developers.google.com/identity/sign-in/web/ */
-  googleClientSecret?: string | undefined;
+  googleClientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The app setting name that contains the client secret associated with the Google web application. */
   googleClientSecretSettingName?: string | undefined;
   /** The OAuth 2.0 scopes that will be requested as part of Google Sign-In authentication. This setting is optional. If not specified, "openid", "profile", and "email" are used as default scopes. Google Sign-In documentation: https://developers.google.com/identity/sign-in/web/ */
@@ -7363,7 +7363,7 @@ export interface SiteAuthSettingsProperties {
   /** The App ID of the Facebook app used for login. This setting is required for enabling Facebook Login. Facebook Login documentation: https://developers.facebook.com/docs/facebook-login */
   facebookAppId?: string | undefined;
   /** The App Secret of the Facebook app used for Facebook Login. This setting is required for enabling Facebook Login. Facebook Login documentation: https://developers.facebook.com/docs/facebook-login */
-  facebookAppSecret?: string | undefined;
+  facebookAppSecret?: string | Redacted.Redacted<string> | undefined;
   /** The app setting name that contains the app secret used for Facebook Login. */
   facebookAppSecretSettingName?: string | undefined;
   /** The OAuth 2.0 scopes that will be requested as part of Facebook Login authentication. This setting is optional. Facebook Login documentation: https://developers.facebook.com/docs/facebook-login */
@@ -7371,7 +7371,7 @@ export interface SiteAuthSettingsProperties {
   /** The Client Id of the GitHub app used for login. This setting is required for enabling Github login */
   gitHubClientId?: string | undefined;
   /** The Client Secret of the GitHub app used for Github Login. This setting is required for enabling Github login. */
-  gitHubClientSecret?: string | undefined;
+  gitHubClientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The app setting name that contains the client secret of the Github app used for GitHub Login. */
   gitHubClientSecretSettingName?: string | undefined;
   /** The OAuth 2.0 scopes that will be requested as part of GitHub Login authentication. This setting is optional */
@@ -7379,13 +7379,13 @@ export interface SiteAuthSettingsProperties {
   /** The OAuth 1.0a consumer key of the Twitter application used for sign-in. This setting is required for enabling Twitter Sign-In. Twitter Sign-In documentation: https://dev.twitter.com/web/sign-in */
   twitterConsumerKey?: string | undefined;
   /** The OAuth 1.0a consumer secret of the Twitter application used for sign-in. This setting is required for enabling Twitter Sign-In. Twitter Sign-In documentation: https://dev.twitter.com/web/sign-in */
-  twitterConsumerSecret?: string | undefined;
+  twitterConsumerSecret?: string | Redacted.Redacted<string> | undefined;
   /** The app setting name that contains the OAuth 1.0a consumer secret of the Twitter application used for sign-in. */
   twitterConsumerSecretSettingName?: string | undefined;
   /** The OAuth 2.0 client ID that was created for the app used for authentication. This setting is required for enabling Microsoft Account authentication. Microsoft Account OAuth documentation: https://dev.onedrive.com/auth/msa_oauth.htm */
   microsoftAccountClientId?: string | undefined;
   /** The OAuth 2.0 client secret that was created for the app used for authentication. This setting is required for enabling Microsoft Account authentication. Microsoft Account OAuth documentation: https://dev.onedrive.com/auth/msa_oauth.htm */
-  microsoftAccountClientSecret?: string | undefined;
+  microsoftAccountClientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The app setting name containing the OAuth 2.0 client secret that was created for the app used for authentication. */
   microsoftAccountClientSecretSettingName?: string | undefined;
   /** The OAuth 2.0 scopes that will be requested as part of Microsoft Account authentication. This setting is optional. If not specified, "wl.basic" is used as the default scope. Microsoft Account Scopes and permissions documentation: https://msdn.microsoft.com/en-us/library/dn631845.aspx */
@@ -9861,9 +9861,9 @@ export interface GetWebAppRelayServiceConnectionRequest {
 /** RelayServiceConnectionEntity resource specific properties */
 export interface RelayServiceConnectionEntityProperties {
   entityName?: string | undefined;
-  entityConnectionString?: string | undefined;
+  entityConnectionString?: string | Redacted.Redacted<string> | undefined;
   resourceType?: string | undefined;
-  resourceConnectionString?: string | undefined;
+  resourceConnectionString?: string | Redacted.Redacted<string> | undefined;
   hostname?: string | undefined;
   port?: number | undefined;
   biztalkUri?: string | undefined;
@@ -14767,7 +14767,7 @@ export type HostKeysSystemKeysMap = { [key: string]: string | undefined };
 /** Functions host level keys. */
 export interface HostKeys {
   /** Secret key. */
-  masterKey?: string | undefined;
+  masterKey?: string | Redacted.Redacted<string> | undefined;
   /** Host level function keys. */
   functionKeys?: HostKeysFunctionKeysMap | undefined;
   /** System keys. */
@@ -16677,7 +16677,7 @@ export interface MigrateWebAppMySqlResponse {
 /** StorageMigrationOptions resource specific properties */
 export interface StorageMigrationOptionsProperties {
   /** AzureFiles connection string. */
-  azurefilesConnectionString: string;
+  azurefilesConnectionString: string | Redacted.Redacted<string>;
   /** AzureFiles share. */
   azurefilesShare: string;
   /** <code>true</code>if the app should be switched over; otherwise, <code>false</code>. */
@@ -17043,7 +17043,7 @@ export interface ResetRecommendationAllFiltersForWebAppResponse {}
 /** StaticSiteResetPropertiesARMResource resource specific properties */
 export interface StaticSiteResetPropertiesARMResourceProperties {
   /** The token which proves admin privileges to the repository. */
-  repositoryToken?: string | undefined;
+  repositoryToken?: string | Redacted.Redacted<string> | undefined;
   /** Determines whether the repository should be updated with the new properties. */
   shouldUpdateRepository?: boolean | undefined;
 }
@@ -17930,7 +17930,7 @@ export interface StaticSiteInput {
   /** The target branch in the repository. */
   branch?: string | undefined;
   /** A user's github repository token. This is used to setup the Github Actions workflow file and API secrets. */
-  repositoryToken?: string | undefined;
+  repositoryToken?: string | Redacted.Redacted<string> | undefined;
   /** Build properties to configure on the repository. */
   buildProperties?: StaticSiteBuildProperties | undefined;
   /** State indicating whether staging environments are allowed or not allowed for a static web app. */
@@ -23116,7 +23116,8 @@ export const AiGatewaysCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AiGatewaysCreateOrUpdateRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<AiGatewaysCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23133,7 +23134,8 @@ export const ApplyWebAppSlotConfigToProduction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<ApplyWebAppSlotConfigToProductionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ApplyWebAppSlotConfigToProductionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23150,7 +23152,8 @@ export const ApplyWebAppSlotConfigurationSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<ApplyWebAppSlotConfigurationSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ApplyWebAppSlotConfigurationSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23175,7 +23178,8 @@ export const AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnection: API
     __c350,
     1,
   ) as any as S.Schema<AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23193,7 +23197,8 @@ export const AppServiceEnvironmentsChangeVnet: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15808, __c494, 0) as any as S.Schema<AppServiceEnvironmentsChangeVnetRequest>,
   output: __S(16192, __c506, 0) as any as S.Schema<AppServiceEnvironmentsChangeVnetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23216,7 +23221,8 @@ export const AppServiceEnvironmentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20672, __c646, 0) as any as S.Schema<AppServiceEnvironmentsCreateOrUpdateRequest>,
   output: __S(20673, __c646, 1) as any as S.Schema<AppServiceEnvironmentsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23241,7 +23247,8 @@ export const AppServiceEnvironmentsCreateOrUpdateMultiRolePool: API.OperationMet
     __c774,
     0,
   ) as any as S.Schema<AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23266,7 +23273,8 @@ export const AppServiceEnvironmentsCreateOrUpdateWorkerPool: API.OperationMethod
     __c774,
     0,
   ) as any as S.Schema<AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23288,7 +23296,8 @@ export const AppServiceEnvironmentsGetPrivateEndpointConnectionList: API.Paginat
     0,
   ) as any as S.Schema<AppServiceEnvironmentsGetPrivateEndpointConnectionListRequest>,
   output: __S(30561, __c955, 1) as any as S.Schema<PrivateEndpointConnectionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23311,7 +23320,8 @@ export const AppServiceEnvironmentsUpgrade: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30944, __c967, 0) as any as S.Schema<AppServiceEnvironmentsUpgradeRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<AppServiceEnvironmentsUpgradeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23328,7 +23338,8 @@ export const AppServicePlansCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(193, __c6, 1) as any as S.Schema<AppServicePlansCreateOrUpdateRequest>,
   output: __S(194, __c6, 2) as any as S.Schema<AppServicePlansCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23345,7 +23356,8 @@ export const AppServicePlansCreateOrUpdateVnetRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<AppServicePlansCreateOrUpdateVnetRouteRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<AppServicePlansCreateOrUpdateVnetRouteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23362,7 +23374,8 @@ export const AppServicePlansRecycleManagedInstanceWorker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<AppServicePlansRecycleManagedInstanceWorkerRequest>,
   output: __S(1408, __c44, 0) as any as S.Schema<Operation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23379,7 +23392,8 @@ export const CancelWorkflowRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<CancelWorkflowRunRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<CancelWorkflowRunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23396,7 +23410,8 @@ export const CertificatesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<CertificatesCreateOrUpdateRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<CertificatesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23413,7 +23428,8 @@ export const CheckNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<CheckNameAvailabilityRequest>,
   output: __S(3137, __c98, 1) as any as S.Schema<ResourceNameAvailability>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23430,7 +23446,8 @@ export const CreateStaticSiteUserRolesInvitationLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3713, __c116, 1) as any as S.Schema<CreateStaticSiteUserRolesInvitationLinkRequest>,
   output: __S(3715, __c116, 3) as any as S.Schema<CreateStaticSiteUserRolesInvitationLinkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23451,7 +23468,8 @@ export const CreateStaticSiteZipDeploymentForStaticSite: API.OperationMethod<
     __c968,
     0,
   ) as any as S.Schema<CreateStaticSiteZipDeploymentForStaticSiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23476,7 +23494,8 @@ export const CreateStaticSiteZipDeploymentForStaticSiteBuild: API.OperationMetho
     __c968,
     0,
   ) as any as S.Schema<CreateStaticSiteZipDeploymentForStaticSiteBuildResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23493,7 +23512,8 @@ export const CreateWebAppDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<CreateWebAppDeploymentRequest>,
   output: __S(5601, __c175, 1) as any as S.Schema<CreateWebAppDeploymentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23510,7 +23530,8 @@ export const CreateWebAppDeploymentSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<CreateWebAppDeploymentSlotRequest>,
   output: __S(5601, __c175, 1) as any as S.Schema<CreateWebAppDeploymentSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23527,7 +23548,8 @@ export const CreateWebAppFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<CreateWebAppFunctionRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<CreateWebAppFunctionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23544,7 +23566,8 @@ export const CreateWebAppInstanceFunctionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<CreateWebAppInstanceFunctionSlotRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<CreateWebAppInstanceFunctionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23561,7 +23584,8 @@ export const DeleteAiGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<DeleteAiGatewayRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteAiGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23578,7 +23602,8 @@ export const DeleteAppServiceEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<DeleteAppServiceEnvironmentRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<DeleteAppServiceEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23603,7 +23628,8 @@ export const DeleteAppServiceEnvironmentAseCustomDnsSuffixConfiguration: API.Ope
     __c270,
     0,
   ) as any as S.Schema<DeleteAppServiceEnvironmentAseCustomDnsSuffixConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23628,7 +23654,8 @@ export const DeleteAppServiceEnvironmentPrivateEndpointConnection: API.Operation
     __c270,
     0,
   ) as any as S.Schema<DeleteAppServiceEnvironmentPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23645,7 +23672,8 @@ export const DeleteAppServicePlan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9504, __c297, 0) as any as S.Schema<DeleteAppServicePlanRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteAppServicePlanResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23662,7 +23690,8 @@ export const DeleteAppServicePlanHybridConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<DeleteAppServicePlanHybridConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteAppServicePlanHybridConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23679,7 +23708,8 @@ export const DeleteAppServicePlanVnetRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<DeleteAppServicePlanVnetRouteRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteAppServicePlanVnetRouteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23696,7 +23726,8 @@ export const DeleteCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11264, __c352, 0) as any as S.Schema<DeleteCertificateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23713,7 +23744,8 @@ export const DeleteKubeEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11808, __c369, 0) as any as S.Schema<DeleteKubeEnvironmentRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<DeleteKubeEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23738,7 +23770,8 @@ export const DeleteServerFarmSiloResourceServerFarmSilo: API.OperationMethod<
     __c968,
     0,
   ) as any as S.Schema<DeleteServerFarmSiloResourceServerFarmSiloResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23755,7 +23788,8 @@ export const DeleteSiteCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12736, __c398, 0) as any as S.Schema<DeleteSiteCertificateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteSiteCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23772,7 +23806,8 @@ export const DeleteSiteCertificateSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13184, __c412, 0) as any as S.Schema<DeleteSiteCertificateSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteSiteCertificateSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23789,7 +23824,8 @@ export const DeleteSiteSiloResourceSiteSilo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13696, __c428, 0) as any as S.Schema<DeleteSiteSiloResourceSiteSiloRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<DeleteSiteSiloResourceSiteSiloResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23814,7 +23850,8 @@ export const DeleteSiteSiloVirtualNetworkConnectionSiteSiloVnetConnection: API.O
     __c1,
     0,
   ) as any as S.Schema<DeleteSiteSiloVirtualNetworkConnectionSiteSiloVnetConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23831,7 +23868,8 @@ export const DeleteStaticSiteBuildDatabaseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14496, __c453, 0) as any as S.Schema<DeleteStaticSiteBuildDatabaseConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteStaticSiteBuildDatabaseConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23848,7 +23886,8 @@ export const DeleteStaticSiteDatabaseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14880, __c465, 0) as any as S.Schema<DeleteStaticSiteDatabaseConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteStaticSiteDatabaseConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23869,7 +23908,8 @@ export const DeleteStaticSitePrivateEndpointConnection: API.OperationMethod<
     __c270,
     0,
   ) as any as S.Schema<DeleteStaticSitePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23886,7 +23926,8 @@ export const DeleteStaticSiteStaticSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16224, __c507, 0) as any as S.Schema<DeleteStaticSiteStaticSiteRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<DeleteStaticSiteStaticSiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23903,7 +23944,8 @@ export const DeleteStaticSiteStaticSiteBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16704, __c522, 0) as any as S.Schema<DeleteStaticSiteStaticSiteBuildRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<DeleteStaticSiteStaticSiteBuildResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23920,7 +23962,8 @@ export const DeleteStaticSiteStaticSiteCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17152, __c536, 0) as any as S.Schema<DeleteStaticSiteStaticSiteCustomDomainRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<DeleteStaticSiteStaticSiteCustomDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23937,7 +23980,8 @@ export const DeleteStaticSiteStaticSiteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17600, __c550, 0) as any as S.Schema<DeleteStaticSiteStaticSiteUserRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteStaticSiteStaticSiteUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23954,7 +23998,8 @@ export const DeleteWebApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18112, __c566, 0) as any as S.Schema<DeleteWebAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23971,7 +24016,8 @@ export const DeleteWebAppBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18528, __c579, 0) as any as S.Schema<DeleteWebAppBackupRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -23988,7 +24034,8 @@ export const DeleteWebAppBackupConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18944, __c592, 0) as any as S.Schema<DeleteWebAppBackupConfigurationRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppBackupConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24005,7 +24052,8 @@ export const DeleteWebAppBackupConfigurationSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19424, __c607, 0) as any as S.Schema<DeleteWebAppBackupConfigurationSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppBackupConfigurationSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24022,7 +24070,8 @@ export const DeleteWebAppBackupSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19808, __c619, 0) as any as S.Schema<DeleteWebAppBackupSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppBackupSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24039,7 +24088,8 @@ export const DeleteWebAppContinuousWebJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20256, __c633, 0) as any as S.Schema<DeleteWebAppContinuousWebJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppContinuousWebJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24056,7 +24106,8 @@ export const DeleteWebAppContinuousWebJobSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20896, __c653, 0) as any as S.Schema<DeleteWebAppContinuousWebJobSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppContinuousWebJobSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24073,7 +24124,8 @@ export const DeleteWebAppDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21248, __c664, 0) as any as S.Schema<DeleteWebAppDeploymentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppDeploymentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24090,7 +24142,8 @@ export const DeleteWebAppDeploymentSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21632, __c676, 0) as any as S.Schema<DeleteWebAppDeploymentSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppDeploymentSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24107,7 +24160,8 @@ export const DeleteWebAppDomainOwnershipIdentifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22016, __c688, 0) as any as S.Schema<DeleteWebAppDomainOwnershipIdentifierRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppDomainOwnershipIdentifierResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24124,7 +24178,8 @@ export const DeleteWebAppDomainOwnershipIdentifierSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22432, __c701, 0) as any as S.Schema<DeleteWebAppDomainOwnershipIdentifierSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppDomainOwnershipIdentifierSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24141,7 +24196,8 @@ export const DeleteWebAppFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22784, __c712, 0) as any as S.Schema<DeleteWebAppFunctionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppFunctionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24158,7 +24214,8 @@ export const DeleteWebAppFunctionSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23168, __c724, 0) as any as S.Schema<DeleteWebAppFunctionSecretRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppFunctionSecretResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24175,7 +24232,8 @@ export const DeleteWebAppFunctionSecretSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23648, __c739, 0) as any as S.Schema<DeleteWebAppFunctionSecretSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppFunctionSecretSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24192,7 +24250,8 @@ export const DeleteWebAppHostNameBinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24000, __c750, 0) as any as S.Schema<DeleteWebAppHostNameBindingRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppHostNameBindingResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24209,7 +24268,8 @@ export const DeleteWebAppHostNameBindingSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24352, __c761, 0) as any as S.Schema<DeleteWebAppHostNameBindingSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppHostNameBindingSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24226,7 +24286,8 @@ export const DeleteWebAppHostSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24960, __c780, 0) as any as S.Schema<DeleteWebAppHostSecretRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppHostSecretResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24243,7 +24304,8 @@ export const DeleteWebAppHostSecretSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25344, __c792, 0) as any as S.Schema<DeleteWebAppHostSecretSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppHostSecretSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24260,7 +24322,8 @@ export const DeleteWebAppHybridConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25792, __c806, 0) as any as S.Schema<DeleteWebAppHybridConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppHybridConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24277,7 +24340,8 @@ export const DeleteWebAppHybridConnectionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26144, __c817, 0) as any as S.Schema<DeleteWebAppHybridConnectionSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppHybridConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24294,7 +24358,8 @@ export const DeleteWebAppInstanceFunctionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26496, __c828, 0) as any as S.Schema<DeleteWebAppInstanceFunctionSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppInstanceFunctionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24311,7 +24376,8 @@ export const DeleteWebAppInstanceProcess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26848, __c839, 0) as any as S.Schema<DeleteWebAppInstanceProcessRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppInstanceProcessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24328,7 +24394,8 @@ export const DeleteWebAppInstanceProcessSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27232, __c851, 0) as any as S.Schema<DeleteWebAppInstanceProcessSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppInstanceProcessSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24345,7 +24412,8 @@ export const DeleteWebAppPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27680, __c865, 0) as any as S.Schema<DeleteWebAppPrivateEndpointConnectionRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<DeleteWebAppPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24366,7 +24434,8 @@ export const DeleteWebAppPrivateEndpointConnectionSlot: API.OperationMethod<
     __c270,
     0,
   ) as any as S.Schema<DeleteWebAppPrivateEndpointConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24383,7 +24452,8 @@ export const DeleteWebAppProcess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28512, __c891, 0) as any as S.Schema<DeleteWebAppProcessRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppProcessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24400,7 +24470,8 @@ export const DeleteWebAppProcessSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28992, __c906, 0) as any as S.Schema<DeleteWebAppProcessSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppProcessSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24417,7 +24488,8 @@ export const DeleteWebAppPublicCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29408, __c919, 0) as any as S.Schema<DeleteWebAppPublicCertificateRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppPublicCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24434,7 +24506,8 @@ export const DeleteWebAppPublicCertificateSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29824, __c932, 0) as any as S.Schema<DeleteWebAppPublicCertificateSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppPublicCertificateSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24451,7 +24524,8 @@ export const DeleteWebAppRelayServiceConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30240, __c945, 0) as any as S.Schema<DeleteWebAppRelayServiceConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppRelayServiceConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24468,7 +24542,8 @@ export const DeleteWebAppRelayServiceConnectionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30304, __c947, 0) as any as S.Schema<DeleteWebAppRelayServiceConnectionSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppRelayServiceConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24485,7 +24560,8 @@ export const DeleteWebAppSiteContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30336, __c948, 0) as any as S.Schema<DeleteWebAppSiteContainerRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSiteContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24502,7 +24578,8 @@ export const DeleteWebAppSiteContainerSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30368, __c949, 0) as any as S.Schema<DeleteWebAppSiteContainerSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSiteContainerSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24519,7 +24596,8 @@ export const DeleteWebAppSiteExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30400, __c950, 0) as any as S.Schema<DeleteWebAppSiteExtensionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSiteExtensionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24536,7 +24614,8 @@ export const DeleteWebAppSiteExtensionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30432, __c951, 0) as any as S.Schema<DeleteWebAppSiteExtensionSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSiteExtensionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24553,7 +24632,8 @@ export const DeleteWebAppSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30464, __c952, 0) as any as S.Schema<DeleteWebAppSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24570,7 +24650,8 @@ export const DeleteWebAppSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30592, __c956, 0) as any as S.Schema<DeleteWebAppSourceControlRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSourceControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24587,7 +24668,8 @@ export const DeleteWebAppSourceControlSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30624, __c957, 0) as any as S.Schema<DeleteWebAppSourceControlSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSourceControlSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24604,7 +24686,8 @@ export const DeleteWebAppSwiftVirtualNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30656, __c958, 0) as any as S.Schema<DeleteWebAppSwiftVirtualNetworkRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSwiftVirtualNetworkResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24621,7 +24704,8 @@ export const DeleteWebAppSwiftVirtualNetworkSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30688, __c959, 0) as any as S.Schema<DeleteWebAppSwiftVirtualNetworkSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppSwiftVirtualNetworkSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24638,7 +24722,8 @@ export const DeleteWebAppTriggeredWebJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30720, __c960, 0) as any as S.Schema<DeleteWebAppTriggeredWebJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppTriggeredWebJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24655,7 +24740,8 @@ export const DeleteWebAppTriggeredWebJobSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30752, __c961, 0) as any as S.Schema<DeleteWebAppTriggeredWebJobSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppTriggeredWebJobSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24672,7 +24758,8 @@ export const DeleteWebAppVnetConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30784, __c962, 0) as any as S.Schema<DeleteWebAppVnetConnectionRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppVnetConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24689,7 +24776,8 @@ export const DeleteWebAppVnetConnectionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30816, __c963, 0) as any as S.Schema<DeleteWebAppVnetConnectionSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeleteWebAppVnetConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24706,7 +24794,8 @@ export const DeployWebAppWorkflowArtifacts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30848, __c964, 0) as any as S.Schema<DeployWebAppWorkflowArtifactsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeployWebAppWorkflowArtifactsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24723,7 +24812,8 @@ export const DeployWebAppWorkflowArtifactsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30912, __c966, 0) as any as S.Schema<DeployWebAppWorkflowArtifactsSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DeployWebAppWorkflowArtifactsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24740,7 +24830,8 @@ export const DetachStaticSiteStaticSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31008, __c969, 0) as any as S.Schema<DetachStaticSiteStaticSiteRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<DetachStaticSiteStaticSiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24765,7 +24856,8 @@ export const DetachStaticSiteUserProvidedFunctionAppFromStaticSite: API.Operatio
     __c1,
     0,
   ) as any as S.Schema<DetachStaticSiteUserProvidedFunctionAppFromStaticSiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24790,7 +24882,8 @@ export const DetachStaticSiteUserProvidedFunctionAppFromStaticSiteBuild: API.Ope
     __c1,
     0,
   ) as any as S.Schema<DetachStaticSiteUserProvidedFunctionAppFromStaticSiteBuildResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24815,7 +24908,8 @@ export const DisableRecommendationAllForHostingEnvironment: API.OperationMethod<
     __c1,
     0,
   ) as any as S.Schema<DisableRecommendationAllForHostingEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24832,7 +24926,8 @@ export const DisableRecommendationAllForWebApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31136, __c973, 0) as any as S.Schema<DisableRecommendationAllForWebAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DisableRecommendationAllForWebAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24857,7 +24952,8 @@ export const DisableRecommendationRecommendationForHostingEnvironment: API.Opera
     __c1,
     0,
   ) as any as S.Schema<DisableRecommendationRecommendationForHostingEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24878,7 +24974,8 @@ export const DisableRecommendationRecommendationForSite: API.OperationMethod<
     0,
   ) as any as S.Schema<DisableRecommendationRecommendationForSiteRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<DisableRecommendationRecommendationForSiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24903,7 +25000,8 @@ export const DisableRecommendationRecommendationForSubscription: API.OperationMe
     __c1,
     0,
   ) as any as S.Schema<DisableRecommendationRecommendationForSubscriptionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24920,7 +25018,8 @@ export const ExecuteDiagnosticSiteAnalysis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31264, __c977, 0) as any as S.Schema<ExecuteDiagnosticSiteAnalysisRequest>,
   output: __S(31302, __c978, 6) as any as S.Schema<ExecuteDiagnosticSiteAnalysisResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24937,7 +25036,8 @@ export const ExecuteDiagnosticSiteAnalysisSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(31392, __c981, 0) as any as S.Schema<ExecuteDiagnosticSiteAnalysisSlotRequest>,
   output: __S(31302, __c978, 6) as any as S.Schema<ExecuteDiagnosticSiteAnalysisSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24954,7 +25054,8 @@ export const ExecuteDiagnosticSiteDetector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ExecuteDiagnosticSiteDetectorRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<ExecuteDiagnosticSiteDetectorResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24971,7 +25072,8 @@ export const ExecuteDiagnosticSiteDetectorSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<ExecuteDiagnosticSiteDetectorSlotRequest>,
   output: __S(353, __c11, 1) as any as S.Schema<ExecuteDiagnosticSiteDetectorSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -24988,7 +25090,8 @@ export const GenerateWebAppNewSitePublishingPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GenerateWebAppNewSitePublishingPasswordRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GenerateWebAppNewSitePublishingPasswordResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25005,7 +25108,8 @@ export const GenerateWebAppNewSitePublishingPasswordSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GenerateWebAppNewSitePublishingPasswordSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<GenerateWebAppNewSitePublishingPasswordSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25022,7 +25126,8 @@ export const GetAiGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetAiGatewayRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<GetAiGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25039,7 +25144,8 @@ export const GetAppServiceEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetAppServiceEnvironmentRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<GetAppServiceEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25064,7 +25170,8 @@ export const GetAppServiceEnvironmentAseCustomDnsSuffixConfiguration: API.Operat
     __c647,
     1,
   ) as any as S.Schema<GetAppServiceEnvironmentAseCustomDnsSuffixConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25089,7 +25196,8 @@ export const GetAppServiceEnvironmentAseV3NetworkingConfiguration: API.Operation
     __c648,
     1,
   ) as any as S.Schema<GetAppServiceEnvironmentAseV3NetworkingConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25106,7 +25214,8 @@ export const GetAppServiceEnvironmentDiagnosticsItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<GetAppServiceEnvironmentDiagnosticsItemRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<HostingEnvironmentDiagnostics>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25128,7 +25237,8 @@ export const GetAppServiceEnvironmentInboundNetworkDependenciesEndpoints: API.Pa
     0,
   ) as any as S.Schema<GetAppServiceEnvironmentInboundNetworkDependenciesEndpointsRequest>,
   output: __S(707, __c22, 3) as any as S.Schema<InboundEnvironmentEndpointCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25151,7 +25261,8 @@ export const GetAppServiceEnvironmentMultiRolePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetAppServiceEnvironmentMultiRolePoolRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<GetAppServiceEnvironmentMultiRolePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25173,7 +25284,8 @@ export const GetAppServiceEnvironmentOutboundNetworkDependenciesEndpoints: API.P
     0,
   ) as any as S.Schema<GetAppServiceEnvironmentOutboundNetworkDependenciesEndpointsRequest>,
   output: __S(871, __c27, 7) as any as S.Schema<OutboundEnvironmentEndpointCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25204,7 +25316,8 @@ export const GetAppServiceEnvironmentPrivateEndpointConnection: API.OperationMet
     __c954,
     0,
   ) as any as S.Schema<GetAppServiceEnvironmentPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25221,7 +25334,8 @@ export const GetAppServiceEnvironmentPrivateLinkResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetAppServiceEnvironmentPrivateLinkResourcesRequest>,
   output: __S(963, __c30, 3) as any as S.Schema<PrivateLinkResourcesWrapper>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25238,7 +25352,8 @@ export const GetAppServiceEnvironmentVipInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetAppServiceEnvironmentVipInfoRequest>,
   output: __S(996, __c31, 4) as any as S.Schema<GetAppServiceEnvironmentVipInfoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25255,7 +25370,8 @@ export const GetAppServiceEnvironmentWorkerPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetAppServiceEnvironmentWorkerPoolRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<GetAppServiceEnvironmentWorkerPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25272,7 +25388,8 @@ export const GetAppServicePlan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetAppServicePlanRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<GetAppServicePlanResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25289,7 +25406,8 @@ export const GetAppServicePlanHybridConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetAppServicePlanHybridConnectionRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<GetAppServicePlanHybridConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25310,7 +25428,8 @@ export const GetAppServicePlanHybridConnectionPlanLimit: API.OperationMethod<
     __c37,
     2,
   ) as any as S.Schema<GetAppServicePlanHybridConnectionPlanLimitResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25327,7 +25446,8 @@ export const GetAppServicePlanRouteForVnet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<GetAppServicePlanRouteForVnetRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<GetAppServicePlanRouteForVnetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25344,7 +25464,8 @@ export const GetAppServicePlanServerFarmInstanceDetails: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<GetAppServicePlanServerFarmInstanceDetailsRequest>,
   output: __S(1443, __c45, 3) as any as S.Schema<ServerFarmInstanceDetails>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25361,7 +25482,8 @@ export const GetAppServicePlanServerFarmRdpPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetAppServicePlanServerFarmRdpPasswordRequest>,
   output: __S(1473, __c46, 1) as any as S.Schema<ServerFarmRdpDetails>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25378,7 +25500,8 @@ export const GetAppServicePlanServerFarmSkus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetAppServicePlanServerFarmSkusRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<GetAppServicePlanServerFarmSkusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25395,7 +25518,8 @@ export const GetAppServicePlanVnetFromServerFarm: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetAppServicePlanVnetFromServerFarmRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<GetAppServicePlanVnetFromServerFarmResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25412,7 +25536,8 @@ export const GetAppServicePlanVnetGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetAppServicePlanVnetGatewayRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<GetAppServicePlanVnetGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25429,7 +25554,8 @@ export const GetCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<GetCertificateRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<GetCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25446,7 +25572,8 @@ export const GetDeletedWebAppDeletedWebAppByLocation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetDeletedWebAppDeletedWebAppByLocationRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<GetDeletedWebAppDeletedWebAppByLocationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25471,7 +25598,8 @@ export const GetDiagnosticHostingEnvironmentDetectorResponse: API.OperationMetho
     __c57,
     20,
   ) as any as S.Schema<GetDiagnosticHostingEnvironmentDetectorResponseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25488,7 +25616,8 @@ export const GetDiagnosticSiteAnalysis: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetDiagnosticSiteAnalysisRequest>,
   output: __S(1889, __c59, 1) as any as S.Schema<GetDiagnosticSiteAnalysisResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25505,7 +25634,8 @@ export const GetDiagnosticSiteAnalysisSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetDiagnosticSiteAnalysisSlotRequest>,
   output: __S(1889, __c59, 1) as any as S.Schema<GetDiagnosticSiteAnalysisSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25522,7 +25652,8 @@ export const GetDiagnosticSiteDetector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<GetDiagnosticSiteDetectorRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<GetDiagnosticSiteDetectorResponse2>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25539,7 +25670,8 @@ export const GetDiagnosticSiteDetectorResponse: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<GetDiagnosticSiteDetectorResponseRequest>,
   output: __S(1844, __c57, 20) as any as S.Schema<GetDiagnosticSiteDetectorResponseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25556,7 +25688,8 @@ export const GetDiagnosticSiteDetectorResponseSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GetDiagnosticSiteDetectorResponseSlotRequest>,
   output: __S(1844, __c57, 20) as any as S.Schema<GetDiagnosticSiteDetectorResponseSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25573,7 +25706,8 @@ export const GetDiagnosticSiteDetectorSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<GetDiagnosticSiteDetectorSlotRequest>,
   output: __S(2016, __c63, 0) as any as S.Schema<GetDiagnosticSiteDetectorSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25590,7 +25724,8 @@ export const GetDiagnosticSiteDiagnosticCategory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<GetDiagnosticSiteDiagnosticCategoryRequest>,
   output: __S(1889, __c59, 1) as any as S.Schema<GetDiagnosticSiteDiagnosticCategoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25607,7 +25742,8 @@ export const GetDiagnosticSiteDiagnosticCategorySlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<GetDiagnosticSiteDiagnosticCategorySlotRequest>,
   output: __S(1889, __c59, 1) as any as S.Schema<GetDiagnosticSiteDiagnosticCategorySlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25624,7 +25760,8 @@ export const GetGlobalDeletedWebApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<GetGlobalDeletedWebAppRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<GetGlobalDeletedWebAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25641,7 +25778,8 @@ export const GetGlobalDeletedWebAppSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<GetGlobalDeletedWebAppSnapshotsRequest>,
   output: __S(2241, __c70, 1) as any as S.Schema<GetGlobalDeletedWebAppSnapshotsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25666,7 +25804,8 @@ export const GetGlobalSubscriptionOperationWithAsyncResponse: API.OperationMetho
     __c1,
     0,
   ) as any as S.Schema<GetGlobalSubscriptionOperationWithAsyncResponseResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25683,7 +25822,8 @@ export const GetKubeEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<GetKubeEnvironmentRequest>,
   output: __S(2400, __c75, 0) as any as S.Schema<GetKubeEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25700,7 +25840,8 @@ export const GetLastKnownGoodResourceLastKnownGood: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<GetLastKnownGoodResourceLastKnownGoodRequest>,
   output: __S(2561, __c80, 1) as any as S.Schema<GetLastKnownGoodResourceLastKnownGoodResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25725,7 +25866,8 @@ export const GetManagedTrafficConfigResourceManagedTrafficConfig: API.OperationM
     __c82,
     3,
   ) as any as S.Schema<GetManagedTrafficConfigResourceManagedTrafficConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25743,7 +25885,8 @@ export const GetProviderAvailableStacks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<GetProviderAvailableStacksRequest>,
   output: __S(2696, __c84, 8) as any as S.Schema<ApplicationStackCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25767,7 +25910,8 @@ export const GetProviderAvailableStacksOnPrem: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<GetProviderAvailableStacksOnPremRequest>,
   output: __S(2696, __c84, 8) as any as S.Schema<ApplicationStackCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25791,7 +25935,8 @@ export const GetProviderFunctionAppStacks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<GetProviderFunctionAppStacksRequest>,
   output: __S(2794, __c87, 10) as any as S.Schema<FunctionAppStackCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25815,7 +25960,8 @@ export const GetProviderFunctionAppStacksForLocation: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<GetProviderFunctionAppStacksForLocationRequest>,
   output: __S(2794, __c87, 10) as any as S.Schema<FunctionAppStackCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25839,7 +25985,8 @@ export const GetProviderWebAppStacks: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<GetProviderWebAppStacksRequest>,
   output: __S(2923, __c91, 11) as any as S.Schema<WebAppStackCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25863,7 +26010,8 @@ export const GetProviderWebAppStacksForLocation: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<GetProviderWebAppStacksForLocationRequest>,
   output: __S(2923, __c91, 11) as any as S.Schema<WebAppStackCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25886,7 +26034,8 @@ export const GetPublishingUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<GetPublishingUserRequest>,
   output: __S(3040, __c95, 0) as any as S.Schema<GetPublishingUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25911,7 +26060,8 @@ export const GetRecommendationRuleDetailsByHostingEnvironment: API.OperationMeth
     __c97,
     1,
   ) as any as S.Schema<GetRecommendationRuleDetailsByHostingEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25928,7 +26078,8 @@ export const GetRecommendationRuleDetailsByWebApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<GetRecommendationRuleDetailsByWebAppRequest>,
   output: __S(3105, __c97, 1) as any as S.Schema<GetRecommendationRuleDetailsByWebAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25945,7 +26096,8 @@ export const GetResourceHealthMetadataBySite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<GetResourceHealthMetadataBySiteRequest>,
   output: __S(3233, __c101, 1) as any as S.Schema<GetResourceHealthMetadataBySiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25962,7 +26114,8 @@ export const GetResourceHealthMetadataBySiteSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<GetResourceHealthMetadataBySiteSlotRequest>,
   output: __S(3233, __c101, 1) as any as S.Schema<GetResourceHealthMetadataBySiteSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -25979,7 +26132,8 @@ export const GetServerFarmSiloResourceServerFarmSilo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<GetServerFarmSiloResourceServerFarmSiloRequest>,
   output: __S(3360, __c105, 0) as any as S.Schema<GetServerFarmSiloResourceServerFarmSiloResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26000,7 +26154,8 @@ export const GetServerFarmSiloResourceServerFarmSiloVnetIntegrations: API.Operat
     0,
   ) as any as S.Schema<GetServerFarmSiloResourceServerFarmSiloVnetIntegrationsRequest>,
   output: __S(3397, __c106, 5) as any as S.Schema<ServerFarmSiloVnetIntegrationsResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26017,7 +26172,8 @@ export const GetSiteCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<GetSiteCertificateRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<GetSiteCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26034,7 +26190,8 @@ export const GetSiteCertificateSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<GetSiteCertificateSlotRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<GetSiteCertificateSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26059,7 +26216,8 @@ export const GetSiteNetworkSecurityPerimeterConfiguration: API.OperationMethod<
     __c110,
     14,
   ) as any as S.Schema<GetSiteNetworkSecurityPerimeterConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26076,7 +26234,8 @@ export const GetSiteSiloResourceSiteSilo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<GetSiteSiloResourceSiteSiloRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<GetSiteSiloResourceSiteSiloResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26101,7 +26260,8 @@ export const GetSiteSiloVirtualNetworkConnectionSiteSiloVnetConnection: API.Oper
     __c115,
     1,
   ) as any as S.Schema<GetSiteSiloVirtualNetworkConnectionSiteSiloVnetConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26118,7 +26278,8 @@ export const GetSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<GetSourceControlRequest>,
   output: __S(3777, __c118, 1) as any as S.Schema<GetSourceControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26135,7 +26296,8 @@ export const GetStaticSiteBasicAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<GetStaticSiteBasicAuthRequest>,
   output: __S(3841, __c120, 1) as any as S.Schema<GetStaticSiteBasicAuthResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26152,7 +26314,8 @@ export const GetStaticSiteBuildDatabaseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<GetStaticSiteBuildDatabaseConnectionRequest>,
   output: __S(3937, __c123, 1) as any as S.Schema<GetStaticSiteBuildDatabaseConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26170,7 +26333,8 @@ export const GetStaticSiteBuildDatabaseConnections: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<GetStaticSiteBuildDatabaseConnectionsRequest>,
   output: __S(4001, __c125, 1) as any as S.Schema<DatabaseConnectionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26198,7 +26362,8 @@ export const GetStaticSiteBuildDatabaseConnectionsWithDetails: API.PaginatedOper
     0,
   ) as any as S.Schema<GetStaticSiteBuildDatabaseConnectionsWithDetailsRequest>,
   output: __S(4001, __c125, 1) as any as S.Schema<DatabaseConnectionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26229,7 +26394,8 @@ export const GetStaticSiteBuildDatabaseConnectionWithDetails: API.OperationMetho
     __c123,
     1,
   ) as any as S.Schema<GetStaticSiteBuildDatabaseConnectionWithDetailsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26246,7 +26412,8 @@ export const GetStaticSiteDatabaseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<GetStaticSiteDatabaseConnectionRequest>,
   output: __S(3937, __c123, 1) as any as S.Schema<GetStaticSiteDatabaseConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26264,7 +26431,8 @@ export const GetStaticSiteDatabaseConnections: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<GetStaticSiteDatabaseConnectionsRequest>,
   output: __S(4001, __c125, 1) as any as S.Schema<DatabaseConnectionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26292,7 +26460,8 @@ export const GetStaticSiteDatabaseConnectionsWithDetails: API.PaginatedOperation
     0,
   ) as any as S.Schema<GetStaticSiteDatabaseConnectionsWithDetailsRequest>,
   output: __S(4001, __c125, 1) as any as S.Schema<DatabaseConnectionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26319,7 +26488,8 @@ export const GetStaticSiteDatabaseConnectionWithDetails: API.OperationMethod<
     __c123,
     1,
   ) as any as S.Schema<GetStaticSiteDatabaseConnectionWithDetailsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26336,7 +26506,8 @@ export const GetStaticSiteLinkedBackend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<GetStaticSiteLinkedBackendRequest>,
   output: __S(4320, __c135, 0) as any as S.Schema<GetStaticSiteLinkedBackendResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26353,7 +26524,8 @@ export const GetStaticSiteLinkedBackendForBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<GetStaticSiteLinkedBackendForBuildRequest>,
   output: __S(4320, __c135, 0) as any as S.Schema<GetStaticSiteLinkedBackendForBuildResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26371,7 +26543,8 @@ export const GetStaticSiteLinkedBackends: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<GetStaticSiteLinkedBackendsRequest>,
   output: __S(4449, __c139, 1) as any as S.Schema<StaticSiteLinkedBackendsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26395,7 +26568,8 @@ export const GetStaticSiteLinkedBackendsForBuild: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<GetStaticSiteLinkedBackendsForBuildRequest>,
   output: __S(4449, __c139, 1) as any as S.Schema<StaticSiteLinkedBackendsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26418,7 +26592,8 @@ export const GetStaticSitePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<GetStaticSitePrivateEndpointConnectionRequest>,
   output: __S(30528, __c954, 0) as any as S.Schema<GetStaticSitePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26435,7 +26610,8 @@ export const GetStaticSitePrivateLinkResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<GetStaticSitePrivateLinkResourcesRequest>,
   output: __S(963, __c30, 3) as any as S.Schema<PrivateLinkResourcesWrapper>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26460,7 +26636,8 @@ export const GetStaticSitesAsyncOperationOperationResult: API.OperationMethod<
     __c143,
     1,
   ) as any as S.Schema<GetStaticSitesAsyncOperationOperationResultResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26481,7 +26658,8 @@ export const GetStaticSitesAsyncOperationOperationStatus: API.OperationMethod<
     0,
   ) as any as S.Schema<GetStaticSitesAsyncOperationOperationStatusRequest>,
   output: __S(4610, __c144, 2) as any as S.Schema<StaticSitesOperationStatus>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26498,7 +26676,8 @@ export const GetStaticSiteStaticSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<GetStaticSiteStaticSiteRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<GetStaticSiteStaticSiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26515,7 +26694,8 @@ export const GetStaticSiteStaticSiteBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<GetStaticSiteStaticSiteBuildRequest>,
   output: __S(4961, __c155, 1) as any as S.Schema<GetStaticSiteStaticSiteBuildResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26533,7 +26713,8 @@ export const GetStaticSiteStaticSiteBuilds: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<GetStaticSiteStaticSiteBuildsRequest>,
   output: __S(5026, __c157, 2) as any as S.Schema<StaticSiteBuildCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26556,7 +26737,8 @@ export const GetStaticSiteStaticSiteCustomDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<GetStaticSiteStaticSiteCustomDomainRequest>,
   output: __S(5088, __c159, 0) as any as S.Schema<GetStaticSiteStaticSiteCustomDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26574,7 +26756,8 @@ export const GetStaticSiteStaticSitesByResourceGroup: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<GetStaticSiteStaticSitesByResourceGroupRequest>,
   output: __S(5185, __c162, 1) as any as S.Schema<StaticSiteCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26605,7 +26788,8 @@ export const GetStaticSiteUserProvidedFunctionAppForStaticSite: API.OperationMet
     __c164,
     0,
   ) as any as S.Schema<GetStaticSiteUserProvidedFunctionAppForStaticSiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26630,7 +26814,8 @@ export const GetStaticSiteUserProvidedFunctionAppForStaticSiteBuild: API.Operati
     __c164,
     0,
   ) as any as S.Schema<GetStaticSiteUserProvidedFunctionAppForStaticSiteBuildResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26652,7 +26837,8 @@ export const GetStaticSiteUserProvidedFunctionAppsForStaticSite: API.PaginatedOp
     0,
   ) as any as S.Schema<GetStaticSiteUserProvidedFunctionAppsForStaticSiteRequest>,
   output: __S(5345, __c167, 1) as any as S.Schema<StaticSiteUserProvidedFunctionAppsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26680,7 +26866,8 @@ export const GetStaticSiteUserProvidedFunctionAppsForStaticSiteBuild: API.Pagina
     0,
   ) as any as S.Schema<GetStaticSiteUserProvidedFunctionAppsForStaticSiteBuildRequest>,
   output: __S(5345, __c167, 1) as any as S.Schema<StaticSiteUserProvidedFunctionAppsCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26703,7 +26890,8 @@ export const GetSubscriptionDeploymentLocations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<GetSubscriptionDeploymentLocationsRequest>,
   output: __S(5412, __c169, 4) as any as S.Schema<DeploymentLocations>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26720,7 +26908,8 @@ export const GetWebApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<GetWebAppRequest>,
   output: __S(16032, __c501, 0) as any as S.Schema<GetWebAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26737,7 +26926,8 @@ export const GetWebAppAppSettingKeyVaultReference: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<GetWebAppAppSettingKeyVaultReferenceRequest>,
   output: __S(5537, __c173, 1) as any as S.Schema<GetWebAppAppSettingKeyVaultReferenceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26754,7 +26944,8 @@ export const GetWebAppAppSettingKeyVaultReferenceSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<GetWebAppAppSettingKeyVaultReferenceSlotRequest>,
   output: __S(5537, __c173, 1) as any as S.Schema<GetWebAppAppSettingKeyVaultReferenceSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26772,7 +26963,8 @@ export const GetWebAppAppSettingsKeyVaultReferences: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<GetWebAppAppSettingsKeyVaultReferencesRequest>,
   output: __S(5697, __c178, 1) as any as S.Schema<ApiKVReferenceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26796,7 +26988,8 @@ export const GetWebAppAppSettingsKeyVaultReferencesSlot: API.PaginatedOperationM
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<GetWebAppAppSettingsKeyVaultReferencesSlotRequest>,
   output: __S(5697, __c178, 1) as any as S.Schema<ApiKVReferenceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26819,7 +27012,8 @@ export const GetWebAppAuthSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<GetWebAppAuthSettingsRequest>,
   output: __S(5793, __c181, 1) as any as S.Schema<GetWebAppAuthSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26836,7 +27030,8 @@ export const GetWebAppAuthSettingsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<GetWebAppAuthSettingsSlotRequest>,
   output: __S(5793, __c181, 1) as any as S.Schema<GetWebAppAuthSettingsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26853,7 +27048,8 @@ export const GetWebAppAuthSettingsV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<GetWebAppAuthSettingsV2Request>,
   output: __S(5926, __c185, 6) as any as S.Schema<GetWebAppAuthSettingsV2Response>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26870,7 +27066,8 @@ export const GetWebAppAuthSettingsV2Slot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<GetWebAppAuthSettingsV2SlotRequest>,
   output: __S(5926, __c185, 6) as any as S.Schema<GetWebAppAuthSettingsV2SlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26887,7 +27084,8 @@ export const GetWebAppAuthSettingsV2WithoutSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<GetWebAppAuthSettingsV2WithoutSecretsRequest>,
   output: __S(5926, __c185, 6) as any as S.Schema<GetWebAppAuthSettingsV2WithoutSecretsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26908,7 +27106,8 @@ export const GetWebAppAuthSettingsV2WithoutSecretsSlot: API.OperationMethod<
     __c185,
     6,
   ) as any as S.Schema<GetWebAppAuthSettingsV2WithoutSecretsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26925,7 +27124,8 @@ export const GetWebAppBackupConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<GetWebAppBackupConfigurationRequest>,
   output: __S(6114, __c191, 2) as any as S.Schema<GetWebAppBackupConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26942,7 +27142,8 @@ export const GetWebAppBackupConfigurationSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<GetWebAppBackupConfigurationSlotRequest>,
   output: __S(6114, __c191, 2) as any as S.Schema<GetWebAppBackupConfigurationSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26959,7 +27160,8 @@ export const GetWebAppBackupStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<GetWebAppBackupStatusRequest>,
   output: __S(6273, __c196, 1) as any as S.Schema<GetWebAppBackupStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26976,7 +27178,8 @@ export const GetWebAppBackupStatusSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<GetWebAppBackupStatusSlotRequest>,
   output: __S(6273, __c196, 1) as any as S.Schema<GetWebAppBackupStatusSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -26993,7 +27196,8 @@ export const GetWebAppConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<GetWebAppConfigurationRequest>,
   output: __S(6368, __c199, 0) as any as S.Schema<GetWebAppConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27010,7 +27214,8 @@ export const GetWebAppConfigurationSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<GetWebAppConfigurationSlotRequest>,
   output: __S(6368, __c199, 0) as any as S.Schema<GetWebAppConfigurationSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27027,7 +27232,8 @@ export const GetWebAppConfigurationSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<GetWebAppConfigurationSnapshotRequest>,
   output: __S(6368, __c199, 0) as any as S.Schema<GetWebAppConfigurationSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27044,7 +27250,8 @@ export const GetWebAppConfigurationSnapshotSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<GetWebAppConfigurationSnapshotSlotRequest>,
   output: __S(6368, __c199, 0) as any as S.Schema<GetWebAppConfigurationSnapshotSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27061,7 +27268,8 @@ export const GetWebAppContainerLogsZip: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<GetWebAppContainerLogsZipRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<GetWebAppContainerLogsZipResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27078,7 +27286,8 @@ export const GetWebAppContainerLogsZipSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<GetWebAppContainerLogsZipSlotRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<GetWebAppContainerLogsZipSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27095,7 +27304,8 @@ export const GetWebAppContinuousWebJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<GetWebAppContinuousWebJobRequest>,
   output: __S(6593, __c206, 1) as any as S.Schema<GetWebAppContinuousWebJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27112,7 +27322,8 @@ export const GetWebAppContinuousWebJobSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<GetWebAppContinuousWebJobSlotRequest>,
   output: __S(6593, __c206, 1) as any as S.Schema<GetWebAppContinuousWebJobSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27129,7 +27340,8 @@ export const GetWebAppDeployment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<GetWebAppDeploymentRequest>,
   output: __S(5601, __c175, 1) as any as S.Schema<GetWebAppDeploymentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27146,7 +27358,8 @@ export const GetWebAppDeploymentSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<GetWebAppDeploymentSlotRequest>,
   output: __S(5601, __c175, 1) as any as S.Schema<GetWebAppDeploymentSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27163,7 +27376,8 @@ export const GetWebAppDiagnosticLogsConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<GetWebAppDiagnosticLogsConfigurationRequest>,
   output: __S(6857, __c214, 9) as any as S.Schema<GetWebAppDiagnosticLogsConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27180,7 +27394,8 @@ export const GetWebAppDiagnosticLogsConfigurationSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<GetWebAppDiagnosticLogsConfigurationSlotRequest>,
   output: __S(6857, __c214, 9) as any as S.Schema<GetWebAppDiagnosticLogsConfigurationSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27197,7 +27412,8 @@ export const GetWebAppDomainOwnershipIdentifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<GetWebAppDomainOwnershipIdentifierRequest>,
   output: __S(6945, __c217, 1) as any as S.Schema<GetWebAppDomainOwnershipIdentifierResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27214,7 +27430,8 @@ export const GetWebAppDomainOwnershipIdentifierSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6976, __c218, 0) as any as S.Schema<GetWebAppDomainOwnershipIdentifierSlotRequest>,
   output: __S(6945, __c217, 1) as any as S.Schema<GetWebAppDomainOwnershipIdentifierSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27231,7 +27448,8 @@ export const GetWebAppEgressConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<GetWebAppEgressConfigRequest>,
   output: __S(7046, __c220, 6) as any as S.Schema<GetWebAppEgressConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27248,7 +27466,8 @@ export const GetWebAppEgressConfigSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<GetWebAppEgressConfigSlotRequest>,
   output: __S(7046, __c220, 6) as any as S.Schema<GetWebAppEgressConfigSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27265,7 +27484,8 @@ export const GetWebAppFtpAllowed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<GetWebAppFtpAllowedRequest>,
   output: __S(7137, __c223, 1) as any as S.Schema<GetWebAppFtpAllowedResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27282,7 +27502,8 @@ export const GetWebAppFtpAllowedSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<GetWebAppFtpAllowedSlotRequest>,
   output: __S(7137, __c223, 1) as any as S.Schema<GetWebAppFtpAllowedSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27299,7 +27520,8 @@ export const GetWebAppFunction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<GetWebAppFunctionRequest>,
   output: __S(7264, __c227, 0) as any as S.Schema<GetWebAppFunctionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27316,7 +27538,8 @@ export const GetWebAppFunctionsAdminToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<GetWebAppFunctionsAdminTokenRequest>,
   output: __S(7328, __c229, 0) as any as S.Schema<GetWebAppFunctionsAdminTokenResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27333,7 +27556,8 @@ export const GetWebAppFunctionsAdminTokenSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7360, __c230, 0) as any as S.Schema<GetWebAppFunctionsAdminTokenSlotRequest>,
   output: __S(7328, __c229, 0) as any as S.Schema<GetWebAppFunctionsAdminTokenSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27350,7 +27574,8 @@ export const GetWebAppHostNameBinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<GetWebAppHostNameBindingRequest>,
   output: __S(7425, __c232, 1) as any as S.Schema<GetWebAppHostNameBindingResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27367,7 +27592,8 @@ export const GetWebAppHostNameBindingSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<GetWebAppHostNameBindingSlotRequest>,
   output: __S(7425, __c232, 1) as any as S.Schema<GetWebAppHostNameBindingSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27384,7 +27610,8 @@ export const GetWebAppHybridConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<GetWebAppHybridConnectionRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<GetWebAppHybridConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27401,7 +27628,8 @@ export const GetWebAppHybridConnectionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7520, __c235, 0) as any as S.Schema<GetWebAppHybridConnectionSlotRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<GetWebAppHybridConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27418,7 +27646,8 @@ export const GetWebAppInstanceFunctionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<GetWebAppInstanceFunctionSlotRequest>,
   output: __S(7264, __c227, 0) as any as S.Schema<GetWebAppInstanceFunctionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27435,7 +27664,8 @@ export const GetWebAppInstanceInfo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<GetWebAppInstanceInfoRequest>,
   output: __S(7656, __c239, 8) as any as S.Schema<GetWebAppInstanceInfoResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27452,7 +27682,8 @@ export const GetWebAppInstanceInfoSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<GetWebAppInstanceInfoSlotRequest>,
   output: __S(7656, __c239, 8) as any as S.Schema<GetWebAppInstanceInfoSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27469,7 +27700,8 @@ export const GetWebAppInstanceProcess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<GetWebAppInstanceProcessRequest>,
   output: __S(7873, __c246, 1) as any as S.Schema<GetWebAppInstanceProcessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27486,7 +27718,8 @@ export const GetWebAppInstanceProcessDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<GetWebAppInstanceProcessDumpRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<GetWebAppInstanceProcessDumpResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27503,7 +27736,8 @@ export const GetWebAppInstanceProcessDumpSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<GetWebAppInstanceProcessDumpSlotRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<GetWebAppInstanceProcessDumpSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27520,7 +27754,8 @@ export const GetWebAppInstanceProcessModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<GetWebAppInstanceProcessModuleRequest>,
   output: __S(7777, __c243, 1) as any as S.Schema<GetWebAppInstanceProcessModuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27537,7 +27772,8 @@ export const GetWebAppInstanceProcessModuleSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<GetWebAppInstanceProcessModuleSlotRequest>,
   output: __S(7777, __c243, 1) as any as S.Schema<GetWebAppInstanceProcessModuleSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27554,7 +27790,8 @@ export const GetWebAppInstanceProcessSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<GetWebAppInstanceProcessSlotRequest>,
   output: __S(7873, __c246, 1) as any as S.Schema<GetWebAppInstanceProcessSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27571,7 +27808,8 @@ export const GetWebAppInstanceWorkflowSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<GetWebAppInstanceWorkflowSlotRequest>,
   output: __S(8098, __c253, 2) as any as S.Schema<GetWebAppInstanceWorkflowSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27588,7 +27826,8 @@ export const GetWebAppNetworkTraceOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<GetWebAppNetworkTraceOperationRequest>,
   output: __S(8162, __c255, 2) as any as S.Schema<GetWebAppNetworkTraceOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27605,7 +27844,8 @@ export const GetWebAppNetworkTraceOperationSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<GetWebAppNetworkTraceOperationSlotRequest>,
   output: __S(8162, __c255, 2) as any as S.Schema<GetWebAppNetworkTraceOperationSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27622,7 +27862,8 @@ export const GetWebAppNetworkTraceOperationSlotV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<GetWebAppNetworkTraceOperationSlotV2Request>,
   output: __S(8162, __c255, 2) as any as S.Schema<GetWebAppNetworkTraceOperationSlotV2Response>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27639,7 +27880,8 @@ export const GetWebAppNetworkTraceOperationV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8288, __c259, 0) as any as S.Schema<GetWebAppNetworkTraceOperationV2Request>,
   output: __S(8162, __c255, 2) as any as S.Schema<GetWebAppNetworkTraceOperationV2Response>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27656,7 +27898,8 @@ export const GetWebAppNetworkTraces: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<GetWebAppNetworkTracesRequest>,
   output: __S(8162, __c255, 2) as any as S.Schema<GetWebAppNetworkTracesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27673,7 +27916,8 @@ export const GetWebAppNetworkTracesSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<GetWebAppNetworkTracesSlotRequest>,
   output: __S(8162, __c255, 2) as any as S.Schema<GetWebAppNetworkTracesSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27690,7 +27934,8 @@ export const GetWebAppNetworkTracesSlotV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<GetWebAppNetworkTracesSlotV2Request>,
   output: __S(8162, __c255, 2) as any as S.Schema<GetWebAppNetworkTracesSlotV2Response>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27707,7 +27952,8 @@ export const GetWebAppNetworkTracesV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<GetWebAppNetworkTracesV2Request>,
   output: __S(8162, __c255, 2) as any as S.Schema<GetWebAppNetworkTracesV2Response>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27724,7 +27970,8 @@ export const GetWebAppPrivateAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<GetWebAppPrivateAccessRequest>,
   output: __S(8485, __c265, 5) as any as S.Schema<GetWebAppPrivateAccessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27741,7 +27988,8 @@ export const GetWebAppPrivateAccessSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<GetWebAppPrivateAccessSlotRequest>,
   output: __S(8485, __c265, 5) as any as S.Schema<GetWebAppPrivateAccessSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27758,7 +28006,8 @@ export const GetWebAppPrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<GetWebAppPrivateEndpointConnectionRequest>,
   output: __S(30528, __c954, 0) as any as S.Schema<GetWebAppPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27775,7 +28024,8 @@ export const GetWebAppPrivateEndpointConnectionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<GetWebAppPrivateEndpointConnectionSlotRequest>,
   output: __S(30528, __c954, 0) as any as S.Schema<GetWebAppPrivateEndpointConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27792,7 +28042,8 @@ export const GetWebAppPrivateLinkResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<GetWebAppPrivateLinkResourcesRequest>,
   output: __S(963, __c30, 3) as any as S.Schema<PrivateLinkResourcesWrapper>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27809,7 +28060,8 @@ export const GetWebAppPrivateLinkResourcesSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<GetWebAppPrivateLinkResourcesSlotRequest>,
   output: __S(963, __c30, 3) as any as S.Schema<PrivateLinkResourcesWrapper>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27826,7 +28078,8 @@ export const GetWebAppProcess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<GetWebAppProcessRequest>,
   output: __S(7873, __c246, 1) as any as S.Schema<GetWebAppProcessResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27843,7 +28096,8 @@ export const GetWebAppProcessDump: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8768, __c274, 0) as any as S.Schema<GetWebAppProcessDumpRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<GetWebAppProcessDumpResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27860,7 +28114,8 @@ export const GetWebAppProcessDumpSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<GetWebAppProcessDumpSlotRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<GetWebAppProcessDumpSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27877,7 +28132,8 @@ export const GetWebAppProcessModule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<GetWebAppProcessModuleRequest>,
   output: __S(7777, __c243, 1) as any as S.Schema<GetWebAppProcessModuleResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27894,7 +28150,8 @@ export const GetWebAppProcessModuleSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<GetWebAppProcessModuleSlotRequest>,
   output: __S(7777, __c243, 1) as any as S.Schema<GetWebAppProcessModuleSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27911,7 +28168,8 @@ export const GetWebAppProcessSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<GetWebAppProcessSlotRequest>,
   output: __S(7873, __c246, 1) as any as S.Schema<GetWebAppProcessSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27928,7 +28186,8 @@ export const GetWebAppProductionSiteDeploymentStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<GetWebAppProductionSiteDeploymentStatusRequest>,
   output: __S(8960, __c280, 0) as any as S.Schema<GetWebAppProductionSiteDeploymentStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27945,7 +28204,8 @@ export const GetWebAppPublicCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<GetWebAppPublicCertificateRequest>,
   output: __S(9057, __c283, 1) as any as S.Schema<GetWebAppPublicCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27962,7 +28222,8 @@ export const GetWebAppPublicCertificateSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<GetWebAppPublicCertificateSlotRequest>,
   output: __S(9057, __c283, 1) as any as S.Schema<GetWebAppPublicCertificateSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27979,7 +28240,8 @@ export const GetWebAppRelayServiceConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<GetWebAppRelayServiceConnectionRequest>,
   output: __S(9185, __c287, 1) as any as S.Schema<GetWebAppRelayServiceConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -27996,7 +28258,8 @@ export const GetWebAppRelayServiceConnectionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<GetWebAppRelayServiceConnectionSlotRequest>,
   output: __S(9185, __c287, 1) as any as S.Schema<GetWebAppRelayServiceConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28013,7 +28276,8 @@ export const GetWebAppScmAllowed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<GetWebAppScmAllowedRequest>,
   output: __S(7137, __c223, 1) as any as S.Schema<GetWebAppScmAllowedResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28030,7 +28294,8 @@ export const GetWebAppScmAllowedSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<GetWebAppScmAllowedSlotRequest>,
   output: __S(7137, __c223, 1) as any as S.Schema<GetWebAppScmAllowedSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28055,7 +28320,8 @@ export const GetWebAppSiteConnectionStringKeyVaultReference: API.OperationMethod
     __c173,
     1,
   ) as any as S.Schema<GetWebAppSiteConnectionStringKeyVaultReferenceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28077,7 +28343,8 @@ export const GetWebAppSiteConnectionStringKeyVaultReferences: API.PaginatedOpera
     0,
   ) as any as S.Schema<GetWebAppSiteConnectionStringKeyVaultReferencesRequest>,
   output: __S(5697, __c178, 1) as any as S.Schema<ApiKVReferenceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28108,7 +28375,8 @@ export const GetWebAppSiteConnectionStringKeyVaultReferenceSlot: API.OperationMe
     __c173,
     1,
   ) as any as S.Schema<GetWebAppSiteConnectionStringKeyVaultReferenceSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28130,7 +28398,8 @@ export const GetWebAppSiteConnectionStringKeyVaultReferencesSlot: API.PaginatedO
     0,
   ) as any as S.Schema<GetWebAppSiteConnectionStringKeyVaultReferencesSlotRequest>,
   output: __S(5697, __c178, 1) as any as S.Schema<ApiKVReferenceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28153,7 +28422,8 @@ export const GetWebAppSiteContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<GetWebAppSiteContainerRequest>,
   output: __S(9477, __c296, 5) as any as S.Schema<GetWebAppSiteContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28170,7 +28440,8 @@ export const GetWebAppSiteContainerSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<GetWebAppSiteContainerSlotRequest>,
   output: __S(9477, __c296, 5) as any as S.Schema<GetWebAppSiteContainerSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28187,7 +28458,8 @@ export const GetWebAppSiteExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<GetWebAppSiteExtensionRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<GetWebAppSiteExtensionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28204,7 +28476,8 @@ export const GetWebAppSiteExtensionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<GetWebAppSiteExtensionSlotRequest>,
   output: __S(9632, __c301, 0) as any as S.Schema<GetWebAppSiteExtensionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28221,7 +28494,8 @@ export const GetWebAppSitePhpErrorLogFlag: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9696, __c303, 0) as any as S.Schema<GetWebAppSitePhpErrorLogFlagRequest>,
   output: __S(9729, __c304, 1) as any as S.Schema<GetWebAppSitePhpErrorLogFlagResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28238,7 +28512,8 @@ export const GetWebAppSitePhpErrorLogFlagSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9760, __c305, 0) as any as S.Schema<GetWebAppSitePhpErrorLogFlagSlotRequest>,
   output: __S(9729, __c304, 1) as any as S.Schema<GetWebAppSitePhpErrorLogFlagSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28255,7 +28530,8 @@ export const GetWebAppSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<GetWebAppSlotRequest>,
   output: __S(16032, __c501, 0) as any as S.Schema<GetWebAppSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28272,7 +28548,8 @@ export const GetWebAppSlotSiteDeploymentStatusSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<GetWebAppSlotSiteDeploymentStatusSlotRequest>,
   output: __S(8960, __c280, 0) as any as S.Schema<GetWebAppSlotSiteDeploymentStatusSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28289,7 +28566,8 @@ export const GetWebAppSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9856, __c308, 0) as any as S.Schema<GetWebAppSourceControlRequest>,
   output: __S(9888, __c309, 0) as any as S.Schema<GetWebAppSourceControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28306,7 +28584,8 @@ export const GetWebAppSourceControlSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9952, __c311, 0) as any as S.Schema<GetWebAppSourceControlSlotRequest>,
   output: __S(9888, __c309, 0) as any as S.Schema<GetWebAppSourceControlSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28323,7 +28602,8 @@ export const GetWebAppSwiftVirtualNetworkConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9984, __c312, 0) as any as S.Schema<GetWebAppSwiftVirtualNetworkConnectionRequest>,
   output: __S(3681, __c115, 1) as any as S.Schema<GetWebAppSwiftVirtualNetworkConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28348,7 +28628,8 @@ export const GetWebAppSwiftVirtualNetworkConnectionSlot: API.OperationMethod<
     __c115,
     1,
   ) as any as S.Schema<GetWebAppSwiftVirtualNetworkConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28365,7 +28646,8 @@ export const GetWebAppTriggeredWebJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10080, __c315, 0) as any as S.Schema<GetWebAppTriggeredWebJobRequest>,
   output: __S(10145, __c317, 1) as any as S.Schema<GetWebAppTriggeredWebJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28382,7 +28664,8 @@ export const GetWebAppTriggeredWebJobHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10176, __c318, 0) as any as S.Schema<GetWebAppTriggeredWebJobHistoryRequest>,
   output: __S(10210, __c319, 2) as any as S.Schema<GetWebAppTriggeredWebJobHistoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28399,7 +28682,8 @@ export const GetWebAppTriggeredWebJobHistorySlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10240, __c320, 0) as any as S.Schema<GetWebAppTriggeredWebJobHistorySlotRequest>,
   output: __S(10210, __c319, 2) as any as S.Schema<GetWebAppTriggeredWebJobHistorySlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28416,7 +28700,8 @@ export const GetWebAppTriggeredWebJobSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<GetWebAppTriggeredWebJobSlotRequest>,
   output: __S(10145, __c317, 1) as any as S.Schema<GetWebAppTriggeredWebJobSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28433,7 +28718,8 @@ export const GetWebAppVnetConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10304, __c322, 0) as any as S.Schema<GetWebAppVnetConnectionRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<GetWebAppVnetConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28450,7 +28736,8 @@ export const GetWebAppVnetConnectionGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10336, __c323, 0) as any as S.Schema<GetWebAppVnetConnectionGatewayRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<GetWebAppVnetConnectionGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28467,7 +28754,8 @@ export const GetWebAppVnetConnectionGatewaySlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10368, __c324, 0) as any as S.Schema<GetWebAppVnetConnectionGatewaySlotRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<GetWebAppVnetConnectionGatewaySlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28484,7 +28772,8 @@ export const GetWebAppVnetConnectionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10400, __c325, 0) as any as S.Schema<GetWebAppVnetConnectionSlotRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<GetWebAppVnetConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28501,7 +28790,8 @@ export const GetWebAppWebJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10432, __c326, 0) as any as S.Schema<GetWebAppWebJobRequest>,
   output: __S(10465, __c327, 1) as any as S.Schema<GetWebAppWebJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28518,7 +28808,8 @@ export const GetWebAppWebJobSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<GetWebAppWebJobSlotRequest>,
   output: __S(10465, __c327, 1) as any as S.Schema<GetWebAppWebJobSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28535,7 +28826,8 @@ export const GetWebAppWebSiteContainerLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10560, __c330, 0) as any as S.Schema<GetWebAppWebSiteContainerLogsRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<GetWebAppWebSiteContainerLogsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28552,7 +28844,8 @@ export const GetWebAppWebSiteContainerLogsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10592, __c331, 0) as any as S.Schema<GetWebAppWebSiteContainerLogsSlotRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<GetWebAppWebSiteContainerLogsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28569,7 +28862,8 @@ export const GetWebAppWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10624, __c332, 0) as any as S.Schema<GetWebAppWorkflowRequest>,
   output: __S(8098, __c253, 2) as any as S.Schema<GetWebAppWorkflowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28586,7 +28880,8 @@ export const GetWorkflowRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<GetWorkflowRunRequest>,
   output: __S(10756, __c336, 4) as any as S.Schema<GetWorkflowRunResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28603,7 +28898,8 @@ export const GetWorkflowRunAction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10784, __c337, 0) as any as S.Schema<GetWorkflowRunActionRequest>,
   output: __S(10849, __c339, 1) as any as S.Schema<GetWorkflowRunActionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28620,7 +28916,8 @@ export const GetWorkflowRunActionRepetition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10880, __c340, 0) as any as S.Schema<GetWorkflowRunActionRepetitionRequest>,
   output: __S(10915, __c341, 3) as any as S.Schema<GetWorkflowRunActionRepetitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28645,7 +28942,8 @@ export const GetWorkflowRunActionRepetitionsRequestHistory: API.OperationMethod<
     __c343,
     3,
   ) as any as S.Schema<GetWorkflowRunActionRepetitionsRequestHistoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28662,7 +28960,8 @@ export const GetWorkflowRunActionScopeRepetition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11008, __c344, 0) as any as S.Schema<GetWorkflowRunActionScopeRepetitionRequest>,
   output: __S(10915, __c341, 3) as any as S.Schema<GetWorkflowRunActionScopeRepetitionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28679,7 +28978,8 @@ export const GetWorkflowTrigger: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11040, __c345, 0) as any as S.Schema<GetWorkflowTriggerRequest>,
   output: __S(11078, __c346, 6) as any as S.Schema<GetWorkflowTriggerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28696,7 +28996,8 @@ export const GetWorkflowTriggerHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11296, __c353, 0) as any as S.Schema<GetWorkflowTriggerHistoryRequest>,
   output: __S(11329, __c354, 1) as any as S.Schema<GetWorkflowTriggerHistoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28713,7 +29014,8 @@ export const GetWorkflowTriggerSchemaJson: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11360, __c355, 0) as any as S.Schema<GetWorkflowTriggerSchemaJsonRequest>,
   output: __S(11361, __c355, 1) as any as S.Schema<JsonSchema>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28730,7 +29032,8 @@ export const GetWorkflowVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11392, __c356, 0) as any as S.Schema<GetWorkflowVersionRequest>,
   output: __S(11426, __c357, 2) as any as S.Schema<GetWorkflowVersionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28747,7 +29050,8 @@ export const InstallWebAppSiteExtension: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11488, __c359, 0) as any as S.Schema<InstallWebAppSiteExtensionRequest>,
   output: __S(11520, __c360, 0) as any as S.Schema<InstallWebAppSiteExtensionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28764,7 +29068,8 @@ export const InstallWebAppSiteExtensionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11552, __c361, 0) as any as S.Schema<InstallWebAppSiteExtensionSlotRequest>,
   output: __S(11520, __c360, 0) as any as S.Schema<InstallWebAppSiteExtensionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28781,7 +29086,8 @@ export const KubeEnvironmentsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11585, __c362, 1) as any as S.Schema<KubeEnvironmentsCreateOrUpdateRequest>,
   output: __S(11586, __c362, 2) as any as S.Schema<KubeEnvironmentsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28798,7 +29104,8 @@ export const LastKnownGoodResourcesMarkLastKnownGood: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11616, __c363, 0) as any as S.Schema<LastKnownGoodResourcesMarkLastKnownGoodRequest>,
   output: __S(2561, __c80, 1) as any as S.Schema<LastKnownGoodResourcesMarkLastKnownGoodResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28816,7 +29123,8 @@ export const ListAiGatewayByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(11648, __c364, 0) as any as S.Schema<ListAiGatewayByResourceGroupRequest>,
   output: __S(11681, __c365, 1) as any as S.Schema<AiGatewayListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28840,7 +29148,8 @@ export const ListAiGatewayBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(11712, __c366, 0) as any as S.Schema<ListAiGatewayBySubscriptionRequest>,
   output: __S(11681, __c365, 1) as any as S.Schema<AiGatewayListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28864,7 +29173,8 @@ export const ListAppServiceEnvironmentAppServicePlans: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(11744, __c367, 0) as any as S.Schema<ListAppServiceEnvironmentAppServicePlansRequest>,
   output: __S(11777, __c368, 1) as any as S.Schema<AppServicePlanCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28888,7 +29198,8 @@ export const ListAppServiceEnvironmentByResourceGroup: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(11840, __c370, 0) as any as S.Schema<ListAppServiceEnvironmentByResourceGroupRequest>,
   output: __S(11873, __c371, 1) as any as S.Schema<AppServiceEnvironmentCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28912,7 +29223,8 @@ export const ListAppServiceEnvironmentCapacities: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(11904, __c372, 0) as any as S.Schema<ListAppServiceEnvironmentCapacitiesRequest>,
   output: __S(11907, __c372, 3) as any as S.Schema<StampCapacityCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28935,7 +29247,8 @@ export const ListAppServiceEnvironmentDiagnostics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11936, __c373, 0) as any as S.Schema<ListAppServiceEnvironmentDiagnosticsRequest>,
   output: __S(11938, __c373, 2) as any as S.Schema<ListAppServiceEnvironmentDiagnosticsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28957,7 +29270,8 @@ export const ListAppServiceEnvironmentMultiRoleMetricDefinitions: API.PaginatedO
     0,
   ) as any as S.Schema<ListAppServiceEnvironmentMultiRoleMetricDefinitionsRequest>,
   output: __S(12005, __c375, 5) as any as S.Schema<ResourceMetricDefinitionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -28985,7 +29299,8 @@ export const ListAppServiceEnvironmentMultiRolePoolInstanceMetricDefinitions: AP
     0,
   ) as any as S.Schema<ListAppServiceEnvironmentMultiRolePoolInstanceMetricDefinitionsRequest>,
   output: __S(12005, __c375, 5) as any as S.Schema<ResourceMetricDefinitionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29009,7 +29324,8 @@ export const ListAppServiceEnvironmentMultiRolePools: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<ListAppServiceEnvironmentMultiRolePoolsRequest>,
   output: __S(12097, __c378, 1) as any as S.Schema<WorkerPoolCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29037,7 +29353,8 @@ export const ListAppServiceEnvironmentMultiRolePoolSkus: API.PaginatedOperationM
     0,
   ) as any as S.Schema<ListAppServiceEnvironmentMultiRolePoolSkusRequest>,
   output: __S(12162, __c380, 2) as any as S.Schema<SkuInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29061,7 +29378,8 @@ export const ListAppServiceEnvironmentMultiRoleUsages: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12192, __c381, 0) as any as S.Schema<ListAppServiceEnvironmentMultiRoleUsagesRequest>,
   output: __S(12227, __c382, 3) as any as S.Schema<UsageCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29084,7 +29402,8 @@ export const ListAppServiceEnvironmentOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12256, __c383, 0) as any as S.Schema<ListAppServiceEnvironmentOperationsRequest>,
   output: __S(12258, __c383, 2) as any as S.Schema<ListAppServiceEnvironmentOperationsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29102,7 +29421,8 @@ export const ListAppServiceEnvironments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12288, __c384, 0) as any as S.Schema<ListAppServiceEnvironmentsRequest>,
   output: __S(11873, __c371, 1) as any as S.Schema<AppServiceEnvironmentCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29126,7 +29446,8 @@ export const ListAppServiceEnvironmentUsages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12352, __c386, 0) as any as S.Schema<ListAppServiceEnvironmentUsagesRequest>,
   output: __S(12387, __c387, 3) as any as S.Schema<CsmUsageQuotaCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29150,7 +29471,8 @@ export const ListAppServiceEnvironmentWebApps: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12416, __c388, 0) as any as S.Schema<ListAppServiceEnvironmentWebAppsRequest>,
   output: __S(12448, __c389, 0) as any as S.Schema<WebAppCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29178,7 +29500,8 @@ export const ListAppServiceEnvironmentWebWorkerMetricDefinitions: API.PaginatedO
     0,
   ) as any as S.Schema<ListAppServiceEnvironmentWebWorkerMetricDefinitionsRequest>,
   output: __S(12005, __c375, 5) as any as S.Schema<ResourceMetricDefinitionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29202,7 +29525,8 @@ export const ListAppServiceEnvironmentWebWorkerUsages: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12512, __c391, 0) as any as S.Schema<ListAppServiceEnvironmentWebWorkerUsagesRequest>,
   output: __S(12227, __c382, 3) as any as S.Schema<UsageCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29230,7 +29554,8 @@ export const ListAppServiceEnvironmentWorkerPoolInstanceMetricDefinitions: API.P
     0,
   ) as any as S.Schema<ListAppServiceEnvironmentWorkerPoolInstanceMetricDefinitionsRequest>,
   output: __S(12005, __c375, 5) as any as S.Schema<ResourceMetricDefinitionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29254,7 +29579,8 @@ export const ListAppServiceEnvironmentWorkerPools: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12576, __c393, 0) as any as S.Schema<ListAppServiceEnvironmentWorkerPoolsRequest>,
   output: __S(12097, __c378, 1) as any as S.Schema<WorkerPoolCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29278,7 +29604,8 @@ export const ListAppServiceEnvironmentWorkerPoolSkus: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12608, __c394, 0) as any as S.Schema<ListAppServiceEnvironmentWorkerPoolSkusRequest>,
   output: __S(12162, __c380, 2) as any as S.Schema<SkuInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29302,7 +29629,8 @@ export const ListAppServicePlanByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12640, __c395, 0) as any as S.Schema<ListAppServicePlanByResourceGroupRequest>,
   output: __S(11777, __c368, 1) as any as S.Schema<AppServicePlanCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29325,7 +29653,8 @@ export const ListAppServicePlanCapabilities: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12672, __c396, 0) as any as S.Schema<ListAppServicePlanCapabilitiesRequest>,
   output: __S(12673, __c396, 1) as any as S.Schema<ListAppServicePlanCapabilitiesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29342,7 +29671,8 @@ export const ListAppServicePlanHybridConnectionKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12704, __c397, 0) as any as S.Schema<ListAppServicePlanHybridConnectionKeysRequest>,
   output: __S(12706, __c397, 2) as any as S.Schema<ListAppServicePlanHybridConnectionKeysResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29360,7 +29690,8 @@ export const ListAppServicePlanHybridConnections: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12768, __c399, 0) as any as S.Schema<ListAppServicePlanHybridConnectionsRequest>,
   output: __S(12769, __c399, 1) as any as S.Schema<HybridConnectionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29383,7 +29714,8 @@ export const ListAppServicePlanRoutesForVnet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12832, __c401, 0) as any as S.Schema<ListAppServicePlanRoutesForVnetRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<ListAppServicePlanRoutesForVnetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29401,7 +29733,8 @@ export const ListAppServicePlans: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12864, __c402, 0) as any as S.Schema<ListAppServicePlansRequest>,
   output: __S(11777, __c368, 1) as any as S.Schema<AppServicePlanCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29425,7 +29758,8 @@ export const ListAppServicePlanUsages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12896, __c403, 0) as any as S.Schema<ListAppServicePlanUsagesRequest>,
   output: __S(12387, __c387, 3) as any as S.Schema<CsmUsageQuotaCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29448,7 +29782,8 @@ export const ListAppServicePlanVnets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12928, __c404, 0) as any as S.Schema<ListAppServicePlanVnetsRequest>,
   output: __S(12961, __c405, 1) as any as S.Schema<ListAppServicePlanVnetsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29466,7 +29801,8 @@ export const ListAppServicePlanWebApps: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12992, __c406, 0) as any as S.Schema<ListAppServicePlanWebAppsRequest>,
   output: __S(12448, __c389, 0) as any as S.Schema<WebAppCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29494,7 +29830,8 @@ export const ListAppServicePlanWebAppsByHybridConnection: API.PaginatedOperation
     0,
   ) as any as S.Schema<ListAppServicePlanWebAppsByHybridConnectionRequest>,
   output: __S(13025, __c407, 1) as any as S.Schema<ResourceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29518,7 +29855,8 @@ export const ListAseRegions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13056, __c408, 0) as any as S.Schema<ListAseRegionsRequest>,
   output: __S(13060, __c408, 4) as any as S.Schema<AseRegionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29542,7 +29880,8 @@ export const ListBillingMeters: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13088, __c409, 0) as any as S.Schema<ListBillingMetersRequest>,
   output: __S(13092, __c409, 4) as any as S.Schema<BillingMeterCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29566,7 +29905,8 @@ export const ListCertificateByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13120, __c410, 0) as any as S.Schema<ListCertificateByResourceGroupRequest>,
   output: __S(13153, __c411, 1) as any as S.Schema<CertificateCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29590,7 +29930,8 @@ export const ListCertificates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13216, __c413, 0) as any as S.Schema<ListCertificatesRequest>,
   output: __S(13153, __c411, 1) as any as S.Schema<CertificateCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29614,7 +29955,8 @@ export const ListCustomHostNameSites: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13248, __c414, 0) as any as S.Schema<ListCustomHostNameSitesRequest>,
   output: __S(13252, __c414, 4) as any as S.Schema<CustomHostnameSitesCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29638,7 +29980,8 @@ export const ListDeletedWebAppByLocation: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13312, __c416, 0) as any as S.Schema<ListDeletedWebAppByLocationRequest>,
   output: __S(13345, __c417, 1) as any as S.Schema<DeletedWebAppCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29662,7 +30005,8 @@ export const ListDeletedWebApps: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13376, __c418, 0) as any as S.Schema<ListDeletedWebAppsRequest>,
   output: __S(13345, __c417, 1) as any as S.Schema<DeletedWebAppCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29690,7 +30034,8 @@ export const ListDiagnosticHostingEnvironmentDetectorResponses: API.PaginatedOpe
     0,
   ) as any as S.Schema<ListDiagnosticHostingEnvironmentDetectorResponsesRequest>,
   output: __S(13441, __c420, 1) as any as S.Schema<DetectorResponseCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29714,7 +30059,8 @@ export const ListDiagnosticSiteAnalyses: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13472, __c421, 0) as any as S.Schema<ListDiagnosticSiteAnalysesRequest>,
   output: __S(13505, __c422, 1) as any as S.Schema<DiagnosticAnalysisCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29738,7 +30084,8 @@ export const ListDiagnosticSiteAnalysesSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13536, __c423, 0) as any as S.Schema<ListDiagnosticSiteAnalysesSlotRequest>,
   output: __S(13505, __c422, 1) as any as S.Schema<DiagnosticAnalysisCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29762,7 +30109,8 @@ export const ListDiagnosticSiteDetectorResponses: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13568, __c424, 0) as any as S.Schema<ListDiagnosticSiteDetectorResponsesRequest>,
   output: __S(13441, __c420, 1) as any as S.Schema<DetectorResponseCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29786,7 +30134,8 @@ export const ListDiagnosticSiteDetectorResponsesSlot: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13600, __c425, 0) as any as S.Schema<ListDiagnosticSiteDetectorResponsesSlotRequest>,
   output: __S(13441, __c420, 1) as any as S.Schema<DetectorResponseCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29810,7 +30159,8 @@ export const ListDiagnosticSiteDetectors: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13632, __c426, 0) as any as S.Schema<ListDiagnosticSiteDetectorsRequest>,
   output: __S(13665, __c427, 1) as any as S.Schema<DiagnosticDetectorCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29834,7 +30184,8 @@ export const ListDiagnosticSiteDetectorsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13728, __c429, 0) as any as S.Schema<ListDiagnosticSiteDetectorsSlotRequest>,
   output: __S(13665, __c427, 1) as any as S.Schema<DiagnosticDetectorCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29858,7 +30209,8 @@ export const ListDiagnosticSiteDiagnosticCategories: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13760, __c430, 0) as any as S.Schema<ListDiagnosticSiteDiagnosticCategoriesRequest>,
   output: __S(13505, __c422, 1) as any as S.Schema<DiagnosticCategoryCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29886,7 +30238,8 @@ export const ListDiagnosticSiteDiagnosticCategoriesSlot: API.PaginatedOperationM
     0,
   ) as any as S.Schema<ListDiagnosticSiteDiagnosticCategoriesSlotRequest>,
   output: __S(13505, __c422, 1) as any as S.Schema<DiagnosticCategoryCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29910,7 +30263,8 @@ export const ListGeoRegions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13824, __c432, 0) as any as S.Schema<ListGeoRegionsRequest>,
   output: __S(13825, __c432, 1) as any as S.Schema<GeoRegionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29934,7 +30288,8 @@ export const ListGetUsagesInLocation: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13856, __c433, 0) as any as S.Schema<ListGetUsagesInLocationRequest>,
   output: __S(12387, __c387, 3) as any as S.Schema<CsmUsageQuotaCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29958,7 +30313,8 @@ export const ListKubeEnvironmentByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13888, __c434, 0) as any as S.Schema<ListKubeEnvironmentByResourceGroupRequest>,
   output: __S(13921, __c435, 1) as any as S.Schema<KubeEnvironmentCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -29982,7 +30338,8 @@ export const ListKubeEnvironmentBySubscription: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13952, __c436, 0) as any as S.Schema<ListKubeEnvironmentBySubscriptionRequest>,
   output: __S(13921, __c435, 1) as any as S.Schema<KubeEnvironmentCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30006,7 +30363,8 @@ export const ListLastKnownGoodResourceLastKnownGoods: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(13984, __c437, 0) as any as S.Schema<ListLastKnownGoodResourceLastKnownGoodsRequest>,
   output: __S(13986, __c437, 2) as any as S.Schema<LastKnownGoodCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30034,7 +30392,8 @@ export const ListManagedTrafficConfigResourceManagedTrafficConfigs: API.Paginate
     0,
   ) as any as S.Schema<ListManagedTrafficConfigResourceManagedTrafficConfigsRequest>,
   output: __S(14018, __c438, 2) as any as S.Schema<ManagedTrafficConfigCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30058,7 +30417,8 @@ export const ListPremierAddOnOffers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14048, __c439, 0) as any as S.Schema<ListPremierAddOnOffersRequest>,
   output: __S(14052, __c439, 4) as any as S.Schema<PremierAddOnOfferCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30082,7 +30442,8 @@ export const ListProviderOperations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14112, __c441, 0) as any as S.Schema<ListProviderOperationsRequest>,
   output: __S(14126, __c441, 14) as any as S.Schema<CsmOperationCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30110,7 +30471,8 @@ export const ListRecommendationHistoryForHostingEnvironment: API.PaginatedOperat
     0,
   ) as any as S.Schema<ListRecommendationHistoryForHostingEnvironmentRequest>,
   output: __S(14179, __c443, 3) as any as S.Schema<RecommendationCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30134,7 +30496,8 @@ export const ListRecommendationHistoryForWebApp: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14208, __c444, 0) as any as S.Schema<ListRecommendationHistoryForWebAppRequest>,
   output: __S(14179, __c443, 3) as any as S.Schema<RecommendationCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30162,7 +30525,8 @@ export const ListRecommendationRecommendedRulesForHostingEnvironment: API.Pagina
     0,
   ) as any as S.Schema<ListRecommendationRecommendedRulesForHostingEnvironmentRequest>,
   output: __S(14179, __c443, 3) as any as S.Schema<RecommendationCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30190,7 +30554,8 @@ export const ListRecommendationRecommendedRulesForWebApp: API.PaginatedOperation
     0,
   ) as any as S.Schema<ListRecommendationRecommendedRulesForWebAppRequest>,
   output: __S(14179, __c443, 3) as any as S.Schema<RecommendationCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30214,7 +30579,8 @@ export const ListRecommendations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14304, __c447, 0) as any as S.Schema<ListRecommendationsRequest>,
   output: __S(14179, __c443, 3) as any as S.Schema<RecommendationCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30238,7 +30604,8 @@ export const ListResourceHealthMetadata: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14336, __c448, 0) as any as S.Schema<ListResourceHealthMetadataRequest>,
   output: __S(14369, __c449, 1) as any as S.Schema<ResourceHealthMetadataCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30262,7 +30629,8 @@ export const ListResourceHealthMetadataByResourceGroup: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14400, __c450, 0) as any as S.Schema<ListResourceHealthMetadataByResourceGroupRequest>,
   output: __S(14369, __c449, 1) as any as S.Schema<ResourceHealthMetadataCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30286,7 +30654,8 @@ export const ListResourceHealthMetadataBySite: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14432, __c451, 0) as any as S.Schema<ListResourceHealthMetadataBySiteRequest>,
   output: __S(14369, __c449, 1) as any as S.Schema<ResourceHealthMetadataCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30310,7 +30679,8 @@ export const ListResourceHealthMetadataBySiteSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14464, __c452, 0) as any as S.Schema<ListResourceHealthMetadataBySiteSlotRequest>,
   output: __S(14369, __c449, 1) as any as S.Schema<ResourceHealthMetadataCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30334,7 +30704,8 @@ export const ListServerFarmSiloResourceServerFarmSilos: API.PaginatedOperationMe
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14528, __c454, 0) as any as S.Schema<ListServerFarmSiloResourceServerFarmSilosRequest>,
   output: __S(14530, __c454, 2) as any as S.Schema<ServerFarmSiloCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30358,7 +30729,8 @@ export const ListSiteCertificates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14560, __c455, 0) as any as S.Schema<ListSiteCertificatesRequest>,
   output: __S(13153, __c411, 1) as any as S.Schema<CertificateCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30382,7 +30754,8 @@ export const ListSiteCertificateSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14592, __c456, 0) as any as S.Schema<ListSiteCertificateSlotRequest>,
   output: __S(13153, __c411, 1) as any as S.Schema<CertificateCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30406,7 +30779,8 @@ export const ListSiteIdentifiersAssignedToHostName: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14624, __c457, 0) as any as S.Schema<ListSiteIdentifiersAssignedToHostNameRequest>,
   output: __S(14656, __c458, 0) as any as S.Schema<IdentifierCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30434,7 +30808,8 @@ export const ListSiteNetworkSecurityPerimeterConfigurations: API.PaginatedOperat
     0,
   ) as any as S.Schema<ListSiteNetworkSecurityPerimeterConfigurationsRequest>,
   output: __S(14690, __c459, 2) as any as S.Schema<NetworkSecurityPerimeterConfigurationCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30458,7 +30833,8 @@ export const ListSiteSiloResourceSiteSilos: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14720, __c460, 0) as any as S.Schema<ListSiteSiloResourceSiteSilosRequest>,
   output: __S(14722, __c460, 2) as any as S.Schema<SiteSiloCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30486,7 +30862,8 @@ export const ListSiteSiloVirtualNetworkConnectionSiteSiloVnetConnections: API.Pa
     0,
   ) as any as S.Schema<ListSiteSiloVirtualNetworkConnectionSiteSiloVnetConnectionsRequest>,
   output: __S(14754, __c461, 2) as any as S.Schema<SiteSiloVirtualNetworkConnectionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30509,7 +30886,8 @@ export const ListSkus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14784, __c462, 0) as any as S.Schema<ListSkusRequest>,
   output: __S(14787, __c462, 3) as any as S.Schema<SkuInfos>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30527,7 +30905,8 @@ export const ListSourceControls: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14816, __c463, 0) as any as S.Schema<ListSourceControlsRequest>,
   output: __S(14818, __c463, 2) as any as S.Schema<SourceControlCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30551,7 +30930,8 @@ export const ListStaticSiteBasicAuth: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14848, __c464, 0) as any as S.Schema<ListStaticSiteBasicAuthRequest>,
   output: __S(14850, __c464, 2) as any as S.Schema<StaticSiteBasicAuthPropertiesCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30575,7 +30955,8 @@ export const ListStaticSites: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(14912, __c466, 0) as any as S.Schema<ListStaticSitesRequest>,
   output: __S(5185, __c162, 1) as any as S.Schema<StaticSiteCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30598,7 +30979,8 @@ export const ListStaticSiteStaticSiteAppSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14944, __c467, 0) as any as S.Schema<ListStaticSiteStaticSiteAppSettingsRequest>,
   output: __S(14976, __c468, 0) as any as S.Schema<ListStaticSiteStaticSiteAppSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30619,7 +31001,8 @@ export const ListStaticSiteStaticSiteBuildAppSettings: API.OperationMethod<
     __c468,
     0,
   ) as any as S.Schema<ListStaticSiteStaticSiteBuildAppSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30644,7 +31027,8 @@ export const ListStaticSiteStaticSiteBuildFunctionAppSettings: API.OperationMeth
     __c468,
     0,
   ) as any as S.Schema<ListStaticSiteStaticSiteBuildFunctionAppSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30662,7 +31046,8 @@ export const ListStaticSiteStaticSiteBuildFunctions: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15072, __c471, 0) as any as S.Schema<ListStaticSiteStaticSiteBuildFunctionsRequest>,
   output: __S(15107, __c472, 3) as any as S.Schema<StaticSiteFunctionOverviewCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30685,7 +31070,8 @@ export const ListStaticSiteStaticSiteConfiguredRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15136, __c473, 0) as any as S.Schema<ListStaticSiteStaticSiteConfiguredRolesRequest>,
   output: __S(15137, __c473, 1) as any as S.Schema<ListStaticSiteStaticSiteConfiguredRolesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30703,7 +31089,8 @@ export const ListStaticSiteStaticSiteCustomDomains: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15168, __c474, 0) as any as S.Schema<ListStaticSiteStaticSiteCustomDomainsRequest>,
   output: __S(15170, __c474, 2) as any as S.Schema<StaticSiteCustomDomainOverviewCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30734,7 +31121,8 @@ export const ListStaticSiteStaticSiteFunctionAppSettings: API.OperationMethod<
     __c468,
     0,
   ) as any as S.Schema<ListStaticSiteStaticSiteFunctionAppSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30752,7 +31140,8 @@ export const ListStaticSiteStaticSiteFunctions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15232, __c476, 0) as any as S.Schema<ListStaticSiteStaticSiteFunctionsRequest>,
   output: __S(15107, __c472, 3) as any as S.Schema<StaticSiteFunctionOverviewCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30775,7 +31164,8 @@ export const ListStaticSiteStaticSiteSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15264, __c477, 0) as any as S.Schema<ListStaticSiteStaticSiteSecretsRequest>,
   output: __S(14976, __c468, 0) as any as S.Schema<ListStaticSiteStaticSiteSecretsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30793,7 +31183,8 @@ export const ListStaticSiteStaticSiteUsers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15328, __c479, 0) as any as S.Schema<ListStaticSiteStaticSiteUsersRequest>,
   output: __S(15330, __c479, 2) as any as S.Schema<StaticSiteUserCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30816,7 +31207,8 @@ export const ListWebAppApplicationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15392, __c481, 0) as any as S.Schema<ListWebAppApplicationSettingsRequest>,
   output: __S(14976, __c468, 0) as any as S.Schema<ListWebAppApplicationSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30833,7 +31225,8 @@ export const ListWebAppApplicationSettingsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15424, __c482, 0) as any as S.Schema<ListWebAppApplicationSettingsSlotRequest>,
   output: __S(14976, __c468, 0) as any as S.Schema<ListWebAppApplicationSettingsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30850,7 +31243,8 @@ export const ListWebAppAzureStorageAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15456, __c483, 0) as any as S.Schema<ListWebAppAzureStorageAccountsRequest>,
   output: __S(15488, __c484, 0) as any as S.Schema<ListWebAppAzureStorageAccountsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30867,7 +31261,8 @@ export const ListWebAppAzureStorageAccountsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15520, __c485, 0) as any as S.Schema<ListWebAppAzureStorageAccountsSlotRequest>,
   output: __S(15488, __c484, 0) as any as S.Schema<ListWebAppAzureStorageAccountsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30885,7 +31280,8 @@ export const ListWebAppBackups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15552, __c486, 0) as any as S.Schema<ListWebAppBackupsRequest>,
   output: __S(15585, __c487, 1) as any as S.Schema<BackupItemCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30909,7 +31305,8 @@ export const ListWebAppBackupsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(15616, __c488, 0) as any as S.Schema<ListWebAppBackupsSlotRequest>,
   output: __S(15585, __c487, 1) as any as S.Schema<BackupItemCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30932,7 +31329,8 @@ export const ListWebAppBackupStatusSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15648, __c489, 0) as any as S.Schema<ListWebAppBackupStatusSecretsRequest>,
   output: __S(6273, __c196, 1) as any as S.Schema<ListWebAppBackupStatusSecretsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30949,7 +31347,8 @@ export const ListWebAppBackupStatusSecretsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15712, __c491, 0) as any as S.Schema<ListWebAppBackupStatusSecretsSlotRequest>,
   output: __S(6273, __c196, 1) as any as S.Schema<ListWebAppBackupStatusSecretsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30971,7 +31370,8 @@ export const ListWebAppBasicPublishingCredentialsPolicies: API.PaginatedOperatio
     0,
   ) as any as S.Schema<ListWebAppBasicPublishingCredentialsPoliciesRequest>,
   output: __S(15777, __c493, 1) as any as S.Schema<PublishingCredentialsPoliciesCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -30999,7 +31399,8 @@ export const ListWebAppBasicPublishingCredentialsPoliciesSlot: API.PaginatedOper
     0,
   ) as any as S.Schema<ListWebAppBasicPublishingCredentialsPoliciesSlotRequest>,
   output: __S(15777, __c493, 1) as any as S.Schema<PublishingCredentialsPoliciesCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31023,7 +31424,8 @@ export const ListWebAppByResourceGroup: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16288, __c509, 0) as any as S.Schema<ListWebAppByResourceGroupRequest>,
   output: __S(12448, __c389, 0) as any as S.Schema<WebAppCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31047,7 +31449,8 @@ export const ListWebAppConfigurations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16320, __c510, 0) as any as S.Schema<ListWebAppConfigurationsRequest>,
   output: __S(16353, __c511, 1) as any as S.Schema<SiteConfigResourceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31071,7 +31474,8 @@ export const ListWebAppConfigurationSnapshotInfo: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16384, __c512, 0) as any as S.Schema<ListWebAppConfigurationSnapshotInfoRequest>,
   output: __S(16419, __c513, 3) as any as S.Schema<SiteConfigurationSnapshotInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31095,7 +31499,8 @@ export const ListWebAppConfigurationSnapshotInfoSlot: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16448, __c514, 0) as any as S.Schema<ListWebAppConfigurationSnapshotInfoSlotRequest>,
   output: __S(16419, __c513, 3) as any as S.Schema<SiteConfigurationSnapshotInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31119,7 +31524,8 @@ export const ListWebAppConfigurationsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16480, __c515, 0) as any as S.Schema<ListWebAppConfigurationsSlotRequest>,
   output: __S(16353, __c511, 1) as any as S.Schema<SiteConfigResourceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31142,7 +31548,8 @@ export const ListWebAppConnectionStrings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16512, __c516, 0) as any as S.Schema<ListWebAppConnectionStringsRequest>,
   output: __S(16546, __c517, 2) as any as S.Schema<ListWebAppConnectionStringsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31159,7 +31566,8 @@ export const ListWebAppConnectionStringsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16576, __c518, 0) as any as S.Schema<ListWebAppConnectionStringsSlotRequest>,
   output: __S(16546, __c517, 2) as any as S.Schema<ListWebAppConnectionStringsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31177,7 +31585,8 @@ export const ListWebAppContinuousWebJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16608, __c519, 0) as any as S.Schema<ListWebAppContinuousWebJobsRequest>,
   output: __S(16641, __c520, 1) as any as S.Schema<ContinuousWebJobCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31201,7 +31610,8 @@ export const ListWebAppContinuousWebJobsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16672, __c521, 0) as any as S.Schema<ListWebAppContinuousWebJobsSlotRequest>,
   output: __S(16641, __c520, 1) as any as S.Schema<ContinuousWebJobCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31224,7 +31634,8 @@ export const ListWebAppDeploymentLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16736, __c523, 0) as any as S.Schema<ListWebAppDeploymentLogRequest>,
   output: __S(5601, __c175, 1) as any as S.Schema<ListWebAppDeploymentLogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31241,7 +31652,8 @@ export const ListWebAppDeploymentLogSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16768, __c524, 0) as any as S.Schema<ListWebAppDeploymentLogSlotRequest>,
   output: __S(5601, __c175, 1) as any as S.Schema<ListWebAppDeploymentLogSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31259,7 +31671,8 @@ export const ListWebAppDeployments: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16800, __c525, 0) as any as S.Schema<ListWebAppDeploymentsRequest>,
   output: __S(16833, __c526, 1) as any as S.Schema<DeploymentCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31283,7 +31696,8 @@ export const ListWebAppDeploymentsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16864, __c527, 0) as any as S.Schema<ListWebAppDeploymentsSlotRequest>,
   output: __S(16833, __c526, 1) as any as S.Schema<DeploymentCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31307,7 +31721,8 @@ export const ListWebAppDomainOwnershipIdentifiers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16896, __c528, 0) as any as S.Schema<ListWebAppDomainOwnershipIdentifiersRequest>,
   output: __S(14656, __c458, 0) as any as S.Schema<IdentifierCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31331,7 +31746,8 @@ export const ListWebAppDomainOwnershipIdentifiersSlot: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(16928, __c529, 0) as any as S.Schema<ListWebAppDomainOwnershipIdentifiersSlotRequest>,
   output: __S(14656, __c458, 0) as any as S.Schema<IdentifierCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31354,7 +31770,8 @@ export const ListWebAppFunctionKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16960, __c530, 0) as any as S.Schema<ListWebAppFunctionKeysRequest>,
   output: __S(14976, __c468, 0) as any as S.Schema<ListWebAppFunctionKeysResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31371,7 +31788,8 @@ export const ListWebAppFunctionKeysSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16992, __c531, 0) as any as S.Schema<ListWebAppFunctionKeysSlotRequest>,
   output: __S(14976, __c468, 0) as any as S.Schema<ListWebAppFunctionKeysSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31389,7 +31807,8 @@ export const ListWebAppFunctions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17024, __c532, 0) as any as S.Schema<ListWebAppFunctionsRequest>,
   output: __S(17057, __c533, 1) as any as S.Schema<FunctionEnvelopeCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31412,7 +31831,8 @@ export const ListWebAppFunctionSecrets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17088, __c534, 0) as any as S.Schema<ListWebAppFunctionSecretsRequest>,
   output: __S(17120, __c535, 0) as any as S.Schema<FunctionSecrets>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31429,7 +31849,8 @@ export const ListWebAppFunctionSecretsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17184, __c537, 0) as any as S.Schema<ListWebAppFunctionSecretsSlotRequest>,
   output: __S(17120, __c535, 0) as any as S.Schema<FunctionSecrets>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31446,7 +31867,8 @@ export const ListWebAppHostKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17216, __c538, 0) as any as S.Schema<ListWebAppHostKeysRequest>,
   output: __S(17248, __c539, 0) as any as S.Schema<HostKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31463,7 +31885,8 @@ export const ListWebAppHostKeysSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17280, __c540, 0) as any as S.Schema<ListWebAppHostKeysSlotRequest>,
   output: __S(17248, __c539, 0) as any as S.Schema<HostKeys>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31481,7 +31904,8 @@ export const ListWebAppHostNameBindings: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17312, __c541, 0) as any as S.Schema<ListWebAppHostNameBindingsRequest>,
   output: __S(17345, __c542, 1) as any as S.Schema<HostNameBindingCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31505,7 +31929,8 @@ export const ListWebAppHostNameBindingsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17376, __c543, 0) as any as S.Schema<ListWebAppHostNameBindingsSlotRequest>,
   output: __S(17345, __c542, 1) as any as S.Schema<HostNameBindingCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31528,7 +31953,8 @@ export const ListWebAppHybridConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17408, __c544, 0) as any as S.Schema<ListWebAppHybridConnectionsRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<ListWebAppHybridConnectionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31545,7 +31971,8 @@ export const ListWebAppHybridConnectionsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17440, __c545, 0) as any as S.Schema<ListWebAppHybridConnectionsSlotRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<ListWebAppHybridConnectionsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31563,7 +31990,8 @@ export const ListWebAppInstanceFunctionsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17472, __c546, 0) as any as S.Schema<ListWebAppInstanceFunctionsSlotRequest>,
   output: __S(17057, __c533, 1) as any as S.Schema<FunctionEnvelopeCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31587,7 +32015,8 @@ export const ListWebAppInstanceIdentifiers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17504, __c547, 0) as any as S.Schema<ListWebAppInstanceIdentifiersRequest>,
   output: __S(17537, __c548, 1) as any as S.Schema<WebAppInstanceStatusCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31611,7 +32040,8 @@ export const ListWebAppInstanceIdentifiersSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17568, __c549, 0) as any as S.Schema<ListWebAppInstanceIdentifiersSlotRequest>,
   output: __S(17537, __c548, 1) as any as S.Schema<WebAppInstanceStatusCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31635,7 +32065,8 @@ export const ListWebAppInstanceProcesses: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17632, __c551, 0) as any as S.Schema<ListWebAppInstanceProcessesRequest>,
   output: __S(17665, __c552, 1) as any as S.Schema<ProcessInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31659,7 +32090,8 @@ export const ListWebAppInstanceProcessesSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17696, __c553, 0) as any as S.Schema<ListWebAppInstanceProcessesSlotRequest>,
   output: __S(17665, __c552, 1) as any as S.Schema<ProcessInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31683,7 +32115,8 @@ export const ListWebAppInstanceProcessModules: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17728, __c554, 0) as any as S.Schema<ListWebAppInstanceProcessModulesRequest>,
   output: __S(17760, __c555, 0) as any as S.Schema<ProcessModuleInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31707,7 +32140,8 @@ export const ListWebAppInstanceProcessModulesSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17792, __c556, 0) as any as S.Schema<ListWebAppInstanceProcessModulesSlotRequest>,
   output: __S(17760, __c555, 0) as any as S.Schema<ProcessModuleInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31731,7 +32165,8 @@ export const ListWebAppInstanceProcessThreads: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17824, __c557, 0) as any as S.Schema<ListWebAppInstanceProcessThreadsRequest>,
   output: __S(17856, __c558, 0) as any as S.Schema<ProcessThreadInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31755,7 +32190,8 @@ export const ListWebAppInstanceProcessThreadsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17888, __c559, 0) as any as S.Schema<ListWebAppInstanceProcessThreadsSlotRequest>,
   output: __S(17856, __c558, 0) as any as S.Schema<ProcessThreadInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31779,7 +32215,8 @@ export const ListWebAppInstanceWorkflowsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17920, __c560, 0) as any as S.Schema<ListWebAppInstanceWorkflowsSlotRequest>,
   output: __S(17953, __c561, 1) as any as S.Schema<WorkflowEnvelopeCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31802,7 +32239,8 @@ export const ListWebAppMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(17984, __c562, 0) as any as S.Schema<ListWebAppMetadataRequest>,
   output: __S(14976, __c468, 0) as any as S.Schema<ListWebAppMetadataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31819,7 +32257,8 @@ export const ListWebAppMetadataSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18016, __c563, 0) as any as S.Schema<ListWebAppMetadataSlotRequest>,
   output: __S(14976, __c468, 0) as any as S.Schema<ListWebAppMetadataSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31836,7 +32275,8 @@ export const ListWebAppNetworkFeatures: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18048, __c564, 0) as any as S.Schema<ListWebAppNetworkFeaturesRequest>,
   output: __S(18082, __c565, 2) as any as S.Schema<ListWebAppNetworkFeaturesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31853,7 +32293,8 @@ export const ListWebAppNetworkFeaturesSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18144, __c567, 0) as any as S.Schema<ListWebAppNetworkFeaturesSlotRequest>,
   output: __S(18082, __c565, 2) as any as S.Schema<ListWebAppNetworkFeaturesSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31871,7 +32312,8 @@ export const ListWebAppPerfMonCounters: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18176, __c568, 0) as any as S.Schema<ListWebAppPerfMonCountersRequest>,
   output: __S(18213, __c569, 5) as any as S.Schema<PerfMonCounterCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31895,7 +32337,8 @@ export const ListWebAppPerfMonCountersSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18240, __c570, 0) as any as S.Schema<ListWebAppPerfMonCountersSlotRequest>,
   output: __S(18213, __c569, 5) as any as S.Schema<PerfMonCounterCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31919,7 +32362,8 @@ export const ListWebAppProcesses: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18272, __c571, 0) as any as S.Schema<ListWebAppProcessesRequest>,
   output: __S(17665, __c552, 1) as any as S.Schema<ProcessInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31943,7 +32387,8 @@ export const ListWebAppProcessesSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18304, __c572, 0) as any as S.Schema<ListWebAppProcessesSlotRequest>,
   output: __S(17665, __c552, 1) as any as S.Schema<ProcessInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31967,7 +32412,8 @@ export const ListWebAppProcessModules: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18336, __c573, 0) as any as S.Schema<ListWebAppProcessModulesRequest>,
   output: __S(17760, __c555, 0) as any as S.Schema<ProcessModuleInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -31991,7 +32437,8 @@ export const ListWebAppProcessModulesSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18368, __c574, 0) as any as S.Schema<ListWebAppProcessModulesSlotRequest>,
   output: __S(17760, __c555, 0) as any as S.Schema<ProcessModuleInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32015,7 +32462,8 @@ export const ListWebAppProcessThreads: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18400, __c575, 0) as any as S.Schema<ListWebAppProcessThreadsRequest>,
   output: __S(17856, __c558, 0) as any as S.Schema<ProcessThreadInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32039,7 +32487,8 @@ export const ListWebAppProcessThreadsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18432, __c576, 0) as any as S.Schema<ListWebAppProcessThreadsSlotRequest>,
   output: __S(17856, __c558, 0) as any as S.Schema<ProcessThreadInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32067,7 +32516,8 @@ export const ListWebAppProductionSiteDeploymentStatuses: API.PaginatedOperationM
     0,
   ) as any as S.Schema<ListWebAppProductionSiteDeploymentStatusesRequest>,
   output: __S(18498, __c578, 2) as any as S.Schema<CsmDeploymentStatusCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32091,7 +32541,8 @@ export const ListWebAppPublicCertificates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18560, __c580, 0) as any as S.Schema<ListWebAppPublicCertificatesRequest>,
   output: __S(18593, __c581, 1) as any as S.Schema<PublicCertificateCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32115,7 +32566,8 @@ export const ListWebAppPublicCertificatesSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18624, __c582, 0) as any as S.Schema<ListWebAppPublicCertificatesSlotRequest>,
   output: __S(18593, __c581, 1) as any as S.Schema<PublicCertificateCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32138,7 +32590,8 @@ export const ListWebAppPublishingCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18656, __c583, 0) as any as S.Schema<ListWebAppPublishingCredentialsRequest>,
   output: __S(18688, __c584, 0) as any as S.Schema<ListWebAppPublishingCredentialsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32155,7 +32608,8 @@ export const ListWebAppPublishingCredentialsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18720, __c585, 0) as any as S.Schema<ListWebAppPublishingCredentialsSlotRequest>,
   output: __S(18688, __c584, 0) as any as S.Schema<ListWebAppPublishingCredentialsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32176,7 +32630,8 @@ export const ListWebAppPublishingProfileXmlWithSecrets: API.OperationMethod<
     __c270,
     0,
   ) as any as S.Schema<ListWebAppPublishingProfileXmlWithSecretsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32201,7 +32656,8 @@ export const ListWebAppPublishingProfileXmlWithSecretsSlot: API.OperationMethod<
     __c270,
     0,
   ) as any as S.Schema<ListWebAppPublishingProfileXmlWithSecretsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32218,7 +32674,8 @@ export const ListWebAppRelayServiceConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18816, __c588, 0) as any as S.Schema<ListWebAppRelayServiceConnectionsRequest>,
   output: __S(9185, __c287, 1) as any as S.Schema<ListWebAppRelayServiceConnectionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32235,7 +32692,8 @@ export const ListWebAppRelayServiceConnectionsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(18848, __c589, 0) as any as S.Schema<ListWebAppRelayServiceConnectionsSlotRequest>,
   output: __S(9185, __c287, 1) as any as S.Schema<ListWebAppRelayServiceConnectionsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32253,7 +32711,8 @@ export const ListWebApps: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18880, __c590, 0) as any as S.Schema<ListWebAppsRequest>,
   output: __S(12448, __c389, 0) as any as S.Schema<WebAppCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32277,7 +32736,8 @@ export const ListWebAppSiteBackups: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18912, __c591, 0) as any as S.Schema<ListWebAppSiteBackupsRequest>,
   output: __S(15585, __c487, 1) as any as S.Schema<BackupItemCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32301,7 +32761,8 @@ export const ListWebAppSiteBackupsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(18976, __c593, 0) as any as S.Schema<ListWebAppSiteBackupsSlotRequest>,
   output: __S(15585, __c487, 1) as any as S.Schema<BackupItemCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32325,7 +32786,8 @@ export const ListWebAppSiteContainers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19008, __c594, 0) as any as S.Schema<ListWebAppSiteContainersRequest>,
   output: __S(19041, __c595, 1) as any as S.Schema<SiteContainerCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32349,7 +32811,8 @@ export const ListWebAppSiteContainersSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19072, __c596, 0) as any as S.Schema<ListWebAppSiteContainersSlotRequest>,
   output: __S(19041, __c595, 1) as any as S.Schema<SiteContainerCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32373,7 +32836,8 @@ export const ListWebAppSiteExtensions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19104, __c597, 0) as any as S.Schema<ListWebAppSiteExtensionsRequest>,
   output: __S(19137, __c598, 1) as any as S.Schema<SiteExtensionInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32397,7 +32861,8 @@ export const ListWebAppSiteExtensionsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19168, __c599, 0) as any as S.Schema<ListWebAppSiteExtensionsSlotRequest>,
   output: __S(19137, __c598, 1) as any as S.Schema<SiteExtensionInfoCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32420,7 +32885,8 @@ export const ListWebAppSitePushSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19200, __c600, 0) as any as S.Schema<ListWebAppSitePushSettingsRequest>,
   output: __S(15969, __c499, 1) as any as S.Schema<ListWebAppSitePushSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32437,7 +32903,8 @@ export const ListWebAppSitePushSettingsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19232, __c601, 0) as any as S.Schema<ListWebAppSitePushSettingsSlotRequest>,
   output: __S(15969, __c499, 1) as any as S.Schema<ListWebAppSitePushSettingsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32454,7 +32921,8 @@ export const ListWebAppSlotConfigurationNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19264, __c602, 0) as any as S.Schema<ListWebAppSlotConfigurationNamesRequest>,
   output: __S(19297, __c603, 1) as any as S.Schema<ListWebAppSlotConfigurationNamesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32472,7 +32940,8 @@ export const ListWebAppSlotDifferencesFromProduction: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19328, __c604, 0) as any as S.Schema<ListWebAppSlotDifferencesFromProductionRequest>,
   output: __S(19363, __c605, 3) as any as S.Schema<SlotDifferenceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32496,7 +32965,8 @@ export const ListWebAppSlotDifferencesSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19392, __c606, 0) as any as S.Schema<ListWebAppSlotDifferencesSlotRequest>,
   output: __S(19363, __c605, 3) as any as S.Schema<SlotDifferenceCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32520,7 +32990,8 @@ export const ListWebAppSlots: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19456, __c608, 0) as any as S.Schema<ListWebAppSlotsRequest>,
   output: __S(12448, __c389, 0) as any as S.Schema<WebAppCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32544,7 +33015,8 @@ export const ListWebAppSlotSiteDeploymentStatusesSlot: API.PaginatedOperationMet
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19488, __c609, 0) as any as S.Schema<ListWebAppSlotSiteDeploymentStatusesSlotRequest>,
   output: __S(18498, __c578, 2) as any as S.Schema<CsmDeploymentStatusCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32568,7 +33040,8 @@ export const ListWebAppSnapshots: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19520, __c610, 0) as any as S.Schema<ListWebAppSnapshotsRequest>,
   output: __S(19552, __c611, 0) as any as S.Schema<SnapshotCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32592,7 +33065,8 @@ export const ListWebAppSnapshotsFromDRSecondary: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19584, __c612, 0) as any as S.Schema<ListWebAppSnapshotsFromDRSecondaryRequest>,
   output: __S(19552, __c611, 0) as any as S.Schema<SnapshotCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32616,7 +33090,8 @@ export const ListWebAppSnapshotsFromDRSecondarySlot: API.PaginatedOperationMetho
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19616, __c613, 0) as any as S.Schema<ListWebAppSnapshotsFromDRSecondarySlotRequest>,
   output: __S(19552, __c611, 0) as any as S.Schema<SnapshotCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32640,7 +33115,8 @@ export const ListWebAppSnapshotsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19648, __c614, 0) as any as S.Schema<ListWebAppSnapshotsSlotRequest>,
   output: __S(19552, __c611, 0) as any as S.Schema<SnapshotCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32663,7 +33139,8 @@ export const ListWebAppSyncFunctionTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19680, __c615, 0) as any as S.Schema<ListWebAppSyncFunctionTriggersRequest>,
   output: __S(17120, __c535, 0) as any as S.Schema<FunctionSecrets>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32680,7 +33157,8 @@ export const ListWebAppSyncFunctionTriggersSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19712, __c616, 0) as any as S.Schema<ListWebAppSyncFunctionTriggersSlotRequest>,
   output: __S(17120, __c535, 0) as any as S.Schema<FunctionSecrets>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32697,7 +33175,8 @@ export const ListWebAppSyncStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19744, __c617, 0) as any as S.Schema<ListWebAppSyncStatusRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ListWebAppSyncStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32714,7 +33193,8 @@ export const ListWebAppSyncStatusSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(19776, __c618, 0) as any as S.Schema<ListWebAppSyncStatusSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ListWebAppSyncStatusSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32732,7 +33212,8 @@ export const ListWebAppTriggeredWebJobHistory: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19840, __c620, 0) as any as S.Schema<ListWebAppTriggeredWebJobHistoryRequest>,
   output: __S(19873, __c621, 1) as any as S.Schema<TriggeredJobHistoryCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32756,7 +33237,8 @@ export const ListWebAppTriggeredWebJobHistorySlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19904, __c622, 0) as any as S.Schema<ListWebAppTriggeredWebJobHistorySlotRequest>,
   output: __S(19873, __c621, 1) as any as S.Schema<TriggeredJobHistoryCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32780,7 +33262,8 @@ export const ListWebAppTriggeredWebJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(19936, __c623, 0) as any as S.Schema<ListWebAppTriggeredWebJobsRequest>,
   output: __S(19969, __c624, 1) as any as S.Schema<TriggeredWebJobCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32804,7 +33287,8 @@ export const ListWebAppTriggeredWebJobsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20000, __c625, 0) as any as S.Schema<ListWebAppTriggeredWebJobsSlotRequest>,
   output: __S(19969, __c624, 1) as any as S.Schema<TriggeredWebJobCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32828,7 +33312,8 @@ export const ListWebAppUsages: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20032, __c626, 0) as any as S.Schema<ListWebAppUsagesRequest>,
   output: __S(12387, __c387, 3) as any as S.Schema<CsmUsageQuotaCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32852,7 +33337,8 @@ export const ListWebAppUsagesSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20064, __c627, 0) as any as S.Schema<ListWebAppUsagesSlotRequest>,
   output: __S(12387, __c387, 3) as any as S.Schema<CsmUsageQuotaCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32875,7 +33361,8 @@ export const ListWebAppVnetConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20096, __c628, 0) as any as S.Schema<ListWebAppVnetConnectionsRequest>,
   output: __S(12961, __c405, 1) as any as S.Schema<ListWebAppVnetConnectionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32892,7 +33379,8 @@ export const ListWebAppVnetConnectionsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20128, __c629, 0) as any as S.Schema<ListWebAppVnetConnectionsSlotRequest>,
   output: __S(12961, __c405, 1) as any as S.Schema<ListWebAppVnetConnectionsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32910,7 +33398,8 @@ export const ListWebAppWebJobs: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20160, __c630, 0) as any as S.Schema<ListWebAppWebJobsRequest>,
   output: __S(20193, __c631, 1) as any as S.Schema<WebJobCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32934,7 +33423,8 @@ export const ListWebAppWebJobsSlot: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20224, __c632, 0) as any as S.Schema<ListWebAppWebJobsSlotRequest>,
   output: __S(20193, __c631, 1) as any as S.Schema<WebJobCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32958,7 +33448,8 @@ export const ListWebAppWorkflows: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20288, __c634, 0) as any as S.Schema<ListWebAppWorkflowsRequest>,
   output: __S(17953, __c561, 1) as any as S.Schema<WorkflowEnvelopeCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32981,7 +33472,8 @@ export const ListWebAppWorkflowsConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20320, __c635, 0) as any as S.Schema<ListWebAppWorkflowsConnectionsRequest>,
   output: __S(8098, __c253, 2) as any as S.Schema<ListWebAppWorkflowsConnectionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -32998,7 +33490,8 @@ export const ListWebAppWorkflowsConnectionsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20352, __c636, 0) as any as S.Schema<ListWebAppWorkflowsConnectionsSlotRequest>,
   output: __S(8098, __c253, 2) as any as S.Schema<ListWebAppWorkflowsConnectionsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33016,7 +33509,8 @@ export const ListWorkflowRunActionExpressionTraces: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20384, __c637, 0) as any as S.Schema<ListWorkflowRunActionExpressionTracesRequest>,
   output: __S(20423, __c638, 7) as any as S.Schema<ExpressionTraces>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33044,7 +33538,8 @@ export const ListWorkflowRunActionRepetitionExpressionTraces: API.PaginatedOpera
     0,
   ) as any as S.Schema<ListWorkflowRunActionRepetitionExpressionTracesRequest>,
   output: __S(20423, __c638, 7) as any as S.Schema<ExpressionTraces>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33068,7 +33563,8 @@ export const ListWorkflowRunActionRepetitions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20480, __c640, 0) as any as S.Schema<ListWorkflowRunActionRepetitionsRequest>,
   output: __S(20513, __c641, 1) as any as S.Schema<WorkflowRunActionRepetitionDefinitionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33096,7 +33592,8 @@ export const ListWorkflowRunActionRepetitionsRequestHistories: API.PaginatedOper
     0,
   ) as any as S.Schema<ListWorkflowRunActionRepetitionsRequestHistoriesRequest>,
   output: __S(20546, __c642, 2) as any as S.Schema<RequestHistoryListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33120,7 +33617,8 @@ export const ListWorkflowRunActions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20576, __c643, 0) as any as S.Schema<ListWorkflowRunActionsRequest>,
   output: __S(20578, __c643, 2) as any as S.Schema<WorkflowRunActionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33144,7 +33642,8 @@ export const ListWorkflowRunActionScopeRepetitions: API.PaginatedOperationMethod
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20608, __c644, 0) as any as S.Schema<ListWorkflowRunActionScopeRepetitionsRequest>,
   output: __S(20513, __c641, 1) as any as S.Schema<WorkflowRunActionRepetitionDefinitionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33168,7 +33667,8 @@ export const ListWorkflowRuns: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20640, __c645, 0) as any as S.Schema<ListWorkflowRunsRequest>,
   output: __S(20642, __c645, 2) as any as S.Schema<WorkflowRunListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33191,7 +33691,8 @@ export const ListWorkflowTriggerCallbackUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20928, __c654, 0) as any as S.Schema<ListWorkflowTriggerCallbackUrlRequest>,
   output: __S(20930, __c654, 2) as any as S.Schema<WorkflowTriggerCallbackUrl>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33209,7 +33710,8 @@ export const ListWorkflowTriggerHistories: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20960, __c655, 0) as any as S.Schema<ListWorkflowTriggerHistoriesRequest>,
   output: __S(20962, __c655, 2) as any as S.Schema<WorkflowTriggerHistoryListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33233,7 +33735,8 @@ export const ListWorkflowTriggers: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(20992, __c656, 0) as any as S.Schema<ListWorkflowTriggersRequest>,
   output: __S(20994, __c656, 2) as any as S.Schema<WorkflowTriggerListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33257,7 +33760,8 @@ export const ListWorkflowVersions: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(21024, __c657, 0) as any as S.Schema<ListWorkflowVersionsRequest>,
   output: __S(21026, __c657, 2) as any as S.Schema<WorkflowVersionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33280,7 +33784,8 @@ export const MigrateWebAppMySql: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21057, __c658, 1) as any as S.Schema<MigrateWebAppMySqlRequest>,
   output: __S(21058, __c658, 2) as any as S.Schema<MigrateWebAppMySqlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33297,7 +33802,8 @@ export const MigrateWebAppStorage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21089, __c659, 1) as any as S.Schema<MigrateWebAppStorageRequest>,
   output: __S(21091, __c659, 3) as any as S.Schema<MigrateWebAppStorageResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33310,7 +33816,8 @@ export const Move: API.OperationMethod<MoveRequest, MoveResponse, MoveError, Azu
   /*@__PURE__*/ API.make(() => ({
     input: __S(21120, __c660, 0) as any as S.Schema<MoveRequest>,
     output: __S(32, __c1, 0) as any as S.Schema<MoveResponse>,
-    errors: [UnknownAzureError],
+    errors: [],
+    serviceErrors: AzureServiceErrors,
     protocol: AzureProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -33327,7 +33834,8 @@ export const PatchAiGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21152, __c661, 0) as any as S.Schema<PatchAiGatewayRequest>,
   output: __S(65, __c2, 1) as any as S.Schema<PatchAiGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33344,7 +33852,8 @@ export const PreviewStaticSiteWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21185, __c662, 1) as any as S.Schema<PreviewStaticSiteWorkflowRequest>,
   output: __S(21187, __c662, 3) as any as S.Schema<PreviewStaticSiteWorkflowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33361,7 +33870,8 @@ export const PutWebAppPrivateAccessVnet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21216, __c663, 0) as any as S.Schema<PutWebAppPrivateAccessVnetRequest>,
   output: __S(8485, __c265, 5) as any as S.Schema<PutWebAppPrivateAccessVnetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33378,7 +33888,8 @@ export const PutWebAppPrivateAccessVnetSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21280, __c665, 0) as any as S.Schema<PutWebAppPrivateAccessVnetSlotRequest>,
   output: __S(8485, __c265, 5) as any as S.Schema<PutWebAppPrivateAccessVnetSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33395,7 +33906,8 @@ export const RebootAppServiceEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21312, __c666, 0) as any as S.Schema<RebootAppServiceEnvironmentRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RebootAppServiceEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33412,7 +33924,8 @@ export const RebootAppServicePlanWorker: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21344, __c667, 0) as any as S.Schema<RebootAppServicePlanWorkerRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RebootAppServicePlanWorkerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33429,7 +33942,8 @@ export const RecoverWebAppSiteConfigurationSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21376, __c668, 0) as any as S.Schema<RecoverWebAppSiteConfigurationSnapshotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RecoverWebAppSiteConfigurationSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33450,7 +33964,8 @@ export const RecoverWebAppSiteConfigurationSnapshotSlot: API.OperationMethod<
     0,
   ) as any as S.Schema<RecoverWebAppSiteConfigurationSnapshotSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RecoverWebAppSiteConfigurationSnapshotSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33467,7 +33982,8 @@ export const RefreshSiteSiloResourceSiteSilos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21440, __c670, 0) as any as S.Schema<RefreshSiteSiloResourceSiteSilosRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RefreshSiteSiloResourceSiteSilosResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33484,7 +34000,8 @@ export const RegenerateWorkflowAccessKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21472, __c671, 0) as any as S.Schema<RegenerateWorkflowAccessKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RegenerateWorkflowAccessKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33501,7 +34018,8 @@ export const RegionalCheckNameAvailability: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21504, __c672, 0) as any as S.Schema<RegionalCheckNameAvailabilityRequest>,
   output: __S(21505, __c672, 1) as any as S.Schema<DnlResourceNameAvailability>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33526,7 +34044,8 @@ export const RegisterStaticSiteUserProvidedFunctionAppWithStaticSite: API.Operat
     __c674,
     1,
   ) as any as S.Schema<RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33551,7 +34070,8 @@ export const RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteBuild: API.O
     __c674,
     1,
   ) as any as S.Schema<RegisterStaticSiteUserProvidedFunctionAppWithStaticSiteBuildResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33568,7 +34088,8 @@ export const ResetRecommendationAllFilters: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21664, __c677, 0) as any as S.Schema<ResetRecommendationAllFiltersRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ResetRecommendationAllFiltersResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33593,7 +34114,8 @@ export const ResetRecommendationAllFiltersForHostingEnvironment: API.OperationMe
     __c1,
     0,
   ) as any as S.Schema<ResetRecommendationAllFiltersForHostingEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33610,7 +34132,8 @@ export const ResetRecommendationAllFiltersForWebApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21728, __c679, 0) as any as S.Schema<ResetRecommendationAllFiltersForWebAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ResetRecommendationAllFiltersForWebAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33627,7 +34150,8 @@ export const ResetStaticSiteStaticSiteApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21761, __c680, 1) as any as S.Schema<ResetStaticSiteStaticSiteApiKeyRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ResetStaticSiteStaticSiteApiKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33644,7 +34168,8 @@ export const ResetWebAppProductionSlotConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21792, __c681, 0) as any as S.Schema<ResetWebAppProductionSlotConfigRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ResetWebAppProductionSlotConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33661,7 +34186,8 @@ export const ResetWebAppSlotConfigurationSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21824, __c682, 0) as any as S.Schema<ResetWebAppSlotConfigurationSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ResetWebAppSlotConfigurationSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33678,7 +34204,8 @@ export const RestartAppServicePlanWebApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21856, __c683, 0) as any as S.Schema<RestartAppServicePlanWebAppsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RestartAppServicePlanWebAppsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33695,7 +34222,8 @@ export const RestartWebApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21888, __c684, 0) as any as S.Schema<RestartWebAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RestartWebAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33712,7 +34240,8 @@ export const RestartWebAppSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21920, __c685, 0) as any as S.Schema<RestartWebAppSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RestartWebAppSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33729,7 +34258,8 @@ export const RestoreWebApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21952, __c686, 0) as any as S.Schema<RestoreWebAppRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<RestoreWebAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33746,7 +34276,8 @@ export const RestoreWebAppFromBackupBlob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22048, __c689, 0) as any as S.Schema<RestoreWebAppFromBackupBlobRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<RestoreWebAppFromBackupBlobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33763,7 +34294,8 @@ export const RestoreWebAppFromBackupBlobSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22080, __c690, 0) as any as S.Schema<RestoreWebAppFromBackupBlobSlotRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<RestoreWebAppFromBackupBlobSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33780,7 +34312,8 @@ export const RestoreWebAppFromDeletedApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22112, __c691, 0) as any as S.Schema<RestoreWebAppFromDeletedAppRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<RestoreWebAppFromDeletedAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33797,7 +34330,8 @@ export const RestoreWebAppFromDeletedAppSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22176, __c693, 0) as any as S.Schema<RestoreWebAppFromDeletedAppSlotRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<RestoreWebAppFromDeletedAppSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33814,7 +34348,8 @@ export const RestoreWebAppSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22208, __c694, 0) as any as S.Schema<RestoreWebAppSlotRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<RestoreWebAppSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33831,7 +34366,8 @@ export const RestoreWebAppSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22240, __c695, 0) as any as S.Schema<RestoreWebAppSnapshotRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<RestoreWebAppSnapshotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33848,7 +34384,8 @@ export const RestoreWebAppSnapshotSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22304, __c697, 0) as any as S.Schema<RestoreWebAppSnapshotSlotRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<RestoreWebAppSnapshotSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33866,7 +34403,8 @@ export const ResumeAppServiceEnvironment: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(22336, __c698, 0) as any as S.Schema<ResumeAppServiceEnvironmentRequest>,
   output: __S(16192, __c506, 0) as any as S.Schema<ResumeAppServiceEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33889,7 +34427,8 @@ export const RunWebAppTriggeredWebJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22368, __c699, 0) as any as S.Schema<RunWebAppTriggeredWebJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RunWebAppTriggeredWebJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33906,7 +34445,8 @@ export const RunWebAppTriggeredWebJobSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22400, __c700, 0) as any as S.Schema<RunWebAppTriggeredWebJobSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<RunWebAppTriggeredWebJobSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33931,7 +34471,8 @@ export const ServerFarmSiloResourcesCreateOrUpdateServerFarmSilo: API.OperationM
     __c702,
     2,
   ) as any as S.Schema<ServerFarmSiloResourcesCreateOrUpdateServerFarmSiloResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33948,7 +34489,8 @@ export const SiteCertificatesCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22496, __c703, 0) as any as S.Schema<SiteCertificatesCreateOrUpdateRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<SiteCertificatesCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33965,7 +34507,8 @@ export const SiteCertificatesCreateOrUpdateSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22528, __c704, 0) as any as S.Schema<SiteCertificatesCreateOrUpdateSlotRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<SiteCertificatesCreateOrUpdateSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -33982,7 +34525,8 @@ export const SiteSiloResourcesCreateOrUpdateSiteSilo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22561, __c705, 1) as any as S.Schema<SiteSiloResourcesCreateOrUpdateSiteSiloRequest>,
   output: __S(22562, __c705, 2) as any as S.Schema<SiteSiloResourcesCreateOrUpdateSiteSiloResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34008,7 +34552,8 @@ export const SiteSiloVirtualNetworkConnectionsCreateOrUpdateSiteSiloVnetConnecti
     __c115,
     1,
   ) as any as S.Schema<SiteSiloVirtualNetworkConnectionsCreateOrUpdateSiteSiloVnetConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34025,7 +34570,8 @@ export const StartAppServicePlanWebApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22624, __c707, 0) as any as S.Schema<StartAppServicePlanWebAppsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartAppServicePlanWebAppsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34042,7 +34588,8 @@ export const StartWebApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22656, __c708, 0) as any as S.Schema<StartWebAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartWebAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34059,7 +34606,8 @@ export const StartWebAppContinuousWebJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22688, __c709, 0) as any as S.Schema<StartWebAppContinuousWebJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartWebAppContinuousWebJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34076,7 +34624,8 @@ export const StartWebAppContinuousWebJobSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22720, __c710, 0) as any as S.Schema<StartWebAppContinuousWebJobSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartWebAppContinuousWebJobSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34093,7 +34642,8 @@ export const StartWebAppNetworkTrace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22752, __c711, 0) as any as S.Schema<StartWebAppNetworkTraceRequest>,
   output: __S(8162, __c255, 2) as any as S.Schema<StartWebAppNetworkTraceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34110,7 +34660,8 @@ export const StartWebAppNetworkTraceSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22816, __c713, 0) as any as S.Schema<StartWebAppNetworkTraceSlotRequest>,
   output: __S(8162, __c255, 2) as any as S.Schema<StartWebAppNetworkTraceSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34127,7 +34678,8 @@ export const StartWebAppSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22848, __c714, 0) as any as S.Schema<StartWebAppSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StartWebAppSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34144,7 +34696,8 @@ export const StartWebAppWebSiteNetworkTrace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22880, __c715, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceRequest>,
   output: __S(7328, __c229, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34161,7 +34714,8 @@ export const StartWebAppWebSiteNetworkTraceOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22912, __c716, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceOperationRequest>,
   output: __S(8162, __c255, 2) as any as S.Schema<StartWebAppWebSiteNetworkTraceOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34186,7 +34740,8 @@ export const StartWebAppWebSiteNetworkTraceOperationSlot: API.OperationMethod<
     __c255,
     2,
   ) as any as S.Schema<StartWebAppWebSiteNetworkTraceOperationSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34203,7 +34758,8 @@ export const StartWebAppWebSiteNetworkTraceSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(22976, __c718, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceSlotRequest>,
   output: __S(7328, __c229, 0) as any as S.Schema<StartWebAppWebSiteNetworkTraceSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34228,7 +34784,8 @@ export const StaticSitesApproveOrRejectPrivateEndpointConnection: API.OperationM
     __c350,
     1,
   ) as any as S.Schema<StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34245,7 +34802,8 @@ export const StaticSitesCreateOrUpdateBasicAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23041, __c720, 1) as any as S.Schema<StaticSitesCreateOrUpdateBasicAuthRequest>,
   output: __S(3841, __c120, 1) as any as S.Schema<StaticSitesCreateOrUpdateBasicAuthResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34270,7 +34828,8 @@ export const StaticSitesCreateOrUpdateBuildDatabaseConnection: API.OperationMeth
     __c123,
     1,
   ) as any as S.Schema<StaticSitesCreateOrUpdateBuildDatabaseConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34295,7 +34854,8 @@ export const StaticSitesCreateOrUpdateDatabaseConnection: API.OperationMethod<
     __c123,
     1,
   ) as any as S.Schema<StaticSitesCreateOrUpdateDatabaseConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34312,7 +34872,8 @@ export const StaticSitesCreateOrUpdateStaticSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23200, __c725, 0) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteRequest>,
   output: __S(23201, __c725, 1) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34337,7 +34898,8 @@ export const StaticSitesCreateOrUpdateStaticSiteAppSettings: API.OperationMethod
     __c468,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34362,7 +34924,8 @@ export const StaticSitesCreateOrUpdateStaticSiteBuildAppSettings: API.OperationM
     __c468,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34387,7 +34950,8 @@ export const StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettings: API.Op
     __c468,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34412,7 +34976,8 @@ export const StaticSitesCreateOrUpdateStaticSiteCustomDomain: API.OperationMetho
     __c730,
     1,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34437,7 +35002,8 @@ export const StaticSitesCreateOrUpdateStaticSiteFunctionAppSettings: API.Operati
     __c468,
     0,
   ) as any as S.Schema<StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34459,7 +35025,8 @@ export const StaticSitesGetPrivateEndpointConnectionList: API.PaginatedOperation
     0,
   ) as any as S.Schema<StaticSitesGetPrivateEndpointConnectionListRequest>,
   output: __S(30561, __c955, 1) as any as S.Schema<PrivateEndpointConnectionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34482,7 +35049,8 @@ export const StaticSitesLinkBackend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23488, __c734, 0) as any as S.Schema<StaticSitesLinkBackendRequest>,
   output: __S(23520, __c735, 0) as any as S.Schema<StaticSitesLinkBackendResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34499,7 +35067,8 @@ export const StaticSitesLinkBackendToBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23584, __c737, 0) as any as S.Schema<StaticSitesLinkBackendToBuildRequest>,
   output: __S(23520, __c735, 0) as any as S.Schema<StaticSitesLinkBackendToBuildResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34516,7 +35085,8 @@ export const StopAppServicePlanWebApps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23616, __c738, 0) as any as S.Schema<StopAppServicePlanWebAppsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopAppServicePlanWebAppsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34533,7 +35103,8 @@ export const StopWebApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23680, __c740, 0) as any as S.Schema<StopWebAppRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34550,7 +35121,8 @@ export const StopWebAppContinuousWebJob: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23712, __c741, 0) as any as S.Schema<StopWebAppContinuousWebJobRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppContinuousWebJobResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34567,7 +35139,8 @@ export const StopWebAppContinuousWebJobSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23744, __c742, 0) as any as S.Schema<StopWebAppContinuousWebJobSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppContinuousWebJobSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34584,7 +35157,8 @@ export const StopWebAppNetworkTrace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23776, __c743, 0) as any as S.Schema<StopWebAppNetworkTraceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppNetworkTraceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34601,7 +35175,8 @@ export const StopWebAppNetworkTraceSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23808, __c744, 0) as any as S.Schema<StopWebAppNetworkTraceSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppNetworkTraceSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34618,7 +35193,8 @@ export const StopWebAppSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23840, __c745, 0) as any as S.Schema<StopWebAppSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34635,7 +35211,8 @@ export const StopWebAppWebSiteNetworkTrace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23872, __c746, 0) as any as S.Schema<StopWebAppWebSiteNetworkTraceRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppWebSiteNetworkTraceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34652,7 +35229,8 @@ export const StopWebAppWebSiteNetworkTraceSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23904, __c747, 0) as any as S.Schema<StopWebAppWebSiteNetworkTraceSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<StopWebAppWebSiteNetworkTraceSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34670,7 +35248,8 @@ export const SuspendAppServiceEnvironment: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(23936, __c748, 0) as any as S.Schema<SuspendAppServiceEnvironmentRequest>,
   output: __S(16192, __c506, 0) as any as S.Schema<SuspendAppServiceEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34693,7 +35272,8 @@ export const SwapWebAppSlotSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(23968, __c749, 0) as any as S.Schema<SwapWebAppSlotSlotRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<SwapWebAppSlotSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34710,7 +35290,8 @@ export const SwapWebAppSlotWithProduction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24032, __c751, 0) as any as S.Schema<SwapWebAppSlotWithProductionRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<SwapWebAppSlotWithProductionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34727,7 +35308,8 @@ export const SyncWebAppFunctions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24064, __c752, 0) as any as S.Schema<SyncWebAppFunctionsRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SyncWebAppFunctionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34744,7 +35326,8 @@ export const SyncWebAppFunctionsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24096, __c753, 0) as any as S.Schema<SyncWebAppFunctionsSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SyncWebAppFunctionsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34761,7 +35344,8 @@ export const SyncWebAppFunctionTriggers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24128, __c754, 0) as any as S.Schema<SyncWebAppFunctionTriggersRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SyncWebAppFunctionTriggersResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34778,7 +35362,8 @@ export const SyncWebAppFunctionTriggersSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24160, __c755, 0) as any as S.Schema<SyncWebAppFunctionTriggersSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SyncWebAppFunctionTriggersSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34795,7 +35380,8 @@ export const SyncWebAppRepository: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24192, __c756, 0) as any as S.Schema<SyncWebAppRepositoryRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SyncWebAppRepositoryResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34812,7 +35398,8 @@ export const SyncWebAppRepositorySlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24224, __c757, 0) as any as S.Schema<SyncWebAppRepositorySlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<SyncWebAppRepositorySlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34837,7 +35424,8 @@ export const TestAppServiceEnvironmentUpgradeAvailableNotification: API.Operatio
     __c1,
     0,
   ) as any as S.Schema<TestAppServiceEnvironmentUpgradeAvailableNotificationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34854,7 +35442,8 @@ export const TriggerRunWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24288, __c759, 0) as any as S.Schema<TriggerRunWorkflowRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<TriggerRunWorkflowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34871,7 +35460,8 @@ export const UnlinkStaticSiteBackend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24320, __c760, 0) as any as S.Schema<UnlinkStaticSiteBackendRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UnlinkStaticSiteBackendResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34888,7 +35478,8 @@ export const UnlinkStaticSiteBackendFromBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24384, __c762, 0) as any as S.Schema<UnlinkStaticSiteBackendFromBuildRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<UnlinkStaticSiteBackendFromBuildResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34905,7 +35496,8 @@ export const UpdateAppServiceEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24416, __c763, 0) as any as S.Schema<UpdateAppServiceEnvironmentRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<UpdateAppServiceEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34930,7 +35522,8 @@ export const UpdateAppServiceEnvironmentAseCustomDnsSuffixConfiguration: API.Ope
     __c647,
     1,
   ) as any as S.Schema<UpdateAppServiceEnvironmentAseCustomDnsSuffixConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34955,7 +35548,8 @@ export const UpdateAppServiceEnvironmentAseNetworkingConfiguration: API.Operatio
     __c648,
     1,
   ) as any as S.Schema<UpdateAppServiceEnvironmentAseNetworkingConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34972,7 +35566,8 @@ export const UpdateAppServiceEnvironmentMultiRolePool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24512, __c766, 0) as any as S.Schema<UpdateAppServiceEnvironmentMultiRolePoolRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<UpdateAppServiceEnvironmentMultiRolePoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -34989,7 +35584,8 @@ export const UpdateAppServiceEnvironmentWorkerPool: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24544, __c767, 0) as any as S.Schema<UpdateAppServiceEnvironmentWorkerPoolRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<UpdateAppServiceEnvironmentWorkerPoolResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35006,7 +35602,8 @@ export const UpdateAppServicePlan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24577, __c768, 1) as any as S.Schema<UpdateAppServicePlanRequest>,
   output: __S(1088, __c34, 0) as any as S.Schema<UpdateAppServicePlanResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35023,7 +35620,8 @@ export const UpdateAppServicePlanVnetGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24608, __c769, 0) as any as S.Schema<UpdateAppServicePlanVnetGatewayRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<UpdateAppServicePlanVnetGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35040,7 +35638,8 @@ export const UpdateAppServicePlanVnetRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24640, __c770, 0) as any as S.Schema<UpdateAppServicePlanVnetRouteRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<UpdateAppServicePlanVnetRouteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35057,7 +35656,8 @@ export const UpdateCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24672, __c771, 0) as any as S.Schema<UpdateCertificateRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<UpdateCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35074,7 +35674,8 @@ export const UpdateKubeEnvironment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24993, __c781, 1) as any as S.Schema<UpdateKubeEnvironmentRequest>,
   output: __S(2400, __c75, 0) as any as S.Schema<UpdateKubeEnvironmentResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35099,7 +35700,8 @@ export const UpdateManagedTrafficConfigResourceManagedTrafficConfig: API.Operati
     __c82,
     3,
   ) as any as S.Schema<UpdateManagedTrafficConfigResourceManagedTrafficConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35116,7 +35718,8 @@ export const UpdatePublishingUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25056, __c783, 0) as any as S.Schema<UpdatePublishingUserRequest>,
   output: __S(3040, __c95, 0) as any as S.Schema<UpdatePublishingUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35141,7 +35744,8 @@ export const UpdateServerFarmSiloResourceServerFarmSilo: API.OperationMethod<
     __c105,
     0,
   ) as any as S.Schema<UpdateServerFarmSiloResourceServerFarmSiloResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35158,7 +35762,8 @@ export const UpdateSiteCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25120, __c785, 0) as any as S.Schema<UpdateSiteCertificateRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<UpdateSiteCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35175,7 +35780,8 @@ export const UpdateSiteCertificateSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25152, __c786, 0) as any as S.Schema<UpdateSiteCertificateSlotRequest>,
   output: __S(2465, __c77, 1) as any as S.Schema<UpdateSiteCertificateSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35192,7 +35798,8 @@ export const UpdateSiteSiloResourceSiteSilo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25184, __c787, 0) as any as S.Schema<UpdateSiteSiloResourceSiteSiloRequest>,
   output: __S(3616, __c113, 0) as any as S.Schema<UpdateSiteSiloResourceSiteSiloResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35217,7 +35824,8 @@ export const UpdateSiteSiloVirtualNetworkConnectionSiteSiloVnetConnection: API.O
     __c115,
     1,
   ) as any as S.Schema<UpdateSiteSiloVirtualNetworkConnectionSiteSiloVnetConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35234,7 +35842,8 @@ export const UpdateSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25248, __c789, 0) as any as S.Schema<UpdateSourceControlRequest>,
   output: __S(3777, __c118, 1) as any as S.Schema<UpdateSourceControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35251,7 +35860,8 @@ export const UpdateStaticSiteBuildDatabaseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25280, __c790, 0) as any as S.Schema<UpdateStaticSiteBuildDatabaseConnectionRequest>,
   output: __S(3937, __c123, 1) as any as S.Schema<UpdateStaticSiteBuildDatabaseConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35268,7 +35878,8 @@ export const UpdateStaticSiteDatabaseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25376, __c793, 0) as any as S.Schema<UpdateStaticSiteDatabaseConnectionRequest>,
   output: __S(3937, __c123, 1) as any as S.Schema<UpdateStaticSiteDatabaseConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35285,7 +35896,8 @@ export const UpdateStaticSiteStaticSite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25408, __c794, 0) as any as S.Schema<UpdateStaticSiteStaticSiteRequest>,
   output: __S(4896, __c153, 0) as any as S.Schema<UpdateStaticSiteStaticSiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35302,7 +35914,8 @@ export const UpdateStaticSiteStaticSiteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25441, __c795, 1) as any as S.Schema<UpdateStaticSiteStaticSiteUserRequest>,
   output: __S(15361, __c480, 1) as any as S.Schema<UpdateStaticSiteStaticSiteUserResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35319,7 +35932,8 @@ export const UpdateWebApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25472, __c796, 0) as any as S.Schema<UpdateWebAppRequest>,
   output: __S(16032, __c501, 0) as any as S.Schema<UpdateWebAppResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35336,7 +35950,8 @@ export const UpdateWebAppApplicationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25600, __c800, 0) as any as S.Schema<UpdateWebAppApplicationSettingsRequest>,
   output: __S(14976, __c468, 0) as any as S.Schema<UpdateWebAppApplicationSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35353,7 +35968,8 @@ export const UpdateWebAppApplicationSettingsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25632, __c801, 0) as any as S.Schema<UpdateWebAppApplicationSettingsSlotRequest>,
   output: __S(14976, __c468, 0) as any as S.Schema<UpdateWebAppApplicationSettingsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35370,7 +35986,8 @@ export const UpdateWebAppAuthSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25664, __c802, 0) as any as S.Schema<UpdateWebAppAuthSettingsRequest>,
   output: __S(5793, __c181, 1) as any as S.Schema<UpdateWebAppAuthSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35387,7 +36004,8 @@ export const UpdateWebAppAuthSettingsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25696, __c803, 0) as any as S.Schema<UpdateWebAppAuthSettingsSlotRequest>,
   output: __S(5793, __c181, 1) as any as S.Schema<UpdateWebAppAuthSettingsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35404,7 +36022,8 @@ export const UpdateWebAppAuthSettingsV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25728, __c804, 0) as any as S.Schema<UpdateWebAppAuthSettingsV2Request>,
   output: __S(5926, __c185, 6) as any as S.Schema<UpdateWebAppAuthSettingsV2Response>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35421,7 +36040,8 @@ export const UpdateWebAppAuthSettingsV2Slot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25760, __c805, 0) as any as S.Schema<UpdateWebAppAuthSettingsV2SlotRequest>,
   output: __S(5926, __c185, 6) as any as S.Schema<UpdateWebAppAuthSettingsV2SlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35438,7 +36058,8 @@ export const UpdateWebAppAzureStorageAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25824, __c807, 0) as any as S.Schema<UpdateWebAppAzureStorageAccountsRequest>,
   output: __S(15488, __c484, 0) as any as S.Schema<UpdateWebAppAzureStorageAccountsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35455,7 +36076,8 @@ export const UpdateWebAppAzureStorageAccountsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25856, __c808, 0) as any as S.Schema<UpdateWebAppAzureStorageAccountsSlotRequest>,
   output: __S(15488, __c484, 0) as any as S.Schema<UpdateWebAppAzureStorageAccountsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35472,7 +36094,8 @@ export const UpdateWebAppBackupConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25888, __c809, 0) as any as S.Schema<UpdateWebAppBackupConfigurationRequest>,
   output: __S(6114, __c191, 2) as any as S.Schema<UpdateWebAppBackupConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35489,7 +36112,8 @@ export const UpdateWebAppBackupConfigurationSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25920, __c810, 0) as any as S.Schema<UpdateWebAppBackupConfigurationSlotRequest>,
   output: __S(6114, __c191, 2) as any as S.Schema<UpdateWebAppBackupConfigurationSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35506,7 +36130,8 @@ export const UpdateWebAppConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25952, __c811, 0) as any as S.Schema<UpdateWebAppConfigurationRequest>,
   output: __S(6368, __c199, 0) as any as S.Schema<UpdateWebAppConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35523,7 +36148,8 @@ export const UpdateWebAppConfigurationSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(25984, __c812, 0) as any as S.Schema<UpdateWebAppConfigurationSlotRequest>,
   output: __S(6368, __c199, 0) as any as S.Schema<UpdateWebAppConfigurationSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35540,7 +36166,8 @@ export const UpdateWebAppConnectionStrings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26016, __c813, 0) as any as S.Schema<UpdateWebAppConnectionStringsRequest>,
   output: __S(16546, __c517, 2) as any as S.Schema<UpdateWebAppConnectionStringsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35557,7 +36184,8 @@ export const UpdateWebAppConnectionStringsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26048, __c814, 0) as any as S.Schema<UpdateWebAppConnectionStringsSlotRequest>,
   output: __S(16546, __c517, 2) as any as S.Schema<UpdateWebAppConnectionStringsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35574,7 +36202,8 @@ export const UpdateWebAppDiagnosticLogsConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26080, __c815, 0) as any as S.Schema<UpdateWebAppDiagnosticLogsConfigRequest>,
   output: __S(6857, __c214, 9) as any as S.Schema<UpdateWebAppDiagnosticLogsConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35591,7 +36220,8 @@ export const UpdateWebAppDiagnosticLogsConfigSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26112, __c816, 0) as any as S.Schema<UpdateWebAppDiagnosticLogsConfigSlotRequest>,
   output: __S(6857, __c214, 9) as any as S.Schema<UpdateWebAppDiagnosticLogsConfigSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35608,7 +36238,8 @@ export const UpdateWebAppDomainOwnershipIdentifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26176, __c818, 0) as any as S.Schema<UpdateWebAppDomainOwnershipIdentifierRequest>,
   output: __S(6945, __c217, 1) as any as S.Schema<UpdateWebAppDomainOwnershipIdentifierResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35629,7 +36260,8 @@ export const UpdateWebAppDomainOwnershipIdentifierSlot: API.OperationMethod<
     __c217,
     1,
   ) as any as S.Schema<UpdateWebAppDomainOwnershipIdentifierSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35646,7 +36278,8 @@ export const UpdateWebAppFtpAllowed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26240, __c820, 0) as any as S.Schema<UpdateWebAppFtpAllowedRequest>,
   output: __S(7137, __c223, 1) as any as S.Schema<UpdateWebAppFtpAllowedResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35663,7 +36296,8 @@ export const UpdateWebAppFtpAllowedSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26272, __c821, 0) as any as S.Schema<UpdateWebAppFtpAllowedSlotRequest>,
   output: __S(7137, __c223, 1) as any as S.Schema<UpdateWebAppFtpAllowedSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35680,7 +36314,8 @@ export const UpdateWebAppHybridConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26304, __c822, 0) as any as S.Schema<UpdateWebAppHybridConnectionRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<UpdateWebAppHybridConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35697,7 +36332,8 @@ export const UpdateWebAppHybridConnectionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26336, __c823, 0) as any as S.Schema<UpdateWebAppHybridConnectionSlotRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<UpdateWebAppHybridConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35714,7 +36350,8 @@ export const UpdateWebAppMachineKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26368, __c824, 0) as any as S.Schema<UpdateWebAppMachineKeyRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<UpdateWebAppMachineKeyResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35731,7 +36368,8 @@ export const UpdateWebAppMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26400, __c825, 0) as any as S.Schema<UpdateWebAppMetadataRequest>,
   output: __S(14976, __c468, 0) as any as S.Schema<UpdateWebAppMetadataResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35748,7 +36386,8 @@ export const UpdateWebAppMetadataSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26432, __c826, 0) as any as S.Schema<UpdateWebAppMetadataSlotRequest>,
   output: __S(14976, __c468, 0) as any as S.Schema<UpdateWebAppMetadataSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35765,7 +36404,8 @@ export const UpdateWebAppRelayServiceConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26464, __c827, 0) as any as S.Schema<UpdateWebAppRelayServiceConnectionRequest>,
   output: __S(9185, __c287, 1) as any as S.Schema<UpdateWebAppRelayServiceConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35782,7 +36422,8 @@ export const UpdateWebAppRelayServiceConnectionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26528, __c829, 0) as any as S.Schema<UpdateWebAppRelayServiceConnectionSlotRequest>,
   output: __S(9185, __c287, 1) as any as S.Schema<UpdateWebAppRelayServiceConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35799,7 +36440,8 @@ export const UpdateWebAppScmAllowed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26560, __c830, 0) as any as S.Schema<UpdateWebAppScmAllowedRequest>,
   output: __S(7137, __c223, 1) as any as S.Schema<UpdateWebAppScmAllowedResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35816,7 +36458,8 @@ export const UpdateWebAppScmAllowedSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26592, __c831, 0) as any as S.Schema<UpdateWebAppScmAllowedSlotRequest>,
   output: __S(7137, __c223, 1) as any as S.Schema<UpdateWebAppScmAllowedSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35833,7 +36476,8 @@ export const UpdateWebAppSitePushSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26624, __c832, 0) as any as S.Schema<UpdateWebAppSitePushSettingsRequest>,
   output: __S(15969, __c499, 1) as any as S.Schema<UpdateWebAppSitePushSettingsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35850,7 +36494,8 @@ export const UpdateWebAppSitePushSettingsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26656, __c833, 0) as any as S.Schema<UpdateWebAppSitePushSettingsSlotRequest>,
   output: __S(15969, __c499, 1) as any as S.Schema<UpdateWebAppSitePushSettingsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35867,7 +36512,8 @@ export const UpdateWebAppSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26688, __c834, 0) as any as S.Schema<UpdateWebAppSlotRequest>,
   output: __S(16032, __c501, 0) as any as S.Schema<UpdateWebAppSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35884,7 +36530,8 @@ export const UpdateWebAppSlotConfigurationNames: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26720, __c835, 0) as any as S.Schema<UpdateWebAppSlotConfigurationNamesRequest>,
   output: __S(19297, __c603, 1) as any as S.Schema<UpdateWebAppSlotConfigurationNamesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35901,7 +36548,8 @@ export const UpdateWebAppSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26752, __c836, 0) as any as S.Schema<UpdateWebAppSourceControlRequest>,
   output: __S(9888, __c309, 0) as any as S.Schema<UpdateWebAppSourceControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35918,7 +36566,8 @@ export const UpdateWebAppSourceControlSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26784, __c837, 0) as any as S.Schema<UpdateWebAppSourceControlSlotRequest>,
   output: __S(9888, __c309, 0) as any as S.Schema<UpdateWebAppSourceControlSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35943,7 +36592,8 @@ export const UpdateWebAppSwiftVirtualNetworkConnectionWithCheck: API.OperationMe
     __c115,
     1,
   ) as any as S.Schema<UpdateWebAppSwiftVirtualNetworkConnectionWithCheckResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35968,7 +36618,8 @@ export const UpdateWebAppSwiftVirtualNetworkConnectionWithCheckSlot: API.Operati
     __c115,
     1,
   ) as any as S.Schema<UpdateWebAppSwiftVirtualNetworkConnectionWithCheckSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -35985,7 +36636,8 @@ export const UpdateWebAppVnetConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26912, __c841, 0) as any as S.Schema<UpdateWebAppVnetConnectionRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<UpdateWebAppVnetConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36002,7 +36654,8 @@ export const UpdateWebAppVnetConnectionGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(26976, __c843, 0) as any as S.Schema<UpdateWebAppVnetConnectionGatewayRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<UpdateWebAppVnetConnectionGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36019,7 +36672,8 @@ export const UpdateWebAppVnetConnectionGatewaySlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27008, __c844, 0) as any as S.Schema<UpdateWebAppVnetConnectionGatewaySlotRequest>,
   output: __S(1665, __c52, 1) as any as S.Schema<UpdateWebAppVnetConnectionGatewaySlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36036,7 +36690,8 @@ export const UpdateWebAppVnetConnectionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27040, __c845, 0) as any as S.Schema<UpdateWebAppVnetConnectionSlotRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<UpdateWebAppVnetConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36053,7 +36708,8 @@ export const Validate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27073, __c846, 1) as any as S.Schema<ValidateRequest>,
   output: __S(27074, __c846, 2) as any as S.Schema<ValidateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36070,7 +36726,8 @@ export const ValidateMove: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27104, __c847, 0) as any as S.Schema<ValidateMoveRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ValidateMoveResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36087,7 +36744,8 @@ export const ValidateStaticSiteBackend: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27136, __c848, 0) as any as S.Schema<ValidateStaticSiteBackendRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<ValidateStaticSiteBackendResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36104,7 +36762,8 @@ export const ValidateStaticSiteBackendForBuild: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27168, __c849, 0) as any as S.Schema<ValidateStaticSiteBackendForBuildRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<ValidateStaticSiteBackendForBuildResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36129,7 +36788,8 @@ export const ValidateStaticSiteCustomDomainCanBeAddedToStaticSite: API.Operation
     __c968,
     0,
   ) as any as S.Schema<ValidateStaticSiteCustomDomainCanBeAddedToStaticSiteResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36146,7 +36806,8 @@ export const ValidateWorkflow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27265, __c852, 1) as any as S.Schema<ValidateWorkflowRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<ValidateWorkflowResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36163,7 +36824,8 @@ export const VerifyHostingEnvironmentVnet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27297, __c853, 1) as any as S.Schema<VerifyHostingEnvironmentVnetRequest>,
   output: __S(27302, __c853, 6) as any as S.Schema<VerifyHostingEnvironmentVnetResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36180,7 +36842,8 @@ export const WebAppsAddPremierAddOn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27328, __c854, 0) as any as S.Schema<WebAppsAddPremierAddOnRequest>,
   output: __S(27360, __c855, 0) as any as S.Schema<WebAppsAddPremierAddOnResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36197,7 +36860,8 @@ export const WebAppsAddPremierAddOnSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27424, __c857, 0) as any as S.Schema<WebAppsAddPremierAddOnSlotRequest>,
   output: __S(27360, __c855, 0) as any as S.Schema<WebAppsAddPremierAddOnSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36214,7 +36878,8 @@ export const WebAppsAnalyzeCustomHostname: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27456, __c858, 0) as any as S.Schema<WebAppsAnalyzeCustomHostnameRequest>,
   output: __S(27489, __c859, 1) as any as S.Schema<WebAppsAnalyzeCustomHostnameResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36231,7 +36896,8 @@ export const WebAppsAnalyzeCustomHostnameSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27520, __c860, 0) as any as S.Schema<WebAppsAnalyzeCustomHostnameSlotRequest>,
   output: __S(27489, __c859, 1) as any as S.Schema<WebAppsAnalyzeCustomHostnameSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36256,7 +36922,8 @@ export const WebAppsApproveOrRejectPrivateEndpointConnection: API.OperationMetho
     __c350,
     1,
   ) as any as S.Schema<WebAppsApproveOrRejectPrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36281,7 +36948,8 @@ export const WebAppsApproveOrRejectPrivateEndpointConnectionSlot: API.OperationM
     __c350,
     1,
   ) as any as S.Schema<WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36298,7 +36966,8 @@ export const WebAppsBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27616, __c863, 0) as any as S.Schema<WebAppsBackupRequest>,
   output: __S(6273, __c196, 1) as any as S.Schema<WebAppsBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36315,7 +36984,8 @@ export const WebAppsBackupSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27648, __c864, 0) as any as S.Schema<WebAppsBackupSlotRequest>,
   output: __S(6273, __c196, 1) as any as S.Schema<WebAppsBackupSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36332,7 +37002,8 @@ export const WebAppsCreateInstanceMSDeployOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27712, __c866, 0) as any as S.Schema<WebAppsCreateInstanceMSDeployOperationRequest>,
   output: __S(27747, __c867, 3) as any as S.Schema<WebAppsCreateInstanceMSDeployOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36357,7 +37028,8 @@ export const WebAppsCreateInstanceMSDeployOperationSlot: API.OperationMethod<
     __c867,
     3,
   ) as any as S.Schema<WebAppsCreateInstanceMSDeployOperationSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36374,7 +37046,8 @@ export const WebAppsCreateMSDeployOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27840, __c870, 0) as any as S.Schema<WebAppsCreateMSDeployOperationRequest>,
   output: __S(27747, __c867, 3) as any as S.Schema<WebAppsCreateMSDeployOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36391,7 +37064,8 @@ export const WebAppsCreateMSDeployOperationSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27872, __c871, 0) as any as S.Schema<WebAppsCreateMSDeployOperationSlotRequest>,
   output: __S(27747, __c867, 3) as any as S.Schema<WebAppsCreateMSDeployOperationSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36408,7 +37082,8 @@ export const WebAppsCreateOneDeployOperation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27905, __c872, 1) as any as S.Schema<WebAppsCreateOneDeployOperationRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<WebAppsCreateOneDeployOperationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36425,7 +37100,8 @@ export const WebAppsCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(27936, __c873, 0) as any as S.Schema<WebAppsCreateOrUpdateRequest>,
   output: __S(27969, __c874, 1) as any as S.Schema<WebAppsCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36442,7 +37118,8 @@ export const WebAppsCreateOrUpdateConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28000, __c875, 0) as any as S.Schema<WebAppsCreateOrUpdateConfigurationRequest>,
   output: __S(6368, __c199, 0) as any as S.Schema<WebAppsCreateOrUpdateConfigurationResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36459,7 +37136,8 @@ export const WebAppsCreateOrUpdateConfigurationSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28032, __c876, 0) as any as S.Schema<WebAppsCreateOrUpdateConfigurationSlotRequest>,
   output: __S(6368, __c199, 0) as any as S.Schema<WebAppsCreateOrUpdateConfigurationSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36484,7 +37162,8 @@ export const WebAppsCreateOrUpdateDomainOwnershipIdentifier: API.OperationMethod
     __c217,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdateDomainOwnershipIdentifierResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36509,7 +37188,8 @@ export const WebAppsCreateOrUpdateDomainOwnershipIdentifierSlot: API.OperationMe
     __c217,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36526,7 +37206,8 @@ export const WebAppsCreateOrUpdateEgressConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28160, __c880, 0) as any as S.Schema<WebAppsCreateOrUpdateEgressConfigRequest>,
   output: __S(7046, __c220, 6) as any as S.Schema<WebAppsCreateOrUpdateEgressConfigResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36543,7 +37224,8 @@ export const WebAppsCreateOrUpdateEgressConfigSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28192, __c881, 0) as any as S.Schema<WebAppsCreateOrUpdateEgressConfigSlotRequest>,
   output: __S(7046, __c220, 6) as any as S.Schema<WebAppsCreateOrUpdateEgressConfigSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36560,7 +37242,8 @@ export const WebAppsCreateOrUpdateFunctionSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28224, __c882, 0) as any as S.Schema<WebAppsCreateOrUpdateFunctionSecretRequest>,
   output: __S(16128, __c504, 0) as any as S.Schema<KeyInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36577,7 +37260,8 @@ export const WebAppsCreateOrUpdateFunctionSecretSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28256, __c883, 0) as any as S.Schema<WebAppsCreateOrUpdateFunctionSecretSlotRequest>,
   output: __S(16128, __c504, 0) as any as S.Schema<KeyInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36594,7 +37278,8 @@ export const WebAppsCreateOrUpdateHostNameBinding: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28288, __c884, 0) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingRequest>,
   output: __S(7425, __c232, 1) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36611,7 +37296,8 @@ export const WebAppsCreateOrUpdateHostNameBindingSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28352, __c886, 0) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingSlotRequest>,
   output: __S(7425, __c232, 1) as any as S.Schema<WebAppsCreateOrUpdateHostNameBindingSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36628,7 +37314,8 @@ export const WebAppsCreateOrUpdateHostSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28384, __c887, 0) as any as S.Schema<WebAppsCreateOrUpdateHostSecretRequest>,
   output: __S(16128, __c504, 0) as any as S.Schema<KeyInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36645,7 +37332,8 @@ export const WebAppsCreateOrUpdateHostSecretSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28416, __c888, 0) as any as S.Schema<WebAppsCreateOrUpdateHostSecretSlotRequest>,
   output: __S(16128, __c504, 0) as any as S.Schema<KeyInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36662,7 +37350,8 @@ export const WebAppsCreateOrUpdateHybridConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28448, __c889, 0) as any as S.Schema<WebAppsCreateOrUpdateHybridConnectionRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<WebAppsCreateOrUpdateHybridConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36679,7 +37368,8 @@ export const WebAppsCreateOrUpdateHybridConnectionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28480, __c890, 0) as any as S.Schema<WebAppsCreateOrUpdateHybridConnectionSlotRequest>,
   output: __S(1153, __c36, 1) as any as S.Schema<WebAppsCreateOrUpdateHybridConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36696,7 +37386,8 @@ export const WebAppsCreateOrUpdatePublicCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28544, __c892, 0) as any as S.Schema<WebAppsCreateOrUpdatePublicCertificateRequest>,
   output: __S(9057, __c283, 1) as any as S.Schema<WebAppsCreateOrUpdatePublicCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36721,7 +37412,8 @@ export const WebAppsCreateOrUpdatePublicCertificateSlot: API.OperationMethod<
     __c283,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdatePublicCertificateSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36746,7 +37438,8 @@ export const WebAppsCreateOrUpdateRelayServiceConnection: API.OperationMethod<
     __c287,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdateRelayServiceConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36771,7 +37464,8 @@ export const WebAppsCreateOrUpdateRelayServiceConnectionSlot: API.OperationMetho
     __c287,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdateRelayServiceConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36788,7 +37482,8 @@ export const WebAppsCreateOrUpdateSiteContainer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28704, __c897, 0) as any as S.Schema<WebAppsCreateOrUpdateSiteContainerRequest>,
   output: __S(9477, __c296, 5) as any as S.Schema<WebAppsCreateOrUpdateSiteContainerResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36805,7 +37500,8 @@ export const WebAppsCreateOrUpdateSiteContainerSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28768, __c899, 0) as any as S.Schema<WebAppsCreateOrUpdateSiteContainerSlotRequest>,
   output: __S(9477, __c296, 5) as any as S.Schema<WebAppsCreateOrUpdateSiteContainerSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36822,7 +37518,8 @@ export const WebAppsCreateOrUpdateSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28800, __c900, 0) as any as S.Schema<WebAppsCreateOrUpdateSlotRequest>,
   output: __S(27969, __c874, 1) as any as S.Schema<WebAppsCreateOrUpdateSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36839,7 +37536,8 @@ export const WebAppsCreateOrUpdateSourceControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28832, __c901, 0) as any as S.Schema<WebAppsCreateOrUpdateSourceControlRequest>,
   output: __S(28864, __c902, 0) as any as S.Schema<WebAppsCreateOrUpdateSourceControlResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36856,7 +37554,8 @@ export const WebAppsCreateOrUpdateSourceControlSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28896, __c903, 0) as any as S.Schema<WebAppsCreateOrUpdateSourceControlSlotRequest>,
   output: __S(28864, __c902, 0) as any as S.Schema<WebAppsCreateOrUpdateSourceControlSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36881,7 +37580,8 @@ export const WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheck: API.Op
     __c115,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36906,7 +37606,8 @@ export const WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot: AP
     __c115,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36923,7 +37624,8 @@ export const WebAppsCreateOrUpdateVnetConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29056, __c908, 0) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36948,7 +37650,8 @@ export const WebAppsCreateOrUpdateVnetConnectionGateway: API.OperationMethod<
     __c52,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionGatewayResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36973,7 +37676,8 @@ export const WebAppsCreateOrUpdateVnetConnectionGatewaySlot: API.OperationMethod
     __c52,
     1,
   ) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionGatewaySlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -36990,7 +37694,8 @@ export const WebAppsCreateOrUpdateVnetConnectionSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29152, __c911, 0) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionSlotRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<WebAppsCreateOrUpdateVnetConnectionSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37007,7 +37712,8 @@ export const WebAppsDeletePremierAddOn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29184, __c912, 0) as any as S.Schema<WebAppsDeletePremierAddOnRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<WebAppsDeletePremierAddOnResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37024,7 +37730,8 @@ export const WebAppsDeletePremierAddOnSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29216, __c913, 0) as any as S.Schema<WebAppsDeletePremierAddOnSlotRequest>,
   output: __S(32, __c1, 0) as any as S.Schema<WebAppsDeletePremierAddOnSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37041,7 +37748,8 @@ export const WebAppsDiscoverBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29248, __c914, 0) as any as S.Schema<WebAppsDiscoverBackupRequest>,
   output: __S(29280, __c915, 0) as any as S.Schema<WebAppsDiscoverBackupResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37058,7 +37766,8 @@ export const WebAppsDiscoverBackupSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29312, __c916, 0) as any as S.Schema<WebAppsDiscoverBackupSlotRequest>,
   output: __S(29280, __c915, 0) as any as S.Schema<WebAppsDiscoverBackupSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37075,7 +37784,8 @@ export const WebAppsGetInstanceMSDeployLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29344, __c917, 0) as any as S.Schema<WebAppsGetInstanceMSDeployLogRequest>,
   output: __S(29379, __c918, 3) as any as S.Schema<WebAppsGetInstanceMSDeployLogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37092,7 +37802,8 @@ export const WebAppsGetInstanceMSDeployLogSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29440, __c920, 0) as any as S.Schema<WebAppsGetInstanceMSDeployLogSlotRequest>,
   output: __S(29379, __c918, 3) as any as S.Schema<WebAppsGetInstanceMSDeployLogSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37109,7 +37820,8 @@ export const WebAppsGetInstanceMsDeployStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29472, __c921, 0) as any as S.Schema<WebAppsGetInstanceMsDeployStatusRequest>,
   output: __S(29504, __c922, 0) as any as S.Schema<WebAppsGetInstanceMsDeployStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37126,7 +37838,8 @@ export const WebAppsGetInstanceMsDeployStatusSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29536, __c923, 0) as any as S.Schema<WebAppsGetInstanceMsDeployStatusSlotRequest>,
   output: __S(29504, __c922, 0) as any as S.Schema<WebAppsGetInstanceMsDeployStatusSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37143,7 +37856,8 @@ export const WebAppsGetMigrateMySqlStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29568, __c924, 0) as any as S.Schema<WebAppsGetMigrateMySqlStatusRequest>,
   output: __S(29601, __c925, 1) as any as S.Schema<WebAppsGetMigrateMySqlStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37160,7 +37874,8 @@ export const WebAppsGetMigrateMySqlStatusSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29632, __c926, 0) as any as S.Schema<WebAppsGetMigrateMySqlStatusSlotRequest>,
   output: __S(29601, __c925, 1) as any as S.Schema<WebAppsGetMigrateMySqlStatusSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37177,7 +37892,8 @@ export const WebAppsGetMSDeployLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29664, __c927, 0) as any as S.Schema<WebAppsGetMSDeployLogRequest>,
   output: __S(29379, __c918, 3) as any as S.Schema<WebAppsGetMSDeployLogResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37194,7 +37910,8 @@ export const WebAppsGetMSDeployLogSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29696, __c928, 0) as any as S.Schema<WebAppsGetMSDeployLogSlotRequest>,
   output: __S(29379, __c918, 3) as any as S.Schema<WebAppsGetMSDeployLogSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37211,7 +37928,8 @@ export const WebAppsGetMSDeployStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29728, __c929, 0) as any as S.Schema<WebAppsGetMSDeployStatusRequest>,
   output: __S(29504, __c922, 0) as any as S.Schema<WebAppsGetMSDeployStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37228,7 +37946,8 @@ export const WebAppsGetMSDeployStatusSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29760, __c930, 0) as any as S.Schema<WebAppsGetMSDeployStatusSlotRequest>,
   output: __S(29504, __c922, 0) as any as S.Schema<WebAppsGetMSDeployStatusSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37245,7 +37964,8 @@ export const WebAppsGetOneDeployStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29792, __c931, 0) as any as S.Schema<WebAppsGetOneDeployStatusRequest>,
   output: __S(8640, __c270, 0) as any as S.Schema<WebAppsGetOneDeployStatusResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37262,7 +37982,8 @@ export const WebAppsGetPremierAddOn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29856, __c933, 0) as any as S.Schema<WebAppsGetPremierAddOnRequest>,
   output: __S(27360, __c855, 0) as any as S.Schema<WebAppsGetPremierAddOnResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37279,7 +38000,8 @@ export const WebAppsGetPremierAddOnSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29888, __c934, 0) as any as S.Schema<WebAppsGetPremierAddOnSlotRequest>,
   output: __S(27360, __c855, 0) as any as S.Schema<WebAppsGetPremierAddOnSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37297,7 +38019,8 @@ export const WebAppsGetPrivateEndpointConnectionList: API.PaginatedOperationMeth
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(29920, __c935, 0) as any as S.Schema<WebAppsGetPrivateEndpointConnectionListRequest>,
   output: __S(30561, __c955, 1) as any as S.Schema<PrivateEndpointConnectionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37325,7 +38048,8 @@ export const WebAppsGetPrivateEndpointConnectionListSlot: API.PaginatedOperation
     0,
   ) as any as S.Schema<WebAppsGetPrivateEndpointConnectionListSlotRequest>,
   output: __S(30561, __c955, 1) as any as S.Schema<PrivateEndpointConnectionCollection>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37348,7 +38072,8 @@ export const WebAppsIsCloneable: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29984, __c937, 0) as any as S.Schema<WebAppsIsCloneableRequest>,
   output: __S(30018, __c938, 2) as any as S.Schema<SiteCloneability>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37365,7 +38090,8 @@ export const WebAppsIsCloneableSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30048, __c939, 0) as any as S.Schema<WebAppsIsCloneableSlotRequest>,
   output: __S(30018, __c938, 2) as any as S.Schema<SiteCloneability>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37382,7 +38108,8 @@ export const WebAppsListPremierAddOns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30080, __c940, 0) as any as S.Schema<WebAppsListPremierAddOnsRequest>,
   output: __S(30112, __c941, 0) as any as S.Schema<WebAppsListPremierAddOnsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37399,7 +38126,8 @@ export const WebAppsListPremierAddOnsSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30144, __c942, 0) as any as S.Schema<WebAppsListPremierAddOnsSlotRequest>,
   output: __S(30112, __c941, 0) as any as S.Schema<WebAppsListPremierAddOnsSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37416,7 +38144,8 @@ export const WebAppsUpdatePremierAddOn: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30176, __c943, 0) as any as S.Schema<WebAppsUpdatePremierAddOnRequest>,
   output: __S(30112, __c941, 0) as any as S.Schema<WebAppsUpdatePremierAddOnResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37433,7 +38162,8 @@ export const WebAppsUpdatePremierAddOnSlot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30208, __c944, 0) as any as S.Schema<WebAppsUpdatePremierAddOnSlotRequest>,
   output: __S(30112, __c941, 0) as any as S.Schema<WebAppsUpdatePremierAddOnSlotResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -37450,7 +38180,8 @@ export const WorkflowTriggerHistoriesResubmit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(30272, __c946, 0) as any as S.Schema<WorkflowTriggerHistoriesResubmitRequest>,
   output: __S(30976, __c968, 0) as any as S.Schema<WorkflowTriggerHistoriesResubmitResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -39269,14 +40000,14 @@ function __c74(j: number): any {
           artifactStorageNodeName: S.optional(S.String),
           artifactStorageAccessMode: S.optional(S.String),
           frontEndServiceConfiguration: S.optional(__S(2368, __c74, 0)),
-          kubeConfig: S.optional(S.String),
+          kubeConfig: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ArcConfiguration" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           customerId: S.optional(S.String),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "LogAnalyticsConfiguration" });
     case 3:
@@ -40573,8 +41304,8 @@ function __c118(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
-          tokenSecret: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          tokenSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refreshToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           expirationTime: S.optional(S.String),
         }),
@@ -41231,7 +41962,7 @@ function __c148(j: number): any {
           repositoryUrl: S.optional(S.String),
           branch: S.optional(S.String),
           customDomains: S.optional(__S(11136, __c348, 0)),
-          repositoryToken: S.optional(S.String),
+          repositoryToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           buildProperties: S.optional(__S(4704, __c147, 0)),
           privateEndpointConnections: S.optional(__S(4738, __c148, 2)),
           stagingEnvironmentPolicy: S.optional(S.String),
@@ -41467,7 +42198,7 @@ function __c160(j: number): any {
           domainName: S.optional(S.String),
           createdOn: S.optional(S.String),
           status: S.optional(S.String),
-          validationToken: S.optional(S.String),
+          validationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           errorMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "StaticSiteCustomDomainOverviewARMResourceProperties" });
@@ -41915,22 +42646,22 @@ function __c181(j: number): any {
           additionalLoginParams: S.optional(__S(11136, __c348, 0)),
           aadClaimsAuthorization: S.optional(S.String),
           googleClientId: S.optional(S.String),
-          googleClientSecret: S.optional(S.String),
+          googleClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           googleClientSecretSettingName: S.optional(S.String),
           googleOAuthScopes: S.optional(__S(11136, __c348, 0)),
           facebookAppId: S.optional(S.String),
-          facebookAppSecret: S.optional(S.String),
+          facebookAppSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           facebookAppSecretSettingName: S.optional(S.String),
           facebookOAuthScopes: S.optional(__S(11136, __c348, 0)),
           gitHubClientId: S.optional(S.String),
-          gitHubClientSecret: S.optional(S.String),
+          gitHubClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           gitHubClientSecretSettingName: S.optional(S.String),
           gitHubOAuthScopes: S.optional(__S(11136, __c348, 0)),
           twitterConsumerKey: S.optional(S.String),
-          twitterConsumerSecret: S.optional(S.String),
+          twitterConsumerSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           twitterConsumerSecretSettingName: S.optional(S.String),
           microsoftAccountClientId: S.optional(S.String),
-          microsoftAccountClientSecret: S.optional(S.String),
+          microsoftAccountClientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           microsoftAccountClientSecretSettingName: S.optional(S.String),
           microsoftAccountOAuthScopes: S.optional(__S(11136, __c348, 0)),
           isAuthFromFile: S.optional(S.String),
@@ -44590,9 +45321,9 @@ function __c287(j: number): any {
       return S.suspend(() =>
         S.Struct({
           entityName: S.optional(S.String),
-          entityConnectionString: S.optional(S.String),
+          entityConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           resourceType: S.optional(S.String),
-          resourceConnectionString: S.optional(S.String),
+          resourceConnectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           hostname: S.optional(S.String),
           port: S.optional(S.Number),
           biztalkUri: S.optional(S.String),
@@ -49606,7 +50337,7 @@ function __c498(j: number): any {
           type: S.optional(S.String),
           accountName: S.optional(S.String),
           shareName: S.optional(S.String),
-          accessKey: S.optional(S.String),
+          accessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           mountPath: S.optional(S.String),
           state: S.optional(S.String),
           protocol: S.optional(S.String),
@@ -50858,7 +51589,7 @@ function __c539(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          masterKey: S.optional(S.String),
+          masterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           functionKeys: S.optional(__S(128, __c4, 0)),
           systemKeys: S.optional(__S(128, __c4, 0)),
         }),
@@ -53505,7 +54236,7 @@ function __c659(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          azurefilesConnectionString: S.String,
+          azurefilesConnectionString: S.String.pipe(T.SensitiveValue({})),
           azurefilesShare: S.String,
           switchSiteAfterMigration: S.optional(S.Boolean),
           blockWriteAccessToSite: S.optional(S.Boolean),
@@ -54001,7 +54732,7 @@ function __c680(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          repositoryToken: S.optional(S.String),
+          repositoryToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shouldUpdateRepository: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "StaticSiteResetPropertiesARMResourceProperties" });
@@ -55063,7 +55794,7 @@ function __c726(j: number): any {
         S.Struct({
           repositoryUrl: S.optional(S.String),
           branch: S.optional(S.String),
-          repositoryToken: S.optional(S.String),
+          repositoryToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           buildProperties: S.optional(__S(4704, __c147, 0)),
           stagingEnvironmentPolicy: S.optional(S.String),
           allowConfigFileUpdates: S.optional(S.Boolean),

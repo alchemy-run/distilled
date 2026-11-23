@@ -5,6 +5,7 @@ import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -246,6 +247,7 @@ export const search: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<SearchRequest>,
   output: __S(13, __c0, 13) as any as S.Schema<SearchResponse>,
   errors: [SearchException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Search",
@@ -270,6 +272,7 @@ export const suggest: API.OperationMethod<
   input: __S(32, __c2, 0) as any as S.Schema<SuggestRequest>,
   output: __S(36, __c2, 4) as any as S.Schema<SuggestResponse>,
   errors: [SearchException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Suggest",
@@ -295,6 +298,7 @@ export const uploadDocuments: API.OperationMethod<
   input: __S(48, __c3, 0) as any as S.Schema<UploadDocumentsRequest>,
   output: __S(51, __c3, 3) as any as S.Schema<UploadDocumentsResponse>,
   errors: [DocumentServiceException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadDocuments",

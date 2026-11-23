@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import { AzureDataPlaneProtocol } from "../data-plane-protocol.ts";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -54,7 +54,8 @@ export const GetLedgerIdentity: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetLedgerIdentityRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<LedgerIdentityInformation>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureDataPlaneProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -80,6 +81,7 @@ function __c0(j: number): any {
               certificateEndpoint: "https://identity.confidential-ledger.core.azure.com",
             },
             apiVersion: "2026-02-23",
+            anonymous: true,
           }),
         ),
       ).annotate({ identifier: "GetLedgerIdentityRequest" });

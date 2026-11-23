@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownClerkError } from "../errors.ts";
+import { ClerkServiceErrors } from "../errors.ts";
 import { ClerkProtocol, type ClerkOpError, type ClerkOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1365,7 +1365,7 @@ export interface ActorToken {
   status: ActorTokenStatus;
   user_id: string;
   actor: unknown;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   url?: string | undefined;
   /** Unix timestamp of creation. */
   created_at: number;
@@ -1395,7 +1395,7 @@ export interface CreateAdminPortalLinkTokenResponse {
   /** Caller-provided scopes for this token. */
   scopes: CreateAdminPortalLinkTokenResponseScopesList | null;
   /** The single-use admin portal link token. Returned only on creation. URL-borne; treat as a secret. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   revoked: boolean;
   revocation_reason: string | null;
   expired: boolean;
@@ -2323,7 +2323,7 @@ export interface CreateJWTTemplateRequest {
   /** The custom signing algorithm to use when minting JWTs. Required if `custom_signing_key` is `true`. */
   signing_algorithm?: string | null | undefined;
   /** The custom signing private key to use when minting JWTs. Required if `custom_signing_key` is `true`. */
-  signing_key?: string | null | undefined;
+  signing_key?: string | Redacted.Redacted<string> | null | undefined;
 }
 export type JWTTemplateObject = "jwt_template";
 export interface JWTTemplate {
@@ -2356,7 +2356,7 @@ export interface CreateM2MTokenResponse {
   subject: string;
   claims?: unknown | null | undefined;
   scopes?: CreateM2MTokenResponseScopesList | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   revoked: boolean;
   revocation_reason: string | null;
   expired: boolean;
@@ -2996,7 +2996,7 @@ export interface SignInToken {
   id: string;
   status: SignInTokenStatus;
   user_id: string;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   url?: string | null | undefined;
   /** Unix timestamp of creation. */
   created_at: number;
@@ -3039,7 +3039,7 @@ export type TestingTokenObject = "testing_token";
 export interface TestingToken {
   object: TestingTokenObject;
   /** The actual token. This value is meant to be passed in the `__clerk_testing_token` query parameter with requests to the Frontend API. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Unix timestamp of the token's expiration time. */
   expires_at: number;
 }
@@ -4190,7 +4190,7 @@ export interface OAuthAccessTokenItem {
   /** The unique ID of the user in the external provider's system */
   provider_user_id: string;
   /** The access token */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Unix timestamp of the access token expiration. */
   expires_at: number | null;
   /** The ID of the provider */
@@ -4200,7 +4200,7 @@ export interface OAuthAccessTokenItem {
   /** The list of scopes that the token is valid for. Only present for OAuth 2.0 tokens. */
   scopes?: OAuthAccessTokenItemScopesList | undefined;
   /** The ID token retrieved from the OIDC provider. Only present for OIDC-compliant OAuth 2.0 providers when available. */
-  id_token?: string | undefined;
+  id_token?: string | Redacted.Redacted<string> | undefined;
   /** The token secret. Only present for OAuth 1.0 tokens. */
   token_secret?: string | Redacted.Redacted<string> | undefined;
 }
@@ -4794,7 +4794,7 @@ export interface EnterpriseConnectionTestRunSaml {
 }
 /** OAuth-specific metadata, present for OIDC connections */
 export interface EnterpriseConnectionTestRunOauth {
-  id_token?: string | undefined;
+  id_token?: string | Redacted.Redacted<string> | undefined;
   access_token?: string | Redacted.Redacted<string> | undefined;
   user_info?: string | undefined;
 }
@@ -5483,7 +5483,7 @@ export interface RefreshSessionRequest {
   /** The ID of the session */
   session_id: string;
   /** The JWT that is sent via the `__session` cookie from your frontend. Note: this JWT must be associated with the supplied session ID. */
-  expired_token: string;
+  expired_token: string | Redacted.Redacted<string>;
   /** The refresh token from the `__refresh` cookie set via FAPI's handshake flow. */
   refresh_token: string | Redacted.Redacted<string>;
   /** The origin of the request. */
@@ -5778,7 +5778,7 @@ export interface RevokeOAuthApplicationTokenRequest {
   /** The ID of the OAuth application for which to revoke the token */
   oauth_application_id: string;
   /** The opaque OAuth access token or refresh token to revoke. All tokens associated with the same OAuth grant are also revoked. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface RevokeOAuthApplicationTokenResponse {}
 export interface RevokeOrganizationInvitationRequest {
@@ -6198,7 +6198,7 @@ export interface UpdateJWTTemplateRequest {
   /** The custom signing algorithm to use when minting JWTs. Required if `custom_signing_key` is `true`. */
   signing_algorithm?: string | null | undefined;
   /** The custom signing private key to use when minting JWTs. Required if `custom_signing_key` is `true`. */
-  signing_key?: string | null | undefined;
+  signing_key?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface UpdateMachineRequest {
   /** The ID of the machine to update */
@@ -6573,7 +6573,7 @@ export interface VerifyApiKeyResponse {
 }
 export interface VerifyClientRequest {
   /** A JWT that represents the active client. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface VerifyDomainProxyRequest {
   /** The ID of the domain that will be updated. */
@@ -6596,7 +6596,7 @@ export interface ProxyCheck {
   updated_at: number;
 }
 export interface VerifyM2MTokenRequest {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type VerifyM2MTokenResponseObject = "machine_to_machine_token";
 export type VerifyM2MTokenResponseScopesList = Array<string>;
@@ -6724,7 +6724,8 @@ export const addDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<AddDomainRequest>,
   output: __S(9028, __c282, 4) as any as S.Schema<Domain>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6746,7 +6747,8 @@ export const addRolesToRoleSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<AddRolesToRoleSetRequest>,
   output: __S(9571, __c299, 3) as any as S.Schema<RoleSet>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6769,7 +6771,8 @@ export const adjustOrganizationBillingCreditBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9920, __c310, 0) as any as S.Schema<AdjustOrganizationBillingCreditBalanceRequest>,
   output: __S(9952, __c311, 0) as any as S.Schema<CommerceCreditLedgerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6792,7 +6795,8 @@ export const adjustUserBillingCreditBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10336, __c323, 0) as any as S.Schema<AdjustUserBillingCreditBalanceRequest>,
   output: __S(9952, __c311, 0) as any as S.Schema<CommerceCreditLedgerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6815,7 +6819,8 @@ export const applyBillingSubscriptionItemDiscount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<ApplyBillingSubscriptionItemDiscountRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<CommerceDiscountRedemptionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6836,7 +6841,8 @@ export const assignPermissionToOrganizationRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<AssignPermissionToOrganizationRoleRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<Role>,
-  errors: [Forbidden, NotFound, Conflict, UnknownClerkError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6853,7 +6859,8 @@ export const attemptEmailAddressVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<AttemptEmailAddressVerificationRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<AttemptEmailAddressVerificationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6875,7 +6882,8 @@ export const attemptPhoneNumberVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<AttemptPhoneNumberVerificationRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<AttemptPhoneNumberVerificationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6888,7 +6896,8 @@ export const banUser: API.OperationMethod<BanUserRequest, User, BanUserError, Cl
   /*@__PURE__*/ API.make(() => ({
     input: __S(2176, __c68, 0) as any as S.Schema<BanUserRequest>,
     output: __S(2417, __c75, 17) as any as S.Schema<User>,
-    errors: [UnknownClerkError],
+    errors: [],
+    serviceErrors: ClerkServiceErrors,
     protocol: ClerkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -6905,7 +6914,8 @@ export const banUser2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<BanUserRequest2>,
   output: __S(2881, __c90, 1) as any as S.Schema<BanUserResponse>,
-  errors: [BadRequest, UnknownClerkError],
+  errors: [BadRequest],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6927,7 +6937,8 @@ export const cancelCommerceSubscriptionItem: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<CancelCommerceSubscriptionItemRequest>,
   output: __S(3425, __c107, 1) as any as S.Schema<CommerceSubscriptionItem>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6948,7 +6959,8 @@ export const changeProductionInstanceDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<ChangeProductionInstanceDomainRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<ChangeProductionInstanceDomainResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6965,7 +6977,8 @@ export const createActorToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4289, __c134, 1) as any as S.Schema<CreateActorTokenRequest>,
   output: __S(4320, __c135, 0) as any as S.Schema<ActorToken>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6982,7 +6995,8 @@ export const createAdminPortalLinkToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<CreateAdminPortalLinkTokenRequest>,
   output: __S(4673, __c146, 1) as any as S.Schema<CreateAdminPortalLinkTokenResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownClerkError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6999,7 +7013,8 @@ export const createAgentTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5025, __c157, 1) as any as S.Schema<CreateAgentTaskRequest>,
   output: __S(5056, __c158, 0) as any as S.Schema<AgentTask>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7016,7 +7031,8 @@ export const createAllowlistIdentifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<CreateAllowlistIdentifierRequest>,
   output: __S(5440, __c170, 0) as any as S.Schema<AllowlistIdentifier>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7033,7 +7049,8 @@ export const createApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<CreateApiKeyRequest>,
   output: __S(5825, __c182, 1) as any as S.Schema<CreateApiKeyResponse>,
-  errors: [BadRequest, Conflict, UnknownClerkError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7050,7 +7067,8 @@ export const createBillingPrice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<CreateBillingPriceRequest>,
   output: __S(6208, __c194, 0) as any as S.Schema<BillingPriceResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7073,7 +7091,8 @@ export const createBillingPriceTransition: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6560, __c205, 0) as any as S.Schema<CreateBillingPriceTransitionRequest>,
   output: __S(6562, __c205, 2) as any as S.Schema<CommercePriceTransitionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7090,7 +7109,8 @@ export const createBlocklistIdentifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6944, __c217, 0) as any as S.Schema<CreateBlocklistIdentifierRequest>,
   output: __S(6976, __c218, 0) as any as S.Schema<BlocklistIdentifier>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7107,7 +7127,8 @@ export const createBulkInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7138, __c223, 2) as any as S.Schema<CreateBulkInvitationsRequest>,
   output: __S(7169, __c224, 1) as any as S.Schema<CreateBulkInvitationsResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7124,7 +7145,8 @@ export const createBulkWaitlistEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7234, __c226, 2) as any as S.Schema<CreateBulkWaitlistEntriesRequest>,
   output: __S(7235, __c226, 3) as any as S.Schema<CreateBulkWaitlistEntriesResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7141,7 +7163,8 @@ export const createDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7330, __c229, 2) as any as S.Schema<CreateDirectoryRequest>,
   output: __S(7362, __c230, 2) as any as S.Schema<Directory>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7163,7 +7186,8 @@ export const createDirectoryGroupRoleMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7392, __c231, 0) as any as S.Schema<CreateDirectoryGroupRoleMappingRequest>,
   output: __S(7424, __c232, 0) as any as S.Schema<DirectoryGroupRoleMapping>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7186,7 +7210,8 @@ export const createEmailAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<CreateEmailAddressRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<EmailAddress>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7209,14 +7234,8 @@ export const createEnterpriseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7489, __c234, 1) as any as S.Schema<CreateEnterpriseConnectionRequest>,
   output: __S(7527, __c235, 7) as any as S.Schema<EnterpriseConnection>,
-  errors: [
-    Forbidden,
-    NotFound,
-    Conflict,
-    UnprocessableEntity,
-    FormIdentifierExists,
-    UnknownClerkError,
-  ],
+  errors: [Forbidden, NotFound, Conflict, UnprocessableEntity, FormIdentifierExists],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7233,7 +7252,8 @@ export const createEnterpriseConnectionTestRun: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<CreateEnterpriseConnectionTestRunRequest>,
   output: __S(7585, __c237, 1) as any as S.Schema<EnterpriseConnectionTestRunResponse>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7250,7 +7270,8 @@ export const createInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<CreateInvitationRequest>,
   output: __S(7200, __c225, 0) as any as S.Schema<Invitation>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7267,7 +7288,8 @@ export const createJWTTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<CreateJWTTemplateRequest>,
   output: __S(7680, __c240, 0) as any as S.Schema<JWTTemplate>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7284,7 +7306,8 @@ export const createM2MToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<CreateM2MTokenRequest>,
   output: __S(7713, __c241, 1) as any as S.Schema<CreateM2MTokenResponse>,
-  errors: [BadRequest, Conflict, UnknownClerkError],
+  errors: [BadRequest, Conflict],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7301,7 +7324,8 @@ export const createMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<CreateMachineRequest>,
   output: __S(7745, __c242, 1) as any as S.Schema<CreateMachineResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7324,7 +7348,8 @@ export const createMachineScope: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<CreateMachineScopeRequest>,
   output: __S(7809, __c244, 1) as any as S.Schema<MachineScope>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7345,7 +7370,8 @@ export const createOAuthApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<CreateOAuthApplicationRequest>,
   output: __S(7872, __c246, 0) as any as S.Schema<CreateOAuthApplicationResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7362,7 +7388,8 @@ export const createOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<CreateOrganizationRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<Organization>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7384,7 +7411,8 @@ export const createOrganizationDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<CreateOrganizationDomainRequest>,
   output: __S(8001, __c250, 1) as any as S.Schema<OrganizationDomain>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7406,7 +7434,8 @@ export const createOrganizationInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<CreateOrganizationInvitationRequest>,
   output: __S(8096, __c253, 0) as any as S.Schema<OrganizationInvitation>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7428,7 +7457,8 @@ export const createOrganizationInvitationBulk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8130, __c254, 2) as any as S.Schema<CreateOrganizationInvitationBulkRequest>,
   output: __S(8161, __c255, 1) as any as S.Schema<OrganizationInvitations>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7450,7 +7480,8 @@ export const createOrganizationMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<CreateOrganizationMembershipRequest>,
   output: __S(2305, __c72, 1) as any as S.Schema<OrganizationMembership>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7471,7 +7502,8 @@ export const createOrganizationPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<CreateOrganizationPermissionRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<Permission>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7493,7 +7525,8 @@ export const createOrganizationRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<CreateOrganizationRoleRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<Role>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7515,7 +7548,8 @@ export const createPhoneNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8288, __c259, 0) as any as S.Schema<CreatePhoneNumberRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<PhoneNumber>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7532,7 +7566,8 @@ export const createRedirectURL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<CreateRedirectURLRequest>,
   output: __S(8352, __c261, 0) as any as S.Schema<RedirectURL>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7554,7 +7589,8 @@ export const createRoleSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<CreateRoleSetRequest>,
   output: __S(9571, __c299, 3) as any as S.Schema<RoleSet>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7571,7 +7607,8 @@ export const createSCIMDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8418, __c263, 2) as any as S.Schema<CreateSCIMDirectoryRequest>,
   output: __S(7362, __c230, 2) as any as S.Schema<SCIMDirectory>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7593,7 +7630,8 @@ export const createSCIMGroupRoleMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<CreateSCIMGroupRoleMappingRequest>,
   output: __S(8480, __c265, 0) as any as S.Schema<SCIMGroupRoleMapping>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7610,7 +7648,8 @@ export const createSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<CreateSessionRequest>,
   output: __S(8547, __c267, 3) as any as S.Schema<Session>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7627,7 +7666,8 @@ export const createSessionToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<CreateSessionTokenRequest>,
   output: __S(8608, __c269, 0) as any as S.Schema<CreateSessionTokenResponse>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7644,7 +7684,8 @@ export const createSessionTokenFromTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<CreateSessionTokenFromTemplateRequest>,
   output: __S(8608, __c269, 0) as any as S.Schema<CreateSessionTokenFromTemplateResponse>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7661,7 +7702,8 @@ export const createSignInToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<CreateSignInTokenRequest>,
   output: __S(8704, __c272, 0) as any as S.Schema<SignInToken>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7682,7 +7724,8 @@ export const createSSOBypassAllowlistUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8736, __c273, 0) as any as S.Schema<CreateSSOBypassAllowlistUserRequest>,
   output: __S(8769, __c274, 1) as any as S.Schema<SSOBypassAllowlistUser>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7699,7 +7742,8 @@ export const createSvixApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<CreateSvixAppRequest>,
   output: __S(8832, __c276, 0) as any as S.Schema<SvixURL>,
-  errors: [BadRequest, UnknownClerkError],
+  errors: [BadRequest],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7716,7 +7760,8 @@ export const createTestingToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<CreateTestingTokenRequest>,
   output: __S(8865, __c277, 1) as any as S.Schema<TestingToken>,
-  errors: [UnknownClerkError],
+  errors: [],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7733,7 +7778,8 @@ export const createUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<CreateUserRequest>,
   output: __S(2417, __c75, 17) as any as S.Schema<User>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7750,7 +7796,8 @@ export const createWaitlistEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<CreateWaitlistEntryRequest>,
   output: __S(7296, __c228, 0) as any as S.Schema<WaitlistEntry>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7767,7 +7814,8 @@ export const deleteAllowlistIdentifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9056, __c283, 0) as any as S.Schema<DeleteAllowlistIdentifierRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [NotFound, UnknownClerkError],
+  errors: [NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7784,7 +7832,8 @@ export const deleteApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9120, __c285, 0) as any as S.Schema<DeleteApiKeyRequest>,
   output: __S(9121, __c285, 1) as any as S.Schema<DeleteApiKeyResponse>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7801,7 +7850,8 @@ export const deleteBackupCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<DeleteBackupCodeRequest>,
   output: __S(9184, __c287, 0) as any as S.Schema<DeleteBackupCodeResponse>,
-  errors: [NotFound, UnknownClerkError],
+  errors: [NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7818,7 +7868,8 @@ export const deleteBlocklistIdentifier: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<DeleteBlocklistIdentifierRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [NotFound, UnknownClerkError],
+  errors: [NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7835,7 +7886,8 @@ export const deleteDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<DeleteDirectoryRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7852,7 +7904,8 @@ export const deleteDirectoryGroupRoleMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<DeleteDirectoryGroupRoleMappingRequest>,
   output: __S(9312, __c291, 0) as any as S.Schema<DeleteDirectoryGroupRoleMappingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7869,7 +7922,8 @@ export const deleteDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<DeleteDomainRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7886,7 +7940,8 @@ export const deleteEmailAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9376, __c293, 0) as any as S.Schema<DeleteEmailAddressRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7903,7 +7958,8 @@ export const deleteEnterpriseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9408, __c294, 0) as any as S.Schema<DeleteEnterpriseConnectionRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7920,7 +7976,8 @@ export const deleteExternalAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<DeleteExternalAccountRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7937,7 +7994,8 @@ export const deleteInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9600, __c300, 0) as any as S.Schema<DeleteInvitationRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [NotFound, UnknownClerkError],
+  errors: [NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7954,7 +8012,8 @@ export const deleteJWTTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<DeleteJWTTemplateRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7976,7 +8035,8 @@ export const deleteMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9664, __c302, 0) as any as S.Schema<DeleteMachineRequest>,
   output: __S(9312, __c291, 0) as any as S.Schema<DeleteMachineResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7998,7 +8058,8 @@ export const deleteMachineScope: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9696, __c303, 0) as any as S.Schema<DeleteMachineScopeRequest>,
   output: __S(9697, __c303, 1) as any as S.Schema<DeleteMachineScopeResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8015,7 +8076,8 @@ export const deleteOAuthApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<DeleteOAuthApplicationRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8032,7 +8094,8 @@ export const deleteOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9760, __c305, 0) as any as S.Schema<DeleteOrganizationRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [NotFound, UnknownClerkError],
+  errors: [NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8049,7 +8112,8 @@ export const deleteOrganizationDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<DeleteOrganizationDomainRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8066,7 +8130,8 @@ export const deleteOrganizationLogo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<DeleteOrganizationLogoRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<Organization>,
-  errors: [NotFound, UnknownClerkError],
+  errors: [NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8083,7 +8148,8 @@ export const deleteOrganizationMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9856, __c308, 0) as any as S.Schema<DeleteOrganizationMembershipRequest>,
   output: __S(2305, __c72, 1) as any as S.Schema<OrganizationMembership>,
-  errors: [NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8100,7 +8166,8 @@ export const deleteOrganizationPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9888, __c309, 0) as any as S.Schema<DeleteOrganizationPermissionRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8117,7 +8184,8 @@ export const deleteOrganizationRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10016, __c313, 0) as any as S.Schema<DeleteOrganizationRoleRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8134,7 +8202,8 @@ export const deletePhoneNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10048, __c314, 0) as any as S.Schema<DeletePhoneNumberRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8151,7 +8220,8 @@ export const deleteRedirectURL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10080, __c315, 0) as any as S.Schema<DeleteRedirectURLRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [NotFound, UnknownClerkError],
+  errors: [NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8168,7 +8238,8 @@ export const deleteSCIMDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10112, __c316, 0) as any as S.Schema<DeleteSCIMDirectoryRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8185,7 +8256,8 @@ export const deleteSCIMGroupRoleMapping: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10144, __c317, 0) as any as S.Schema<DeleteSCIMGroupRoleMappingRequest>,
   output: __S(9312, __c291, 0) as any as S.Schema<DeleteSCIMGroupRoleMappingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8202,7 +8274,8 @@ export const deleteSSOBypassAllowlistUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10176, __c318, 0) as any as S.Schema<DeleteSSOBypassAllowlistUserRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8219,7 +8292,8 @@ export const deleteSvixApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10208, __c319, 0) as any as S.Schema<DeleteSvixAppRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<DeleteSvixAppResponse>,
-  errors: [BadRequest, UnknownClerkError],
+  errors: [BadRequest],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8236,7 +8310,8 @@ export const deleteTOTP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10240, __c320, 0) as any as S.Schema<DeleteTOTPRequest>,
   output: __S(9184, __c287, 0) as any as S.Schema<DeleteTOTPResponse>,
-  errors: [NotFound, UnknownClerkError],
+  errors: [NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8253,7 +8328,8 @@ export const deleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10272, __c321, 0) as any as S.Schema<DeleteUserRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8270,7 +8346,8 @@ export const deleteUserPasskey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10304, __c322, 0) as any as S.Schema<DeleteUserPasskeyRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8287,7 +8364,8 @@ export const deleteUserProfileImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10368, __c324, 0) as any as S.Schema<DeleteUserProfileImageRequest>,
   output: __S(2417, __c75, 17) as any as S.Schema<User>,
-  errors: [NotFound, UnknownClerkError],
+  errors: [NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8304,7 +8382,8 @@ export const deleteUserWeb3Wallet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10400, __c325, 0) as any as S.Schema<DeleteUserWeb3WalletRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8326,7 +8405,8 @@ export const deleteWaitlistEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10432, __c326, 0) as any as S.Schema<DeleteWaitlistEntryRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8343,7 +8423,8 @@ export const disableMFA: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10464, __c327, 0) as any as S.Schema<DisableMFARequest>,
   output: __S(9184, __c287, 0) as any as S.Schema<DisableMFAResponse>,
-  errors: [NotFound, UnknownClerkError],
+  errors: [NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8365,7 +8446,8 @@ export const extendBillingSubscriptionItemFreeTrial: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10496, __c328, 0) as any as S.Schema<ExtendBillingSubscriptionItemFreeTrialRequest>,
   output: __S(6597, __c206, 5) as any as S.Schema<CommerceSubscriptionItem2>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8382,7 +8464,8 @@ export const generateSvixAuthURL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10528, __c329, 0) as any as S.Schema<GenerateSvixAuthURLRequest>,
   output: __S(8832, __c276, 0) as any as S.Schema<SvixURL>,
-  errors: [BadRequest, UnknownClerkError],
+  errors: [BadRequest],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8399,7 +8482,8 @@ export const getApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10560, __c330, 0) as any as S.Schema<GetApiKeyRequest>,
   output: __S(10592, __c331, 0) as any as S.Schema<GetApiKeyResponse>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8416,7 +8500,8 @@ export const getApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10624, __c332, 0) as any as S.Schema<GetApiKeysRequest>,
   output: __S(10626, __c332, 2) as any as S.Schema<GetApiKeysResponse>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8433,7 +8518,8 @@ export const getApiKeySecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10656, __c333, 0) as any as S.Schema<GetApiKeySecretRequest>,
   output: __S(10657, __c333, 1) as any as S.Schema<GetApiKeySecretResponse>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8450,7 +8536,8 @@ export const getBillingPriceList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10688, __c334, 0) as any as S.Schema<GetBillingPriceListRequest>,
   output: __S(10690, __c334, 2) as any as S.Schema<PaginatedBillingPriceResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8467,7 +8554,8 @@ export const getBillingStatement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetBillingStatementRequest>,
   output: __S(195, __c6, 3) as any as S.Schema<BillingStatement>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8484,7 +8572,8 @@ export const getBillingStatementList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetBillingStatementListRequest>,
   output: __S(258, __c8, 2) as any as S.Schema<PaginatedBillingStatementResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8505,7 +8594,8 @@ export const getBillingStatementPaymentAttempts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetBillingStatementPaymentAttemptsRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<PaginatedBillingPaymentAttemptResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8522,7 +8612,8 @@ export const getClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetClientRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<Client>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8539,7 +8630,8 @@ export const getCommercePlanList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetCommercePlanListRequest>,
   output: __S(418, __c13, 2) as any as S.Schema<PaginatedCommercePlanResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8556,7 +8648,8 @@ export const getCommerceSubscriptionItemList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetCommerceSubscriptionItemListRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<PaginatedCommerceSubscriptionItemResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8573,7 +8666,8 @@ export const getDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<GetDirectoryRequest>,
   output: __S(7362, __c230, 2) as any as S.Schema<Directory>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8590,7 +8684,8 @@ export const getDirectoryGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetDirectoryGroupRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<DirectoryGroup>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8607,7 +8702,8 @@ export const getEmailAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetEmailAddressRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<EmailAddress>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8624,7 +8720,8 @@ export const getEnterpriseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetEnterpriseConnectionRequest>,
   output: __S(7527, __c235, 7) as any as S.Schema<EnterpriseConnection>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8641,7 +8738,8 @@ export const getInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetInstanceRequest>,
   output: __S(769, __c24, 1) as any as S.Schema<Instance>,
-  errors: [UnknownClerkError],
+  errors: [],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8658,7 +8756,8 @@ export const getInstanceCommunication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetInstanceCommunicationRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<InstanceCommunication>,
-  errors: [UnknownClerkError],
+  errors: [],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8675,7 +8774,8 @@ export const getInstanceOAuthApplicationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetInstanceOAuthApplicationSettingsRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<OAuthApplicationSettings>,
-  errors: [UnknownClerkError],
+  errors: [],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8692,7 +8792,8 @@ export const getInstanceOrganizationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetInstanceOrganizationSettingsRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<OrganizationSettings>,
-  errors: [NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8709,7 +8810,8 @@ export const getInstanceProtect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetInstanceProtectRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<InstanceProtect>,
-  errors: [UnknownClerkError],
+  errors: [],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8726,7 +8828,8 @@ export const getInterstitial: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetInterstitialRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<GetInterstitialResponse>,
-  errors: [BadRequest, UnknownClerkError],
+  errors: [BadRequest],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8739,7 +8842,8 @@ export const getJWKS: API.OperationMethod<GetJWKSRequest, JWKS, GetJWKSError, Cl
   /*@__PURE__*/ API.make(() => ({
     input: __S(1088, __c34, 0) as any as S.Schema<GetJWKSRequest>,
     output: __S(1090, __c34, 2) as any as S.Schema<JWKS>,
-    errors: [UnknownClerkError],
+    errors: [],
+    serviceErrors: ClerkServiceErrors,
     protocol: ClerkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8756,7 +8860,8 @@ export const getJWTTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetJWTTemplateRequest>,
   output: __S(7680, __c240, 0) as any as S.Schema<JWTTemplate>,
-  errors: [NotFound, UnknownClerkError],
+  errors: [NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8773,7 +8878,8 @@ export const getLog: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetLogRequest>,
   output: __S(1160, __c36, 8) as any as S.Schema<GetLogResponse>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8790,7 +8896,8 @@ export const getLogSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<GetLogSchemaRequest>,
   output: __S(1187, __c37, 3) as any as S.Schema<LogSchema>,
-  errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8807,7 +8914,8 @@ export const getM2MTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetM2MTokensRequest>,
   output: __S(1282, __c40, 2) as any as S.Schema<GetM2MTokensResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8829,7 +8937,8 @@ export const getMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<GetMachineRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<GetMachineResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8846,7 +8955,8 @@ export const getMachineSecretKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetMachineSecretKeyRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<GetMachineSecretKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8868,7 +8978,8 @@ export const getOAuthAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetOAuthAccessTokenRequest>,
   output: __S(1475, __c46, 3) as any as S.Schema<GetOAuthAccessTokenResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8885,7 +8996,8 @@ export const getOAuthApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<GetOAuthApplicationRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<OAuthApplication>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8902,7 +9014,8 @@ export const getOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<GetOrganizationRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<Organization>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8924,7 +9037,8 @@ export const getOrganizationBillingCreditBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetOrganizationBillingCreditBalanceRequest>,
   output: __S(1632, __c51, 0) as any as S.Schema<CommerceCreditBalanceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8946,7 +9060,8 @@ export const getOrganizationBillingSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<GetOrganizationBillingSubscriptionRequest>,
   output: __S(1697, __c53, 1) as any as S.Schema<CommerceSubscription>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8963,7 +9078,8 @@ export const getOrganizationInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetOrganizationInvitationRequest>,
   output: __S(8096, __c253, 0) as any as S.Schema<OrganizationInvitation>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8980,7 +9096,8 @@ export const getOrganizationPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetOrganizationPermissionRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<Permission>,
-  errors: [NotFound, UnknownClerkError],
+  errors: [NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8997,7 +9114,8 @@ export const getOrganizationRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetOrganizationRoleRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<Role>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9014,7 +9132,8 @@ export const getPhoneNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetPhoneNumberRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<PhoneNumber>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9031,7 +9150,8 @@ export const getRedirectURL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<GetRedirectURLRequest>,
   output: __S(8352, __c261, 0) as any as S.Schema<RedirectURL>,
-  errors: [NotFound, UnknownClerkError],
+  errors: [NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9048,7 +9168,8 @@ export const getReverification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetReverificationRequest>,
   output: __S(1921, __c60, 1) as any as S.Schema<Reverification>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9065,7 +9186,8 @@ export const getRoleSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetRoleSetRequest>,
   output: __S(9571, __c299, 3) as any as S.Schema<RoleSet>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9082,7 +9204,8 @@ export const getSCIMDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<GetSCIMDirectoryRequest>,
   output: __S(7362, __c230, 2) as any as S.Schema<SCIMDirectory>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9099,7 +9222,8 @@ export const getSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<GetSessionRequest>,
   output: __S(8547, __c267, 3) as any as S.Schema<Session>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9116,7 +9240,8 @@ export const getSessionList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<GetSessionListRequest>,
   output: __S(2049, __c64, 1) as any as S.Schema<GetSessionListResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9133,7 +9258,8 @@ export const getSignUp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<GetSignUpRequest>,
   output: __S(2114, __c66, 2) as any as S.Schema<SignUp>,
-  errors: [Forbidden, UnknownClerkError],
+  errors: [Forbidden],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9146,7 +9272,8 @@ export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, Cl
   /*@__PURE__*/ API.make(() => ({
     input: __S(2144, __c67, 0) as any as S.Schema<GetUserRequest>,
     output: __S(2417, __c75, 17) as any as S.Schema<User>,
-    errors: [BadRequest, NotFound, UnknownClerkError],
+    errors: [BadRequest, NotFound],
+    serviceErrors: ClerkServiceErrors,
     protocol: ClerkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9168,7 +9295,8 @@ export const getUserBillingCreditBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<GetUserBillingCreditBalanceRequest>,
   output: __S(1632, __c51, 0) as any as S.Schema<CommerceCreditBalanceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9190,7 +9318,8 @@ export const getUserBillingSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<GetUserBillingSubscriptionRequest>,
   output: __S(1697, __c53, 1) as any as S.Schema<CommerceSubscription>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9207,7 +9336,8 @@ export const getUserList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<GetUserListRequest>,
   output: __S(2881, __c90, 1) as any as S.Schema<GetUserListResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9224,7 +9354,8 @@ export const getUsersCount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<GetUsersCountRequest>,
   output: __S(2529, __c79, 1) as any as S.Schema<TotalCount>,
-  errors: [UnprocessableEntity, UnknownClerkError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9244,7 +9375,8 @@ export const instanceGetOrganizationMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<InstanceGetOrganizationMembershipsRequest>,
   output: __S(2592, __c81, 0) as any as S.Schema<OrganizationMemberships>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9266,7 +9398,8 @@ export const inviteWaitlistEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<InviteWaitlistEntryRequest>,
   output: __S(7296, __c228, 0) as any as S.Schema<WaitlistEntry>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9283,7 +9416,8 @@ export const listAllOrganizationDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListAllOrganizationDomainsRequest>,
   output: __S(2689, __c84, 1) as any as S.Schema<OrganizationDomains>,
-  errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9300,7 +9434,8 @@ export const listAllowlistIdentifiers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<ListAllowlistIdentifiersRequest>,
   output: __S(2722, __c85, 2) as any as S.Schema<ListAllowlistIdentifiersResponse>,
-  errors: [UnknownClerkError],
+  errors: [],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9317,7 +9452,8 @@ export const listBlocklistIdentifiers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<ListBlocklistIdentifiersRequest>,
   output: __S(2754, __c86, 2) as any as S.Schema<BlocklistIdentifiers>,
-  errors: [UnknownClerkError],
+  errors: [],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9334,7 +9470,8 @@ export const listDirectories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<ListDirectoriesRequest>,
   output: __S(2817, __c88, 1) as any as S.Schema<ListDirectoriesResponse>,
-  errors: [Forbidden, UnknownClerkError],
+  errors: [Forbidden],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9351,7 +9488,8 @@ export const listDirectoryGroupMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<ListDirectoryGroupMembersRequest>,
   output: __S(2916, __c91, 4) as any as S.Schema<ListDirectoryGroupMembersResponse>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9368,7 +9506,8 @@ export const listDirectoryGroupRoleMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<ListDirectoryGroupRoleMappingsRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<ListDirectoryGroupRoleMappingsResponse>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9385,7 +9524,8 @@ export const listDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<ListDomainsRequest>,
   output: __S(3010, __c94, 2) as any as S.Schema<Domains>,
-  errors: [UnknownClerkError],
+  errors: [],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9402,7 +9542,8 @@ export const listEnterpriseConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<ListEnterpriseConnectionsRequest>,
   output: __S(3042, __c95, 2) as any as S.Schema<EnterpriseConnections>,
-  errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9423,7 +9564,8 @@ export const listEnterpriseConnectionTestRuns: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<ListEnterpriseConnectionTestRunsRequest>,
   output: __S(3080, __c96, 8) as any as S.Schema<EnterpriseConnectionTestRuns>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9444,7 +9586,8 @@ export const listInstanceOrganizationInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<ListInstanceOrganizationInvitationsRequest>,
   output: __S(3138, __c98, 2) as any as S.Schema<OrganizationInvitationsWithPublicOrganizationData>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9461,7 +9604,8 @@ export const listInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<ListInvitationsRequest>,
   output: __S(7169, __c224, 1) as any as S.Schema<ListInvitationsResponse>,
-  errors: [UnknownClerkError],
+  errors: [],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9478,7 +9622,8 @@ export const listJWTTemplates: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<ListJWTTemplatesRequest>,
   output: __S(3202, __c100, 2) as any as S.Schema<ListJWTTemplatesResponse>,
-  errors: [UnknownClerkError],
+  errors: [],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9495,7 +9640,8 @@ export const listLogGroupEvents: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<ListLogGroupEventsRequest>,
   output: __S(3234, __c101, 2) as any as S.Schema<ListLogGroupEventsResponse>,
-  errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9512,7 +9658,8 @@ export const listLogs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<ListLogsRequest>,
   output: __S(3298, __c103, 2) as any as S.Schema<ListLogsResponse>,
-  errors: [Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9529,7 +9676,8 @@ export const listMachines: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<ListMachinesRequest>,
   output: __S(3522, __c110, 2) as any as S.Schema<ListMachinesResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9550,7 +9698,8 @@ export const listOAuthApplications: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<ListOAuthApplicationsRequest>,
   output: __S(3554, __c111, 2) as any as S.Schema<OAuthApplications>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9567,7 +9716,8 @@ export const listOrganizationDomains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<ListOrganizationDomainsRequest>,
   output: __S(2689, __c84, 1) as any as S.Schema<OrganizationDomains>,
-  errors: [UnprocessableEntity, UnknownClerkError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9588,7 +9738,8 @@ export const listOrganizationInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<ListOrganizationInvitationsRequest>,
   output: __S(8161, __c255, 1) as any as S.Schema<OrganizationInvitations>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9605,7 +9756,8 @@ export const listOrganizationMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<ListOrganizationMembershipsRequest>,
   output: __S(2592, __c81, 0) as any as S.Schema<OrganizationMemberships>,
-  errors: [UnprocessableEntity, UnknownClerkError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9622,7 +9774,8 @@ export const listOrganizationPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<ListOrganizationPermissionsRequest>,
   output: __S(3681, __c115, 1) as any as S.Schema<Permissions>,
-  errors: [UnprocessableEntity, UnknownClerkError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9643,7 +9796,8 @@ export const listOrganizationRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<ListOrganizationRolesRequest>,
   output: __S(3714, __c116, 2) as any as S.Schema<Roles>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9660,7 +9814,8 @@ export const listOrganizations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<ListOrganizationsRequest>,
   output: __S(3746, __c117, 2) as any as S.Schema<Organizations>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9677,7 +9832,8 @@ export const listRedirectURLs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<ListRedirectURLsRequest>,
   output: __S(3778, __c118, 2) as any as S.Schema<ListRedirectURLsResponse>,
-  errors: [UnknownClerkError],
+  errors: [],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9694,7 +9850,8 @@ export const listRoleSets: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<ListRoleSetsRequest>,
   output: __S(3810, __c119, 2) as any as S.Schema<RoleSets>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9711,7 +9868,8 @@ export const listSCIMDirectories: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<ListSCIMDirectoriesRequest>,
   output: __S(2817, __c88, 1) as any as S.Schema<ListSCIMDirectoriesResponse>,
-  errors: [Forbidden, UnknownClerkError],
+  errors: [Forbidden],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9728,7 +9886,8 @@ export const listSCIMGroupRoleMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<ListSCIMGroupRoleMappingsRequest>,
   output: __S(3969, __c124, 1) as any as S.Schema<ListSCIMGroupRoleMappingsResponse>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9745,7 +9904,8 @@ export const listSSOBypassAllowlistUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<ListSSOBypassAllowlistUsersRequest>,
   output: __S(4002, __c125, 2) as any as S.Schema<ListSSOBypassAllowlistUsersResponse>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9762,7 +9922,8 @@ export const listUserBiometricCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<ListUserBiometricCredentialsRequest>,
   output: __S(4034, __c126, 2) as any as S.Schema<ListUserBiometricCredentialsResponse>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9779,7 +9940,8 @@ export const listWaitlistEntries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<ListWaitlistEntriesRequest>,
   output: __S(4097, __c128, 1) as any as S.Schema<ListWaitlistEntriesResponse>,
-  errors: [UnknownClerkError],
+  errors: [],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9792,7 +9954,8 @@ export const lockUser: API.OperationMethod<LockUserRequest, User, LockUserError,
   /*@__PURE__*/ API.make(() => ({
     input: __S(4128, __c129, 0) as any as S.Schema<LockUserRequest>,
     output: __S(2417, __c75, 17) as any as S.Schema<User>,
-    errors: [Forbidden, UnknownClerkError],
+    errors: [Forbidden],
+    serviceErrors: ClerkServiceErrors,
     protocol: ClerkProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -9813,7 +9976,8 @@ export const mergeOrganizationMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<MergeOrganizationMetadataRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<Organization>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9830,7 +9994,8 @@ export const mergeUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<MergeUserRequest>,
   output: __S(4193, __c131, 1) as any as S.Schema<MergeUserResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9847,7 +10012,8 @@ export const prepareEmailAddressVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<PrepareEmailAddressVerificationRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<PrepareEmailAddressVerificationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9864,7 +10030,8 @@ export const preparePhoneNumberVerification: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<PreparePhoneNumberVerificationRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<PreparePhoneNumberVerificationResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9881,7 +10048,8 @@ export const refreshSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<RefreshSessionRequest>,
   output: __S(4353, __c136, 1) as any as S.Schema<RefreshSessionResponse>,
-  errors: [BadRequest, Forbidden, UnknownClerkError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9903,7 +10071,8 @@ export const rejectWaitlistEntry: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<RejectWaitlistEntryRequest>,
   output: __S(7296, __c228, 0) as any as S.Schema<WaitlistEntry>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9926,7 +10095,8 @@ export const removeBillingSubscriptionItemDiscount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<RemoveBillingSubscriptionItemDiscountRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<CommerceDiscountRedemptionResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9947,7 +10117,8 @@ export const removePermissionFromOrganizationRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<RemovePermissionFromOrganizationRoleRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<Role>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9964,7 +10135,8 @@ export const removeUserPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<RemoveUserPasswordRequest>,
   output: __S(2417, __c75, 17) as any as S.Schema<User>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9986,7 +10158,8 @@ export const replaceDirectoryGroupRoleMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4514, __c141, 2) as any as S.Schema<ReplaceDirectoryGroupRoleMappingsRequest>,
   output: __S(2977, __c93, 1) as any as S.Schema<ReplaceDirectoryGroupRoleMappingsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10007,7 +10180,8 @@ export const replaceOrganizationMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<ReplaceOrganizationMetadataRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<Organization>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10029,7 +10203,8 @@ export const replaceRoleInRoleSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<ReplaceRoleInRoleSetRequest>,
   output: __S(9571, __c299, 3) as any as S.Schema<RoleSet>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10051,7 +10226,8 @@ export const replaceRoleSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<ReplaceRoleSetRequest>,
   output: __S(9088, __c284, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10073,7 +10249,8 @@ export const replaceSCIMGroupRoleMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4642, __c145, 2) as any as S.Schema<ReplaceSCIMGroupRoleMappingsRequest>,
   output: __S(3969, __c124, 1) as any as S.Schema<ReplaceSCIMGroupRoleMappingsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10095,7 +10272,8 @@ export const replaceUserEmailAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<ReplaceUserEmailAddressRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<EmailAddress>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10112,7 +10290,8 @@ export const replaceUserMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<ReplaceUserMetadataRequest>,
   output: __S(2417, __c75, 17) as any as S.Schema<User>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10134,7 +10313,8 @@ export const replaceUserPhoneNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<ReplaceUserPhoneNumberRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<PhoneNumber>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10151,7 +10331,8 @@ export const revokeActorToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<RevokeActorTokenRequest>,
   output: __S(4320, __c135, 0) as any as S.Schema<ActorToken>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10168,7 +10349,8 @@ export const revokeAdminPortalLinkToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<RevokeAdminPortalLinkTokenRequest>,
   output: __S(4833, __c151, 1) as any as S.Schema<RevokeAdminPortalLinkTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10185,7 +10367,8 @@ export const revokeAgentTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<RevokeAgentTaskRequest>,
   output: __S(5056, __c158, 0) as any as S.Schema<AgentTask>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10202,7 +10385,8 @@ export const revokeApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<RevokeApiKeyRequest>,
   output: __S(10592, __c331, 0) as any as S.Schema<RevokeApiKeyResponse>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10219,7 +10403,8 @@ export const revokeInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<RevokeInvitationRequest>,
   output: __S(7200, __c225, 0) as any as S.Schema<RevokeInvitationResponse>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10236,7 +10421,8 @@ export const revokeM2MToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<RevokeM2MTokenRequest>,
   output: __S(1312, __c41, 0) as any as S.Schema<RevokeM2MTokenResponse>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10258,7 +10444,8 @@ export const revokeOAuthApplicationToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<RevokeOAuthApplicationTokenRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<RevokeOAuthApplicationTokenResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10275,7 +10462,8 @@ export const revokeOrganizationInvitation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<RevokeOrganizationInvitationRequest>,
   output: __S(8096, __c253, 0) as any as S.Schema<OrganizationInvitation>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10292,7 +10480,8 @@ export const revokeSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<RevokeSessionRequest>,
   output: __S(8547, __c267, 3) as any as S.Schema<Session>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10309,7 +10498,8 @@ export const revokeSignInToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<RevokeSignInTokenRequest>,
   output: __S(8704, __c272, 0) as any as S.Schema<SignInToken>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10326,7 +10516,8 @@ export const revokeUserBiometricCredential: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<RevokeUserBiometricCredentialRequest>,
   output: __S(4064, __c127, 0) as any as S.Schema<BiometricCredential>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10343,7 +10534,8 @@ export const rotateDirectoryAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<RotateDirectoryAPIKeyRequest>,
   output: __S(7362, __c230, 2) as any as S.Schema<Directory>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10365,7 +10557,8 @@ export const rotateMachineSecretKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<RotateMachineSecretKeyRequest>,
   output: __S(1440, __c45, 0) as any as S.Schema<RotateMachineSecretKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10382,7 +10575,8 @@ export const rotateOAuthApplicationSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<RotateOAuthApplicationSecretRequest>,
   output: __S(7872, __c246, 0) as any as S.Schema<RotateOAuthApplicationSecretResponse>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10403,7 +10597,8 @@ export const rotateSCIMDirectoryAPIKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<RotateSCIMDirectoryAPIKeyRequest>,
   output: __S(7362, __c230, 2) as any as S.Schema<SCIMDirectory>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10425,7 +10620,8 @@ export const setUserPasswordCompromised: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<SetUserPasswordCompromisedRequest>,
   output: __S(2417, __c75, 17) as any as S.Schema<User>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10442,7 +10638,8 @@ export const setUserProfileImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<SetUserProfileImageRequest>,
   output: __S(2417, __c75, 17) as any as S.Schema<User>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10459,7 +10656,8 @@ export const unbanUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<UnbanUserRequest>,
   output: __S(2417, __c75, 17) as any as S.Schema<User>,
-  errors: [UnknownClerkError],
+  errors: [],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10476,7 +10674,8 @@ export const unbanUser2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<UnbanUserRequest2>,
   output: __S(2881, __c90, 1) as any as S.Schema<UnbanUserResponse>,
-  errors: [BadRequest, UnknownClerkError],
+  errors: [BadRequest],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10493,7 +10692,8 @@ export const unlockUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<UnlockUserRequest>,
   output: __S(2417, __c75, 17) as any as S.Schema<User>,
-  errors: [Forbidden, UnknownClerkError],
+  errors: [Forbidden],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10515,7 +10715,8 @@ export const unsetUserPasswordCompromised: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<UnsetUserPasswordCompromisedRequest>,
   output: __S(2417, __c75, 17) as any as S.Schema<User>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10532,7 +10733,8 @@ export const updateApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<UpdateApiKeyRequest>,
   output: __S(10592, __c331, 0) as any as S.Schema<UpdateApiKeyResponse>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10554,7 +10756,8 @@ export const updateDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<UpdateDirectoryRequest>,
   output: __S(7362, __c230, 2) as any as S.Schema<Directory>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10576,7 +10779,8 @@ export const updateDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<UpdateDomainRequest>,
   output: __S(9028, __c282, 4) as any as S.Schema<Domain>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10593,7 +10797,8 @@ export const updateEmailAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<UpdateEmailAddressRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<EmailAddress>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10616,14 +10821,8 @@ export const updateEnterpriseConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5761, __c180, 1) as any as S.Schema<UpdateEnterpriseConnectionRequest>,
   output: __S(7527, __c235, 7) as any as S.Schema<EnterpriseConnection>,
-  errors: [
-    BadRequest,
-    Forbidden,
-    NotFound,
-    UnprocessableEntity,
-    FormIdentifierExists,
-    UnknownClerkError,
-  ],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, FormIdentifierExists],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10640,7 +10839,8 @@ export const updateInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<UpdateInstanceRequest>,
   output: __S(3872, __c121, 0) as any as S.Schema<UpdateInstanceResponse>,
-  errors: [UnprocessableEntity, UnknownClerkError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10657,7 +10857,8 @@ export const updateInstanceAuthConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<UpdateInstanceAuthConfigRequest>,
   output: __S(5857, __c183, 1) as any as S.Schema<UpdateInstanceAuthConfigResponse>,
-  errors: [UnprocessableEntity, UnknownClerkError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10674,7 +10875,8 @@ export const updateInstanceCommunication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<UpdateInstanceCommunicationRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<InstanceCommunication>,
-  errors: [UnprocessableEntity, UnknownClerkError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10691,7 +10893,8 @@ export const updateInstanceOAuthApplicationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<UpdateInstanceOAuthApplicationSettingsRequest>,
   output: __S(896, __c28, 0) as any as S.Schema<OAuthApplicationSettings>,
-  errors: [UnprocessableEntity, UnknownClerkError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10713,7 +10916,8 @@ export const updateInstanceOrganizationSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<UpdateInstanceOrganizationSettingsRequest>,
   output: __S(960, __c30, 0) as any as S.Schema<OrganizationSettings>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10730,7 +10934,8 @@ export const updateInstanceProtect: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<UpdateInstanceProtectRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<InstanceProtect>,
-  errors: [UnprocessableEntity, UnknownClerkError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10747,7 +10952,8 @@ export const updateInstanceRestrictions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<UpdateInstanceRestrictionsRequest>,
   output: __S(6017, __c188, 1) as any as S.Schema<InstanceRestrictions>,
-  errors: [UnprocessableEntity, UnknownClerkError],
+  errors: [UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10764,7 +10970,8 @@ export const updateJWTTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<UpdateJWTTemplateRequest>,
   output: __S(7680, __c240, 0) as any as S.Schema<JWTTemplate>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10786,7 +10993,8 @@ export const updateMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<UpdateMachineRequest>,
   output: __S(1376, __c43, 0) as any as S.Schema<UpdateMachineResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10808,7 +11016,8 @@ export const updateOAuthApplication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<UpdateOAuthApplicationRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<OAuthApplication>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10830,7 +11039,8 @@ export const updateOrganization: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<UpdateOrganizationRequest>,
   output: __S(2272, __c71, 0) as any as S.Schema<Organization>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10852,7 +11062,8 @@ export const updateOrganizationDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<UpdateOrganizationDomainRequest>,
   output: __S(8001, __c250, 1) as any as S.Schema<OrganizationDomain>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10869,7 +11080,8 @@ export const updateOrganizationMembership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<UpdateOrganizationMembershipRequest>,
   output: __S(2305, __c72, 1) as any as S.Schema<OrganizationMembership>,
-  errors: [NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10890,7 +11102,8 @@ export const updateOrganizationMembershipMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<UpdateOrganizationMembershipMetadataRequest>,
   output: __S(2305, __c72, 1) as any as S.Schema<OrganizationMembership>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10912,7 +11125,8 @@ export const updateOrganizationPermission: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<UpdateOrganizationPermissionRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<Permission>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10934,7 +11148,8 @@ export const updateOrganizationRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<UpdateOrganizationRoleRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<Role>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10951,7 +11166,8 @@ export const updatePhoneNumber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<UpdatePhoneNumberRequest>,
   output: __S(2336, __c73, 0) as any as S.Schema<PhoneNumber>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10973,7 +11189,8 @@ export const updateRoleSet: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<UpdateRoleSetRequest>,
   output: __S(9571, __c299, 3) as any as S.Schema<RoleSet>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10995,7 +11212,8 @@ export const updateSCIMDirectory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<UpdateSCIMDirectoryRequest>,
   output: __S(7362, __c230, 2) as any as S.Schema<SCIMDirectory>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11012,7 +11230,8 @@ export const updateSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<UpdateSessionRequest>,
   output: __S(8547, __c267, 3) as any as S.Schema<Session>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11029,7 +11248,8 @@ export const updateSignUp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<UpdateSignUpRequest>,
   output: __S(2114, __c66, 2) as any as S.Schema<SignUp>,
-  errors: [Forbidden, UnknownClerkError],
+  errors: [Forbidden],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11046,7 +11266,8 @@ export const updateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(2417, __c75, 17) as any as S.Schema<User>,
-  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11063,7 +11284,8 @@ export const updateUserMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<UpdateUserMetadataRequest>,
   output: __S(2417, __c75, 17) as any as S.Schema<User>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11080,7 +11302,8 @@ export const uploadOAuthApplicationLogo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6688, __c209, 0) as any as S.Schema<UploadOAuthApplicationLogoRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<OAuthApplication>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11097,7 +11320,8 @@ export const uploadOrganizationLogo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6720, __c210, 0) as any as S.Schema<UploadOrganizationLogoRequest>,
   output: __S(6721, __c210, 1) as any as S.Schema<UploadOrganizationLogoResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11114,7 +11338,8 @@ export const usersGetOrganizationInvitations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<UsersGetOrganizationInvitationsRequest>,
   output: __S(3138, __c98, 2) as any as S.Schema<OrganizationInvitationsWithPublicOrganizationData>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11131,7 +11356,8 @@ export const usersGetOrganizationMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6784, __c212, 0) as any as S.Schema<UsersGetOrganizationMembershipsRequest>,
   output: __S(2592, __c81, 0) as any as S.Schema<OrganizationMemberships>,
-  errors: [Forbidden, UnknownClerkError],
+  errors: [Forbidden],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11148,7 +11374,8 @@ export const verifyApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6816, __c213, 0) as any as S.Schema<VerifyApiKeyRequest>,
   output: __S(10592, __c331, 0) as any as S.Schema<VerifyApiKeyResponse>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11165,7 +11392,8 @@ export const verifyClient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6848, __c214, 0) as any as S.Schema<VerifyClientRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<Client>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11182,7 +11410,8 @@ export const verifyDomainProxy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<VerifyDomainProxyRequest>,
   output: __S(6881, __c215, 1) as any as S.Schema<ProxyCheck>,
-  errors: [BadRequest, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11199,7 +11428,8 @@ export const verifyM2MToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<VerifyM2MTokenRequest>,
   output: __S(1312, __c41, 0) as any as S.Schema<VerifyM2MTokenResponse>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11216,7 +11446,8 @@ export const verifyOAuthAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7008, __c219, 0) as any as S.Schema<VerifyOAuthAccessTokenRequest>,
   output: __S(7009, __c219, 1) as any as S.Schema<VerifyOAuthAccessTokenResponse>,
-  errors: [BadRequest, NotFound, UnknownClerkError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11233,7 +11464,8 @@ export const verifyOrganizationDomainOwnership: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<VerifyOrganizationDomainOwnershipRequest>,
   output: __S(8001, __c250, 1) as any as S.Schema<OrganizationDomain>,
-  errors: [Forbidden, NotFound, UnknownClerkError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11255,7 +11487,8 @@ export const verifyPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<VerifyPasswordRequest>,
   output: __S(7073, __c221, 1) as any as S.Schema<VerifyPasswordResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -11277,7 +11510,8 @@ export const verifyTOTP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<VerifyTOTPRequest>,
   output: __S(7105, __c222, 1) as any as S.Schema<VerifyTOTPResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownClerkError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: ClerkServiceErrors,
   protocol: ClerkProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -12153,13 +12387,13 @@ function __c46(j: number): any {
           object: S.String,
           external_account_id: S.String,
           provider_user_id: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           expires_at: S.NullOr(S.Number),
           provider: S.String,
           public_metadata: __S(0, __c0, 0),
           label: S.NullOr(S.String),
           scopes: S.optional(__S(9504, __c297, 0)),
-          id_token: S.optional(S.String),
+          id_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           token_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "OAuthAccessTokenItem" });
@@ -13262,7 +13496,7 @@ function __c96(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          id_token: S.optional(S.String),
+          id_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           user_info: S.optional(S.String),
         }),
@@ -14172,7 +14406,7 @@ function __c135(j: number): any {
           status: S.String,
           user_id: S.String,
           actor: S.Unknown,
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.String),
           created_at: S.Number,
           updated_at: S.Number,
@@ -14186,7 +14420,7 @@ function __c136(j: number): any {
       return S.suspend(() =>
         S.Struct({
           session_id: S.String.pipe(T.Label()),
-          expired_token: S.String,
+          expired_token: S.String.pipe(T.SensitiveValue({})),
           refresh_token: S.String.pipe(T.SensitiveValue({})),
           request_origin: S.String,
           request_headers: S.optional(S.NullOr(__S(0, __c0, 0))),
@@ -14381,7 +14615,7 @@ function __c146(j: number): any {
           organization_id: S.NullOr(S.String),
           it_contact_id: S.NullOr(S.String),
           scopes: S.NullOr(__S(9504, __c297, 0)),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           revoked: S.Boolean,
           revocation_reason: S.NullOr(S.String),
           expired: S.Boolean,
@@ -14525,7 +14759,7 @@ function __c156(j: number): any {
       return S.suspend(() =>
         S.Struct({
           oauth_application_id: S.String.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",
@@ -15076,7 +15310,7 @@ function __c189(j: number): any {
           allowed_clock_skew: S.optional(S.NullOr(S.Number)),
           custom_signing_key: S.optional(S.Boolean),
           signing_algorithm: S.optional(S.NullOr(S.String)),
-          signing_key: S.optional(S.NullOr(S.String)),
+          signing_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "PATCH", uri: "/jwt_templates/{template_id}", code: 200 })),
       ).annotate({ identifier: "UpdateJWTTemplateRequest" });
   }
@@ -15648,7 +15882,7 @@ function __c214(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/clients/verify", code: 200 })),
       ).annotate({ identifier: "VerifyClientRequest" });
   }
@@ -15682,7 +15916,7 @@ function __c216(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/m2m_tokens/verify", code: 200 })),
       ).annotate({ identifier: "VerifyM2MTokenRequest" });
   }
@@ -16203,7 +16437,7 @@ function __c239(j: number): any {
           allowed_clock_skew: S.optional(S.NullOr(S.Number)),
           custom_signing_key: S.optional(S.Boolean),
           signing_algorithm: S.optional(S.NullOr(S.String)),
-          signing_key: S.optional(S.NullOr(S.String)),
+          signing_key: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/jwt_templates", code: 200 })),
       ).annotate({ identifier: "CreateJWTTemplateRequest" });
   }
@@ -16246,7 +16480,7 @@ function __c241(j: number): any {
           subject: S.String,
           claims: S.optional(S.NullOr(S.Unknown)),
           scopes: S.optional(__S(9504, __c297, 0)),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           revoked: S.Boolean,
           revocation_reason: S.NullOr(S.String),
           expired: S.Boolean,
@@ -16846,7 +17080,7 @@ function __c272(j: number): any {
           id: S.String,
           status: S.String,
           user_id: S.String,
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           url: S.optional(S.NullOr(S.String)),
           created_at: S.Number,
           updated_at: S.Number,
@@ -16918,7 +17152,7 @@ function __c277(j: number): any {
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           expires_at: S.Number,
         }),
       ).annotate({ identifier: "TestingToken" });
