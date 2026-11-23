@@ -78,8 +78,10 @@ const ownConsole = (
   input: unknown,
 ): { readonly location: ConsoleLocation; readonly input: unknown } | InvalidInput | undefined => {
   if (input === null || typeof input !== "object") return undefined;
-  const { [CONSOLE_MEMBER]: value, ...rest } = input as Record<string, unknown>;
+  // Read before copying: most calls name no console and skip the copy.
+  const value = (input as Record<string, unknown>)[CONSOLE_MEMBER];
   if (value === undefined) return undefined;
+  const { [CONSOLE_MEMBER]: _, ...rest } = input as Record<string, unknown>;
   const location = checkConsoleLocation(value);
   return location instanceof InvalidInput ? location : { location, input: rest };
 };
