@@ -38,8 +38,11 @@ export const sandboxConnectionFor = (
     domain: sandbox.domain ?? undefined,
   });
 
-/** Authenticates the `volumeContent` calls below it with a volume `getVolume` returned. */
+/**
+ * Authenticates the `volumeContent` calls below it with a volume `getVolume`
+ * returned. The volume is checked once, when the layer is built.
+ */
 export const volumeConnectionFor = (
   volume: Pick<VolumeAndToken, "token" | "domain">,
-): Layer.Layer<VolumeConnection> =>
+): Layer.Layer<VolumeConnection, ConfigError> =>
   volumeConnection({ token: redact(volume.token), domain: volume.domain ?? undefined });

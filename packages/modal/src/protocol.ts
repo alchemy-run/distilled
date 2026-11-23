@@ -99,6 +99,9 @@ export const ModalProtocol = /*@__PURE__*/ grpcProtocol({
     "x-modal-libmodal-version": `modal-js/${LIBMODAL_JS_VERSION}`,
   }),
   errorEnvelope,
+  // Modal's own client accepts messages up to 100 MiB (libmodal
+  // `grpc.max_receive_message_length`).
+  maxMessageBytes: 100 * 1024 * 1024,
   unknownError: (info) => new UnknownModalError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ModalParseError({ body, cause }),
 });

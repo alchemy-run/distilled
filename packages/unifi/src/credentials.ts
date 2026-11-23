@@ -1,6 +1,6 @@
 import type { Checked } from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
-import { invalidLabel } from "@distilled.cloud/core/protocol-http";
+import { invalidLabel, originFromConfig } from "@distilled.cloud/core/protocol-http";
 /**
  * UniFi credentials -- hand-written.
  *
@@ -26,8 +26,9 @@ import { invalidLabel } from "@distilled.cloud/core/protocol-http";
  * local and remote.
  *
  * A layer here reads and checks what it is given when it is built: a missing
- * key or a console ID that can't be a URL path segment ({@link check}) is a
- * `ConfigError` at setup, and no call fails for it. An environment without
+ * key, a local host that is more than a host, or a console ID that can't be
+ * a URL path segment ({@link check}) is a `ConfigError` at setup, and no
+ * call fails for it. An environment without
  * a console is fine until a console-hosted call needs one: only that call
  * fails.
  */
@@ -65,31 +66,38 @@ export interface CloudConfig {
 }
 
 /**
- * Check `location`: fails with `ConfigError` for a console ID that can't be
- * a URL path segment (`.`, `..`, a lone UTF-16 surrogate). For a
+ * Check `location`: fails with `ConfigError` for a local host that is more
+ * than a host or origin (core `originFromConfig`), or a console ID that
+ * can't be a URL path segment (`.`, `..`, a lone UTF-16 surrogate). The
+ * checked location of a local console holds its origin as `host`. For a
  * {@link Console} layer of your own.
  */
 export const check = (
   location: ConsoleLocation,
-): Effect.Effect<Checked<ConsoleLocation>, ConfigError> =>
-  location._tag === "Local" || invalidLabel("consoleId", location.consoleId) === undefined
-    ? // The one place that says a ConsoleLocation is checked.
-      Effect.succeed(location as Checked<ConsoleLocation>)
+): Effect.Effect<Checked<ConsoleLocation>, ConfigError> => {
+  // The one place that says a ConsoleLocation is checked.
+  if (location._tag === "Local") {
+    const origin = originFromConfig("UniFi console host", location.host);
+    return origin instanceof ConfigError
+      ? Effect.fail(origin)
+      : Effect.succeed({ _tag: "Local", host: origin } as Checked<ConsoleLocation>);
+  }
+  return invalidLabel("consoleId", location.consoleId) === undefined
+    ? Effect.succeed(location as Checked<ConsoleLocation>)
     : Effect.fail(
         new ConfigError({
           message: `The configured UniFi console ID ${JSON.stringify(location.consoleId)} cannot be a URL path segment`,
         }),
       );
+};
 
 /**
  * Base URL (everything before `/v1/...`) of one application on a console.
- * {@link check} made sure the console ID can be a path segment.
+ * {@link check} made the local host an origin, and made sure the console ID
+ * can be a path segment.
  */
 export const consoleBaseUrl = (location: Checked<ConsoleLocation>, app: ConsoleApp): string => {
-  if (location._tag === "Local") {
-    const origin = location.host.includes("://") ? location.host : `https://${location.host}`;
-    return `${origin.replace(/\/+$/, "")}/proxy/${app}/integration`;
-  }
+  if (location._tag === "Local") return `${location.host}/proxy/${app}/integration`;
   const origin = (location.apiBaseUrl ?? DEFAULT_CLOUD_BASE_URL).replace(/\/+$/, "");
   // `:` is legal in a path segment, and console IDs are `<hex>:<number>`.
   const id = encodeURIComponent(location.consoleId).replace(/%3A/gi, ":");
