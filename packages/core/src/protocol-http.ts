@@ -34,7 +34,6 @@ import {
   labelSymbol,
   labelEncodingSymbol,
   querySymbol,
-  responseCodeSymbol,
   stringEncodedSymbol,
   unionCasesSymbol,
   type ErrorMatcher,
@@ -59,7 +58,7 @@ export const nameOf = (prop: AST.PropertySignature, symbol: symbol): string => {
 
 //#endregion
 
-//#region Response headers and status on outputs
+//#region Response headers on outputs
 
 /** An output member read from a response header (`T.Header`). */
 export interface ResponseHeaderMember {
@@ -115,22 +114,6 @@ export const withResponseHeaders = (
   }
   return result ?? body;
 };
-
-/** The output member that receives the HTTP status (`T.ResponseCode()`). */
-export const responseCodeKey = (outputAst: AST.AST): string | undefined => {
-  const prop = getProps(outputAst).find((p) => hasPropAnn(p, responseCodeSymbol));
-  return prop === undefined ? undefined : String(prop.name);
-};
-
-/** Set the `T.ResponseCode()` member, when the output has one and is an object. */
-export const withResponseCode = (
-  key: string | undefined,
-  value: unknown,
-  status: number,
-): unknown =>
-  key === undefined || value === null || typeof value !== "object" || Array.isArray(value)
-    ? value
-    : { ...(value as Record<string, unknown>), [key]: status };
 //#endregion
 
 //#region Recursive wire-name mapping

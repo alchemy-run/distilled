@@ -19,10 +19,8 @@ import {
   mapKeys,
   mapsVerbatim,
   matchTypedError,
-  responseCodeKey,
   responseErrorFields,
   responseHeaderMembers,
-  withResponseCode,
   withResponseHeaders,
   type InvalidInput,
   type ResponseHeaderMember,
@@ -419,8 +417,6 @@ interface DecodePlan {
   readonly text: boolean;
   /** Members read from response headers (`T.Header`). */
   readonly headers: ReadonlyArray<ResponseHeaderMember>;
-  /** The member that receives the HTTP status (`T.ResponseCode()`). */
-  readonly responseCode: string | undefined;
 }
 
 const decodePlans = /*@__PURE__*/ new WeakMap<AST.AST, DecodePlan>();
@@ -438,7 +434,6 @@ const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
       text: resolveNode(outputAst)._tag === "String",
       headers: responseHeaderMembers(outputAst),
       bodyMember,
-      responseCode: responseCodeKey(outputAst),
     };
     decodePlans.set(outputAst, plan);
   }
@@ -678,8 +673,8 @@ export const restProtocolMethods = <
     // the output's `items`.
     const collected = framing?.collect(text, headers["content-type"]);
     return collected === undefined
-      ? decodeSuccess(context, status, headers, text, json, nonJson, outputAst)
-      : decodeSuccess(context, status, headers, text, collected.json, collected.nonJson, outputAst);
+      ? decodeSuccess(context, headers, text, json, nonJson, outputAst)
+      : decodeSuccess(context, headers, text, collected.json, collected.nonJson, outputAst);
   };
 
   /**
@@ -694,7 +689,6 @@ export const restProtocolMethods = <
    */
   const decodeSuccess = (
     context: Context.Context<any>,
-    status: number,
     headers: Record<string, string | undefined>,
     text: string,
     json: unknown,
@@ -711,11 +705,7 @@ export const restProtocolMethods = <
           ? body
           : mapKeys(outputAst, body, "decode");
     const checked = checkSuccess(context, outputAst, {
-      value: withResponseCode(
-        plan.responseCode,
-        withResponseHeaders(plan.headers, mapped, headers),
-        status,
-      ),
+      value: withResponseHeaders(plan.headers, mapped, headers),
       body: nonJson ? text : json,
       nonJson,
     });
@@ -812,20 +802,11 @@ export const restProtocolMethods = <
               // its input asks), else one element of the output's `items`.
               const itemAst = op.config.items?.ast;
               if (itemAst !== undefined) {
-                const decoded = decodeSuccess(
-                  context,
-                  response.status,
-                  headers,
-                  text,
-                  json,
-                  false,
-                  itemAst,
-                );
+                const decoded = decodeSuccess(context, headers, text, json, false, itemAst);
                 return decoded.ok ? Effect.succeed(decoded.value) : Effect.fail(decoded.error);
               }
               const decoded = decodeSuccess(
                 context,
-                response.status,
                 headers,
                 text,
                 { items: [json] },
