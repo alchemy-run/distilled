@@ -54,7 +54,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
-import { NULLABLE_TRAIT } from "@distilled.cloud/dev/codegen/openapi";
+import { isSensitiveMemberName, NULLABLE_TRAIT } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
 
@@ -233,7 +233,12 @@ const convertModel = (entry: ManifestEntry, model: TcModel): object => {
       const traits: Record<string, unknown> = {};
       if (requestSide.has(name) && m.required === true) traits["smithy.api#required"] = {};
       if (m.value_allowed_null === true) traits[NULLABLE_TRAIT] = {};
-      members[m.name] = { target: memberTarget(m), traits };
+      const target = memberTarget(m);
+      // The same name rule as the OpenAPI converter (`Password`, `SecretKey`, `Token`).
+      if (target === "smithy.api#String" && isSensitiveMemberName(m.name, { parent: name })) {
+        traits["smithy.api#sensitive"] = {};
+      }
+      members[m.name] = { target, traits };
     }
     shapes[objectTarget(name)] = { type: "structure", members };
   }

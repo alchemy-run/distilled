@@ -36,14 +36,20 @@ export class BadRequest
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          S.String,
+        ]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   )
 {
-  declare readonly body?: Error | string;
+  declare readonly body?: Error400Body2 | Error400Body | Error400Body4 | Error400Body3 | string;
 }
 
 /** The manifest names asset blobs that are not uploaded. `body.missing` lists up to 100 of their digests, `body.missing_count` how many there are. Upload them with `putAssetBlob`, then the manifest again. */
@@ -52,14 +58,14 @@ export class BlobsMissing
     /*@__PURE__*/ S.TaggedError<BlobsMissing>()("BlobsMissing", {
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(32, __c2, 0)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(16, __c1, 0)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/reason": "blobs-missing" } }],
   )
 {
-  declare readonly body?: Error409Body | string;
+  declare readonly body?: ErrorBlobsMissing | string;
 }
 
 export class Conflict
@@ -69,8 +75,13 @@ export class Conflict
       message: S.String,
       body: /*@__PURE__*/ S.optional(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(32, __c2, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(256, __c16, 0)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => __S(256, __c16, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(272, __c17, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(16, __c1, 0)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
           S.String,
         ]),
       ),
@@ -79,7 +90,15 @@ export class Conflict
     [{ status: 409 }],
   )
 {
-  declare readonly body?: Error | Error409Body | string;
+  declare readonly body?:
+    | ErrorHostClaimed
+    | Error409Body
+    | ErrorDomainInUse
+    | ErrorRouteTaken
+    | ErrorBlobsMissing
+    | Error409Body3
+    | Error409Body2
+    | string;
 }
 
 /** An app of the team still routes this domain. Remove those routes with `patchRoutes`, then release the domain. */
@@ -88,14 +107,14 @@ export class DomainInUse
     /*@__PURE__*/ S.TaggedError<DomainInUse>()("DomainInUse", {
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(256, __c16, 0)), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/reason": "domain-in-use" } }],
   )
 {
-  declare readonly body?: Error | string;
+  declare readonly body?: ErrorDomainInUse | string;
 }
 
 export class Forbidden
@@ -104,14 +123,20 @@ export class Forbidden
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(688, __c43, 0)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          S.String,
+        ]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   )
 {
-  declare readonly body?: Error | string;
+  declare readonly body?: ErrorForbidden | Error403Body2 | Error403Body3 | Error403Body | string;
 }
 
 /** A route is neither under the team's own `<name>.<team slug>.sproutboat.app` nor on a custom domain the team has verified. */
@@ -120,14 +145,19 @@ export class HostNotYours
     /*@__PURE__*/ S.TaggedError<HostNotYours>()("HostNotYours", {
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          S.String,
+        ]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, body: { "/reason": "host-not-yours" } }],
   )
 {
-  declare readonly body?: Error | string;
+  declare readonly body?: Error403Body2 | Error403Body3 | Error403Body | string;
 }
 
 /** `module.sha256` is neither the module the app runs nor one the team's builds produced. A team key cannot place other modules; ship new code with `createBuild`. */
@@ -136,14 +166,14 @@ export class ModuleUploadDisabled
     /*@__PURE__*/ S.TaggedError<ModuleUploadDisabled>()("ModuleUploadDisabled", {
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => S.Unknown), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403, body: { "/error": "module-upload-disabled" } }],
   )
 {
-  declare readonly body?: Error | string;
+  declare readonly body?: Error403Body | string;
 }
 
 export class NotFound
@@ -152,14 +182,19 @@ export class NotFound
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(816, __c51, 0)),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          S.String,
+        ]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   )
 {
-  declare readonly body?: Error | string;
+  declare readonly body?: Error | Error404Body2 | Error404Body | string;
 }
 
 export class PayloadTooLarge
@@ -168,14 +203,18 @@ export class PayloadTooLarge
       code: S.Number,
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          S.String,
+        ]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 413 }],
   )
 {
-  declare readonly body?: Error | string;
+  declare readonly body?: Error413Body | Error413Body2 | string;
 }
 
 /** Another app of the team (or of another team) already holds one of the routes. Remove it there first, or pick another route. */
@@ -184,14 +223,18 @@ export class RouteTaken
     /*@__PURE__*/ S.TaggedError<RouteTaken>()("RouteTaken", {
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => S.Unknown),
+          /*@__PURE__*/ S.suspend(() => __S(272, __c17, 0)),
+          S.String,
+        ]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/reason": "route-taken" } }],
   )
 {
-  declare readonly body?: Error | string;
+  declare readonly body?: Error409Body | ErrorRouteTaken | string;
 }
 
 /** The build names a `source_sha256` that is not uploaded. Upload it with `putSource`, then start the build again. */
@@ -200,14 +243,30 @@ export class SourceMissing
     /*@__PURE__*/ S.TaggedError<SourceMissing>()("SourceMissing", {
       message: S.String,
       body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => S.Unknown), S.String]),
       ),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, body: { "/reason": "source-missing" } }],
   )
 {
-  declare readonly body?: Error | string;
+  declare readonly body?: Error409Body | string;
+}
+
+export class UnprocessableEntity
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
+      code: S.Number,
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(256, __c16, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }).pipe(C.withBadRequestError),
+    [{ status: 422 }],
+  )
+{
+  declare readonly body?: ErrorMemoryLimit | string;
 }
 
 export interface AddDomainRequest {
@@ -345,7 +404,7 @@ export interface QueueConsumer {
   dead_letter_queue: string | null;
 }
 export type SpecSharedQueueConsumersList = Array<QueueConsumer>;
-/** Per-app ceilings. A null or absent value means the platform default. A plan may cap them lower. */
+/** Per-app ceilings. A null or absent value means the platform default. The account's own ceilings (`GET /v1/limits`) cap what a team may ask for here: a value over one is refused with 403 `quota-*` (never clamped), and `rate_rps: 0` (no limit) is refused too. */
 export interface Limits {
   memory_mb?: number | null | undefined;
   cpu_ms?: number | null | undefined;
@@ -400,7 +459,7 @@ export interface DeleteR2ObjectRequest {
   project: string;
   /** The R2 binding name from the app's config, for example `FILES`. */
   bucket: string;
-  /** The object key. May contain `/`, which must stay literal in the path. Percent-encoded dots, slashes and backslashes are refused. */
+  /** The object key, the rest of the path after `/objects/`. It spans path segments: each `/` in the key is a literal `/` in the URL (`assets/logo.png` is `/objects/assets/logo.png`), and every segment is percent-encoded on its own. A key is 1 to 1024 bytes of UTF-8 with no control character, backslash, empty segment or `.` or `..` segment; a percent-encoded dot, slash or backslash in the path is refused (400 `invalid`, `path: key`). OpenAPI has no way to mark a path parameter as spanning segments (`allowReserved` is formally for query parameters); a generator that does not read it as such needs a rest-of-path label (`{key+}`) for this one parameter. */
   key: string;
 }
 export interface DeleteR2ObjectResponse {
@@ -643,13 +702,32 @@ export interface GetLimitsResponseLimits {
   memory_mb?: number | null | undefined;
   /** Builds that compile in a rolling 24 hours; cached builds are free. */
   builds_per_day?: number | null | undefined;
+  /** MiB: the ceiling for `limits.storage_mb`, and the team's static assets together. */
   storage_mb?: number | null | undefined;
+  /** Ceiling for `limits.cpu_ms`: milliseconds of CPU per request. */
+  cpu_ms?: number | null | undefined;
+  /** Ceiling for `limits.wall_ms`: milliseconds of wall time per request. */
+  wall_ms?: number | null | undefined;
+  /** Ceiling for `limits.rate_rps` (requests per second per app); `limits.rate_burst` may be twice this. A rate limit cannot be lifted. */
+  rate_rps?: number | null | undefined;
+  /** Ceiling for `limits.ops_per_sec`: binding operations per second. */
+  ops_per_sec?: number | null | undefined;
+  /** MiB of new sources the team may upload in a rolling 24 hours. */
+  source_mb_per_day?: number | null | undefined;
+  /** MiB of new static asset blobs the team may upload in a rolling 24 hours. */
+  asset_mb_per_day?: number | null | undefined;
 }
 export type GetLimitsResponseOverriddenItem =
   | "apps"
   | "memory_mb"
   | "builds_per_day"
-  | "storage_mb";
+  | "storage_mb"
+  | "cpu_ms"
+  | "wall_ms"
+  | "rate_rps"
+  | "ops_per_sec"
+  | "source_mb_per_day"
+  | "asset_mb_per_day";
 /** The limits raised (or lowered) for this team. */
 export type GetLimitsResponseOverriddenList = Array<GetLimitsResponseOverriddenItem>;
 export interface GetLimitsResponseUsage {
@@ -657,6 +735,10 @@ export interface GetLimitsResponseUsage {
   builds_24h?: number | undefined;
   /** MiB of static assets across the team's apps. */
   assets_mb?: number | undefined;
+  /** MiB of new sources the team uploaded in the last 24 hours (against `limits.source_mb_per_day`). */
+  sources_mb_24h?: number | undefined;
+  /** MiB of new asset blobs the team uploaded in the last 24 hours (against `limits.asset_mb_per_day`). */
+  assets_mb_24h?: number | undefined;
 }
 export interface GetLimitsResponse {
   /** False when this Cloud enforces no quotas. */
@@ -671,7 +753,7 @@ export interface GetR2ObjectRequest {
   project: string;
   /** The R2 binding name from the app's config, for example `FILES`. */
   bucket: string;
-  /** The object key. May contain `/`, which must stay literal in the path. Percent-encoded dots, slashes and backslashes are refused. */
+  /** The object key, the rest of the path after `/objects/`. It spans path segments: each `/` in the key is a literal `/` in the URL (`assets/logo.png` is `/objects/assets/logo.png`), and every segment is percent-encoded on its own. A key is 1 to 1024 bytes of UTF-8 with no control character, backslash, empty segment or `.` or `..` segment; a percent-encoded dot, slash or backslash in the path is refused (400 `invalid`, `path: key`). OpenAPI has no way to mark a path parameter as spanning segments (`allowReserved` is formally for query parameters); a generator that does not read it as such needs a rest-of-path label (`{key+}`) for this one parameter. */
   key: string;
 }
 export interface GetR2ObjectResponse {
@@ -782,6 +864,7 @@ export interface PatchRoutesResponse {
   record_generation: number;
   hosts: PatchRoutesResponseHostsList;
 }
+/** Secret name to value. The values are secrets: never returned by any route, keep them out of logs. */
 export type PatchSecretsRequestSetMap = {
   [key: string]: string | Redacted.Redacted<string> | undefined;
 };
@@ -789,6 +872,7 @@ export type PatchSecretsRequestDeleteList = Array<string>;
 export interface PatchSecretsRequest {
   /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
+  /** Secret name to value. The values are secrets: never returned by any route, keep them out of logs. */
   set?: PatchSecretsRequestSetMap | undefined;
   delete?: PatchSecretsRequestDeleteList | undefined;
 }
@@ -809,12 +893,15 @@ export type PutAppRequestQueueConsumersList = Array<QueueConsumer>;
 export interface PutAppRequestModule {
   sha256: string;
 }
+/** Secret name to value. The values are secrets: never returned by any route, keep them out of logs. */
 export type PutAppRequestSecretsMap = {
   [key: string]: string | Redacted.Redacted<string> | undefined;
 };
+/** Secret name to value. The values are secrets: never returned by any route, keep them out of logs. */
 export type SecretsPatchSetMap = { [key: string]: string | Redacted.Redacted<string> | undefined };
 export type SecretsPatchDeleteList = Array<string>;
 export interface SecretsPatch {
+  /** Secret name to value. The values are secrets: never returned by any route, keep them out of logs. */
   set?: SecretsPatchSetMap | undefined;
   delete?: SecretsPatchDeleteList | undefined;
 }
@@ -907,7 +994,7 @@ export interface PutR2ObjectRequest {
   project: string;
   /** The R2 binding name from the app's config, for example `FILES`. */
   bucket: string;
-  /** The object key. May contain `/`, which must stay literal in the path. Percent-encoded dots, slashes and backslashes are refused. */
+  /** The object key, the rest of the path after `/objects/`. It spans path segments: each `/` in the key is a literal `/` in the URL (`assets/logo.png` is `/objects/assets/logo.png`), and every segment is percent-encoded on its own. A key is 1 to 1024 bytes of UTF-8 with no control character, backslash, empty segment or `.` or `..` segment; a percent-encoded dot, slash or backslash in the path is refused (400 `invalid`, `path: key`). OpenAPI has no way to mark a path parameter as spanning segments (`allowReserved` is formally for query parameters); a generator that does not read it as such needs a rest-of-path label (`{key+}`) for this one parameter. */
   key: string;
   /** The object's bytes, at most 64 MiB. */
   body: Blob | Uint8Array | ArrayBuffer;
@@ -921,6 +1008,7 @@ export interface PutSecretRequest {
   /** The app's name, unique within the team. 3 to 32 characters (or 1), lowercase letters, digits and dashes, not starting or ending with a dash. */
   project: string;
   name: string;
+  /** The secret's value. Never returned by any route; keep it out of logs. */
   value: string | Redacted.Redacted<string>;
 }
 export interface PutSourceRequest {
@@ -964,6 +1052,13 @@ export interface VerifyDomainRequest {
   /** A custom domain, lowercase, percent-encoded if needed. */
   host: string;
 }
+export type ErrorInvalidHostReason = "invalid-host";
+/** The hostname is not one a team can claim as a custom domain (wildcards, platform names and malformed names are refused). `path` is `host`. */
+export interface ErrorInvalidHost {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorInvalidHostReason;
+}
 export interface Error {
   /** A message for people. Do not parse it. */
   error: string;
@@ -976,22 +1071,304 @@ export interface Error {
   retry_after_s?: number | undefined;
   [key: string]: unknown;
 }
-export type Error409BodyMissingList = Array<string>;
-export interface Error409Body {
+export type Error400Body2 = ErrorInvalidHost | Error;
+export type ErrorInvalidReason = "invalid";
+/** A field is malformed, unknown or out of range. `path` names it when one field is at fault. */
+export interface ErrorInvalid {
   /** A message for people. Do not parse it. */
   error: string;
-  /** A stable, machine-readable cause, when there is one. */
-  reason?: string | undefined;
-  /** The request field at fault. */
-  path?: string | undefined;
-  /** The grant a 403 asks for, `app:write` for example. */
-  need?: string | undefined;
-  retry_after_s?: number | undefined;
-  missing?: Error409BodyMissingList | undefined;
-  missing_count?: number | undefined;
-  [key: string]: unknown;
+  reason: ErrorInvalidReason;
 }
-export type AddDomainError = BadRequest | Forbidden | Conflict | SproutboatOpError;
+export type Error400Body = ErrorInvalid | Error;
+export type ErrorRefusedReason = "refused";
+/** D1: the statement is refused (the first-filter guard, or SQLite refused it); `error` says why. */
+export interface ErrorRefused {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorRefusedReason;
+}
+export type ErrorSqlErrorReason = "sql-error";
+/** D1: SQLite failed the statement. `statement` is the zero-based index of the failing statement when there is one. */
+export interface ErrorSqlError {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorSqlErrorReason;
+  /** The index of the failing statement in `statements`. */
+  statement?: number | undefined;
+}
+export type Error400Body4 = ErrorInvalid | ErrorRefused | ErrorSqlError | Error;
+export type ErrorTxtMissingReason = "txt-missing";
+export interface DnsTxtRecord {
+  type: string;
+  name: string;
+  value: string;
+}
+/** Verification: neither resolver sees the TXT record yet. `expected` is the record to publish. */
+export interface ErrorTxtMissing {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorTxtMissingReason;
+  expected: DnsTxtRecord;
+  /** What the resolvers answered. */
+  detail: string;
+}
+export type ErrorTxtUnconfirmedReason = "txt-unconfirmed";
+/** Verification: the lookup could not be confirmed (a resolver failed or the two disagree). Try again after the cooldown. */
+export interface ErrorTxtUnconfirmed {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorTxtUnconfirmedReason;
+  expected: DnsTxtRecord;
+  /** What went wrong. */
+  detail: string;
+}
+export type Error400Body3 = ErrorTxtMissing | ErrorTxtUnconfirmed | Error;
+export type ErrorBlobsMissingReason = "blobs-missing";
+/** Up to 100 of the missing digests. */
+export type ErrorBlobsMissingMissingList = Array<string>;
+/** The manifest names blobs this team has not uploaded. Upload them with `PUT /v1/assets/blobs/{sha256}`, then the manifest again. */
+export interface ErrorBlobsMissing {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorBlobsMissingReason;
+  /** Up to 100 of the missing digests. */
+  missing: ErrorBlobsMissingMissingList;
+  /** How many are missing in all. */
+  missing_count: number;
+}
+export type ErrorHostClaimedReason = "host-claimed";
+/** Another team holds this name, verified. If it removes its DNS record the name can be claimed here; your claim stays pending. */
+export interface ErrorHostClaimed {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorHostClaimedReason;
+}
+export type ErrorSourceMissingReason = "source-missing";
+/** The build names a `source_sha256` this team has not uploaded (a source another team holds does not count). Upload it with `PUT /v1/sources/{sha256}`, then start the build again. */
+export interface ErrorSourceMissing {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorSourceMissingReason;
+}
+export type ErrorRouteTakenReason = "route-taken";
+export type ErrorRouteTakenPath = "hosts";
+/** Another app already holds one of the routes. `path` is `hosts`. */
+export interface ErrorRouteTaken {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorRouteTakenReason;
+  path: ErrorRouteTakenPath;
+}
+export type Error409Body = ErrorSourceMissing | ErrorRouteTaken;
+export type ErrorDomainInUseReason = "domain-in-use";
+/** An app of the team still routes this hostname. Remove those routes (`PATCH /v1/apps/{project}/routes`) first. */
+export interface ErrorDomainInUse {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorDomainInUseReason;
+}
+export type ErrorCaptureActiveReason = "capture-active";
+/** D1: remote writes are not available for a database with backup capture on; write through the app. */
+export interface ErrorCaptureActive {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorCaptureActiveReason;
+}
+export type ErrorBadDatabaseReason = "bad-database";
+/** D1: the app's database file on the host is not a usable SQLite database. */
+export interface ErrorBadDatabase {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorBadDatabaseReason;
+}
+export type Error409Body3 = ErrorCaptureActive | ErrorBadDatabase;
+export type ErrorClaimChangedReason = "claim-changed";
+/** The claim changed while it was being checked. Try again. */
+export interface ErrorClaimChanged {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorClaimChangedReason;
+}
+export type Error409Body2 = ErrorHostClaimed | ErrorClaimChanged;
+export type ErrorForbiddenReason = "forbidden";
+/** The key lacks a grant, or may not do this (a key with only `app:delete_own` deleting an app it did not create). `need` is the grant to ask for. */
+export interface ErrorForbidden {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorForbiddenReason;
+  /** The grant, as `<resource>:<action>`, for example `app:write`. */
+  need: string;
+}
+export type ErrorHostNotYoursReason = "host-not-yours";
+export type ErrorHostNotYoursPath = "hosts";
+/** A route the team may not use: it is neither `<name>.<team slug>.sproutboat.app` nor a custom domain the team has verified. `path` is `hosts`. */
+export interface ErrorHostNotYours {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorHostNotYoursReason;
+  path: ErrorHostNotYoursPath;
+}
+export type ErrorQuotaMemoryReason = "quota-memory";
+/** Free alpha quota: `limits.memory_mb` is over the ceiling per app. The write is refused, never clamped. */
+export interface ErrorQuotaMemory {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorQuotaMemoryReason;
+  /** The ceiling, in MiB. */
+  limit: number;
+  /** What the spec asked for. */
+  asked: number;
+}
+export type ErrorQuotaStorageReason = "quota-storage";
+/** Free alpha quota: `limits.storage_mb` is over the ceiling (`asked` is set), or the team's static assets would not fit its storage (`would_use_mb` is set). */
+export interface ErrorQuotaStorage {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorQuotaStorageReason;
+  /** The ceiling, in MiB. */
+  limit: number;
+  /** What `limits.storage_mb` asked for. */
+  asked?: number | undefined;
+  /** The static assets of the team's apps with this deploy, in MiB. */
+  would_use_mb?: number | undefined;
+}
+export type ErrorQuotaCpuReason = "quota-cpu";
+/** Free alpha quota: `limits.cpu_ms` is over the ceiling. The write is refused, never clamped. */
+export interface ErrorQuotaCpu {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorQuotaCpuReason;
+  /** The ceiling, in milliseconds of CPU per request. */
+  limit: number;
+  asked: number;
+}
+export type ErrorQuotaWallReason = "quota-wall";
+/** Free alpha quota: `limits.wall_ms` is over the ceiling. The write is refused, never clamped. */
+export interface ErrorQuotaWall {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorQuotaWallReason;
+  /** The ceiling, in milliseconds of wall time per request. */
+  limit: number;
+  asked: number;
+}
+export type ErrorQuotaRateReason = "quota-rate";
+/** Free alpha quota: `limits.rate_rps` (or `rate_burst`) is over the ceiling, or `rate_rps: 0` (no limit) was asked for. The request rate limit cannot be lifted. */
+export interface ErrorQuotaRate {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorQuotaRateReason;
+  /** The ceiling. */
+  limit: number;
+  asked: number;
+}
+export type ErrorQuotaOpsReason = "quota-ops";
+/** Free alpha quota: `limits.ops_per_sec` is over the ceiling. The write is refused, never clamped. */
+export interface ErrorQuotaOps {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorQuotaOpsReason;
+  /** The ceiling, in binding operations per second. */
+  limit: number;
+  asked: number;
+}
+export type Error403Body2 =
+  | ErrorForbidden
+  | ErrorHostNotYours
+  | ErrorQuotaMemory
+  | ErrorQuotaStorage
+  | ErrorQuotaCpu
+  | ErrorQuotaWall
+  | ErrorQuotaRate
+  | ErrorQuotaOps;
+export type Error403Body3 = ErrorForbidden | ErrorHostNotYours;
+export type ErrorModuleUploadDisabledError = "module-upload-disabled";
+/** 403 from `PUT /v1/apps/{project}`: the module is neither the one the app runs nor one your team's builds produced. The one error without a `reason`: the machine-readable name is in `error`. */
+export interface ErrorModuleUploadDisabled {
+  error: ErrorModuleUploadDisabledError;
+  message: string;
+}
+export type ErrorQuotaAppsReason = "quota-apps";
+/** Free alpha quota: the team already has its maximum number of apps. Delete one, or ask for more. */
+export interface ErrorQuotaApps {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorQuotaAppsReason;
+  /** Apps allowed. */
+  limit: number;
+  /** Apps the team has. */
+  used: number;
+}
+export type Error403Body =
+  | ErrorForbidden
+  | ErrorHostNotYours
+  | ErrorModuleUploadDisabled
+  | ErrorQuotaApps
+  | ErrorQuotaMemory
+  | ErrorQuotaStorage
+  | ErrorQuotaCpu
+  | ErrorQuotaWall
+  | ErrorQuotaRate
+  | ErrorQuotaOps;
+export type ErrorNoDatabaseReason = "no-database";
+/** The app has no such D1 database (yet). */
+export interface ErrorNoDatabase {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorNoDatabaseReason;
+}
+export type ErrorNoBucketReason = "no-bucket";
+/** The app has no such R2 bucket binding. */
+export interface ErrorNoBucket {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorNoBucketReason;
+}
+export type ErrorNoObjectReason = "no-object";
+/** No object under this key. */
+export interface ErrorNoObject {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorNoObjectReason;
+}
+export type Error404Body2 = ErrorNoDatabase | ErrorNoBucket | ErrorNoObject | Error;
+export type ErrorNoClaimReason = "no-claim";
+/** The team has no claim on this hostname. */
+export interface ErrorNoClaim {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorNoClaimReason;
+}
+export type Error404Body = ErrorNoClaim | Error;
+export type ErrorTooLargeReason = "too-large";
+/** The body is over the limit for this route (JSON bodies 256 KiB, or 1 MiB for specs, builds, secrets and route edits; 5 MiB for `POST /v1/assets/missing`; 4 MiB for D1 SQL; blobs and R2 objects 64 MiB; sources 8 MiB; manifests 4 MiB). Counted as the body streams in, so a chunked body is refused too. */
+export interface ErrorTooLarge {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorTooLargeReason;
+}
+export type Error413Body = ErrorTooLarge | Error;
+export type ErrorResultTooLargeReason = "result-too-large";
+/** D1: the result is larger than 8 MiB. Select fewer rows or columns. */
+export interface ErrorResultTooLarge {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorResultTooLargeReason;
+}
+export type Error413Body2 = ErrorTooLarge | ErrorResultTooLarge | Error;
+export type ErrorMemoryLimitReason = "memory-limit";
+/** D1: the statement needs more memory than the host allows. */
+export interface ErrorMemoryLimit {
+  /** A message for people. Do not parse it. */
+  error: string;
+  reason: ErrorMemoryLimitReason;
+}
+export type AddDomainError =
+  | BadRequest
+  | Forbidden
+  | Conflict
+  | PayloadTooLarge
+  | SproutboatOpError;
 /** Claim a custom domain Starts the proof for one exact hostname (no wildcards; lowercase, no trailing dot). The answer carries `txt`, the DNS record to publish: name `_sproutboat-challenge.<host>`, type `TXT`, the given value. Then call `POST /v1/domains/{host}/verify`. Claiming a host you already claimed returns the claim (200). A team holds at most 10 domains (429 `domain-limit`). Names under `sproutboat.app` and the platform's own hostnames cannot be claimed. Once verified, add the hostname to an app's routes (`PATCH /v1/apps/{project}/routes`); a certificate is then issued on first use. */
 export const addDomain: API.OperationMethod<
   AddDomainRequest,
@@ -999,9 +1376,9 @@ export const addDomain: API.OperationMethod<
   AddDomainError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<AddDomainRequest>,
-  output: __S(67, __c4, 3) as any as S.Schema<DomainClaim>,
-  errors: [BadRequest, Forbidden, Conflict],
+  input: __S(32, __c2, 0) as any as S.Schema<AddDomainRequest>,
+  output: __S(51, __c3, 3) as any as S.Schema<DomainClaim>,
+  errors: [BadRequest, Forbidden, Conflict, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
@@ -1017,8 +1394,8 @@ export const cancelBuild: API.OperationMethod<
   CancelBuildError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<CancelBuildRequest>,
-  output: __S(99, __c6, 3) as any as S.Schema<Build>,
+  input: __S(64, __c4, 0) as any as S.Schema<CancelBuildRequest>,
+  output: __S(83, __c5, 3) as any as S.Schema<Build>,
   errors: [Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1036,15 +1413,15 @@ export type CreateBuildError =
   | RouteTaken
   | SourceMissing
   | SproutboatOpError;
-/** Start a build Validates the request, then either answers from the cache (HTTP 200, a `ready` build with `cached: true`) or queues a build (HTTP 202, `state: queued`). When the build finishes the Cloud writes the app with the new module and `spec`, and sets `record_generation` on the build; a host then applies it (see `GET /v1/apps/{project}`). A newer build of the same project cancels an older queued one. `spec` takes the same keys as `PUT /v1/apps/{project}` **except** `module`, `secrets` and `secrets_patch` (400 `invalid`, `path: spec.<key>`): it is stored in plain text, so set secrets with `PATCH /v1/apps/{project}/secrets` after the build is `ready`. Use `hosts_patch` rather than `hosts` to leave an app's other routes alone. Route ownership and conflicts are checked up front, and again when the build lands. `build` is `{"v": 1, "name": "<project>", "cli": {"version": "...", "runtime": "...", "toolchain": "..."}}`; `name` must equal the project. `kind` must be `generated` (the only kind that exists). The source must already be uploaded (409 `source-missing`). */
+/** Start a build Validates the request, then either answers from the cache (HTTP 200, a `ready` build with `cached: true`) or queues a build (HTTP 202, `state: queued`). When the build finishes the Cloud writes the app with the new module and `spec`, and sets `record_generation` on the build; a host then applies it (see `GET /v1/apps/{project}`). A newer build of the same project cancels an older queued one. `spec` takes the same keys as `PUT /v1/apps/{project}` **except** `module`, `secrets` and `secrets_patch` (400 `invalid`, `path: spec.<key>`): it is stored in plain text, so set secrets with `PATCH /v1/apps/{project}/secrets` after the build is `ready`. Use `hosts_patch` rather than `hosts` to leave an app's other routes alone. Route ownership and conflicts are checked up front, and again when the build lands, and so are the `limits` the spec asks for against the account's ceilings (403 `quota-*`, as for `PUT /v1/apps/{project}`). The source must be one this team uploaded (a digest another team holds is 409 `source-missing`). The build quota is 429 `quota-builds`. `build` is `{"v": 1, "name": "<project>", "cli": {"version": "...", "runtime": "...", "toolchain": "..."}}`; `name` must equal the project. `kind` must be `generated` (the only kind that exists). The source must already be uploaded (409 `source-missing`). */
 export const createBuild: API.OperationMethod<
   CreateBuildRequest,
   Build,
   CreateBuildError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(114, __c7, 2) as any as S.Schema<CreateBuildRequest>,
-  output: __S(99, __c6, 3) as any as S.Schema<Build>,
+  input: __S(98, __c6, 2) as any as S.Schema<CreateBuildRequest>,
+  output: __S(83, __c5, 3) as any as S.Schema<Build>,
   errors: [
     BadRequest,
     Forbidden,
@@ -1069,8 +1446,8 @@ export const deleteApp: API.OperationMethod<
   DeleteAppError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DeleteAppRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<DeleteAppResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<DeleteAppRequest>,
+  output: __S(145, __c9, 1) as any as S.Schema<DeleteAppResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1087,8 +1464,8 @@ export const deleteDomain: API.OperationMethod<
   DeleteDomainError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<DeleteDomainResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<DeleteDomainRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<DeleteDomainResponse>,
   errors: [Forbidden, NotFound, Conflict, DomainInUse],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1097,7 +1474,7 @@ export const deleteDomain: API.OperationMethod<
   span: "DeleteDomain",
 }));
 
-export type DeleteR2ObjectError = Forbidden | NotFound | SproutboatOpError;
+export type DeleteR2ObjectError = BadRequest | Forbidden | NotFound | SproutboatOpError;
 /** Delete an object Deleting a key that does not exist is not an error, as in R2. */
 export const deleteR2Object: API.OperationMethod<
   DeleteR2ObjectRequest,
@@ -1105,9 +1482,9 @@ export const deleteR2Object: API.OperationMethod<
   DeleteR2ObjectError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<DeleteR2ObjectRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<DeleteR2ObjectResponse>,
-  errors: [Forbidden, NotFound],
+  input: __S(176, __c11, 0) as any as S.Schema<DeleteR2ObjectRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<DeleteR2ObjectResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
@@ -1123,8 +1500,8 @@ export const deleteSecret: API.OperationMethod<
   DeleteSecretError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<DeleteSecretRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<SecretWritten>,
+  input: __S(192, __c12, 0) as any as S.Schema<DeleteSecretRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<SecretWritten>,
   errors: [Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1133,17 +1510,17 @@ export const deleteSecret: API.OperationMethod<
   span: "DeleteSecret",
 }));
 
-export type FindMissingAssetsError = BadRequest | Forbidden | SproutboatOpError;
-/** Missing asset blobs Send the sha256 of every file (and precompressed variant) in the manifest; upload the ones returned. */
+export type FindMissingAssetsError = BadRequest | Forbidden | PayloadTooLarge | SproutboatOpError;
+/** Missing asset blobs Send the sha256 of every file (and precompressed variant) in the manifest; upload the ones returned. Answers for the team's own uploads only: a blob another team holds is reported missing until you upload the bytes yourself. */
 export const findMissingAssets: API.OperationMethod<
   FindMissingAssetsRequest,
   MissingList,
   FindMissingAssetsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<FindMissingAssetsRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<MissingList>,
-  errors: [BadRequest, Forbidden],
+  input: __S(224, __c14, 0) as any as S.Schema<FindMissingAssetsRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<MissingList>,
+  errors: [BadRequest, Forbidden, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
@@ -1151,17 +1528,17 @@ export const findMissingAssets: API.OperationMethod<
   span: "FindMissingAssets",
 }));
 
-export type FindMissingSourcesError = BadRequest | Forbidden | SproutboatOpError;
-/** Missing sources */
+export type FindMissingSourcesError = BadRequest | Forbidden | PayloadTooLarge | SproutboatOpError;
+/** Missing sources Send up to 100 digests; the answer lists the ones this team has not uploaded. A source another team holds is reported missing until you upload the bytes yourself. */
 export const findMissingSources: API.OperationMethod<
   FindMissingSourcesRequest,
   MissingList,
   FindMissingSourcesError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<FindMissingSourcesRequest>,
-  output: __S(256, __c16, 0) as any as S.Schema<MissingList>,
-  errors: [BadRequest, Forbidden],
+  input: __S(288, __c18, 0) as any as S.Schema<FindMissingSourcesRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<MissingList>,
+  errors: [BadRequest, Forbidden, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
@@ -1173,8 +1550,8 @@ export type GetAppError = Forbidden | NotFound | SproutboatOpError;
 /** Read an app The app's stored spec (secrets as sorted names, or null without `secret:list`), its routes with certificate state, runtime state, the build that is live and the one before it, and `apply`, which says whether a host has applied a `record_generation`. This is the "is it live" call: see *Deploy flow*, step 8. */
 export const getApp: API.OperationMethod<GetAppRequest, App, GetAppError, SproutboatOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(288, __c18, 0) as any as S.Schema<GetAppRequest>,
-    output: __S(295, __c18, 7) as any as S.Schema<App>,
+    input: __S(304, __c19, 0) as any as S.Schema<GetAppRequest>,
+    output: __S(311, __c19, 7) as any as S.Schema<App>,
     errors: [Forbidden, NotFound],
     serviceErrors: SproutboatServiceErrors,
     protocol: SproutboatProtocol,
@@ -1191,8 +1568,8 @@ export const getAppEvents: API.OperationMethod<
   GetAppEventsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetAppEventsRequest>,
-  output: __S(323, __c20, 3) as any as S.Schema<GetAppEventsResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetAppEventsRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<GetAppEventsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1209,8 +1586,8 @@ export const getAppMetrics: API.OperationMethod<
   GetAppMetricsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetAppMetricsRequest>,
-  output: __S(337, __c21, 1) as any as S.Schema<GetAppMetricsResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetAppMetricsRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<GetAppMetricsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1220,15 +1597,15 @@ export const getAppMetrics: API.OperationMethod<
 }));
 
 export type GetAssetManifestError = BadRequest | Forbidden | NotFound | SproutboatOpError;
-/** Read an assets manifest */
+/** Read an assets manifest Only for a manifest the team uploaded, or one of its apps names; any other digest is 404 (so the answer does not say whether the platform holds it). */
 export const getAssetManifest: API.OperationMethod<
   GetAssetManifestRequest,
   AssetManifest,
   GetAssetManifestError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetAssetManifestRequest>,
-  output: __S(369, __c23, 1) as any as S.Schema<AssetManifest>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetAssetManifestRequest>,
+  output: __S(385, __c24, 1) as any as S.Schema<AssetManifest>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1245,8 +1622,8 @@ export const getBuild: API.OperationMethod<
   GetBuildError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetBuildRequest>,
-  output: __S(99, __c6, 3) as any as S.Schema<Build>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetBuildRequest>,
+  output: __S(83, __c5, 3) as any as S.Schema<Build>,
   errors: [Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1263,8 +1640,8 @@ export const getDomainStatus: API.OperationMethod<
   GetDomainStatusError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetDomainStatusRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<GetDomainStatusResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetDomainStatusRequest>,
+  output: __S(434, __c27, 2) as any as S.Schema<GetDomainStatusResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1281,8 +1658,8 @@ export const getHealth: API.OperationMethod<
   GetHealthError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetHealthRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<GetHealthResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<GetHealthRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<GetHealthResponse>,
   errors: [],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1292,15 +1669,15 @@ export const getHealth: API.OperationMethod<
 }));
 
 export type GetLimitsError = Forbidden | SproutboatOpError;
-/** Get the team's limits and usage The free alpha limits that apply to the team (defaults, with any limit raised for this team) and what it uses now. `null` is unlimited. Memory is a ceiling per app, so it has no usage. */
+/** Get the team's limits and usage The free alpha limits that apply to the team (defaults, with any limit raised for this team) and what it uses now. `null` is unlimited. Memory, CPU, wall time, request rate and operations are ceilings on what an app may ask for in `limits`, so they have no usage. */
 export const getLimits: API.OperationMethod<
   GetLimitsRequest,
   GetLimitsResponse,
   GetLimitsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetLimitsRequest>,
-  output: __S(452, __c28, 4) as any as S.Schema<GetLimitsResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetLimitsRequest>,
+  output: __S(468, __c29, 4) as any as S.Schema<GetLimitsResponse>,
   errors: [Forbidden],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1309,7 +1686,7 @@ export const getLimits: API.OperationMethod<
   span: "GetLimits",
 }));
 
-export type GetR2ObjectError = Forbidden | NotFound | SproutboatOpError;
+export type GetR2ObjectError = BadRequest | Forbidden | NotFound | SproutboatOpError;
 /** Read an object The bytes, always served as an inert download (`content-type: application/octet-stream`, `content-disposition: attachment`, `content-security-policy: sandbox`); the object's own HTTP metadata comes back as `x-object-*` headers and `etag`. */
 export const getR2Object: API.OperationMethod<
   GetR2ObjectRequest,
@@ -1317,9 +1694,9 @@ export const getR2Object: API.OperationMethod<
   GetR2ObjectError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetR2ObjectRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<GetR2ObjectResponse>,
-  errors: [Forbidden, NotFound],
+  input: __S(480, __c30, 0) as any as S.Schema<GetR2ObjectRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<GetR2ObjectResponse>,
+  errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
@@ -1335,8 +1712,8 @@ export const getWhoami: API.OperationMethod<
   GetWhoamiError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetWhoamiRequest>,
-  output: __S(484, __c30, 4) as any as S.Schema<Whoami>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetWhoamiRequest>,
+  output: __S(500, __c31, 4) as any as S.Schema<Whoami>,
   errors: [],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1353,8 +1730,8 @@ export const listApps: API.OperationMethod<
   ListAppsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ListAppsRequest>,
-  output: __S(499, __c31, 3) as any as S.Schema<ListAppsResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<ListAppsRequest>,
+  output: __S(515, __c32, 3) as any as S.Schema<ListAppsResponse>,
   errors: [Forbidden],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1371,8 +1748,8 @@ export const listBuilds: API.OperationMethod<
   ListBuildsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ListBuildsRequest>,
-  output: __S(514, __c32, 2) as any as S.Schema<ListBuildsResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<ListBuildsRequest>,
+  output: __S(530, __c33, 2) as any as S.Schema<ListBuildsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1389,8 +1766,8 @@ export const listDomains: API.OperationMethod<
   ListDomainsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ListDomainsRequest>,
-  output: __S(530, __c33, 2) as any as S.Schema<ListDomainsResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<ListDomainsRequest>,
+  output: __S(546, __c34, 2) as any as S.Schema<ListDomainsResponse>,
   errors: [Forbidden],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1407,8 +1784,8 @@ export const listNotices: API.OperationMethod<
   ListNoticesError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<ListNoticesRequest>,
-  output: __S(547, __c34, 3) as any as S.Schema<ListNoticesResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<ListNoticesRequest>,
+  output: __S(563, __c35, 3) as any as S.Schema<ListNoticesResponse>,
   errors: [Forbidden],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1425,8 +1802,8 @@ export const listSecrets: API.OperationMethod<
   ListSecretsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<ListSecretsRequest>,
-  output: __S(561, __c35, 1) as any as S.Schema<ListSecretsResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<ListSecretsRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<ListSecretsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1440,6 +1817,7 @@ export type PatchRoutesError =
   | Forbidden
   | NotFound
   | Conflict
+  | PayloadTooLarge
   | HostNotYours
   | RouteTaken
   | SproutboatOpError;
@@ -1450,9 +1828,9 @@ export const patchRoutes: API.OperationMethod<
   PatchRoutesError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<PatchRoutesRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<PatchRoutesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, HostNotYours, RouteTaken],
+  input: __S(592, __c37, 0) as any as S.Schema<PatchRoutesRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<PatchRoutesResponse>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, PayloadTooLarge, HostNotYours, RouteTaken],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
@@ -1460,7 +1838,12 @@ export const patchRoutes: API.OperationMethod<
   span: "PatchRoutes",
 }));
 
-export type PatchSecretsError = BadRequest | Forbidden | NotFound | SproutboatOpError;
+export type PatchSecretsError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PayloadTooLarge
+  | SproutboatOpError;
 /** Patch secrets Deletes first, then sets, in one write that bumps `record_generation`. Deleting a name that is not there is not an error here. Names match `[A-Za-z_][A-Za-z0-9_]*`, at most 128 characters; at most 128 secrets per app and 64 KiB of values in total. Values are strings. */
 export const patchSecrets: API.OperationMethod<
   PatchSecretsRequest,
@@ -1468,9 +1851,9 @@ export const patchSecrets: API.OperationMethod<
   PatchSecretsError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<PatchSecretsRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<PatchSecretsResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(608, __c38, 0) as any as S.Schema<PatchSecretsRequest>,
+  output: __S(609, __c38, 1) as any as S.Schema<PatchSecretsResponse>,
+  errors: [BadRequest, Forbidden, NotFound, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
@@ -1482,20 +1865,29 @@ export type PutAppError =
   | BadRequest
   | Forbidden
   | Conflict
+  | PayloadTooLarge
   | HostNotYours
   | ModuleUploadDisabled
   | RouteTaken
   | SproutboatOpError;
-/** Replace an app's spec Writes the whole spec of an app and bumps its `record_generation`. A team key cannot place a module directly: `module.sha256` must be the module the app already runs, or one your own team's builds produced; anything else is 403 `module-upload-disabled`. So this route changes **configuration** (bindings, crons, limits, routes, assets) of an existing app, or moves it to an earlier module of yours. To create an app or ship new code, use `POST /v1/apps/{project}/builds`. **PUT replaces.** Omitted `hosts`, `bindings`, `services`, `crons`, `queue_consumers` and `limits` become empty and `active` becomes true. Send everything you want to keep, or use `hosts_patch` and `secrets_patch` to leave routes and secrets alone. Omitting `secrets` keeps the stored secrets; `secrets: null` clears them; an object replaces the whole set. Setting any secret needs `secret:write` in addition to `app:write`. Unknown keys are refused by name (400, `reason: invalid`, `path`). Route keys: a team may add only `<name>.<team slug>.sproutboat.app` (any path under it) or a hostname it has verified as a custom domain; another route is 403 `host-not-yours`. A route another app holds is 409 `route-taken`. */
+/** Replace an app's spec Writes the whole spec of an app and bumps its `record_generation`. A team key cannot place a module directly: `module.sha256` must be the module the app already runs, or one your own team's builds produced; anything else is 403 `module-upload-disabled`. So this route changes **configuration** (bindings, crons, limits, routes, assets) of an existing app, or moves it to an earlier module of yours. To create an app or ship new code, use `POST /v1/apps/{project}/builds`. **PUT replaces.** Omitted `hosts`, `bindings`, `services`, `crons`, `queue_consumers` and `limits` become empty and `active` becomes true. Send everything you want to keep, or use `hosts_patch` and `secrets_patch` to leave routes and secrets alone. Omitting `secrets` keeps the stored secrets; `secrets: null` clears them; an object replaces the whole set. Setting any secret needs `secret:write` in addition to `app:write`. Unknown keys are refused by name (400, `reason: invalid`, `path`). Every value of `limits` the team may set is checked against the account's ceilings (`GET /v1/limits`): over one is 403 `quota-memory`, `quota-storage`, `quota-cpu`, `quota-wall`, `quota-rate` or `quota-ops`, never clamped, and a new app over the app quota is 403 `quota-apps`. An app already over a ceiling keeps its value and can be lowered or redeployed, not raised. Route keys: a team may add only `<name>.<team slug>.sproutboat.app` (any path under it) or a hostname it has verified as a custom domain; another route is 403 `host-not-yours`. A route another app holds is 409 `route-taken`. */
 export const putApp: API.OperationMethod<
   PutAppRequest,
   GenerationWritten,
   PutAppError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(626, __c39, 2) as any as S.Schema<PutAppRequest>,
-  output: __S(627, __c39, 3) as any as S.Schema<GenerationWritten>,
-  errors: [BadRequest, Forbidden, Conflict, HostNotYours, ModuleUploadDisabled, RouteTaken],
+  input: __S(642, __c40, 2) as any as S.Schema<PutAppRequest>,
+  output: __S(643, __c40, 3) as any as S.Schema<GenerationWritten>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    Conflict,
+    PayloadTooLarge,
+    HostNotYours,
+    ModuleUploadDisabled,
+    RouteTaken,
+  ],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
@@ -1504,15 +1896,15 @@ export const putApp: API.OperationMethod<
 }));
 
 export type PutAssetBlobError = BadRequest | Forbidden | PayloadTooLarge | SproutboatOpError;
-/** Upload one asset file Raw bytes, at most 64 MiB; `sha256` must match them. Idempotent. The CLI uploads up to 4 at a time. */
+/** Upload one asset file Raw bytes, at most 64 MiB; `sha256` must match them. Idempotent. The CLI uploads up to 4 at a time. New bytes count against the team's 24-hour budget of static assets (429 `quota-upload`, checked from `Content-Length` before a byte is read); uploads are rate-limited per team (429 `upload-rate`) and bounded in flight (429 `busy`, retry in 5 s). */
 export const putAssetBlob: API.OperationMethod<
   PutAssetBlobRequest,
   Stored,
   PutAssetBlobError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<PutAssetBlobRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<Stored>,
+  input: __S(656, __c41, 0) as any as S.Schema<PutAssetBlobRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<Stored>,
   errors: [BadRequest, Forbidden, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1528,15 +1920,15 @@ export type PutAssetManifestError =
   | PayloadTooLarge
   | BlobsMissing
   | SproutboatOpError;
-/** Upload an assets manifest The manifest JSON (see `AssetManifest`), at most 4 MiB, 20,000 files and 512 MiB in total, uploaded after every blob it names. `sha256` is the digest of the manifest's exact bytes; the app then references it as `assets_manifest_ref: "assets/<sha256>"`. If a blob is missing the answer is 409 `blobs-missing` with up to 100 digests in `missing` (and the full count in `missing_count`). Idempotent. */
+/** Upload an assets manifest The manifest JSON (see `AssetManifest`), at most 4 MiB, 20,000 files and 512 MiB in total, uploaded after every blob it names. `sha256` is the digest of the manifest's exact bytes; the app then references it as `assets_manifest_ref: "assets/<sha256>"`. If a blob is missing the answer is 409 `blobs-missing` with up to 100 digests in `missing` (and the full count in `missing_count`); only blobs the team uploaded itself count as present. Idempotent. */
 export const putAssetManifest: API.OperationMethod<
   PutAssetManifestRequest,
   PutAssetManifestResponse,
   PutAssetManifestError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<PutAssetManifestRequest>,
-  output: __S(673, __c42, 1) as any as S.Schema<PutAssetManifestResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<PutAssetManifestRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<PutAssetManifestResponse>,
   errors: [BadRequest, Forbidden, Conflict, PayloadTooLarge, BlobsMissing],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1558,8 +1950,8 @@ export const putR2Object: API.OperationMethod<
   PutR2ObjectError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<PutR2ObjectRequest>,
-  output: __S(689, __c43, 1) as any as S.Schema<PutR2ObjectResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<PutR2ObjectRequest>,
+  output: __S(721, __c45, 1) as any as S.Schema<PutR2ObjectResponse>,
   errors: [BadRequest, Forbidden, NotFound, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1568,7 +1960,12 @@ export const putR2Object: API.OperationMethod<
   span: "PutR2Object",
 }));
 
-export type PutSecretError = BadRequest | Forbidden | NotFound | SproutboatOpError;
+export type PutSecretError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | PayloadTooLarge
+  | SproutboatOpError;
 /** Set one secret The app must exist (404 otherwise). Bumps `record_generation` even if the value is unchanged. */
 export const putSecret: API.OperationMethod<
   PutSecretRequest,
@@ -1576,9 +1973,9 @@ export const putSecret: API.OperationMethod<
   PutSecretError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<PutSecretRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<SecretWritten>,
-  errors: [BadRequest, Forbidden, NotFound],
+  input: __S(736, __c46, 0) as any as S.Schema<PutSecretRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<SecretWritten>,
+  errors: [BadRequest, Forbidden, NotFound, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
@@ -1587,15 +1984,15 @@ export const putSecret: API.OperationMethod<
 }));
 
 export type PutSourceError = BadRequest | Forbidden | PayloadTooLarge | SproutboatOpError;
-/** Upload a source bundle The bytes of the app's generated JavaScript, as `application/octet-stream`. At most 8 MiB, non-empty, valid UTF-8, and `sha256` must be the lowercase hex SHA-256 of exactly these bytes (else 400 `digest mismatch`). Idempotent. Not tied to an app until a build names it. */
+/** Upload a source bundle The bytes of the app's generated JavaScript, as `application/octet-stream`. At most 8 MiB, non-empty, valid UTF-8, and `sha256` must be the lowercase hex SHA-256 of exactly these bytes (else 400 `digest mismatch`). Idempotent. Not tied to an app until a build names it. The source belongs to the uploading team: another team's build cannot name it. New bytes count against the team's 24-hour budget (429 `quota-upload`), and uploads are rate-limited per team (429 `upload-rate`). A source no build used is deleted after a grace period of at least 48 hours. */
 export const putSource: API.OperationMethod<
   PutSourceRequest,
   Stored,
   PutSourceError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<PutSourceRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<Stored>,
+  input: __S(752, __c47, 0) as any as S.Schema<PutSourceRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<Stored>,
   errors: [BadRequest, Forbidden, PayloadTooLarge],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1604,7 +2001,14 @@ export const putSource: API.OperationMethod<
   span: "PutSource",
 }));
 
-export type QueryD1Error = BadRequest | Forbidden | NotFound | PayloadTooLarge | SproutboatOpError;
+export type QueryD1Error =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | Conflict
+  | PayloadTooLarge
+  | UnprocessableEntity
+  | SproutboatOpError;
 /** Query D1 Runs `statements` on the host that holds the app's database. With only `data:read` the database is opened read-only (a write is refused); changing data needs `data:write`. Up to 100 statements, 4 MiB of SQL, 100 bound parameters per statement. `transaction` defaults to true (all or nothing). A first-filter guard refuses `ATTACH`, `PRAGMA` (except introspection), `load_extension` and transaction control. This route is audited (no SQL text is stored) and counts against the data-route limits. */
 export const queryD1: API.OperationMethod<
   QueryD1Request,
@@ -1612,9 +2016,9 @@ export const queryD1: API.OperationMethod<
   QueryD1Error,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(739, __c46, 3) as any as S.Schema<QueryD1Request>,
-  output: __S(742, __c46, 6) as any as S.Schema<QueryD1Response>,
-  errors: [BadRequest, Forbidden, NotFound, PayloadTooLarge],
+  input: __S(771, __c48, 3) as any as S.Schema<QueryD1Request>,
+  output: __S(774, __c48, 6) as any as S.Schema<QueryD1Response>,
+  errors: [BadRequest, Forbidden, NotFound, Conflict, PayloadTooLarge, UnprocessableEntity],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
   retry: Retry.Retry,
@@ -1630,8 +2034,8 @@ export const revokeSelf: API.OperationMethod<
   RevokeSelfError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<RevokeSelfRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<RevokeSelfResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<RevokeSelfRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<RevokeSelfResponse>,
   errors: [],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1648,8 +2052,8 @@ export const verifyDomain: API.OperationMethod<
   VerifyDomainError,
   SproutboatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<VerifyDomainRequest>,
-  output: __S(67, __c4, 3) as any as S.Schema<DomainClaim>,
+  input: __S(800, __c50, 0) as any as S.Schema<VerifyDomainRequest>,
+  output: __S(51, __c3, 3) as any as S.Schema<DomainClaim>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: SproutboatServiceErrors,
   protocol: SproutboatProtocol,
@@ -1662,46 +2066,23 @@ export const verifyDomain: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            error: S.String,
-            reason: S.optional(S.String),
-            path: S.optional(S.String),
-            need: S.optional(S.String),
-            retry_after_s: S.optional(S.Number),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Error" });
+      return S.Array(S.String);
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+          reason: S.String,
+          missing: __S(0, __c0, 0),
+          missing_count: S.Number,
+        }),
+      ).annotate({ identifier: "ErrorBlobsMissing" });
   }
 }
 function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            error: S.String,
-            reason: S.optional(S.String),
-            path: S.optional(S.String),
-            need: S.optional(S.String),
-            retry_after_s: S.optional(S.Number),
-            missing: S.optional(__S(16, __c1, 0)),
-            missing_count: S.optional(S.Number),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Error409Body" });
-  }
-}
-function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1711,7 +2092,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "AddDomainRequest" });
   }
 }
-function __c4(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1729,7 +2110,7 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "DomainClaimRoutesItem" });
     case 2:
-      return S.Array(__S(65, __c4, 1));
+      return S.Array(__S(49, __c3, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1741,13 +2122,13 @@ function __c4(j: number): any {
           lost_at: S.optional(S.NullOr(S.String)),
           lost_reason: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.String),
-          txt: S.optional(S.NullOr(__S(64, __c4, 0))),
-          routes: S.optional(__S(66, __c4, 2)),
+          txt: S.optional(S.NullOr(__S(48, __c3, 0))),
+          routes: S.optional(__S(50, __c3, 2)),
         }),
       ).annotate({ identifier: "DomainClaim" });
   }
 }
-function __c5(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1757,7 +2138,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CancelBuildRequest" });
   }
 }
-function __c6(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1796,43 +2177,43 @@ function __c6(j: number): any {
             superseded: S.optional(S.Boolean),
             expected_s: S.optional(S.NullOr(S.Number)),
             estimated_start_s: S.optional(S.NullOr(S.Number)),
-            error: S.optional(S.NullOr(__S(96, __c6, 0))),
+            error: S.optional(S.NullOr(__S(80, __c5, 0))),
             module_sha256: S.optional(S.NullOr(S.String)),
             record_generation: S.optional(S.NullOr(S.Number)),
-            hosts: S.optional(__S(16, __c1, 0)),
-            created_by: S.optional(S.NullOr(__S(97, __c6, 1))),
+            hosts: S.optional(__S(0, __c0, 0)),
+            created_by: S.optional(S.NullOr(__S(81, __c5, 1))),
             trigger: S.optional(S.String),
             queued_at: S.optional(S.String),
             started_at: S.optional(S.NullOr(S.String)),
             finished_at: S.optional(S.NullOr(S.String)),
-            stats: S.optional(__S(98, __c6, 2)),
+            stats: S.optional(__S(82, __c5, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Build" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           v: S.Number,
           name: S.String,
-          cli: S.optional(__S(128, __c8, 0)),
+          cli: S.optional(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "CreateBuildRequestBuild" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.Boolean),
-          hosts: S.optional(__S(16, __c1, 0)),
-          hosts_patch: S.optional(__S(144, __c9, 0)),
-          bindings: S.optional(__S(146, __c9, 2)),
-          services: S.optional(__S(147, __c9, 3)),
-          crons: S.optional(__S(16, __c1, 0)),
-          queue_consumers: S.optional(__S(149, __c9, 5)),
-          limits: S.optional(__S(150, __c9, 6)),
+          hosts: S.optional(__S(0, __c0, 0)),
+          hosts_patch: S.optional(__S(128, __c8, 0)),
+          bindings: S.optional(__S(130, __c8, 2)),
+          services: S.optional(__S(131, __c8, 3)),
+          crons: S.optional(__S(0, __c0, 0)),
+          queue_consumers: S.optional(__S(133, __c8, 5)),
+          limits: S.optional(__S(134, __c8, 6)),
           egress_policy_ref: S.optional(S.NullOr(S.String)),
           assets_manifest_ref: S.optional(S.NullOr(S.String)),
         }),
@@ -1843,25 +2224,25 @@ function __c7(j: number): any {
           project: S.String.pipe(T.Label()),
           source_sha256: S.String,
           kind: S.optional(S.String),
-          build: __S(112, __c7, 0),
-          spec: S.optional(__S(113, __c7, 1)),
+          build: __S(96, __c6, 0),
+          spec: S.optional(__S(97, __c6, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v1/apps/{project}/builds", code: 200 })),
       ).annotate({ identifier: "CreateBuildRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          add: S.optional(__S(16, __c1, 0)),
-          remove: S.optional(__S(16, __c1, 0)),
+          add: S.optional(__S(0, __c0, 0)),
+          remove: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "HostsPatch" });
     case 1:
@@ -1870,11 +2251,11 @@ function __c9(j: number): any {
           name: S.String,
           kind: S.String,
           resource_id: S.NullOr(S.String),
-          config: __S(128, __c8, 0),
+          config: __S(112, __c7, 0),
         }),
       ).annotate({ identifier: "Binding" });
     case 2:
-      return S.Array(__S(145, __c9, 1));
+      return S.Array(__S(129, __c8, 1));
     case 3:
       return S.Record(S.String, S.String);
     case 4:
@@ -1888,7 +2269,7 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "QueueConsumer" });
     case 5:
-      return S.Array(__S(148, __c9, 4));
+      return S.Array(__S(132, __c8, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -1904,7 +2285,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "Limits" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1920,7 +2301,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteAppResponse" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1936,7 +2317,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteDomainResponse" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1961,7 +2342,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteR2ObjectResponse" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1972,7 +2353,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteSecretRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1984,14 +2365,24 @@ function __c14(j: number): any {
       ).annotate({ identifier: "SecretWritten" });
   }
 }
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sha256: __S(0, __c0, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/v1/assets/missing", code: 200 })),
+      ).annotate({ identifier: "FindMissingAssetsRequest" });
+  }
+}
 function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sha256: __S(16, __c1, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/assets/missing", code: 200 })),
-      ).annotate({ identifier: "FindMissingAssetsRequest" });
+          missing: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "MissingList" });
   }
 }
 function __c16(j: number): any {
@@ -1999,9 +2390,10 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          missing: __S(16, __c1, 0),
+          error: S.String,
+          reason: S.String,
         }),
-      ).annotate({ identifier: "MissingList" });
+      ).annotate({ identifier: "ErrorInvalidHost" });
   }
 }
 function __c17(j: number): any {
@@ -2009,12 +2401,24 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sha256: __S(16, __c1, 0),
+          error: S.String,
+          reason: S.String,
+          path: S.String,
+        }),
+      ).annotate({ identifier: "ErrorRouteTaken" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sha256: __S(0, __c0, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/sources/missing", code: 200 })),
       ).annotate({ identifier: "FindMissingSourcesRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2034,17 +2438,17 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           active: S.optional(S.Boolean),
-          hosts: S.optional(__S(16, __c1, 0)),
-          hosts_patch: S.optional(__S(144, __c9, 0)),
-          bindings: S.optional(__S(146, __c9, 2)),
-          services: S.optional(__S(147, __c9, 3)),
-          crons: S.optional(__S(16, __c1, 0)),
-          queue_consumers: S.optional(__S(149, __c9, 5)),
-          limits: S.optional(__S(150, __c9, 6)),
+          hosts: S.optional(__S(0, __c0, 0)),
+          hosts_patch: S.optional(__S(128, __c8, 0)),
+          bindings: S.optional(__S(130, __c8, 2)),
+          services: S.optional(__S(131, __c8, 3)),
+          crons: S.optional(__S(0, __c0, 0)),
+          queue_consumers: S.optional(__S(133, __c8, 5)),
+          limits: S.optional(__S(134, __c8, 6)),
           egress_policy_ref: S.optional(S.NullOr(S.String)),
           assets_manifest_ref: S.optional(S.NullOr(S.String)),
-          module: S.optional(__S(289, __c18, 1)),
-          secrets: S.optional(S.NullOr(__S(16, __c1, 0))),
+          module: S.optional(__S(305, __c19, 1)),
+          secrets: S.optional(S.NullOr(__S(0, __c0, 0))),
         }),
       ).annotate({ identifier: "AppSpec" });
     case 3:
@@ -2062,11 +2466,11 @@ function __c18(j: number): any {
           host: S.optional(S.String),
           path: S.optional(S.String),
           kind: S.optional(S.String),
-          cert: S.optional(S.NullOr(__S(291, __c18, 3))),
+          cert: S.optional(S.NullOr(__S(307, __c19, 3))),
         }),
       ).annotate({ identifier: "RouteView" });
     case 5:
-      return S.Array(__S(292, __c18, 4));
+      return S.Array(__S(308, __c19, 4));
     case 6:
       return S.suspend(() =>
         S.StructWithRest(
@@ -2082,20 +2486,20 @@ function __c18(j: number): any {
           app_id: S.optional(S.String),
           project: S.optional(S.String),
           record_generation: S.optional(S.Number),
-          spec: S.optional(__S(290, __c18, 2)),
-          routes: S.optional(__S(293, __c18, 5)),
-          placement: S.optional(S.NullOr(__S(294, __c18, 6))),
-          runtime: S.optional(S.NullOr(__S(128, __c8, 0))),
-          apply: S.optional(S.NullOr(__S(304, __c19, 0))),
-          live_build: S.optional(S.NullOr(__S(99, __c6, 3))),
-          previous_build: S.optional(S.NullOr(__S(99, __c6, 3))),
-          latest_build: S.optional(S.NullOr(__S(99, __c6, 3))),
+          spec: S.optional(__S(306, __c19, 2)),
+          routes: S.optional(__S(309, __c19, 5)),
+          placement: S.optional(S.NullOr(__S(310, __c19, 6))),
+          runtime: S.optional(S.NullOr(__S(112, __c7, 0))),
+          apply: S.optional(S.NullOr(__S(320, __c20, 0))),
+          live_build: S.optional(S.NullOr(__S(83, __c5, 3))),
+          previous_build: S.optional(S.NullOr(__S(83, __c5, 3))),
+          latest_build: S.optional(S.NullOr(__S(83, __c5, 3))),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "App" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2113,7 +2517,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "ApplyState" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2134,16 +2538,16 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "GetAppEventsResponseEventsItem" });
     case 2:
-      return S.Array(__S(321, __c20, 1));
+      return S.Array(__S(337, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          events: __S(322, __c20, 2),
+          events: __S(338, __c21, 2),
         }),
       ).annotate({ identifier: "GetAppEventsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2159,19 +2563,19 @@ function __c21(j: number): any {
           step_seconds: S.optional(S.Number),
           from: S.optional(S.String),
           to: S.optional(S.String),
-          points: S.optional(__S(352, __c22, 0)),
-          totals: S.optional(__S(128, __c8, 0)),
+          points: S.optional(__S(368, __c23, 0)),
+          totals: S.optional(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "GetAppMetricsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(128, __c8, 0));
+      return S.Array(__S(112, __c7, 0));
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2184,14 +2588,14 @@ function __c23(j: number): any {
         S.Struct({
           notFound: S.String,
           runSproutFirst: S.Unknown,
-          files: __S(386, __c24, 2),
-          headers: S.optional(__S(390, __c24, 6)),
-          redirects: S.optional(__S(392, __c24, 8)),
+          files: __S(402, __c25, 2),
+          headers: S.optional(__S(406, __c25, 6)),
+          redirects: S.optional(__S(408, __c25, 8)),
         }),
       ).annotate({ identifier: "AssetManifest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2206,26 +2610,26 @@ function __c24(j: number): any {
           hash: S.String,
           size: S.Number,
           type: S.String,
-          br: S.optional(__S(384, __c24, 0)),
-          gz: S.optional(__S(384, __c24, 0)),
+          br: S.optional(__S(400, __c25, 0)),
+          gz: S.optional(__S(400, __c25, 0)),
         }),
       ).annotate({ identifier: "AssetManifestFilesValue" });
     case 2:
-      return S.Record(S.String, __S(385, __c24, 1));
+      return S.Record(S.String, __S(401, __c25, 1));
     case 3:
       return S.Array(S.Unknown);
     case 4:
-      return S.Array(__S(387, __c24, 3));
+      return S.Array(__S(403, __c25, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           pattern: S.String,
-          set: __S(388, __c24, 4),
-          unset: __S(16, __c1, 0),
+          set: __S(404, __c25, 4),
+          unset: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "AssetManifestHeadersItem" });
     case 6:
-      return S.Array(__S(389, __c24, 5));
+      return S.Array(__S(405, __c25, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -2235,10 +2639,10 @@ function __c24(j: number): any {
         }),
       ).annotate({ identifier: "AssetManifestRedirectsItem" });
     case 8:
-      return S.Array(__S(391, __c24, 7));
+      return S.Array(__S(407, __c25, 7));
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2248,7 +2652,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetBuildRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2262,20 +2666,20 @@ function __c26(j: number): any {
         S.Struct({
           points_here: S.optional(S.String),
           detail: S.optional(S.String),
-          ingress: S.optional(__S(128, __c8, 0)),
+          ingress: S.optional(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "GetDomainStatusResponseDns" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domain: __S(67, __c4, 3),
-          dns: __S(417, __c26, 1),
-          certificate: S.NullOr(__S(128, __c8, 0)),
+          domain: __S(51, __c3, 3),
+          dns: __S(433, __c27, 1),
+          certificate: S.NullOr(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "GetDomainStatusResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2289,7 +2693,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetHealthResponse" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2302,6 +2706,12 @@ function __c28(j: number): any {
           memory_mb: S.optional(S.NullOr(S.Number)),
           builds_per_day: S.optional(S.NullOr(S.Number)),
           storage_mb: S.optional(S.NullOr(S.Number)),
+          cpu_ms: S.optional(S.NullOr(S.Number)),
+          wall_ms: S.optional(S.NullOr(S.Number)),
+          rate_rps: S.optional(S.NullOr(S.Number)),
+          ops_per_sec: S.optional(S.NullOr(S.Number)),
+          source_mb_per_day: S.optional(S.NullOr(S.Number)),
+          asset_mb_per_day: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "GetLimitsResponseLimits" });
     case 2:
@@ -2312,20 +2722,22 @@ function __c28(j: number): any {
           apps: S.optional(S.Number),
           builds_24h: S.optional(S.Number),
           assets_mb: S.optional(S.Number),
+          sources_mb_24h: S.optional(S.Number),
+          assets_mb_24h: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GetLimitsResponseUsage" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          limits: __S(449, __c28, 1),
-          overridden: __S(450, __c28, 2),
-          usage: __S(451, __c28, 3),
+          limits: __S(465, __c29, 1),
+          overridden: __S(466, __c29, 2),
+          usage: __S(467, __c29, 3),
         }),
       ).annotate({ identifier: "GetLimitsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2350,21 +2762,21 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetR2ObjectResponse" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/whoami", code: 200 })),
       ).annotate({ identifier: "GetWhoamiRequest" });
     case 1:
-      return S.Record(S.String, __S(16, __c1, 0));
+      return S.Record(S.String, __S(0, __c0, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.NullOr(S.String)),
           start: S.optional(S.NullOr(S.String)),
-          permissions: S.optional(S.NullOr(__S(481, __c30, 1))),
+          permissions: S.optional(S.NullOr(__S(497, __c31, 1))),
           expires_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "WhoamiKey" });
@@ -2383,13 +2795,13 @@ function __c30(j: number): any {
           organization: S.String,
           organization_slug: S.optional(S.NullOr(S.String)),
           organization_name: S.optional(S.NullOr(S.String)),
-          key: S.optional(__S(482, __c30, 2)),
-          created_by: S.optional(S.NullOr(__S(483, __c30, 3))),
+          key: S.optional(__S(498, __c31, 2)),
+          created_by: S.optional(S.NullOr(__S(499, __c31, 3))),
         }),
       ).annotate({ identifier: "Whoami" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2402,23 +2814,23 @@ function __c31(j: number): any {
           app_id: S.optional(S.String),
           record_generation: S.optional(S.Number),
           updated_at: S.optional(S.String),
-          hosts: S.optional(__S(16, __c1, 0)),
+          hosts: S.optional(__S(0, __c0, 0)),
           created_by: S.optional(S.NullOr(S.String)),
-          secrets: S.optional(S.NullOr(__S(16, __c1, 0))),
-          apply: S.optional(S.NullOr(__S(304, __c19, 0))),
+          secrets: S.optional(S.NullOr(__S(0, __c0, 0))),
+          apply: S.optional(S.NullOr(__S(320, __c20, 0))),
         }),
       ).annotate({ identifier: "AppSummary" });
     case 2:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(513, __c32, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          apps: __S(498, __c31, 2),
+          apps: __S(514, __c32, 2),
         }),
       ).annotate({ identifier: "ListAppsResponse" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2428,32 +2840,32 @@ function __c32(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/apps/{project}/builds", code: 200 })),
       ).annotate({ identifier: "ListBuildsRequest" });
     case 1:
-      return S.Array(__S(99, __c6, 3));
+      return S.Array(__S(83, __c5, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          builds: __S(513, __c32, 1),
+          builds: __S(529, __c33, 1),
         }),
       ).annotate({ identifier: "ListBuildsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/domains", code: 200 })),
       ).annotate({ identifier: "ListDomainsRequest" });
     case 1:
-      return S.Array(__S(67, __c4, 3));
+      return S.Array(__S(51, __c3, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domains: __S(529, __c33, 1),
+          domains: __S(545, __c34, 1),
         }),
       ).annotate({ identifier: "ListDomainsResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2468,22 +2880,22 @@ function __c34(j: number): any {
           project: S.optional(S.String),
           kind: S.optional(S.String),
           title: S.optional(S.String),
-          body: S.optional(__S(128, __c8, 0)),
+          body: S.optional(__S(112, __c7, 0)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListNoticesResponseNoticesItem" });
     case 2:
-      return S.Array(__S(545, __c34, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          notices: __S(546, __c34, 2),
+          notices: __S(562, __c35, 2),
         }),
       ).annotate({ identifier: "ListNoticesResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2494,29 +2906,9 @@ function __c35(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          secrets: __S(16, __c1, 0),
+          secrets: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "ListSecretsResponse" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project: S.String.pipe(T.Label()),
-          add: S.optional(__S(16, __c1, 0)),
-          remove: S.optional(__S(16, __c1, 0)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/v1/apps/{project}/routes", code: 200 })),
-      ).annotate({ identifier: "PatchRoutesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          app_id: S.String,
-          record_generation: S.Number,
-          hosts: __S(16, __c1, 0),
-        }),
-      ).annotate({ identifier: "PatchRoutesResponse" });
   }
 }
 function __c37(j: number): any {
@@ -2525,8 +2917,28 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project: S.String.pipe(T.Label()),
-          set: S.optional(__S(608, __c38, 0)),
-          delete: S.optional(__S(16, __c1, 0)),
+          add: S.optional(__S(0, __c0, 0)),
+          remove: S.optional(__S(0, __c0, 0)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/v1/apps/{project}/routes", code: 200 })),
+      ).annotate({ identifier: "PatchRoutesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          app_id: S.String,
+          record_generation: S.Number,
+          hosts: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "PatchRoutesResponse" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project: S.String.pipe(T.Label()),
+          set: S.optional(__S(624, __c39, 0)),
+          delete: S.optional(__S(0, __c0, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/apps/{project}/secrets", code: 200 })),
       ).annotate({ identifier: "PatchSecretsRequest" });
     case 1:
@@ -2534,18 +2946,18 @@ function __c37(j: number): any {
         S.Struct({
           app_id: S.String,
           record_generation: S.Number,
-          names: __S(16, __c1, 0),
+          names: __S(0, __c0, 0),
         }),
       ).annotate({ identifier: "PatchSecretsResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2556,8 +2968,8 @@ function __c39(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          set: S.optional(__S(608, __c38, 0)),
-          delete: S.optional(__S(16, __c1, 0)),
+          set: S.optional(__S(624, __c39, 0)),
+          delete: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "SecretsPatch" });
     case 2:
@@ -2565,18 +2977,18 @@ function __c39(j: number): any {
         S.Struct({
           project: S.String.pipe(T.Label()),
           active: S.optional(S.Boolean),
-          hosts: S.optional(__S(16, __c1, 0)),
-          hosts_patch: S.optional(__S(144, __c9, 0)),
-          bindings: S.optional(__S(146, __c9, 2)),
-          services: S.optional(__S(147, __c9, 3)),
-          crons: S.optional(__S(16, __c1, 0)),
-          queue_consumers: S.optional(__S(149, __c9, 5)),
-          limits: S.optional(__S(150, __c9, 6)),
+          hosts: S.optional(__S(0, __c0, 0)),
+          hosts_patch: S.optional(__S(128, __c8, 0)),
+          bindings: S.optional(__S(130, __c8, 2)),
+          services: S.optional(__S(131, __c8, 3)),
+          crons: S.optional(__S(0, __c0, 0)),
+          queue_consumers: S.optional(__S(133, __c8, 5)),
+          limits: S.optional(__S(134, __c8, 6)),
           egress_policy_ref: S.optional(S.NullOr(S.String)),
           assets_manifest_ref: S.optional(S.NullOr(S.String)),
-          module: __S(624, __c39, 0),
-          secrets: S.optional(S.NullOr(__S(608, __c38, 0))),
-          secrets_patch: S.optional(__S(625, __c39, 1)),
+          module: __S(640, __c40, 0),
+          secrets: S.optional(S.NullOr(__S(624, __c39, 0))),
+          secrets_patch: S.optional(__S(641, __c40, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/apps/{project}", code: 200 })),
       ).annotate({ identifier: "PutAppRequest" });
     case 3:
@@ -2591,7 +3003,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GenerationWritten" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2613,7 +3025,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "PutAssetBlobRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2625,7 +3037,19 @@ function __c41(j: number): any {
       ).annotate({ identifier: "Stored" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+          reason: S.String,
+          need: S.String,
+        }),
+      ).annotate({ identifier: "ErrorForbidden" });
+  }
+}
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2633,9 +3057,9 @@ function __c42(j: number): any {
           sha256: S.String.pipe(T.Label()),
           notFound: S.String,
           runSproutFirst: S.Unknown,
-          files: __S(386, __c24, 2),
-          headers: S.optional(__S(390, __c24, 6)),
-          redirects: S.optional(__S(392, __c24, 8)),
+          files: __S(402, __c25, 2),
+          headers: S.optional(__S(406, __c25, 6)),
+          redirects: S.optional(__S(408, __c25, 8)),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/assets/manifests/{sha256}", code: 200 })),
       ).annotate({ identifier: "PutAssetManifestRequest" });
     case 1:
@@ -2650,7 +3074,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "PutAssetManifestResponse" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2682,7 +3106,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "PutR2ObjectResponse" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2694,7 +3118,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "PutSecretRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2716,7 +3140,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "PutSourceRequest" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(S.Unknown));
@@ -2724,17 +3148,17 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sql: S.String,
-          params: S.optional(__S(736, __c46, 0)),
+          params: S.optional(__S(768, __c48, 0)),
         }),
       ).annotate({ identifier: "QueryD1RequestStatementsItem" });
     case 2:
-      return S.Array(__S(737, __c46, 1));
+      return S.Array(__S(769, __c48, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           project: S.String.pipe(T.Label()),
           binding: S.String.pipe(T.Label()),
-          statements: __S(738, __c46, 2),
+          statements: __S(770, __c48, 2),
           transaction: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/apps/{project}/d1/{binding}/query", code: 200 }),
@@ -2745,23 +3169,23 @@ function __c46(j: number): any {
         S.StructWithRest(
           S.Struct({
             success: S.optional(S.Boolean),
-            results: S.optional(__S(352, __c22, 0)),
-            meta: S.optional(__S(128, __c8, 0)),
+            results: S.optional(__S(368, __c23, 0)),
+            meta: S.optional(__S(112, __c7, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "QueryD1ResponseResultsItem" });
     case 5:
-      return S.Array(__S(740, __c46, 4));
+      return S.Array(__S(772, __c48, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(741, __c46, 5)),
+          results: S.optional(__S(773, __c48, 5)),
         }),
       ).annotate({ identifier: "QueryD1Response" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2775,7 +3199,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "RevokeSelfResponse" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2783,6 +3207,23 @@ function __c48(j: number): any {
           host: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/v1/domains/{host}/verify", code: 200 })),
       ).annotate({ identifier: "VerifyDomainRequest" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            error: S.String,
+            reason: S.optional(S.String),
+            path: S.optional(S.String),
+            need: S.optional(S.String),
+            retry_after_s: S.optional(S.Number),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Error" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

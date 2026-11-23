@@ -78,7 +78,7 @@ export interface AddUserGroupMembersResponse {
 }
 export interface BindDeviceAccountKubeconfigRequest {
   Id: number;
-  Kubeconfig: string;
+  Kubeconfig: string | Redacted.Redacted<string>;
   ManageDimension?: number | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
   region?: string | undefined;
@@ -112,7 +112,7 @@ export interface BindDeviceResourceRequest {
   ManageDimension?: number | undefined;
   ManageAccountId?: number | undefined;
   ManageAccount?: string | undefined;
-  ManageKubeconfig?: string | undefined;
+  ManageKubeconfig?: string | Redacted.Redacted<string> | undefined;
   Namespace?: string | undefined;
   Workload?: string | undefined;
   /** Region the call goes to (`X-TC-Region`), e.g. `ap-guangzhou`. Overrides the `Region` layer and the credentials' region. Leave it unset for a product that is not regional. */
@@ -779,8 +779,8 @@ export interface AppAsset {
   AgentInputSubmit?: number | undefined;
   UserNameType?: string | undefined;
   UserNameValue?: string | undefined;
-  PasswordType?: string | undefined;
-  PasswordValue?: string | undefined;
+  PasswordType?: string | Redacted.Redacted<string> | undefined;
+  PasswordValue?: string | Redacted.Redacted<string> | undefined;
   SubmitType?: string | undefined;
   SubmitValue?: string | undefined;
 }
@@ -1758,7 +1758,7 @@ export interface ReplaySessionRequest {
   region?: string | undefined;
 }
 export interface ReplayInformation {
-  Token?: string | undefined;
+  Token?: string | Redacted.Redacted<string> | undefined;
   StartTime?: string | undefined;
   Address?: string | undefined;
   ReplayType?: number | undefined;
@@ -4732,7 +4732,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Id: S.Number,
-          Kubeconfig: S.String,
+          Kubeconfig: S.String.pipe(T.SensitiveValue({})),
           ManageDimension: S.optional(S.Number),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
         }).pipe(
@@ -4978,8 +4978,8 @@ function __c45(j: number): any {
           AgentInputSubmit: S.optional(S.Number),
           UserNameType: S.optional(S.String),
           UserNameValue: S.optional(S.String),
-          PasswordType: S.optional(S.String),
-          PasswordValue: S.optional(S.String),
+          PasswordType: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          PasswordValue: S.optional(S.String.pipe(T.SensitiveValue({}))),
           SubmitType: S.optional(S.String),
           SubmitValue: S.optional(S.String),
         }),
@@ -6156,7 +6156,7 @@ function __c83(j: number): any {
           ManageDimension: S.optional(S.Number),
           ManageAccountId: S.optional(S.Number),
           ManageAccount: S.optional(S.String),
-          ManageKubeconfig: S.optional(S.String),
+          ManageKubeconfig: S.optional(S.String.pipe(T.SensitiveValue({}))),
           Namespace: S.optional(S.String),
           Workload: S.optional(S.String),
           region: S.optional(S.String.pipe(T.Header("X-TC-Region"))),
@@ -6794,7 +6794,7 @@ function __c118(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Token: S.optional(S.String),
+          Token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           StartTime: S.optional(S.String),
           Address: S.optional(S.String),
           ReplayType: S.optional(S.Number),

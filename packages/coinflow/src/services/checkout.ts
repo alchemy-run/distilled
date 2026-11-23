@@ -1516,7 +1516,7 @@ export interface CryptoHeadlessFixedCheckoutArgs {
   /** The name of the chain to perform the crypto payin on. */
   chain: string;
   /** The symbol of the token to execute the payin with. */
-  token: string | Redacted.Redacted<string>;
+  token: string;
   /** Origin-chain address to refund to if the payment fails, is over/underpaid, or cannot be completed. Required when the selected combo's `requiresRefundAddress` is true; optional otherwise. */
   refundAddress?: string | undefined;
   subtotal: Subtotal;
@@ -1545,7 +1545,7 @@ export interface CryptoHeadlessFlexibleCheckoutArgs {
   /** The name of the chain to perform the crypto payin on. */
   chain: string;
   /** The symbol of the token to execute the payin with. */
-  token: string | Redacted.Redacted<string>;
+  token: string;
   /** Origin-chain address to refund to if the payment fails, is over/underpaid, or cannot be completed. Required when the selected combo's `requiresRefundAddress` is true; optional otherwise. */
   refundAddress?: string | undefined;
   flexibleAmount: boolean;

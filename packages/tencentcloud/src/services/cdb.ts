@@ -871,7 +871,7 @@ export interface AccountInfo {
   Host?: string | undefined;
   User?: string | undefined;
   ModifyTime?: string | undefined;
-  ModifyPasswordTime?: string | undefined;
+  ModifyPasswordTime?: string | Redacted.Redacted<string> | undefined;
   MaxUserConnections?: number | undefined;
   OpenCam?: boolean | undefined;
 }
@@ -9134,7 +9134,7 @@ function __c131(j: number): any {
           Host: S.optional(S.String),
           User: S.optional(S.String),
           ModifyTime: S.optional(S.String),
-          ModifyPasswordTime: S.optional(S.String),
+          ModifyPasswordTime: S.optional(S.String.pipe(T.SensitiveValue({}))),
           MaxUserConnections: S.optional(S.Number),
           OpenCam: S.optional(S.Boolean),
         }),

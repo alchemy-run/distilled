@@ -4,6 +4,7 @@ import {
   type ConfigError,
   type InvalidInput,
 } from "@distilled.cloud/core/errors";
+import { setOwnKey } from "@distilled.cloud/core/plain-values";
 import type {
   DeclaredError,
   DeclaredErrorClass,
@@ -338,7 +339,8 @@ export const stripNulls = (value: unknown): unknown => {
   if (isObject(value)) {
     const out: Json = {};
     for (const [k, v] of Object.entries(value)) {
-      if (v !== null) out[k] = stripNulls(v);
+      // setOwnKey keeps a `__proto__` key a key instead of the prototype.
+      if (v !== null) setOwnKey(out, k, stripNulls(v));
     }
     return out;
   }

@@ -13,7 +13,9 @@ import { refreshing } from "@distilled.cloud/core/token-cache";
  * credentials; the protocol resolves it per request on the calling
  * fiber. Unlike v0 (which fetched once and ignored `expires_in`), the token
  * is cached and transparently re-fetched shortly before expiry, so
- * long-running programs keep working past the ~1h token lifetime.
+ * long-running programs keep working past the ~1h token lifetime. A failed
+ * exchange is a failed request at run time: it fails the call with
+ * {@link TokenRequestFailed}.
  */
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -23,6 +25,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
+import { TokenRequestFailed } from "./errors.ts";
 
 export const DEFAULT_API_BASE_URL = "https://cloud.mongodb.com";
 
@@ -37,9 +40,10 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "Mongodb-atlasCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<
+    Credentials,
+    Effect.Effect<Config, ConfigError | TokenRequestFailed>
+  >()("Mongodb-atlasCredentials") {}
 
 export interface ClientCredentialsConfig {
   readonly clientId: string;
@@ -59,8 +63,8 @@ const TokenResponse = /*@__PURE__*/ Schema.Struct({
   expires_in: /*@__PURE__*/ Schema.optional(Schema.Number),
 });
 
-const exchangeFailed = (reason: string) =>
-  new ConfigError({ message: `OAuth2 token exchange failed: ${reason}` });
+const exchangeFailed = (reason: string, status?: number) =>
+  new TokenRequestFailed({ message: `OAuth2 token exchange failed: ${reason}`, status });
 
 /**
  * Exchange service-account credentials for an OAuth2 access token, through
@@ -71,7 +75,7 @@ const exchangeToken = (
   config: ResolvedClientCredentials,
 ): Effect.Effect<
   { accessToken: Redacted.Redacted<string>; expiresInSeconds: number },
-  ConfigError
+  TokenRequestFailed
 > =>
   Effect.gen(function* () {
     const response = yield* client
@@ -86,14 +90,19 @@ const exchangeToken = (
     if (response.status < 200 || response.status >= 300) {
       const body = yield* response.text.pipe(
         Effect.mapError((error) =>
-          exchangeFailed(`${response.status}, and its body could not be read: ${error.message}`),
+          exchangeFailed(
+            `${response.status}, and its body could not be read: ${error.message}`,
+            response.status,
+          ),
         ),
       );
-      return yield* exchangeFailed(`${response.status} ${body}`);
+      return yield* exchangeFailed(`${response.status} ${body}`, response.status);
     }
 
     const token = yield* HttpClientResponse.schemaBodyJson(TokenResponse)(response).pipe(
-      Effect.mapError((error) => exchangeFailed(`unexpected token response: ${error.message}`)),
+      Effect.mapError((error) =>
+        exchangeFailed(`unexpected token response: ${error.message}`, response.status),
+      ),
     );
     return {
       accessToken: Redacted.make(token.access_token),
@@ -112,7 +121,7 @@ const exchangeToken = (
  */
 const cachedTokenEffect = (
   load: Effect.Effect<ResolvedClientCredentials, ConfigError>,
-): ((client: HttpClient.HttpClient) => Effect.Effect<Config, ConfigError>) => {
+): ((client: HttpClient.HttpClient) => Effect.Effect<Config, ConfigError | TokenRequestFailed>) => {
   // Concurrent calls on a cold or stale cache share one exchange.
   const cached = refreshing(
     Effect.gen(function* () {
@@ -132,7 +141,7 @@ const cachedTokenEffect = (
     (token) => token.refreshAt,
     {
       onTimeout: (timeoutMs) =>
-        new ConfigError({
+        new TokenRequestFailed({
           message: `MongoDB Atlas token exchange timed out after ${timeoutMs / 1000} s`,
         }),
     },

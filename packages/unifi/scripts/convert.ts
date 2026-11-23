@@ -63,10 +63,13 @@ await runOpenApiConvert({
   root: path.resolve(import.meta.dirname, ".."),
   specs: [
     spec("network", "network", "com.ui.network", "UniFiNetwork"),
+    // `binaryTypes`: the camera snapshot (`image/jpeg`) and the floor-plan
+    // assets (`image/jpeg`, `image/png`) answer bytes.
     spec("protect", "protect", "com.ui.protect", "UniFiProtect", {
       operationNames: (_id, ctx) => PROTECT_NAMES[`${ctx.method.toUpperCase()} ${ctx.path}`],
+      binaryTypes: true,
     }),
-    spec("innerspace", "innerspace", "com.ui.innerspace", "UniFiInnerSpace"),
+    spec("innerspace", "innerspace", "com.ui.innerspace", "UniFiInnerSpace", { binaryTypes: true }),
     spec("mobility", "mobility", "com.ui.mobility", "UniFiMobility"),
     spec("site_manager", "site-manager", "com.ui.sitemanager", "UniFiSiteManager"),
     spec("carrier_fabric", "carrier-fabric", "com.ui.carrierfabric", "UniFiCarrierFabric"),

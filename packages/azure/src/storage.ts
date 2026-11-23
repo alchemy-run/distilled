@@ -1,3 +1,4 @@
+import { setOwnKey } from "@distilled.cloud/core/plain-values";
 /**
  * Storage data-plane codec -- hand-written.
  *
@@ -308,7 +309,7 @@ const decodeObject = (ast: AST.AST, obj: XmlObject): Record<string, unknown> => 
   if (plan.open) {
     for (const [k, v] of Object.entries(obj)) {
       if (consumed.has(k) || k.startsWith("@_") || k === "#text") continue;
-      out[k] = textOf(v) ?? v;
+      setOwnKey(out, k, textOf(v) ?? v);
     }
   }
   return out;

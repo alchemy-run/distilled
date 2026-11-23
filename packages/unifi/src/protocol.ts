@@ -115,7 +115,12 @@ const consoleProtocol = (app: ConsoleApp) => {
     // A console ID that can't be a path segment is refused earlier, when the
     // `Console` layer is built (`check` in ./credentials.ts).
     baseUrl: (creds) => consoleBaseUrl(creds.location, app),
-    headers: (creds) => ({ "X-API-KEY": Redacted.value(creds.apiKey), Accept: "application/json" }),
+    // JSON first. The camera snapshot and the floor-plan assets answer
+    // `image/jpeg` or `image/png`, so the header accepts images too.
+    headers: (creds) => ({
+      "X-API-KEY": Redacted.value(creds.apiKey),
+      Accept: "application/json, image/*",
+    }),
     unknownError: (info) => new UnknownUniFiError(unknownErrorProps(info)),
     parseError: ({ body, cause }) => new UniFiParseError({ body, cause }),
   });

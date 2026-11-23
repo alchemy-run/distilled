@@ -90,7 +90,8 @@ exchanges the client ID and secret at `POST https://<domain>/oauth/v2/token`
 (HTTP Basic, `grant_type=client_credentials`) on first use, sends the token as
 `Authorization: Bearer`, and exchanges again a minute before the token's
 10-minute lifetime ends. Concurrent requests on a cold or expiring token share
-one exchange.
+one exchange. A failed exchange fails the call with `TokenRequestFailed`, which
+carries the token endpoint's `status`.
 `fromClientCredentials({ domain, clientId, clientSecret })` does the same from
 values in code (`clientSecret` is a `Redacted`); both need an `HttpClient`.
 `fromAccessToken({ domain, accessToken })` uses a token already held. The

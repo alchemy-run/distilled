@@ -20,6 +20,7 @@
  * Which types hold a secret, and how logs and error messages show them, is
  * core's rule (`@distilled.cloud/core/sensitive`).
  */
+import { setOwnKey } from "@distilled.cloud/core/plain-values";
 import { encodeKeysKey, type Node } from "@distilled.cloud/core/schema-lite-impl";
 import {
   holdsSensitive as holdsSensitiveAst,
@@ -330,8 +331,11 @@ const encodeObjects = (n: Node, v: unknown, binary: boolean): unknown => {
       if (shape.typeKeys.has(key)) continue;
       const x = v[key];
       try {
-        out[key] =
-          x === undefined && isOptional(index.type) ? undefined : encode(index.type, x, binary);
+        setOwnKey(
+          out,
+          key,
+          x === undefined && isOptional(index.type) ? undefined : encode(index.type, x, binary),
+        );
       } catch (e) {
         throw within(e, key);
       }
@@ -557,9 +561,9 @@ const objectsDecoder = (n: Node, exact: Exactness): Decoder => {
         if (y === x && out === undefined) continue;
         if (out === undefined) {
           out = {};
-          for (let j = 0; j < i; j++) out[keys[j]!] = v[keys[j]!];
+          for (let j = 0; j < i; j++) setOwnKey(out, keys[j]!, v[keys[j]!]);
         }
-        if (y !== absent) out[key] = y;
+        if (y !== absent) setOwnKey(out, key, y);
       }
       return out ?? v;
     };
@@ -586,7 +590,7 @@ const objectsDecoder = (n: Node, exact: Exactness): Decoder => {
         const x = v[key];
         if (x === null && !indexNulls) continue;
         try {
-          out[key] = index(x);
+          setOwnKey(out, key, index(x));
         } catch (e) {
           throw within(e, key);
         }

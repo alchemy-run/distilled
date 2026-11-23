@@ -160,7 +160,7 @@ export interface CalculateTaxResponse {
   /** The unique reference for this calculation attempt. */
   taxCalculationReference?: string | undefined;
   /** The opaque, encrypted, and signed token that represents the complete canonical calculation. Required in /payments. */
-  taxCalculationToken?: string | Redacted.Redacted<string> | undefined;
+  taxCalculationToken?: string | undefined;
 }
 export interface CommonField {
   /** Name of the field. For example, Name of External Platform. */
@@ -8247,7 +8247,7 @@ function __c39(j: number): any {
         S.Struct({
           taxCalculation: S.optional(__S(1253, __c39, 5)),
           taxCalculationReference: S.optional(S.String),
-          taxCalculationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          taxCalculationToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "CalculateTaxResponse" });
   }

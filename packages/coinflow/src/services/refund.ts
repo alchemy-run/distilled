@@ -3336,7 +3336,7 @@ export interface IPaymentStringCryptoInfo {
   tokenLogoUrl?: string | undefined;
   blockchainLogoUrl?: string | undefined;
   tokenAmount?: string | undefined;
-  token?: string | Redacted.Redacted<string> | undefined;
+  token?: string | undefined;
   sponsoredTransactionHash?: string | undefined;
   originatingTransactionHash?: string | undefined;
   originatingWallet?: string | undefined;

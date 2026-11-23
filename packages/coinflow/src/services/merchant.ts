@@ -102,7 +102,7 @@ export interface ActivatePassiveDepositAddressRequest {
   /** The supported chain name (e.g., "Ethereum", "Polygon", "Solana") */
   chain: string;
   /** The token symbol to deposit (e.g., "USDC") */
-  token: string | Redacted.Redacted<string>;
+  token: string;
   /** Optional end-user wallet address to send funds back to if a withdrawal fails, instead of returning them to the originating wallet. When it is on a different chain than the received funds (Solana USDC), the refund is routed back out through the same cross-chain provider. */
   returnAddress?: string | undefined;
   idempotencyKey?: string | undefined;
@@ -175,7 +175,7 @@ export interface CreateCryptoWithdrawDepositRequest {
   /** The supported chain name (e.g., "Ethereum", "Polygon", "Solana") */
   chain: string;
   /** The token symbol to deposit (e.g., "USDC") */
-  token: string | Redacted.Redacted<string>;
+  token: string;
   /** Optional end-user wallet address to send funds back to if a withdrawal fails, instead of returning them to the originating wallet. When it is on a different chain than the received funds (Solana USDC), the refund is routed back out through the same cross-chain provider. */
   returnAddress?: string | undefined;
   idempotencyKey?: string | undefined;
@@ -3691,7 +3691,7 @@ export interface PaymentListResponseCryptoInfo {
   tokenLogoUrl?: string | undefined;
   blockchainLogoUrl?: string | undefined;
   tokenAmount?: string | undefined;
-  token?: string | Redacted.Redacted<string> | undefined;
+  token?: string | undefined;
   sponsoredTransactionHash?: string | undefined;
   originatingTransactionHash?: string | undefined;
   originatingWallet?: string | undefined;
@@ -4656,7 +4656,7 @@ export interface IPaymentCryptoInfo {
   tokenLogoUrl?: string | undefined;
   blockchainLogoUrl?: string | undefined;
   tokenAmount?: string | undefined;
-  token?: string | Redacted.Redacted<string> | undefined;
+  token?: string | undefined;
   sponsoredTransactionHash?: string | undefined;
   originatingTransactionHash?: string | undefined;
   originatingWallet?: string | undefined;
@@ -5957,7 +5957,7 @@ export interface WithdrawalResponseCryptoPayoutInfo {
   destinationAddress: string;
   tokenLogoUrl?: string | undefined;
   chainLogoUrl?: string | undefined;
-  token: string | Redacted.Redacted<string>;
+  token: string;
   chain: string;
 }
 export type WithdrawalResponseMerchant = PaymentListResponseMerchant;
@@ -6585,7 +6585,7 @@ export interface PickPaymentResponseExcludeKeyofPaymentResponseMerchantCryptoInf
   tokenLogoUrl?: string | undefined;
   blockchainLogoUrl?: string | undefined;
   tokenAmount?: string | undefined;
-  token?: string | Redacted.Redacted<string> | undefined;
+  token?: string | undefined;
   sponsoredTransactionHash?: string | undefined;
   originatingTransactionHash?: string | undefined;
   originatingWallet?: string | undefined;
@@ -6902,7 +6902,7 @@ export type GetCustomerAccountsResponse = GetCustomerAccountsResponseBodyList;
 /** From T, pick a set of properties whose keys are in the union K */
 export interface PickDelegatedCryptoDestinationChainOrToken {
   /** The token id to deliver from the crypto payout tokens endpoint -- the lowercase symbol (e.g. "usdc"), matched case-insensitively. */
-  token: string | Redacted.Redacted<string>;
+  token: string;
   /** The destination chain id from the crypto payout tokens endpoint (e.g. "eip155:8453"). */
   chain: string;
 }
@@ -7325,7 +7325,7 @@ export interface PaymentWithEnhancedResponseCryptoInfo {
   tokenLogoUrl?: string | undefined;
   blockchainLogoUrl?: string | undefined;
   tokenAmount?: string | undefined;
-  token?: string | Redacted.Redacted<string> | undefined;
+  token?: string | undefined;
   sponsoredTransactionHash?: string | undefined;
   originatingTransactionHash?: string | undefined;
   originatingWallet?: string | undefined;
@@ -7595,7 +7595,7 @@ export type PassiveDepositAddressListItemStatus = "active" | "paused";
 export interface PassiveDepositAddressListItem {
   depositAddress: string;
   chain: string;
-  token: string | Redacted.Redacted<string>;
+  token: string;
   account: string;
   speed: WithdrawSpeed;
   status: PassiveDepositAddressListItemStatus;
@@ -7627,7 +7627,7 @@ export interface DelegatedCryptoDestination {
   /** The destination chain id from the crypto payout tokens endpoint (e.g. "eip155:8453"). */
   chain: string;
   /** The token id to deliver from the crypto payout tokens endpoint -- the lowercase symbol (e.g. "usdc"), matched case-insensitively. */
-  token: string | Redacted.Redacted<string>;
+  token: string;
 }
 /** The payout destination. Every speed except crypto takes the payout account token; the crypto speed takes the on-chain destination. */
 export type PayoutDelegatedArgsAccount = string | DelegatedCryptoDestination;
@@ -9972,7 +9972,7 @@ function __c20(j: number): any {
           tokenLogoUrl: S.optional(S.String),
           blockchainLogoUrl: S.optional(S.String),
           tokenAmount: S.optional(S.String),
-          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          token: S.optional(S.String),
           sponsoredTransactionHash: S.optional(S.String),
           originatingTransactionHash: S.optional(S.String),
           originatingWallet: S.optional(S.String),
@@ -11039,7 +11039,7 @@ function __c27(j: number): any {
           tokenLogoUrl: S.optional(S.String),
           blockchainLogoUrl: S.optional(S.String),
           tokenAmount: S.optional(S.String),
-          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          token: S.optional(S.String),
           sponsoredTransactionHash: S.optional(S.String),
           originatingTransactionHash: S.optional(S.String),
           originatingWallet: S.optional(S.String),
@@ -11309,7 +11309,7 @@ function __c34(j: number): any {
           destinationAddress: S.String,
           tokenLogoUrl: S.optional(S.String),
           chainLogoUrl: S.optional(S.String),
-          token: S.String.pipe(T.SensitiveValue({})),
+          token: S.String,
           chain: S.String,
         }),
       ).annotate({ identifier: "WithdrawalResponseCryptoPayoutInfo" });
@@ -11814,7 +11814,7 @@ function __c37(j: number): any {
           tokenLogoUrl: S.optional(S.String),
           blockchainLogoUrl: S.optional(S.String),
           tokenAmount: S.optional(S.String),
-          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          token: S.optional(S.String),
           sponsoredTransactionHash: S.optional(S.String),
           originatingTransactionHash: S.optional(S.String),
           originatingWallet: S.optional(S.String),
@@ -12318,7 +12318,7 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String.pipe(T.SensitiveValue({})),
+          token: S.String,
           chain: S.String,
         }),
       ).annotate({ identifier: "PickDelegatedCryptoDestinationChainOrToken" });
@@ -12757,7 +12757,7 @@ function __c53(j: number): any {
           tokenLogoUrl: S.optional(S.String),
           blockchainLogoUrl: S.optional(S.String),
           tokenAmount: S.optional(S.String),
-          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          token: S.optional(S.String),
           sponsoredTransactionHash: S.optional(S.String),
           originatingTransactionHash: S.optional(S.String),
           originatingWallet: S.optional(S.String),
@@ -13062,7 +13062,7 @@ function __c62(j: number): any {
         S.Struct({
           depositAddress: S.String,
           chain: S.String,
-          token: S.String.pipe(T.SensitiveValue({})),
+          token: S.String,
           account: S.String,
           speed: S.String,
           status: S.String,
@@ -13193,7 +13193,7 @@ function __c70(j: number): any {
           account: S.String,
           speed: S.String,
           chain: S.String,
-          token: S.String.pipe(T.SensitiveValue({})),
+          token: S.String,
           returnAddress: S.optional(S.String),
           idempotencyKey: S.optional(S.String),
           authUserId: S.String.pipe(T.Header("x-coinflow-auth-user-id")),
@@ -13460,7 +13460,7 @@ function __c89(j: number): any {
           account: S.String,
           speed: S.String,
           chain: S.String,
-          token: S.String.pipe(T.SensitiveValue({})),
+          token: S.String,
           returnAddress: S.optional(S.String),
           idempotencyKey: S.optional(S.String),
           authUserId: S.String.pipe(T.Header("x-coinflow-auth-user-id")),

@@ -3029,7 +3029,7 @@ export interface GetExactOutQuoteRequest {
   /** - The fiat payout amount (in cents) the withdrawer should receive. */
   exactAmountOut: number;
   /** - The token address or contract of the token which the user is withdrawing. */
-  inputToken: string | Redacted.Redacted<string>;
+  inputToken: string;
   /** - The merchant that this quote is for. */
   merchantId: string;
   /** - The currency of `exactAmountOut`. Defaults to the account/withdrawer currency. */
@@ -3097,7 +3097,7 @@ export interface WithdrawGetPaypalLoginStatusResponse200 {
 }
 export interface GetQuoteRequest {
   /** - The token address or contract of the token which the user is withdrawing. */
-  token: string | Redacted.Redacted<string>;
+  token: string;
   /** - The amount of that token which the user is withdrawing. */
   amount: number;
   /** - The merchant that this quote is for. */
@@ -3143,7 +3143,7 @@ export interface DelegatedCryptoDestination {
   /** The destination chain id from the crypto payout tokens endpoint (e.g. "eip155:8453"). */
   chain: string;
   /** The token id to deliver from the crypto payout tokens endpoint -- the lowercase symbol (e.g. "usdc"), matched case-insensitively. */
-  token: string | Redacted.Redacted<string>;
+  token: string;
 }
 /** One of: 1. The token of the bank account/card that the user is withdrawing to 2. An Apple Pay Response Object 3. For `speed: "crypto"`: the on-chain destination to deliver to */
 export type GetWithdrawTransactionRequestBodyAccount =
@@ -3265,7 +3265,7 @@ export interface WithdrawalResponseCryptoPayoutInfo {
   destinationAddress: string;
   tokenLogoUrl?: string | undefined;
   chainLogoUrl?: string | undefined;
-  token: string | Redacted.Redacted<string>;
+  token: string;
   chain: string;
 }
 export interface WithdrawalResponseMerchant {
@@ -4742,7 +4742,7 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           exactAmountOut: S.Number.pipe(T.Query()),
-          inputToken: S.String.pipe(T.Query(), T.SensitiveValue({})),
+          inputToken: S.String.pipe(T.Query()),
           merchantId: S.String.pipe(T.Query()),
           currency: S.optional(S.String.pipe(T.Query())),
           usePermit: S.optional(S.Boolean.pipe(T.Query())),
@@ -4837,7 +4837,7 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
+          token: S.String.pipe(T.Query()),
           amount: S.Number.pipe(T.Query()),
           merchantId: S.String.pipe(T.Query()),
           currency: S.optional(S.String.pipe(T.Query())),
@@ -5013,7 +5013,7 @@ function __c36(j: number): any {
           destinationAddress: S.String,
           tokenLogoUrl: S.optional(S.String),
           chainLogoUrl: S.optional(S.String),
-          token: S.String.pipe(T.SensitiveValue({})),
+          token: S.String,
           chain: S.String,
         }),
       ).annotate({ identifier: "WithdrawalResponseCryptoPayoutInfo" });

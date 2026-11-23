@@ -28,4 +28,10 @@ export * as Retry from "./retry.ts";
 export * from "./services/sproutboat.ts";
 // The service-local typed error classes shadow the same-named shared ones
 // from ./errors.ts -- the operations raise the service-local classes.
-export { BadRequest, Conflict, Forbidden, NotFound } from "./services/sproutboat.ts";
+export {
+  BadRequest,
+  Conflict,
+  Forbidden,
+  NotFound,
+  UnprocessableEntity,
+} from "./services/sproutboat.ts";
