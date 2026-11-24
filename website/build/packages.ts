@@ -179,6 +179,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
     [
       "github",
       "bitbucket",
+      "jira",
       "forgejo",
       "entire",
       "npm",
@@ -231,6 +232,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   cloudflare: "workers r2 kv d1",
   github: "git repos actions",
   bitbucket: "git repos pull requests pipelines atlassian",
+  jira: "issues projects jql agile atlassian",
   forgejo: "git gitea",
   npm: "registry packages publish javascript node trusted publishing",
   linear: "issues project management",
