@@ -96,6 +96,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "infisical" },
   { package: "inngest" },
   { package: "intercom" },
+  { package: "jira" },
   { package: "kubernetes" },
   { package: "launchdarkly" },
   { package: "linear" },

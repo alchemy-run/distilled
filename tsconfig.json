@@ -437,6 +437,12 @@
       "path": "./packages/intercom/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/jira/tsconfig.json"
+    },
+    {
+      "path": "./packages/jira/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/launchdarkly/tsconfig.json"
     },
     {

@@ -633,3 +633,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-bitbucket.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/jira/specs/spec-mirror-jira"]
+	path = packages/jira/specs/spec-mirror-jira
+	url = https://github.com/distilled-mirror/spec-mirror-jira.git
+	ignore = dirty
+	shallow = true
