@@ -1,0 +1,125 @@
+{
+  "description": "Application, database and service create requests mark both environment_name and environment_uuid required, but the API needs only one of them: it returns 422 'You need to provide at least one of environment_name or environment_uuid.' when both are missing and validates each as 'string|nullable' (ApplicationsController::create_application, DatabasesController::create_database, ServicesController::create_service). Evidence: coollabsio/coolify main @ 5c987814 (2026-11-24).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreatePublicApplicationRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreatePublicApplicationRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreatePrivateGithubAppApplicationRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreatePrivateGithubAppApplicationRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreatePrivateDeployKeyApplicationRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreatePrivateDeployKeyApplicationRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDockerfileApplicationRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDockerfileApplicationRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDockerimageApplicationRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDockerimageApplicationRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabasePostgresqlRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabasePostgresqlRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseClickhouseRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseClickhouseRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseDragonflyRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseDragonflyRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseRedisRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseRedisRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseKeydbRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseKeydbRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseMariadbRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseMariadbRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseMysqlRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseMysqlRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseMongodbRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseMongodbRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseSqliteRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateDatabaseSqliteRequest/members/environment_uuid/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateServiceRequest/members/environment_name/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.coolify.api#CreateServiceRequest/members/environment_uuid/traits/smithy.api#required"
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "description": "Type the failures the spec leaves out: DELETE /projects/{uuid} and DELETE /projects/{uuid}/environments/{env} return 400 'Project has resources, so it cannot be deleted.' / 'Environment has resources, so it cannot be deleted.' (ProjectController::delete_project, delete_environment); POST /applications|databases|services/{uuid}/envs return 409 'Environment variable already exists. Use PATCH request to update it.' (create_env in each controller); PATCH /databases/{uuid} returns 409 while a start/stop is in progress (DatabasesController::update_by_uuid). Evidence: coollabsio/coolify main @ 5c987814 (2026-11-24).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#ProjectHasResources",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The project still has resources (applications, databases or services) and cannot be deleted.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Project has resources"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#DeleteProjectByUuid/errors/-",
+      "value": {
+        "target": "com.coolify.api#ProjectHasResources"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#EnvironmentHasResources",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The environment still has resources and cannot be deleted.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Environment has resources"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#DeleteEnvironment/errors/-",
+      "value": {
+        "target": "com.coolify.api#EnvironmentHasResources"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#EnvironmentVariableAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "A variable with this key already exists on the resource; update it with PATCH.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "message": {
+                "includes": "Environment variable already exists"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#CreateEnvByApplicationUuid/errors/-",
+      "value": {
+        "target": "com.coolify.api#EnvironmentVariableAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#CreateEnvByDatabaseUuid/errors/-",
+      "value": {
+        "target": "com.coolify.api#EnvironmentVariableAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#CreateEnvByServiceUuid/errors/-",
+      "value": {
+        "target": "com.coolify.api#EnvironmentVariableAlreadyExists"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#UpdateDatabaseByUuid/errors/-",
+      "value": {
+        "target": "com.coolify.api#Conflict"
+      }
+    }
+  ]
+}

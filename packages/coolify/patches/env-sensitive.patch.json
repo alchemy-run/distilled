@@ -1,0 +1,19 @@
+{
+  "description": "Environment variable `value` and `real_value` carry secrets (database passwords, API keys) but are not marked sensitive, so they decode as plain strings. The API returns them to tokens with read:sensitive (ApplicationsController::removeSensitiveEnvData). Evidence: coollabsio/coolify main @ 5c987814 (2026-11-24).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#EnvironmentVariable/members/value/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#EnvironmentVariable/members/real_value/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    }
+  ]
+}

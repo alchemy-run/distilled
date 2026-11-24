@@ -1,0 +1,15 @@
+{
+  "description": "The Application model's build_pack enum omits `dockerimage`, which Coolify stores for applications created from a prebuilt image (ApplicationsController::create_application sets `$application->build_pack = 'dockerimage'`) and returns from GET /applications and GET /applications/{uuid}. Evidence: coollabsio/coolify main @ 5c987814 (2026-11-24).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.coolify.api#ApplicationBuildPack/members/DOCKERIMAGE",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "dockerimage"
+        }
+      }
+    }
+  ]
+}
