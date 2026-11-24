@@ -6877,7 +6877,7 @@ export interface MigrateExpressRouteCircuitHealthCheckResponse {
   /** The expiry time for the prepare phase. */
   prepareExpiryTime?: string | undefined;
   /** The URL of the new cross connection after migration. */
-  newCrossConnectionUrl?: string | undefined;
+  newCrossConnectionUrl?: string | Redacted.Redacted<string> | undefined;
   /** Indicates whether rollback should be performed. */
   shouldRollback?: boolean | undefined;
   /** Detailed health check information for migration. */
@@ -13286,7 +13286,7 @@ export interface ExpressRouteCircuitPeeringPropertiesFormatInput {
   /** The secondary port. */
   secondaryAzurePort?: string | undefined;
   /** The shared key. */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
   /** The VLAN ID. */
   vlanId?: number | undefined;
   /** The Microsoft peering configuration. */
@@ -13443,7 +13443,7 @@ export interface ExpressRouteCircuitPeeringPropertiesFormat {
   /** The secondary port. */
   secondaryAzurePort?: string | undefined;
   /** The shared key. */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
   /** The VLAN ID. */
   vlanId?: number | undefined;
   /** The Microsoft peering configuration. */
@@ -13877,7 +13877,7 @@ export interface ExpressRouteCrossConnectionPeeringPropertiesInput {
   /** The secondary address prefix. */
   secondaryPeerAddressPrefix?: string | undefined;
   /** The shared key. */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
   /** The VLAN ID. */
   vlanId?: number | undefined;
   /** The Microsoft peering configuration. */
@@ -13942,7 +13942,7 @@ export interface ExpressRouteCrossConnectionPeeringProperties {
   /** The secondary port. */
   secondaryAzurePort?: string | undefined;
   /** The shared key. */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
   /** The VLAN ID. */
   vlanId?: number | undefined;
   /** The Microsoft peering configuration. */
@@ -31869,7 +31869,7 @@ export interface RadiusServer {
   /** The initial score assigned to this radius server. */
   radiusServerScore?: number | undefined;
   /** The secret used for this radius server. We will no longer return radiusServerSecret in VirtualNetworkGateway Create/Update/Get/List/UpdateTags APIs response. Please use VirtualNetworkGateway ListRadiusSecrets API to fetch radius server secrets. */
-  radiusServerSecret?: string | undefined;
+  radiusServerSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** The radiusServers property for multiple radius server configuration. */
 export type VpnClientConfigurationRadiusServersList = Array<RadiusServer>;
@@ -31944,7 +31944,7 @@ export interface VpnClientConfiguration {
   /** The radius server address property of the VirtualNetworkGateway resource for vpn client connection. */
   radiusServerAddress?: string | undefined;
   /** The radius secret property of the VirtualNetworkGateway resource for vpn client connection. We will no longer return radiusServerSecret in VirtualNetworkGateway Create/Update/Get/List/UpdateTags APIs response. Please use VirtualNetworkGateway ListRadiusSecrets API to fetch radius server secrets. */
-  radiusServerSecret?: string | undefined;
+  radiusServerSecret?: string | Redacted.Redacted<string> | undefined;
   /** The radiusServers property for multiple radius server configuration. */
   radiusServers?: VpnClientConfigurationRadiusServersList | undefined;
   /** The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD authentication. */
@@ -32513,7 +32513,7 @@ export interface VirtualNetworkGatewayConnectionPropertiesFormat {
     | VirtualNetworkGatewayConnectionPropertiesFormatTunnelPropertiesList
     | undefined;
   /** The IPSec shared key. */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
   /** Virtual Network Gateway connection status. */
   connectionStatus?: VirtualNetworkGatewayConnectionPropertiesFormatConnectionStatus | undefined;
   /** Collection of all tunnels' connection health status. */
@@ -32596,7 +32596,7 @@ export interface GetVirtualNetworkGatewayConnectionSharedKeyResponse {
   /** Resource ID. */
   id?: string | undefined;
   /** The virtual network connection shared key value. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface GetVirtualNetworkGatewayEffectiveRoutesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -34686,7 +34686,7 @@ export interface VpnSiteLinkConnectionProperties {
   /** Expected bandwidth in MBPS. */
   connectionBandwidth?: number | undefined;
   /** SharedKey for the vpn link connection. We will no longer return sharedKey in any Create/Update/Get/List/UpdateTags VpnGateway/VpnConnection/VpnLinkConnection APIs response. Please use 'Vpn Link Connections - List Default Shared Key' API to fetch Vpn link connection sharedKey. */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
   /** EnableBgp flag. */
   enableBgp?: boolean | undefined;
   /** vpnGatewayCustomBgpAddresses used by this connection. */
@@ -34744,7 +34744,7 @@ export interface VpnConnectionProperties {
   /** Expected bandwidth in MBPS. */
   connectionBandwidth?: number | undefined;
   /** Deprecated: SharedKey for the vpn connection. This is no more used. */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
   /** EnableBgp flag. */
   enableBgp?: boolean | undefined;
   /** Enable policy-based traffic selectors. */
@@ -34912,7 +34912,7 @@ export type SharedKeyPropertiesProvisioningState =
 /** Parameters for SharedKey. */
 export interface SharedKeyProperties {
   /** The value of the shared key for the vpn link connection. */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
   /** The length of the shared key for the vpn link connection. */
   sharedKeyLength?: number | undefined;
   /** Provisioning states of a resource. */
@@ -35176,7 +35176,7 @@ export interface VpnServerConfigurationProperties {
   /** The radius server address property of the VpnServerConfiguration resource for point to site client connection. */
   radiusServerAddress?: string | undefined;
   /** The radius secret property of the VpnServerConfiguration resource for point to site client connection. We will no longer return radiusServerSecret in VpnServerConfiguration Create/Update/Get/List/UpdateTags APIs response. Please use VpnServerConfiguration ListRadiusSecrets API to fetch radius server secrets. */
-  radiusServerSecret?: string | undefined;
+  radiusServerSecret?: string | Redacted.Redacted<string> | undefined;
   /** Multiple Radius Server configuration for VpnServerConfiguration. */
   radiusServers?: VpnServerConfigurationPropertiesRadiusServersList | undefined;
   /** The set of aad vpn authentication parameters. */
@@ -38836,7 +38836,7 @@ export interface ListExpressRouteCircuitAuthorizationKeysRequest {
 }
 export interface ListExpressRouteCircuitAuthorizationKeysResponse {
   /** The authorization key used to establish connection between resources in different subscriptions. */
-  authorizationKey?: string | undefined;
+  authorizationKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListExpressRouteCircuitAuthorizationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -39171,7 +39171,7 @@ export interface ListExpressRouteLagAuthorizationKeysRequest {
 }
 export interface ListExpressRouteLagAuthorizationKeysResponse {
   /** The authorization key used to establish connection between resources in different subscriptions. */
-  authorizationKey?: string | undefined;
+  authorizationKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListExpressRouteLagAuthorizationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -39322,7 +39322,7 @@ export interface ListExpressRoutePortAuthorizationKeysRequest {
 }
 export interface ListExpressRoutePortAuthorizationKeysResponse {
   /** The authorization key used to establish connection between resources in different subscriptions. */
-  authorizationKey?: string | undefined;
+  authorizationKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListExpressRoutePortAuthorizationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -44361,7 +44361,7 @@ export interface VirtualNetworkGatewayConnectionListEntityPropertiesFormat {
     | VirtualNetworkGatewayConnectionListEntityPropertiesFormatConnectionMode
     | undefined;
   /** The IPSec shared key. We will no longer return sharedKey in VirtualNetworkGatewayConnection Create/Update/Get/List/UpdateTags APIs response. Please use VirtualNetworkGatewayConnection GetSharedKey API to fetch connection sharedKey. */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
   /** Virtual Network Gateway connection status. */
   connectionStatus?:
     | VirtualNetworkGatewayConnectionListEntityPropertiesFormatConnectionStatus
@@ -44464,7 +44464,7 @@ export interface RadiusAuthServer {
   /** Radius server IPAddress */
   radiusServerAddress?: string | undefined;
   /** Radius server secret */
-  radiusServerSecret?: string | undefined;
+  radiusServerSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** The RadiusAuthServer items on this page */
 export type RadiusAuthServerListResultValueList = Array<RadiusAuthServer>;
@@ -50019,13 +50019,13 @@ export interface SetVirtualNetworkGatewayConnectionSharedKeyRequest {
   /** Resource ID. */
   id?: string | undefined;
   /** The virtual network connection shared key value. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 export interface SetVirtualNetworkGatewayConnectionSharedKeyResponse {
   /** Resource ID. */
   id?: string | undefined;
   /** The virtual network connection shared key value. */
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** A link to the status monitor */
   azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
@@ -54144,7 +54144,7 @@ export interface VpnClientConfigurationInput {
   /** The radius server address property of the VirtualNetworkGateway resource for vpn client connection. */
   radiusServerAddress?: string | undefined;
   /** The radius secret property of the VirtualNetworkGateway resource for vpn client connection. We will no longer return radiusServerSecret in VirtualNetworkGateway Create/Update/Get/List/UpdateTags APIs response. Please use VirtualNetworkGateway ListRadiusSecrets API to fetch radius server secrets. */
-  radiusServerSecret?: string | undefined;
+  radiusServerSecret?: string | Redacted.Redacted<string> | undefined;
   /** The radiusServers property for multiple radius server configuration. */
   radiusServers?: VpnClientConfigurationInputRadiusServersList | undefined;
   /** The AADTenant property of the VirtualNetworkGateway resource for vpn client connection used for AAD authentication. */
@@ -54461,7 +54461,7 @@ export interface VirtualNetworkGatewayConnectionPropertiesFormatInput {
     | VirtualNetworkGatewayConnectionPropertiesFormatInputTunnelPropertiesList
     | undefined;
   /** The IPSec shared key. */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
   /** Virtual Network Gateway connection status. */
   connectionStatus?:
     | VirtualNetworkGatewayConnectionPropertiesFormatInputConnectionStatus
@@ -55705,7 +55705,7 @@ export interface VpnSiteLinkConnectionPropertiesInput {
   /** Expected bandwidth in MBPS. */
   connectionBandwidth?: number | undefined;
   /** SharedKey for the vpn link connection. We will no longer return sharedKey in any Create/Update/Get/List/UpdateTags VpnGateway/VpnConnection/VpnLinkConnection APIs response. Please use 'Vpn Link Connections - List Default Shared Key' API to fetch Vpn link connection sharedKey. */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
   /** EnableBgp flag. */
   enableBgp?: boolean | undefined;
   /** vpnGatewayCustomBgpAddresses used by this connection. */
@@ -55761,7 +55761,7 @@ export interface VpnConnectionPropertiesInput {
   /** Expected bandwidth in MBPS. */
   connectionBandwidth?: number | undefined;
   /** Deprecated: SharedKey for the vpn connection. This is no more used. */
-  sharedKey?: string | undefined;
+  sharedKey?: string | Redacted.Redacted<string> | undefined;
   /** EnableBgp flag. */
   enableBgp?: boolean | undefined;
   /** Enable policy-based traffic selectors. */
@@ -56118,7 +56118,7 @@ export interface VpnServerConfigurationPropertiesInput {
   /** The radius server address property of the VpnServerConfiguration resource for point to site client connection. */
   radiusServerAddress?: string | undefined;
   /** The radius secret property of the VpnServerConfiguration resource for point to site client connection. We will no longer return radiusServerSecret in VpnServerConfiguration Create/Update/Get/List/UpdateTags APIs response. Please use VpnServerConfiguration ListRadiusSecrets API to fetch radius server secrets. */
-  radiusServerSecret?: string | undefined;
+  radiusServerSecret?: string | Redacted.Redacted<string> | undefined;
   /** Multiple Radius Server configuration for VpnServerConfiguration. */
   radiusServers?: VpnServerConfigurationPropertiesInputRadiusServersList | undefined;
   /** The set of aad vpn authentication parameters. */
@@ -76843,7 +76843,7 @@ function __c114(j: number): any {
           secondaryPeerAddressPrefix: S.optional(S.String),
           primaryAzurePort: S.optional(S.String),
           secondaryAzurePort: S.optional(S.String),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           vlanId: S.optional(S.Number),
           microsoftPeeringConfig: S.optional(__S(3682, __c115, 2)),
           stats: S.optional(__S(3744, __c117, 0)),
@@ -76972,7 +76972,7 @@ function __c121(j: number): any {
           secondaryPeerAddressPrefix: S.optional(S.String),
           primaryAzurePort: S.optional(S.String),
           secondaryAzurePort: S.optional(S.String),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           vlanId: S.optional(S.Number),
           microsoftPeeringConfig: S.optional(__S(3682, __c115, 2)),
           stats: S.optional(__S(3744, __c117, 0)),
@@ -77296,7 +77296,7 @@ function __c133(j: number): any {
           peerASN: S.optional(S.Number),
           primaryPeerAddressPrefix: S.optional(S.String),
           secondaryPeerAddressPrefix: S.optional(S.String),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           vlanId: S.optional(S.Number),
           microsoftPeeringConfig: S.optional(__S(3682, __c115, 2)),
           provisioningState: S.optional(S.String),
@@ -77319,7 +77319,7 @@ function __c134(j: number): any {
           secondaryPeerAddressPrefix: S.optional(S.String),
           primaryAzurePort: S.optional(S.String),
           secondaryAzurePort: S.optional(S.String),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           vlanId: S.optional(S.Number),
           microsoftPeeringConfig: S.optional(__S(3682, __c115, 2)),
           provisioningState: S.optional(S.String),
@@ -78010,7 +78010,7 @@ function __c163(j: number): any {
           newSTag: S.optional(S.String),
           preparedAt: S.optional(S.String),
           prepareExpiryTime: S.optional(S.String),
-          newCrossConnectionUrl: S.optional(S.String),
+          newCrossConnectionUrl: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shouldRollback: S.optional(S.Boolean),
           details: S.optional(__S(5224, __c163, 8)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
@@ -90739,7 +90739,7 @@ function __c570(j: number): any {
         S.Struct({
           radiusServerAddress: S.String,
           radiusServerScore: S.optional(S.Number),
-          radiusServerSecret: S.optional(S.String),
+          radiusServerSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "RadiusServer" });
     case 1:
@@ -90856,7 +90856,7 @@ function __c572(j: number): any {
           vpnAuthenticationTypes: S.optional(__S(31616, __c988, 0)),
           vpnClientIpsecPolicies: S.optional(__S(18209, __c569, 1)),
           radiusServerAddress: S.optional(S.String),
-          radiusServerSecret: S.optional(S.String),
+          radiusServerSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           radiusServers: S.optional(__S(18241, __c570, 1)),
           aadTenant: S.optional(S.String),
           aadAudience: S.optional(S.String),
@@ -91142,7 +91142,7 @@ function __c583(j: number): any {
           dpdTimeoutSeconds: S.optional(S.Number),
           connectionMode: S.optional(S.String),
           tunnelProperties: S.optional(__S(18657, __c583, 1)),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionStatus: S.optional(S.String),
           tunnelConnectionStatus: S.optional(__S(18625, __c582, 1)),
           egressBytesTransferred: S.optional(S.Number),
@@ -91225,7 +91225,7 @@ function __c586(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "GetVirtualNetworkGatewayConnectionSharedKeyResponse" });
   }
@@ -92346,7 +92346,7 @@ function __c614(j: number): any {
           ingressBytesTransferred: S.optional(S.Number),
           egressBytesTransferred: S.optional(S.Number),
           connectionBandwidth: S.optional(S.Number),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableBgp: S.optional(S.Boolean),
           vpnGatewayCustomBgpAddresses: S.optional(__S(18529, __c579, 1)),
           usePolicyBasedTrafficSelectors: S.optional(S.Boolean),
@@ -92390,7 +92390,7 @@ function __c616(j: number): any {
           ingressBytesTransferred: S.optional(S.Number),
           egressBytesTransferred: S.optional(S.Number),
           connectionBandwidth: S.optional(S.Number),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableBgp: S.optional(S.Boolean),
           usePolicyBasedTrafficSelectors: S.optional(S.Boolean),
           ipsecPolicies: S.optional(__S(18209, __c569, 1)),
@@ -92543,7 +92543,7 @@ function __c625(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sharedKeyLength: S.optional(S.Number),
           provisioningState: S.optional(S.String),
         }),
@@ -92695,7 +92695,7 @@ function __c632(j: number): any {
           radiusClientRootCertificates: S.optional(__S(20227, __c632, 3)),
           vpnClientIpsecPolicies: S.optional(__S(18209, __c569, 1)),
           radiusServerAddress: S.optional(S.String),
-          radiusServerSecret: S.optional(S.String),
+          radiusServerSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           radiusServers: S.optional(__S(18241, __c570, 1)),
           aadAuthenticationParameters: S.optional(__S(20228, __c632, 4)),
           provisioningState: S.optional(S.String),
@@ -96670,7 +96670,7 @@ function __c769(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authorizationKey: S.optional(S.String),
+          authorizationKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ListExpressRouteCircuitAuthorizationKeysResponse" });
   }
@@ -103693,7 +103693,7 @@ function __c1014(j: number): any {
           connectionProtocol: S.optional(S.String),
           routingWeight: S.optional(S.Number),
           connectionMode: S.optional(S.String),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionStatus: S.optional(S.String),
           tunnelConnectionStatus: S.optional(__S(18625, __c582, 1)),
           egressBytesTransferred: S.optional(S.Number),
@@ -103806,7 +103806,7 @@ function __c1018(j: number): any {
       return S.suspend(() =>
         S.Struct({
           radiusServerAddress: S.optional(S.String),
-          radiusServerSecret: S.optional(S.String),
+          radiusServerSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "RadiusAuthServer" });
     case 1:
@@ -107612,7 +107612,7 @@ function __c1152(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           virtualNetworkGatewayConnectionName: S.String.pipe(T.Label()),
           id: S.optional(S.String),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -107626,7 +107626,7 @@ function __c1152(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -110323,7 +110323,7 @@ function __c1256(j: number): any {
           dpdTimeoutSeconds: S.optional(S.Number),
           connectionMode: S.optional(S.String),
           tunnelProperties: S.optional(__S(18657, __c583, 1)),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           connectionStatus: S.optional(S.String),
           peer: S.optional(__S(22272, __c696, 0)),
           enableBgp: S.optional(S.Boolean),
@@ -110430,7 +110430,7 @@ function __c1257(j: number): any {
           vpnAuthenticationTypes: S.optional(__S(31616, __c988, 0)),
           vpnClientIpsecPolicies: S.optional(__S(18209, __c569, 1)),
           radiusServerAddress: S.optional(S.String),
-          radiusServerSecret: S.optional(S.String),
+          radiusServerSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           radiusServers: S.optional(__S(18241, __c570, 1)),
           aadTenant: S.optional(S.String),
           aadAudience: S.optional(S.String),
@@ -111102,7 +111102,7 @@ function __c1273(j: number): any {
           connectionStatus: S.optional(S.String),
           vpnConnectionProtocolType: S.optional(S.String),
           connectionBandwidth: S.optional(S.Number),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableBgp: S.optional(S.Boolean),
           vpnGatewayCustomBgpAddresses: S.optional(__S(18529, __c579, 1)),
           usePolicyBasedTrafficSelectors: S.optional(S.Boolean),
@@ -111134,7 +111134,7 @@ function __c1273(j: number): any {
           connectionStatus: S.optional(S.String),
           vpnConnectionProtocolType: S.optional(S.String),
           connectionBandwidth: S.optional(S.Number),
-          sharedKey: S.optional(S.String),
+          sharedKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           enableBgp: S.optional(S.Boolean),
           usePolicyBasedTrafficSelectors: S.optional(S.Boolean),
           ipsecPolicies: S.optional(__S(18209, __c569, 1)),
@@ -111254,7 +111254,7 @@ function __c1276(j: number): any {
           radiusClientRootCertificates: S.optional(__S(20227, __c632, 3)),
           vpnClientIpsecPolicies: S.optional(__S(18209, __c569, 1)),
           radiusServerAddress: S.optional(S.String),
-          radiusServerSecret: S.optional(S.String),
+          radiusServerSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           radiusServers: S.optional(__S(18241, __c570, 1)),
           aadAuthenticationParameters: S.optional(__S(20228, __c632, 4)),
           configurationPolicyGroups: S.optional(__S(40833, __c1276, 1)),

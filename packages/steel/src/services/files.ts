@@ -105,16 +105,28 @@ export interface DeleteGlobalFileResponse {}
 export interface DownloadArchiveRequest {
   sessionId: string;
 }
-export type DownloadArchiveResponse = Uint8Array;
+export interface DownloadArchiveResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface DownloadFileRequest {
   sessionId: string;
   path: string;
 }
-export type DownloadFileResponse = Uint8Array;
+export interface DownloadFileResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface DownloadGlobalFileRequest {
   path: string;
 }
-export type DownloadGlobalFileResponse = Uint8Array;
+export interface DownloadGlobalFileResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface ListFilesRequest {
   sessionId: string;
 }
@@ -238,7 +250,7 @@ export const downloadArchive: API.OperationMethod<
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<DownloadArchiveRequest>,
-  output: __S(45, __c11, 1) as any as S.Codec<DownloadArchiveResponse>,
+  output: __S(48, __c12, 0) as any as S.Schema<DownloadArchiveResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -255,8 +267,8 @@ export const downloadFile: API.OperationMethod<
   DownloadFileError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<DownloadFileRequest>,
-  output: __S(49, __c12, 1) as any as S.Codec<DownloadFileResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<DownloadFileRequest>,
+  output: __S(48, __c12, 0) as any as S.Schema<DownloadFileResponse>,
   errors: [NotFound, Conflict],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -273,8 +285,8 @@ export const downloadGlobalFile: API.OperationMethod<
   DownloadGlobalFileError,
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<DownloadGlobalFileRequest>,
-  output: __S(53, __c13, 1) as any as S.Codec<DownloadGlobalFileResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<DownloadGlobalFileRequest>,
+  output: __S(48, __c12, 0) as any as S.Schema<DownloadGlobalFileResponse>,
   errors: [NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -507,11 +519,20 @@ function __c11(j: number): any {
           sessionId: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sessions/{sessionId}/files.zip", code: 200 })),
       ).annotate({ identifier: "DownloadArchiveRequest" });
-    case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
 function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "DownloadArchiveResponse" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -520,11 +541,9 @@ function __c12(j: number): any {
           path: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/v1/sessions/{sessionId}/files/{path}", code: 200 })),
       ).annotate({ identifier: "DownloadFileRequest" });
-    case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -532,8 +551,6 @@ function __c13(j: number): any {
           path: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/v1/files/{path}", code: 200 })),
       ).annotate({ identifier: "DownloadGlobalFileRequest" });
-    case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

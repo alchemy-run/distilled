@@ -132,7 +132,7 @@ export interface CreateNotificationGotifyRequest {
   dockerCleanup: boolean;
   serverThreshold: boolean;
   serverUrl: string;
-  appToken: string;
+  appToken: string | Redacted.Redacted<string>;
   priority: number;
   decoration: boolean;
 }
@@ -251,7 +251,7 @@ export interface CreateNotificationTelegramRequest {
   appDeploy: boolean;
   dockerCleanup: boolean;
   serverThreshold: boolean;
-  botToken: string;
+  botToken: string | Redacted.Redacted<string>;
   chatId: string;
   messageThreadId: string;
 }
@@ -277,7 +277,7 @@ export interface ReceiveNotificationRequest {
   Threshold: number;
   Message: string;
   Timestamp: string;
-  Token: string;
+  Token: string | Redacted.Redacted<string>;
 }
 export type ReceiveNotificationResponse = unknown;
 export type TestNotificationCustomConnectionRequestHeadersMap = {
@@ -305,7 +305,7 @@ export interface TestNotificationEmailConnectionRequest {
 export type TestNotificationEmailConnectionResponse = unknown;
 export interface TestNotificationGotifyConnectionRequest {
   serverUrl: string;
-  appToken: string;
+  appToken: string | Redacted.Redacted<string>;
   priority: number;
   decoration?: boolean | undefined;
 }
@@ -352,7 +352,7 @@ export interface TestNotificationTeamsConnectionRequest {
 }
 export type TestNotificationTeamsConnectionResponse = unknown;
 export interface TestNotificationTelegramConnectionRequest {
-  botToken: string;
+  botToken: string | Redacted.Redacted<string>;
   chatId: string;
   messageThreadId: string;
 }
@@ -425,7 +425,7 @@ export interface UpdateNotificationGotifyRequest {
   dockerCleanup?: boolean | undefined;
   serverThreshold?: boolean | undefined;
   serverUrl?: string | undefined;
-  appToken?: string | undefined;
+  appToken?: string | Redacted.Redacted<string> | undefined;
   priority?: number | undefined;
   decoration?: boolean | undefined;
   notificationId: string;
@@ -568,7 +568,7 @@ export interface UpdateNotificationTelegramRequest {
   appDeploy?: boolean | undefined;
   dockerCleanup?: boolean | undefined;
   serverThreshold?: boolean | undefined;
-  botToken?: string | undefined;
+  botToken?: string | Redacted.Redacted<string> | undefined;
   chatId?: string | undefined;
   messageThreadId?: string | undefined;
   notificationId: string;
@@ -1429,7 +1429,7 @@ function __c5(j: number): any {
           appDeploy: S.Boolean,
           dockerCleanup: S.Boolean,
           serverThreshold: S.Boolean,
-          botToken: S.String,
+          botToken: S.String.pipe(T.SensitiveValue({})),
           chatId: S.String,
           messageThreadId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/notification.createTelegram", code: 200 })),
@@ -1485,7 +1485,7 @@ function __c10(j: number): any {
           Threshold: S.Number,
           Message: S.String,
           Timestamp: S.String,
-          Token: S.String,
+          Token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/notification.receiveNotification", code: 200 })),
       ).annotate({ identifier: "ReceiveNotificationRequest" });
   }
@@ -1533,7 +1533,7 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           serverUrl: S.String,
-          appToken: S.String,
+          appToken: S.String.pipe(T.SensitiveValue({})),
           priority: S.Number,
           decoration: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/notification.testGotifyConnection", code: 200 })),
@@ -1663,7 +1663,7 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          botToken: S.String,
+          botToken: S.String.pipe(T.SensitiveValue({})),
           chatId: S.String,
           messageThreadId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/notification.testTelegramConnection", code: 200 })),
@@ -1758,7 +1758,7 @@ function __c29(j: number): any {
           dockerCleanup: S.optional(S.Boolean),
           serverThreshold: S.optional(S.Boolean),
           serverUrl: S.optional(S.String),
-          appToken: S.optional(S.String),
+          appToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           priority: S.optional(S.Number),
           decoration: S.optional(S.Boolean),
           notificationId: S.String,
@@ -1968,7 +1968,7 @@ function __c38(j: number): any {
           appDeploy: S.optional(S.Boolean),
           dockerCleanup: S.optional(S.Boolean),
           serverThreshold: S.optional(S.Boolean),
-          botToken: S.optional(S.String),
+          botToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           chatId: S.optional(S.String),
           messageThreadId: S.optional(S.String),
           notificationId: S.String,
@@ -2023,7 +2023,7 @@ function __c41(j: number): any {
           dockerCleanup: S.Boolean,
           serverThreshold: S.Boolean,
           serverUrl: S.String,
-          appToken: S.String,
+          appToken: S.String.pipe(T.SensitiveValue({})),
           priority: S.Number,
           decoration: S.Boolean,
         }).pipe(T.Http({ method: "POST", uri: "/notification.createGotify", code: 200 })),

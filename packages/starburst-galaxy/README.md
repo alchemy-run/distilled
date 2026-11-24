@@ -84,17 +84,20 @@ OAuth 2.0 client credentials from a service account.
 | `STARBURST_GALAXY_CLIENT_ID` | the service account's client ID |
 | `STARBURST_GALAXY_CLIENT_SECRET` | the service account's client secret |
 
-`CredentialsFromEnv` reads them through the current `ConfigProvider` and
+`CredentialsFromEnv` reads them through the current `ConfigProvider` once,
+when the layer is built. It
 exchanges the client ID and secret at `POST https://<domain>/oauth/v2/token`
 (HTTP Basic, `grant_type=client_credentials`) on first use, sends the token as
 `Authorization: Bearer`, and exchanges again a minute before the token's
 10-minute lifetime ends. Concurrent requests on a cold or expiring token share
-one exchange, and the cache is rebuilt when any of the three variables changes.
+one exchange. A failed exchange fails the call with `TokenRequestFailed`, which
+carries the token endpoint's `status`.
 `fromClientCredentials({ domain, clientId, clientSecret })` does the same from
 values in code (`clientSecret` is a `Redacted`); both need an `HttpClient`.
 `fromAccessToken({ domain, accessToken })` uses a token already held. The
 domain must be HTTPS (plain `http://` only on the loopback interface), since
-the client secret and every token are sent to it.
+the client secret and every token are sent to it. Any other domain fails the
+layer with `ConfigError`, before a request is made.
 
 Secrets in catalog and ingest-source payloads (passwords, AWS secret keys, the
 AstraDB token, BigQuery/GCS `credentialsKey`, the Snowflake private key and

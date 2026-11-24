@@ -1,4 +1,3 @@
-import { ConfigError } from "@distilled.cloud/core/errors";
 import type { ErrorOf } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
@@ -35,8 +34,9 @@ import {
   ENVD_PORT,
   envdBaseUrlFor,
   resolveSandboxConnection,
+  resolveVolumeConnection,
   type SandboxConnection,
-  VolumeConnection,
+  type VolumeConnection,
   type VolumeConnectionConfig,
 } from "./credentials.ts";
 import { E2BParseError, UnknownE2BError, type E2BServiceError } from "./errors.ts";
@@ -108,21 +108,9 @@ export const EnvdProtocol = /*@__PURE__*/ restProtocol({
   parseError,
 });
 
-const missingVolume = /*@__PURE__*/ Effect.fail(
-  new ConfigError({
-    message:
-      "E2B volume content operations authenticate with the volume's token -- provide E2B.volumeConnection({ token })",
-  }),
-);
-
-// The volume is read as an option, so the protocol's type requires nothing.
-const resolveVolume: Effect.Effect<VolumeConnectionConfig, ConfigError> =
-  /*@__PURE__*/ Effect.flatMap(Effect.serviceOption(VolumeConnection), (option) =>
-    option._tag === "Some" ? Effect.succeed(option.value) : missingVolume,
-  );
-
 export const VolumeContentProtocol = /*@__PURE__*/ restProtocol({
-  credentials: resolveVolume,
+  // The volume is read as an option, so the protocol's type requires nothing.
+  credentials: resolveVolumeConnection,
   baseUrl: (volume) => apiBaseUrlFor(volume.domain ?? DEFAULT_DOMAIN),
   headers: (volume) => ({ Authorization: `Bearer ${Redacted.value(volume.token)}` }),
   unknownError,

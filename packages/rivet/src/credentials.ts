@@ -29,9 +29,7 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "RivetCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config>>()("RivetCredentials") {}
 
 /**
  * Split an endpoint URL into its base URL and the token in its userinfo
@@ -57,31 +55,37 @@ const envConfig = /*@__PURE__*/ EffectConfig.all({
   ),
 });
 
-export const CredentialsFromEnv = /*@__PURE__*/ Layer.succeed(
-  Credentials,
-  /*@__PURE__*/ envConfig.pipe(
-    /*@__PURE__*/ Effect.mapError(
-      () => new ConfigError({ message: "RIVET_ENDPOINT must be a valid URL" }),
-    ),
-    /*@__PURE__*/ Effect.flatMap(({ token, endpoint }) =>
-      Effect.try({
-        try: () => parseEndpoint(endpoint),
-        catch: () => new ConfigError({ message: "RIVET_ENDPOINT must be a valid URL" }),
-      }).pipe(
-        Effect.flatMap((parsed) => {
-          const resolved = Option.orElse(token, () => parsed.token);
-          return Option.isSome(resolved)
-            ? Effect.succeed({ token: resolved.value, endpoint: parsed.endpoint })
-            : Effect.fail(
-                new ConfigError({
-                  message:
-                    "RIVET_TOKEN is required (or put the token in RIVET_ENDPOINT's userinfo)",
-                }),
-              );
-        }),
-      ),
+const fromEnvironment: Effect.Effect<Config, ConfigError> = /*@__PURE__*/ envConfig.pipe(
+  /*@__PURE__*/ Effect.mapError(
+    () => new ConfigError({ message: "RIVET_ENDPOINT must be a valid URL" }),
+  ),
+  /*@__PURE__*/ Effect.flatMap(({ token, endpoint }) =>
+    Effect.try({
+      try: () => parseEndpoint(endpoint),
+      catch: () => new ConfigError({ message: "RIVET_ENDPOINT must be a valid URL" }),
+    }).pipe(
+      Effect.flatMap((parsed) => {
+        const resolved = Option.orElse(token, () => parsed.token);
+        return Option.isSome(resolved)
+          ? Effect.succeed({ token: resolved.value, endpoint: parsed.endpoint })
+          : Effect.fail(
+              new ConfigError({
+                message: "RIVET_TOKEN is required (or put the token in RIVET_ENDPOINT's userinfo)",
+              }),
+            );
+      }),
     ),
   ),
+);
+
+/**
+ * Credentials from `RIVET_TOKEN` and `RIVET_ENDPOINT`. The environment is
+ * read, and the values checked, once: when the layer is built. A missing
+ * token or an endpoint that is not a URL fails the layer with `ConfigError`.
+ */
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.effect(
+  Credentials,
+  /*@__PURE__*/ Effect.map(fromEnvironment, (config) => Effect.succeed(config)),
 );
 
 /** Credentials for a known control plane. */

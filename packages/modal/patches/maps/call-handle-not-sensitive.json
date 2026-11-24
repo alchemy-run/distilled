@@ -1,0 +1,21 @@
+{
+  "description": "Modal's `attempt_token` and `map_token` are opaque handles for one function-call attempt or one map run. The proto puts them in a `oneof call_info` with `function_call_id`, as an alternative way to name the call, and the client passes them back unchanged; they grant no access on their own. The shared name rule marks every `token` field sensitive, so this removes the mark from these two.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.modal.maps#MapAwaitRequest/members/mapToken/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.modal.maps#MapStartOrContinueItem/members/attemptToken/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.modal.maps#MapStartOrContinueRequest/members/mapToken/traits/smithy.api#sensitive"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.modal.maps#MapStartOrContinueResponse/members/mapToken/traits/smithy.api#sensitive"
+    }
+  ]
+}

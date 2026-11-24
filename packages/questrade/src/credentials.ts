@@ -30,6 +30,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
+import { TokenRequestFailed } from "./errors.ts";
 
 /** The live login server; `https://practicelogin.questrade.com` serves practice accounts. */
 export const DEFAULT_LOGIN_URL = "https://login.questrade.com";
@@ -44,9 +45,10 @@ export interface Config {
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "QuestradeCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<
+    Credentials,
+    Effect.Effect<Config, ConfigError | TokenRequestFailed>
+  >()("QuestradeCredentials") {}
 
 /** One redemption of a refresh token. */
 export interface Tokens {
@@ -68,14 +70,17 @@ export interface RefreshTokenConfig {
 /** `https://api01.iq.questrade.com/` and `.../v1` -> `https://api01.iq.questrade.com`. */
 const normalizeApiServer = (url: string): string => url.replace(/\/+$/, "").replace(/\/v1$/, "");
 
-const tokenError = (message: string) =>
-  new ConfigError({ message: `Questrade refresh token redemption failed: ${message}` });
+const tokenError = (message: string, status?: number) =>
+  new TokenRequestFailed({
+    message: `Questrade refresh token redemption failed: ${message}`,
+    status,
+  });
 
-/** Redeem a refresh token at the login server. */
+/** Redeem a refresh token at the login server. Fails with {@link TokenRequestFailed}. */
 export const redeemRefreshToken = (
   refreshToken: Redacted.Redacted<string>,
   loginUrl: string = DEFAULT_LOGIN_URL,
-): Effect.Effect<Tokens, ConfigError> =>
+): Effect.Effect<Tokens, TokenRequestFailed> =>
   Effect.gen(function* () {
     const url = new URL("/oauth2/token", loginUrl);
     url.searchParams.set("grant_type", "refresh_token");
@@ -90,11 +95,12 @@ export const redeemRefreshToken = (
       return yield* tokenError(
         `${loginUrl} answered ${response.status} ${response.statusText} ` +
           `(a refresh token redeems once -- use the one the last redemption returned)`,
+        response.status,
       );
     }
     const body = (yield* Effect.tryPromise({
       try: () => response.json(),
-      catch: () => tokenError(`${loginUrl} answered with a body that is not JSON`),
+      catch: () => tokenError(`${loginUrl} answered with a body that is not JSON`, response.status),
     })) as Record<string, unknown> | null;
     const { access_token, refresh_token, api_server, expires_in } = body ?? {};
     if (
@@ -102,7 +108,10 @@ export const redeemRefreshToken = (
       typeof refresh_token !== "string" ||
       typeof api_server !== "string"
     ) {
-      return yield* tokenError("the answer has no access_token, refresh_token or api_server");
+      return yield* tokenError(
+        "the answer has no access_token, refresh_token or api_server",
+        response.status,
+      );
     }
     return {
       accessToken: Redacted.make(access_token),
@@ -119,7 +128,7 @@ export const redeemRefreshToken = (
  */
 const redeemingResolver = (
   load: Effect.Effect<RefreshTokenConfig, ConfigError>,
-): Effect.Effect<Config, ConfigError> => {
+): Effect.Effect<Config, ConfigError | TokenRequestFailed> => {
   let next: Redacted.Redacted<string> | undefined;
   const redeem = Effect.gen(function* () {
     const config = yield* load;
@@ -135,7 +144,7 @@ const redeemingResolver = (
   });
   return refreshing(redeem, (redeemed) => redeemed.refreshAt, {
     onTimeout: (timeoutMs) =>
-      new ConfigError({
+      new TokenRequestFailed({
         message: `Questrade refresh token redemption timed out after ${timeoutMs / 1000} s`,
       }),
   }).pipe(Effect.map((redeemed) => redeemed.config));

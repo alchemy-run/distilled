@@ -23,7 +23,11 @@
  */
 
 import { DEFAULT_TRAIT, SERVER_STREAMING_TRAIT } from "./members.ts";
-import { ERROR_MATCHERS_TRAIT, SENSITIVE_FIELD_PATTERNS } from "./openapi.ts";
+import {
+  ERROR_MATCHERS_TRAIT,
+  isSensitiveMemberName,
+  SENSITIVE_FIELD_PATTERNS,
+} from "./openapi.ts";
 
 // ============================================================================
 // Prelude
@@ -932,13 +936,24 @@ const fieldTarget = (ctx: EmitCtx, field: ProtoField, scope: string): string => 
   return field.repeated ? listOf(ctx, inner) : inner;
 };
 
-const memberTraits = (field: ProtoField, tsName: string): Record<string, any> => {
+/**
+ * The OpenAPI converter's name rule ({@link isSensitiveMemberName}) for a
+ * plain `string` field. `parent` is the message's simple name, so a bare
+ * `value` inside a `Secret` message counts.
+ */
+const isSensitiveString = (field: ProtoField, tsName: string, parent: string): boolean =>
+  field.type === "string" &&
+  !field.repeated &&
+  field.mapValue === undefined &&
+  (isSensitiveMemberName(field.name, { parent }) || isSensitiveMemberName(tsName, { parent }));
+
+const memberTraits = (field: ProtoField, tsName: string, parent: string): Record<string, any> => {
   const traits: Record<string, any> = {};
   const doc = oneLineDoc(field.documentation);
   if (doc) traits["smithy.api#documentation"] = doc;
   const wire = field.jsonName ?? jsonNameOf(field.name);
   if (wire !== tsName) traits["smithy.api#jsonName"] = wire;
-  if (isSensitive(field.name) || isSensitive(tsName)) {
+  if (isSensitive(field.name) || isSensitive(tsName) || isSensitiveString(field, tsName, parent)) {
     traits["smithy.api#sensitive"] = {};
   }
   if (field.deprecated) traits["smithy.api#deprecated"] = {};
@@ -992,7 +1007,7 @@ const emitMembers = (
     let k = 2;
     while (used.has(tsName)) tsName = `${ident(jsonNameOf(field.name))}${k++}`;
     used.add(tsName);
-    const traits = memberTraits(field, tsName);
+    const traits = memberTraits(field, tsName, scope.split(".").at(-1) ?? scope);
     const fallback = proto3Default(ctx, field, scope);
     if (fallback !== undefined) traits[DEFAULT_TRAIT] = fallback;
     members[tsName] = {

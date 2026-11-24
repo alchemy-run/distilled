@@ -459,7 +459,7 @@ export interface Service {
   /** Service creation timestamp. ISO-8601. */
   createdAt?: string | undefined;
   /** Optional customer provided disk encryption key */
-  encryptionKey?: string | undefined;
+  encryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** Optional role to use for disk encryption */
   encryptionAssumedRoleIdentifier?: string | undefined;
   /** IAM role used for accessing objects in s3 */
@@ -1065,7 +1065,7 @@ export interface ServiceScalingPatchResponse {
   /** Service creation timestamp. ISO-8601. */
   createdAt?: string | undefined;
   /** Optional customer provided disk encryption key */
-  encryptionKey?: string | undefined;
+  encryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** Optional role to use for disk encryption */
   encryptionAssumedRoleIdentifier?: string | undefined;
   /** IAM role used for accessing objects in s3 */
@@ -2390,7 +2390,7 @@ function __c28(j: number): any {
           idleTimeoutMinutes: S.optional(S.Number),
           ipAccessList: S.optional(__S(313, __c39, 1)),
           createdAt: S.optional(S.String),
-          encryptionKey: S.optional(S.String),
+          encryptionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encryptionAssumedRoleIdentifier: S.optional(S.String),
           iamRole: S.optional(S.String),
           privateEndpointIds: S.optional(__S(304, __c38, 0)),
@@ -2723,7 +2723,7 @@ function __c40(j: number): any {
           idleTimeoutMinutes: S.optional(S.Number),
           ipAccessList: S.optional(__S(313, __c39, 1)),
           createdAt: S.optional(S.String),
-          encryptionKey: S.optional(S.String),
+          encryptionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encryptionAssumedRoleIdentifier: S.optional(S.String),
           iamRole: S.optional(S.String),
           privateEndpointIds: S.optional(__S(304, __c38, 0)),

@@ -137,7 +137,7 @@ export interface RegisterSsoRequestSamlConfigIdpMetadata {
   privateKey?: string | Redacted.Redacted<string> | undefined;
   privateKeyPass?: string | undefined;
   isAssertionEncrypted?: boolean | undefined;
-  encPrivateKey?: string | undefined;
+  encPrivateKey?: string | Redacted.Redacted<string> | undefined;
   encPrivateKeyPass?: string | undefined;
   singleSignOnService?: RegisterSsoRequestSamlConfigIdpMetadataSingleSignOnServiceList | undefined;
 }
@@ -148,7 +148,7 @@ export interface RegisterSsoRequestSamlConfigSpMetadata {
   privateKey?: string | Redacted.Redacted<string> | undefined;
   privateKeyPass?: string | undefined;
   isAssertionEncrypted?: boolean | undefined;
-  encPrivateKey?: string | undefined;
+  encPrivateKey?: string | Redacted.Redacted<string> | undefined;
   encPrivateKeyPass?: string | undefined;
 }
 export type RegisterSsoRequestSamlConfigAdditionalParamsMap = {
@@ -243,7 +243,7 @@ export interface UpdateSsoRequestSamlConfigIdpMetadata {
   privateKey?: string | Redacted.Redacted<string> | undefined;
   privateKeyPass?: string | undefined;
   isAssertionEncrypted?: boolean | undefined;
-  encPrivateKey?: string | undefined;
+  encPrivateKey?: string | Redacted.Redacted<string> | undefined;
   encPrivateKeyPass?: string | undefined;
   singleSignOnService?: UpdateSsoRequestSamlConfigIdpMetadataSingleSignOnServiceList | undefined;
 }
@@ -714,7 +714,7 @@ function __c13(j: number): any {
           privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           privateKeyPass: S.optional(S.String),
           isAssertionEncrypted: S.optional(S.Boolean),
-          encPrivateKey: S.optional(S.String),
+          encPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encPrivateKeyPass: S.optional(S.String),
           singleSignOnService: S.optional(__S(213, __c13, 5)),
         }),
@@ -728,7 +728,7 @@ function __c13(j: number): any {
           privateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           privateKeyPass: S.optional(S.String),
           isAssertionEncrypted: S.optional(S.Boolean),
-          encPrivateKey: S.optional(S.String),
+          encPrivateKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           encPrivateKeyPass: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegisterSsoRequestSamlConfigSpMetadata" });

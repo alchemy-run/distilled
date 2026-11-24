@@ -193,7 +193,7 @@ export interface AddDebitCardRequest {
   /** Optional non-PCI passthrough fields merged into the stored card vendorData. Base type is empty; tokenization providers extend it with their own fields. */
   additionalVendorData?: unknown | undefined;
   /** This is the card token received from the `CoinflowCardOnlyInput` */
-  cardToken: string;
+  cardToken: string | Redacted.Redacted<string>;
   address?: IAccountAddress | undefined;
   merchantId?: string | undefined;
   /** The external identifier of the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
@@ -445,7 +445,7 @@ export interface Verification {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: VerificationRejectionReasonsList | undefined;
@@ -695,7 +695,7 @@ export interface UboEntry {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: UboEntryRejectionReasonsList | undefined;
@@ -2111,7 +2111,7 @@ export interface VendorSettings {
   verisoul?: VerisoulVendorSettings | undefined;
 }
 export interface MerchantBankSettlementOptions {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   minRemainingBalance: Cents;
   useWire?: boolean | undefined;
 }
@@ -2220,7 +2220,7 @@ export interface LinkedBankAccount {
   accountNumber: string;
   accountType: LinkedBankAccountAccountType;
   institutionName?: string | undefined;
-  plaidAccessToken: string;
+  plaidAccessToken: string | Redacted.Redacted<string>;
   plaidAccountId: string;
 }
 export interface IMerchantStringProcessing {
@@ -2245,7 +2245,7 @@ export interface IMerchantString {
   apiKey: string | Redacted.Redacted<string>;
   webhookValidationKey?: string | undefined;
   nmiWebhookValidationKey?: string | undefined;
-  nmiApiKey?: string | undefined;
+  nmiApiKey?: string | Redacted.Redacted<string> | undefined;
   apiKeys: IMerchantStringApiKeysList;
   kycType: KycType;
   settlementToken: StableCoin;
@@ -2404,7 +2404,7 @@ export interface SerializedBankAccount {
   statementFileKey?: string | undefined;
   statementUploadedAt?: string | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   reference: string;
   routingNumber?: string | undefined;
   wireRoutingNumber?: string | undefined;
@@ -2418,7 +2418,7 @@ export type Funding = "credit" | "debit" | "prepaid";
 export interface IWithdrawerCardAccount {
   last4: string;
   isDeleted?: boolean | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: CardType;
   disbursementStatus: DisbursementStatus;
   currency?: Currency | undefined;
@@ -2454,7 +2454,7 @@ export interface PickIIbanAccountExcludeKeyofIIbanAccountVendorData {
   statementFileKey?: string | undefined;
   statementUploadedAt?: string | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   reference: string;
   sortCode: string;
   bic?: string | undefined;
@@ -2476,7 +2476,7 @@ export interface ISwiftAccountIntermediaryBank {
 }
 export interface ISwiftAccount {
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   reference: string;
   last4: string;
   accountHash: string;
@@ -2489,7 +2489,7 @@ export type IWithdrawerWithAccountsSwiftsList = Array<ISwiftAccount>;
 export interface IPixAccount {
   key: string;
   accountHash: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type IWithdrawerWithAccountsPixesList = Array<IPixAccount>;
 export type PickIEftAccountExcludeKeyofIEftAccountVendorDataAccountOwnerNamesList = Array<string>;
@@ -2505,7 +2505,7 @@ export interface PickIEftAccountExcludeKeyofIEftAccountVendorData {
   statementFileKey?: string | undefined;
   statementUploadedAt?: string | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   reference: string;
   mask: string;
   institutionId?: string | undefined;
@@ -2519,7 +2519,7 @@ export type PickIVenmoExcludeKeyofIVenmoVendorDataType = "venmo";
 export interface PickIVenmoExcludeKeyofIVenmoVendorData {
   isDeleted?: boolean | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: PickIVenmoExcludeKeyofIVenmoVendorDataType;
 }
 export type PickIPayPalExcludeKeyofIPayPalVendorDataType = "paypal";
@@ -2527,7 +2527,7 @@ export type PickIPayPalExcludeKeyofIPayPalVendorDataType = "paypal";
 export interface PickIPayPalExcludeKeyofIPayPalVendorData {
   isDeleted?: boolean | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: PickIPayPalExcludeKeyofIPayPalVendorDataType;
 }
 export type PickIInteracExcludeKeyofIInteracVendorDataType = "interac";
@@ -2535,14 +2535,14 @@ export type PickIInteracExcludeKeyofIInteracVendorDataType = "interac";
 export interface PickIInteracExcludeKeyofIInteracVendorData {
   isDeleted?: boolean | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: PickIInteracExcludeKeyofIInteracVendorDataType;
 }
 export type IWithdrawerMobileAccountType = "mobile";
 export type IWithdrawerMobileAccountRetiredTokensList = Array<string>;
 export interface IWithdrawerMobileAccount {
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: IWithdrawerMobileAccountType;
   disbursementStatus?: DisbursementStatus | undefined;
   currency?: Currency | undefined;
@@ -2870,7 +2870,7 @@ export interface WithdrawCreateKycDocumentResponse200 {
 export type KycSumbsubShareTokenRequestBodyVendor = "sumsub" | "sumsub_docv";
 export interface KycSumbsubShareTokenRequestBody {
   vendor: KycSumbsubShareTokenRequestBodyVendor | (string & {});
-  shareToken: string;
+  shareToken: string | Redacted.Redacted<string>;
   /** Country of the user (ISO 3166-1 alpha-2) */
   country: string;
   /** (optional): The URL to which the user will be redirected after successfully completing verification via verificationLink. This applies when the API responds with a 451 status code, instructing the caller to direct the user to verificationLink first. */
@@ -2880,7 +2880,7 @@ export interface KycSumbsubShareTokenRequestBody {
 export type KycPersonaShareTokenRequestBodyVendor = "persona";
 export interface KycPersonaShareTokenRequestBody {
   vendor: KycPersonaShareTokenRequestBodyVendor;
-  shareToken: string;
+  shareToken: string | Redacted.Redacted<string>;
   email: string;
 }
 export type KycShareTokenBody = KycSumbsubShareTokenRequestBody | KycPersonaShareTokenRequestBody;
@@ -3037,7 +3037,7 @@ export interface GetExactOutQuoteRequest {
   /** - [EVM only] whether the user's wallet supports signing permit messages. */
   usePermit?: boolean | undefined;
   /** - The token of the account to use */
-  accountToken?: string | undefined;
+  accountToken?: string | Redacted.Redacted<string> | undefined;
   /** The web3 wallet of the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authWallet: string;
   /** The blockchain associated with the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
@@ -3107,7 +3107,7 @@ export interface GetQuoteRequest {
   /** - [EVM only] whether the user's wallet supports signing permit messages. */
   usePermit?: boolean | undefined;
   /** - The token of the account to use */
-  accountToken?: string | undefined;
+  accountToken?: string | Redacted.Redacted<string> | undefined;
   /** The web3 wallet of the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authWallet: string;
   /** The blockchain associated with the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
@@ -4138,7 +4138,7 @@ function __c1(j: number): any {
           vendor: S.String,
           name: S.optional(S.String),
           attested: S.optional(S.Boolean),
-          shareToken: S.optional(S.String),
+          shareToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shareTokenStatus: S.optional(S.String),
           sessionToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           rejectionReasons: S.optional(__S(1312, __c41, 0)),
@@ -4184,7 +4184,7 @@ function __c3(j: number): any {
           statementFileKey: S.optional(S.String),
           statementUploadedAt: S.optional(S.String),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           reference: S.String,
           routingNumber: S.optional(S.String),
           wireRoutingNumber: S.optional(S.String),
@@ -4198,7 +4198,7 @@ function __c3(j: number): any {
         S.Struct({
           last4: S.String,
           isDeleted: S.optional(S.Boolean),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
           disbursementStatus: S.String,
           currency: S.optional(S.String),
@@ -4224,7 +4224,7 @@ function __c3(j: number): any {
           statementFileKey: S.optional(S.String),
           statementUploadedAt: S.optional(S.String),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           reference: S.String,
           sortCode: S.String,
           bic: S.optional(S.String),
@@ -4244,7 +4244,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           reference: S.String,
           last4: S.String,
           accountHash: S.String,
@@ -4261,7 +4261,7 @@ function __c3(j: number): any {
         S.Struct({
           key: S.String,
           accountHash: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "IPixAccount" });
     case 11:
@@ -4277,7 +4277,7 @@ function __c3(j: number): any {
           statementFileKey: S.optional(S.String),
           statementUploadedAt: S.optional(S.String),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           reference: S.String,
           mask: S.String,
           institutionId: S.optional(S.String),
@@ -4292,7 +4292,7 @@ function __c3(j: number): any {
         S.Struct({
           isDeleted: S.optional(S.Boolean),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
         }),
       ).annotate({ identifier: "PickIVenmoExcludeKeyofIVenmoVendorData" });
@@ -4300,7 +4300,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
           disbursementStatus: S.optional(S.String),
           currency: S.optional(S.String),
@@ -4392,7 +4392,7 @@ function __c6(j: number): any {
           vendor: S.String,
           name: S.optional(S.String),
           attested: S.optional(S.Boolean),
-          shareToken: S.optional(S.String),
+          shareToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shareTokenStatus: S.optional(S.String),
           sessionToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           rejectionReasons: S.optional(__S(1312, __c41, 0)),
@@ -4746,7 +4746,7 @@ function __c27(j: number): any {
           merchantId: S.String.pipe(T.Query()),
           currency: S.optional(S.String.pipe(T.Query())),
           usePermit: S.optional(S.Boolean.pipe(T.Query())),
-          accountToken: S.optional(S.String.pipe(T.Query())),
+          accountToken: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           authWallet: S.String.pipe(T.Header("x-coinflow-auth-wallet")),
           authBlockchain: S.String.pipe(T.Header("x-coinflow-auth-blockchain")),
         }).pipe(T.Http({ method: "GET", uri: "/withdraw/quote/exact-out", code: 200 })),
@@ -4842,7 +4842,7 @@ function __c31(j: number): any {
           merchantId: S.String.pipe(T.Query()),
           currency: S.optional(S.String.pipe(T.Query())),
           usePermit: S.optional(S.Boolean.pipe(T.Query())),
-          accountToken: S.optional(S.String.pipe(T.Query())),
+          accountToken: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           authWallet: S.String.pipe(T.Header("x-coinflow-auth-wallet")),
           authBlockchain: S.String.pipe(T.Header("x-coinflow-auth-blockchain")),
         }).pipe(T.Http({ method: "GET", uri: "/withdraw/quote", code: 200 })),
@@ -5272,7 +5272,7 @@ function __c43(j: number): any {
           expYear: S.String,
           expMonth: S.String,
           additionalVendorData: S.optional(S.Unknown),
-          cardToken: S.String,
+          cardToken: S.String.pipe(T.SensitiveValue({})),
           address: S.optional(__S(1408, __c44, 0)),
           merchantId: S.optional(S.String),
           authUserId: S.String.pipe(T.Header("x-coinflow-auth-user-id")),

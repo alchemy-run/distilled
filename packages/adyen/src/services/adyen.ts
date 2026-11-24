@@ -576,7 +576,7 @@ export type ApplePayDonationsFundingSource = "credit" | "debit" | "prepaid";
 export type ApplePayDonationsType = "applepay";
 export interface ApplePayDonations {
   /** The stringified and base64 encoded `paymentData` you retrieved from the Apple framework. */
-  applePayToken: string;
+  applePayToken: string | Redacted.Redacted<string>;
   /** The checkout attempt identifier. */
   checkoutAttemptId?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
@@ -669,7 +669,7 @@ export interface GooglePayDonations {
   /** The selected payment card network. */
   googlePayCardNetwork?: string | undefined;
   /** The `token` that you obtained from the [Google Pay API](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData) `PaymentData` response. */
-  googlePayToken: string;
+  googlePayToken: string | Redacted.Redacted<string>;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
@@ -707,7 +707,7 @@ export interface PayWithGoogleDonations {
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
   fundingSource?: PayWithGoogleDonationsFundingSource | (string & {}) | undefined;
   /** The `token` that you obtained from the [Google Pay API](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData) `PaymentData` response. */
-  googlePayToken: string;
+  googlePayToken: string | Redacted.Redacted<string>;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
@@ -1012,7 +1012,7 @@ export interface CreateDonationRequest {
   /** PSP reference of the transaction from which the donation token is generated. Required when `donationToken` is provided. */
   donationOriginalPspReference?: string | undefined;
   /** Donation token received in the `/payments` call. */
-  donationToken?: string | undefined;
+  donationToken?: string | Redacted.Redacted<string> | undefined;
   /** Price and product information about the purchased items, to be included on the invoice sent to the shopper. > This field is required for 3x 4x Oney, Affirm, Afterpay, Clearpay, Klarna, Ratepay, and Riverty. */
   lineItems?: CreateDonationRequestLineItemsList | undefined;
   /** The merchant account identifier, with which you want to process the transaction. */
@@ -1113,13 +1113,13 @@ export interface CheckoutBankTransferAction {
 export type CheckoutDelegatedAuthenticationActionType = "delegatedAuthentication";
 export interface CheckoutDelegatedAuthenticationAction {
   /** A token needed to authorise a payment. */
-  authorisationToken?: string | undefined;
+  authorisationToken?: string | Redacted.Redacted<string> | undefined;
   /** Encoded payment data. */
   paymentData?: string | undefined;
   /** Specifies the payment method. */
   paymentMethodType?: string | undefined;
   /** A token to pass to the delegatedAuthentication component. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** **delegatedAuthentication** */
   type: CheckoutDelegatedAuthenticationActionType;
   /** Specifies the URL to redirect to. */
@@ -1195,7 +1195,7 @@ export interface CheckoutSDKAction {
 export type CheckoutThreeDS2ActionType = "threeDS2";
 export interface CheckoutThreeDS2Action {
   /** A token needed to authorise a payment. */
-  authorisationToken?: string | undefined;
+  authorisationToken?: string | Redacted.Redacted<string> | undefined;
   /** Encoded payment data. */
   paymentData?: string | undefined;
   /** Specifies the payment method. */
@@ -1203,7 +1203,7 @@ export interface CheckoutThreeDS2Action {
   /** A subtype of the token. */
   subtype?: string | undefined;
   /** A token to pass to the 3DS2 Component to get the fingerprint. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** **threeDS2** */
   type: CheckoutThreeDS2ActionType;
   /** Specifies the URL to redirect to. */
@@ -1288,7 +1288,7 @@ export interface OpiResponse {
   /** The OPI issuer id. */
   issuerId?: string | undefined;
   /** The OPI transaction token. */
-  transToken?: string | undefined;
+  transToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CheckoutOrderResponse {
   /** The initial amount of the order. */
@@ -1431,7 +1431,7 @@ export interface PaymentResponse {
   /** Authorised amount in the transaction. */
   amount?: Amount | undefined;
   /** Donation Token containing payment details for Adyen Giving. */
-  donationToken?: string | undefined;
+  donationToken?: string | Redacted.Redacted<string> | undefined;
   /** The fraud result properties of the payment. */
   fraudResult?: FraudResult | undefined;
   /** The reference to uniquely identify a payment. This reference is used in all communication with you about the payment status. We recommend using a unique value per payment; however, it is not a requirement. If you need to provide multiple references for a transaction, separate them with hyphens ("-"). Maximum length: 80 characters. */
@@ -1599,7 +1599,7 @@ export interface CheckoutOutgoingForwardRequest {
   /** The request body that you want Adyen to forward to the third party on your behalf, in string format. Include key value pairs to specify the payment details, and use [placeholders](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#placeholders) for the values. Adyen replaces the placeholders with the payment details when making the request to the third party. When forwarding a network token, include a [condition](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#conditional-placeholders) that checks if the network token exists, and informs Adyen of which fields to send depending on the outcome. */
   body: string;
   /** Your credentials that are needed to authenticate with the third party. */
-  credentials?: string | undefined;
+  credentials?: string | Redacted.Redacted<string> | undefined;
   /** The request headers that will be included in the request Adyen makes to the third party on your behalf. Supports the `{{credentials}}` [placeholder](https://docs.adyen.com/online-payments/tokenization/forward-payment-details#placeholders). */
   headers?: CheckoutOutgoingForwardRequestHeadersMap | undefined;
   /** The HTTP method to use for the request Adyen makes on your behalf to the third party. */
@@ -2364,7 +2364,7 @@ export interface AlmaDetails {
 export type AmazonPayDetailsType = "amazonpay";
 export interface AmazonPayDetails {
   /** This is the `amazonPayToken` that you obtained from the [Get Checkout Session](https://amazon-pay-acquirer-guide.s3-eu-west-1.amazonaws.com/v1/amazon-pay-api-v2/checkout-session.html#get-checkout-session) response. This token is used for API only integration specifically. */
-  amazonPayToken?: string | undefined;
+  amazonPayToken?: string | Redacted.Redacted<string> | undefined;
   /** The checkout attempt identifier. */
   checkoutAttemptId?: string | undefined;
   /** The `checkoutSessionId` is used to identify the checkout session at the Amazon Pay side. This field is required only for drop-in and components integration, where it replaces the amazonPayToken. */
@@ -2406,7 +2406,7 @@ export type ApplePayDetailsFundingSource = "credit" | "debit" | "prepaid";
 export type ApplePayDetailsType = "applepay";
 export interface ApplePayDetails {
   /** The stringified and base64 encoded `paymentData` you retrieved from the Apple framework. */
-  applePayToken: string;
+  applePayToken: string | Redacted.Redacted<string>;
   /** The checkout attempt identifier. */
   checkoutAttemptId?: string | undefined;
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
@@ -2729,7 +2729,7 @@ export interface GooglePayDetails {
   /** The selected payment card network. */
   googlePayCardNetwork?: string | undefined;
   /** The `token` that you obtained from the [Google Pay API](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData) `PaymentData` response. */
-  googlePayToken: string;
+  googlePayToken: string | Redacted.Redacted<string>;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
@@ -2800,7 +2800,7 @@ export interface KlarnaNetworkDetails {
   /** The Klarna Network Payment Account identifier to use for the transaction. Required when `klarnaNetworkSessionToken` is provided. */
   klarnaNetworkPaymentAccountId?: string | undefined;
   /** The token obtained from the Klarna SDK during an Express Checkout flow. */
-  klarnaNetworkSessionToken?: string | undefined;
+  klarnaNetworkSessionToken?: string | Redacted.Redacted<string> | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
@@ -3006,7 +3006,7 @@ export interface PayWithGoogleDetails {
   /** The funding source that should be used when multiple sources are available. For Brazilian combo cards, by default the funding source is credit. To use debit, set this value to **debit**. */
   fundingSource?: PayWithGoogleDetailsFundingSource | (string & {}) | undefined;
   /** The `token` that you obtained from the [Google Pay API](https://developers.google.com/pay/api/web/reference/response-objects#PaymentData) `PaymentData` response. */
-  googlePayToken: string;
+  googlePayToken: string | Redacted.Redacted<string>;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   recurringDetailReference?: string | undefined;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
@@ -3285,7 +3285,7 @@ export interface SamsungPayDetails {
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
   recurringDetailReference?: string | undefined;
   /** The payload you received from the Samsung Pay SDK response. */
-  samsungPayToken: string;
+  samsungPayToken: string | Redacted.Redacted<string>;
   /** Base64-encoded JSON object containing SDK related parameters required by the SDK */
   sdkData?: string | undefined;
   /** This is the `recurringDetailReference` returned in the response when you created the token. */
@@ -4499,7 +4499,7 @@ export interface StoredPaymentMethod {
   /** The last two digits of the year the card expires. For example, **22** for the year 2022. */
   expiryYear?: string | undefined;
   /** The token issued by an external tokenization service representing the shopper's payment method */
-  externalToken?: string | undefined;
+  externalToken?: string | Redacted.Redacted<string> | undefined;
   /** The name of the payment method holder. */
   holderName?: string | undefined;
   /** The IBAN of the bank account. */
@@ -4932,13 +4932,13 @@ export interface PaymentCompletionDetails {
   PaReq?: string | undefined;
   /** (3D) Payment Authentication Response data by the card issuer. */
   PaRes?: string | undefined;
-  authorization_token?: string | undefined;
+  authorization_token?: string | Redacted.Redacted<string> | undefined;
   /** PayPal-generated token for recurring payments. */
-  billingToken?: string | undefined;
+  billingToken?: string | Redacted.Redacted<string> | undefined;
   /** The SMS verification code collected from the shopper. */
   cupsecureplus_smscode?: string | undefined;
   /** PayPal-generated third party access token. */
-  facilitatorAccessToken?: string | undefined;
+  facilitatorAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** A random number sent to the mobile phone number of the shopper to verify the payment. */
   oneTimePasscode?: string | undefined;
   /** PayPal-assigned ID for the order. */
@@ -4964,7 +4964,7 @@ export interface PaymentCompletionDetails {
   /** Base64-encoded string returned by the Component after the challenge flow. It contains the following parameter: `threeDSCompInd`. */
   threeds2_fingerprint?: string | undefined;
   /** PayPalv2-generated token for recurring payments. */
-  vaultToken?: string | undefined;
+  vaultToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreatePaymentsDetailRequest {
   /** A unique identifier for the message with a maximum of 64 characters (we recommend a UUID). */
@@ -5004,7 +5004,7 @@ export interface PaymentDetailsResponse {
   /** Authorised amount in the transaction. */
   amount?: Amount | undefined;
   /** Donation Token containing payment details for Adyen Giving. */
-  donationToken?: string | undefined;
+  donationToken?: string | Redacted.Redacted<string> | undefined;
   /** The fraud result properties of the payment. */
   fraudResult?: FraudResult | undefined;
   /** The reference used during the /payments request. */
@@ -5686,7 +5686,7 @@ export interface VerifyShopperTaxIdentificationResponse {
   /** The masked representation of the verified tax identification. */
   verifiedShopperTaxIdentification?: VerifiedShopperTaxIdentification | undefined;
   /** The opaque, encrypted, and signed token representing the successful verification. Required in /payments. */
-  verifiedShopperTaxIdentificationToken?: string | undefined;
+  verifiedShopperTaxIdentificationToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface DeleteStoredPaymentMethodRequest {
   /** The unique identifier of the token. */
@@ -7410,7 +7410,7 @@ function __c21(j: number): any {
           cashtag: S.optional(S.String),
           expiryMonth: S.optional(S.String),
           expiryYear: S.optional(S.String),
-          externalToken: S.optional(S.String),
+          externalToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           holderName: S.optional(S.String),
           iban: S.optional(S.String),
           id: S.optional(S.String),
@@ -7622,11 +7622,11 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authorisationToken: S.optional(S.String),
+          authorisationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           paymentData: S.optional(S.String),
           paymentMethodType: S.optional(S.String),
           subtype: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           type: S.String,
           url: S.optional(S.String),
         }),
@@ -7643,10 +7643,10 @@ function __c25(j: number): any {
           MD: S.optional(S.String),
           PaReq: S.optional(S.String),
           PaRes: S.optional(S.String),
-          authorization_token: S.optional(S.String),
-          billingToken: S.optional(S.String),
+          authorization_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          billingToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           cupsecureplus_smscode: S.optional(S.String.pipe(T.Body("cupsecureplus.smscode"))),
-          facilitatorAccessToken: S.optional(S.String),
+          facilitatorAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           oneTimePasscode: S.optional(S.String),
           orderID: S.optional(S.String),
           payerID: S.optional(S.String),
@@ -7659,7 +7659,7 @@ function __c25(j: number): any {
           threeDSResult: S.optional(S.String),
           threeds2_challengeResult: S.optional(S.String.pipe(T.Body("threeds2.challengeResult"))),
           threeds2_fingerprint: S.optional(S.String.pipe(T.Body("threeds2.fingerprint"))),
-          vaultToken: S.optional(S.String),
+          vaultToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PaymentCompletionDetails" });
     case 3:
@@ -7680,7 +7680,7 @@ function __c25(j: number): any {
           action: S.optional(__S(800, __c25, 0)),
           additionalData: S.optional(__S(32, __c1, 0)),
           amount: S.optional(__S(1280, __c40, 0)),
-          donationToken: S.optional(S.String),
+          donationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           fraudResult: S.optional(__S(1474, __c46, 2)),
           merchantReference: S.optional(S.String),
           opi: S.optional(__S(1792, __c56, 0)),
@@ -8056,7 +8056,7 @@ function __c31(j: number): any {
           result: S.optional(S.String),
           taxVerificationReference: S.optional(S.String),
           verifiedShopperTaxIdentification: S.optional(__S(994, __c31, 2)),
-          verifiedShopperTaxIdentificationToken: S.optional(S.String),
+          verifiedShopperTaxIdentificationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "VerifyShopperTaxIdentificationResponse" });
   }
@@ -8400,7 +8400,7 @@ function __c45(j: number): any {
           donationAccount: S.optional(S.String),
           donationCampaignId: S.optional(S.String),
           donationOriginalPspReference: S.optional(S.String),
-          donationToken: S.optional(S.String),
+          donationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           lineItems: S.optional(__S(1537, __c48, 1)),
           merchantAccount: S.String,
           merchantRiskIndicator: S.optional(__S(1696, __c53, 0)),
@@ -8510,7 +8510,7 @@ function __c47(j: number): any {
           action: S.optional(S.Unknown),
           additionalData: S.optional(__S(32, __c1, 0)),
           amount: S.optional(__S(1280, __c40, 0)),
-          donationToken: S.optional(S.String),
+          donationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           fraudResult: S.optional(__S(1474, __c46, 2)),
           merchantReference: S.optional(S.String),
           opi: S.optional(__S(1792, __c56, 0)),
@@ -8841,7 +8841,7 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           issuerId: S.optional(S.String),
-          transToken: S.optional(S.String),
+          transToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "OpiResponse" });
   }
@@ -8998,7 +8998,7 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           body: S.String,
-          credentials: S.optional(S.String),
+          credentials: S.optional(S.String.pipe(T.SensitiveValue({}))),
           headers: S.optional(__S(32, __c1, 0)),
           httpMethod: S.String,
           urlSuffix: S.optional(S.String),

@@ -1,9 +1,0 @@
-{
-  "description": "Drop `GET /v1/cameras/{id}/snapshot`. The spec declares the 200 body as `image/jpeg` (`type: string, format: binary`). The converter reads only JSON or `application/octet-stream` bodies, so the operation would generate an empty `{}` output and the REST protocol would decode the JPEG bytes as text. A method that returns corrupt data is worse than none. Source: the operation's `responses.200.content` in the published Protect 7.4.102 OpenAPI document. The service's `operations` list drops the removed shapes itself (finalizeConvert's syncServiceOperations), so no patch addresses it by position.",
-  "patches": [
-    {
-      "op": "remove",
-      "path": "/shapes/com.ui.protect#GetV1CamerasIdSnapshot"
-    }
-  ]
-}

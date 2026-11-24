@@ -77,10 +77,17 @@ export const diskKeysAuth = (input: {
     : Effect.fail(new ConfigError({ message: `Unknown Archil region: ${input.region}` }));
 };
 
-/** Object requests signed with a disk's S3 user keys, in the disk's region. */
+/**
+ * Object requests signed with a disk's S3 user keys, in the disk's region.
+ * The region is checked when the layer is built.
+ */
 export const objectCredentialsFromKeys = (
   input: Parameters<typeof diskKeysAuth>[0],
-): Layer.Layer<ObjectCredentials> => Layer.succeed(ObjectCredentials, diskKeysAuth(input));
+): Layer.Layer<ObjectCredentials, ConfigError> =>
+  Layer.effect(
+    ObjectCredentials,
+    Effect.map(diskKeysAuth(input), (auth) => Effect.succeed(auth)),
+  );
 
 // Archil's data plane accepts any SigV4 region; sign with the AWS default.
 const SIGNING_REGION = "us-east-1";

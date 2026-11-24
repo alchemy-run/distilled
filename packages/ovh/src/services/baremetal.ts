@@ -223,7 +223,7 @@ export interface ConfirmDedicatedServerTerminationRequest {
   /** Reason of your termination request */
   reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type ConfirmDedicatedServerTerminationResponse = string;
 export interface CreateDedicatedServerAuthenticationSecretRequest {
@@ -396,13 +396,13 @@ export interface CreateDedicatedServerFeatureBackupCloudPasswordRequest {
 /** A structure describing regenerated passwords */
 export interface DedicatedServerBackupBackupPassword {
   /** Password to reach the archive container through the sftp gw. */
-  sftpArchive?: string | null | undefined;
+  sftpArchive?: string | Redacted.Redacted<string> | null | undefined;
   /** Password to reach the storage container through the sftp gw. */
-  sftpStorage?: string | null | undefined;
+  sftpStorage?: string | Redacted.Redacted<string> | null | undefined;
   /** Password to reach the archive container through swift. */
-  swiftArchive?: string | null | undefined;
+  swiftArchive?: string | Redacted.Redacted<string> | null | undefined;
   /** Password to reach the storage container through swift. */
-  swiftStorage?: string | null | undefined;
+  swiftStorage?: string | Redacted.Redacted<string> | null | undefined;
 }
 export interface CreateDedicatedServerFeatureBackupFTPRequest {
   /** The internal name of your dedicated server */
@@ -7021,10 +7021,10 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sftpArchive: S.optional(S.NullOr(S.String)),
-          sftpStorage: S.optional(S.NullOr(S.String)),
-          swiftArchive: S.optional(S.NullOr(S.String)),
-          swiftStorage: S.optional(S.NullOr(S.String)),
+          sftpArchive: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          sftpStorage: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          swiftArchive: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          swiftStorage: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DedicatedServerBackupBackupPassword" });
   }
@@ -9093,7 +9093,7 @@ function __c119(j: number): any {
           commentary: S.optional(S.String),
           futureUse: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "POST",

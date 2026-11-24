@@ -623,7 +623,7 @@ export interface CreateSecretRequest {
   /** The name to store the secret value under. */
   secretKey: string | Redacted.Redacted<string>;
   /** The secret value encrypted with HPKE. To seal the secret value before sending, get the project's public key from GET /v1/secrets/keypair. Decode the publicKey using base64 into the raw 32-byte public key. Then, use HPKE Base mode (RFC 9180) with the following algorithm suite: DHKEM(X25519, HKDF-SHA256), HKDF-SHA256, and AES-256-GCM. Set both info and additional authenticated data (AAD) to an empty byte string. Then, create a new sender context using the public key and these settings, and encrypt the secret value as one message. Put the 32-byte encapsulated key before the ciphertext and keep the authentication tag at the end of the ciphertext. Encode the combined bytes with standard base64. Send the result as sealedSecretValue: base64(enc || ciphertext) */
-  sealedSecretValue: string;
+  sealedSecretValue: string | Redacted.Redacted<string>;
   /** The `id` returned by GET /v1/secrets/keypair, identifying the keypair whose public key encrypted the value. Recorded with the secret so decryption stays correct across keypair rotation. */
   keypairId: string;
 }
@@ -2045,7 +2045,7 @@ export interface UpdateSecretRequest {
   /** The id of the project secret to update. */
   id: string;
   /** The new secret value encrypted with HPKE. To seal the secret value before sending, get the project's public key from GET /v1/secrets/keypair. Decode the publicKey using base64 into the raw 32-byte public key. Then, use HPKE Base mode (RFC 9180) with the following algorithm suite: DHKEM(X25519, HKDF-SHA256), HKDF-SHA256, and AES-256-GCM. Set both info and additional authenticated data (AAD) to an empty byte string. Then, create a new sender context using the public key and these settings, and encrypt the secret value as one message. Put the 32-byte encapsulated key before the ciphertext and keep the authentication tag at the end of the ciphertext. Encode the combined bytes with standard base64. Send the result as sealedSecretValue: base64(enc || ciphertext) */
-  sealedSecretValue: string;
+  sealedSecretValue: string | Redacted.Redacted<string>;
   /** The `id` returned by GET /v1/secrets/keypair, identifying the keypair whose public key encrypted the value. Recorded with the secret so decryption stays correct across keypair rotation. */
   keypairId: string;
 }
@@ -3753,7 +3753,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           secretKey: S.String.pipe(T.SensitiveValue({})),
-          sealedSecretValue: S.String,
+          sealedSecretValue: S.String.pipe(T.SensitiveValue({})),
           keypairId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v1/secrets", code: 200 })),
       ).annotate({ identifier: "CreateSecretRequest" });
@@ -5191,7 +5191,7 @@ function __c88(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          sealedSecretValue: S.String,
+          sealedSecretValue: S.String.pipe(T.SensitiveValue({})),
           keypairId: S.String,
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/secrets/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateSecretRequest" });

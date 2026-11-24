@@ -64,7 +64,7 @@ export interface ConfirmVpsTerminationRequest {
   /** All reasons you can provide for a service termination */
   reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type ConfirmVpsTerminationResponse = string;
 export interface CreateVpsAutomatedBackupRescheduleRequest {
@@ -3334,7 +3334,7 @@ function __c2(j: number): any {
           commentary: S.optional(S.String),
           futureUse: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/vps/{serviceName}/confirmTermination", code: 200 }),
         ),

@@ -628,7 +628,7 @@ export interface OpenAIIntegrationProperties {
   /** The connector id of Open AI resource */
   openAIConnectorId?: string | undefined;
   /** Value of API key for Open AI resource */
-  key?: string | undefined;
+  key?: string | Redacted.Redacted<string> | undefined;
   /** Last Update Timestamp for key updation */
   lastRefreshAt?: string | undefined;
 }
@@ -1131,7 +1131,7 @@ export interface OpenAIIntegrationPropertiesInput {
   /** The connector id of Open AI resource */
   openAIConnectorId?: string | undefined;
   /** Value of API key for Open AI resource */
-  key?: string | undefined;
+  key?: string | Redacted.Redacted<string> | undefined;
 }
 export interface OpenAICreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1380,7 +1380,7 @@ export interface VMIngestionDetailsResponse {
   /** The cloudId of given Elastic monitor resource. */
   cloudId?: string | undefined;
   /** Ingestion details to install agent on given VM. */
-  ingestionKey?: string | undefined;
+  ingestionKey?: string | Redacted.Redacted<string> | undefined;
 }
 export type AssociateTrafficFilterAssociateError = AzureOpError;
 /** Associate a traffic filter with your Elastic monitor resource to control and manage network traffic. */
@@ -2533,7 +2533,7 @@ function __c14(j: number): any {
           openAIResourceId: S.optional(S.String),
           openAIResourceEndpoint: S.optional(S.String),
           openAIConnectorId: S.optional(S.String),
-          key: S.optional(S.String),
+          key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           lastRefreshAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "OpenAIIntegrationProperties" });
@@ -3379,7 +3379,7 @@ function __c41(j: number): any {
           openAIResourceId: S.optional(S.String),
           openAIResourceEndpoint: S.optional(S.String),
           openAIConnectorId: S.optional(S.String),
-          key: S.optional(S.String),
+          key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "OpenAIIntegrationPropertiesInput" });
     case 1:
@@ -3664,7 +3664,7 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cloudId: S.optional(S.String),
-          ingestionKey: S.optional(S.String),
+          ingestionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "VMIngestionDetailsResponse" });
   }

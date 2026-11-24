@@ -263,17 +263,17 @@ export interface AdminGetUserAuthTokensRequest {
 }
 /** UserToken represents a user token */
 export interface UserToken {
-  AuthToken?: string | undefined;
+  AuthToken?: string | Redacted.Redacted<string> | undefined;
   AuthTokenSeen?: boolean | undefined;
   ClientIp?: string | undefined;
   CreatedAt?: number | undefined;
   ExternalSessionId?: number | undefined;
   Id?: number | undefined;
-  PrevAuthToken?: string | undefined;
+  PrevAuthToken?: string | Redacted.Redacted<string> | undefined;
   RevokedAt?: number | undefined;
   RotatedAt?: number | undefined;
   SeenAt?: number | undefined;
-  UnhashedToken?: string | undefined;
+  UnhashedToken?: string | Redacted.Redacted<string> | undefined;
   UpdatedAt?: number | undefined;
   UserAgent?: string | undefined;
   UserId?: number | undefined;
@@ -356,7 +356,7 @@ export interface CreateAnnotationResponse {
 }
 export interface CreateCloudMigrationTokenRequest {}
 export interface CreateAccessTokenResponseDTO {
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Target data query */
 export type CorrelationConfigTargetMap = { [key: string]: unknown | undefined };
@@ -705,7 +705,7 @@ export interface ServiceAccountDTO {
   uid?: string | undefined;
 }
 export interface CreateSessionRequest {
-  authToken?: string | undefined;
+  authToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CloudMigrationSessionResponseDTO {
   created?: string | undefined;
@@ -10008,17 +10008,17 @@ function __c119(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          AuthToken: S.optional(S.String),
+          AuthToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           AuthTokenSeen: S.optional(S.Boolean),
           ClientIp: S.optional(S.String),
           CreatedAt: S.optional(S.Number),
           ExternalSessionId: S.optional(S.Number),
           Id: S.optional(S.Number),
-          PrevAuthToken: S.optional(S.String),
+          PrevAuthToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           RevokedAt: S.optional(S.Number),
           RotatedAt: S.optional(S.Number),
           SeenAt: S.optional(S.Number),
-          UnhashedToken: S.optional(S.String),
+          UnhashedToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           UpdatedAt: S.optional(S.Number),
           UserAgent: S.optional(S.String),
           UserId: S.optional(S.Number),
@@ -11646,7 +11646,7 @@ function __c206(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateAccessTokenResponseDTO" });
   }
@@ -12185,7 +12185,7 @@ function __c234(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          authToken: S.optional(S.String),
+          authToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "POST", uri: "/cloudmigration/migration", code: 200 })),
       ).annotate({ identifier: "CreateSessionRequest" });
   }

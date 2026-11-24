@@ -32,6 +32,9 @@ const MIN_MESSAGE_LENGTH = PRELUDE_LENGTH + MESSAGE_CRC_LENGTH;
 const MAX_PAYLOAD_LENGTH = 25_165_824;
 /** Maximum headers size: 128 KB */
 const MAX_HEADERS_LENGTH = 131_072;
+/** Largest message the decoder accepts: the largest headers and payload, with prelude and CRC. */
+export const MAX_MESSAGE_LENGTH =
+  PRELUDE_LENGTH + MAX_HEADERS_LENGTH + MAX_PAYLOAD_LENGTH + MESSAGE_CRC_LENGTH;
 
 /** Standard event stream header names */
 export const HEADER_MESSAGE_TYPE = ":message-type";
@@ -508,6 +511,12 @@ export const decodeMessage = (
     if (totalLength < MIN_MESSAGE_LENGTH) {
       return yield* new EventStreamDecodeError({
         message: `Message length ${totalLength} is below the ${MIN_MESSAGE_LENGTH}-byte minimum`,
+      });
+    }
+
+    if (totalLength > MAX_MESSAGE_LENGTH) {
+      return yield* new EventStreamDecodeError({
+        message: `Message length ${totalLength} is over the ${MAX_MESSAGE_LENGTH}-byte maximum`,
       });
     }
 

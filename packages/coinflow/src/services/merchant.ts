@@ -255,7 +255,7 @@ export interface Verification {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: VerificationRejectionReasonsList | undefined;
@@ -662,7 +662,7 @@ export interface UboEntry {
   vendor: VerificationVendor;
   name?: string | undefined;
   attested?: boolean | undefined;
-  shareToken?: string | undefined;
+  shareToken?: string | Redacted.Redacted<string> | undefined;
   shareTokenStatus?: string | undefined;
   sessionToken?: string | Redacted.Redacted<string> | undefined;
   rejectionReasons?: UboEntryRejectionReasonsList | undefined;
@@ -2077,7 +2077,7 @@ export interface VendorSettings {
   verisoul?: VerisoulVendorSettings | undefined;
 }
 export interface MerchantBankSettlementOptions {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   minRemainingBalance: Cents;
   useWire?: boolean | undefined;
 }
@@ -2186,7 +2186,7 @@ export interface LinkedBankAccount {
   accountNumber: string;
   accountType: LinkedBankAccountAccountType;
   institutionName?: string | undefined;
-  plaidAccessToken: string;
+  plaidAccessToken: string | Redacted.Redacted<string>;
   plaidAccountId: string;
 }
 export interface IMerchantStringProcessing {
@@ -2211,7 +2211,7 @@ export interface IMerchantString {
   apiKey: string | Redacted.Redacted<string>;
   webhookValidationKey?: string | undefined;
   nmiWebhookValidationKey?: string | undefined;
-  nmiApiKey?: string | undefined;
+  nmiApiKey?: string | Redacted.Redacted<string> | undefined;
   apiKeys: IMerchantStringApiKeysList;
   kycType: KycType;
   settlementToken: StableCoin;
@@ -3094,7 +3094,7 @@ export interface TransactionHistoryItem {
   txType: string;
   chain: string;
   paymentAmount: string;
-  paymentToken: string;
+  paymentToken: string | Redacted.Redacted<string>;
   to: string;
   from: string;
   registryContract: string;
@@ -3454,7 +3454,7 @@ export interface PaymentListResponseBankTransferInfo {
   reasonCode?: string | undefined;
   achAuthorizationId?: string | undefined;
   reason?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   batchedAt?: string | undefined;
   refundTransferId?: string | undefined;
   refundReview: boolean;
@@ -3504,7 +3504,7 @@ export interface PaymentListResponseIbanInfo {
   tokenSubtotal?: PaymentListResponseIbanInfoTokenSubtotal | undefined;
   transaction?: string | undefined;
   expiration: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: IbanPaymentStatus;
 }
 export type PaymentListResponseWireInfoTokenSubtotalAmount = string | number;
@@ -3528,7 +3528,7 @@ export interface PaymentListResponseWireInfo {
   tokenSubtotal?: PaymentListResponseWireInfoTokenSubtotal | undefined;
   transaction?: string | undefined;
   memo: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: WirePaymentStatus;
 }
 export type CashAppPaymentStatus =
@@ -3584,7 +3584,7 @@ export interface PaymentListResponsePaypalInfo {
   authorizationId?: string | undefined;
   transaction?: string | undefined;
   authOnly?: boolean | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: PayPalPaymentStatus;
 }
 export type PaymentListResponseVenmoInfoSandboxSimulations =
@@ -3620,7 +3620,7 @@ export interface PaymentListResponseVenmoInfo {
   authorizationId?: string | undefined;
   transaction?: string | undefined;
   authOnly?: boolean | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: VenmoPaymentStatus;
 }
 export type ApaCredentialType = "PHONE" | "EMAIL" | "PAN";
@@ -3637,7 +3637,7 @@ export interface PaymentListResponseApaInfo {
   rail?: string | undefined;
   transactionHash?: string | undefined;
   transaction?: string | undefined;
-  credentialValue: string;
+  credentialValue: string | Redacted.Redacted<string>;
   credentialType: ApaCredentialType;
   apaTransactionId: string;
   status: ApaPaymentStatus;
@@ -4043,7 +4043,7 @@ export interface PaymentListResponseCardInfo {
   processed3DS?: Verification3DS | undefined;
   cardType?: CardType | undefined;
   last4?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   mobileWallet?: MobileWallet | undefined;
   authCode: string;
   status: CardPaymentStatus;
@@ -4475,7 +4475,7 @@ export interface IPaymentCardInfo {
   processed3DS?: Verification3DS | undefined;
   cardType?: CardType | undefined;
   last4?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   mobileWallet?: MobileWallet | undefined;
   nmiProcessor?: PaymentProcessor | undefined;
   processor: PaymentProcessor;
@@ -4490,7 +4490,7 @@ export interface IPaymentBankTransferInfo {
   /** The founding `AchAuthorization.paymentId` this debit belongs to, if this is a subsequent charge. */
   achAuthorizationId?: string | undefined;
   reason?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   batchedAt?: string | undefined;
   refundTransferId?: string | undefined;
   refundReview: boolean;
@@ -4523,14 +4523,14 @@ export interface IPaymentIbanInfo {
   tokenSubtotal?: TokenSubtotal | undefined;
   transaction?: string | undefined;
   expiration: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   processor: IbanProcessor;
   status: IbanPaymentStatus;
 }
 export interface IWirePaymentInfo {
   status: WirePaymentStatus;
   processor: WireProcessor;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   memo: string;
   transaction?: string | undefined;
   tokenSubtotal?: TokenSubtotal | undefined;
@@ -4562,7 +4562,7 @@ export interface IPayPalPaymentInfo {
   merchantId: string;
   status: PayPalPaymentStatus;
   processor: PayPalProcessor;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   authOnly?: boolean | undefined;
   transaction?: string | undefined;
   authorizationId?: string | undefined;
@@ -4593,7 +4593,7 @@ export interface IVenmoPaymentInfo {
   merchantId: string;
   status: VenmoPaymentStatus;
   processor: VenmoProcessor;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   authOnly?: boolean | undefined;
   transaction?: string | undefined;
   authorizationId?: string | undefined;
@@ -4614,7 +4614,7 @@ export interface IApaPaymentInfo {
   processor: ApaProcessor;
   apaTransactionId: string;
   credentialType: ApaCredentialType;
-  credentialValue: string;
+  credentialValue: string | Redacted.Redacted<string>;
   transaction?: string | undefined;
   transactionHash?: string | undefined;
   rail?: string | undefined;
@@ -4871,7 +4871,7 @@ export interface IPayment {
   wallet?: string | undefined;
   marketplaceInfo?: MarketplaceInfo | undefined;
   destination?: IPaymentDestination | undefined;
-  destinationSettlementToken?: string | undefined;
+  destinationSettlementToken?: string | Redacted.Redacted<string> | undefined;
   overrideAuditLog?: OverrideAuditLog | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
@@ -4947,7 +4947,7 @@ export interface IPaymentStringIbanInfo {
   tokenSubtotal?: TokenSubtotal | undefined;
   transaction?: string | undefined;
   expiration: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   processor: IbanProcessor;
   status: IbanPaymentStatus;
 }
@@ -5007,7 +5007,7 @@ export interface IPaymentString {
   wallet?: string | undefined;
   marketplaceInfo?: MarketplaceInfo | undefined;
   destination?: IPaymentStringDestination | undefined;
-  destinationSettlementToken?: string | undefined;
+  destinationSettlementToken?: string | Redacted.Redacted<string> | undefined;
   overrideAuditLog?: OverrideAuditLog | undefined;
   customerUsdcTransferData?: CustomerUsdcTransferData | undefined;
   customerUsdcTransferDataV2?: CustomerUsdcTransferDataV2 | undefined;
@@ -5245,10 +5245,10 @@ export interface PaymentWebhookData {
   invoicedNetworkFees?: Cents | undefined;
   rebate?: Cents | undefined;
   invoicedRebate?: Cents | undefined;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   last4?: string | undefined;
   bin?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   /** PayPal/Venmo payer id captured from the approval webhook, when present. */
   payerId?: string | undefined;
   /** PayPal/Venmo payer full name captured from the approval webhook, when present. */
@@ -5271,7 +5271,7 @@ export interface PaymentWebhookData3 {
   gasFees: Cents;
   fxFees: Cents;
   id: string;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   webhookInfo: AnyObject;
   subscription?: IPopulatedSubscriptionString | undefined;
   subtotal: Cents;
@@ -5301,7 +5301,7 @@ export interface PaymentWebhookData3 {
   /** PayPal/Venmo payer last name captured from the approval webhook, when present. */
   payerLastName?: string | undefined;
   paymentMethod?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   reasonMessage?: string | undefined;
   presentmentTotals: WebhookTotalsBreakdown;
   settlementTotals: WebhookTotalsBreakdown;
@@ -5334,10 +5334,10 @@ export interface PaymentDeclinedWebhookData {
   invoicedNetworkFees?: Cents | undefined;
   rebate?: Cents | undefined;
   invoicedRebate?: Cents | undefined;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   last4?: string | undefined;
   bin?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   /** PayPal/Venmo payer id captured from the approval webhook, when present. */
   payerId?: string | undefined;
   /** PayPal/Venmo payer full name captured from the approval webhook, when present. */
@@ -5365,7 +5365,7 @@ export interface PaymentDeclinedWebhookData3 {
   gasFees: Cents;
   fxFees: Cents;
   id: string;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   webhookInfo: AnyObject;
   subscription?: IPopulatedSubscriptionString | undefined;
   subtotal: Cents;
@@ -5397,7 +5397,7 @@ export interface PaymentDeclinedWebhookData3 {
   /** PayPal/Venmo payer last name captured from the approval webhook, when present. */
   payerLastName?: string | undefined;
   paymentMethod?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   reasonMessage?: string | undefined;
   presentmentTotals: WebhookTotalsBreakdown;
   settlementTotals: WebhookTotalsBreakdown;
@@ -5433,10 +5433,10 @@ export interface SettledWebhookData {
   invoicedNetworkFees?: Cents | undefined;
   rebate?: Cents | undefined;
   invoicedRebate?: Cents | undefined;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   last4?: string | undefined;
   bin?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   /** PayPal/Venmo payer id captured from the approval webhook, when present. */
   payerId?: string | undefined;
   /** PayPal/Venmo payer full name captured from the approval webhook, when present. */
@@ -5465,7 +5465,7 @@ export interface SettledWebhookData3 {
   gasFees: Cents;
   fxFees: Cents;
   id: string;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   webhookInfo: AnyObject;
   subscription?: IPopulatedSubscriptionString | undefined;
   subtotal: Cents;
@@ -5499,7 +5499,7 @@ export interface SettledWebhookData3 {
   /** PayPal/Venmo payer last name captured from the approval webhook, when present. */
   payerLastName?: string | undefined;
   paymentMethod?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   reasonMessage?: string | undefined;
   presentmentTotals: WebhookTotalsBreakdown;
   settlementTotals: WebhookTotalsBreakdown;
@@ -5560,10 +5560,10 @@ export interface PaymentChargebackWebhookData {
   invoicedNetworkFees?: Cents | undefined;
   rebate?: Cents | undefined;
   invoicedRebate?: Cents | undefined;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   last4?: string | undefined;
   bin?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   /** PayPal/Venmo payer id captured from the approval webhook, when present. */
   payerId?: string | undefined;
   /** PayPal/Venmo payer full name captured from the approval webhook, when present. */
@@ -5589,7 +5589,7 @@ export interface PaymentChargebackWebhookData3 {
   gasFees: Cents;
   fxFees: Cents;
   id: string;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   webhookInfo: AnyObject;
   subscription?: IPopulatedSubscriptionString | undefined;
   subtotal: Cents;
@@ -5622,7 +5622,7 @@ export interface PaymentChargebackWebhookData3 {
   chargebackId: string;
   respondByDate: string;
   paymentMethod?: string | undefined;
-  paymentMethodToken?: string | undefined;
+  paymentMethodToken?: string | Redacted.Redacted<string> | undefined;
   reasonMessage?: string | undefined;
   presentmentTotals: WebhookTotalsBreakdown;
   settlementTotals: WebhookTotalsBreakdown;
@@ -5688,7 +5688,7 @@ export interface RefundWebhookData {
   paymentId: string;
   status: RefundStatus;
   webhookInfo?: AnyObject | null | undefined;
-  cardToken?: string | undefined;
+  cardToken?: string | Redacted.Redacted<string> | undefined;
   last4?: string | undefined;
   bin?: string | undefined;
 }
@@ -5806,7 +5806,7 @@ export type PayoutAccountLinkedWebhookDataPaymentMethod = PaymentMethodPayPal | 
 /** Fired when a new PayPal/Venmo payout destination is created for a withdrawer. Only `token`, `userId`, `merchantId` and `paymentMethod` are guaranteed: `payerId` exists only for PayPal accounts linked through Log in with PayPal, and `email`/`phoneNumber` reflect whichever identifier the account was linked with. */
 export interface PayoutAccountLinkedWebhookData {
   /** Coinflow token for the payout destination, as returned by the link APIs. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The id of the withdrawer (user or business) the payout destination belongs to. If you use the `x-coinflow-user-id` header, this is that value. */
   userId: string;
   merchantId: string;
@@ -6015,7 +6015,7 @@ export type PickIInteracExcludeKeyofIInteracVendorDataType = "interac";
 export interface PickIInteracExcludeKeyofIInteracVendorData {
   isDeleted?: boolean | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: PickIInteracExcludeKeyofIInteracVendorDataType;
 }
 export type PickIPayPalExcludeKeyofIPayPalVendorDataType = "paypal";
@@ -6023,7 +6023,7 @@ export type PickIPayPalExcludeKeyofIPayPalVendorDataType = "paypal";
 export interface PickIPayPalExcludeKeyofIPayPalVendorData {
   isDeleted?: boolean | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: PickIPayPalExcludeKeyofIPayPalVendorDataType;
 }
 export type PickIVenmoExcludeKeyofIVenmoVendorDataType = "venmo";
@@ -6031,7 +6031,7 @@ export type PickIVenmoExcludeKeyofIVenmoVendorDataType = "venmo";
 export interface PickIVenmoExcludeKeyofIVenmoVendorData {
   isDeleted?: boolean | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: PickIVenmoExcludeKeyofIVenmoVendorDataType;
 }
 export interface Address {
@@ -6049,7 +6049,7 @@ export interface ISwiftAccountIntermediaryBank {
 }
 export interface ISwiftAccount {
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   reference: string;
   last4: string;
   accountHash: string;
@@ -6062,7 +6062,7 @@ export type ICleanPurseStringSwiftsList = Array<ISwiftAccount>;
 export interface IPixAccount {
   key: string;
   accountHash: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export type ICleanPurseStringPixesList = Array<IPixAccount>;
 export type PickIIbanAccountExcludeKeyofIIbanAccountVendorDataAccountOwnerNamesList = Array<string>;
@@ -6088,7 +6088,7 @@ export interface PickIIbanAccountExcludeKeyofIIbanAccountVendorData {
   statementFileKey?: string | undefined;
   statementUploadedAt?: string | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   reference: string;
   sortCode: string;
   bic?: string | undefined;
@@ -6098,7 +6098,7 @@ export type DisbursementStatus = "Immediate" | "Business Day" | "Ineligible" | "
 export type MobileGenus = "applepay";
 export type ICleanPurseStringCardsItemsRetiredTokensList = Array<string>;
 export interface IPopulatedCard {
-  token: string;
+  token: string | Redacted.Redacted<string>;
   funding?: Funding | undefined;
   expMonth: string;
   expYear: string;
@@ -6114,7 +6114,7 @@ export interface IPopulatedCard {
 export interface ICleanPurseStringCardsItems {
   last4: string;
   isDeleted?: boolean | undefined;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   type: CardType;
   disbursementStatus: DisbursementStatus;
   currency?: Currency | undefined;
@@ -6137,7 +6137,7 @@ export interface ICleanPurseStringAccountsItems {
   statementFileKey?: string | undefined;
   statementUploadedAt?: string | undefined;
   alias: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   reference: string;
   routingNumber: string;
   rtpOverride?: boolean | undefined;
@@ -6425,7 +6425,7 @@ export interface PickPaymentResponseExcludeKeyofPaymentResponseMerchantCardInfo 
   processed3DS?: Verification3DS | undefined;
   cardType?: CardType | undefined;
   last4?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   mobileWallet?: MobileWallet | undefined;
   authCode: string;
   status: CardPaymentStatus;
@@ -6523,7 +6523,7 @@ export interface PickPaymentResponseExcludeKeyofPaymentResponseMerchantIbanInfo 
     | undefined;
   transaction?: string | undefined;
   expiration: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: IbanPaymentStatus;
 }
 export type PickPaymentResponseExcludeKeyofPaymentResponseMerchantWireInfoTokenSubtotalAmount =
@@ -6544,7 +6544,7 @@ export interface PickPaymentResponseExcludeKeyofPaymentResponseMerchantWireInfo 
     | undefined;
   transaction?: string | undefined;
   memo: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: WirePaymentStatus;
 }
 export type PickPaymentResponseExcludeKeyofPaymentResponseMerchantCashAppInfo =
@@ -7207,7 +7207,7 @@ export interface PaymentWithEnhancedResponseCardInfo {
   processed3DS?: Verification3DS | undefined;
   cardType?: CardType | undefined;
   last4?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   mobileWallet?: MobileWallet | undefined;
   authCode: string;
   status: CardPaymentStatus;
@@ -7274,7 +7274,7 @@ export interface PaymentWithEnhancedResponseIbanInfo {
   tokenSubtotal?: PaymentWithEnhancedResponseIbanInfoTokenSubtotal | undefined;
   transaction?: string | undefined;
   expiration: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: IbanPaymentStatus;
 }
 export type PaymentWithEnhancedResponseWireInfoTokenSubtotalAmount = string | number;
@@ -7291,7 +7291,7 @@ export interface PaymentWithEnhancedResponseWireInfo {
   tokenSubtotal?: PaymentWithEnhancedResponseWireInfoTokenSubtotal | undefined;
   transaction?: string | undefined;
   memo: string;
-  token: string;
+  token: string | Redacted.Redacted<string>;
   status: WirePaymentStatus;
 }
 export type PaymentWithEnhancedResponseCashAppInfo = PaymentListResponseCashAppInfo;
@@ -9270,7 +9270,7 @@ function __c9(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           minRemainingBalance: __S(192, __c6, 0),
           useWire: S.optional(S.Boolean),
         }),
@@ -9920,7 +9920,7 @@ function __c20(j: number): any {
           tokenSubtotal: S.optional(__S(642, __c20, 2)),
           transaction: S.optional(S.String),
           expiration: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentListResponseIbanInfo" });
@@ -9942,7 +9942,7 @@ function __c20(j: number): any {
           tokenSubtotal: S.optional(__S(644, __c20, 4)),
           transaction: S.optional(S.String),
           memo: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentListResponseWireInfo" });
@@ -10020,7 +10020,7 @@ function __c20(j: number): any {
           processed3DS: S.optional(S.String),
           cardType: S.optional(S.String),
           last4: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           mobileWallet: S.optional(S.String),
           authCode: S.String,
           status: S.String,
@@ -10241,7 +10241,7 @@ function __c24(j: number): any {
           reasonCode: S.optional(S.String),
           achAuthorizationId: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           batchedAt: S.optional(S.String),
           refundTransferId: S.optional(S.String),
           refundReview: S.Boolean,
@@ -10283,7 +10283,7 @@ function __c24(j: number): any {
           authorizationId: S.optional(S.String),
           transaction: S.optional(S.String),
           authOnly: S.optional(S.Boolean),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentListResponsePaypalInfo" });
@@ -10309,7 +10309,7 @@ function __c24(j: number): any {
           authorizationId: S.optional(S.String),
           transaction: S.optional(S.String),
           authOnly: S.optional(S.Boolean),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentListResponseVenmoInfo" });
@@ -10321,7 +10321,7 @@ function __c24(j: number): any {
           rail: S.optional(S.String),
           transactionHash: S.optional(S.String),
           transaction: S.optional(S.String),
-          credentialValue: S.String,
+          credentialValue: S.String.pipe(T.SensitiveValue({})),
           credentialType: S.String,
           apaTransactionId: S.String,
           status: S.String,
@@ -10526,7 +10526,7 @@ function __c26(j: number): any {
           wallet: S.optional(S.String),
           marketplaceInfo: S.optional(__S(893, __c27, 29)),
           destination: S.optional(S.Unknown),
-          destinationSettlementToken: S.optional(S.String),
+          destinationSettlementToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideAuditLog: S.optional(__S(928, __c29, 0)),
           customerUsdcTransferData: S.optional(__S(894, __c27, 30)),
           customerUsdcTransferDataV2: S.optional(__S(895, __c27, 31)),
@@ -10842,7 +10842,7 @@ function __c27(j: number): any {
           processed3DS: S.optional(S.String),
           cardType: S.optional(S.String),
           last4: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           mobileWallet: S.optional(S.String),
           nmiProcessor: S.optional(S.String),
           processor: S.String,
@@ -10859,7 +10859,7 @@ function __c27(j: number): any {
           reasonCode: S.optional(S.String),
           achAuthorizationId: S.optional(S.String),
           reason: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           batchedAt: S.optional(S.String),
           refundTransferId: S.optional(S.String),
           refundReview: S.Boolean,
@@ -10902,7 +10902,7 @@ function __c27(j: number): any {
           tokenSubtotal: S.optional(__S(877, __c27, 13)),
           transaction: S.optional(S.String),
           expiration: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           processor: S.String,
           status: S.String,
         }),
@@ -10912,7 +10912,7 @@ function __c27(j: number): any {
         S.Struct({
           status: S.String,
           processor: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           memo: S.String,
           transaction: S.optional(S.String),
           tokenSubtotal: S.optional(__S(877, __c27, 13)),
@@ -10949,7 +10949,7 @@ function __c27(j: number): any {
           merchantId: S.String,
           status: S.String,
           processor: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           authOnly: S.optional(S.Boolean),
           transaction: S.optional(S.String),
           authorizationId: S.optional(S.String),
@@ -10977,7 +10977,7 @@ function __c27(j: number): any {
           merchantId: S.String,
           status: S.String,
           processor: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           authOnly: S.optional(S.Boolean),
           transaction: S.optional(S.String),
           authorizationId: S.optional(S.String),
@@ -10997,7 +10997,7 @@ function __c27(j: number): any {
           processor: S.String,
           apaTransactionId: S.String,
           credentialType: S.String,
-          credentialValue: S.String,
+          credentialValue: S.String.pipe(T.SensitiveValue({})),
           transaction: S.optional(S.String),
           transactionHash: S.optional(S.String),
           rail: S.optional(S.String),
@@ -11403,7 +11403,7 @@ function __c36(j: number): any {
           wallet: S.optional(S.String),
           marketplaceInfo: S.optional(__S(893, __c27, 29)),
           destination: S.optional(S.Unknown),
-          destinationSettlementToken: S.optional(S.String),
+          destinationSettlementToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           overrideAuditLog: S.optional(__S(928, __c29, 0)),
           customerUsdcTransferData: S.optional(__S(894, __c27, 30)),
           customerUsdcTransferDataV2: S.optional(__S(895, __c27, 31)),
@@ -11434,7 +11434,7 @@ function __c36(j: number): any {
         S.Struct({
           isDeleted: S.optional(S.Boolean),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
         }),
       ).annotate({ identifier: "PickIInteracExcludeKeyofIInteracVendorData" });
@@ -11461,7 +11461,7 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           reference: S.String,
           last4: S.String,
           accountHash: S.String,
@@ -11478,7 +11478,7 @@ function __c36(j: number): any {
         S.Struct({
           key: S.String,
           accountHash: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "IPixAccount" });
     case 9:
@@ -11494,7 +11494,7 @@ function __c36(j: number): any {
           statementFileKey: S.optional(S.String),
           statementUploadedAt: S.optional(S.String),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           reference: S.String,
           sortCode: S.String,
           bic: S.optional(S.String),
@@ -11505,7 +11505,7 @@ function __c36(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           funding: S.optional(S.String),
           expMonth: S.String,
           expYear: S.String,
@@ -11523,7 +11523,7 @@ function __c36(j: number): any {
         S.Struct({
           last4: S.String,
           isDeleted: S.optional(S.Boolean),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           type: S.String,
           disbursementStatus: S.String,
           currency: S.optional(S.String),
@@ -11549,7 +11549,7 @@ function __c36(j: number): any {
           statementFileKey: S.optional(S.String),
           statementUploadedAt: S.optional(S.String),
           alias: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           reference: S.String,
           routingNumber: S.String,
           rtpOverride: S.optional(S.Boolean),
@@ -11704,7 +11704,7 @@ function __c36(j: number): any {
           processed3DS: S.optional(S.String),
           cardType: S.optional(S.String),
           last4: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           mobileWallet: S.optional(S.String),
           authCode: S.String,
           status: S.String,
@@ -11758,7 +11758,7 @@ function __c37(j: number): any {
           tokenSubtotal: S.optional(__S(1183, __c36, 31)),
           transaction: S.optional(S.String),
           expiration: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PickPaymentResponseExcludeKeyofPaymentResponseMerchantIbanInfo" });
@@ -11782,7 +11782,7 @@ function __c37(j: number): any {
           tokenSubtotal: S.optional(__S(1185, __c37, 1)),
           transaction: S.optional(S.String),
           memo: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PickPaymentResponseExcludeKeyofPaymentResponseMerchantWireInfo" });
@@ -11941,7 +11941,7 @@ function __c38(j: number): any {
           vendor: S.String,
           name: S.optional(S.String),
           attested: S.optional(S.Boolean),
-          shareToken: S.optional(S.String),
+          shareToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shareTokenStatus: S.optional(S.String),
           sessionToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           rejectionReasons: S.optional(__S(2656, __c83, 0)),
@@ -12112,7 +12112,7 @@ function __c42(j: number): any {
           vendor: S.String,
           name: S.optional(S.String),
           attested: S.optional(S.Boolean),
-          shareToken: S.optional(S.String),
+          shareToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           shareTokenStatus: S.optional(S.String),
           sessionToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           rejectionReasons: S.optional(__S(2656, __c83, 0)),
@@ -12659,7 +12659,7 @@ function __c53(j: number): any {
           processed3DS: S.optional(S.String),
           cardType: S.optional(S.String),
           last4: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           mobileWallet: S.optional(S.String),
           authCode: S.String,
           status: S.String,
@@ -12705,7 +12705,7 @@ function __c53(j: number): any {
           tokenSubtotal: S.optional(__S(1701, __c53, 5)),
           transaction: S.optional(S.String),
           expiration: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentWithEnhancedResponseIbanInfo" });
@@ -12727,7 +12727,7 @@ function __c53(j: number): any {
           tokenSubtotal: S.optional(__S(1703, __c53, 7)),
           transaction: S.optional(S.String),
           memo: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
         }),
       ).annotate({ identifier: "PaymentWithEnhancedResponseWireInfo" });

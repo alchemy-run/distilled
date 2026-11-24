@@ -1838,9 +1838,9 @@ export interface DatabaseAccountsGetReadOnlyKeysRequest {
 /** The read-only access keys for the given database account. */
 export interface DatabaseAccountListReadOnlyKeysResult {
   /** Base 64 encoded value of the primary read-only key. */
-  primaryReadonlyMasterKey?: string | undefined;
+  primaryReadonlyMasterKey?: string | Redacted.Redacted<string> | undefined;
   /** Base 64 encoded value of the secondary read-only key. */
-  secondaryReadonlyMasterKey?: string | undefined;
+  secondaryReadonlyMasterKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface DatabaseAccountsListReadOnlyKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3866,7 +3866,7 @@ export interface ClientEncryptionKeyGetPropertiesResource {
   /** Encryption algorithm that will be used along with this client encryption key to encrypt/decrypt data. */
   encryptionAlgorithm?: string | undefined;
   /** Wrapped (encrypted) form of the key represented as a byte array. */
-  wrappedDataEncryptionKey?: string | undefined;
+  wrappedDataEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** Metadata for the wrapping provider that can be used to unwrap the wrapped client encryption key. */
   keyWrapMetadata?: KeyWrapMetadata | undefined;
   /** A system generated property. A unique identifier. */
@@ -5348,13 +5348,13 @@ export interface ListDatabaseAccountKeysRequest {
 }
 export interface ListDatabaseAccountKeysResponse {
   /** Base 64 encoded value of the primary read-only key. */
-  primaryReadonlyMasterKey?: string | undefined;
+  primaryReadonlyMasterKey?: string | Redacted.Redacted<string> | undefined;
   /** Base 64 encoded value of the secondary read-only key. */
-  secondaryReadonlyMasterKey?: string | undefined;
+  secondaryReadonlyMasterKey?: string | Redacted.Redacted<string> | undefined;
   /** Base 64 encoded value of the primary read-write key. */
-  primaryMasterKey?: string | undefined;
+  primaryMasterKey?: string | Redacted.Redacted<string> | undefined;
   /** Base 64 encoded value of the secondary read-write key. */
-  secondaryMasterKey?: string | undefined;
+  secondaryMasterKey?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListDatabaseAccountMetricDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5982,7 +5982,7 @@ export interface ListNotebookWorkspaceConnectionInfoRequest {
 /** The connection info for the given notebook workspace */
 export interface NotebookWorkspaceConnectionInfoResult {
   /** Specifies auth token used for connecting to Notebook server (uses token-based auth). */
-  authToken?: string | undefined;
+  authToken?: string | Redacted.Redacted<string> | undefined;
   /** Specifies the endpoint of Notebook server. */
   notebookServerEndpoint?: string | undefined;
 }
@@ -8387,7 +8387,7 @@ export interface ClientEncryptionKeyResource {
   /** Encryption algorithm that will be used along with this client encryption key to encrypt/decrypt data. */
   encryptionAlgorithm?: string | undefined;
   /** Wrapped (encrypted) form of the key represented as a byte array. */
-  wrappedDataEncryptionKey?: string | undefined;
+  wrappedDataEncryptionKey?: string | Redacted.Redacted<string> | undefined;
   /** Metadata for the wrapping provider that can be used to unwrap the wrapped client encryption key. */
   keyWrapMetadata?: KeyWrapMetadata | undefined;
 }
@@ -16531,10 +16531,10 @@ function __c51(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          primaryReadonlyMasterKey: S.optional(S.String),
-          secondaryReadonlyMasterKey: S.optional(S.String),
-          primaryMasterKey: S.optional(S.String),
-          secondaryMasterKey: S.optional(S.String),
+          primaryReadonlyMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryReadonlyMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          primaryMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ListDatabaseAccountKeysResponse" });
   }
@@ -17079,8 +17079,8 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          primaryReadonlyMasterKey: S.optional(S.String),
-          secondaryReadonlyMasterKey: S.optional(S.String),
+          primaryReadonlyMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secondaryReadonlyMasterKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DatabaseAccountListReadOnlyKeysResult" });
   }
@@ -17238,7 +17238,7 @@ function __c82(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          authToken: S.optional(S.String),
+          authToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           notebookServerEndpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "NotebookWorkspaceConnectionInfoResult" });
@@ -19342,7 +19342,7 @@ function __c161(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           encryptionAlgorithm: S.optional(S.String),
-          wrappedDataEncryptionKey: S.optional(S.String),
+          wrappedDataEncryptionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           keyWrapMetadata: S.optional(__S(9920, __c310, 0)),
         }),
       ).annotate({ identifier: "ClientEncryptionKeyResource" });
@@ -22825,7 +22825,7 @@ function __c310(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           encryptionAlgorithm: S.optional(S.String),
-          wrappedDataEncryptionKey: S.optional(S.String),
+          wrappedDataEncryptionKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           keyWrapMetadata: S.optional(__S(9920, __c310, 0)),
           _rid: S.optional(S.String),
           _ts: S.optional(S.Number),

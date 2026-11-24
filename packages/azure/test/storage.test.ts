@@ -12,7 +12,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
-import { ARM_SCOPE, Credentials, type Config } from "../src/credentials.ts";
+import { ARM_SCOPE, check, Credentials } from "../src/credentials.ts";
 import * as Retry from "../src/retry.ts";
 import * as tables from "../src/services/cosmos-tables.ts";
 import * as blob from "../src/services/storage-blob.ts";
@@ -39,20 +39,23 @@ const FILE = "https://acct.file.core.windows.net";
 const DFS = "https://acct.dfs.core.windows.net";
 const STORAGE_TOKEN = "Bearer aad:https://storage.azure.com/.default";
 
-const credentials = Layer.succeed(
+const credentials = Layer.effect(
   Credentials,
-  Effect.succeed<Config>({
-    token: (scope) =>
-      Effect.succeed(Redacted.make(scope === ARM_SCOPE ? "arm-token" : `aad:${scope}`)),
-    subscriptionId: "00000000-0000-0000-0000-000000000001",
-    apiBaseUrl: "https://management.azure.com",
-  }),
-);
+  Effect.map(
+    check({
+      token: (scope) =>
+        Effect.succeed(Redacted.make(scope === ARM_SCOPE ? "arm-token" : `aad:${scope}`)),
+      subscriptionId: "00000000-0000-0000-0000-000000000001",
+      apiBaseUrl: "https://management.azure.com",
+    }),
+    Effect.succeed,
+  ),
+).pipe(Layer.orDie);
 
 /** Credentials that fail if anything asks for them (SAS requests must not). */
 const noCredentials = Layer.succeed(
   Credentials,
-  Effect.die(new Error("credentials were resolved for a SAS request")) as Effect.Effect<Config>,
+  Effect.die(new Error("credentials were resolved for a SAS request")),
 );
 
 /**

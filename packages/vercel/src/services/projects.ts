@@ -248,7 +248,7 @@ export interface CreateProjectRequestEnvironmentVariablesItem {
   /** Type of the ENV variable */
   type?: CreateProjectRequestEnvironmentVariablesItemType | (string & {}) | undefined;
   /** Value for the ENV variable */
-  value: string;
+  value: string | Redacted.Redacted<string>;
 }
 /** Collection of ENV Variables the Project will use */
 export type CreateProjectRequestEnvironmentVariablesList =
@@ -1274,7 +1274,7 @@ export interface CreateProjectResponseEnvItem {
   type: CreateProjectResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: CreateProjectResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -4297,7 +4297,7 @@ export interface CreateProjectEnvResponseCreatedCase0 {
   type: CreateProjectEnvResponseCreatedCase0Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: CreateProjectEnvResponseCreatedCase0Visibility | undefined;
   vsmValue?: string | undefined;
@@ -4466,7 +4466,7 @@ export interface CreateProjectEnvResponseCreatedCase1Item {
   type: CreateProjectEnvResponseCreatedCase1ItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: CreateProjectEnvResponseCreatedCase1ItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -4532,7 +4532,7 @@ export interface CreateProjectTransferRequestRequest {
   /** The URL to send a webhook to when the transfer is accepted. */
   callbackUrl?: string | undefined;
   /** The secret to use to sign the webhook payload with HMAC-SHA256. */
-  callbackSecret?: string | undefined;
+  callbackSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateProjectTransferRequestResponse {
   code: string;
@@ -4548,7 +4548,7 @@ export interface CreateTraceSessionRequest {
   hostname: string;
 }
 export interface CreateTraceSessionResponse {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface DeleteProjectRequest {
   /** The unique project identifier or the project name */
@@ -5283,7 +5283,7 @@ export interface DeleteProjectAvatarResponseEnvItem {
   type: DeleteProjectAvatarResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: DeleteProjectAvatarResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -8220,7 +8220,7 @@ export interface EditProjectEnvRequest {
   /** The type of environment variable */
   type?: EditProjectEnvRequestType | (string & {}) | undefined;
   /** The value of the environment variable */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
   /** The custom environments that the environment variable should be synced to */
   customEnvironmentIds?: EditProjectEnvRequestCustomEnvironmentIdsList | undefined;
   /** A comment to add context on what this env var is for */
@@ -8382,7 +8382,7 @@ export interface EditProjectEnvResponse {
   type: EditProjectEnvResponseType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: EditProjectEnvResponseVisibility | undefined;
 }
@@ -8563,7 +8563,7 @@ export interface FilterProjectEnvsResponseBodyCase0 {
   type: FilterProjectEnvsResponseBodyCase0Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: FilterProjectEnvsResponseBodyCase0Visibility | undefined;
 }
@@ -8733,7 +8733,7 @@ export interface FilterProjectEnvsResponseBodyCase1EnvsItem {
   type: FilterProjectEnvsResponseBodyCase1EnvsItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: FilterProjectEnvsResponseBodyCase1EnvsItemVisibility | undefined;
 }
@@ -8918,7 +8918,7 @@ export interface FilterProjectEnvsResponseBodyCase2EnvsItem {
   type: FilterProjectEnvsResponseBodyCase2EnvsItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: FilterProjectEnvsResponseBodyCase2EnvsItemVisibility | undefined;
 }
@@ -9611,7 +9611,7 @@ export interface GetProjectResponseEnvItem {
   type: GetProjectResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -12799,7 +12799,7 @@ export interface GetProjectEnvResponseBodyCase1 {
   type: GetProjectEnvResponseBodyCase1Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectEnvResponseBodyCase1Visibility | undefined;
 }
@@ -12953,7 +12953,7 @@ export interface GetProjectEnvResponseBodyCase2 {
   type: GetProjectEnvResponseBodyCase2Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectEnvResponseBodyCase2Visibility | undefined;
 }
@@ -13389,7 +13389,7 @@ export interface GetProjectsResponseBodyCase0ItemEnvItem {
   type: GetProjectsResponseBodyCase0ItemEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectsResponseBodyCase0ItemEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -15140,7 +15140,7 @@ export interface GetProjectsResponseBodyCase1ProjectsItemEnvItem {
   type: GetProjectsResponseBodyCase1ProjectsItemEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectsResponseBodyCase1ProjectsItemEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -17353,7 +17353,7 @@ export interface GetProjectsResponseBodyCase2ProjectsItemEnvItem {
   type: GetProjectsResponseBodyCase2ProjectsItemEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: GetProjectsResponseBodyCase2ProjectsItemEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -20783,7 +20783,7 @@ export interface GetProjectTokenRequest {
   source?: string | undefined;
 }
 export interface GetProjectTokenResponse {
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface GetProjectTraceRequest {
   /** The project ID */
@@ -21129,7 +21129,7 @@ export interface RemoveProjectEnvResponseBodyCase0Item {
   type: RemoveProjectEnvResponseBodyCase0ItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: RemoveProjectEnvResponseBodyCase0ItemVisibility | undefined;
 }
@@ -21294,7 +21294,7 @@ export interface RemoveProjectEnvResponseBodyCase1 {
   type: RemoveProjectEnvResponseBodyCase1Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: RemoveProjectEnvResponseBodyCase1Visibility | undefined;
 }
@@ -21456,7 +21456,7 @@ export interface RemoveProjectEnvResponseBodyCase2 {
   type: RemoveProjectEnvResponseBodyCase2Type;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: RemoveProjectEnvResponseBodyCase2Visibility | undefined;
 }
@@ -22234,7 +22234,7 @@ export interface UpdateMicrofrontendsResponseEnvItem {
   type: UpdateMicrofrontendsResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: UpdateMicrofrontendsResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -26471,7 +26471,7 @@ export interface UpdateProjectResponseEnvItem {
   type: UpdateProjectResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: UpdateProjectResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -30094,7 +30094,7 @@ export interface UploadProjectAvatarResponseEnvItem {
   type: UploadProjectAvatarResponseEnvItemType;
   updatedAt?: number | undefined;
   updatedBy?: string | null | undefined;
-  value: string;
+  value: string | Redacted.Redacted<string>;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
   visibility?: UploadProjectAvatarResponseEnvItemVisibility | undefined;
   vsmValue?: string | undefined;
@@ -33758,7 +33758,7 @@ function __c1(j: number): any {
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           callbackUrl: S.optional(S.String),
-          callbackSecret: S.optional(S.String),
+          callbackSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({ method: "POST", uri: "/projects/{idOrName}/transfer-request", code: 200 }),
         ),
@@ -33789,7 +33789,7 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateTraceSessionResponse" });
   }
@@ -33983,7 +33983,7 @@ function __c6(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -34305,7 +34305,7 @@ function __c8(j: number): any {
           target: S.optional(__S(1408, __c44, 0)),
           gitBranch: S.optional(S.NullOr(S.String)),
           type: S.optional(S.String),
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
           customEnvironmentIds: S.optional(__S(1216, __c38, 0)),
           comment: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/v9/projects/{idOrName}/env/{id}", code: 200 })),
@@ -34332,7 +34332,7 @@ function __c8(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
         }),
       ).annotate({ identifier: "EditProjectEnvResponse" });
@@ -34528,7 +34528,7 @@ function __c10(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -35369,7 +35369,7 @@ function __c26(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -36039,7 +36039,7 @@ function __c29(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -36598,7 +36598,7 @@ function __c33(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),
@@ -37098,7 +37098,7 @@ function __c42(j: number): any {
           target: S.Unknown,
           gitBranch: S.optional(S.String),
           type: S.optional(S.String),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CreateProjectRequestEnvironmentVariablesItem" });
     case 2:
@@ -37319,7 +37319,7 @@ function __c42(j: number): any {
           type: S.String,
           updatedAt: S.optional(S.Number),
           updatedBy: S.optional(S.NullOr(S.String)),
-          value: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
           visibility: S.optional(S.String),
           vsmValue: S.optional(S.String),
         }),

@@ -6,7 +6,7 @@ import * as UrlParams from "effect/http/UrlParams";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
-import { type Config, credentials, fromCatalogConfig } from "../src/credentials.ts";
+import { check, type Config, credentials, fromCatalogConfig } from "../src/credentials.ts";
 import { AuthenticationTimeout, Forbidden, NotFound } from "../src/errors.ts";
 import { baseUrlFor, type IcebergOpContext } from "../src/protocol.ts";
 import {
@@ -67,20 +67,22 @@ const run = <A, E>(
 };
 
 describe("baseUrlFor", () => {
+  const checked = (config: Config) => Effect.runSync(check(config));
+
   test("adds /v1 and the warehouse prefix to catalog routes", () => {
-    expect(baseUrlFor({ uri: "https://c.test/", prefix: "/wh/" }, "/namespaces")).toBe(
+    expect(baseUrlFor(checked({ uri: "https://c.test/", prefix: "/wh/" }), "/namespaces")).toBe(
       "https://c.test/v1/wh",
     );
   });
 
   test("leaves /config unprefixed — it is how a client learns the prefix", () => {
-    expect(baseUrlFor({ uri: "https://c.test", prefix: "wh" }, "/config")).toBe(
+    expect(baseUrlFor(checked({ uri: "https://c.test", prefix: "wh" }), "/config")).toBe(
       "https://c.test/v1",
     );
   });
 
   test("serves catalogs without a prefix from /v1", () => {
-    expect(baseUrlFor({ uri: "https://c.test" }, "/namespaces")).toBe("https://c.test/v1");
+    expect(baseUrlFor(checked({ uri: "https://c.test" }), "/namespaces")).toBe("https://c.test/v1");
   });
 });
 

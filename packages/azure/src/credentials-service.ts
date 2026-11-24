@@ -6,10 +6,12 @@
  * providers and the protocol can import it without an import cycle.
  */
 import * as Category from "@distilled.cloud/core/category";
-import type { ConfigError } from "@distilled.cloud/core/errors";
+import type { Checked } from "@distilled.cloud/core/config";
+import { ConfigError } from "@distilled.cloud/core/errors";
+import { invalidLabel } from "@distilled.cloud/core/protocol-http";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 import * as Context from "effect/Context";
-import type * as Effect from "effect/Effect";
+import * as Effect from "effect/Effect";
 import type * as Redacted from "effect/Redacted";
 
 /**
@@ -112,11 +114,29 @@ export interface Config {
 }
 
 /**
- * Holds an effect that resolves the current credentials. The protocol runs
- * it on the calling fiber for every request; reading it does no I/O, and
- * `Config.token` caches each scope's token (`cachePerScope` in credentials.ts).
+ * Holds an effect that resolves the current credentials: a {@link Config}
+ * that passed {@link check}. The protocol runs it on the calling fiber for
+ * every request; reading it does no I/O, and `Config.token` caches each
+ * scope's token (`cachePerScope` in credentials.ts).
  */
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
+  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Checked<Config>>>()(
     "AzureCredentials",
   ) {}
+
+/**
+ * Check `config`: fails with `ConfigError` for a subscription ID that can't
+ * be a URL path segment (`.`, `..`, a lone UTF-16 surrogate). An empty one
+ * passes: only an operation that needs a subscription fails without it. For
+ * a `Credentials` layer of your own.
+ */
+export const check = (config: Config): Effect.Effect<Checked<Config>, ConfigError> =>
+  config.subscriptionId === "" ||
+  invalidLabel("subscriptionId", config.subscriptionId) === undefined
+    ? // The one place that says a Config is checked.
+      Effect.succeed(config as Checked<Config>)
+    : Effect.fail(
+        new ConfigError({
+          message: `The configured subscriptionId ${JSON.stringify(config.subscriptionId)} cannot be a URL path segment`,
+        }),
+      );

@@ -1,0 +1,698 @@
+{
+  "description": "Mark every list operation whose 200 response is Bitbucket's collection envelope (`{ values, next, page?, pagelen?, size? }`) as paginated. `next` is the URL of the next page and is absent on the last one; src/pagination.ts sends its `page` query value as the next request's `page` (https://developer.atlassian.com/cloud/bitbucket/rest/intro/#pagination). The merge-queue lists are left out: their envelope (`paginated_merge_queues`, `paginated_merge_queue_pullrequests`) has no `next`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#ListHookEventsForResource/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspace/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugBranchRestrictions/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugCommitCommitComments/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetPullrequestsForCommit/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetReportsForCommit/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetAnnotationsForReport/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugCommitCommitStatuses/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugCommits/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugCommits/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugCommitsRevision/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#PostRepositoriesWorkspaceRepoSlugCommitsRevision/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugDefaultReviewers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugDeployKeys/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetDeploymentsForRepository/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetDeploymentVariables/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugDiffstatSpec/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugEffectiveDefaultReviewers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetEnvironmentsForRepository/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugFileConflictsSpec/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugFilehistoryCommitPath/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugForks/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#ListRepositoryHooks/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPermissionsConfigGroups/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPermissionsConfigUsers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetPipelinesForRepository/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineCaches/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryRunners/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetPipelineStepsForRepository/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineSchedules/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineScheduleExecutions/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineKnownHosts/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoryPipelineVariables/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequests/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdComments/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdStatuses/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugPullrequestsPullRequestIdTasks/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugRefs/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugRefsBranches/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugRefsTags/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugSrc/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugSrcCommitPath/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetRepositoriesWorkspaceRepoSlugWatchers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetSnippetsWorkspace/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetSnippetsWorkspaceEncodedIdComments/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetSnippetsWorkspaceEncodedIdCommits/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetUserWorkspaces/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetUserWorkspacesWorkspacePermissionsRepositories/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetUsersSelectedUserGpgKeys/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetUsersSelectedUserSshKeys/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#ListWorkspaceHooks/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceMembers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspacePermissions/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspacePermissionsRepositories/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspacePermissionsRepositoriesRepoSlug/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspaceRunners/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetPipelineVariablesForWorkspace/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjects/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsProjectKeyDefaultReviewers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsProjectKeyDeployKeys/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsProjectKeyPermissionsConfigGroups/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspaceProjectsProjectKeyPermissionsConfigUsers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.bitbucket#GetWorkspacesWorkspacePullrequestsSelectedUser/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "page",
+        "outputToken": "next",
+        "items": "values",
+        "pageSize": "pagelen"
+      }
+    }
+  ]
+}

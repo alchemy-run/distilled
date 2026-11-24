@@ -2490,7 +2490,7 @@ export interface Client {
   /** The client's unique ID */
   _clientId: string;
   /** The client secret. This will only be shown upon creation. */
-  _clientSecret?: string | undefined;
+  _clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** The client's redirect URI */
   redirectUri: string;
   /** Timestamp of client creation date */
@@ -2903,7 +2903,7 @@ export interface Token {
   /** Base role for the token */
   role?: string | undefined;
   /** The token value. When creating or resetting, contains the entire token value. Otherwise, contains the last four characters. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Whether this is a service token or a personal token */
   serviceToken?: boolean | undefined;
   /** The location and content type of related resources */
@@ -5540,7 +5540,7 @@ export interface GetAuditLogEntriesRequest {
   /** A member ID that lets you filter audit log listings by the member who made the change. Repeat the parameter to filter by multiple members. */
   member?: string | undefined;
   /** An access token ID that lets you filter audit log listings by the token that made the change. Repeat the parameter to filter by multiple tokens. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** The location and content type of related resources */
 export type AuditLogEntryListingRepLinksMap = { [key: string]: Link | undefined };
@@ -11273,7 +11273,7 @@ export interface PostAuditLogEntriesRequest {
   /** A member ID that lets you filter audit log listings by the member who made the change. Repeat the parameter to filter by multiple members. */
   member?: string | undefined;
   /** An access token ID that lets you filter audit log listings by the token that made the change. Repeat the parameter to filter by multiple tokens. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   body?: StatementPostList | undefined;
 }
 export interface PostAuditLogEntryCountsRequest {
@@ -11286,7 +11286,7 @@ export interface PostAuditLogEntryCountsRequest {
   /** A member ID that lets you filter counts to changes made by that member. Repeat the parameter to filter by multiple members. */
   member?: string | undefined;
   /** An access token ID that lets you filter counts to changes made by that token. Repeat the parameter to filter by multiple tokens. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   body: StatementPostList;
 }
 export interface CountBucket {
@@ -20740,7 +20740,7 @@ function __c30(j: number): any {
           limit: S.optional(S.Number.pipe(T.Query())),
           spec: S.optional(S.String.pipe(T.Query())),
           member: S.optional(S.String.pipe(T.Query())),
-          token: S.optional(S.String.pipe(T.Query())),
+          token: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "GET", uri: "/api/v2/auditlog", code: 200 })),
       ).annotate({ identifier: "GetAuditLogEntriesRequest" });
   }
@@ -26487,7 +26487,7 @@ function __c259(j: number): any {
           description: S.optional(S.String),
           _accountId: S.String,
           _clientId: S.String,
-          _clientSecret: S.optional(S.String),
+          _clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           redirectUri: S.String,
           _creationDate: S.Number,
         }),
@@ -28381,7 +28381,7 @@ function __c347(j: number): any {
           customRoleIds: S.optional(__S(15104, __c472, 0)),
           inlineRole: S.optional(__S(5057, __c158, 1)),
           role: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           serviceToken: S.optional(S.Boolean),
           _links: __S(14400, __c450, 0),
           defaultApiVersion: S.optional(S.Number),
@@ -28487,7 +28487,7 @@ function __c352(j: number): any {
           q: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           member: S.optional(S.String.pipe(T.Query())),
-          token: S.optional(S.String.pipe(T.Query())),
+          token: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           body: S.optional(__S(5057, __c158, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/auditlog", code: 200 })),
       ).annotate({ identifier: "PostAuditLogEntriesRequest" });
@@ -28502,7 +28502,7 @@ function __c353(j: number): any {
           after: S.Number.pipe(T.Query()),
           buckets: S.optional(S.Number.pipe(T.Query())),
           member: S.optional(S.String.pipe(T.Query())),
-          token: S.optional(S.String.pipe(T.Query())),
+          token: S.optional(S.String.pipe(T.Query(), T.SensitiveValue({}))),
           body: __S(5057, __c158, 1).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/api/v2/auditlog/counts", code: 200 })),
       ).annotate({ identifier: "PostAuditLogEntryCountsRequest" });

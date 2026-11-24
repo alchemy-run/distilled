@@ -140,6 +140,15 @@ export const errorCategories = (
  */
 export const ERROR_BODIES_TRAIT = "distilled.errors#bodies";
 
+/**
+ * Marks the member of a synthesized response wrapper that receives the whole
+ * response body (bare array/scalar bodies, binary downloads). SdkSpecs bind
+ * it with a `rootPipe` (`T.RawResponseRoot()` from `core/protocol-rest`), so
+ * a sole such member makes the emitted response type the payload type. A
+ * `Blob` one is a binary download: see {@link binaryBody}.
+ */
+export const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
+
 /** The HTTP statuses an error class stands for: its `httpError`, then its matchers' statuses. */
 const errorStatuses = (
   traits: Record<string, any> | undefined,
@@ -216,6 +225,16 @@ export interface EmittedMember {
   readonly doc: string | undefined;
   readonly traits: Record<string, any>;
 }
+
+/**
+ * A binary download's body: a `Blob` member receiving the whole response
+ * ({@link RAW_RESPONSE_TRAIT}). It decodes as the response's bytes
+ * (`T.BinaryResponse()`, core `protocol-rest`), whatever the SDK's `Blob`
+ * prelude is for requests. `finalizeConvert` gives its output a
+ * `contentType` header member (`./binary-response.ts`).
+ */
+export const binaryBody = (m: Pick<EmittedMember, "target" | "traits">): boolean =>
+  m.target === "smithy.api#Blob" && RAW_RESPONSE_TRAIT in m.traits;
 
 export interface PaginationProfile {
   /** Protocol const for paginated ops. Defaults to operationDecl.protocol. */
@@ -572,6 +591,17 @@ export interface SdkSpec {
     readonly protocol: string;
     /** The retry tag expression (e.g. `Retry.Retry`). Omit to disable retries. */
     readonly retry?: string;
+    /**
+     * A type intersected with every operation's input: optional members the
+     * protocol reads and never sends, e.g. `maxMessageBytes` from
+     * `MaxMessageBytesInput` in `@distilled.cloud/core/max-message-bytes`.
+     * An input that models a member of the same name keeps its own.
+     */
+    readonly callInput?: {
+      readonly type: string;
+      readonly from: string;
+      readonly member: string;
+    };
     /**
      * Extra config lines inserted before the pagination entry (e.g. AWS's
      * `operationName` and `endpointHostPrefix`).
@@ -935,15 +965,18 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     info: EmittedMember,
     tsRefFn: (target: string) => string,
   ): string | undefined =>
+    (binaryBody(info) ? "Uint8Array" : undefined) ??
     spec.memberTsType?.(info, tsRefFn) ??
     (spec.extraBindings ?? []).find((b) => b.binding === info.binding && b.tsType !== undefined)
       ?.tsType;
 
   const memberExpr = (info: EmittedMember, selfIdx: number): string => {
-    let expr =
-      spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ?? ref(info.target, selfIdx);
+    const binary = binaryBody(info);
+    let expr = binary
+      ? "S.instanceOf(Uint8Array)"
+      : (spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ?? ref(info.target, selfIdx));
     if (info.nullable) expr = `S.NullOr(${expr})`;
-    const pipes = memberPipes(info);
+    const pipes = [...memberPipes(info), ...(binary ? ["T.BinaryResponse()"] : [])];
     if (pipes.length) expr = `${expr}.pipe(${pipes.join(", ")})`;
     return expr;
   };
@@ -1472,10 +1505,17 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         : streamWhen !== undefined
           ? tsRef(streamWhen.items)
           : undefined;
+      const callInput =
+        decl.callInput !== undefined &&
+        !memberInfos(shapes[ctx.op.def.__input] ?? {}).some(
+          (m) => m.tsName === decl.callInput!.member,
+        )
+          ? ` & ${decl.callInput.type}`
+          : "";
       const typeAnnotation =
         overrides?.typeAnnotation ??
         `API.${paginated ? "PaginatedOperationMethod" : streaming ? "StreamingOperationMethod" : "OperationMethod"}<\n` +
-          `  ${ctx.inputName},\n` +
+          `  ${ctx.inputName}${callInput},\n` +
           `  ${ctx.outputTsType},\n` +
           `  ${ctx.opName}Error,\n` +
           `  ${contextType}` +
@@ -1873,6 +1913,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         ? `import { ${pagImports.join(", ")} } from "../pagination.ts";\n`
         : "") +
       (errorImports.length ? `import { ${errorImports.join(", ")} } from "../errors.ts";\n` : "") +
+      (decl.callInput
+        ? `import type { ${decl.callInput.type} } from "${decl.callInput.from}";\n`
+        : "") +
       (retryNs ? `import * as ${retryNs} from "../retry.ts";\n\n` : "\n") +
       // Re-exported so inferred provider types downstream can always name them.
       `export type { ${decl.commonErrorType}, ${decl.contextType} };\n\n` +

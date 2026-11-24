@@ -14,6 +14,7 @@ import {
   type JsonPatchOperation,
   type PatchFile,
 } from "../json-patch.ts";
+import { addBinaryContentType } from "./binary-response.ts";
 import { markIdempotencyKeyHeaders } from "./idempotency.ts";
 import { diffModels } from "./model-diff.ts";
 import { listModels, modelText, readModelText, writeModelText } from "./models.ts";
@@ -380,6 +381,9 @@ const finalizeModel = (
   if (o.telemetry !== false) {
     applyTelemetryTraits(model, resource, providerDefaults(o.root, o.telemetry));
   }
+
+  // After the patches, so an output a patch makes binary gets it too.
+  addBinaryContentType(model);
 
   syncServiceOperations(model);
 

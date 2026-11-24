@@ -53,13 +53,13 @@ export interface MeAgreementsContractAgreement {
 export interface AcceptMeTaskContactChangeRequest {
   id: number;
   /** The token you received by email for this request */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface AcceptMeTaskContactChangeResponse {}
 export interface AcceptMeTaskEmailChangeRequest {
   id: number;
   /** The token you received by email for this request */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface AcceptMeTaskEmailChangeResponse {}
 export interface ApplyMeSlaRequest {
@@ -116,7 +116,7 @@ export interface CreateMeAccessRestrictionTotpRequest {}
 /** Describe TOTP secret keys */
 export interface NichandleAccessRestrictionTOTPSecret {
   id?: number | undefined;
-  qrcodeHelper?: string | undefined;
+  qrcodeHelper?: string | Redacted.Redacted<string> | undefined;
   secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateMeAccessRestrictionU2fRequest {}
@@ -1410,7 +1410,7 @@ export interface AuthPersonalAccessTokenResponse {
   /** Name of this token */
   name?: string | undefined;
   /** Personal access token */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** Ip registries */
 export type NichandleIpRegistryEnum = "ARIN" | "RIPE";
@@ -1728,7 +1728,7 @@ export interface MeTagTag {
 export interface CreateMeTaskContactChangeRefuseRequest {
   id: number;
   /** The token you received by email for this request */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CreateMeTaskContactChangeRefuseResponse {}
 export interface CreateMeTaskDnsAccelerateRequest {
@@ -1754,7 +1754,7 @@ export interface CreateMeTaskDomainRelaunchResponse {}
 export interface CreateMeTaskEmailChangeRefuseRequest {
   id: number;
   /** The token you received by email for this request */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CreateMeTaskEmailChangeRefuseResponse {}
 /** Phone protocol */
@@ -2019,21 +2019,21 @@ export interface DeleteMeTelephonyDefaultIpRestrictionRequest {
 export interface DeleteMeTelephonyDefaultIpRestrictionResponse {}
 export interface DisableMeAccessRestrictionBackupCodeRequest {
   /** OTP code given by the application */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface DisableMeAccessRestrictionBackupCodeResponse {}
 export interface DisableMeAccessRestrictionSmsRequest {
   /** The Id of the restriction */
   id: number;
   /** SMS code send by a cellphone */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface DisableMeAccessRestrictionSmsResponse {}
 export interface DisableMeAccessRestrictionTotpRequest {
   /** The Id of the restriction */
   id: number;
   /** OTP code given by the application */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface DisableMeAccessRestrictionTotpResponse {}
 export interface DisableMeAccessRestrictionU2fRequest {
@@ -2102,21 +2102,21 @@ export interface EditAccountDetailsRequest {
 export interface EditAccountDetailsResponse {}
 export interface EnableMeAccessRestrictionBackupCodeRequest {
   /** OTP code given by the application */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface EnableMeAccessRestrictionBackupCodeResponse {}
 export interface EnableMeAccessRestrictionSmsRequest {
   /** The Id of the restriction */
   id: number;
   /** SMS code send by a cellphone */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface EnableMeAccessRestrictionSmsResponse {}
 export interface EnableMeAccessRestrictionTotpRequest {
   /** The Id of the restriction */
   id: number;
   /** OTP code given by the application */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface EnableMeAccessRestrictionTotpResponse {}
 export interface EnableMeAccessRestrictionU2fRequest {
@@ -3215,7 +3215,7 @@ export interface GetMeInsightRequest {}
 /** Insight access token */
 export interface MeInsightAccess {
   /** Access token */
-  access?: string | undefined;
+  access?: string | Redacted.Redacted<string> | undefined;
   /** Token creation date */
   createdAt?: string | undefined;
   /** Token expiration date */
@@ -6238,7 +6238,7 @@ export interface SubscribeMeMailingListRequest {
 export interface SubscribeMeMailingListResponse {}
 export interface ValidateMeAccessRestrictionBackupCodeRequest {
   /** OTP code given by the application */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 /** Describe SOTP validation status */
 export interface NichandleAccessRestrictionSOTPValidate {
@@ -6248,14 +6248,14 @@ export interface ValidateMeAccessRestrictionSmsRequest {
   /** The Id of the restriction */
   id: number;
   /** SMS code send to a cellphone */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface ValidateMeAccessRestrictionSmsResponse {}
 export interface ValidateMeAccessRestrictionTotpRequest {
   /** The Id of the restriction */
   id: number;
   /** OTP code given by the application */
-  code: string;
+  code: string | Redacted.Redacted<string>;
 }
 export interface ValidateMeAccessRestrictionTotpResponse {}
 export interface ValidateMeAccessRestrictionU2fRequest {
@@ -13356,7 +13356,7 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/backupCode/disable", code: 200 }),
         ),
@@ -13369,7 +13369,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/sms/{id}/disable", code: 200 }),
         ),
@@ -13382,7 +13382,7 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/totp/{id}/disable", code: 200 }),
         ),
@@ -13456,7 +13456,7 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
-          qrcodeHelper: S.optional(S.String),
+          qrcodeHelper: S.optional(S.String.pipe(T.SensitiveValue({}))),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "NichandleAccessRestrictionTOTPSecret" });
@@ -13467,7 +13467,7 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/backupCode/enable", code: 200 }),
         ),
@@ -13480,7 +13480,7 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/sms/{id}/enable", code: 200 }),
         ),
@@ -13493,7 +13493,7 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/totp/{id}/enable", code: 200 }),
         ),
@@ -15203,7 +15203,7 @@ function __c122(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          access: S.optional(S.String),
+          access: S.optional(S.String.pipe(T.SensitiveValue({}))),
           createdAt: S.optional(S.String),
           expireAt: S.optional(S.String),
         }),
@@ -15502,7 +15502,7 @@ function __c139(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/me/task/contactChange/{id}/accept", code: 200 })),
       ).annotate({ identifier: "AcceptMeTaskContactChangeRequest" });
   }
@@ -17511,7 +17511,7 @@ function __c261(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/me/task/emailChange/{id}/accept", code: 200 })),
       ).annotate({ identifier: "AcceptMeTaskEmailChangeRequest" });
   }
@@ -19241,7 +19241,7 @@ function __c359(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/backupCode/validate", code: 200 }),
         ),
@@ -19260,7 +19260,7 @@ function __c360(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/sms/{id}/validate", code: 200 }),
         ),
@@ -19273,7 +19273,7 @@ function __c361(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          code: S.String,
+          code: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/me/accessRestriction/totp/{id}/validate", code: 200 }),
         ),
@@ -19403,7 +19403,7 @@ function __c368(j: number): any {
           expiresAt: S.optional(S.NullOr(S.String)),
           lastUsed: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "AuthPersonalAccessTokenResponse" });
   }
@@ -19860,7 +19860,7 @@ function __c401(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/me/task/contactChange/{id}/refuse", code: 200 })),
       ).annotate({ identifier: "CreateMeTaskContactChangeRefuseRequest" });
   }
@@ -19927,7 +19927,7 @@ function __c407(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/me/task/emailChange/{id}/refuse", code: 200 })),
       ).annotate({ identifier: "CreateMeTaskEmailChangeRefuseRequest" });
   }

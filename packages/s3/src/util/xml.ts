@@ -2,6 +2,7 @@
  * Shared XML utilities for AWS protocols (aws-query, ec2-query, rest-xml)
  */
 
+import { setOwnKey } from "@distilled.cloud/core/plain-values";
 import { parseXmlSync, type XmlObject } from "@distilled.cloud/core/xml";
 import * as Effect from "effect/Effect";
 import type * as AST from "effect/SchemaAST";
@@ -107,7 +108,7 @@ export function readXmlMap(
     if (typeof entry !== "object" || entry === null || Array.isArray(entry)) continue;
     const key = elementText((entry as XmlObject)[keyTag]);
     if (typeof key !== "string") continue;
-    result[key] = readValue((entry as XmlObject)[valueTag]);
+    setOwnKey(result, key, readValue((entry as XmlObject)[valueTag]));
   }
   return result;
 }

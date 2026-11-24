@@ -1582,7 +1582,7 @@ export interface ServiceInitiatedSoftwareConfiguration {
   /** The FQDN to set for the SAP system during install. */
   sapFqdn: string;
   /** The SSH private key. */
-  sshPrivateKey: string;
+  sshPrivateKey: string | Redacted.Redacted<string>;
   /** Gets or sets the HA software configuration. */
   highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration | undefined;
 }
@@ -2061,7 +2061,7 @@ export interface ServiceInitiatedSoftwareConfiguration_2 {
   /** The FQDN to set for the SAP system during install. */
   sapFqdn: string;
   /** The SSH private key. */
-  sshPrivateKey: string;
+  sshPrivateKey: string | Redacted.Redacted<string>;
   highAvailabilitySoftwareConfiguration?: HighAvailabilitySoftwareConfiguration | undefined;
 }
 /** The SAP software installation Type. */
@@ -9436,7 +9436,7 @@ function __c126(j: number): any {
           softwareVersion: S.String,
           sapBitsStorageAccountId: S.String,
           sapFqdn: S.String,
-          sshPrivateKey: S.String,
+          sshPrivateKey: S.String.pipe(T.SensitiveValue({})),
           highAvailabilitySoftwareConfiguration: S.optional(__S(4057, __c126, 25)),
         }),
       ).annotate({ identifier: "ServiceInitiatedSoftwareConfiguration" });

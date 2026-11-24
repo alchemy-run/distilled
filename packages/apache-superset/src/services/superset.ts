@@ -2698,7 +2698,7 @@ export interface CreateSecurityGuestTokenRequest {
   user?: User2 | undefined;
 }
 export interface CreateSecurityGuestTokenResponse {
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateSecurityPasswordRecoveryRequest {
   email: string;
@@ -9738,7 +9738,7 @@ export interface RefreshSecurityResponse {
 }
 export interface ResetSecurityPasswordRecoveryRequest {
   password: string | Redacted.Redacted<string>;
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface ResetSecurityPasswordRecoveryResponse {
   message?: string | undefined;
@@ -24185,7 +24185,7 @@ function __c306(j: number): any {
       return S.suspend(() =>
         S.Struct({
           password: S.String.pipe(T.SensitiveValue({})),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/security/password_recovery/reset/", code: 200 }),
         ),
@@ -24270,7 +24270,7 @@ function __c310(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateSecurityGuestTokenResponse" });
   }

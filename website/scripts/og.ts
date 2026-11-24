@@ -49,6 +49,9 @@ const HEIGHT = 630;
 /** Width left for the provider name beside its mark, at the card's margins. */
 const NAME_SLOT = 878;
 
+/** One card renders in under a second; a run this long is stuck. */
+const SHOT_TIMEOUT_MS = 30_000;
+
 /** First executable named `bin` on `PATH`, like `which`. */
 const which = async (bin: string): Promise<string | undefined> => {
   for (const dir of (process.env.PATH ?? "").split(delimiter)) {
@@ -103,12 +106,27 @@ const shoot = async (chromium: string, src: string, out: string) => {
   await new Promise<void>((resolve, reject) => {
     const proc = spawn(chromium, args, { stdio: ["ignore", "ignore", "pipe"] });
     let stderr = "";
+    // `close` waits for every holder of stderr, and Chromium's crash handler
+    // can outlive Chromium and keep it open, so a card can wait forever
+    // (run 45166791588 waited 6 h). Give up on the card instead.
+    const timer = setTimeout(() => {
+      proc.kill("SIGKILL");
+      proc.stderr.destroy();
+      reject(
+        new Error(`${chromium} did not finish ${src} in ${SHOT_TIMEOUT_MS / 1000} s\n${stderr}`),
+      );
+    }, SHOT_TIMEOUT_MS);
     proc.stderr.setEncoding("utf8");
     proc.stderr.on("data", (chunk: string) => (stderr += chunk));
-    proc.on("error", reject);
-    proc.on("close", (code) =>
-      code === 0 ? resolve() : reject(new Error(stderr || `${chromium} exited with ${code}`)),
-    );
+    proc.on("error", (error) => {
+      clearTimeout(timer);
+      reject(error);
+    });
+    proc.on("close", (code) => {
+      clearTimeout(timer);
+      if (code === 0) resolve();
+      else reject(new Error(stderr || `${chromium} exited with ${code}`));
+    });
   });
   // Chromium reports success even when the window it screenshots is not the
   // size asked for, so read the dimensions back out of the PNG header (IHDR

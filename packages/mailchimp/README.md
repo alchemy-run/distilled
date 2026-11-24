@@ -44,12 +44,13 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 
 Required: `MAILCHIMP_API_KEY`. Optional: `MAILCHIMP_SERVER_PREFIX`. Sent as
 HTTP basic auth. `CredentialsFromEnv` reads through Effect `Config`, so it
-follows whatever `ConfigProvider` is installed.
+follows whatever `ConfigProvider` is installed. It reads and checks them once,
+when the layer is built.
 
 The data centre comes from the key's suffix: `…-us21` calls
 `https://us21.api.mailchimp.com/3.0`. Override it with
 `fromApiKey({ apiKey, serverPrefix: "us21" })` or a full `apiBaseUrl`. A key
-with no suffix and no override fails with `ConfigError`.
+with no suffix and no override fails the layer with `ConfigError`.
 
 ## Transactional API
 

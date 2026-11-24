@@ -3,7 +3,6 @@ import { ConfigError } from "@distilled.cloud/core/errors";
 import { refreshing } from "@distilled.cloud/core/token-cache";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
-import * as Equal from "effect/Equal";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
@@ -11,6 +10,7 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
+import { TokenRequestFailed } from "./errors.ts";
 
 export const DEFAULT_API_BASE_URL = "https://api.tailscale.com/api/v2";
 
@@ -21,9 +21,16 @@ export interface Config {
   readonly apiBaseUrl: string;
 }
 
-export class Credentials extends Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-  "TailscaleCredentials",
-) {}
+/**
+ * Resolves the current credentials on every request. `CredentialsFromEnv`
+ * reads and checks the environment when it is built, so the effect fails
+ * only when the OAuth token exchange it makes at run time fails, with
+ * {@link TokenRequestFailed}.
+ */
+export class Credentials extends Context.Service<
+  Credentials,
+  Effect.Effect<Config, TokenRequestFailed>
+>()("TailscaleCredentials") {}
 
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;
@@ -59,6 +66,9 @@ const TokenResponse = Schema.Struct({
   expires_in: Schema.Number,
 });
 
+const exchangeFailed = (reason: string, status: number | undefined) =>
+  new TokenRequestFailed({ message: `OAuth token exchange failed: ${reason}`, status });
+
 interface CachedToken {
   readonly config: Config;
   readonly refreshAt: number;
@@ -68,11 +78,12 @@ interface CachedToken {
  * Builds the OAuth client-credentials token cache. The returned effect posts
  * the exchange through the captured `HttpClient`, reuses the token until
  * 60 seconds before `expires_in`, and concurrent resolutions of a cold or
- * stale token share one exchange (core `refreshing`).
+ * stale token share one exchange (core `refreshing`). A failed exchange
+ * fails the returned effect with {@link TokenRequestFailed}.
  */
 export const makeClientCredentials = (
   config: ClientCredentialsConfig,
-): Effect.Effect<Effect.Effect<Config, ConfigError>, never, HttpClient.HttpClient> =>
+): Effect.Effect<Effect.Effect<Config, TokenRequestFailed>, never, HttpClient.HttpClient> =>
   Effect.gen(function* () {
     const client = yield* HttpClient.HttpClient;
     const apiBaseUrl = config.apiBaseUrl ?? DEFAULT_API_BASE_URL;
@@ -90,12 +101,11 @@ export const makeClientCredentials = (
       )
       .pipe(
         Effect.flatMap(HttpClientResponse.filterStatusOk),
-        Effect.flatMap(HttpClientResponse.schemaBodyJson(TokenResponse)),
-        Effect.mapError(
-          (cause) =>
-            new ConfigError({
-              message: `OAuth token exchange failed: ${cause.message}`,
-            }),
+        Effect.mapError((cause) => exchangeFailed(cause.message, cause.response?.status)),
+        Effect.flatMap((response) =>
+          HttpClientResponse.schemaBodyJson(TokenResponse)(response).pipe(
+            Effect.mapError((cause) => exchangeFailed(cause.message, response.status)),
+          ),
         ),
       );
     const mint = Effect.map(exchange, (token): CachedToken => ({
@@ -107,7 +117,7 @@ export const makeClientCredentials = (
     }));
     return refreshing(mint, (cached) => cached.refreshAt, {
       onTimeout: (timeoutMs) =>
-        new ConfigError({
+        new TokenRequestFailed({
           message: `Tailscale OAuth token exchange timed out after ${timeoutMs / 1000} s`,
         }),
     }).pipe(Effect.map((cached) => cached.config));
@@ -142,85 +152,57 @@ const EnvConfig = /*@__PURE__*/ EffectConfig.all({
   origin: EffectConfig.option(EffectConfig.String("TAILSCALE_BASE_URL")),
 });
 
-interface EnvOAuthConfig {
-  readonly clientId: string;
-  readonly clientSecret: Redacted.Redacted<string>;
-  readonly apiBaseUrl: string;
-}
-
-interface EnvOAuth {
-  readonly config: EnvOAuthConfig;
-  readonly resolve: Effect.Effect<Config, ConfigError>;
-}
-
 /**
  * Reads `TAILSCALE_API_KEY`, `TAILSCALE_OAUTH_CLIENT_ID`,
  * `TAILSCALE_OAUTH_CLIENT_SECRET` and `TAILSCALE_BASE_URL`
- * through `@distilled.cloud/core/config` on every resolution, so a provided
- * `ConfigProvider` supplies them. The OAuth token cache belongs to the layer
- * and is rebuilt when the OAuth variables change.
+ * through `@distilled.cloud/core/config`, so a provided `ConfigProvider`
+ * supplies them. They are read, and checked, once: when the layer is built.
+ * Two methods at once, half an OAuth pair or no method fails the layer with
+ * `ConfigError`. The OAuth token cache belongs to the layer.
  */
-export const CredentialsFromEnv: Layer.Layer<Credentials, never, HttpClient.HttpClient> =
+export const CredentialsFromEnv: Layer.Layer<Credentials, ConfigError, HttpClient.HttpClient> =
   /*@__PURE__*/ Layer.effect(
     Credentials,
     Effect.gen(function* () {
-      const client = yield* HttpClient.HttpClient;
-      let oauth: EnvOAuth | undefined;
-      const resolveOAuth = (config: EnvOAuthConfig) =>
-        Effect.suspend(() =>
-          oauth !== undefined && Equal.equals(oauth.config, config)
-            ? Effect.succeed(oauth.resolve)
-            : makeClientCredentials(config).pipe(
-                Effect.provideService(HttpClient.HttpClient, client),
-                Effect.tap((resolve) =>
-                  Effect.sync(() => {
-                    oauth = { config, resolve };
-                  }),
-                ),
-              ),
-        ).pipe(Effect.flatten);
-      return Effect.gen(function* () {
-        const env = yield* EnvConfig.pipe(
-          Effect.mapError(
-            (cause) =>
-              new ConfigError({
-                message: `Failed to read Tailscale configuration: ${cause.message}`,
-              }),
-          ),
-        );
-        const apiKey = Option.getOrUndefined(env.apiKey);
-        const clientId = Option.getOrUndefined(env.clientId);
-        const clientSecret = Option.getOrUndefined(env.clientSecret);
-        const apiBaseUrl = Option.match(env.origin, {
-          onNone: () => DEFAULT_API_BASE_URL,
-          onSome: apiBaseUrlFromOrigin,
+      const env = yield* EnvConfig.pipe(
+        Effect.mapError(
+          (cause) =>
+            new ConfigError({
+              message: `Failed to read Tailscale configuration: ${cause.message}`,
+            }),
+        ),
+      );
+      const apiKey = Option.getOrUndefined(env.apiKey);
+      const clientId = Option.getOrUndefined(env.clientId);
+      const clientSecret = Option.getOrUndefined(env.clientSecret);
+      const apiBaseUrl = Option.match(env.origin, {
+        onNone: () => DEFAULT_API_BASE_URL,
+        onSome: apiBaseUrlFromOrigin,
+      });
+      if (apiKey && (clientId || clientSecret)) {
+        return yield* new ConfigError({ message: BOTH_METHODS });
+      }
+      if (apiKey) {
+        return Effect.succeed({
+          token: apiKey,
+          apiBaseUrl,
         });
-        if (apiKey && (clientId || clientSecret)) {
-          return yield* new ConfigError({ message: BOTH_METHODS });
-        }
-        if (apiKey) {
-          return {
-            token: apiKey,
-            apiBaseUrl,
-          };
-        }
-        if (clientId && clientSecret) {
-          return yield* resolveOAuth({
-            clientId,
-            clientSecret,
-            apiBaseUrl,
-          });
-        }
-        if (clientId || clientSecret) {
-          return yield* new ConfigError({
-            message:
-              "TAILSCALE_OAUTH_CLIENT_ID and TAILSCALE_OAUTH_CLIENT_SECRET are both required",
-          });
-        }
+      }
+      if (clientId && clientSecret) {
+        return yield* makeClientCredentials({
+          clientId,
+          clientSecret,
+          apiBaseUrl,
+        });
+      }
+      if (clientId || clientSecret) {
         return yield* new ConfigError({
-          message:
-            "TAILSCALE_API_KEY or TAILSCALE_OAUTH_CLIENT_ID and TAILSCALE_OAUTH_CLIENT_SECRET is required",
+          message: "TAILSCALE_OAUTH_CLIENT_ID and TAILSCALE_OAUTH_CLIENT_SECRET are both required",
         });
+      }
+      return yield* new ConfigError({
+        message:
+          "TAILSCALE_API_KEY or TAILSCALE_OAUTH_CLIENT_ID and TAILSCALE_OAUTH_CLIENT_SECRET is required",
       });
     }),
   );

@@ -167,6 +167,15 @@ plain strings.
   header, query string, body or signature is built, and never put a secret
   in an error message or an error field. Anything minted at runtime (an
   exchanged OAuth token, a signed JWT) is wrapped as soon as it exists.
+- **Read and check at setup.** A layer is `Layer.effect`: it reads its
+  values (the environment too) and checks them once, when it is built, and
+  fails there with `ConfigError`. The service then resolves a value that
+  cannot fail for configuration. Put a check the protocol relies on (a value
+  that goes into a host name or a path) in an exported `check(config)` that
+  returns `Checked<Config>` from `@distilled.cloud/core/config`, as s2 does
+  for its basin; every layer calls it. Keep a `ConfigError` on the call only
+  for a value that one operation needs and the configuration lacks
+  (`AGENTS.md` rule 18).
 - **Cache tokens with core `refreshing`.** A token or credentials cache is
   `refreshing(mint, refreshAt)` from `@distilled.cloud/core/token-cache`,
   created once per layer value, so a burst of calls on a cold or stale
@@ -196,7 +205,12 @@ An operation's errors are declared in three places:
 3. on the protocol: protocol specific. What the protocol's code fails with.
    Its type carries them, so nobody lists them.
 
-`ConfigError` is a setup error, not a runtime credentials error.
+`ConfigError` is a setup error, not a runtime credentials error: a layer
+raises it when it is built, and a call only for a value that one operation
+needs and the configuration lacks (`AGENTS.md` rule 18). A token request the
+credentials make at run time fails with the SDK's own class in `src/errors.ts`
+(`TokenRequestFailed` in `packages/tailscale`: `message` and the token
+endpoint's `status`).
 
 Copy the three files of `packages/neon` that hold this:
 

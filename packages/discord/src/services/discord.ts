@@ -287,7 +287,7 @@ export interface ProvisionalTokenResponse {
   access_token: string | Redacted.Redacted<string>;
   expires_in: number;
   scope: string;
-  id_token: string;
+  id_token: string | Redacted.Redacted<string>;
   refresh_token?: string | Redacted.Redacted<string> | null | undefined;
   scopes?: ProvisionalTokenResponseScopesList | null | undefined;
   expires_at_s?: number | null | undefined;
@@ -1816,7 +1816,7 @@ export interface CreateDeprecatedPinRequest {
   message_id: string;
 }
 export interface CreateDeprecatedPinResponse {}
-export type CreateDmRequestAccessTokensList = Array<string>;
+export type CreateDmRequestAccessTokensList = Array<string | Redacted.Redacted<string>>;
 export type CreateDmRequestNicksMap = { [key: string]: string | null | undefined };
 export interface CreateDmRequest {
   recipient_id?: string | null | undefined;
@@ -6088,13 +6088,13 @@ export type ApplicationIdentityProviderAuthType =
 export interface PartnerSdkTokenRequest {
   client_id: string;
   client_secret?: string | Redacted.Redacted<string> | null | undefined;
-  external_auth_token: string;
+  external_auth_token: string | Redacted.Redacted<string>;
   external_auth_type: ApplicationIdentityProviderAuthType | (string & {});
 }
 export interface PartnerSdkUnmergeProvisionalAccountRequest {
   client_id: string;
   client_secret?: string | Redacted.Redacted<string> | null | undefined;
-  external_auth_token: string;
+  external_auth_token: string | Redacted.Redacted<string>;
   external_auth_type: ApplicationIdentityProviderAuthType | (string & {});
 }
 export interface PartnerSdkUnmergeProvisionalAccountResponse {}
@@ -7652,8 +7652,8 @@ export const createDm: API.OperationMethod<
   CreateDmError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<CreateDmRequest>,
-  output: __S(6786, __c212, 2) as any as S.Schema<CreateDmResponse>,
+  input: __S(6785, __c212, 1) as any as S.Schema<CreateDmRequest>,
+  output: __S(6787, __c212, 3) as any as S.Schema<CreateDmResponse>,
   errors: [],
   serviceErrors: DiscordServiceErrors,
   protocol: DiscordProtocol,
@@ -12262,7 +12262,7 @@ function __c34(j: number): any {
           access_token: S.String.pipe(T.SensitiveValue({})),
           expires_in: S.Number,
           scope: S.String,
-          id_token: S.String,
+          id_token: S.String.pipe(T.SensitiveValue({})),
           refresh_token: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           scopes: S.optional(S.NullOr(__S(8416, __c263, 0))),
           expires_at_s: S.optional(S.NullOr(S.Number)),
@@ -15131,7 +15131,7 @@ function __c141(j: number): any {
         S.Struct({
           client_id: S.String,
           client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          external_auth_token: S.String,
+          external_auth_token: S.String.pipe(T.SensitiveValue({})),
           external_auth_type: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/partner-sdk/token", code: 200 })),
       ).annotate({ identifier: "PartnerSdkTokenRequest" });
@@ -15144,7 +15144,7 @@ function __c142(j: number): any {
         S.Struct({
           client_id: S.String,
           client_secret: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          external_auth_token: S.String,
+          external_auth_token: S.String.pipe(T.SensitiveValue({})),
           external_auth_type: S.String,
         }).pipe(
           T.Http({ method: "POST", uri: "/partner-sdk/provisional-accounts/unmerge", code: 200 }),
@@ -17657,14 +17657,16 @@ function __c211(j: number): any {
 function __c212(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(/*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           recipient_id: S.optional(S.NullOr(S.String)),
-          access_tokens: S.optional(S.NullOr(__S(8416, __c263, 0))),
+          access_tokens: S.optional(S.NullOr(__S(6784, __c212, 0))),
           nicks: S.optional(S.NullOr(__S(6816, __c213, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/users/@me/channels", code: 200 })),
       ).annotate({ identifier: "CreateDmRequest" });
-    case 1:
+    case 2:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           ["id", "type", "last_message_id", "flags", "last_pin_timestamp", "recipients"],
@@ -17683,8 +17685,8 @@ function __c212(j: number): any {
           ],
         ]),
       );
-    case 2:
-      return S.suspend(() => __S(6785, __c212, 1).pipe(T.RawResponseRoot())).annotate({
+    case 3:
+      return S.suspend(() => __S(6786, __c212, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateDmResponse",
       });
   }

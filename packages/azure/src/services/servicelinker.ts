@@ -113,7 +113,7 @@ export interface ValueSecretInfo {
   /** The secret type. */
   secretType: ValueSecretInfoSecretType;
   /** The actual value of the secret. */
-  value?: string | null | undefined;
+  value?: string | Redacted.Redacted<string> | null | undefined;
 }
 /** The secret type. */
 export type KeyVaultSecretReferenceSecretInfoSecretType = "keyVaultSecretReference";
@@ -133,7 +133,7 @@ export interface KeyVaultSecretUriSecretInfo {
   /** The secret type. */
   secretType: KeyVaultSecretUriSecretInfoSecretType;
   /** URI to the keyvault secret */
-  value?: string | undefined;
+  value?: string | Redacted.Redacted<string> | undefined;
 }
 /** The secret info */
 export type SecretInfoBase =
@@ -2042,7 +2042,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           secretType: S.String,
-          value: S.optional(S.NullOr(S.String)),
+          value: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "ValueSecretInfo" });
     case 7:
@@ -2057,7 +2057,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           secretType: S.String,
-          value: S.optional(S.String),
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "KeyVaultSecretUriSecretInfo" });
     case 9:

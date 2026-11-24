@@ -152,7 +152,7 @@ export interface StorageQueueMessage {
   /** Gets or sets the queue name. */
   queueName?: string | undefined;
   /** Gets or sets the SAS key. */
-  sasToken?: string | undefined;
+  sasToken?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the message. */
   message?: string | undefined;
 }
@@ -1232,7 +1232,7 @@ function __c12(j: number): any {
         S.Struct({
           storageAccount: S.optional(S.String),
           queueName: S.optional(S.String),
-          sasToken: S.optional(S.String),
+          sasToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageQueueMessage" });

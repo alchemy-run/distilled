@@ -1083,7 +1083,7 @@ export interface RegistrationInfo {
   /** Expiration time of registration token. */
   expirationTime?: string | undefined;
   /** The registration token base64 encoded string. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** The type of resetting the token. */
   registrationTokenOperation?: RegistrationTokenOperation | (string & {}) | undefined;
 }
@@ -2116,7 +2116,7 @@ export interface RegistrationTokenMinimal {
   /** Expiration time of registration token. */
   expirationTime?: string | undefined;
   /** The registration token base64 encoded string. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 /** List of RegistrationToken definitions. */
 export type RegistrationTokenListValueList = Array<RegistrationTokenMinimal>;
@@ -5935,7 +5935,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           expirationTime: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           registrationTokenOperation: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistrationInfo" });
@@ -6901,7 +6901,7 @@ function __c63(j: number): any {
       return S.suspend(() =>
         S.Struct({
           expirationTime: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "RegistrationTokenMinimal" });
     case 2:

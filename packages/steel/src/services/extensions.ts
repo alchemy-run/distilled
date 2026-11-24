@@ -101,7 +101,11 @@ export interface DownloadExtensionRequest {
   /** Extension ID */
   extensionId: string;
 }
-export type DownloadExtensionResponse = Uint8Array;
+export interface DownloadExtensionResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface ListExtensionsRequest {}
 export interface ExtensionListExtensionsItem {
   /** Creation timestamp */
@@ -212,7 +216,7 @@ export const downloadExtension: API.OperationMethod<
   SteelOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DownloadExtensionRequest>,
-  output: __S(17, __c4, 1) as any as S.Codec<DownloadExtensionResponse>,
+  output: __S(17, __c4, 1) as any as S.Schema<DownloadExtensionResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
@@ -345,7 +349,12 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/extensions/{extensionId}", code: 200 })),
       ).annotate({ identifier: "DownloadExtensionRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "DownloadExtensionResponse" });
   }
 }
 function __c5(j: number): any {

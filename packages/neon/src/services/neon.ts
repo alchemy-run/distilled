@@ -2641,7 +2641,11 @@ export interface GetProjectBranchBucketObjectRequest {
   /** The object key. Keys may contain `/`; the `/` characters of nested keys must be percent-encoded (`%2F`) in the path segment. */
   object_key: string;
 }
-export type GetProjectBranchBucketObjectResponse = Uint8Array;
+export interface GetProjectBranchBucketObjectResponse {
+  body: Uint8Array;
+  /** Media type of the body, from the response's `Content-Type` header (e.g. `image/jpeg`). */
+  contentType?: string | undefined;
+}
 export interface GetProjectBranchDataAPIRequest {
   /** The Neon project ID */
   project_id: string;
@@ -12881,7 +12885,12 @@ function __c237(j: number): any {
         ),
       ).annotate({ identifier: "GetProjectBranchBucketObjectRequest" });
     case 1:
-      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+      return S.suspend(() =>
+        S.Struct({
+          body: S.instanceOf(Uint8Array).pipe(T.RawResponse(), T.BinaryResponse()),
+          contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+        }),
+      ).annotate({ identifier: "GetProjectBranchBucketObjectResponse" });
   }
 }
 function __c238(j: number): any {

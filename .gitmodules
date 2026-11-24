@@ -628,3 +628,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-sproutboat.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/bitbucket/specs/spec-mirror-bitbucket"]
+	path = packages/bitbucket/specs/spec-mirror-bitbucket
+	url = https://github.com/distilled-mirror/spec-mirror-bitbucket.git
+	ignore = dirty
+	shallow = true

@@ -67,6 +67,19 @@ export class MongodbAtlasParseError
   }).pipe(Category.withParseError) {}
 
 /**
+ * The OAuth2 token exchange the credentials make failed: Atlas could not
+ * be reached, refused the service account, answered with something that is
+ * not a token, or did not answer in time.
+ * `status` is the token endpoint's HTTP status, when it answered. It is a
+ * failure of a request at run time, so it is not a `ConfigError`.
+ */
+export class TokenRequestFailed
+  extends /*@__PURE__*/ Schema.TaggedError<TokenRequestFailed>()("TokenRequestFailed", {
+    message: Schema.String,
+    status: /*@__PURE__*/ Schema.optional(Schema.Number),
+  }).pipe(Category.withAuthError) {}
+
+/**
  * The errors declared on the Atlas service: any operation can return them,
  * and every generated operation lists them as its `serviceErrors`. Each of
  * core's status classes (the protocol builds the one for a failed

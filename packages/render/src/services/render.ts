@@ -241,7 +241,7 @@ export interface DeployImage {
   /** SHA that the image reference was resolved to when creating the deploy */
   sha?: string | undefined;
   /** Name of credential used to pull the image, if provided */
-  registryCredential?: string | undefined;
+  registryCredential?: string | Redacted.Redacted<string> | undefined;
 }
 export type DeployStatus =
   | "created"
@@ -323,7 +323,7 @@ export interface Schema26 {
   /** Identifier for this execution. */
   executionId: string;
   /** Short-lived bearer token authorizing exactly this operation against the sandbox. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The sandbox-proxy endpoint to invoke. */
   uri: string;
   /** HTTP method to use against `uri`. */
@@ -346,7 +346,7 @@ export interface ConnectSandboxRunResponse {
   /** Identifier for this execution. */
   executionId: string;
   /** Short-lived bearer token authorizing exactly this operation against the sandbox. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The sandbox-proxy endpoint to invoke. */
   uri: string;
   /** HTTP method to use against `uri`. */
@@ -776,7 +776,7 @@ export interface CreatePostgresRequest {
   databaseName?: string | undefined;
   databaseUser?: string | undefined;
   /** The Datadog API key for the Datadog agent to monitor the new database. */
-  datadogAPIKey?: string | undefined;
+  datadogAPIKey?: string | Redacted.Redacted<string> | undefined;
   /** Datadog region to use for monitoring the new database. Defaults to 'US1'. */
   datadogSite?: string | undefined;
   /** The name of the database as it will appear in the Render Dashboard */
@@ -949,7 +949,7 @@ export interface CreateRegistryCredentialRequest {
   registry: RegistryCredentialRegistry | (string & {});
   name: string;
   username: string;
-  authToken: string;
+  authToken: string | Redacted.Redacted<string>;
   ownerId: string;
 }
 export interface RegistryCredential {
@@ -3105,11 +3105,11 @@ export interface GetKeyValueConnectionInfoRequest {
 /** A Key Value instance */
 export interface KeyValueConnectionInfo {
   /** The connection string to use from within Render */
-  internalConnectionString: string;
+  internalConnectionString: string | Redacted.Redacted<string>;
   /** The connection string to use from outside Render */
-  externalConnectionString: string;
+  externalConnectionString: string | Redacted.Redacted<string>;
   /** The CLI (redis-cli or valkey-cli) command to connect to the Key Value instance */
-  cliCommand: string;
+  cliCommand: string | Redacted.Redacted<string>;
 }
 export interface GetMaintenanceRequest {
   maintenanceRunID: string;
@@ -3313,11 +3313,11 @@ export interface GetPostgresConnectionInfoRequest {
 }
 export interface PostgresConnectionInfo {
   password: string | Redacted.Redacted<string>;
-  internalConnectionString: string;
-  externalConnectionString: string;
-  internalConnectionPoolString?: string | undefined;
-  externalConnectionPoolString?: string | undefined;
-  psqlCommand: string;
+  internalConnectionString: string | Redacted.Redacted<string>;
+  externalConnectionString: string | Redacted.Redacted<string>;
+  internalConnectionPoolString?: string | Redacted.Redacted<string> | undefined;
+  externalConnectionPoolString?: string | Redacted.Redacted<string> | undefined;
+  psqlCommand: string | Redacted.Redacted<string>;
 }
 export interface GetPostgresRecoveryInfoRequest {
   postgresId: string;
@@ -5732,7 +5732,7 @@ export interface RecoverPostgresRequest {
   /** The point in time to restore the database to. See `/recovery-info` for restore availability */
   restoreTime?: string | undefined;
   /** Datadog API key to use for monitoring the new database. Defaults to the API key of the original database. Use an empty string to prevent copying of the API key to the new database. */
-  datadogApiKey?: string | undefined;
+  datadogApiKey?: string | Redacted.Redacted<string> | undefined;
   /** Datadog region code to use for monitoring the new database. Defaults to the region code of the original database. Use an empty string to prevent copying of the region code to the new database. */
   datadogSite?: string | undefined;
   /** The plan to use for the new database. Defaults to the same plan as the original database. Cannot be a lower tier plan than the original database. */
@@ -6197,7 +6197,7 @@ export interface UpdateOwnerLogStreamRequest {
   /** The endpoint to stream logs to. */
   endpoint?: string | undefined;
   /** The optional token to authenticate the log stream. */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   /** Whether to send logs or drop them. */
   preview: UpdateOwnerLogStreamRequestPreview | (string & {});
 }
@@ -6220,7 +6220,7 @@ export interface UpdatePostgresRequest {
   connectionPool?: string | undefined;
   enableHighAvailability?: boolean | undefined;
   /** The Datadog API key for the Datadog agent to monitor the database. Pass empty string to remove. Restarts Postgres on change. */
-  datadogAPIKey?: string | undefined;
+  datadogAPIKey?: string | Redacted.Redacted<string> | undefined;
   /** Datadog region to use for monitoring the new database. Defaults to 'US1'. */
   datadogSite?: string | undefined;
   ipAllowList?: UpdatePostgresRequestIpAllowListList | undefined;
@@ -6236,13 +6236,13 @@ export interface UpdateRegistryCredentialRequest {
   registry: RegistryCredentialRegistry | (string & {});
   name: string;
   username: string;
-  authToken: string;
+  authToken: string | Redacted.Redacted<string>;
 }
 export interface UpdateResourceLogStreamRequest {
   /** The ID of the resource (server, cron job, postgres, or redis) to update log stream override information for */
   resourceId: string;
   endpoint?: string | undefined;
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
   setting: Items3 | (string & {});
 }
 export interface UpdateResourceLogStreamResponse {
@@ -6407,7 +6407,7 @@ export interface UpsertOwnerMetricsStreamRequest {
   /** The endpoint URL to stream metrics to */
   url?: string | undefined;
   /** Authentication token for the metrics stream */
-  token?: string | undefined;
+  token?: string | Redacted.Redacted<string> | undefined;
 }
 export interface UpsertOwnerMetricsStreamResponse {
   /** The ID of the owner */
@@ -11009,9 +11009,9 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          internalConnectionString: S.String,
-          externalConnectionString: S.String,
-          cliCommand: S.String,
+          internalConnectionString: S.String.pipe(T.SensitiveValue({})),
+          externalConnectionString: S.String.pipe(T.SensitiveValue({})),
+          cliCommand: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "KeyValueConnectionInfo" });
   }
@@ -11237,11 +11237,11 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           password: S.String.pipe(T.SensitiveValue({})),
-          internalConnectionString: S.String,
-          externalConnectionString: S.String,
-          internalConnectionPoolString: S.optional(S.String),
-          externalConnectionPoolString: S.optional(S.String),
-          psqlCommand: S.String,
+          internalConnectionString: S.String.pipe(T.SensitiveValue({})),
+          externalConnectionString: S.String.pipe(T.SensitiveValue({})),
+          internalConnectionPoolString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          externalConnectionPoolString: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          psqlCommand: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "PostgresConnectionInfo" });
   }
@@ -11383,7 +11383,7 @@ function __c32(j: number): any {
         S.Struct({
           ref: S.optional(S.String),
           sha: S.optional(S.String),
-          registryCredential: S.optional(S.String),
+          registryCredential: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "DeployImage" });
     case 2:
@@ -12554,7 +12554,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           executionId: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           uri: S.String,
           method: S.String,
           expiresAt: S.String,
@@ -13768,7 +13768,7 @@ function __c137(j: number): any {
           postgresId: S.String.pipe(T.Label()),
           restoreName: S.optional(S.String),
           restoreTime: S.optional(S.String),
-          datadogApiKey: S.optional(S.String),
+          datadogApiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           datadogSite: S.optional(S.String),
           plan: S.optional(S.String),
           environmentId: S.optional(S.String),
@@ -14448,7 +14448,7 @@ function __c183(j: number): any {
         S.Struct({
           ownerId: S.String.pipe(T.Label()),
           endpoint: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           preview: S.String,
         }).pipe(T.Http({ method: "PUT", uri: "/logs/streams/owner/{ownerId}", code: 200 })),
       ).annotate({ identifier: "UpdateOwnerLogStreamRequest" });
@@ -14466,7 +14466,7 @@ function __c184(j: number): any {
           enableDiskAutoscaling: S.optional(S.Boolean),
           connectionPool: S.optional(S.String),
           enableHighAvailability: S.optional(S.Boolean),
-          datadogAPIKey: S.optional(S.String),
+          datadogAPIKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           datadogSite: S.optional(S.String),
           ipAllowList: S.optional(__S(2265, __c283, 1)),
           readReplicas: S.optional(__S(1625, __c203, 1)),
@@ -14573,7 +14573,7 @@ function __c191(j: number): any {
           registry: S.String,
           name: S.String,
           username: S.String,
-          authToken: S.String,
+          authToken: S.String.pipe(T.SensitiveValue({})),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -14591,7 +14591,7 @@ function __c192(j: number): any {
         S.Struct({
           resourceId: S.String.pipe(T.Label()),
           endpoint: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           setting: S.String,
         }).pipe(T.Http({ method: "PUT", uri: "/logs/streams/resource/{resourceId}", code: 200 })),
       ).annotate({ identifier: "UpdateResourceLogStreamRequest" });
@@ -14710,7 +14710,7 @@ function __c200(j: number): any {
           ownerId: S.String.pipe(T.Label()),
           provider: S.optional(S.String),
           url: S.optional(S.String),
-          token: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(T.Http({ method: "PUT", uri: "/metrics-stream/{ownerId}", code: 200 })),
       ).annotate({ identifier: "UpsertOwnerMetricsStreamRequest" });
   }
@@ -14722,7 +14722,7 @@ function __c201(j: number): any {
         S.Struct({
           databaseName: S.optional(S.String),
           databaseUser: S.optional(S.String),
-          datadogAPIKey: S.optional(S.String),
+          datadogAPIKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           datadogSite: S.optional(S.String),
           name: S.String,
           enableHighAvailability: S.optional(S.Boolean),
@@ -14907,7 +14907,7 @@ function __c210(j: number): any {
           registry: S.String,
           name: S.String,
           username: S.String,
-          authToken: S.String,
+          authToken: S.String.pipe(T.SensitiveValue({})),
           ownerId: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/registrycredentials", code: 200 })),
       ).annotate({ identifier: "CreateRegistryCredentialRequest" });

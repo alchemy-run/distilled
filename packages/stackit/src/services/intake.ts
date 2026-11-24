@@ -62,7 +62,7 @@ export class NotFound
 export type CreateIntakeRequestRegionId = "eu01" | "eu02";
 export interface DremioAuth {
   /** A Dremio personal access token for authentication */
-  personalAccessToken: string;
+  personalAccessToken: string | Redacted.Redacted<string>;
   /** The URL to the Dremio instance's OAuth 2.0 token endpoint */
   tokenEndpoint: string;
 }
@@ -355,7 +355,7 @@ export interface ListIntakeUsersResponse {
 export type UpdateIntakeRequestRegionId = "eu01" | "eu02";
 export interface DremioAuthPatch {
   /** A Dremio personal access token for authentication */
-  personalAccessToken?: string | undefined;
+  personalAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** The URL to the Dremio instance's OAuth 2.0 token endpoint */
   tokenEndpoint?: string | undefined;
 }
@@ -848,7 +848,7 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          personalAccessToken: S.optional(S.String),
+          personalAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tokenEndpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "DremioAuthPatch" });
@@ -976,7 +976,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          personalAccessToken: S.String,
+          personalAccessToken: S.String.pipe(T.SensitiveValue({})),
           tokenEndpoint: S.String,
         }),
       ).annotate({ identifier: "DremioAuth" });

@@ -46,6 +46,19 @@ export class OnepasswordParseError
   }).pipe(Category.withParseError) {}
 
 /**
+ * The OAuth token request the Users API credentials make failed:
+ * 1Password could not be reached, refused the client credentials, answered
+ * with something that is not a token, or did not answer in time.
+ * `status` is the token endpoint's HTTP status, when it answered. It is a
+ * failure of a request at run time, so it is not a `ConfigError`.
+ */
+export class TokenRequestFailed
+  extends /*@__PURE__*/ Schema.TaggedError<TokenRequestFailed>()("TokenRequestFailed", {
+    message: Schema.String,
+    status: /*@__PURE__*/ Schema.optional(Schema.Number),
+  }).pipe(Category.withAuthError) {}
+
+/**
  * The errors declared on the 1Password service: any operation can return them,
  * and every generated operation lists them as its `serviceErrors`. Today that
  * is each of core's status classes (401, 403, 404, 429, the 5xx ...).

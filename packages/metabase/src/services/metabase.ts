@@ -3237,7 +3237,7 @@ export interface MetabaseNotificationModelsEchoedUser {
   jwt_attributes?: MetabaseNotificationModelsEchoedUserJwtAttributesMap | null | undefined;
   is_qbnewb?: boolean | null | undefined;
   user_group_memberships?: MetabaseNotificationModelsEchoedUserUserGroupMembershipsList | undefined;
-  reset_token?: string | null | undefined;
+  reset_token?: string | Redacted.Redacted<string> | null | undefined;
   settings?: unknown | null | undefined;
   deactivated_at?: string | null | undefined;
   entity_id?: string | null | undefined;
@@ -3245,7 +3245,7 @@ export interface MetabaseNotificationModelsEchoedUser {
   last_login?: string | null | undefined;
   id: number;
   email?: string | null | undefined;
-  password_salt?: string | null | undefined;
+  password_salt?: string | Redacted.Redacted<string> | null | undefined;
   deactivated_with_tenant?: boolean | null | undefined;
   is_data_analyst?: boolean | null | undefined;
   locale?: string | null | undefined;
@@ -3259,7 +3259,7 @@ export interface MetabaseNotificationModelsEchoedUser {
   first_name?: string | null | undefined;
   type?: string | null | undefined;
   date_joined?: string | null | undefined;
-  password?: string | null | undefined;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   common_name?: string | null | undefined;
 }
 export type MetabaseNotificationModelsNotificationRecipientCase0Type =
@@ -6201,25 +6201,25 @@ export interface CreateSessionForgotPasswordRequest {
 export interface CreateSessionForgotPasswordResponse {}
 export interface CreateSessionGoogleAuthRequest {
   /** value must be a non-blank string. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CreateSessionGoogleAuthResponse {}
 export interface CreateSessionMfaEnrollRequest {
   /** value must be a non-blank string. */
   code: string;
   /** value must be a non-blank string. */
-  enrollment_token: string;
+  enrollment_token: string | Redacted.Redacted<string>;
   remember?: boolean | undefined;
 }
 export interface CreateSessionMfaEnrollResponse {}
 export interface CreateSessionMfaSendEmailOtpRequest {
   /** value must be a non-blank string. */
-  challenge_token: string;
+  challenge_token: string | Redacted.Redacted<string>;
 }
 export interface CreateSessionMfaSendEmailOtpResponse {}
 export interface CreateSessionMfaVerifyRequest {
   /** value must be a non-blank string. */
-  challenge_token: string;
+  challenge_token: string | Redacted.Redacted<string>;
   /** value must be a non-blank string. */
   code: string;
   remember?: boolean | undefined;
@@ -6234,7 +6234,7 @@ export interface CreateSessionResetPasswordRequest {
   /** password is too common. */
   password: string | Redacted.Redacted<string>;
   /** value must be a non-blank string. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface CreateSessionResetPasswordResponse {}
 export interface CreateSetupRequestPrefs {
@@ -6253,7 +6253,7 @@ export interface CreateSetupRequestUser {
 export interface CreateSetupRequest {
   prefs: CreateSetupRequestPrefs;
   /** value must be a non-blank string. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   user: CreateSetupRequestUser;
 }
 export interface CreateSetupResponse {}
@@ -6586,7 +6586,7 @@ export interface CreateUserRequest {
   last_name?: string | null | undefined;
   first_name?: string | null | undefined;
   source?: string | null | undefined;
-  password?: string | null | undefined;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   invite_target?: CreateUserRequestInviteTarget | null | undefined;
 }
 export interface CreateUserResponse {}
@@ -9231,7 +9231,7 @@ export interface GetSessionIllustrationRequest {
 export interface GetSessionIllustrationResponse {}
 export interface GetSessionPasswordResetTokenValidRequest {
   /** value must be a non-blank string. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
 }
 export interface GetSessionPasswordResetTokenValidResponse {}
 export interface GetSessionPropertiesRequest {}
@@ -10212,7 +10212,7 @@ export interface PutEeDatabaseRoutingRouterDatabaseRequest {
 export interface PutEeDatabaseRoutingRouterDatabaseResponse {}
 export interface PutEeEmailOverrideRequest {
   email_smtp_host_override?: string | null | undefined;
-  email_smtp_password_override?: string | null | undefined;
+  email_smtp_password_override?: string | Redacted.Redacted<string> | null | undefined;
   email_smtp_port_override?: number | null | undefined;
   email_smtp_security_override?: string | null | undefined;
   email_smtp_username_override?: string | null | undefined;
@@ -10304,7 +10304,7 @@ export interface PutEeTransformTestRequest {
 export interface PutEeTransformTestResponse {}
 export interface PutEmailRequest {
   email_smtp_host?: string | null | undefined;
-  email_smtp_password?: string | null | undefined;
+  email_smtp_password?: string | Redacted.Redacted<string> | null | undefined;
   email_smtp_port?: number | null | undefined;
   email_smtp_security?: string | null | undefined;
   email_smtp_username?: string | null | undefined;
@@ -10418,7 +10418,7 @@ export type PutLdapSettingsRequestLdapSecurity = "none" | "ssl" | "starttls";
 export interface PutLdapSettingsRequest {
   ldap_host?: string | null | undefined;
   ldap_attribute_email?: string | null | undefined;
-  ldap_password?: string | null | undefined;
+  ldap_password?: string | Redacted.Redacted<string> | null | undefined;
   ldap_port?: number | null | undefined;
   ldap_bind_dn?: string | null | undefined;
   ldap_group_membership_filter?: string | null | undefined;
@@ -10460,9 +10460,9 @@ export interface PutMetabotMetabotRequest {
 }
 export interface PutMetabotMetabotResponse {}
 export interface PutMetabotSlackSettingsRequest {
-  metabot_slack_signing_secret: string | null;
+  metabot_slack_signing_secret: string | Redacted.Redacted<string> | null;
   slack_connect_client_id: string | null;
-  slack_connect_client_secret: string | null;
+  slack_connect_client_secret: string | Redacted.Redacted<string> | null;
 }
 export interface PutMetabotSlackSettingsResponse {}
 export interface PutMtGtapRequest {
@@ -10919,7 +10919,7 @@ export interface PutSettingByKeyRequest {
 }
 export interface PutSettingByKeyResponse {}
 export interface PutSlackSettingsRequest {
-  slack_app_token?: string | null | undefined;
+  slack_app_token?: string | Redacted.Redacted<string> | null | undefined;
   slack_bug_report_channel?: string | null | undefined;
 }
 export interface PutSlackSettingsResponse {}
@@ -11138,7 +11138,7 @@ export interface PutUserModalResponse {}
 export interface PutUserPasswordRequest {
   /** value must be an integer greater than zero. */
   id: number;
-  old_password?: string | null | undefined;
+  old_password?: string | Redacted.Redacted<string> | null | undefined;
   /** password is too common. */
   password: string | Redacted.Redacted<string>;
 }
@@ -26396,7 +26396,7 @@ function __c123(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/google_auth", code: 200 })),
       ).annotate({ identifier: "CreateSessionGoogleAuthRequest" });
   }
@@ -26407,7 +26407,7 @@ function __c124(j: number): any {
       return S.suspend(() =>
         S.Struct({
           code: S.String,
-          enrollment_token: S.String,
+          enrollment_token: S.String.pipe(T.SensitiveValue({})),
           remember: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/mfa/enroll", code: 200 })),
       ).annotate({ identifier: "CreateSessionMfaEnrollRequest" });
@@ -26448,7 +26448,7 @@ function __c127(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          challenge_token: S.String,
+          challenge_token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/mfa/send-email-otp", code: 200 })),
       ).annotate({ identifier: "CreateSessionMfaSendEmailOtpRequest" });
   }
@@ -26458,7 +26458,7 @@ function __c128(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          challenge_token: S.String,
+          challenge_token: S.String.pipe(T.SensitiveValue({})),
           code: S.String,
           remember: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/mfa/verify", code: 200 })),
@@ -26481,7 +26481,7 @@ function __c130(j: number): any {
       return S.suspend(() =>
         S.Struct({
           password: S.String.pipe(T.SensitiveValue({})),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "POST", uri: "/api/session/reset_password", code: 200 })),
       ).annotate({ identifier: "CreateSessionResetPasswordRequest" });
   }
@@ -26508,7 +26508,7 @@ function __c131(j: number): any {
       return S.suspend(() =>
         S.Struct({
           prefs: __S(4192, __c131, 0),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           user: __S(4193, __c131, 1),
         }).pipe(T.Http({ method: "POST", uri: "/api/setup", code: 200 })),
       ).annotate({ identifier: "CreateSetupRequest" });
@@ -27868,7 +27868,7 @@ function __c163(j: number): any {
           last_name: S.optional(S.NullOr(S.String)),
           first_name: S.optional(S.NullOr(S.String)),
           source: S.optional(S.NullOr(S.String)),
-          password: S.optional(S.NullOr(S.String)),
+          password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           invite_target: S.optional(S.NullOr(__S(5216, __c163, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/api/user", code: 200 })),
       ).annotate({ identifier: "CreateUserRequest" });
@@ -32944,7 +32944,7 @@ function __c564(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          token: S.String.pipe(T.Query()),
+          token: S.String.pipe(T.Query(), T.SensitiveValue({})),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/session/password_reset_token_valid", code: 200 }),
         ),
@@ -34345,7 +34345,7 @@ function __c656(j: number): any {
             S.NullOr(S.String).pipe(T.Body("email-smtp-host-override")),
           ),
           email_smtp_password_override: S.optional(
-            S.NullOr(S.String).pipe(T.Body("email-smtp-password-override")),
+            S.NullOr(S.String).pipe(T.Body("email-smtp-password-override"), T.SensitiveValue({})),
           ),
           email_smtp_port_override: S.optional(
             S.NullOr(S.Number).pipe(T.Body("email-smtp-port-override")),
@@ -34473,7 +34473,9 @@ function __c664(j: number): any {
       return S.suspend(() =>
         S.Struct({
           email_smtp_host: S.optional(S.NullOr(S.String).pipe(T.Body("email-smtp-host"))),
-          email_smtp_password: S.optional(S.NullOr(S.String).pipe(T.Body("email-smtp-password"))),
+          email_smtp_password: S.optional(
+            S.NullOr(S.String).pipe(T.Body("email-smtp-password"), T.SensitiveValue({})),
+          ),
           email_smtp_port: S.optional(S.NullOr(S.Number).pipe(T.Body("email-smtp-port"))),
           email_smtp_security: S.optional(S.NullOr(S.String).pipe(T.Body("email-smtp-security"))),
           email_smtp_username: S.optional(S.NullOr(S.String).pipe(T.Body("email-smtp-username"))),
@@ -34713,7 +34715,9 @@ function __c678(j: number): any {
         S.Struct({
           ldap_host: S.optional(S.NullOr(S.String).pipe(T.Body("ldap-host"))),
           ldap_attribute_email: S.optional(S.NullOr(S.String).pipe(T.Body("ldap-attribute-email"))),
-          ldap_password: S.optional(S.NullOr(S.String).pipe(T.Body("ldap-password"))),
+          ldap_password: S.optional(
+            S.NullOr(S.String).pipe(T.Body("ldap-password"), T.SensitiveValue({})),
+          ),
           ldap_port: S.optional(S.NullOr(S.Number).pipe(T.Body("ldap-port"))),
           ldap_bind_dn: S.optional(S.NullOr(S.String).pipe(T.Body("ldap-bind-dn"))),
           ldap_group_membership_filter: S.optional(
@@ -34800,10 +34804,12 @@ function __c683(j: number): any {
         S.Struct({
           metabot_slack_signing_secret: S.NullOr(S.String).pipe(
             T.Body("metabot-slack-signing-secret"),
+            T.SensitiveValue({}),
           ),
           slack_connect_client_id: S.NullOr(S.String).pipe(T.Body("slack-connect-client-id")),
           slack_connect_client_secret: S.NullOr(S.String).pipe(
             T.Body("slack-connect-client-secret"),
+            T.SensitiveValue({}),
           ),
         }).pipe(T.Http({ method: "PUT", uri: "/api/metabot/slack/settings", code: 200 })),
       ).annotate({ identifier: "PutMetabotSlackSettingsRequest" });
@@ -35070,7 +35076,9 @@ function __c699(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          slack_app_token: S.optional(S.NullOr(S.String).pipe(T.Body("slack-app-token"))),
+          slack_app_token: S.optional(
+            S.NullOr(S.String).pipe(T.Body("slack-app-token"), T.SensitiveValue({})),
+          ),
           slack_bug_report_channel: S.optional(
             S.NullOr(S.String).pipe(T.Body("slack-bug-report-channel")),
           ),
@@ -35346,7 +35354,7 @@ function __c717(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          old_password: S.optional(S.NullOr(S.String)),
+          old_password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
           password: S.String.pipe(T.SensitiveValue({})),
         }).pipe(T.Http({ method: "PUT", uri: "/api/user/{id}/password", code: 200 })),
       ).annotate({ identifier: "PutUserPasswordRequest" });

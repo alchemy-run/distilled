@@ -54,6 +54,12 @@
       "path": "./packages/azure/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/bitbucket/tsconfig.json"
+    },
+    {
+      "path": "./packages/bitbucket/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/coinbase/tsconfig.json"
     },
     { "path": "./packages/coinbase/tsconfig.test.json" },

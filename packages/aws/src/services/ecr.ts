@@ -971,6 +971,7 @@ export type ScanStatus =
   | "FINDINGS_UNAVAILABLE"
   | "LIMIT_EXCEEDED"
   | "IMAGE_ARCHIVED"
+  | "IMAGE_SIZE_EXCEEDED"
   | (string & {});
 export type ScanStatusDescription = string;
 export interface ImageScanStatus {
@@ -1245,9 +1246,14 @@ export interface RepositoryFilter {
   filterType: RepositoryFilterType;
 }
 export type RepositoryFilterList = RepositoryFilter[];
+export type DeleteReplicationFlag = boolean;
+export interface DeleteReplication {
+  enabled: boolean;
+}
 export interface ReplicationRule {
   destinations: ReplicationDestination[];
   repositoryFilters?: RepositoryFilter[] | undefined;
+  deleteReplication?: DeleteReplication | undefined;
 }
 export type ReplicationRuleList = ReplicationRule[];
 export interface ReplicationConfiguration {
@@ -5045,7 +5051,7 @@ function __c57(j: number): any {
       return S.suspend(() =>
         S.Struct({
           registryId: S.optional(S.String),
-          replicationConfiguration: S.optional(__S(1891, __c59, 3)),
+          replicationConfiguration: S.optional(__S(1892, __c59, 4)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeRegistryResponse" });
   }
@@ -5063,16 +5069,21 @@ function __c59(j: number): any {
     case 0:
       return S.Array(__S(1856, __c58, 0));
     case 1:
+      return S.suspend(() => S.Struct({ enabled: S.Boolean })).annotate({
+        identifier: "DeleteReplication",
+      });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           destinations: __S(1888, __c59, 0),
           repositoryFilters: S.optional(__S(705, __c22, 1)),
+          deleteReplication: S.optional(__S(1889, __c59, 1)),
         }),
       ).annotate({ identifier: "ReplicationRule" });
-    case 2:
-      return S.Array(__S(1889, __c59, 1));
     case 3:
-      return S.suspend(() => S.Struct({ rules: __S(1890, __c59, 2) })).annotate({
+      return S.Array(__S(1890, __c59, 2));
+    case 4:
+      return S.suspend(() => S.Struct({ rules: __S(1891, __c59, 3) })).annotate({
         identifier: "ReplicationConfiguration",
       });
   }
@@ -5633,13 +5644,13 @@ function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ replicationConfiguration: __S(1891, __c59, 3) }).pipe(
+        S.Struct({ replicationConfiguration: __S(1892, __c59, 4) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutReplicationConfigurationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ replicationConfiguration: S.optional(__S(1891, __c59, 3)) }).pipe(ns),
+        S.Struct({ replicationConfiguration: S.optional(__S(1892, __c59, 4)) }).pipe(ns),
       ).annotate({ identifier: "PutReplicationConfigurationResponse" });
   }
 }

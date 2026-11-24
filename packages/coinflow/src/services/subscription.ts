@@ -152,7 +152,7 @@ export interface TransactionHistoryItem {
   txType: string;
   chain: string;
   paymentAmount: string;
-  paymentToken: string;
+  paymentToken: string | Redacted.Redacted<string>;
   to: string;
   from: string;
   registryContract: string;
@@ -505,7 +505,7 @@ export interface CreateSubscriptionAchRequest {
   /** The code of the plan to use for the subscription */
   planCode: string;
   /** Token for the bank account to be used for the subscription */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
   authSessionKey: string | Redacted.Redacted<string>;
 }
@@ -558,7 +558,7 @@ export interface AccountFundingTransaction {
 }
 export interface CardData {
   /** This is the card token received from the `CoinflowCardNumberInput` */
-  cardToken: string;
+  cardToken: string | Redacted.Redacted<string>;
   /** The Cards Expiration Year ex: 2026 => 26 */
   expYear: string;
   /** The Cards Expiration Month ex: January => 01 December => 12 */
@@ -577,7 +577,7 @@ export interface CardData {
 }
 export interface CardDataWithoutAddress {
   /** This is the card token received from the `CoinflowCardNumberInput` */
-  cardToken: string;
+  cardToken: string | Redacted.Redacted<string>;
   /** The Cards Expiration Year ex: 2026 => 26 */
   expYear: string;
   /** The Cards Expiration Month ex: January => 01 December => 12 */
@@ -636,7 +636,7 @@ export interface CreateSubscriptionTokenRequest {
   threeDsChallengePreference?: ThreeDsChallengePreference | (string & {}) | undefined;
   accountFundingTransaction?: AccountFundingTransaction | undefined;
   /** Token for the card to be used for the subscription */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** The address field is not needed here unless explicitly given instructions to do so. */
   address?: SubscriptionTokenSetupAddress | undefined;
   /** The session key generated for the end user - see https://docs.coinflow.cash/api-reference/api-reference/authentication/get-session-key */
@@ -1046,7 +1046,7 @@ function __c1(j: number): any {
           chargebackProtectionData: S.optional(__S(10, __c2, 2)),
           feePercentage: S.optional(S.Number),
           planCode: S.String,
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),
             T.SensitiveValue({}),
@@ -1157,7 +1157,7 @@ function __c5(j: number): any {
           authentication3DS: S.optional(S.Unknown),
           threeDsChallengePreference: S.optional(S.String),
           accountFundingTransaction: S.optional(__S(17, __c4, 1)),
-          token: S.String,
+          token: S.String.pipe(T.SensitiveValue({})),
           address: S.optional(__S(20, __c5, 0)),
           authSessionKey: S.String.pipe(
             T.Header("x-coinflow-auth-session-key"),

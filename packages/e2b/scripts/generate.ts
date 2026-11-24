@@ -96,19 +96,6 @@ const baseSpec: SdkSpec = {
         ? "Uint8Array | string"
         : undefined,
 
-  // File downloads (envd `readFile`, `readVolumeFile`): the output is the raw
-  // body, decoded as bytes. convert stamps them as a sole raw `Blob` member.
-  shapeOverride: ({ name, def }) =>
-    def.type === "structure" &&
-    Object.keys(def.members ?? {}).length === 1 &&
-    def.members.body?.target === "smithy.api#Blob" &&
-    RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
-      ? [
-          `export type ${name} = Uint8Array;`,
-          `export const ${name} = S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as S.Codec<${name}>;`,
-        ]
-      : undefined,
-
   // Unions surface as TS type unions over an opaque schema — the protocol
   // passes union content through verbatim.
   union: ({ name, caseTargets, tsRef }) => [

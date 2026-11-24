@@ -178,6 +178,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
     "Developer tools",
     [
       "github",
+      "bitbucket",
       "forgejo",
       "entire",
       "npm",
@@ -229,6 +230,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   tencentcloud: "tencent qcloud cvm vpc tke lighthouse dnspod",
   cloudflare: "workers r2 kv d1",
   github: "git repos actions",
+  bitbucket: "git repos pull requests pipelines atlassian",
   forgejo: "git gitea",
   npm: "registry packages publish javascript node trusted publishing",
   linear: "issues project management",

@@ -847,12 +847,29 @@ export type Mode = string;
 export type IgnoreClientCertificateExpiry = boolean;
 export type TrustStoreAssociationStatusEnum = "active" | "removed" | (string & {});
 export type AdvertiseTrustStoreCaNamesEnum = "on" | "off" | (string & {});
+export type ClientCertificateIdentityFilterField =
+  | "subject-cn"
+  | "subject-ou"
+  | "san-dns"
+  | "san-uri"
+  | (string & {});
+export type ClientCertificateIdentityFilterAction = "accept" | (string & {});
+export type ClientCertificateIdentityFilterMatchType = "exact" | "prefix" | (string & {});
+export type ClientCertificateIdentityFilterValue = string;
+export interface ClientCertificateIdentityFilter {
+  Field?: ClientCertificateIdentityFilterField | undefined;
+  Action?: ClientCertificateIdentityFilterAction | undefined;
+  MatchType?: ClientCertificateIdentityFilterMatchType | undefined;
+  Value?: string | undefined;
+}
+export type ClientCertificateIdentityFilters = ClientCertificateIdentityFilter[];
 export interface MutualAuthenticationAttributes {
   Mode?: string | undefined;
   TrustStoreArn?: string | undefined;
   IgnoreClientCertificateExpiry?: boolean | undefined;
   TrustStoreAssociationStatus?: TrustStoreAssociationStatusEnum | undefined;
   AdvertiseTrustStoreCaNames?: AdvertiseTrustStoreCaNamesEnum | undefined;
+  ClientCertificateIdentityFilters?: ClientCertificateIdentityFilter[] | undefined;
 }
 export interface CreateListenerInput {
   LoadBalancerArn?: string | undefined;
@@ -908,6 +925,14 @@ export interface CreateListenerOutput {
             })[];
           };
         })[];
+        MutualAuthentication: MutualAuthenticationAttributes & {
+          ClientCertificateIdentityFilters: (ClientCertificateIdentityFilter & {
+            Field: ClientCertificateIdentityFilterField;
+            Action: ClientCertificateIdentityFilterAction;
+            MatchType: ClientCertificateIdentityFilterMatchType;
+            Value: ClientCertificateIdentityFilterValue;
+          })[];
+        };
       })[]
     | undefined;
 }
@@ -1366,6 +1391,14 @@ export interface DescribeListenersOutput {
             })[];
           };
         })[];
+        MutualAuthentication: MutualAuthenticationAttributes & {
+          ClientCertificateIdentityFilters: (ClientCertificateIdentityFilter & {
+            Field: ClientCertificateIdentityFilterField;
+            Action: ClientCertificateIdentityFilterAction;
+            MatchType: ClientCertificateIdentityFilterMatchType;
+            Value: ClientCertificateIdentityFilterValue;
+          })[];
+        };
       })[]
     | undefined;
   NextMarker?: string | undefined;
@@ -1709,6 +1742,14 @@ export interface ModifyListenerOutput {
             })[];
           };
         })[];
+        MutualAuthentication: MutualAuthenticationAttributes & {
+          ClientCertificateIdentityFilters: (ClientCertificateIdentityFilter & {
+            Field: ClientCertificateIdentityFilterField;
+            Action: ClientCertificateIdentityFilterAction;
+            MatchType: ClientCertificateIdentityFilterMatchType;
+            Value: ClientCertificateIdentityFilterValue;
+          })[];
+        };
       })[]
     | undefined;
 }
@@ -2277,7 +2318,8 @@ export type CreateTrustStoreError =
 /**
  * Creates a trust store.
  *
- * For more information, see Mutual TLS for Application Load Balancers.
+ * For more information, see Mutual TLS for Application Load Balancers
+ * or Mutual TLS for Network Load Balancers.
  */
 export const createTrustStore: API.OperationMethod<
   CreateTrustStoreInput & RegionInput,
@@ -3838,12 +3880,12 @@ function __c13(j: number): any {
           DefaultActions: S.optional(__S(463, __c14, 15)),
           AlpnPolicy: S.optional(__S(480, __c15, 0)),
           Tags: S.optional(__S(321, __c10, 1)),
-          MutualAuthentication: S.optional(__S(481, __c15, 1)),
+          MutualAuthentication: S.optional(__S(483, __c15, 3)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateListenerInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Listeners: S.optional(__S(483, __c15, 3)) }).pipe(ns),
+        S.Struct({ Listeners: S.optional(__S(485, __c15, 5)) }).pipe(ns),
       ).annotate({ identifier: "CreateListenerOutput" });
   }
 }
@@ -3964,14 +4006,26 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          Field: S.optional(S.String),
+          Action: S.optional(S.String),
+          MatchType: S.optional(S.String),
+          Value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClientCertificateIdentityFilter" });
+    case 2:
+      return S.Array(__S(481, __c15, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           Mode: S.optional(S.String),
           TrustStoreArn: S.optional(S.String),
           IgnoreClientCertificateExpiry: S.optional(S.Boolean),
           TrustStoreAssociationStatus: S.optional(S.String),
           AdvertiseTrustStoreCaNames: S.optional(S.String),
+          ClientCertificateIdentityFilters: S.optional(__S(482, __c15, 2)),
         }),
       ).annotate({ identifier: "MutualAuthenticationAttributes" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           ListenerArn: S.optional(S.String),
@@ -3982,11 +4036,11 @@ function __c15(j: number): any {
           SslPolicy: S.optional(S.String),
           DefaultActions: S.optional(__S(463, __c14, 15)),
           AlpnPolicy: S.optional(__S(480, __c15, 0)),
-          MutualAuthentication: S.optional(__S(481, __c15, 1)),
+          MutualAuthentication: S.optional(__S(483, __c15, 3)),
         }),
       ).annotate({ identifier: "Listener" });
-    case 3:
-      return S.Array(__S(482, __c15, 2));
+    case 5:
+      return S.Array(__S(484, __c15, 4));
   }
 }
 function __c16(j: number): any {
@@ -4567,7 +4621,7 @@ function __c44(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Listeners: S.optional(__S(483, __c15, 3)),
+          Listeners: S.optional(__S(485, __c15, 5)),
           NextMarker: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeListenersOutput" });
@@ -4979,12 +5033,12 @@ function __c64(j: number): any {
           Certificates: S.optional(__S(257, __c8, 1)),
           DefaultActions: S.optional(__S(463, __c14, 15)),
           AlpnPolicy: S.optional(__S(480, __c15, 0)),
-          MutualAuthentication: S.optional(__S(481, __c15, 1)),
+          MutualAuthentication: S.optional(__S(483, __c15, 3)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ModifyListenerInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Listeners: S.optional(__S(483, __c15, 3)) }).pipe(ns),
+        S.Struct({ Listeners: S.optional(__S(485, __c15, 5)) }).pipe(ns),
       ).annotate({ identifier: "ModifyListenerOutput" });
   }
 }
