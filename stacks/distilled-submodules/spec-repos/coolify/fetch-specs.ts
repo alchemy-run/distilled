@@ -88,8 +88,10 @@ async function fetchDocs(): Promise<void> {
 
   const text = await response.text();
   // llms.txt is a markdown catalog of Coolify docs, including the API
-  // reference. An HTML login/error page is still a 200; require the title.
-  if (!text.includes("# Docs") || !text.includes("Coolify")) {
+  // reference. An HTML login/error page is still a 200; require a markdown
+  // heading and links into the docs. The title itself changes ("# Docs"
+  // until 2026-10, "# Coolify Documentation" since), so don't pin it.
+  if (!text.startsWith("# ") || !text.includes("https://coolify.io/docs/")) {
     throw new Error(`${DOCS_URL} did not look like Coolify's llms.txt catalog`);
   }
 
