@@ -10,9 +10,17 @@
  * The OpenAPI→Smithy converter lives in
  * `@distilled.cloud/dev/codegen/openapi`; this script is Auth0's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
+ *
+ * Operations in Early Access (`x-release-lifecycle: "EA"`) are marked
+ * `smithy.api#unstable`, so generate writes them to
+ * `src/unstable-services/auth0.ts` (`@distilled.cloud/auth0/unstable/auth0`).
+ * `GA` stays stable.
  */
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
+
+/** Auth0's Early Access release lifecycle: not generally available. */
+const isEarlyAccess = (op: Record<string, any>): boolean => op["x-release-lifecycle"] === "EA";
 
 await runOpenApiConvert({
   root: path.resolve(import.meta.dirname, ".."),
@@ -29,5 +37,6 @@ await runOpenApiConvert({
     namespace: "com.auth0.api",
     serviceName: "Auth0",
     skipDeprecated: true,
+    unstableOperation: isEarlyAccess,
   },
 });
