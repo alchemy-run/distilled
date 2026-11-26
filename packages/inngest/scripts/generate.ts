@@ -5,7 +5,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * Effect SDK.
  *
  * Input:  .generated-specs/inngest.json  (written by scripts/convert.ts)
- * Output: src/services/inngest.ts  +  src/services/index.ts
+ * Output: src/services/inngest.ts  +  src/services/index.ts, and the operations
+ *         convert marks unstable in src/unstable-services/
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Inngest's provider spec.
@@ -94,6 +95,7 @@ runGeneratorCli({
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: (model) => {
     const shapes = (model.shapes ?? {}) as Record<string, any>;
     for (const shape of Object.values(shapes)) {

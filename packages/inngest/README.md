@@ -16,7 +16,7 @@ import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Inngest from "@distilled.cloud/inngest";
 
 const program = Effect.gen(function* () {
-  const result = yield* Inngest.v2FetchAccount({});
+  const result = yield* Inngest.fetchV2Account({});
   return result;
 });
 
@@ -26,6 +26,16 @@ const Live = Layer.mergeAll(
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
+```
+
+## Beta operations
+
+Inngest marks most v2 operations `x-beta: true` in its spec (apps, functions, runs, events, deploys, sandboxes and more). They are not on the package root. Import them from `unstable/inngest`:
+
+```ts
+import * as InngestBeta from "@distilled.cloud/inngest/unstable/inngest";
+
+const app = InngestBeta.getV2App({ appId: "my-app" });
 ```
 
 ## Auth
@@ -40,5 +50,5 @@ Name an environment (for example a branch environment) to send it as `X-Inngest-
 // Every call in the scope:
 program.pipe(Effect.provide(Inngest.Environment.of("my-branch")));
 // One call:
-Inngest.getV2App({ appId: "my-app", xInngestEnv: "my-branch" });
+InngestBeta.getV2App({ appId: "my-app", xInngestEnv: "my-branch" });
 ```
