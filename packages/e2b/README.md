@@ -60,9 +60,7 @@ File reads (`envd.readFile`, `volumeContent.readVolumeFile`) return
 arrive (`Stream.mkUint8Array` collects them). File writes
 (`envd.writeFiles`, `volumeContent.writeVolumeFile`) take `body` as bytes,
 text, a `Blob` or a `Stream<Uint8Array>`, sent as it is pulled and never
-retried. `envd.writeFiles` sends `application/octet-stream`, which envd
-accepts from 0.5.7 (the sandbox's `envdVersion`); rebuild an older template
-to upload to its sandboxes.
+retried.
 
 ## Auth
 
