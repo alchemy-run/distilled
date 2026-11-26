@@ -29,12 +29,17 @@
  *    fields. The 3.0 codepath handles everything k8s uses faithfully, so
  *    params get `schema`, body params become `requestBody`, and responses
  *    get `content` here.
+ *
+ * 3. a group whose operations are all served at alpha or beta API versions
+ *    is marked `smithy.api#unstable`, so generate writes it to
+ *    src/unstable-services/. A patch can remove the mark.
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { writeModel } from "@distilled.cloud/dev/codegen/models";
 import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { markUnstable } from "@distilled.cloud/dev/codegen/stability";
 
 const root = path.resolve(import.meta.dirname, "..");
 const specPath = path.join(root, "specs/spec-mirror-kubernetes/specs/swagger.json");
@@ -111,6 +116,21 @@ const pascalGroup = (group: string): string =>
     .join("");
 
 const HTTP_METHODS = ["get", "post", "put", "patch", "delete"] as const;
+
+/**
+ * The API version a path serves: `/api/<version>/…` (the core group) or
+ * `/apis/<group>/<version>/…`. Discovery paths (`/apis/<group>/`, `/version/`)
+ * have none.
+ */
+const pathVersion = (rawPath: string): string | undefined =>
+  rawPath.match(/^\/api\/(v[^/]+)/)?.[1] ?? rawPath.match(/^\/apis\/[^/]+\/(v[^/]+)/)?.[1];
+
+/**
+ * Kubernetes API versions name their stability level: `v1` is GA, while
+ * `v1alpha1` and `v1beta1` are alpha and beta
+ * (https://kubernetes.io/docs/reference/using-api/#api-versioning).
+ */
+const UNSTABLE_VERSION = /^v\d+(alpha|beta)\d*$/;
 
 // ============================================================================
 // Pipeline
@@ -201,12 +221,25 @@ spec.openapi = "3.0.0";
 // split happens per (path × method); path-level `parameters` are carried
 // into every group's copy of the path item.
 const groupPaths = new Map<string, Record<string, any>>();
+/** The API versions each group's operations are served at. */
+const groupVersions = new Map<string, Set<string>>();
 for (const [rawPath, pathItem] of Object.entries<any>(spec.paths ?? {})) {
   if (!pathItem || typeof pathItem !== "object") continue;
   for (const method of HTTP_METHODS) {
     const op = pathItem[method];
     if (!op || typeof op !== "object") continue;
     const group = getApiGroup(typeof op.operationId === "string" ? op.operationId : "");
+    const version = pathVersion(rawPath);
+    // Deprecated operations are skipped by the converter, so their versions
+    // say nothing about the module.
+    if (version && !op.deprecated) {
+      let versions = groupVersions.get(group);
+      if (!versions) {
+        versions = new Set();
+        groupVersions.set(group, versions);
+      }
+      versions.add(version);
+    }
     let paths = groupPaths.get(group);
     if (!paths) {
       paths = {};
@@ -241,11 +274,19 @@ for (const group of [...groupPaths.keys()].sort()) {
     // deprecated operations (most watch paths) skipped.
     skipDeprecated: true,
   });
+  // A group served only at alpha/beta versions is unstable. Its discovery
+  // operation (`/apis/<group>/`) has no version and follows the group.
+  const versions = [...(groupVersions.get(group) ?? [])];
+  const unstable = versions.length > 0 && versions.every((v) => UNSTABLE_VERSION.test(v));
+  if (unstable) markUnstable(model);
   const opCount = Object.values(model.shapes).filter((s: any) => s.type === "operation").length;
   totalOps += opCount;
   const outPath = path.join(outDir, `${group}.json`);
   writeModel(outPath, model);
-  console.log(`   ✅ ${group}: ${opCount} operations, ${Object.keys(model.shapes).length} shapes`);
+  console.log(
+    `   ✅ ${group}: ${opCount} operations, ${Object.keys(model.shapes).length} shapes` +
+      (unstable ? ` (unstable: ${versions.sort().join(", ")})` : ""),
+  );
 }
 
 console.log(`\n✅ ${totalOps} operations across ${groupPaths.size} models`);
