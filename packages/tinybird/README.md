@@ -79,7 +79,7 @@ One module per reference page, each imported from its subpath:
 
 - `queryPipe`, `queryPipeWithBody`, `querySql` and `querySqlWithBody` answer in the format you ask for
   (`format: "csv" | "json" | "ndjson" | "parquet" | "prometheus"`, or `FORMAT <name>` in the SQL), so they
-  return `{ body, contentType }`: the response bytes as a `Uint8Array` and its `Content-Type`. Decode
+  return `{ body, contentType }`: the response bytes as a `Stream<Uint8Array>` read as they arrive (`Stream.mkUint8Array` collects them) and its `Content-Type`. Decode
   JSON or text yourself; Parquet stays intact.
 - `getPipeByFileName` returns the Pipe's datafile as a `string`.
 - `sendEvents` sends `body` verbatim as NDJSON; `createPipeNode` sends its SQL `body` as text.

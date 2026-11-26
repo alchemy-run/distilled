@@ -90,16 +90,13 @@ const makeCfSpec = (
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
 
-  // Blob-targeted members accept binary-ish payload forms (v0 surface):
-  // a whole-body Blob is a raw object upload; a body-bound Blob is a
-  // binary form part (e.g. the KV value).
+  // A body-bound Blob is a binary form part (e.g. the KV value). A whole-body
+  // Blob (a raw object upload) is core's `RawBody`, set by the generator.
   memberTsType: (m) =>
     SENSITIVE_TRAIT in m.traits
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
       : m.target === "smithy.api#Blob"
-        ? m.binding === "rawBody"
-          ? "Blob | Uint8Array | ArrayBuffer | string"
-          : "string | File | Blob"
+        ? "string | File | Blob"
         : undefined,
 
   // Sensitive member types reference Redacted; pull the import in when used.

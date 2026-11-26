@@ -224,15 +224,28 @@ export interface EmittedMember {
   readonly nullable: boolean;
   readonly doc: string | undefined;
   readonly traits: Record<string, any>;
+  /** A binary upload's body: see {@link rawUploadBody}. */
+  readonly rawUpload?: boolean;
 }
 
 /**
  * A binary download's body: a `Blob` member receiving the whole response
- * ({@link RAW_RESPONSE_TRAIT}). It decodes as the response's bytes
- * (`T.BinaryResponse()`, core `protocol-rest`), whatever the SDK's `Blob`
+ * ({@link RAW_RESPONSE_TRAIT}). It decodes as a stream of the response's
+ * bytes (`T.BinaryResponse()`, core `protocol-rest`), whatever the SDK's `Blob`
  * prelude is for requests. `finalizeConvert` gives its output a
  * `contentType` header member (`./binary-response.ts`).
  */
+/** Core `protocol-rest` schemas (and types) a generated module imports when it names them. */
+const CORE_BODY_SCHEMAS = ["BinaryStream", "RawBody"] as const;
+
+/**
+ * A binary upload's body: a `Blob` member sent as the whole request body
+ * (`smithy.api#httpPayload`) of an operation that is not multipart. It takes
+ * what core `buildRequest` sends verbatim, a stream included (core
+ * `RawBody`), whatever the SDK's `Blob` prelude is.
+ */
+export const rawUploadBody = (m: Pick<EmittedMember, "rawUpload">): boolean => m.rawUpload === true;
+
 export const binaryBody = (m: Pick<EmittedMember, "target" | "traits">): boolean =>
   m.target === "smithy.api#Blob" && RAW_RESPONSE_TRAIT in m.traits;
 
@@ -858,6 +871,12 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
             )) ||
           (DEFAULT_TRAIT in traits && ownerId !== undefined && !requestReachable.has(ownerId)),
         binding,
+        rawUpload:
+          binding === "rawBody" &&
+          base.target === "smithy.api#Blob" &&
+          ownerId !== undefined &&
+          httpFor[ownerId] !== undefined &&
+          httpFor[ownerId].contentType !== "multipart",
         wire: smithyWireName(traits, base.name, wireKind(binding)),
         nullable:
           (spec.nullableTrait ? spec.nullableTrait in traits : false) ||
@@ -965,7 +984,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     info: EmittedMember,
     tsRefFn: (target: string) => string,
   ): string | undefined =>
-    (binaryBody(info) ? "Uint8Array" : undefined) ??
+    (binaryBody(info) ? "BinaryStream" : rawUploadBody(info) ? "RawBody" : undefined) ??
     spec.memberTsType?.(info, tsRefFn) ??
     (spec.extraBindings ?? []).find((b) => b.binding === info.binding && b.tsType !== undefined)
       ?.tsType;
@@ -973,8 +992,11 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   const memberExpr = (info: EmittedMember, selfIdx: number): string => {
     const binary = binaryBody(info);
     let expr = binary
-      ? "S.instanceOf(Uint8Array)"
-      : (spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ?? ref(info.target, selfIdx));
+      ? "BinaryStream"
+      : rawUploadBody(info)
+        ? "RawBody"
+        : (spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ??
+          ref(info.target, selfIdx));
     if (info.nullable) expr = `S.NullOr(${expr})`;
     const pipes = [...memberPipes(info), ...(binary ? ["T.BinaryResponse()"] : [])];
     if (pipes.length) expr = `${expr}.pipe(${pipes.join(", ")})`;
@@ -1963,11 +1985,18 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   })();
   // After the header's last import (imports are hoisted either way).
   const withImport = (text: string): string => {
-    if (telemetryImports.size === 0) return text;
-    const line = [...telemetryImports]
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([ns, mod]) => `import * as ${ns} from "${mod}";\n`)
-      .join("");
+    // Core's body schemas: `BinaryStream` for a binary download, `RawBody`
+    // for a binary upload.
+    const streamTypes = CORE_BODY_SCHEMAS.filter((name) => new RegExp(`\\b${name}\\b`).test(text));
+    if (telemetryImports.size === 0 && streamTypes.length === 0) return text;
+    const line =
+      [...telemetryImports]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([ns, mod]) => `import * as ${ns} from "${mod}";\n`)
+        .join("") +
+      (streamTypes.length > 0
+        ? `import { ${streamTypes.join(", ")} } from "@distilled.cloud/core/protocol-rest";\n`
+        : "");
     const last = [...text.matchAll(/^import [^;]*;\n/gm)].pop();
     if (last === undefined) return line + text;
     const at = last.index! + last[0].length;

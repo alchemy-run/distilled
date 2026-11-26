@@ -58,18 +58,10 @@ const spec: SdkSpec = {
   memberTraitPipes: {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
-  // A Blob payload (file upload) is the raw request body: text or bytes,
-  // sent verbatim under the operation's bodyMediaType.
-  memberSchema: (m) =>
-    m.target === "smithy.api#Blob" && "smithy.api#httpPayload" in m.traits
-      ? "S.Union([S.String, S.instanceOf(Uint8Array)])"
-      : undefined,
   memberTsType: (m) =>
     SENSITIVE_TRAIT in m.traits
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
-      : m.target === "smithy.api#Blob" && "smithy.api#httpPayload" in m.traits
-        ? "string | Uint8Array"
-        : undefined,
+      : undefined,
 
   // Unions surface as TS type unions over an opaque schema — the REST
   // protocol passes union content through verbatim (wire names ARE the TS

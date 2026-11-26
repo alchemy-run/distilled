@@ -103,8 +103,8 @@ builds, secrets, routes, custom domains, D1 queries, R2 objects, metrics, events
 limits. `GET /v1/builds/{id}/events` is left out: it answers only Server-Sent Events, which the
 SDK's REST protocol does not read. Poll `getBuild` instead, as the example does.
 
-Uploads (`putSource`, `putAssetBlob`, `putR2Object`) take a `Uint8Array`, `ArrayBuffer` or `Blob`
-body; `getR2Object` returns `{ body, contentType }`: the object's bytes as a `Uint8Array` and the response's `Content-Type`. An R2 key may contain `/`.
+Uploads (`putSource`, `putAssetBlob`, `putR2Object`) take a `Uint8Array`, `ArrayBuffer`, `Blob`, string
+or `Stream<Uint8Array>` body (a stream is sent as it is pulled, and never retried); `getR2Object` returns `{ body, contentType }`: the object's bytes as a `Stream<Uint8Array>` read as they arrive (`Stream.mkUint8Array` collects them) and the response's `Content-Type`. An R2 key may contain `/`.
 
 ## Errors
 

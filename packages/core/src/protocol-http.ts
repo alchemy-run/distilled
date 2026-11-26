@@ -13,10 +13,11 @@ import * as HttpClientRequest from "effect/http/HttpClientRequest";
  * {@link matchTypedError}).
  */
 import type * as AST from "effect/SchemaAST";
+import type * as Stream from "effect/Stream";
 import { getAnn, getProps, resolveNode } from "./annotations.ts";
 import * as Category from "./category.ts";
 import { ConfigError } from "./config.ts";
-import { isOpaqueValue } from "./plain-values.ts";
+import { isEffectStream, isOpaqueValue } from "./plain-values.ts";
 import { parseServerRetryHint } from "./retry-after.ts";
 import * as Schema from "./schema-lite-typed.ts";
 import { SdkError } from "./sdk-error.ts";
@@ -601,6 +602,12 @@ const flattenToFormPairs = (obj: Record<string, unknown>, prefix = ""): Array<[s
   return pairs;
 };
 
+/**
+ * Marks a raw body member as binary (core `RawBody`): a string is sent as
+ * its bytes, never JSON-encoded, even with no declared media type.
+ */
+export const binaryBodySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/binary-body");
+
 /** How an input member binds to the request. */
 type Bind = "label" | "header" | "query" | "deepQuery" | "file" | "httpBody" | "body";
 
@@ -622,6 +629,8 @@ interface MemberPlan {
   readonly commaDelimited: boolean;
   /** `mapKeys(type, value, "encode", rootDict)` returns the value unchanged. */
   readonly verbatim: boolean;
+  /** A binary raw body (see {@link binaryBodySymbol}). */
+  readonly binary: boolean;
 }
 
 /** What `buildRequest` reads from an input schema, computed once per schema. */
@@ -687,6 +696,7 @@ const planFor = (inputAst: AST.AST): RequestPlan | SdkError => {
       stringEncoded: hasPropAnn(prop, stringEncodedSymbol),
       commaDelimited: hasPropAnn(prop, commaDelimitedSymbol),
       verbatim: rootDict === undefined && mapsVerbatim(prop.type, "encode"),
+      binary: hasPropAnn(prop, binaryBodySymbol),
     });
   }
   plan = { http, rootDict, members, known, hasBodyMembers };
@@ -913,6 +923,7 @@ const requestOrInvalid = ({
   const body: Record<string, unknown> = {};
   let bodyKeys = 0;
   let rawBody: unknown; // whole-body member (T.HttpBody) -- sent as-is
+  let rawBinary = false; // that member is binary: a string goes out as its bytes
   let files: Array<Blob | File> | undefined;
   let query: URLSearchParams | undefined;
   let uri = http.uri;
@@ -984,6 +995,7 @@ const requestOrInvalid = ({
         break;
       case "httpBody":
         rawBody = m.verbatim ? value : mapKeys(m.type, value, "encode", rootDict);
+        rawBinary = m.binary;
         break;
       default:
         // T.StringEncoded(): the API takes this member's value only as its
@@ -1092,6 +1104,19 @@ const requestOrInvalid = ({
     // modeled Content-Type member when the caller set one, else the declared
     // bodyMediaType (e.g. application/x-ndjson for Vectorize insert/upsert).
     const mediaType = memberContentType ?? http.bodyMediaType;
+    if (isEffectStream(rawBody)) {
+      // Sent as it is pulled, chunked unless a modeled `Content-Length`
+      // member gave its size. The REST protocol never retries it.
+      const length = headers["content-length"];
+      return HttpClientRequest.setBody(
+        request,
+        HttpBody.stream(
+          rawBody as Stream.Stream<Uint8Array, unknown>,
+          mediaType,
+          length === undefined ? undefined : Number(length),
+        ),
+      );
+    }
     if (rawBody instanceof Blob || rawBody instanceof ArrayBuffer) {
       // With no media type at all, fetch falls back to the Blob's own type.
       return HttpClientRequest.setBody(request, HttpBody.raw(rawBody, { contentType: mediaType }));
@@ -1099,12 +1124,14 @@ const requestOrInvalid = ({
     if (rawBody instanceof Uint8Array) {
       return HttpClientRequest.setBody(request, HttpBody.uint8Array(rawBody, mediaType));
     }
-    if (http.bodyMediaType) {
+    if (http.bodyMediaType || rawBinary) {
+      // A binary member's text with no media type is still bytes.
+      const contentType = mediaType ?? "application/octet-stream";
       return HttpClientRequest.setBody(
         request,
         typeof rawBody === "string"
-          ? HttpBody.text(rawBody, mediaType)
-          : HttpBody.uint8Array(rawBody as Uint8Array, mediaType),
+          ? HttpBody.text(rawBody, contentType)
+          : HttpBody.uint8Array(rawBody as Uint8Array, contentType),
       );
     }
     return HttpClientRequest.setBody(request, HttpBody.jsonUnsafe(rawBody, memberContentType));

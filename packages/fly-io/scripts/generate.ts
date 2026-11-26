@@ -64,8 +64,6 @@ const restSpec = (opts: {
   pagination?: boolean;
   /** Surface sensitive strings as `string | Redacted`. */
   sensitiveTs?: boolean;
-  /** Type httpPayload Blob members as `Uint8Array | string` (Sprites writeFile / exec stdin). */
-  blobBody?: boolean;
 }): SdkSpec => ({
   unionStyle: "primitive",
   nullableTrait: NULLABLE_TRAIT,
@@ -82,14 +80,11 @@ const restSpec = (opts: {
   memberTraitPipes: {
     "smithy.api#sensitive": "T.SensitiveValue",
   },
-  ...(opts.sensitiveTs || opts.blobBody
+  ...(opts.sensitiveTs
     ? {
         memberTsType: (m: { traits?: Record<string, unknown>; nullable?: boolean }) => {
           if (opts.sensitiveTs && "smithy.api#sensitive" in (m.traits ?? {})) {
             return `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`;
-          }
-          if (opts.blobBody && "smithy.api#httpPayload" in (m.traits ?? {})) {
-            return "Uint8Array | string";
           }
           return undefined;
         },
@@ -169,7 +164,6 @@ runGeneratorCli({
         sourceNote: ".generated-specs (sprites OpenAPI)",
         pagination: true,
         sensitiveTs: true,
-        blobBody: true,
       });
     }
     if (ns === "com.flyio.mpg") {

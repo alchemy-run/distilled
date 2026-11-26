@@ -4,14 +4,16 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
+import type * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import type * as Stream from "effect/Stream";
 import { rawResponseRootSymbol, resolveNode } from "./annotations.ts";
 import * as API from "./api.ts";
 import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
 import { recordPageHeaders } from "./pagination.ts";
-import { unwrapRedactedDeep } from "./plain-values.ts";
+import { isEffectStream, unwrapRedactedDeep } from "./plain-values.ts";
 import {
+  binaryBodySymbol,
   buildRequest,
   getAnn,
   getProps,
@@ -35,6 +37,7 @@ import type {
 } from "./protocol.ts";
 import { checkResponse, withholdActual } from "./response-validation.ts";
 import { parseRetryAfterForStatus } from "./retry-after.ts";
+import * as Lite from "./schema-lite-impl.ts";
 import { SdkError } from "./sdk-error.ts";
 import * as Send from "./send.ts";
 import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive.ts";
@@ -110,12 +113,59 @@ export const binaryResponseSymbol = /*@__PURE__*/ Symbol.for(
 );
 
 /**
- * Decode a successful raw binary response as bytes, without text conversion.
- * On a whole output, the output is the bytes. On the `RawResponse()` member
- * of a structure output, that member gets the bytes and the structure's
- * `Header` members get their response headers (a download's `Content-Type`).
+ * Decode a successful raw binary response as a {@link BinaryStream} of the
+ * body, never read as text or into one buffer. On a whole output, the
+ * output is the stream. On the `RawResponse()` member of a structure
+ * output, that member gets the stream and the structure's `Header` members
+ * get their response headers (a download's `Content-Type`).
  */
 export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
+
+/**
+ * A binary download's body, read as it arrives. It fails with the
+ * `HttpClientError` of a read that breaks off (a connection reset).
+ * `Stream.mkUint8Array` collects it into one buffer.
+ */
+export type BinaryStream = Stream.Stream<Uint8Array, HttpClientError.HttpClientError>;
+
+/**
+ * A lite declaration whose type guard strict validation applies. Lite
+ * `declare` keeps no guard, so the node carries it as `check`.
+ */
+const declared = <A>(check: (u: unknown) => boolean, annotations: Lite.Annotations) =>
+  Lite.fromNode({
+    _tag: "Declaration",
+    typeParameters: [],
+    check,
+    annotations,
+  }) as unknown as Schema.Schema<A>;
+
+/** The schema of a {@link BinaryStream}, for a binary download's body member. */
+export const BinaryStream = /*@__PURE__*/ declared<BinaryStream>(isEffectStream, {
+  identifier: "BinaryStream",
+});
+
+/**
+ * A binary upload's body from a stream: a `T.HttpBody()` member may take
+ * one, and the protocol sends it as it is pulled, without buffering it.
+ * A stream can be sent once, so a call with one is never retried. With no
+ * modeled `Content-Length` member set, the body goes out chunked.
+ */
+export type UploadStream = Stream.Stream<Uint8Array, unknown>;
+
+/** A raw request body (`T.HttpBody()` on a binary member): what `buildRequest` sends verbatim. */
+export type RawBody = string | Uint8Array | ArrayBuffer | Blob | UploadStream;
+
+/** The schema of a {@link RawBody}, for a binary upload's body member. */
+export const RawBody = /*@__PURE__*/ declared<RawBody>(
+  (u) =>
+    typeof u === "string" ||
+    u instanceof Uint8Array ||
+    u instanceof ArrayBuffer ||
+    u instanceof Blob ||
+    isEffectStream(u),
+  { identifier: "RawBody", [binaryBodySymbol]: true },
+);
 
 // =============================================================================
 // Value helpers
@@ -441,25 +491,27 @@ const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
 };
 
 /**
- * Read a 2xx response of a binary output ({@link BinaryResponse}) as bytes:
- * the bytes themselves for a binary whole output, or the structure with the
- * bytes in its body member and its header members filled. `undefined` when
- * the output is not binary. A body read that fails (reset or abort
- * mid-body) fails with its `HttpClientError`. For hand-written protocols
- * too, so every SDK decodes a download the same way.
+ * Read a 2xx response of a binary output ({@link BinaryResponse}) as a
+ * {@link BinaryStream}: the stream itself for a binary whole output, or the
+ * structure with the stream in its body member and its header members
+ * filled. `undefined` when the output is not binary. The call returns once
+ * the headers arrive; a body read that fails later (reset or abort
+ * mid-body) fails the stream with its `HttpClientError`. For hand-written
+ * protocols too, so every SDK decodes a download the same way.
  */
 export const readBinaryResponse = (
   response: HttpClientResponse.HttpClientResponse,
   outputAst: AST.AST,
-): Effect.Effect<unknown, HttpClientError.HttpClientError> | undefined => {
+): Effect.Effect<unknown> | undefined => {
   const plan = decodePlanFor(outputAst);
-  if (plan.binary) return Effect.map(response.arrayBuffer, (bytes) => new Uint8Array(bytes));
+  const body: BinaryStream = response.stream;
+  if (plan.binary) return Effect.succeed(body);
   const member = plan.binaryMember;
   if (member === undefined) return undefined;
-  return Effect.map(response.arrayBuffer, (bytes) =>
+  return Effect.succeed(
     withResponseHeaders(
       plan.headers,
-      { [member]: new Uint8Array(bytes) },
+      { [member]: body },
       response.headers as Record<string, string | undefined>,
     ),
   );

@@ -134,15 +134,17 @@ DNS zone exports, contract PDFs) return Scaleway's JSON file object —
 `{ name, content_type, content }`, `content` base64 — as the Go SDK and CLI
 read it. Each also has a `…Raw` twin that asks for the file itself
 (`?dl=1`, as the JS SDK does) and answers `{ body, contentType }`: the file as a
-`Uint8Array` and the response's `Content-Type`:
+`Stream<Uint8Array>` read as it arrives and the response's `Content-Type`:
 
 ```ts
+import * as Stream from "effect/Stream";
 import * as AccountContractV3 from "@distilled.cloud/scaleway/account_contract_v3";
 
-const { body: pdf } = yield* AccountContractV3.downloadContractSignatureRaw({
+const { body } = yield* AccountContractV3.downloadContractSignatureRaw({
   contract_signature_id,
   locale: "en_US",
 });
+const pdf = yield* Stream.mkUint8Array(body);
 ```
 
 ## Instance volumes

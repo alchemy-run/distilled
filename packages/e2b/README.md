@@ -56,6 +56,13 @@ are envd's server-streaming RPCs, returned as `Stream`s. Every other envd RPC
 is a generated unary operation (`process.sendProcessInput`,
 `filesystem.listDir`, …). The data-plane protocols never send the team API key.
 
+File reads (`envd.readFile`, `volumeContent.readVolumeFile`) return
+`{ body, contentType }`: the bytes as a `Stream<Uint8Array>` read as they
+arrive (`Stream.mkUint8Array` collects them). File writes
+(`envd.writeFiles`, `volumeContent.writeVolumeFile`) take `body` as bytes,
+text, a `Blob` or a `Stream<Uint8Array>`, sent as it is pulled and never
+retried.
+
 E2B serves the `unstable` module's routes under `/unstable/` and says they
 "may change or disappear without notice", so it imports from
 `@distilled.cloud/e2b/unstable/<module>`, not `@distilled.cloud/e2b/<module>`.

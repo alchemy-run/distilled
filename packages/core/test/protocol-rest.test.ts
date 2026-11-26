@@ -1,6 +1,7 @@
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
+import type * as HttpBody from "effect/http/HttpBody";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
@@ -22,6 +23,7 @@ import {
 } from "../src/errors.ts";
 import {
   BinaryResponse,
+  RawBody,
   RawResponse,
   RawResponseRoot,
   restProtocol,
@@ -454,6 +456,45 @@ describe("restProtocol raw request bodies", () => {
     expect(request.headers.get("content-type")).toBe("text/html");
   });
 
+  test("a RawBody member's text is sent as bytes, also with no declared media type", async () => {
+    const binary = op(
+      S.Struct({ body: S.optional(RawBody.pipe(T.HttpBody())) }).pipe(
+        T.Http({ method: "PUT", uri: "/blob" }),
+      ),
+    );
+    const request = await send(binary({ body: "plain text" }));
+    expect(request.headers.get("content-type")).toBe("application/octet-stream");
+    expect(await request.text()).toBe("plain text");
+  });
+
+  test("a stream body is sent as a stream, chunked unless a Content-Length member is set", async () => {
+    const parts = ["a", "bc", "def"].map((part) => new TextEncoder().encode(part));
+    const recorded: Recorded = { requests: [] };
+    await succeed(
+      upload({ key: "a.bin", body: Stream.fromIterable(parts) }),
+      fakeClient(() => json({}), recorded),
+      creds(),
+    );
+    const body = recorded.requests[0]!.body as HttpBody.Stream;
+    expect(body._tag).toBe("Stream");
+    expect(body.contentType).toBe("application/octet-stream");
+    expect(body.contentLength).toBeUndefined();
+    const sent = await Effect.runPromise(Stream.mkUint8Array(body.stream));
+    expect(new TextDecoder().decode(sent)).toBe("abcdef");
+
+    const Sized = S.Struct({
+      body: S.optional(S.Unknown.pipe(T.HttpBody())),
+      contentLength: S.optional(S.Number.pipe(T.Header("Content-Length"))),
+    }).pipe(T.Http({ method: "PUT", uri: "/blob", bodyMediaType: "application/octet-stream" }));
+    const sized: Recorded = { requests: [] };
+    await succeed(
+      op(Sized)({ body: Stream.fromIterable(parts), contentLength: 6 }),
+      fakeClient(() => json({}), sized),
+      creds(),
+    );
+    expect((sized.requests[0]!.body as HttpBody.Stream).contentLength).toBe(6);
+  });
+
   test("a JSON body is sent under the Content-Type member, else as application/json", async () => {
     // Shaped like a Kubernetes patch: the patch type is the Content-Type.
     const patch = op(
@@ -727,7 +768,7 @@ describe("restProtocol success decoding", () => {
     expect(out).toEqual([{ id: "a" }, { id: "b" }]);
   });
 
-  test("BinaryResponse outputs return the body bytes untouched", async () => {
+  test("BinaryResponse outputs stream the body bytes untouched", async () => {
     const bytes = new Uint8Array([0, 255, 1, 128, 10]);
     const BinaryOutput = S.Unknown.pipe(BinaryResponse());
     const binaryOp = API.make(() => ({
@@ -736,15 +777,14 @@ describe("restProtocol success decoding", () => {
       protocol: DefaultProtocol,
     })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
     const out = await succeed(
-      binaryOp({ id: "t1" }),
+      Effect.flatMap(binaryOp({ id: "t1" }), Stream.mkUint8Array),
       fakeClient(() => new Response(bytes, { status: 200 })),
       creds(),
     );
-    expect(out).toBeInstanceOf(Uint8Array);
     expect(Array.from(out)).toEqual(Array.from(bytes));
   });
 
-  test("a BinaryResponse body member gets the bytes and its output the headers", async () => {
+  test("a BinaryResponse body member gets the byte stream and its output the headers", async () => {
     const bytes = new Uint8Array([0xff, 0xd8, 0xff, 0x00]);
     const binaryOp = API.make(() => ({
       input: ThingInput,
@@ -762,8 +802,8 @@ describe("restProtocol success decoding", () => {
       creds(),
     );
     expect(out.contentType).toBe("image/jpeg");
-    expect(out.body).toBeInstanceOf(Uint8Array);
-    expect(Array.from(out.body)).toEqual(Array.from(bytes));
+    const body = await Effect.runPromise(Stream.mkUint8Array(out.body));
+    expect(Array.from(body)).toEqual(Array.from(bytes));
   });
 });
 
@@ -783,13 +823,17 @@ describe("restProtocol body read failures", () => {
     expect(error.reason._tag).toBe("DecodeError");
   });
 
-  test("a BinaryResponse body read failure fails with HttpClientError", async () => {
+  test("a BinaryResponse body read failure fails its stream with HttpClientError", async () => {
     const binaryOp = API.make(() => ({
       input: ThingInput,
       output: S.Unknown.pipe(BinaryResponse()),
       protocol: DefaultProtocol,
     })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
-    const error = await failOn(() => brokenBody(200), binaryOp);
+    const error = await failWith(
+      Effect.flatMap(binaryOp({ id: "t1" }), Stream.mkUint8Array),
+      fakeClient(() => brokenBody(200)),
+      creds(),
+    );
     expect(error._tag).toBe("HttpClientError");
     expect(error.reason._tag).toBe("DecodeError");
   });
