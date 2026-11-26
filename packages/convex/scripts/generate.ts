@@ -160,6 +160,7 @@ runGeneratorCli({
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: (model) => {
     stampPagination((model.shapes ?? {}) as Record<string, any>);
     stampUnionKeys((model.shapes ?? {}) as Record<string, any>);
