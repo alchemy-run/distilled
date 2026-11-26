@@ -30,9 +30,11 @@
  *    params get `schema`, body params become `requestBody`, and responses
  *    get `content` here.
  *
- * 3. a group whose operations are all served at alpha or beta API versions
- *    is marked `smithy.api#unstable`, so generate writes it to
- *    src/unstable-services/. A patch can remove the mark.
+ * 3. an operation served at an alpha or beta API version is marked
+ *    `smithy.api#unstable`, so generate writes it to
+ *    src/unstable-services/<group>.ts. A group whose versioned operations
+ *    are all alpha or beta is marked as a whole, so its unversioned
+ *    discovery operation goes with it. A patch can remove a mark.
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
@@ -273,6 +275,7 @@ for (const group of [...groupPaths.keys()].sort()) {
     // and default error statuses (401/429/500/503 covered globally);
     // deprecated operations (most watch paths) skipped.
     skipDeprecated: true,
+    unstableOperation: (_op, { path }) => UNSTABLE_VERSION.test(pathVersion(path) ?? ""),
   });
   // A group served only at alpha/beta versions is unstable. Its discovery
   // operation (`/apis/<group>/`) has no version and follows the group.

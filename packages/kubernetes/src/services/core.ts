@@ -4066,174 +4066,6 @@ export interface IoK8sApiCoreV1PersistentVolume {
   /** status represents the current information/status for the persistent volume. Populated by the system. Read-only. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistent-volumes */
   status?: IoK8sApiCoreV1PersistentVolumeStatus | undefined;
 }
-/** EvictionPodReference contains enough information to locate the referenced pod inside the same namespace. */
-export interface IoK8sApiLifecycleV1alpha1EvictionPodReference {
-  /** name of the target. This field is required. */
-  name: string;
-  /** uid of the target. It can be found in .metadata.uid of the target and is a lowercase UUID in 8-4-4-4-12 format. This field is required. */
-  uid: string;
-}
-/** EvictionTarget contains a reference to an object that should be evicted. */
-export interface IoK8sApiLifecycleV1alpha1EvictionTarget {
-  /** pod references a pod that is subject to eviction/termination. Pods that are part of a PodGroup (.spec.schedulingGroup is set) are not supported. */
-  pod?: IoK8sApiLifecycleV1alpha1EvictionPodReference | undefined;
-}
-/** EvictionSpec is a specification of an Eviction. */
-export interface IoK8sApiLifecycleV1alpha1EvictionSpec {
-  /** target contains a reference to an object (e.g. a pod) that should be evicted. This field is required and immutable. */
-  target: IoK8sApiLifecycleV1alpha1EvictionTarget;
-}
-/** conditions contain information about the eviction request. Eviction specific conditions are: TargetEvicted or Failed (managed by evictionrequest-controller). - Failed means that the eviction request is no longer being processed by any eviction responder. This can happen if the request is canceled or if no responder managed to evict the target (e.g. terminate or delete a pod). - TargetEvicted means that the target has been evicted (e.g. a pod has been terminated or deleted). The maximum length of the conditions list is 100. */
-export type IoK8sApiLifecycleV1alpha1EvictionStatusConditionsList =
-  Array<IoK8sApimachineryPkgApisMetaV1Condition>;
-/** Requester allows you to identify the entity, that requested the eviction of the target. */
-export interface IoK8sApiLifecycleV1alpha1Requester {
-  /** intent specifies the action that should be taken for the specified target. - Eviction means that the requester is interested in the eviction of the target. - Withdrawn means that the requester is no longer interested in the eviction of the target. If all requesters' intents are withdrawn, the eviction will be canceled. Cancellation consequences: - Inactive responders will never run. - Active responders are expected to cancel the eviction. - Completed or Interrupted responders should not take any action. */
-  intent: string;
-  /** name allows you to identify the entity, that requested the eviction of the target. It must be a valid domain-prefixed key (such as "acme.io/foo"). This field must be unique for each requester. This field is required. */
-  name: string;
-}
-/** requesters allow you to identify the entities, that requested the eviction of the target. If all the requesters withdraw their eviction intent, the eviction will be canceled. The maximum length of the requesters list is 100. If this limit is exceeded, requesters with Withdrawn intent should be dropped first. */
-export type IoK8sApiLifecycleV1alpha1EvictionStatusRequestersList =
-  Array<IoK8sApiLifecycleV1alpha1Requester>;
-/** ResponderStatus represents the last observed status of the eviction process of the responder. It should be only updated by the designated responder whose name is .name field. */
-export interface IoK8sApiLifecycleV1alpha1ResponderStatus {
-  /** completionTime tracks the time at which the Responder stopped processing the eviction request. Completion means that the responders has either fully or partially completed the eviction process, which may have resulted in target eviction (e.g. pod termination). It should reflect the present time when set. This field becomes immutable once set. */
-  completionTime?: string | undefined;
-  /** expectedCompletionTime is the time at which the eviction process step is expected to end for the responder. The time cannot be set to the past. May be omitted if no estimate can be made. */
-  expectedCompletionTime?: string | undefined;
-  /** heartbeatTime is the last time at which the eviction process was reported to be in progress by the responder. It should reflect the present time when set. Responders should avoid heartbeats more frequent than 20 seconds to avoid overloading the control-plane. */
-  heartbeatTime?: string | undefined;
-  /** message provides human-readable details about the state of the responder and the eviction process. Maximum length is 4000 characters. */
-  message?: string | undefined;
-  /** name allows you to identify the responder reacting to the Eviction. It must be a valid domain-prefixed key (such as "acme.io/foo"). This field is initialized by Kubernetes and must be unique for each responder. This field is required. */
-  name: string;
-  /** startTime tracks the time at which this responder was designated as active and should start processing the eviction request. It should reflect the present time when set. This field is initialized by Kubernetes when this responder becomes active. This field becomes immutable once set. */
-  startTime?: string | undefined;
-}
-/** responders represents the eviction process status of each declared responder. The responder list should be the same length and have the same .name fields as .status.targetResponders. Only responders with .name that have Active state in .targetResponders[].state should be updated and can be mutated. First initialization of the list is allowed. Each ResponderStatus is initialized by evictionrequest-controller and then managed by the designated responder. */
-export type IoK8sApiLifecycleV1alpha1EvictionStatusRespondersList =
-  Array<IoK8sApiLifecycleV1alpha1ResponderStatus>;
-/** TargetResponder allows you to specify the responder reacting to the Eviction. Responders should observe and communicate through the Eviction API (see .state) to help with the graceful eviction of a target (e.g. termination of a pod). */
-export interface IoK8sApiLifecycleV1alpha1TargetResponder {
-  /** name allows you to identify the responder reacting to the Eviction. It must be a valid domain-prefixed key (such as "acme.io/foo"). This field must be unique for each responder. This field is required. */
-  name: string;
-  /** priority for this responder. Higher priorities are selected first by the evictionrequest-controller. If there are responders with the same priority, the responder whose domain name comes first in the alphabetical higher domain order, will be picked. This means that the top domain labels are compared alphabetically first, followed by the lower domain labels. The key is compared last. The responder that is the managing controller of the pod should set the value of this field to 10000 to allow both for preemption or fallback registration by other responders. The minimum value is 0 and the maximum value is 100000. The interval 0-999 is reserved for responders with *.k8s.io suffix. This field is required and immutable. */
-  priority: number;
-  /** state specifies a state that is assigned by the evictionrequest-controller. Responders should observe this state in order to navigate their lifecycle. - Inactive means that the responder should not yet process this eviction request. - Active means that the responder is either running or expected to start soon. Also, startTime has been set in the ResponderStatus by the evictionrequest-controller. An active responder should currently interact with the eviction process by updating .status.responders, where .name is the active responder name. ResponderStatus fields should be periodically updated to indicate the progress or completion of the eviction process. If .status.responders[].heartbeatTime field is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. Only one responder can be active at a time. - Interrupted means that the responder has failed to start or failed to update heartbeatTime in ResponderStatus in a timely manner. - Canceled means that the responder has been canceled. In other words, there is no EvictionRequest with the same target and Eviction intent in .spec.intent. - Completed means that the responder has successfully completed and set completionTime in ResponderStatus. Please refer to the ResponderStatus in .status.responders for more details on each responder. */
-  state: string;
-}
-/** targetResponders reference responders that should eventually respond to this eviction to help with the graceful eviction of a target. These responders are selected sequentially, according to their specified priority by setting the Active state to the TargetResponder .state field. The maximum number of active responders allowed is 1. Eventually each responder can end up in an Interrupted, Canceled or, Completed state. Responders should observe these states in order to navigate their lifecycle. If the target is a pod, the field is populated from Pod's .spec.evictionResponders. Default responders may be added to the list according to the target. Default responders: - imperative-eviction.k8s.io/evictor responder with a priority of 100 is added to the list if the target is a pod. It will call the imperative Eviction API (pods/<name>/eviction subresource). This call may not succeed due to PodDisruptionBudgets, which may block the pod termination. It will update the responder message and try again with a backoff. The maximum length of the responders list is 11. The length and keys of the list cannot change once set. This field is managed by evictionrequest-controller. */
-export type IoK8sApiLifecycleV1alpha1EvictionStatusTargetRespondersList =
-  Array<IoK8sApiLifecycleV1alpha1TargetResponder>;
-/** EvictionStatus represents the last observed status of the eviction request. */
-export interface IoK8sApiLifecycleV1alpha1EvictionStatus {
-  /** conditions contain information about the eviction request. Eviction specific conditions are: TargetEvicted or Failed (managed by evictionrequest-controller). - Failed means that the eviction request is no longer being processed by any eviction responder. This can happen if the request is canceled or if no responder managed to evict the target (e.g. terminate or delete a pod). - TargetEvicted means that the target has been evicted (e.g. a pod has been terminated or deleted). The maximum length of the conditions list is 100. */
-  conditions?: IoK8sApiLifecycleV1alpha1EvictionStatusConditionsList | undefined;
-  /** observedGeneration is Eviction's .metadata.generation observed by the evictionrequest-controller. The observed generation value cannot be negative and can only be incremented. The minimum value is 1. This field is managed by evictionrequest-controller. */
-  observedGeneration?: number | undefined;
-  /** requesters allow you to identify the entities, that requested the eviction of the target. If all the requesters withdraw their eviction intent, the eviction will be canceled. The maximum length of the requesters list is 100. If this limit is exceeded, requesters with Withdrawn intent should be dropped first. */
-  requesters?: IoK8sApiLifecycleV1alpha1EvictionStatusRequestersList | undefined;
-  /** responders represents the eviction process status of each declared responder. The responder list should be the same length and have the same .name fields as .status.targetResponders. Only responders with .name that have Active state in .targetResponders[].state should be updated and can be mutated. First initialization of the list is allowed. Each ResponderStatus is initialized by evictionrequest-controller and then managed by the designated responder. */
-  responders?: IoK8sApiLifecycleV1alpha1EvictionStatusRespondersList | undefined;
-  /** targetResponders reference responders that should eventually respond to this eviction to help with the graceful eviction of a target. These responders are selected sequentially, according to their specified priority by setting the Active state to the TargetResponder .state field. The maximum number of active responders allowed is 1. Eventually each responder can end up in an Interrupted, Canceled or, Completed state. Responders should observe these states in order to navigate their lifecycle. If the target is a pod, the field is populated from Pod's .spec.evictionResponders. Default responders may be added to the list according to the target. Default responders: - imperative-eviction.k8s.io/evictor responder with a priority of 100 is added to the list if the target is a pod. It will call the imperative Eviction API (pods/<name>/eviction subresource). This call may not succeed due to PodDisruptionBudgets, which may block the pod termination. It will update the responder message and try again with a backoff. The maximum length of the responders list is 11. The length and keys of the list cannot change once set. This field is managed by evictionrequest-controller. */
-  targetResponders?: IoK8sApiLifecycleV1alpha1EvictionStatusTargetRespondersList | undefined;
-}
-export interface CreateLifecycleV1alpha1NamespacedEvictionRequest2 {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string | undefined;
-  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. .metadata.name set by the evictionrequest-controller is purely informative and subject to change. .spec.target field should be used to identify the target precisesly. The requester and responder names will be used as label keys and added to the labels of the eviction in one of the following formats: 1. acme.io/foo: "requester" 2. acme.io/foo: "responder" 3. acme.io/foo: "requester-responder" Please see EvictionParticipantRole for available role label values. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
-  /** spec defines the eviction specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec: IoK8sApiLifecycleV1alpha1EvictionSpec;
-  /** status represents the most recently observed status of the eviction. Populated by responders and evictionrequest-controller. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiLifecycleV1alpha1EvictionStatus | undefined;
-}
-/** Eviction initiates an eviction process, which should ideally result in a graceful eviction of a .spec.target (e.g. termination of a pod). The evictionrequest-controller observes intents of all EvictionRequests and transforms them into Evictions. It manages the Eviction lifecycle. Requesters are preserved in .status.requesters even after they have withdrawn their request. If all requesters withdraw their eviction intent for a common target, the eviction will be canceled. Once all EvictionRequest corresponding to this Eviction .spec.target have been removed, this Eviction object will eventually be garbage collected. If the target is a pod, the .status.targetResponders is populated from Pod's .spec.evictionResponders. Responders should observe and communicate through the .status to help with the eviction of the target when they see their state == Active in .status.targetResponders. ResponderStatus struct should then be periodically updated to indicate the progress or completion of the eviction process by each responder in .status.responders. If .status.responders[].heartbeatTime is not updated within the heartbeat deadline defined by the Eviction API (currently 20 minutes), the eviction is passed over to the next responder with a lower priority. If there are no other responders and the target is a pod, the last default imperative-eviction.k8s.io/evictor responder with a priority of 100 will evict the pod using the imperative Eviction API (pods/<name>/eviction subresource). */
-export interface IoK8sApiLifecycleV1alpha1Eviction {
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. .metadata.name set by the evictionrequest-controller is purely informative and subject to change. .spec.target field should be used to identify the target precisesly. The requester and responder names will be used as label keys and added to the labels of the eviction in one of the following formats: 1. acme.io/foo: "requester" 2. acme.io/foo: "responder" 3. acme.io/foo: "requester-responder" Please see EvictionParticipantRole for available role label values. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
-  /** spec defines the eviction specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec: IoK8sApiLifecycleV1alpha1EvictionSpec;
-  /** status represents the most recently observed status of the eviction. Populated by responders and evictionrequest-controller. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiLifecycleV1alpha1EvictionStatus | undefined;
-}
-/** EvictionRequestPodReference contains enough information to locate the referenced pod inside the same namespace. */
-export type IoK8sApiLifecycleV1alpha1EvictionRequestPodReference =
-  IoK8sApiLifecycleV1alpha1EvictionPodReference;
-/** EvictionRequestTarget contains a reference to an object that should be evicted. */
-export type IoK8sApiLifecycleV1alpha1EvictionRequestTarget =
-  IoK8sApiLifecycleV1alpha1EvictionTarget;
-/** EvictionRequestSpec is a specification of an EvictionRequest. */
-export interface IoK8sApiLifecycleV1alpha1EvictionRequestSpec {
-  /** intent specifies the action that should be taken for the specified target. - Eviction means that the requester is interested in the eviction of the target. - Withdrawn means that the requester is no longer interested in the eviction of the target. If all requesters' intents are withdrawn for a common target, the eviction will be canceled. Cancellation consequences: - Inactive responders will never run. - Active responders are expected to cancel the eviction. - Completed or Interrupted responders should not take any action. */
-  intent: string;
-  /** requester allows you to identify the entity, that requested the eviction of the target. It must be a valid domain-prefixed key (such as "acme.io/foo"). Domain names *.k8s.io and *.kubernetes.io are reserved. This field is required and immutable. */
-  requester: string;
-  /** target contains a reference to an object (e.g. a pod) that should be evicted. This field is required and immutable. */
-  target: IoK8sApiLifecycleV1alpha1EvictionTarget;
-}
-/** conditions contain information about the eviction request. EvictionRequest specific conditions are: TargetEvicted or Failed (managed by evictionrequest-controller). - Failed means that the eviction request is no longer being processed by any eviction responder. This can happen if the request is canceled or if no responder managed to evict the target (e.g. terminate or delete a pod). - TargetEvicted means that the target has been evicted (e.g. a pod has been terminated or deleted). These conditions can be reset if the eviction was unsuccessful and a new Eviction intent has been submitted. The maximum length of the conditions list is 100. */
-export type IoK8sApiLifecycleV1alpha1EvictionRequestStatusConditionsList =
-  Array<IoK8sApimachineryPkgApisMetaV1Condition>;
-/** EvictionRequestStatus represents the last observed status of the eviction request. */
-export interface IoK8sApiLifecycleV1alpha1EvictionRequestStatus {
-  /** conditions contain information about the eviction request. EvictionRequest specific conditions are: TargetEvicted or Failed (managed by evictionrequest-controller). - Failed means that the eviction request is no longer being processed by any eviction responder. This can happen if the request is canceled or if no responder managed to evict the target (e.g. terminate or delete a pod). - TargetEvicted means that the target has been evicted (e.g. a pod has been terminated or deleted). These conditions can be reset if the eviction was unsuccessful and a new Eviction intent has been submitted. The maximum length of the conditions list is 100. */
-  conditions?: IoK8sApiLifecycleV1alpha1EvictionRequestStatusConditionsList | undefined;
-  /** observedGeneration is EvictionRequest's .metadata.generation observed by the evictionrequest-controller. The observed generation value cannot be negative and can only be incremented. The minimum value is 1. This field is managed by evictionrequest-controller. */
-  observedGeneration?: number | undefined;
-}
-export interface CreateLifecycleV1alpha1NamespacedEvictionRequestRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string | undefined;
-  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
-  /** spec defines the eviction request specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec: IoK8sApiLifecycleV1alpha1EvictionRequestSpec;
-  /** status represents the most recently observed status of the eviction request. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiLifecycleV1alpha1EvictionRequestStatus | undefined;
-}
-/** EvictionRequest defines a request that should ideally result in a graceful eviction of a .spec.target (e.g. termination of a pod). The evictionrequest-controller observes intents of all EvictionRequests and transforms them into Evictions. - .spec.requester is set as a label on the Eviction for easier lookup. - Each target can have a set of responders assigned to it. Eviction objects are observed by these responders, who implement the eviction logic and update the Eviction's status with progress. There is many-to-many relationship between EvictionRequests and Evictions in general. And many-to-one if the target is a pod. If all requesters withdraw their eviction intent for a common target, the eviction will be canceled. Deleting an EvictionRequest also counts as a withdrawal. Once all EvictionRequest of a target are removed, the corresponding Evictions are eventually garbage collected. */
-export interface IoK8sApiLifecycleV1alpha1EvictionRequest {
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
-  /** spec defines the eviction request specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec: IoK8sApiLifecycleV1alpha1EvictionRequestSpec;
-  /** status represents the most recently observed status of the eviction request. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiLifecycleV1alpha1EvictionRequestStatus | undefined;
-}
 export interface DeleteCoreV1CollectionNamespacedConfigMapRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -5208,134 +5040,6 @@ export interface DeleteCoreV1PersistentVolumeRequest {
   /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
   preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
 }
-export interface DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequest2 {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string | undefined;
-  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number | undefined;
-  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
-  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string | undefined;
-  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number | undefined;
-  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean | undefined;
-  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string | undefined;
-  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string | undefined;
-  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string | undefined;
-  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean | undefined;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
-  shardSelector?: string | undefined;
-  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
-}
-export interface DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string | undefined;
-  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number | undefined;
-  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
-  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string | undefined;
-  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number | undefined;
-  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean | undefined;
-  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string | undefined;
-  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string | undefined;
-  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string | undefined;
-  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean | undefined;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
-  shardSelector?: string | undefined;
-  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
-}
-export interface DeleteLifecycleV1alpha1NamespacedEvictionRequest2 {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the Eviction */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number | undefined;
-  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
-  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean | undefined;
-  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
-}
-export interface DeleteLifecycleV1alpha1NamespacedEvictionRequestRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the EvictionRequest */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** The duration in seconds before the object should be deleted. Value must be non-negative integer. The value zero indicates delete immediately. If this value is nil, the default grace period for the specified type will be used. Defaults to a per object value if not specified. zero means delete immediately. */
-  gracePeriodSeconds?: number | undefined;
-  /** if set to true, it will trigger an unsafe deletion of the resource in case the normal deletion flow fails with a corrupt object error. A resource is considered corrupt if it can not be retrieved from the underlying storage successfully because of a) its data can not be transformed e.g. decryption failure, or b) it fails to decode into an object. NOTE: unsafe deletion ignores finalizer constraints, skips precondition checks, and removes the object from the storage. WARNING: This may potentially break the cluster if the workload associated with the resource being unsafe-deleted relies on normal deletion flow. Use only if you REALLY know what you are doing. The default value is false, and the user must opt in to enable it */
-  ignoreStoreReadErrorWithClusterBreakingPotential?: boolean | undefined;
-  /** Deprecated: please use the PropagationPolicy, this field will be deprecated in 1.7. Should the dependent objects be orphaned. If true/false, the "orphan" finalizer will be added to/removed from the object's finalizers list. Either this field or PropagationPolicy may be set, but not both. */
-  orphanDependents?: boolean | undefined;
-  /** Whether and how garbage collection will be performed. Either this field or OrphanDependents may be set, but not both. The default policy is decided by the existing finalizer set in the metadata.finalizers and the resource-specific default policy. Acceptable values are: 'Orphan' - orphan the dependents; 'Background' - allow the garbage collector to delete the dependents in the background; 'Foreground' - a cascading policy that deletes all dependents in the foreground. */
-  propagationPolicy?: string | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** Must be fulfilled before a deletion is carried out. If not possible, a 409 Conflict status will be returned. */
-  preconditions?: IoK8sApimachineryPkgApisMetaV1Preconditions | undefined;
-}
 export interface GetAPIVersionsRequest {}
 /** GroupVersion contains the "group/version" and "version" string of a version. It is made a struct to keep extensibility. */
 export interface IoK8sApimachineryPkgApisMetaV1GroupVersionForDiscovery {
@@ -5471,7 +5175,6 @@ export interface IoK8sApimachineryPkgApisMetaV1APIResourceList {
   resources: IoK8sApimachineryPkgApisMetaV1APIResourceListResourcesList;
 }
 export interface GetLifecycleAPIGroupRequest {}
-export interface GetLifecycleV1alpha1APIResourcesRequest {}
 export interface GetServiceAccountIssuerOpenIDConfigurationRequest {}
 export type GetServiceAccountIssuerOpenIDConfigurationResponse = string;
 export interface GetServiceAccountIssuerOpenIDKeysetRequest {}
@@ -6462,142 +6165,6 @@ export interface ListCoreV1ServiceForAllNamespacesRequest {
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
   watch?: boolean | undefined;
 }
-export interface ListLifecycleV1alpha1EvictionForAllNamespacesRequest {
-  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean | undefined;
-  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string | undefined;
-  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string | undefined;
-  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string | undefined;
-  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number | undefined;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string | undefined;
-  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string | undefined;
-  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean | undefined;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
-  shardSelector?: string | undefined;
-  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number | undefined;
-  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean | undefined;
-}
-/** items is the list of Evictions. */
-export type IoK8sApiLifecycleV1alpha1EvictionListItemsList =
-  Array<IoK8sApiLifecycleV1alpha1Eviction>;
-/** EvictionList contains a list of Eviction resources. */
-export interface IoK8sApiLifecycleV1alpha1EvictionList {
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** items is the list of Evictions. */
-  items: IoK8sApiLifecycleV1alpha1EvictionListItemsList;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
-}
-export interface ListLifecycleV1alpha1EvictionRequestForAllNamespacesRequest {
-  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean | undefined;
-  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string | undefined;
-  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string | undefined;
-  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string | undefined;
-  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number | undefined;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string | undefined;
-  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string | undefined;
-  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean | undefined;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
-  shardSelector?: string | undefined;
-  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number | undefined;
-  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean | undefined;
-}
-/** items is the list of EvictionRequests. */
-export type IoK8sApiLifecycleV1alpha1EvictionRequestListItemsList =
-  Array<IoK8sApiLifecycleV1alpha1EvictionRequest>;
-/** EvictionRequestList contains a list of EvictionRequests resources. */
-export interface IoK8sApiLifecycleV1alpha1EvictionRequestList {
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** items is the list of EvictionRequests. */
-  items: IoK8sApiLifecycleV1alpha1EvictionRequestListItemsList;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard list metadata. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ListMeta | undefined;
-}
-export interface ListLifecycleV1alpha1NamespacedEvictionRequest2 {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean | undefined;
-  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string | undefined;
-  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string | undefined;
-  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string | undefined;
-  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number | undefined;
-  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string | undefined;
-  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string | undefined;
-  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean | undefined;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
-  shardSelector?: string | undefined;
-  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number | undefined;
-  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean | undefined;
-}
-export interface ListLifecycleV1alpha1NamespacedEvictionRequestRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean | undefined;
-  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string | undefined;
-  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string | undefined;
-  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string | undefined;
-  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number | undefined;
-  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string | undefined;
-  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string | undefined;
-  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean | undefined;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
-  shardSelector?: string | undefined;
-  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number | undefined;
-  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean | undefined;
-}
 export interface LogFileHandlerRequest {
   /** path to the log */
   logpath: string;
@@ -7430,126 +6997,6 @@ export interface PatchCoreV1PersistentVolumeStatusRequest {
   /** status represents the current information/status for the persistent volume. Populated by the system. Read-only. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistent-volumes */
   status?: T.MergePatch<IoK8sApiCoreV1PersistentVolumeStatus> | undefined;
 }
-export interface PatchLifecycleV1alpha1NamespacedEvictionRequest2 {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the Eviction */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string | undefined;
-  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string | undefined;
-  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean | undefined;
-  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
-  contentType: PatchType | (string & {});
-  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
-  patch?: unknown | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. .metadata.name set by the evictionrequest-controller is purely informative and subject to change. .spec.target field should be used to identify the target precisesly. The requester and responder names will be used as label keys and added to the labels of the eviction in one of the following formats: 1. acme.io/foo: "requester" 2. acme.io/foo: "responder" 3. acme.io/foo: "requester-responder" Please see EvictionParticipantRole for available role label values. */
-  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
-  /** spec defines the eviction specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec?: T.MergePatch<IoK8sApiLifecycleV1alpha1EvictionSpec> | undefined;
-  /** status represents the most recently observed status of the eviction. Populated by responders and evictionrequest-controller. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: T.MergePatch<IoK8sApiLifecycleV1alpha1EvictionStatus> | undefined;
-}
-export interface PatchLifecycleV1alpha1NamespacedEvictionRequestRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the EvictionRequest */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string | undefined;
-  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string | undefined;
-  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean | undefined;
-  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
-  contentType: PatchType | (string & {});
-  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
-  patch?: unknown | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. */
-  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
-  /** spec defines the eviction request specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec?: T.MergePatch<IoK8sApiLifecycleV1alpha1EvictionRequestSpec> | undefined;
-  /** status represents the most recently observed status of the eviction request. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: T.MergePatch<IoK8sApiLifecycleV1alpha1EvictionRequestStatus> | undefined;
-}
-export interface PatchLifecycleV1alpha1NamespacedEvictionRequestStatusRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the EvictionRequest */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string | undefined;
-  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string | undefined;
-  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean | undefined;
-  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
-  contentType: PatchType | (string & {});
-  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
-  patch?: unknown | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. */
-  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
-  /** spec defines the eviction request specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec?: T.MergePatch<IoK8sApiLifecycleV1alpha1EvictionRequestSpec> | undefined;
-  /** status represents the most recently observed status of the eviction request. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: T.MergePatch<IoK8sApiLifecycleV1alpha1EvictionRequestStatus> | undefined;
-}
-export interface PatchLifecycleV1alpha1NamespacedEvictionStatusRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the Eviction */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. This field is required for apply requests (application/apply-patch) but optional for non-apply patch types (JsonPatch, MergePatch, StrategicMergePatch). */
-  fieldManager?: string | undefined;
-  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string | undefined;
-  /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
-  force?: boolean | undefined;
-  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
-  contentType: PatchType | (string & {});
-  /** A JSON patch (application/json-patch+json): an array of operations, sent as the whole body. For a merge, strategic merge or apply patch, set the resource fields instead. */
-  patch?: unknown | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. .metadata.name set by the evictionrequest-controller is purely informative and subject to change. .spec.target field should be used to identify the target precisesly. The requester and responder names will be used as label keys and added to the labels of the eviction in one of the following formats: 1. acme.io/foo: "requester" 2. acme.io/foo: "responder" 3. acme.io/foo: "requester-responder" Please see EvictionParticipantRole for available role label values. */
-  metadata?: T.MergePatch<IoK8sApimachineryPkgApisMetaV1ObjectMeta> | undefined;
-  /** spec defines the eviction specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec?: T.MergePatch<IoK8sApiLifecycleV1alpha1EvictionSpec> | undefined;
-  /** status represents the most recently observed status of the eviction. Populated by responders and evictionrequest-controller. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: T.MergePatch<IoK8sApiLifecycleV1alpha1EvictionStatus> | undefined;
-}
 export interface ReadCoreV1ComponentStatusRequest {
   /** name of the ComponentStatus */
   name: string;
@@ -7775,38 +7222,6 @@ export interface ReadCoreV1PersistentVolumeRequest {
 }
 export interface ReadCoreV1PersistentVolumeStatusRequest {
   /** name of the PersistentVolume */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-}
-export interface ReadLifecycleV1alpha1NamespacedEvictionRequest2 {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the Eviction */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-}
-export interface ReadLifecycleV1alpha1NamespacedEvictionRequestRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the EvictionRequest */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-}
-export interface ReadLifecycleV1alpha1NamespacedEvictionRequestStatusRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the EvictionRequest */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-}
-export interface ReadLifecycleV1alpha1NamespacedEvictionStatusRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the Eviction */
   name: string;
   /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
   pretty?: string | undefined;
@@ -8493,102 +7908,6 @@ export interface ReplaceCoreV1PersistentVolumeStatusRequest {
   spec?: IoK8sApiCoreV1PersistentVolumeSpec | undefined;
   /** status represents the current information/status for the persistent volume. Populated by the system. Read-only. More info: https://kubernetes.io/docs/concepts/storage/persistent-volumes#persistent-volumes */
   status?: IoK8sApiCoreV1PersistentVolumeStatus | undefined;
-}
-export interface ReplaceLifecycleV1alpha1NamespacedEvictionRequest2 {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the Eviction */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string | undefined;
-  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. .metadata.name set by the evictionrequest-controller is purely informative and subject to change. .spec.target field should be used to identify the target precisesly. The requester and responder names will be used as label keys and added to the labels of the eviction in one of the following formats: 1. acme.io/foo: "requester" 2. acme.io/foo: "responder" 3. acme.io/foo: "requester-responder" Please see EvictionParticipantRole for available role label values. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
-  /** spec defines the eviction specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec: IoK8sApiLifecycleV1alpha1EvictionSpec;
-  /** status represents the most recently observed status of the eviction. Populated by responders and evictionrequest-controller. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiLifecycleV1alpha1EvictionStatus | undefined;
-}
-export interface ReplaceLifecycleV1alpha1NamespacedEvictionRequestRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the EvictionRequest */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string | undefined;
-  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
-  /** spec defines the eviction request specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec: IoK8sApiLifecycleV1alpha1EvictionRequestSpec;
-  /** status represents the most recently observed status of the eviction request. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiLifecycleV1alpha1EvictionRequestStatus | undefined;
-}
-export interface ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the EvictionRequest */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string | undefined;
-  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
-  /** spec defines the eviction request specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec: IoK8sApiLifecycleV1alpha1EvictionRequestSpec;
-  /** status represents the most recently observed status of the eviction request. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiLifecycleV1alpha1EvictionRequestStatus | undefined;
-}
-export interface ReplaceLifecycleV1alpha1NamespacedEvictionStatusRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the Eviction */
-  name: string;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** When present, indicates that modifications should not be persisted. An invalid or unrecognized dryRun directive will result in an error response and no further processing of the request. Valid values are: - All: all dry run stages will be processed */
-  dryRun?: string | undefined;
-  /** fieldManager is a name associated with the actor or entity that is making these changes. The value must be less than or 128 characters long, and only contain printable characters, as defined by https://golang.org/pkg/unicode/#IsPrint. */
-  fieldManager?: string | undefined;
-  /** fieldValidation instructs the server on how to handle objects in the request (POST/PUT/PATCH) containing unknown or duplicate fields. Valid values are: - Ignore: This will ignore any unknown fields that are silently dropped from the object, and will ignore all but the last duplicate field that the decoder encounters. This is the default behavior prior to v1.23. - Warn: This will send a warning via the standard warning response header for each unknown field that is dropped from the object, and for each duplicate field that is encountered. The request will still succeed if there are no other errors, and will only persist the last of any duplicate fields. This is the default in v1.23+ - Strict: This will fail the request with a BadRequest error if any unknown fields would be dropped from the object, or if any duplicate fields are present. The error returned from the server will contain all unknown and duplicate fields encountered. */
-  fieldValidation?: string | undefined;
-  /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string | undefined;
-  /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string | undefined;
-  /** metadata is the standard object metadata; More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata. .metadata.name set by the evictionrequest-controller is purely informative and subject to change. .spec.target field should be used to identify the target precisesly. The requester and responder names will be used as label keys and added to the labels of the eviction in one of the following formats: 1. acme.io/foo: "requester" 2. acme.io/foo: "responder" 3. acme.io/foo: "requester-responder" Please see EvictionParticipantRole for available role label values. */
-  metadata?: IoK8sApimachineryPkgApisMetaV1ObjectMeta | undefined;
-  /** spec defines the eviction specification. https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  spec: IoK8sApiLifecycleV1alpha1EvictionSpec;
-  /** status represents the most recently observed status of the eviction. Populated by responders and evictionrequest-controller. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status */
-  status?: IoK8sApiLifecycleV1alpha1EvictionStatus | undefined;
 }
 export interface WatchCoreV1ConfigMapListForAllNamespacesRequest {
   /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
@@ -9766,174 +9085,6 @@ export interface WatchCoreV1ServiceListForAllNamespacesRequest {
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
   watch?: boolean | undefined;
 }
-export interface WatchLifecycleV1alpha1EvictionListForAllNamespacesRequest {
-  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean | undefined;
-  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string | undefined;
-  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string | undefined;
-  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string | undefined;
-  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number | undefined;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string | undefined;
-  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string | undefined;
-  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean | undefined;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
-  shardSelector?: string | undefined;
-  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number | undefined;
-  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean | undefined;
-}
-export interface WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesRequest {
-  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean | undefined;
-  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string | undefined;
-  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string | undefined;
-  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string | undefined;
-  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number | undefined;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string | undefined;
-  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string | undefined;
-  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean | undefined;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
-  shardSelector?: string | undefined;
-  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number | undefined;
-  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean | undefined;
-}
-export interface WatchLifecycleV1alpha1NamespacedEvictionRequest2 {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the Eviction */
-  name: string;
-  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean | undefined;
-  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string | undefined;
-  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string | undefined;
-  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string | undefined;
-  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number | undefined;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string | undefined;
-  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string | undefined;
-  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean | undefined;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
-  shardSelector?: string | undefined;
-  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number | undefined;
-  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean | undefined;
-}
-export interface WatchLifecycleV1alpha1NamespacedEvictionListRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean | undefined;
-  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string | undefined;
-  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string | undefined;
-  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string | undefined;
-  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number | undefined;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string | undefined;
-  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string | undefined;
-  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean | undefined;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
-  shardSelector?: string | undefined;
-  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number | undefined;
-  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean | undefined;
-}
-export interface WatchLifecycleV1alpha1NamespacedEvictionRequestRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** name of the EvictionRequest */
-  name: string;
-  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean | undefined;
-  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string | undefined;
-  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string | undefined;
-  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string | undefined;
-  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number | undefined;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string | undefined;
-  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string | undefined;
-  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean | undefined;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
-  shardSelector?: string | undefined;
-  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number | undefined;
-  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean | undefined;
-}
-export interface WatchLifecycleV1alpha1NamespacedEvictionRequestListRequest {
-  /** object name and auth scope, such as for teams and projects */
-  namespace: string;
-  /** allowWatchBookmarks requests watch events with type "BOOKMARK". Servers that do not implement bookmarks may ignore this flag and bookmarks are sent at the server's discretion. Clients should not assume bookmarks are returned at any specific interval, nor may they assume the server will send any BOOKMARK event during a session. If this is not a watch, this field is ignored. */
-  allowWatchBookmarks?: boolean | undefined;
-  /** The continue option should be set when retrieving more results from the server. Since this value is server defined, clients may only use the continue value from a previous query result with identical query parameters (except for the value of continue) and the server may reject a continue value it does not recognize. If the specified continue value is no longer valid whether due to expiration (generally five to fifteen minutes) or a configuration change on the server, the server will respond with a 410 ResourceExpired error together with a continue token. If the client needs a consistent list, it must restart their list without the continue field. Otherwise, the client may send another list request with the token received with the 410 error, the server will respond with a list starting from the next key, but from the latest snapshot, which is inconsistent from the previous list results - objects that are created, modified, or deleted after the first list request will be included in the response, as long as their keys are after the "next key". This field is not supported when watch is true. Clients may start a watch from the last resourceVersion value returned by the server and not miss any modifications. */
-  continue?: string | undefined;
-  /** A selector to restrict the list of returned objects by their fields. Defaults to everything. */
-  fieldSelector?: string | undefined;
-  /** A selector to restrict the list of returned objects by their labels. Defaults to everything. */
-  labelSelector?: string | undefined;
-  /** limit is a maximum number of responses to return for a list call. If more items exist, the server will set the `continue` field on the list metadata to a value that can be used with the same initial query to retrieve the next set of results. Setting a limit may return fewer than the requested amount of items (up to zero items) in the event all requested objects are filtered out and clients should only use the presence of the continue field to determine whether more results are available. Servers may choose not to support the limit argument and will return all of the available results. If limit is specified and the continue field is empty, clients may assume that no more results are available. This field is not supported if watch is true. The server guarantees that the objects returned when using continue will be identical to issuing a single list call without a limit - that is, no objects created, modified, or deleted after the first request is issued will be included in any subsequent continued requests. This is sometimes referred to as a consistent snapshot, and ensures that a client that is using limit to receive smaller chunks of a very large result can ensure they see all possible objects. If objects are updated during a chunked list the version of the object that was present at the time the first list result was calculated is returned. */
-  limit?: number | undefined;
-  /** If 'true', then the output is pretty printed. Defaults to 'false' unless the user-agent indicates a browser or command-line HTTP tool (curl and wget). */
-  pretty?: string | undefined;
-  /** resourceVersion sets a constraint on what resource versions a request may be served from. See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersion?: string | undefined;
-  /** resourceVersionMatch determines how resourceVersion is applied to list calls. It is highly recommended that resourceVersionMatch be set for list calls where resourceVersion is set See https://kubernetes.io/docs/reference/using-api/api-concepts/#resource-versions for details. Defaults to unset */
-  resourceVersionMatch?: string | undefined;
-  /** `sendInitialEvents=true` may be set together with `watch=true`. In that case, the watch stream will begin with synthetic events to produce the current state of objects in the collection. Once all such events have been sent, a synthetic "Bookmark" event will be sent. The bookmark will report the ResourceVersion (RV) corresponding to the set of objects, and be marked with `"k8s.io/initial-events-end": "true"` annotation. Afterwards, the watch stream will proceed as usual, sending watch events corresponding to changes (subsequent to the RV) to objects watched. When `sendInitialEvents` option is set, we require `resourceVersionMatch` option to also be set. The semantic of the watch request is as following: - `resourceVersionMatch` = NotOlderThan is interpreted as "data at least as new as the provided `resourceVersion`" and the bookmark event is send when the state is synced to a `resourceVersion` at least as fresh as the one provided by the ListOptions. If `resourceVersion` is unset, this is interpreted as "consistent read" and the bookmark event is send when the state is synced at least to the moment when request started being processed. - `resourceVersionMatch` set to any other value or unset Invalid error is returned. Defaults to true if `resourceVersion=""` or `resourceVersion="0"` (for backward compatibility reasons) and to false otherwise. */
-  sendInitialEvents?: boolean | undefined;
-  /** shardSelector restricts the list of returned objects using a CEL-based shard selector expression. The format uses the shardRange() function combined with || (logical OR) to specify one or more hash ranges: shardRange(object.metadata.uid, '0x0', '0x8000000000000000') shardRange(object.metadata.uid, '0x0', '0x8000000000000000') || shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') Field paths use CEL-style object-rooted syntax (e.g. "object.metadata.uid"), NOT the fieldSelector format ("metadata.uid"). Currently supported paths: - object.metadata.uid - object.metadata.namespace hexStart and hexEnd are single-quoted CEL string literals with a '0x' prefix, defining the inclusive lower and exclusive upper bounds over the 64-bit FNV-1a hash space. The full range is [0x0, 0x10000000000000000), where the exclusive upper bound equals 2^64. Examples: 2-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x8000000000000000') shard 1: shardRange(object.metadata.uid, '0x8000000000000000', '0x10000000000000000') 4-shard split: shard 0: shardRange(object.metadata.uid, '0x0000000000000000', '0x4000000000000000') shard 1: shardRange(object.metadata.uid, '0x4000000000000000', '0x8000000000000000') shard 2: shardRange(object.metadata.uid, '0x8000000000000000', '0xc000000000000000') shard 3: shardRange(object.metadata.uid, '0xc000000000000000', '0x10000000000000000') This is a beta field and is enabled by default via the ShardedListAndWatch feature gate. */
-  shardSelector?: string | undefined;
-  /** Timeout for the list/watch call. This limits the duration of the call, regardless of any activity or inactivity. */
-  timeoutSeconds?: number | undefined;
-  /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
-  watch?: boolean | undefined;
-}
 export type ConnectCoreV1DeleteNamespacedPodProxyError = KubernetesOpError;
 /** connect DELETE requests to proxy of Pod */
 export const connectCoreV1DeleteNamespacedPodProxy: API.OperationMethod<
@@ -9942,8 +9093,8 @@ export const connectCoreV1DeleteNamespacedPodProxy: API.OperationMethod<
   ConnectCoreV1DeleteNamespacedPodProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<ConnectCoreV1DeleteNamespacedPodProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1DeleteNamespacedPodProxyResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<ConnectCoreV1DeleteNamespacedPodProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1DeleteNamespacedPodProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -9961,13 +9112,13 @@ export const connectCoreV1DeleteNamespacedPodProxyWithPath: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7360,
-    __c230,
+    6208,
+    __c194,
     0,
   ) as any as S.Schema<ConnectCoreV1DeleteNamespacedPodProxyWithPathRequest>,
   output: __S(
-    6880,
-    __c215,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<ConnectCoreV1DeleteNamespacedPodProxyWithPathResponse>,
   errors: [],
@@ -9986,10 +9137,10 @@ export const connectCoreV1DeleteNamespacedServiceProxy: API.OperationMethod<
   ConnectCoreV1DeleteNamespacedServiceProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<ConnectCoreV1DeleteNamespacedServiceProxyRequest>,
+  input: __S(7264, __c227, 0) as any as S.Schema<ConnectCoreV1DeleteNamespacedServiceProxyRequest>,
   output: __S(
-    6880,
-    __c215,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<ConnectCoreV1DeleteNamespacedServiceProxyResponse>,
   errors: [],
@@ -10009,13 +9160,13 @@ export const connectCoreV1DeleteNamespacedServiceProxyWithPath: API.OperationMet
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9120,
-    __c285,
+    7904,
+    __c247,
     0,
   ) as any as S.Schema<ConnectCoreV1DeleteNamespacedServiceProxyWithPathRequest>,
   output: __S(
-    6880,
-    __c215,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<ConnectCoreV1DeleteNamespacedServiceProxyWithPathResponse>,
   errors: [],
@@ -10034,8 +9185,8 @@ export const connectCoreV1DeleteNodeProxy: API.OperationMethod<
   ConnectCoreV1DeleteNodeProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<ConnectCoreV1DeleteNodeProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1DeleteNodeProxyResponse>,
+  input: __S(8256, __c258, 0) as any as S.Schema<ConnectCoreV1DeleteNodeProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1DeleteNodeProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10052,8 +9203,8 @@ export const connectCoreV1DeleteNodeProxyWithPath: API.OperationMethod<
   ConnectCoreV1DeleteNodeProxyWithPathError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<ConnectCoreV1DeleteNodeProxyWithPathRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1DeleteNodeProxyWithPathResponse>,
+  input: __S(8608, __c269, 0) as any as S.Schema<ConnectCoreV1DeleteNodeProxyWithPathRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1DeleteNodeProxyWithPathResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10070,8 +9221,8 @@ export const connectCoreV1GetNamespacedPodAttach: API.OperationMethod<
   ConnectCoreV1GetNamespacedPodAttachError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10240, __c320, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodAttachRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodAttachResponse>,
+  input: __S(9024, __c282, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodAttachRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodAttachResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10089,7 +9240,7 @@ export const connectCoreV1GetNamespacedPodExec: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodExecRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodExecResponse>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodExecResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10106,8 +9257,8 @@ export const connectCoreV1GetNamespacedPodPortforward: API.OperationMethod<
   ConnectCoreV1GetNamespacedPodPortforwardError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodPortforwardRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodPortforwardResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodPortforwardRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodPortforwardResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10124,8 +9275,8 @@ export const connectCoreV1GetNamespacedPodProxy: API.OperationMethod<
   ConnectCoreV1GetNamespacedPodProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodProxyResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10142,10 +9293,10 @@ export const connectCoreV1GetNamespacedPodProxyWithPath: API.OperationMethod<
   ConnectCoreV1GetNamespacedPodProxyWithPathError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodProxyWithPathRequest>,
+  input: __S(1344, __c42, 0) as any as S.Schema<ConnectCoreV1GetNamespacedPodProxyWithPathRequest>,
   output: __S(
-    6880,
-    __c215,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<ConnectCoreV1GetNamespacedPodProxyWithPathResponse>,
   errors: [],
@@ -10164,8 +9315,8 @@ export const connectCoreV1GetNamespacedServiceProxy: API.OperationMethod<
   ConnectCoreV1GetNamespacedServiceProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ConnectCoreV1GetNamespacedServiceProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1GetNamespacedServiceProxyResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<ConnectCoreV1GetNamespacedServiceProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1GetNamespacedServiceProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10183,13 +9334,13 @@ export const connectCoreV1GetNamespacedServiceProxyWithPath: API.OperationMethod
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2304,
-    __c72,
+    2080,
+    __c65,
     0,
   ) as any as S.Schema<ConnectCoreV1GetNamespacedServiceProxyWithPathRequest>,
   output: __S(
-    6880,
-    __c215,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<ConnectCoreV1GetNamespacedServiceProxyWithPathResponse>,
   errors: [],
@@ -10208,8 +9359,8 @@ export const connectCoreV1GetNodeProxy: API.OperationMethod<
   ConnectCoreV1GetNodeProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ConnectCoreV1GetNodeProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1GetNodeProxyResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<ConnectCoreV1GetNodeProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1GetNodeProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10226,8 +9377,8 @@ export const connectCoreV1GetNodeProxyWithPath: API.OperationMethod<
   ConnectCoreV1GetNodeProxyWithPathError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ConnectCoreV1GetNodeProxyWithPathRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1GetNodeProxyWithPathResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ConnectCoreV1GetNodeProxyWithPathRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1GetNodeProxyWithPathResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10244,8 +9395,8 @@ export const connectCoreV1PatchNamespacedPodProxy: API.OperationMethod<
   ConnectCoreV1PatchNamespacedPodProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<ConnectCoreV1PatchNamespacedPodProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PatchNamespacedPodProxyResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<ConnectCoreV1PatchNamespacedPodProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PatchNamespacedPodProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10263,13 +9414,13 @@ export const connectCoreV1PatchNamespacedPodProxyWithPath: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3712,
-    __c116,
+    3488,
+    __c109,
     0,
   ) as any as S.Schema<ConnectCoreV1PatchNamespacedPodProxyWithPathRequest>,
   output: __S(
-    6880,
-    __c215,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<ConnectCoreV1PatchNamespacedPodProxyWithPathResponse>,
   errors: [],
@@ -10288,8 +9439,8 @@ export const connectCoreV1PatchNamespacedServiceProxy: API.OperationMethod<
   ConnectCoreV1PatchNamespacedServiceProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<ConnectCoreV1PatchNamespacedServiceProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PatchNamespacedServiceProxyResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<ConnectCoreV1PatchNamespacedServiceProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PatchNamespacedServiceProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10307,13 +9458,13 @@ export const connectCoreV1PatchNamespacedServiceProxyWithPath: API.OperationMeth
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4416,
-    __c138,
+    4224,
+    __c132,
     0,
   ) as any as S.Schema<ConnectCoreV1PatchNamespacedServiceProxyWithPathRequest>,
   output: __S(
-    6880,
-    __c215,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<ConnectCoreV1PatchNamespacedServiceProxyWithPathResponse>,
   errors: [],
@@ -10332,8 +9483,8 @@ export const connectCoreV1PatchNodeProxy: API.OperationMethod<
   ConnectCoreV1PatchNodeProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<ConnectCoreV1PatchNodeProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PatchNodeProxyResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<ConnectCoreV1PatchNodeProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PatchNodeProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10350,8 +9501,8 @@ export const connectCoreV1PatchNodeProxyWithPath: API.OperationMethod<
   ConnectCoreV1PatchNodeProxyWithPathError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<ConnectCoreV1PatchNodeProxyWithPathRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PatchNodeProxyWithPathResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<ConnectCoreV1PatchNodeProxyWithPathRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PatchNodeProxyWithPathResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10368,8 +9519,8 @@ export const connectCoreV1PostNamespacedPodAttach: API.OperationMethod<
   ConnectCoreV1PostNamespacedPodAttachError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodAttachRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodAttachResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodAttachRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodAttachResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10386,8 +9537,8 @@ export const connectCoreV1PostNamespacedPodExec: API.OperationMethod<
   ConnectCoreV1PostNamespacedPodExecError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodExecRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodExecResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodExecRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodExecResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10404,10 +9555,10 @@ export const connectCoreV1PostNamespacedPodPortforward: API.OperationMethod<
   ConnectCoreV1PostNamespacedPodPortforwardError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodPortforwardRequest>,
+  input: __S(5568, __c174, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodPortforwardRequest>,
   output: __S(
-    6880,
-    __c215,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<ConnectCoreV1PostNamespacedPodPortforwardResponse>,
   errors: [],
@@ -10426,8 +9577,8 @@ export const connectCoreV1PostNamespacedPodProxy: API.OperationMethod<
   ConnectCoreV1PostNamespacedPodProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodProxyResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PostNamespacedPodProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10445,13 +9596,13 @@ export const connectCoreV1PostNamespacedPodProxyWithPath: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6784,
-    __c212,
+    5632,
+    __c176,
     0,
   ) as any as S.Schema<ConnectCoreV1PostNamespacedPodProxyWithPathRequest>,
   output: __S(
-    6880,
-    __c215,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<ConnectCoreV1PostNamespacedPodProxyWithPathResponse>,
   errors: [],
@@ -10470,8 +9621,8 @@ export const connectCoreV1PostNamespacedServiceProxy: API.OperationMethod<
   ConnectCoreV1PostNamespacedServiceProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<ConnectCoreV1PostNamespacedServiceProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PostNamespacedServiceProxyResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<ConnectCoreV1PostNamespacedServiceProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PostNamespacedServiceProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10489,13 +9640,13 @@ export const connectCoreV1PostNamespacedServiceProxyWithPath: API.OperationMetho
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6912,
-    __c216,
+    5760,
+    __c180,
     0,
   ) as any as S.Schema<ConnectCoreV1PostNamespacedServiceProxyWithPathRequest>,
   output: __S(
-    6880,
-    __c215,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<ConnectCoreV1PostNamespacedServiceProxyWithPathResponse>,
   errors: [],
@@ -10514,8 +9665,8 @@ export const connectCoreV1PostNodeProxy: API.OperationMethod<
   ConnectCoreV1PostNodeProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<ConnectCoreV1PostNodeProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PostNodeProxyResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<ConnectCoreV1PostNodeProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PostNodeProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10532,8 +9683,8 @@ export const connectCoreV1PostNodeProxyWithPath: API.OperationMethod<
   ConnectCoreV1PostNodeProxyWithPathError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<ConnectCoreV1PostNodeProxyWithPathRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PostNodeProxyWithPathResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<ConnectCoreV1PostNodeProxyWithPathRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PostNodeProxyWithPathResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10550,8 +9701,8 @@ export const connectCoreV1PutNamespacedPodProxy: API.OperationMethod<
   ConnectCoreV1PutNamespacedPodProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<ConnectCoreV1PutNamespacedPodProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PutNamespacedPodProxyResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<ConnectCoreV1PutNamespacedPodProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PutNamespacedPodProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10568,10 +9719,10 @@ export const connectCoreV1PutNamespacedPodProxyWithPath: API.OperationMethod<
   ConnectCoreV1PutNamespacedPodProxyWithPathError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<ConnectCoreV1PutNamespacedPodProxyWithPathRequest>,
+  input: __S(5888, __c184, 0) as any as S.Schema<ConnectCoreV1PutNamespacedPodProxyWithPathRequest>,
   output: __S(
-    6880,
-    __c215,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<ConnectCoreV1PutNamespacedPodProxyWithPathResponse>,
   errors: [],
@@ -10590,8 +9741,8 @@ export const connectCoreV1PutNamespacedServiceProxy: API.OperationMethod<
   ConnectCoreV1PutNamespacedServiceProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<ConnectCoreV1PutNamespacedServiceProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PutNamespacedServiceProxyResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<ConnectCoreV1PutNamespacedServiceProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PutNamespacedServiceProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10609,13 +9760,13 @@ export const connectCoreV1PutNamespacedServiceProxyWithPath: API.OperationMethod
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7104,
-    __c222,
+    5952,
+    __c186,
     0,
   ) as any as S.Schema<ConnectCoreV1PutNamespacedServiceProxyWithPathRequest>,
   output: __S(
-    6880,
-    __c215,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<ConnectCoreV1PutNamespacedServiceProxyWithPathResponse>,
   errors: [],
@@ -10634,8 +9785,8 @@ export const connectCoreV1PutNodeProxy: API.OperationMethod<
   ConnectCoreV1PutNodeProxyError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<ConnectCoreV1PutNodeProxyRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PutNodeProxyResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<ConnectCoreV1PutNodeProxyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PutNodeProxyResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10652,8 +9803,8 @@ export const connectCoreV1PutNodeProxyWithPath: API.OperationMethod<
   ConnectCoreV1PutNodeProxyWithPathError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<ConnectCoreV1PutNodeProxyWithPathRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ConnectCoreV1PutNodeProxyWithPathResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<ConnectCoreV1PutNodeProxyWithPathRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ConnectCoreV1PutNodeProxyWithPathResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10670,8 +9821,8 @@ export const createCoreV1Namespace: API.OperationMethod<
   CreateCoreV1NamespaceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<CreateCoreV1NamespaceRequest>,
-  output: __S(7234, __c226, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
+  input: __S(6048, __c189, 0) as any as S.Schema<CreateCoreV1NamespaceRequest>,
+  output: __S(6178, __c193, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10688,8 +9839,8 @@ export const createCoreV1NamespacedBinding: API.OperationMethod<
   CreateCoreV1NamespacedBindingError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<CreateCoreV1NamespacedBindingRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<IoK8sApiCoreV1Binding>,
+  input: __S(6240, __c195, 0) as any as S.Schema<CreateCoreV1NamespacedBindingRequest>,
+  output: __S(6304, __c197, 0) as any as S.Schema<IoK8sApiCoreV1Binding>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10709,8 +9860,8 @@ export const createCoreV1NamespacedConfigMap: API.OperationMethod<
   CreateCoreV1NamespacedConfigMapError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<CreateCoreV1NamespacedConfigMapRequest>,
-  output: __S(7520, __c235, 0) as any as S.Schema<IoK8sApiCoreV1ConfigMap>,
+  input: __S(6336, __c198, 0) as any as S.Schema<CreateCoreV1NamespacedConfigMapRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<IoK8sApiCoreV1ConfigMap>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10730,8 +9881,8 @@ export const createCoreV1NamespacedEndpoints: API.OperationMethod<
   CreateCoreV1NamespacedEndpointsError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<CreateCoreV1NamespacedEndpointsRequest>,
-  output: __S(7590, __c237, 6) as any as S.Schema<IoK8sApiCoreV1Endpoints>,
+  input: __S(6400, __c200, 0) as any as S.Schema<CreateCoreV1NamespacedEndpointsRequest>,
+  output: __S(6438, __c201, 6) as any as S.Schema<IoK8sApiCoreV1Endpoints>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10748,8 +9899,8 @@ export const createCoreV1NamespacedEvent: API.OperationMethod<
   CreateCoreV1NamespacedEventError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<CreateCoreV1NamespacedEventRequest>,
-  output: __S(7650, __c239, 2) as any as S.Schema<IoK8sApiCoreV1Event>,
+  input: __S(6464, __c202, 0) as any as S.Schema<CreateCoreV1NamespacedEventRequest>,
+  output: __S(6498, __c203, 2) as any as S.Schema<IoK8sApiCoreV1Event>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10769,8 +9920,8 @@ export const createCoreV1NamespacedLimitRange: API.OperationMethod<
   CreateCoreV1NamespacedLimitRangeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<CreateCoreV1NamespacedLimitRangeRequest>,
-  output: __S(7715, __c241, 3) as any as S.Schema<IoK8sApiCoreV1LimitRange>,
+  input: __S(6528, __c204, 0) as any as S.Schema<CreateCoreV1NamespacedLimitRangeRequest>,
+  output: __S(6563, __c205, 3) as any as S.Schema<IoK8sApiCoreV1LimitRange>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10791,11 +9942,11 @@ export const createCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    7744,
-    __c242,
+    6592,
+    __c206,
     0,
   ) as any as S.Schema<CreateCoreV1NamespacedPersistentVolumeClaimRequest>,
-  output: __S(7876, __c246, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
+  output: __S(6724, __c210, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10812,8 +9963,8 @@ export const createCoreV1NamespacedPod: API.OperationMethod<
   CreateCoreV1NamespacedPodError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<CreateCoreV1NamespacedPodRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  input: __S(6752, __c211, 0) as any as S.Schema<CreateCoreV1NamespacedPodRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10833,8 +9984,8 @@ export const createCoreV1NamespacedPodBinding: API.OperationMethod<
   CreateCoreV1NamespacedPodBindingError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<CreateCoreV1NamespacedPodBindingRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<IoK8sApiCoreV1Binding>,
+  input: __S(7072, __c221, 0) as any as S.Schema<CreateCoreV1NamespacedPodBindingRequest>,
+  output: __S(6304, __c197, 0) as any as S.Schema<IoK8sApiCoreV1Binding>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10854,8 +10005,8 @@ export const createCoreV1NamespacedPodEviction: API.OperationMethod<
   CreateCoreV1NamespacedPodEvictionError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8257, __c258, 1) as any as S.Schema<CreateCoreV1NamespacedPodEvictionRequest>,
-  output: __S(8258, __c258, 2) as any as S.Schema<IoK8sApiPolicyV1Eviction>,
+  input: __S(7105, __c222, 1) as any as S.Schema<CreateCoreV1NamespacedPodEvictionRequest>,
+  output: __S(7106, __c222, 2) as any as S.Schema<IoK8sApiPolicyV1Eviction>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10875,8 +10026,8 @@ export const createCoreV1NamespacedPodTemplate: API.OperationMethod<
   CreateCoreV1NamespacedPodTemplateError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<CreateCoreV1NamespacedPodTemplateRequest>,
-  output: __S(8384, __c262, 0) as any as S.Schema<IoK8sApiCoreV1PodTemplate>,
+  input: __S(7168, __c224, 0) as any as S.Schema<CreateCoreV1NamespacedPodTemplateRequest>,
+  output: __S(7232, __c226, 0) as any as S.Schema<IoK8sApiCoreV1PodTemplate>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10897,11 +10048,11 @@ export const createCoreV1NamespacedReplicationController: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    8448,
-    __c264,
+    7296,
+    __c228,
     0,
   ) as any as S.Schema<CreateCoreV1NamespacedReplicationControllerRequest>,
-  output: __S(8482, __c265, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
+  output: __S(7330, __c229, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10921,8 +10072,8 @@ export const createCoreV1NamespacedResourceQuota: API.OperationMethod<
   CreateCoreV1NamespacedResourceQuotaError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<CreateCoreV1NamespacedResourceQuotaRequest>,
-  output: __S(8549, __c267, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
+  input: __S(7360, __c230, 0) as any as S.Schema<CreateCoreV1NamespacedResourceQuotaRequest>,
+  output: __S(7397, __c231, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10939,8 +10090,8 @@ export const createCoreV1NamespacedSecret: API.OperationMethod<
   CreateCoreV1NamespacedSecretError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<CreateCoreV1NamespacedSecretRequest>,
-  output: __S(8609, __c269, 1) as any as S.Schema<IoK8sApiCoreV1Secret>,
+  input: __S(7424, __c232, 0) as any as S.Schema<CreateCoreV1NamespacedSecretRequest>,
+  output: __S(7457, __c233, 1) as any as S.Schema<IoK8sApiCoreV1Secret>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10957,8 +10108,8 @@ export const createCoreV1NamespacedService: API.OperationMethod<
   CreateCoreV1NamespacedServiceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<CreateCoreV1NamespacedServiceRequest>,
-  output: __S(8715, __c272, 11) as any as S.Schema<IoK8sApiCoreV1Service>,
+  input: __S(7488, __c234, 0) as any as S.Schema<CreateCoreV1NamespacedServiceRequest>,
+  output: __S(7533, __c235, 13) as any as S.Schema<IoK8sApiCoreV1Service>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10978,8 +10129,8 @@ export const createCoreV1NamespacedServiceAccount: API.OperationMethod<
   CreateCoreV1NamespacedServiceAccountError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<CreateCoreV1NamespacedServiceAccountRequest>,
-  output: __S(8769, __c274, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccount>,
+  input: __S(7552, __c236, 0) as any as S.Schema<CreateCoreV1NamespacedServiceAccountRequest>,
+  output: __S(7585, __c237, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccount>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -10999,8 +10150,8 @@ export const createCoreV1NamespacedServiceAccountToken: API.OperationMethod<
   CreateCoreV1NamespacedServiceAccountTokenError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8804, __c275, 4) as any as S.Schema<CreateCoreV1NamespacedServiceAccountTokenRequest>,
-  output: __S(8805, __c275, 5) as any as S.Schema<IoK8sApiAuthenticationV1TokenRequest>,
+  input: __S(7620, __c238, 4) as any as S.Schema<CreateCoreV1NamespacedServiceAccountTokenRequest>,
+  output: __S(7621, __c238, 5) as any as S.Schema<IoK8sApiAuthenticationV1TokenRequest>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11017,8 +10168,8 @@ export const createCoreV1Node: API.OperationMethod<
   CreateCoreV1NodeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<CreateCoreV1NodeRequest>,
-  output: __S(8886, __c277, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
+  input: __S(7648, __c239, 0) as any as S.Schema<CreateCoreV1NodeRequest>,
+  output: __S(7702, __c240, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11035,54 +10186,14 @@ export const createCoreV1PersistentVolume: API.OperationMethod<
   CreateCoreV1PersistentVolumeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<CreateCoreV1PersistentVolumeRequest>,
-  output: __S(8943, __c279, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
+  input: __S(7712, __c241, 0) as any as S.Schema<CreateCoreV1PersistentVolumeRequest>,
+  output: __S(7759, __c242, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
   errors: [Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateCoreV1PersistentVolume",
-}));
-
-export type CreateLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
-/** create an Eviction */
-export const createLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
-  CreateLifecycleV1alpha1NamespacedEvictionRequest2,
-  IoK8sApiLifecycleV1alpha1Eviction,
-  CreateLifecycleV1alpha1NamespacedEvictionError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<CreateLifecycleV1alpha1NamespacedEvictionRequest2>,
-  output: __S(9000, __c281, 8) as any as S.Schema<IoK8sApiLifecycleV1alpha1Eviction>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateLifecycleV1alpha1NamespacedEviction",
-}));
-
-export type CreateLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
-/** create an EvictionRequest */
-export const createLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
-  CreateLifecycleV1alpha1NamespacedEvictionRequestRequest,
-  IoK8sApiLifecycleV1alpha1EvictionRequest,
-  CreateLifecycleV1alpha1NamespacedEvictionRequestError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    9056,
-    __c283,
-    0,
-  ) as any as S.Schema<CreateLifecycleV1alpha1NamespacedEvictionRequestRequest>,
-  output: __S(9090, __c284, 2) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequest>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateLifecycleV1alpha1NamespacedEvictionRequest",
 }));
 
 export type DeleteCoreV1CollectionNamespacedConfigMapError = KubernetesOpError;
@@ -11093,8 +10204,8 @@ export const deleteCoreV1CollectionNamespacedConfigMap: API.OperationMethod<
   DeleteCoreV1CollectionNamespacedConfigMapError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedConfigMapRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(7776, __c243, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedConfigMapRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11111,8 +10222,8 @@ export const deleteCoreV1CollectionNamespacedEndpoints: API.OperationMethod<
   DeleteCoreV1CollectionNamespacedEndpointsError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedEndpointsRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(7872, __c246, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedEndpointsRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11129,8 +10240,8 @@ export const deleteCoreV1CollectionNamespacedEvent: API.OperationMethod<
   DeleteCoreV1CollectionNamespacedEventError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedEventRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(7936, __c248, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedEventRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11147,8 +10258,8 @@ export const deleteCoreV1CollectionNamespacedLimitRange: API.OperationMethod<
   DeleteCoreV1CollectionNamespacedLimitRangeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedLimitRangeRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(7968, __c249, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedLimitRangeRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11166,11 +10277,11 @@ export const deleteCoreV1CollectionNamespacedPersistentVolumeClaim: API.Operatio
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9344,
-    __c292,
+    8000,
+    __c250,
     0,
   ) as any as S.Schema<DeleteCoreV1CollectionNamespacedPersistentVolumeClaimRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11187,8 +10298,8 @@ export const deleteCoreV1CollectionNamespacedPod: API.OperationMethod<
   DeleteCoreV1CollectionNamespacedPodError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedPodRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(8032, __c251, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedPodRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11206,11 +10317,11 @@ export const deleteCoreV1CollectionNamespacedPodTemplate: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9408,
-    __c294,
+    8064,
+    __c252,
     0,
   ) as any as S.Schema<DeleteCoreV1CollectionNamespacedPodTemplateRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11228,11 +10339,11 @@ export const deleteCoreV1CollectionNamespacedReplicationController: API.Operatio
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9440,
-    __c295,
+    8096,
+    __c253,
     0,
   ) as any as S.Schema<DeleteCoreV1CollectionNamespacedReplicationControllerRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11250,11 +10361,11 @@ export const deleteCoreV1CollectionNamespacedResourceQuota: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9472,
-    __c296,
+    8128,
+    __c254,
     0,
   ) as any as S.Schema<DeleteCoreV1CollectionNamespacedResourceQuotaRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11271,8 +10382,8 @@ export const deleteCoreV1CollectionNamespacedSecret: API.OperationMethod<
   DeleteCoreV1CollectionNamespacedSecretError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedSecretRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(8160, __c255, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedSecretRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11289,8 +10400,8 @@ export const deleteCoreV1CollectionNamespacedService: API.OperationMethod<
   DeleteCoreV1CollectionNamespacedServiceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedServiceRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(8192, __c256, 0) as any as S.Schema<DeleteCoreV1CollectionNamespacedServiceRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11308,11 +10419,11 @@ export const deleteCoreV1CollectionNamespacedServiceAccount: API.OperationMethod
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9600,
-    __c300,
+    8224,
+    __c257,
     0,
   ) as any as S.Schema<DeleteCoreV1CollectionNamespacedServiceAccountRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11329,8 +10440,8 @@ export const deleteCoreV1CollectionNode: API.OperationMethod<
   DeleteCoreV1CollectionNodeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<DeleteCoreV1CollectionNodeRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(8288, __c259, 0) as any as S.Schema<DeleteCoreV1CollectionNodeRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11347,8 +10458,8 @@ export const deleteCoreV1CollectionPersistentVolume: API.OperationMethod<
   DeleteCoreV1CollectionPersistentVolumeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9664, __c302, 0) as any as S.Schema<DeleteCoreV1CollectionPersistentVolumeRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(8320, __c260, 0) as any as S.Schema<DeleteCoreV1CollectionPersistentVolumeRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11365,8 +10476,8 @@ export const deleteCoreV1Namespace: API.OperationMethod<
   DeleteCoreV1NamespaceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<DeleteCoreV1NamespaceRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(8352, __c261, 0) as any as S.Schema<DeleteCoreV1NamespaceRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11383,8 +10494,8 @@ export const deleteCoreV1NamespacedConfigMap: API.OperationMethod<
   DeleteCoreV1NamespacedConfigMapError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<DeleteCoreV1NamespacedConfigMapRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(8384, __c262, 0) as any as S.Schema<DeleteCoreV1NamespacedConfigMapRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11401,8 +10512,8 @@ export const deleteCoreV1NamespacedEndpoints: API.OperationMethod<
   DeleteCoreV1NamespacedEndpointsError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<DeleteCoreV1NamespacedEndpointsRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(8416, __c263, 0) as any as S.Schema<DeleteCoreV1NamespacedEndpointsRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11419,8 +10530,8 @@ export const deleteCoreV1NamespacedEvent: API.OperationMethod<
   DeleteCoreV1NamespacedEventError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<DeleteCoreV1NamespacedEventRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(8448, __c264, 0) as any as S.Schema<DeleteCoreV1NamespacedEventRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11437,8 +10548,8 @@ export const deleteCoreV1NamespacedLimitRange: API.OperationMethod<
   DeleteCoreV1NamespacedLimitRangeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<DeleteCoreV1NamespacedLimitRangeRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(8480, __c265, 0) as any as S.Schema<DeleteCoreV1NamespacedLimitRangeRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11459,11 +10570,11 @@ export const deleteCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9856,
-    __c308,
+    8512,
+    __c266,
     0,
   ) as any as S.Schema<DeleteCoreV1NamespacedPersistentVolumeClaimRequest>,
-  output: __S(7876, __c246, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
+  output: __S(6724, __c210, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11480,8 +10591,8 @@ export const deleteCoreV1NamespacedPod: API.OperationMethod<
   DeleteCoreV1NamespacedPodError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<DeleteCoreV1NamespacedPodRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  input: __S(8544, __c267, 0) as any as S.Schema<DeleteCoreV1NamespacedPodRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11498,8 +10609,8 @@ export const deleteCoreV1NamespacedPodTemplate: API.OperationMethod<
   DeleteCoreV1NamespacedPodTemplateError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<DeleteCoreV1NamespacedPodTemplateRequest>,
-  output: __S(8384, __c262, 0) as any as S.Schema<IoK8sApiCoreV1PodTemplate>,
+  input: __S(8576, __c268, 0) as any as S.Schema<DeleteCoreV1NamespacedPodTemplateRequest>,
+  output: __S(7232, __c226, 0) as any as S.Schema<IoK8sApiCoreV1PodTemplate>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11520,11 +10631,11 @@ export const deleteCoreV1NamespacedReplicationController: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    9984,
-    __c312,
+    8640,
+    __c270,
     0,
   ) as any as S.Schema<DeleteCoreV1NamespacedReplicationControllerRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11541,8 +10652,8 @@ export const deleteCoreV1NamespacedResourceQuota: API.OperationMethod<
   DeleteCoreV1NamespacedResourceQuotaError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<DeleteCoreV1NamespacedResourceQuotaRequest>,
-  output: __S(8549, __c267, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
+  input: __S(8672, __c271, 0) as any as S.Schema<DeleteCoreV1NamespacedResourceQuotaRequest>,
+  output: __S(7397, __c231, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11559,8 +10670,8 @@ export const deleteCoreV1NamespacedSecret: API.OperationMethod<
   DeleteCoreV1NamespacedSecretError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<DeleteCoreV1NamespacedSecretRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(8704, __c272, 0) as any as S.Schema<DeleteCoreV1NamespacedSecretRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11577,8 +10688,8 @@ export const deleteCoreV1NamespacedService: API.OperationMethod<
   DeleteCoreV1NamespacedServiceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10080, __c315, 0) as any as S.Schema<DeleteCoreV1NamespacedServiceRequest>,
-  output: __S(8715, __c272, 11) as any as S.Schema<IoK8sApiCoreV1Service>,
+  input: __S(8736, __c273, 0) as any as S.Schema<DeleteCoreV1NamespacedServiceRequest>,
+  output: __S(7533, __c235, 13) as any as S.Schema<IoK8sApiCoreV1Service>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11595,8 +10706,8 @@ export const deleteCoreV1NamespacedServiceAccount: API.OperationMethod<
   DeleteCoreV1NamespacedServiceAccountError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10112, __c316, 0) as any as S.Schema<DeleteCoreV1NamespacedServiceAccountRequest>,
-  output: __S(8769, __c274, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccount>,
+  input: __S(8768, __c274, 0) as any as S.Schema<DeleteCoreV1NamespacedServiceAccountRequest>,
+  output: __S(7585, __c237, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccount>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11613,8 +10724,8 @@ export const deleteCoreV1Node: API.OperationMethod<
   DeleteCoreV1NodeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10144, __c317, 0) as any as S.Schema<DeleteCoreV1NodeRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
+  input: __S(8800, __c275, 0) as any as S.Schema<DeleteCoreV1NodeRequest>,
+  output: __S(7811, __c244, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11631,102 +10742,14 @@ export const deleteCoreV1PersistentVolume: API.OperationMethod<
   DeleteCoreV1PersistentVolumeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<DeleteCoreV1PersistentVolumeRequest>,
-  output: __S(8943, __c279, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
+  input: __S(8832, __c276, 0) as any as S.Schema<DeleteCoreV1PersistentVolumeRequest>,
+  output: __S(7759, __c242, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
   errors: [NotFound, Conflict],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteCoreV1PersistentVolume",
-}));
-
-export type DeleteLifecycleV1alpha1CollectionNamespacedEvictionError = KubernetesOpError;
-/** delete collection of Eviction */
-export const deleteLifecycleV1alpha1CollectionNamespacedEviction: API.OperationMethod<
-  DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequest2,
-  IoK8sApimachineryPkgApisMetaV1Status,
-  DeleteLifecycleV1alpha1CollectionNamespacedEvictionError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    10208,
-    __c319,
-    0,
-  ) as any as S.Schema<DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequest2>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteLifecycleV1alpha1CollectionNamespacedEviction",
-}));
-
-export type DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestError = KubernetesOpError;
-/** delete collection of EvictionRequest */
-export const deleteLifecycleV1alpha1CollectionNamespacedEvictionRequest: API.OperationMethod<
-  DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestRequest,
-  IoK8sApimachineryPkgApisMetaV1Status,
-  DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    10272,
-    __c321,
-    0,
-  ) as any as S.Schema<DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequest",
-}));
-
-export type DeleteLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
-/** delete an Eviction */
-export const deleteLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
-  DeleteLifecycleV1alpha1NamespacedEvictionRequest2,
-  IoK8sApimachineryPkgApisMetaV1Status,
-  DeleteLifecycleV1alpha1NamespacedEvictionError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    10304,
-    __c322,
-    0,
-  ) as any as S.Schema<DeleteLifecycleV1alpha1NamespacedEvictionRequest2>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteLifecycleV1alpha1NamespacedEviction",
-}));
-
-export type DeleteLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
-/** delete an EvictionRequest */
-export const deleteLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
-  DeleteLifecycleV1alpha1NamespacedEvictionRequestRequest,
-  IoK8sApimachineryPkgApisMetaV1Status,
-  DeleteLifecycleV1alpha1NamespacedEvictionRequestError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    10336,
-    __c323,
-    0,
-  ) as any as S.Schema<DeleteLifecycleV1alpha1NamespacedEvictionRequestRequest>,
-  output: __S(9187, __c287, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1Status>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteLifecycleV1alpha1NamespacedEvictionRequest",
 }));
 
 export type GetAPIVersionsError = KubernetesOpError;
@@ -11737,8 +10760,8 @@ export const getAPIVersions: API.OperationMethod<
   GetAPIVersionsError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<GetAPIVersionsRequest>,
-  output: __S(10370, __c324, 2) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIGroupList>,
+  input: __S(8864, __c277, 0) as any as S.Schema<GetAPIVersionsRequest>,
+  output: __S(8866, __c277, 2) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIGroupList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11755,8 +10778,8 @@ export const getCodeVersion: API.OperationMethod<
   GetCodeVersionError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10464, __c327, 0) as any as S.Schema<GetCodeVersionRequest>,
-  output: __S(10465, __c327, 1) as any as S.Schema<IoK8sApimachineryPkgVersionInfo>,
+  input: __S(8960, __c280, 0) as any as S.Schema<GetCodeVersionRequest>,
+  output: __S(8961, __c280, 1) as any as S.Schema<IoK8sApimachineryPkgVersionInfo>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11773,8 +10796,8 @@ export const getCoreAPIVersions: API.OperationMethod<
   GetCoreAPIVersionsError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10496, __c328, 0) as any as S.Schema<GetCoreAPIVersionsRequest>,
-  output: __S(10497, __c328, 1) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIVersions>,
+  input: __S(8992, __c281, 0) as any as S.Schema<GetCoreAPIVersionsRequest>,
+  output: __S(8993, __c281, 1) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIVersions>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11791,8 +10814,8 @@ export const getCoreV1APIResources: API.OperationMethod<
   GetCoreV1APIResourcesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<GetCoreV1APIResourcesRequest>,
-  output: __S(10562, __c330, 2) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIResourceList>,
+  input: __S(9056, __c283, 0) as any as S.Schema<GetCoreV1APIResourcesRequest>,
+  output: __S(9059, __c283, 3) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIResourceList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11809,32 +10832,14 @@ export const getLifecycleAPIGroup: API.OperationMethod<
   GetLifecycleAPIGroupError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10592, __c331, 0) as any as S.Schema<GetLifecycleAPIGroupRequest>,
-  output: __S(10434, __c326, 2) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIGroup>,
+  input: __S(9088, __c284, 0) as any as S.Schema<GetLifecycleAPIGroupRequest>,
+  output: __S(8930, __c279, 2) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIGroup>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetLifecycleAPIGroup",
-}));
-
-export type GetLifecycleV1alpha1APIResourcesError = KubernetesOpError;
-/** get available resources */
-export const getLifecycleV1alpha1APIResources: API.OperationMethod<
-  GetLifecycleV1alpha1APIResourcesRequest,
-  IoK8sApimachineryPkgApisMetaV1APIResourceList,
-  GetLifecycleV1alpha1APIResourcesError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(10624, __c332, 0) as any as S.Schema<GetLifecycleV1alpha1APIResourcesRequest>,
-  output: __S(10562, __c330, 2) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1APIResourceList>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetLifecycleV1alpha1APIResources",
 }));
 
 export type GetServiceAccountIssuerOpenIDConfigurationError = KubernetesOpError;
@@ -11845,14 +10850,10 @@ export const getServiceAccountIssuerOpenIDConfiguration: API.OperationMethod<
   GetServiceAccountIssuerOpenIDConfigurationError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    10656,
-    __c333,
-    0,
-  ) as any as S.Schema<GetServiceAccountIssuerOpenIDConfigurationRequest>,
+  input: __S(9120, __c285, 0) as any as S.Schema<GetServiceAccountIssuerOpenIDConfigurationRequest>,
   output: __S(
-    6880,
-    __c215,
+    5728,
+    __c179,
     0,
   ) as any as S.Schema<GetServiceAccountIssuerOpenIDConfigurationResponse>,
   errors: [],
@@ -11871,8 +10872,8 @@ export const getServiceAccountIssuerOpenIDKeyset: API.OperationMethod<
   GetServiceAccountIssuerOpenIDKeysetError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<GetServiceAccountIssuerOpenIDKeysetRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<GetServiceAccountIssuerOpenIDKeysetResponse>,
+  input: __S(9152, __c286, 0) as any as S.Schema<GetServiceAccountIssuerOpenIDKeysetRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<GetServiceAccountIssuerOpenIDKeysetResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11889,8 +10890,8 @@ export const listCoreV1ComponentStatus: API.OperationMethod<
   ListCoreV1ComponentStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<ListCoreV1ComponentStatusRequest>,
-  output: __S(66, __c2, 2) as any as S.Schema<IoK8sApiCoreV1ComponentStatusList>,
+  input: __S(9184, __c287, 0) as any as S.Schema<ListCoreV1ComponentStatusRequest>,
+  output: __S(9186, __c287, 2) as any as S.Schema<IoK8sApiCoreV1ComponentStatusList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11907,8 +10908,8 @@ export const listCoreV1ConfigMapForAllNamespaces: API.OperationMethod<
   ListCoreV1ConfigMapForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<ListCoreV1ConfigMapForAllNamespacesRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<IoK8sApiCoreV1ConfigMapList>,
+  input: __S(9248, __c289, 0) as any as S.Schema<ListCoreV1ConfigMapForAllNamespacesRequest>,
+  output: __S(9281, __c290, 1) as any as S.Schema<IoK8sApiCoreV1ConfigMapList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11925,8 +10926,8 @@ export const listCoreV1EndpointsForAllNamespaces: API.OperationMethod<
   ListCoreV1EndpointsForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<ListCoreV1EndpointsForAllNamespacesRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<IoK8sApiCoreV1EndpointsList>,
+  input: __S(9312, __c291, 0) as any as S.Schema<ListCoreV1EndpointsForAllNamespacesRequest>,
+  output: __S(9345, __c292, 1) as any as S.Schema<IoK8sApiCoreV1EndpointsList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11943,8 +10944,8 @@ export const listCoreV1EventForAllNamespaces: API.OperationMethod<
   ListCoreV1EventForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<ListCoreV1EventForAllNamespacesRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<IoK8sApiCoreV1EventList>,
+  input: __S(9376, __c293, 0) as any as S.Schema<ListCoreV1EventForAllNamespacesRequest>,
+  output: __S(9409, __c294, 1) as any as S.Schema<IoK8sApiCoreV1EventList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11961,8 +10962,8 @@ export const listCoreV1LimitRangeForAllNamespaces: API.OperationMethod<
   ListCoreV1LimitRangeForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListCoreV1LimitRangeForAllNamespacesRequest>,
-  output: __S(353, __c11, 1) as any as S.Schema<IoK8sApiCoreV1LimitRangeList>,
+  input: __S(9440, __c295, 0) as any as S.Schema<ListCoreV1LimitRangeForAllNamespacesRequest>,
+  output: __S(9473, __c296, 1) as any as S.Schema<IoK8sApiCoreV1LimitRangeList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11979,8 +10980,8 @@ export const listCoreV1Namespace: API.OperationMethod<
   ListCoreV1NamespaceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<ListCoreV1NamespaceRequest>,
-  output: __S(386, __c12, 2) as any as S.Schema<IoK8sApiCoreV1NamespaceList>,
+  input: __S(9504, __c297, 0) as any as S.Schema<ListCoreV1NamespaceRequest>,
+  output: __S(9506, __c297, 2) as any as S.Schema<IoK8sApiCoreV1NamespaceList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -11997,8 +10998,8 @@ export const listCoreV1NamespacedConfigMap: API.OperationMethod<
   ListCoreV1NamespacedConfigMapError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListCoreV1NamespacedConfigMapRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<IoK8sApiCoreV1ConfigMapList>,
+  input: __S(32, __c1, 0) as any as S.Schema<ListCoreV1NamespacedConfigMapRequest>,
+  output: __S(9281, __c290, 1) as any as S.Schema<IoK8sApiCoreV1ConfigMapList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12015,8 +11016,8 @@ export const listCoreV1NamespacedEndpoints: API.OperationMethod<
   ListCoreV1NamespacedEndpointsError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ListCoreV1NamespacedEndpointsRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<IoK8sApiCoreV1EndpointsList>,
+  input: __S(64, __c2, 0) as any as S.Schema<ListCoreV1NamespacedEndpointsRequest>,
+  output: __S(9345, __c292, 1) as any as S.Schema<IoK8sApiCoreV1EndpointsList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12033,8 +11034,8 @@ export const listCoreV1NamespacedEvent: API.OperationMethod<
   ListCoreV1NamespacedEventError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ListCoreV1NamespacedEventRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<IoK8sApiCoreV1EventList>,
+  input: __S(96, __c3, 0) as any as S.Schema<ListCoreV1NamespacedEventRequest>,
+  output: __S(9409, __c294, 1) as any as S.Schema<IoK8sApiCoreV1EventList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12051,8 +11052,8 @@ export const listCoreV1NamespacedLimitRange: API.OperationMethod<
   ListCoreV1NamespacedLimitRangeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListCoreV1NamespacedLimitRangeRequest>,
-  output: __S(353, __c11, 1) as any as S.Schema<IoK8sApiCoreV1LimitRangeList>,
+  input: __S(128, __c4, 0) as any as S.Schema<ListCoreV1NamespacedLimitRangeRequest>,
+  output: __S(9473, __c296, 1) as any as S.Schema<IoK8sApiCoreV1LimitRangeList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12069,8 +11070,8 @@ export const listCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   ListCoreV1NamespacedPersistentVolumeClaimError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ListCoreV1NamespacedPersistentVolumeClaimRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaimList>,
+  input: __S(160, __c5, 0) as any as S.Schema<ListCoreV1NamespacedPersistentVolumeClaimRequest>,
+  output: __S(193, __c6, 1) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaimList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12087,8 +11088,8 @@ export const listCoreV1NamespacedPod: API.OperationMethod<
   ListCoreV1NamespacedPodError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<ListCoreV1NamespacedPodRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<IoK8sApiCoreV1PodList>,
+  input: __S(224, __c7, 0) as any as S.Schema<ListCoreV1NamespacedPodRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<IoK8sApiCoreV1PodList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12105,8 +11106,8 @@ export const listCoreV1NamespacedPodTemplate: API.OperationMethod<
   ListCoreV1NamespacedPodTemplateError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListCoreV1NamespacedPodTemplateRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<IoK8sApiCoreV1PodTemplateList>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListCoreV1NamespacedPodTemplateRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<IoK8sApiCoreV1PodTemplateList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12123,8 +11124,8 @@ export const listCoreV1NamespacedReplicationController: API.OperationMethod<
   ListCoreV1NamespacedReplicationControllerError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<ListCoreV1NamespacedReplicationControllerRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<IoK8sApiCoreV1ReplicationControllerList>,
+  input: __S(352, __c11, 0) as any as S.Schema<ListCoreV1NamespacedReplicationControllerRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<IoK8sApiCoreV1ReplicationControllerList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12141,8 +11142,8 @@ export const listCoreV1NamespacedResourceQuota: API.OperationMethod<
   ListCoreV1NamespacedResourceQuotaError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<ListCoreV1NamespacedResourceQuotaRequest>,
-  output: __S(865, __c27, 1) as any as S.Schema<IoK8sApiCoreV1ResourceQuotaList>,
+  input: __S(416, __c13, 0) as any as S.Schema<ListCoreV1NamespacedResourceQuotaRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<IoK8sApiCoreV1ResourceQuotaList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12159,8 +11160,8 @@ export const listCoreV1NamespacedSecret: API.OperationMethod<
   ListCoreV1NamespacedSecretError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<ListCoreV1NamespacedSecretRequest>,
-  output: __S(929, __c29, 1) as any as S.Schema<IoK8sApiCoreV1SecretList>,
+  input: __S(480, __c15, 0) as any as S.Schema<ListCoreV1NamespacedSecretRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<IoK8sApiCoreV1SecretList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12177,8 +11178,8 @@ export const listCoreV1NamespacedService: API.OperationMethod<
   ListCoreV1NamespacedServiceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<ListCoreV1NamespacedServiceRequest>,
-  output: __S(993, __c31, 1) as any as S.Schema<IoK8sApiCoreV1ServiceList>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListCoreV1NamespacedServiceRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<IoK8sApiCoreV1ServiceList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12195,8 +11196,8 @@ export const listCoreV1NamespacedServiceAccount: API.OperationMethod<
   ListCoreV1NamespacedServiceAccountError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ListCoreV1NamespacedServiceAccountRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccountList>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListCoreV1NamespacedServiceAccountRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccountList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12213,8 +11214,8 @@ export const listCoreV1Node: API.OperationMethod<
   ListCoreV1NodeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<ListCoreV1NodeRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<IoK8sApiCoreV1NodeList>,
+  input: __S(704, __c22, 0) as any as S.Schema<ListCoreV1NodeRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<IoK8sApiCoreV1NodeList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12231,8 +11232,8 @@ export const listCoreV1PersistentVolume: API.OperationMethod<
   ListCoreV1PersistentVolumeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<ListCoreV1PersistentVolumeRequest>,
-  output: __S(1154, __c36, 2) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeList>,
+  input: __S(736, __c23, 0) as any as S.Schema<ListCoreV1PersistentVolumeRequest>,
+  output: __S(738, __c23, 2) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12250,11 +11251,11 @@ export const listCoreV1PersistentVolumeClaimForAllNamespaces: API.OperationMetho
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1184,
-    __c37,
+    768,
+    __c24,
     0,
   ) as any as S.Schema<ListCoreV1PersistentVolumeClaimForAllNamespacesRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaimList>,
+  output: __S(193, __c6, 1) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaimList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12271,8 +11272,8 @@ export const listCoreV1PodForAllNamespaces: API.OperationMethod<
   ListCoreV1PodForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<ListCoreV1PodForAllNamespacesRequest>,
-  output: __S(673, __c21, 1) as any as S.Schema<IoK8sApiCoreV1PodList>,
+  input: __S(800, __c25, 0) as any as S.Schema<ListCoreV1PodForAllNamespacesRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<IoK8sApiCoreV1PodList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12289,8 +11290,8 @@ export const listCoreV1PodTemplateForAllNamespaces: API.OperationMethod<
   ListCoreV1PodTemplateForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<ListCoreV1PodTemplateForAllNamespacesRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<IoK8sApiCoreV1PodTemplateList>,
+  input: __S(832, __c26, 0) as any as S.Schema<ListCoreV1PodTemplateForAllNamespacesRequest>,
+  output: __S(321, __c10, 1) as any as S.Schema<IoK8sApiCoreV1PodTemplateList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12308,11 +11309,11 @@ export const listCoreV1ReplicationControllerForAllNamespaces: API.OperationMetho
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1280,
-    __c40,
+    864,
+    __c27,
     0,
   ) as any as S.Schema<ListCoreV1ReplicationControllerForAllNamespacesRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<IoK8sApiCoreV1ReplicationControllerList>,
+  output: __S(385, __c12, 1) as any as S.Schema<IoK8sApiCoreV1ReplicationControllerList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12329,8 +11330,8 @@ export const listCoreV1ResourceQuotaForAllNamespaces: API.OperationMethod<
   ListCoreV1ResourceQuotaForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<ListCoreV1ResourceQuotaForAllNamespacesRequest>,
-  output: __S(865, __c27, 1) as any as S.Schema<IoK8sApiCoreV1ResourceQuotaList>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListCoreV1ResourceQuotaForAllNamespacesRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<IoK8sApiCoreV1ResourceQuotaList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12347,8 +11348,8 @@ export const listCoreV1SecretForAllNamespaces: API.OperationMethod<
   ListCoreV1SecretForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<ListCoreV1SecretForAllNamespacesRequest>,
-  output: __S(929, __c29, 1) as any as S.Schema<IoK8sApiCoreV1SecretList>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListCoreV1SecretForAllNamespacesRequest>,
+  output: __S(513, __c16, 1) as any as S.Schema<IoK8sApiCoreV1SecretList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12365,8 +11366,8 @@ export const listCoreV1ServiceAccountForAllNamespaces: API.OperationMethod<
   ListCoreV1ServiceAccountForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<ListCoreV1ServiceAccountForAllNamespacesRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccountList>,
+  input: __S(992, __c31, 0) as any as S.Schema<ListCoreV1ServiceAccountForAllNamespacesRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccountList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12383,98 +11384,14 @@ export const listCoreV1ServiceForAllNamespaces: API.OperationMethod<
   ListCoreV1ServiceForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ListCoreV1ServiceForAllNamespacesRequest>,
-  output: __S(993, __c31, 1) as any as S.Schema<IoK8sApiCoreV1ServiceList>,
+  input: __S(1024, __c32, 0) as any as S.Schema<ListCoreV1ServiceForAllNamespacesRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<IoK8sApiCoreV1ServiceList>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCoreV1ServiceForAllNamespaces",
-}));
-
-export type ListLifecycleV1alpha1EvictionForAllNamespacesError = KubernetesOpError;
-/** list or watch objects of kind Eviction */
-export const listLifecycleV1alpha1EvictionForAllNamespaces: API.OperationMethod<
-  ListLifecycleV1alpha1EvictionForAllNamespacesRequest,
-  IoK8sApiLifecycleV1alpha1EvictionList,
-  ListLifecycleV1alpha1EvictionForAllNamespacesError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    1440,
-    __c45,
-    0,
-  ) as any as S.Schema<ListLifecycleV1alpha1EvictionForAllNamespacesRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionList>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListLifecycleV1alpha1EvictionForAllNamespaces",
-}));
-
-export type ListLifecycleV1alpha1EvictionRequestForAllNamespacesError = KubernetesOpError;
-/** list or watch objects of kind EvictionRequest */
-export const listLifecycleV1alpha1EvictionRequestForAllNamespaces: API.OperationMethod<
-  ListLifecycleV1alpha1EvictionRequestForAllNamespacesRequest,
-  IoK8sApiLifecycleV1alpha1EvictionRequestList,
-  ListLifecycleV1alpha1EvictionRequestForAllNamespacesError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    1536,
-    __c48,
-    0,
-  ) as any as S.Schema<ListLifecycleV1alpha1EvictionRequestForAllNamespacesRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequestList>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListLifecycleV1alpha1EvictionRequestForAllNamespaces",
-}));
-
-export type ListLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
-/** list or watch objects of kind Eviction */
-export const listLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
-  ListLifecycleV1alpha1NamespacedEvictionRequest2,
-  IoK8sApiLifecycleV1alpha1EvictionList,
-  ListLifecycleV1alpha1NamespacedEvictionError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<ListLifecycleV1alpha1NamespacedEvictionRequest2>,
-  output: __S(1473, __c46, 1) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionList>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListLifecycleV1alpha1NamespacedEviction",
-}));
-
-export type ListLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
-/** list or watch objects of kind EvictionRequest */
-export const listLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
-  ListLifecycleV1alpha1NamespacedEvictionRequestRequest,
-  IoK8sApiLifecycleV1alpha1EvictionRequestList,
-  ListLifecycleV1alpha1NamespacedEvictionRequestError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    1632,
-    __c51,
-    0,
-  ) as any as S.Schema<ListLifecycleV1alpha1NamespacedEvictionRequestRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequestList>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListLifecycleV1alpha1NamespacedEvictionRequest",
 }));
 
 export type LogFileHandlerError = KubernetesOpError;
@@ -12484,8 +11401,8 @@ export const logFileHandler: API.OperationMethod<
   LogFileHandlerError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<LogFileHandlerRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<LogFileHandlerResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<LogFileHandlerRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<LogFileHandlerResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12501,8 +11418,8 @@ export const logFileListHandler: API.OperationMethod<
   LogFileListHandlerError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<LogFileListHandlerRequest>,
-  output: __S(1696, __c53, 0) as any as S.Schema<LogFileListHandlerResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<LogFileListHandlerRequest>,
+  output: __S(1088, __c34, 0) as any as S.Schema<LogFileListHandlerResponse>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12523,8 +11440,8 @@ export const patchCoreV1Namespace: API.OperationMethod<
   PatchCoreV1NamespaceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<PatchCoreV1NamespaceRequest>,
-  output: __S(7234, __c226, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
+  input: __S(1152, __c36, 0) as any as S.Schema<PatchCoreV1NamespaceRequest>,
+  output: __S(6178, __c193, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12545,8 +11462,8 @@ export const patchCoreV1NamespacedConfigMap: API.OperationMethod<
   PatchCoreV1NamespacedConfigMapError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<PatchCoreV1NamespacedConfigMapRequest>,
-  output: __S(7520, __c235, 0) as any as S.Schema<IoK8sApiCoreV1ConfigMap>,
+  input: __S(1184, __c37, 0) as any as S.Schema<PatchCoreV1NamespacedConfigMapRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<IoK8sApiCoreV1ConfigMap>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12567,8 +11484,8 @@ export const patchCoreV1NamespacedEndpoints: API.OperationMethod<
   PatchCoreV1NamespacedEndpointsError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<PatchCoreV1NamespacedEndpointsRequest>,
-  output: __S(7590, __c237, 6) as any as S.Schema<IoK8sApiCoreV1Endpoints>,
+  input: __S(1216, __c38, 0) as any as S.Schema<PatchCoreV1NamespacedEndpointsRequest>,
+  output: __S(6438, __c201, 6) as any as S.Schema<IoK8sApiCoreV1Endpoints>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12589,8 +11506,8 @@ export const patchCoreV1NamespacedEvent: API.OperationMethod<
   PatchCoreV1NamespacedEventError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<PatchCoreV1NamespacedEventRequest>,
-  output: __S(7650, __c239, 2) as any as S.Schema<IoK8sApiCoreV1Event>,
+  input: __S(1248, __c39, 0) as any as S.Schema<PatchCoreV1NamespacedEventRequest>,
+  output: __S(6498, __c203, 2) as any as S.Schema<IoK8sApiCoreV1Event>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12611,8 +11528,8 @@ export const patchCoreV1NamespacedLimitRange: API.OperationMethod<
   PatchCoreV1NamespacedLimitRangeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<PatchCoreV1NamespacedLimitRangeRequest>,
-  output: __S(7715, __c241, 3) as any as S.Schema<IoK8sApiCoreV1LimitRange>,
+  input: __S(1280, __c40, 0) as any as S.Schema<PatchCoreV1NamespacedLimitRangeRequest>,
+  output: __S(6563, __c205, 3) as any as S.Schema<IoK8sApiCoreV1LimitRange>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12633,8 +11550,8 @@ export const patchCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   PatchCoreV1NamespacedPersistentVolumeClaimError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<PatchCoreV1NamespacedPersistentVolumeClaimRequest>,
-  output: __S(7876, __c246, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
+  input: __S(1312, __c41, 0) as any as S.Schema<PatchCoreV1NamespacedPersistentVolumeClaimRequest>,
+  output: __S(6724, __c210, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12656,11 +11573,11 @@ export const patchCoreV1NamespacedPersistentVolumeClaimStatus: API.OperationMeth
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1984,
-    __c62,
+    1376,
+    __c43,
     0,
   ) as any as S.Schema<PatchCoreV1NamespacedPersistentVolumeClaimStatusRequest>,
-  output: __S(7876, __c246, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
+  output: __S(6724, __c210, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12681,8 +11598,8 @@ export const patchCoreV1NamespacedPod: API.OperationMethod<
   PatchCoreV1NamespacedPodError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<PatchCoreV1NamespacedPodRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  input: __S(1408, __c44, 0) as any as S.Schema<PatchCoreV1NamespacedPodRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12703,8 +11620,8 @@ export const patchCoreV1NamespacedPodEphemeralcontainers: API.OperationMethod<
   PatchCoreV1NamespacedPodEphemeralcontainersError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<PatchCoreV1NamespacedPodEphemeralcontainersRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  input: __S(1440, __c45, 0) as any as S.Schema<PatchCoreV1NamespacedPodEphemeralcontainersRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12725,8 +11642,8 @@ export const patchCoreV1NamespacedPodResize: API.OperationMethod<
   PatchCoreV1NamespacedPodResizeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<PatchCoreV1NamespacedPodResizeRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  input: __S(1472, __c46, 0) as any as S.Schema<PatchCoreV1NamespacedPodResizeRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12747,8 +11664,8 @@ export const patchCoreV1NamespacedPodStatus: API.OperationMethod<
   PatchCoreV1NamespacedPodStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<PatchCoreV1NamespacedPodStatusRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  input: __S(1504, __c47, 0) as any as S.Schema<PatchCoreV1NamespacedPodStatusRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12769,8 +11686,8 @@ export const patchCoreV1NamespacedPodTemplate: API.OperationMethod<
   PatchCoreV1NamespacedPodTemplateError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<PatchCoreV1NamespacedPodTemplateRequest>,
-  output: __S(8384, __c262, 0) as any as S.Schema<IoK8sApiCoreV1PodTemplate>,
+  input: __S(1536, __c48, 0) as any as S.Schema<PatchCoreV1NamespacedPodTemplateRequest>,
+  output: __S(7232, __c226, 0) as any as S.Schema<IoK8sApiCoreV1PodTemplate>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12791,8 +11708,8 @@ export const patchCoreV1NamespacedReplicationController: API.OperationMethod<
   PatchCoreV1NamespacedReplicationControllerError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<PatchCoreV1NamespacedReplicationControllerRequest>,
-  output: __S(8482, __c265, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
+  input: __S(1568, __c49, 0) as any as S.Schema<PatchCoreV1NamespacedReplicationControllerRequest>,
+  output: __S(7330, __c229, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12814,11 +11731,11 @@ export const patchCoreV1NamespacedReplicationControllerScale: API.OperationMetho
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2208,
-    __c69,
+    1600,
+    __c50,
     0,
   ) as any as S.Schema<PatchCoreV1NamespacedReplicationControllerScaleRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<IoK8sApiAutoscalingV1Scale>,
+  output: __S(1634, __c51, 2) as any as S.Schema<IoK8sApiAutoscalingV1Scale>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12840,11 +11757,11 @@ export const patchCoreV1NamespacedReplicationControllerStatus: API.OperationMeth
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2272,
-    __c71,
+    1664,
+    __c52,
     0,
   ) as any as S.Schema<PatchCoreV1NamespacedReplicationControllerStatusRequest>,
-  output: __S(8482, __c265, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
+  output: __S(7330, __c229, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12865,8 +11782,8 @@ export const patchCoreV1NamespacedResourceQuota: API.OperationMethod<
   PatchCoreV1NamespacedResourceQuotaError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<PatchCoreV1NamespacedResourceQuotaRequest>,
-  output: __S(8549, __c267, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
+  input: __S(1696, __c53, 0) as any as S.Schema<PatchCoreV1NamespacedResourceQuotaRequest>,
+  output: __S(7397, __c231, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12887,8 +11804,8 @@ export const patchCoreV1NamespacedResourceQuotaStatus: API.OperationMethod<
   PatchCoreV1NamespacedResourceQuotaStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<PatchCoreV1NamespacedResourceQuotaStatusRequest>,
-  output: __S(8549, __c267, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
+  input: __S(1760, __c55, 0) as any as S.Schema<PatchCoreV1NamespacedResourceQuotaStatusRequest>,
+  output: __S(7397, __c231, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12909,8 +11826,8 @@ export const patchCoreV1NamespacedSecret: API.OperationMethod<
   PatchCoreV1NamespacedSecretError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<PatchCoreV1NamespacedSecretRequest>,
-  output: __S(8609, __c269, 1) as any as S.Schema<IoK8sApiCoreV1Secret>,
+  input: __S(1792, __c56, 0) as any as S.Schema<PatchCoreV1NamespacedSecretRequest>,
+  output: __S(7457, __c233, 1) as any as S.Schema<IoK8sApiCoreV1Secret>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12931,8 +11848,8 @@ export const patchCoreV1NamespacedService: API.OperationMethod<
   PatchCoreV1NamespacedServiceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<PatchCoreV1NamespacedServiceRequest>,
-  output: __S(8715, __c272, 11) as any as S.Schema<IoK8sApiCoreV1Service>,
+  input: __S(1824, __c57, 0) as any as S.Schema<PatchCoreV1NamespacedServiceRequest>,
+  output: __S(7533, __c235, 13) as any as S.Schema<IoK8sApiCoreV1Service>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12953,8 +11870,8 @@ export const patchCoreV1NamespacedServiceAccount: API.OperationMethod<
   PatchCoreV1NamespacedServiceAccountError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<PatchCoreV1NamespacedServiceAccountRequest>,
-  output: __S(8769, __c274, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccount>,
+  input: __S(1856, __c58, 0) as any as S.Schema<PatchCoreV1NamespacedServiceAccountRequest>,
+  output: __S(7585, __c237, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccount>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12975,8 +11892,8 @@ export const patchCoreV1NamespacedServiceStatus: API.OperationMethod<
   PatchCoreV1NamespacedServiceStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<PatchCoreV1NamespacedServiceStatusRequest>,
-  output: __S(8715, __c272, 11) as any as S.Schema<IoK8sApiCoreV1Service>,
+  input: __S(1888, __c59, 0) as any as S.Schema<PatchCoreV1NamespacedServiceStatusRequest>,
+  output: __S(7533, __c235, 13) as any as S.Schema<IoK8sApiCoreV1Service>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -12997,8 +11914,8 @@ export const patchCoreV1NamespaceStatus: API.OperationMethod<
   PatchCoreV1NamespaceStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<PatchCoreV1NamespaceStatusRequest>,
-  output: __S(7234, __c226, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
+  input: __S(1920, __c60, 0) as any as S.Schema<PatchCoreV1NamespaceStatusRequest>,
+  output: __S(6178, __c193, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13015,8 +11932,8 @@ export const patchCoreV1Node: API.OperationMethod<
   PatchCoreV1NodeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<PatchCoreV1NodeRequest>,
-  output: __S(8886, __c277, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
+  input: __S(1952, __c61, 0) as any as S.Schema<PatchCoreV1NodeRequest>,
+  output: __S(7702, __c240, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13037,8 +11954,8 @@ export const patchCoreV1NodeStatus: API.OperationMethod<
   PatchCoreV1NodeStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<PatchCoreV1NodeStatusRequest>,
-  output: __S(8886, __c277, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
+  input: __S(1984, __c62, 0) as any as S.Schema<PatchCoreV1NodeStatusRequest>,
+  output: __S(7702, __c240, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13059,8 +11976,8 @@ export const patchCoreV1PersistentVolume: API.OperationMethod<
   PatchCoreV1PersistentVolumeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<PatchCoreV1PersistentVolumeRequest>,
-  output: __S(8943, __c279, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
+  input: __S(2016, __c63, 0) as any as S.Schema<PatchCoreV1PersistentVolumeRequest>,
+  output: __S(7759, __c242, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13081,98 +11998,14 @@ export const patchCoreV1PersistentVolumeStatus: API.OperationMethod<
   PatchCoreV1PersistentVolumeStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<PatchCoreV1PersistentVolumeStatusRequest>,
-  output: __S(8943, __c279, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
+  input: __S(2048, __c64, 0) as any as S.Schema<PatchCoreV1PersistentVolumeStatusRequest>,
+  output: __S(7759, __c242, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchCoreV1PersistentVolumeStatus",
-}));
-
-export type PatchLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
-/** partially update the specified Eviction */
-export const patchLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
-  PatchLifecycleV1alpha1NamespacedEvictionRequest2,
-  IoK8sApiLifecycleV1alpha1Eviction,
-  PatchLifecycleV1alpha1NamespacedEvictionError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<PatchLifecycleV1alpha1NamespacedEvictionRequest2>,
-  output: __S(9000, __c281, 8) as any as S.Schema<IoK8sApiLifecycleV1alpha1Eviction>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "PatchLifecycleV1alpha1NamespacedEviction",
-}));
-
-export type PatchLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
-/** partially update the specified EvictionRequest */
-export const patchLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
-  PatchLifecycleV1alpha1NamespacedEvictionRequestRequest,
-  IoK8sApiLifecycleV1alpha1EvictionRequest,
-  PatchLifecycleV1alpha1NamespacedEvictionRequestError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    2752,
-    __c86,
-    0,
-  ) as any as S.Schema<PatchLifecycleV1alpha1NamespacedEvictionRequestRequest>,
-  output: __S(9090, __c284, 2) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequest>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "PatchLifecycleV1alpha1NamespacedEvictionRequest",
-}));
-
-export type PatchLifecycleV1alpha1NamespacedEvictionRequestStatusError = KubernetesOpError;
-/** partially update status of the specified EvictionRequest */
-export const patchLifecycleV1alpha1NamespacedEvictionRequestStatus: API.OperationMethod<
-  PatchLifecycleV1alpha1NamespacedEvictionRequestStatusRequest,
-  IoK8sApiLifecycleV1alpha1EvictionRequest,
-  PatchLifecycleV1alpha1NamespacedEvictionRequestStatusError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    2784,
-    __c87,
-    0,
-  ) as any as S.Schema<PatchLifecycleV1alpha1NamespacedEvictionRequestStatusRequest>,
-  output: __S(9090, __c284, 2) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequest>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "PatchLifecycleV1alpha1NamespacedEvictionRequestStatus",
-}));
-
-export type PatchLifecycleV1alpha1NamespacedEvictionStatusError = KubernetesOpError;
-/** partially update status of the specified Eviction */
-export const patchLifecycleV1alpha1NamespacedEvictionStatus: API.OperationMethod<
-  PatchLifecycleV1alpha1NamespacedEvictionStatusRequest,
-  IoK8sApiLifecycleV1alpha1Eviction,
-  PatchLifecycleV1alpha1NamespacedEvictionStatusError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    2816,
-    __c88,
-    0,
-  ) as any as S.Schema<PatchLifecycleV1alpha1NamespacedEvictionStatusRequest>,
-  output: __S(9000, __c281, 8) as any as S.Schema<IoK8sApiLifecycleV1alpha1Eviction>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "PatchLifecycleV1alpha1NamespacedEvictionStatus",
 }));
 
 export type ReadCoreV1ComponentStatusError = NotFound | KubernetesOpError;
@@ -13183,8 +12016,8 @@ export const readCoreV1ComponentStatus: API.OperationMethod<
   ReadCoreV1ComponentStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ReadCoreV1ComponentStatusRequest>,
-  output: __S(98, __c3, 2) as any as S.Schema<IoK8sApiCoreV1ComponentStatus>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ReadCoreV1ComponentStatusRequest>,
+  output: __S(9218, __c288, 2) as any as S.Schema<IoK8sApiCoreV1ComponentStatus>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13201,8 +12034,8 @@ export const readCoreV1Namespace: API.OperationMethod<
   ReadCoreV1NamespaceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<ReadCoreV1NamespaceRequest>,
-  output: __S(7234, __c226, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ReadCoreV1NamespaceRequest>,
+  output: __S(6178, __c193, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13219,8 +12052,8 @@ export const readCoreV1NamespacedConfigMap: API.OperationMethod<
   ReadCoreV1NamespacedConfigMapError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<ReadCoreV1NamespacedConfigMapRequest>,
-  output: __S(7520, __c235, 0) as any as S.Schema<IoK8sApiCoreV1ConfigMap>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ReadCoreV1NamespacedConfigMapRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<IoK8sApiCoreV1ConfigMap>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13237,8 +12070,8 @@ export const readCoreV1NamespacedEndpoints: API.OperationMethod<
   ReadCoreV1NamespacedEndpointsError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<ReadCoreV1NamespacedEndpointsRequest>,
-  output: __S(7590, __c237, 6) as any as S.Schema<IoK8sApiCoreV1Endpoints>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ReadCoreV1NamespacedEndpointsRequest>,
+  output: __S(6438, __c201, 6) as any as S.Schema<IoK8sApiCoreV1Endpoints>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13255,8 +12088,8 @@ export const readCoreV1NamespacedEvent: API.OperationMethod<
   ReadCoreV1NamespacedEventError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ReadCoreV1NamespacedEventRequest>,
-  output: __S(7650, __c239, 2) as any as S.Schema<IoK8sApiCoreV1Event>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ReadCoreV1NamespacedEventRequest>,
+  output: __S(6498, __c203, 2) as any as S.Schema<IoK8sApiCoreV1Event>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13273,8 +12106,8 @@ export const readCoreV1NamespacedLimitRange: API.OperationMethod<
   ReadCoreV1NamespacedLimitRangeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ReadCoreV1NamespacedLimitRangeRequest>,
-  output: __S(7715, __c241, 3) as any as S.Schema<IoK8sApiCoreV1LimitRange>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ReadCoreV1NamespacedLimitRangeRequest>,
+  output: __S(6563, __c205, 3) as any as S.Schema<IoK8sApiCoreV1LimitRange>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13291,8 +12124,8 @@ export const readCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   ReadCoreV1NamespacedPersistentVolumeClaimError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ReadCoreV1NamespacedPersistentVolumeClaimRequest>,
-  output: __S(7876, __c246, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ReadCoreV1NamespacedPersistentVolumeClaimRequest>,
+  output: __S(6724, __c210, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13310,11 +12143,11 @@ export const readCoreV1NamespacedPersistentVolumeClaimStatus: API.OperationMetho
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3104,
-    __c97,
+    2336,
+    __c73,
     0,
   ) as any as S.Schema<ReadCoreV1NamespacedPersistentVolumeClaimStatusRequest>,
-  output: __S(7876, __c246, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
+  output: __S(6724, __c210, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13331,8 +12164,8 @@ export const readCoreV1NamespacedPod: API.OperationMethod<
   ReadCoreV1NamespacedPodError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ReadCoreV1NamespacedPodRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ReadCoreV1NamespacedPodRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13349,8 +12182,8 @@ export const readCoreV1NamespacedPodEphemeralcontainers: API.OperationMethod<
   ReadCoreV1NamespacedPodEphemeralcontainersError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<ReadCoreV1NamespacedPodEphemeralcontainersRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ReadCoreV1NamespacedPodEphemeralcontainersRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13367,8 +12200,8 @@ export const readCoreV1NamespacedPodLog: API.OperationMethod<
   ReadCoreV1NamespacedPodLogError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ReadCoreV1NamespacedPodLogRequest>,
-  output: __S(6880, __c215, 0) as any as S.Schema<ReadCoreV1NamespacedPodLogResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ReadCoreV1NamespacedPodLogRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<ReadCoreV1NamespacedPodLogResponse>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13385,8 +12218,8 @@ export const readCoreV1NamespacedPodResize: API.OperationMethod<
   ReadCoreV1NamespacedPodResizeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<ReadCoreV1NamespacedPodResizeRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ReadCoreV1NamespacedPodResizeRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13403,8 +12236,8 @@ export const readCoreV1NamespacedPodStatus: API.OperationMethod<
   ReadCoreV1NamespacedPodStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<ReadCoreV1NamespacedPodStatusRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ReadCoreV1NamespacedPodStatusRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13421,8 +12254,8 @@ export const readCoreV1NamespacedPodTemplate: API.OperationMethod<
   ReadCoreV1NamespacedPodTemplateError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<ReadCoreV1NamespacedPodTemplateRequest>,
-  output: __S(8384, __c262, 0) as any as S.Schema<IoK8sApiCoreV1PodTemplate>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ReadCoreV1NamespacedPodTemplateRequest>,
+  output: __S(7232, __c226, 0) as any as S.Schema<IoK8sApiCoreV1PodTemplate>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13439,8 +12272,8 @@ export const readCoreV1NamespacedReplicationController: API.OperationMethod<
   ReadCoreV1NamespacedReplicationControllerError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<ReadCoreV1NamespacedReplicationControllerRequest>,
-  output: __S(8482, __c265, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ReadCoreV1NamespacedReplicationControllerRequest>,
+  output: __S(7330, __c229, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13458,11 +12291,11 @@ export const readCoreV1NamespacedReplicationControllerScale: API.OperationMethod
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3392,
-    __c106,
+    2624,
+    __c82,
     0,
   ) as any as S.Schema<ReadCoreV1NamespacedReplicationControllerScaleRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<IoK8sApiAutoscalingV1Scale>,
+  output: __S(1634, __c51, 2) as any as S.Schema<IoK8sApiAutoscalingV1Scale>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13480,11 +12313,11 @@ export const readCoreV1NamespacedReplicationControllerStatus: API.OperationMetho
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3424,
-    __c107,
+    2656,
+    __c83,
     0,
   ) as any as S.Schema<ReadCoreV1NamespacedReplicationControllerStatusRequest>,
-  output: __S(8482, __c265, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
+  output: __S(7330, __c229, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13501,8 +12334,8 @@ export const readCoreV1NamespacedResourceQuota: API.OperationMethod<
   ReadCoreV1NamespacedResourceQuotaError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<ReadCoreV1NamespacedResourceQuotaRequest>,
-  output: __S(8549, __c267, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ReadCoreV1NamespacedResourceQuotaRequest>,
+  output: __S(7397, __c231, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13519,8 +12352,8 @@ export const readCoreV1NamespacedResourceQuotaStatus: API.OperationMethod<
   ReadCoreV1NamespacedResourceQuotaStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<ReadCoreV1NamespacedResourceQuotaStatusRequest>,
-  output: __S(8549, __c267, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ReadCoreV1NamespacedResourceQuotaStatusRequest>,
+  output: __S(7397, __c231, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13537,8 +12370,8 @@ export const readCoreV1NamespacedSecret: API.OperationMethod<
   ReadCoreV1NamespacedSecretError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<ReadCoreV1NamespacedSecretRequest>,
-  output: __S(8609, __c269, 1) as any as S.Schema<IoK8sApiCoreV1Secret>,
+  input: __S(2752, __c86, 0) as any as S.Schema<ReadCoreV1NamespacedSecretRequest>,
+  output: __S(7457, __c233, 1) as any as S.Schema<IoK8sApiCoreV1Secret>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13555,8 +12388,8 @@ export const readCoreV1NamespacedService: API.OperationMethod<
   ReadCoreV1NamespacedServiceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<ReadCoreV1NamespacedServiceRequest>,
-  output: __S(8715, __c272, 11) as any as S.Schema<IoK8sApiCoreV1Service>,
+  input: __S(2816, __c88, 0) as any as S.Schema<ReadCoreV1NamespacedServiceRequest>,
+  output: __S(7533, __c235, 13) as any as S.Schema<IoK8sApiCoreV1Service>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13573,8 +12406,8 @@ export const readCoreV1NamespacedServiceAccount: API.OperationMethod<
   ReadCoreV1NamespacedServiceAccountError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<ReadCoreV1NamespacedServiceAccountRequest>,
-  output: __S(8769, __c274, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccount>,
+  input: __S(2848, __c89, 0) as any as S.Schema<ReadCoreV1NamespacedServiceAccountRequest>,
+  output: __S(7585, __c237, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccount>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13591,8 +12424,8 @@ export const readCoreV1NamespacedServiceStatus: API.OperationMethod<
   ReadCoreV1NamespacedServiceStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<ReadCoreV1NamespacedServiceStatusRequest>,
-  output: __S(8715, __c272, 11) as any as S.Schema<IoK8sApiCoreV1Service>,
+  input: __S(2880, __c90, 0) as any as S.Schema<ReadCoreV1NamespacedServiceStatusRequest>,
+  output: __S(7533, __c235, 13) as any as S.Schema<IoK8sApiCoreV1Service>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13609,8 +12442,8 @@ export const readCoreV1NamespaceStatus: API.OperationMethod<
   ReadCoreV1NamespaceStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<ReadCoreV1NamespaceStatusRequest>,
-  output: __S(7234, __c226, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
+  input: __S(2912, __c91, 0) as any as S.Schema<ReadCoreV1NamespaceStatusRequest>,
+  output: __S(6178, __c193, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13627,8 +12460,8 @@ export const readCoreV1Node: API.OperationMethod<
   ReadCoreV1NodeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<ReadCoreV1NodeRequest>,
-  output: __S(8886, __c277, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ReadCoreV1NodeRequest>,
+  output: __S(7702, __c240, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13645,8 +12478,8 @@ export const readCoreV1NodeStatus: API.OperationMethod<
   ReadCoreV1NodeStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<ReadCoreV1NodeStatusRequest>,
-  output: __S(8886, __c277, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ReadCoreV1NodeStatusRequest>,
+  output: __S(7702, __c240, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13663,8 +12496,8 @@ export const readCoreV1PersistentVolume: API.OperationMethod<
   ReadCoreV1PersistentVolumeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<ReadCoreV1PersistentVolumeRequest>,
-  output: __S(8943, __c279, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
+  input: __S(3008, __c94, 0) as any as S.Schema<ReadCoreV1PersistentVolumeRequest>,
+  output: __S(7759, __c242, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13681,98 +12514,14 @@ export const readCoreV1PersistentVolumeStatus: API.OperationMethod<
   ReadCoreV1PersistentVolumeStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<ReadCoreV1PersistentVolumeStatusRequest>,
-  output: __S(8943, __c279, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ReadCoreV1PersistentVolumeStatusRequest>,
+  output: __S(7759, __c242, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
   errors: [NotFound],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadCoreV1PersistentVolumeStatus",
-}));
-
-export type ReadLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
-/** read the specified Eviction */
-export const readLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
-  ReadLifecycleV1alpha1NamespacedEvictionRequest2,
-  IoK8sApiLifecycleV1alpha1Eviction,
-  ReadLifecycleV1alpha1NamespacedEvictionError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<ReadLifecycleV1alpha1NamespacedEvictionRequest2>,
-  output: __S(9000, __c281, 8) as any as S.Schema<IoK8sApiLifecycleV1alpha1Eviction>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ReadLifecycleV1alpha1NamespacedEviction",
-}));
-
-export type ReadLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
-/** read the specified EvictionRequest */
-export const readLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
-  ReadLifecycleV1alpha1NamespacedEvictionRequestRequest,
-  IoK8sApiLifecycleV1alpha1EvictionRequest,
-  ReadLifecycleV1alpha1NamespacedEvictionRequestError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    3872,
-    __c121,
-    0,
-  ) as any as S.Schema<ReadLifecycleV1alpha1NamespacedEvictionRequestRequest>,
-  output: __S(9090, __c284, 2) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequest>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ReadLifecycleV1alpha1NamespacedEvictionRequest",
-}));
-
-export type ReadLifecycleV1alpha1NamespacedEvictionRequestStatusError = KubernetesOpError;
-/** read status of the specified EvictionRequest */
-export const readLifecycleV1alpha1NamespacedEvictionRequestStatus: API.OperationMethod<
-  ReadLifecycleV1alpha1NamespacedEvictionRequestStatusRequest,
-  IoK8sApiLifecycleV1alpha1EvictionRequest,
-  ReadLifecycleV1alpha1NamespacedEvictionRequestStatusError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    3904,
-    __c122,
-    0,
-  ) as any as S.Schema<ReadLifecycleV1alpha1NamespacedEvictionRequestStatusRequest>,
-  output: __S(9090, __c284, 2) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequest>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ReadLifecycleV1alpha1NamespacedEvictionRequestStatus",
-}));
-
-export type ReadLifecycleV1alpha1NamespacedEvictionStatusError = KubernetesOpError;
-/** read status of the specified Eviction */
-export const readLifecycleV1alpha1NamespacedEvictionStatus: API.OperationMethod<
-  ReadLifecycleV1alpha1NamespacedEvictionStatusRequest,
-  IoK8sApiLifecycleV1alpha1Eviction,
-  ReadLifecycleV1alpha1NamespacedEvictionStatusError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    3936,
-    __c123,
-    0,
-  ) as any as S.Schema<ReadLifecycleV1alpha1NamespacedEvictionStatusRequest>,
-  output: __S(9000, __c281, 8) as any as S.Schema<IoK8sApiLifecycleV1alpha1Eviction>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ReadLifecycleV1alpha1NamespacedEvictionStatus",
 }));
 
 export type ReplaceCoreV1NamespaceError =
@@ -13787,8 +12536,8 @@ export const replaceCoreV1Namespace: API.OperationMethod<
   ReplaceCoreV1NamespaceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<ReplaceCoreV1NamespaceRequest>,
-  output: __S(7234, __c226, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ReplaceCoreV1NamespaceRequest>,
+  output: __S(6178, __c193, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13809,8 +12558,8 @@ export const replaceCoreV1NamespacedConfigMap: API.OperationMethod<
   ReplaceCoreV1NamespacedConfigMapError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<ReplaceCoreV1NamespacedConfigMapRequest>,
-  output: __S(7520, __c235, 0) as any as S.Schema<IoK8sApiCoreV1ConfigMap>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ReplaceCoreV1NamespacedConfigMapRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<IoK8sApiCoreV1ConfigMap>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13831,8 +12580,8 @@ export const replaceCoreV1NamespacedEndpoints: API.OperationMethod<
   ReplaceCoreV1NamespacedEndpointsError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<ReplaceCoreV1NamespacedEndpointsRequest>,
-  output: __S(7590, __c237, 6) as any as S.Schema<IoK8sApiCoreV1Endpoints>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ReplaceCoreV1NamespacedEndpointsRequest>,
+  output: __S(6438, __c201, 6) as any as S.Schema<IoK8sApiCoreV1Endpoints>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13853,8 +12602,8 @@ export const replaceCoreV1NamespacedEvent: API.OperationMethod<
   ReplaceCoreV1NamespacedEventError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<ReplaceCoreV1NamespacedEventRequest>,
-  output: __S(7650, __c239, 2) as any as S.Schema<IoK8sApiCoreV1Event>,
+  input: __S(3200, __c100, 0) as any as S.Schema<ReplaceCoreV1NamespacedEventRequest>,
+  output: __S(6498, __c203, 2) as any as S.Schema<IoK8sApiCoreV1Event>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13875,8 +12624,8 @@ export const replaceCoreV1NamespacedLimitRange: API.OperationMethod<
   ReplaceCoreV1NamespacedLimitRangeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<ReplaceCoreV1NamespacedLimitRangeRequest>,
-  output: __S(7715, __c241, 3) as any as S.Schema<IoK8sApiCoreV1LimitRange>,
+  input: __S(3232, __c101, 0) as any as S.Schema<ReplaceCoreV1NamespacedLimitRangeRequest>,
+  output: __S(6563, __c205, 3) as any as S.Schema<IoK8sApiCoreV1LimitRange>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13898,11 +12647,11 @@ export const replaceCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4160,
-    __c130,
+    3264,
+    __c102,
     0,
   ) as any as S.Schema<ReplaceCoreV1NamespacedPersistentVolumeClaimRequest>,
-  output: __S(7876, __c246, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
+  output: __S(6724, __c210, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13924,11 +12673,11 @@ export const replaceCoreV1NamespacedPersistentVolumeClaimStatus: API.OperationMe
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4192,
-    __c131,
+    3296,
+    __c103,
     0,
   ) as any as S.Schema<ReplaceCoreV1NamespacedPersistentVolumeClaimStatusRequest>,
-  output: __S(7876, __c246, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
+  output: __S(6724, __c210, 4) as any as S.Schema<IoK8sApiCoreV1PersistentVolumeClaim>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13949,8 +12698,8 @@ export const replaceCoreV1NamespacedPod: API.OperationMethod<
   ReplaceCoreV1NamespacedPodError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<ReplaceCoreV1NamespacedPodRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  input: __S(3328, __c104, 0) as any as S.Schema<ReplaceCoreV1NamespacedPodRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13972,11 +12721,11 @@ export const replaceCoreV1NamespacedPodEphemeralcontainers: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4256,
-    __c133,
+    3360,
+    __c105,
     0,
   ) as any as S.Schema<ReplaceCoreV1NamespacedPodEphemeralcontainersRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -13997,8 +12746,8 @@ export const replaceCoreV1NamespacedPodResize: API.OperationMethod<
   ReplaceCoreV1NamespacedPodResizeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ReplaceCoreV1NamespacedPodResizeRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  input: __S(3392, __c106, 0) as any as S.Schema<ReplaceCoreV1NamespacedPodResizeRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14019,8 +12768,8 @@ export const replaceCoreV1NamespacedPodStatus: API.OperationMethod<
   ReplaceCoreV1NamespacedPodStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<ReplaceCoreV1NamespacedPodStatusRequest>,
-  output: __S(8194, __c256, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
+  input: __S(3424, __c107, 0) as any as S.Schema<ReplaceCoreV1NamespacedPodStatusRequest>,
+  output: __S(7042, __c220, 2) as any as S.Schema<IoK8sApiCoreV1Pod>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14041,8 +12790,8 @@ export const replaceCoreV1NamespacedPodTemplate: API.OperationMethod<
   ReplaceCoreV1NamespacedPodTemplateError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<ReplaceCoreV1NamespacedPodTemplateRequest>,
-  output: __S(8384, __c262, 0) as any as S.Schema<IoK8sApiCoreV1PodTemplate>,
+  input: __S(3456, __c108, 0) as any as S.Schema<ReplaceCoreV1NamespacedPodTemplateRequest>,
+  output: __S(7232, __c226, 0) as any as S.Schema<IoK8sApiCoreV1PodTemplate>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14064,11 +12813,11 @@ export const replaceCoreV1NamespacedReplicationController: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4384,
-    __c137,
+    3520,
+    __c110,
     0,
   ) as any as S.Schema<ReplaceCoreV1NamespacedReplicationControllerRequest>,
-  output: __S(8482, __c265, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
+  output: __S(7330, __c229, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14090,11 +12839,11 @@ export const replaceCoreV1NamespacedReplicationControllerScale: API.OperationMet
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4448,
-    __c139,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<ReplaceCoreV1NamespacedReplicationControllerScaleRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<IoK8sApiAutoscalingV1Scale>,
+  output: __S(1634, __c51, 2) as any as S.Schema<IoK8sApiAutoscalingV1Scale>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14116,11 +12865,11 @@ export const replaceCoreV1NamespacedReplicationControllerStatus: API.OperationMe
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4480,
-    __c140,
+    3584,
+    __c112,
     0,
   ) as any as S.Schema<ReplaceCoreV1NamespacedReplicationControllerStatusRequest>,
-  output: __S(8482, __c265, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
+  output: __S(7330, __c229, 2) as any as S.Schema<IoK8sApiCoreV1ReplicationController>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14141,8 +12890,8 @@ export const replaceCoreV1NamespacedResourceQuota: API.OperationMethod<
   ReplaceCoreV1NamespacedResourceQuotaError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<ReplaceCoreV1NamespacedResourceQuotaRequest>,
-  output: __S(8549, __c267, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
+  input: __S(3616, __c113, 0) as any as S.Schema<ReplaceCoreV1NamespacedResourceQuotaRequest>,
+  output: __S(7397, __c231, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14163,8 +12912,8 @@ export const replaceCoreV1NamespacedResourceQuotaStatus: API.OperationMethod<
   ReplaceCoreV1NamespacedResourceQuotaStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<ReplaceCoreV1NamespacedResourceQuotaStatusRequest>,
-  output: __S(8549, __c267, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
+  input: __S(3648, __c114, 0) as any as S.Schema<ReplaceCoreV1NamespacedResourceQuotaStatusRequest>,
+  output: __S(7397, __c231, 5) as any as S.Schema<IoK8sApiCoreV1ResourceQuota>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14185,8 +12934,8 @@ export const replaceCoreV1NamespacedSecret: API.OperationMethod<
   ReplaceCoreV1NamespacedSecretError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<ReplaceCoreV1NamespacedSecretRequest>,
-  output: __S(8609, __c269, 1) as any as S.Schema<IoK8sApiCoreV1Secret>,
+  input: __S(3680, __c115, 0) as any as S.Schema<ReplaceCoreV1NamespacedSecretRequest>,
+  output: __S(7457, __c233, 1) as any as S.Schema<IoK8sApiCoreV1Secret>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14207,8 +12956,8 @@ export const replaceCoreV1NamespacedService: API.OperationMethod<
   ReplaceCoreV1NamespacedServiceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<ReplaceCoreV1NamespacedServiceRequest>,
-  output: __S(8715, __c272, 11) as any as S.Schema<IoK8sApiCoreV1Service>,
+  input: __S(3712, __c116, 0) as any as S.Schema<ReplaceCoreV1NamespacedServiceRequest>,
+  output: __S(7533, __c235, 13) as any as S.Schema<IoK8sApiCoreV1Service>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14229,8 +12978,8 @@ export const replaceCoreV1NamespacedServiceAccount: API.OperationMethod<
   ReplaceCoreV1NamespacedServiceAccountError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<ReplaceCoreV1NamespacedServiceAccountRequest>,
-  output: __S(8769, __c274, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccount>,
+  input: __S(3744, __c117, 0) as any as S.Schema<ReplaceCoreV1NamespacedServiceAccountRequest>,
+  output: __S(7585, __c237, 1) as any as S.Schema<IoK8sApiCoreV1ServiceAccount>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14251,8 +13000,8 @@ export const replaceCoreV1NamespacedServiceStatus: API.OperationMethod<
   ReplaceCoreV1NamespacedServiceStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<ReplaceCoreV1NamespacedServiceStatusRequest>,
-  output: __S(8715, __c272, 11) as any as S.Schema<IoK8sApiCoreV1Service>,
+  input: __S(3776, __c118, 0) as any as S.Schema<ReplaceCoreV1NamespacedServiceStatusRequest>,
+  output: __S(7533, __c235, 13) as any as S.Schema<IoK8sApiCoreV1Service>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14273,8 +13022,8 @@ export const replaceCoreV1NamespaceFinalize: API.OperationMethod<
   ReplaceCoreV1NamespaceFinalizeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<ReplaceCoreV1NamespaceFinalizeRequest>,
-  output: __S(7234, __c226, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
+  input: __S(3808, __c119, 0) as any as S.Schema<ReplaceCoreV1NamespaceFinalizeRequest>,
+  output: __S(6178, __c193, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14295,8 +13044,8 @@ export const replaceCoreV1NamespaceStatus: API.OperationMethod<
   ReplaceCoreV1NamespaceStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<ReplaceCoreV1NamespaceStatusRequest>,
-  output: __S(7234, __c226, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
+  input: __S(3872, __c121, 0) as any as S.Schema<ReplaceCoreV1NamespaceStatusRequest>,
+  output: __S(6178, __c193, 2) as any as S.Schema<IoK8sApiCoreV1Namespace>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14313,8 +13062,8 @@ export const replaceCoreV1Node: API.OperationMethod<
   ReplaceCoreV1NodeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<ReplaceCoreV1NodeRequest>,
-  output: __S(8886, __c277, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
+  input: __S(3904, __c122, 0) as any as S.Schema<ReplaceCoreV1NodeRequest>,
+  output: __S(7702, __c240, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14335,8 +13084,8 @@ export const replaceCoreV1NodeStatus: API.OperationMethod<
   ReplaceCoreV1NodeStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<ReplaceCoreV1NodeStatusRequest>,
-  output: __S(8886, __c277, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
+  input: __S(3936, __c123, 0) as any as S.Schema<ReplaceCoreV1NodeStatusRequest>,
+  output: __S(7702, __c240, 22) as any as S.Schema<IoK8sApiCoreV1Node>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14357,8 +13106,8 @@ export const replaceCoreV1PersistentVolume: API.OperationMethod<
   ReplaceCoreV1PersistentVolumeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<ReplaceCoreV1PersistentVolumeRequest>,
-  output: __S(8943, __c279, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
+  input: __S(3968, __c124, 0) as any as S.Schema<ReplaceCoreV1PersistentVolumeRequest>,
+  output: __S(7759, __c242, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14379,102 +13128,14 @@ export const replaceCoreV1PersistentVolumeStatus: API.OperationMethod<
   ReplaceCoreV1PersistentVolumeStatusError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<ReplaceCoreV1PersistentVolumeStatusRequest>,
-  output: __S(8943, __c279, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
+  input: __S(4000, __c125, 0) as any as S.Schema<ReplaceCoreV1PersistentVolumeStatusRequest>,
+  output: __S(7759, __c242, 15) as any as S.Schema<IoK8sApiCoreV1PersistentVolume>,
   errors: [NotFound, Conflict, UnprocessableEntity],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplaceCoreV1PersistentVolumeStatus",
-}));
-
-export type ReplaceLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
-/** replace the specified Eviction */
-export const replaceLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
-  ReplaceLifecycleV1alpha1NamespacedEvictionRequest2,
-  IoK8sApiLifecycleV1alpha1Eviction,
-  ReplaceLifecycleV1alpha1NamespacedEvictionError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    4928,
-    __c154,
-    0,
-  ) as any as S.Schema<ReplaceLifecycleV1alpha1NamespacedEvictionRequest2>,
-  output: __S(9000, __c281, 8) as any as S.Schema<IoK8sApiLifecycleV1alpha1Eviction>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ReplaceLifecycleV1alpha1NamespacedEviction",
-}));
-
-export type ReplaceLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
-/** replace the specified EvictionRequest */
-export const replaceLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
-  ReplaceLifecycleV1alpha1NamespacedEvictionRequestRequest,
-  IoK8sApiLifecycleV1alpha1EvictionRequest,
-  ReplaceLifecycleV1alpha1NamespacedEvictionRequestError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    4960,
-    __c155,
-    0,
-  ) as any as S.Schema<ReplaceLifecycleV1alpha1NamespacedEvictionRequestRequest>,
-  output: __S(9090, __c284, 2) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequest>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ReplaceLifecycleV1alpha1NamespacedEvictionRequest",
-}));
-
-export type ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusError = KubernetesOpError;
-/** replace status of the specified EvictionRequest */
-export const replaceLifecycleV1alpha1NamespacedEvictionRequestStatus: API.OperationMethod<
-  ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusRequest,
-  IoK8sApiLifecycleV1alpha1EvictionRequest,
-  ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    4992,
-    __c156,
-    0,
-  ) as any as S.Schema<ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusRequest>,
-  output: __S(9090, __c284, 2) as any as S.Schema<IoK8sApiLifecycleV1alpha1EvictionRequest>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatus",
-}));
-
-export type ReplaceLifecycleV1alpha1NamespacedEvictionStatusError = KubernetesOpError;
-/** replace status of the specified Eviction */
-export const replaceLifecycleV1alpha1NamespacedEvictionStatus: API.OperationMethod<
-  ReplaceLifecycleV1alpha1NamespacedEvictionStatusRequest,
-  IoK8sApiLifecycleV1alpha1Eviction,
-  ReplaceLifecycleV1alpha1NamespacedEvictionStatusError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    5024,
-    __c157,
-    0,
-  ) as any as S.Schema<ReplaceLifecycleV1alpha1NamespacedEvictionStatusRequest>,
-  output: __S(9000, __c281, 8) as any as S.Schema<IoK8sApiLifecycleV1alpha1Eviction>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ReplaceLifecycleV1alpha1NamespacedEvictionStatus",
 }));
 
 export type WatchCoreV1ConfigMapListForAllNamespacesError = KubernetesOpError;
@@ -14485,8 +13146,8 @@ export const watchCoreV1ConfigMapListForAllNamespaces: API.OperationMethod<
   WatchCoreV1ConfigMapListForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<WatchCoreV1ConfigMapListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4032, __c126, 0) as any as S.Schema<WatchCoreV1ConfigMapListForAllNamespacesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14503,8 +13164,8 @@ export const watchCoreV1EndpointsListForAllNamespaces: API.OperationMethod<
   WatchCoreV1EndpointsListForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<WatchCoreV1EndpointsListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4096, __c128, 0) as any as S.Schema<WatchCoreV1EndpointsListForAllNamespacesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14521,8 +13182,8 @@ export const watchCoreV1EventListForAllNamespaces: API.OperationMethod<
   WatchCoreV1EventListForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<WatchCoreV1EventListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4128, __c129, 0) as any as S.Schema<WatchCoreV1EventListForAllNamespacesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14539,8 +13200,8 @@ export const watchCoreV1LimitRangeListForAllNamespaces: API.OperationMethod<
   WatchCoreV1LimitRangeListForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<WatchCoreV1LimitRangeListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4160, __c130, 0) as any as S.Schema<WatchCoreV1LimitRangeListForAllNamespacesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14557,8 +13218,8 @@ export const watchCoreV1Namespace: API.OperationMethod<
   WatchCoreV1NamespaceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<WatchCoreV1NamespaceRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4192, __c131, 0) as any as S.Schema<WatchCoreV1NamespaceRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14575,8 +13236,8 @@ export const watchCoreV1NamespacedConfigMap: API.OperationMethod<
   WatchCoreV1NamespacedConfigMapError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<WatchCoreV1NamespacedConfigMapRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4256, __c133, 0) as any as S.Schema<WatchCoreV1NamespacedConfigMapRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14593,8 +13254,8 @@ export const watchCoreV1NamespacedConfigMapList: API.OperationMethod<
   WatchCoreV1NamespacedConfigMapListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<WatchCoreV1NamespacedConfigMapListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4288, __c134, 0) as any as S.Schema<WatchCoreV1NamespacedConfigMapListRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14611,8 +13272,8 @@ export const watchCoreV1NamespacedEndpoints: API.OperationMethod<
   WatchCoreV1NamespacedEndpointsError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<WatchCoreV1NamespacedEndpointsRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4320, __c135, 0) as any as S.Schema<WatchCoreV1NamespacedEndpointsRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14629,8 +13290,8 @@ export const watchCoreV1NamespacedEndpointsList: API.OperationMethod<
   WatchCoreV1NamespacedEndpointsListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<WatchCoreV1NamespacedEndpointsListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4352, __c136, 0) as any as S.Schema<WatchCoreV1NamespacedEndpointsListRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14647,8 +13308,8 @@ export const watchCoreV1NamespacedEvent: API.OperationMethod<
   WatchCoreV1NamespacedEventError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<WatchCoreV1NamespacedEventRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4384, __c137, 0) as any as S.Schema<WatchCoreV1NamespacedEventRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14665,8 +13326,8 @@ export const watchCoreV1NamespacedEventList: API.OperationMethod<
   WatchCoreV1NamespacedEventListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<WatchCoreV1NamespacedEventListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4416, __c138, 0) as any as S.Schema<WatchCoreV1NamespacedEventListRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14683,8 +13344,8 @@ export const watchCoreV1NamespacedLimitRange: API.OperationMethod<
   WatchCoreV1NamespacedLimitRangeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<WatchCoreV1NamespacedLimitRangeRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4448, __c139, 0) as any as S.Schema<WatchCoreV1NamespacedLimitRangeRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14701,8 +13362,8 @@ export const watchCoreV1NamespacedLimitRangeList: API.OperationMethod<
   WatchCoreV1NamespacedLimitRangeListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<WatchCoreV1NamespacedLimitRangeListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4480, __c140, 0) as any as S.Schema<WatchCoreV1NamespacedLimitRangeListRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14719,8 +13380,8 @@ export const watchCoreV1NamespacedPersistentVolumeClaim: API.OperationMethod<
   WatchCoreV1NamespacedPersistentVolumeClaimError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<WatchCoreV1NamespacedPersistentVolumeClaimRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4512, __c141, 0) as any as S.Schema<WatchCoreV1NamespacedPersistentVolumeClaimRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14738,11 +13399,11 @@ export const watchCoreV1NamespacedPersistentVolumeClaimList: API.OperationMethod
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5600,
-    __c175,
+    4544,
+    __c142,
     0,
   ) as any as S.Schema<WatchCoreV1NamespacedPersistentVolumeClaimListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14759,8 +13420,8 @@ export const watchCoreV1NamespacedPod: API.OperationMethod<
   WatchCoreV1NamespacedPodError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<WatchCoreV1NamespacedPodRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4608, __c144, 0) as any as S.Schema<WatchCoreV1NamespacedPodRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14777,8 +13438,8 @@ export const watchCoreV1NamespacedPodList: API.OperationMethod<
   WatchCoreV1NamespacedPodListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<WatchCoreV1NamespacedPodListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4640, __c145, 0) as any as S.Schema<WatchCoreV1NamespacedPodListRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14795,8 +13456,8 @@ export const watchCoreV1NamespacedPodTemplate: API.OperationMethod<
   WatchCoreV1NamespacedPodTemplateError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<WatchCoreV1NamespacedPodTemplateRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4672, __c146, 0) as any as S.Schema<WatchCoreV1NamespacedPodTemplateRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14813,8 +13474,8 @@ export const watchCoreV1NamespacedPodTemplateList: API.OperationMethod<
   WatchCoreV1NamespacedPodTemplateListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<WatchCoreV1NamespacedPodTemplateListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4704, __c147, 0) as any as S.Schema<WatchCoreV1NamespacedPodTemplateListRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14831,8 +13492,8 @@ export const watchCoreV1NamespacedReplicationController: API.OperationMethod<
   WatchCoreV1NamespacedReplicationControllerError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<WatchCoreV1NamespacedReplicationControllerRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4736, __c148, 0) as any as S.Schema<WatchCoreV1NamespacedReplicationControllerRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14850,11 +13511,11 @@ export const watchCoreV1NamespacedReplicationControllerList: API.OperationMethod
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5792,
-    __c181,
+    4768,
+    __c149,
     0,
   ) as any as S.Schema<WatchCoreV1NamespacedReplicationControllerListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14871,8 +13532,8 @@ export const watchCoreV1NamespacedResourceQuota: API.OperationMethod<
   WatchCoreV1NamespacedResourceQuotaError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<WatchCoreV1NamespacedResourceQuotaRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4800, __c150, 0) as any as S.Schema<WatchCoreV1NamespacedResourceQuotaRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14889,8 +13550,8 @@ export const watchCoreV1NamespacedResourceQuotaList: API.OperationMethod<
   WatchCoreV1NamespacedResourceQuotaListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<WatchCoreV1NamespacedResourceQuotaListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4832, __c151, 0) as any as S.Schema<WatchCoreV1NamespacedResourceQuotaListRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14907,8 +13568,8 @@ export const watchCoreV1NamespacedSecret: API.OperationMethod<
   WatchCoreV1NamespacedSecretError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<WatchCoreV1NamespacedSecretRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4864, __c152, 0) as any as S.Schema<WatchCoreV1NamespacedSecretRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14925,8 +13586,8 @@ export const watchCoreV1NamespacedSecretList: API.OperationMethod<
   WatchCoreV1NamespacedSecretListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<WatchCoreV1NamespacedSecretListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4896, __c153, 0) as any as S.Schema<WatchCoreV1NamespacedSecretListRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14943,8 +13604,8 @@ export const watchCoreV1NamespacedService: API.OperationMethod<
   WatchCoreV1NamespacedServiceError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<WatchCoreV1NamespacedServiceRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4960, __c155, 0) as any as S.Schema<WatchCoreV1NamespacedServiceRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14961,8 +13622,8 @@ export const watchCoreV1NamespacedServiceAccount: API.OperationMethod<
   WatchCoreV1NamespacedServiceAccountError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<WatchCoreV1NamespacedServiceAccountRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(4992, __c156, 0) as any as S.Schema<WatchCoreV1NamespacedServiceAccountRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14979,8 +13640,8 @@ export const watchCoreV1NamespacedServiceAccountList: API.OperationMethod<
   WatchCoreV1NamespacedServiceAccountListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<WatchCoreV1NamespacedServiceAccountListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(5024, __c157, 0) as any as S.Schema<WatchCoreV1NamespacedServiceAccountListRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -14997,8 +13658,8 @@ export const watchCoreV1NamespacedServiceList: API.OperationMethod<
   WatchCoreV1NamespacedServiceListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<WatchCoreV1NamespacedServiceListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(5056, __c158, 0) as any as S.Schema<WatchCoreV1NamespacedServiceListRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -15015,8 +13676,8 @@ export const watchCoreV1NamespaceList: API.OperationMethod<
   WatchCoreV1NamespaceListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<WatchCoreV1NamespaceListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(5088, __c159, 0) as any as S.Schema<WatchCoreV1NamespaceListRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -15033,8 +13694,8 @@ export const watchCoreV1Node: API.OperationMethod<
   WatchCoreV1NodeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<WatchCoreV1NodeRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(5120, __c160, 0) as any as S.Schema<WatchCoreV1NodeRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -15051,8 +13712,8 @@ export const watchCoreV1NodeList: API.OperationMethod<
   WatchCoreV1NodeListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<WatchCoreV1NodeListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(5152, __c161, 0) as any as S.Schema<WatchCoreV1NodeListRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -15069,8 +13730,8 @@ export const watchCoreV1PersistentVolume: API.OperationMethod<
   WatchCoreV1PersistentVolumeError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<WatchCoreV1PersistentVolumeRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(5184, __c162, 0) as any as S.Schema<WatchCoreV1PersistentVolumeRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -15088,11 +13749,11 @@ export const watchCoreV1PersistentVolumeClaimListForAllNamespaces: API.Operation
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6272,
-    __c196,
+    5216,
+    __c163,
     0,
   ) as any as S.Schema<WatchCoreV1PersistentVolumeClaimListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -15109,8 +13770,8 @@ export const watchCoreV1PersistentVolumeList: API.OperationMethod<
   WatchCoreV1PersistentVolumeListError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<WatchCoreV1PersistentVolumeListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(5248, __c164, 0) as any as S.Schema<WatchCoreV1PersistentVolumeListRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -15127,8 +13788,8 @@ export const watchCoreV1PodListForAllNamespaces: API.OperationMethod<
   WatchCoreV1PodListForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<WatchCoreV1PodListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(5312, __c166, 0) as any as S.Schema<WatchCoreV1PodListForAllNamespacesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -15145,8 +13806,8 @@ export const watchCoreV1PodTemplateListForAllNamespaces: API.OperationMethod<
   WatchCoreV1PodTemplateListForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<WatchCoreV1PodTemplateListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(5344, __c167, 0) as any as S.Schema<WatchCoreV1PodTemplateListForAllNamespacesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -15164,11 +13825,11 @@ export const watchCoreV1ReplicationControllerListForAllNamespaces: API.Operation
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6400,
-    __c200,
+    5376,
+    __c168,
     0,
   ) as any as S.Schema<WatchCoreV1ReplicationControllerListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -15186,11 +13847,11 @@ export const watchCoreV1ResourceQuotaListForAllNamespaces: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6432,
-    __c201,
+    5408,
+    __c169,
     0,
   ) as any as S.Schema<WatchCoreV1ResourceQuotaListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -15207,8 +13868,8 @@ export const watchCoreV1SecretListForAllNamespaces: API.OperationMethod<
   WatchCoreV1SecretListForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<WatchCoreV1SecretListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(5440, __c170, 0) as any as S.Schema<WatchCoreV1SecretListForAllNamespacesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -15226,11 +13887,11 @@ export const watchCoreV1ServiceAccountListForAllNamespaces: API.OperationMethod<
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6496,
-    __c203,
+    5472,
+    __c171,
     0,
   ) as any as S.Schema<WatchCoreV1ServiceAccountListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
@@ -15247,142 +13908,14 @@ export const watchCoreV1ServiceListForAllNamespaces: API.OperationMethod<
   WatchCoreV1ServiceListForAllNamespacesError,
   KubernetesOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<WatchCoreV1ServiceListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
+  input: __S(5504, __c172, 0) as any as S.Schema<WatchCoreV1ServiceListForAllNamespacesRequest>,
+  output: __S(4064, __c127, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
   errors: [],
   serviceErrors: KubernetesServiceErrors,
   protocol: KubernetesProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WatchCoreV1ServiceListForAllNamespaces",
-}));
-
-export type WatchLifecycleV1alpha1EvictionListForAllNamespacesError = KubernetesOpError;
-/** watch individual changes to a list of Eviction. deprecated: use the 'watch' parameter with a list operation instead. */
-export const watchLifecycleV1alpha1EvictionListForAllNamespaces: API.OperationMethod<
-  WatchLifecycleV1alpha1EvictionListForAllNamespacesRequest,
-  IoK8sApimachineryPkgApisMetaV1WatchEvent,
-  WatchLifecycleV1alpha1EvictionListForAllNamespacesError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    6592,
-    __c206,
-    0,
-  ) as any as S.Schema<WatchLifecycleV1alpha1EvictionListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "WatchLifecycleV1alpha1EvictionListForAllNamespaces",
-}));
-
-export type WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesError = KubernetesOpError;
-/** watch individual changes to a list of EvictionRequest. deprecated: use the 'watch' parameter with a list operation instead. */
-export const watchLifecycleV1alpha1EvictionRequestListForAllNamespaces: API.OperationMethod<
-  WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesRequest,
-  IoK8sApimachineryPkgApisMetaV1WatchEvent,
-  WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    6624,
-    __c207,
-    0,
-  ) as any as S.Schema<WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "WatchLifecycleV1alpha1EvictionRequestListForAllNamespaces",
-}));
-
-export type WatchLifecycleV1alpha1NamespacedEvictionError = KubernetesOpError;
-/** watch changes to an object of kind Eviction. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter. */
-export const watchLifecycleV1alpha1NamespacedEviction: API.OperationMethod<
-  WatchLifecycleV1alpha1NamespacedEvictionRequest2,
-  IoK8sApimachineryPkgApisMetaV1WatchEvent,
-  WatchLifecycleV1alpha1NamespacedEvictionError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<WatchLifecycleV1alpha1NamespacedEvictionRequest2>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "WatchLifecycleV1alpha1NamespacedEviction",
-}));
-
-export type WatchLifecycleV1alpha1NamespacedEvictionListError = KubernetesOpError;
-/** watch individual changes to a list of Eviction. deprecated: use the 'watch' parameter with a list operation instead. */
-export const watchLifecycleV1alpha1NamespacedEvictionList: API.OperationMethod<
-  WatchLifecycleV1alpha1NamespacedEvictionListRequest,
-  IoK8sApimachineryPkgApisMetaV1WatchEvent,
-  WatchLifecycleV1alpha1NamespacedEvictionListError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    6688,
-    __c209,
-    0,
-  ) as any as S.Schema<WatchLifecycleV1alpha1NamespacedEvictionListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "WatchLifecycleV1alpha1NamespacedEvictionList",
-}));
-
-export type WatchLifecycleV1alpha1NamespacedEvictionRequestError = KubernetesOpError;
-/** watch changes to an object of kind EvictionRequest. deprecated: use the 'watch' parameter with a list operation instead, filtered to a single item with the 'fieldSelector' parameter. */
-export const watchLifecycleV1alpha1NamespacedEvictionRequest: API.OperationMethod<
-  WatchLifecycleV1alpha1NamespacedEvictionRequestRequest,
-  IoK8sApimachineryPkgApisMetaV1WatchEvent,
-  WatchLifecycleV1alpha1NamespacedEvictionRequestError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    6720,
-    __c210,
-    0,
-  ) as any as S.Schema<WatchLifecycleV1alpha1NamespacedEvictionRequestRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "WatchLifecycleV1alpha1NamespacedEvictionRequest",
-}));
-
-export type WatchLifecycleV1alpha1NamespacedEvictionRequestListError = KubernetesOpError;
-/** watch individual changes to a list of EvictionRequest. deprecated: use the 'watch' parameter with a list operation instead. */
-export const watchLifecycleV1alpha1NamespacedEvictionRequestList: API.OperationMethod<
-  WatchLifecycleV1alpha1NamespacedEvictionRequestListRequest,
-  IoK8sApimachineryPkgApisMetaV1WatchEvent,
-  WatchLifecycleV1alpha1NamespacedEvictionRequestListError,
-  KubernetesOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(
-    6752,
-    __c211,
-    0,
-  ) as any as S.Schema<WatchLifecycleV1alpha1NamespacedEvictionRequestListRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<IoK8sApimachineryPkgApisMetaV1WatchEvent>,
-  errors: [],
-  serviceErrors: KubernetesServiceErrors,
-  protocol: KubernetesProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "WatchLifecycleV1alpha1NamespacedEvictionRequestList",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -15413,246 +13946,6 @@ function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/openid/v1/jwks/", code: 200 })),
-      ).annotate({ identifier: "GetServiceAccountIssuerOpenIDKeysetRequest" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/componentstatuses", code: 200 })),
-      ).annotate({ identifier: "ListCoreV1ComponentStatusRequest" });
-    case 1:
-      return S.Array(__S(98, __c3, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          items: __S(65, __c2, 1),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1ComponentStatusList" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          error: S.optional(S.String),
-          message: S.optional(S.String),
-          status: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1ComponentCondition" });
-    case 1:
-      return S.Array(__S(96, __c3, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          conditions: S.optional(__S(97, __c3, 1)),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1ComponentStatus" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/configmaps", code: 200 })),
-      ).annotate({ identifier: "ListCoreV1ConfigMapForAllNamespacesRequest" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(7520, __c235, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          items: __S(160, __c5, 0),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1ConfigMapList" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/endpoints", code: 200 })),
-      ).annotate({ identifier: "ListCoreV1EndpointsForAllNamespacesRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(7590, __c237, 6));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          items: __S(224, __c7, 0),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1EndpointsList" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/events", code: 200 })),
-      ).annotate({ identifier: "ListCoreV1EventForAllNamespacesRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(7650, __c239, 2));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          items: __S(288, __c9, 0),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1EventList" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/limitranges", code: 200 })),
-      ).annotate({ identifier: "ListCoreV1LimitRangeForAllNamespacesRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(7715, __c241, 3));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          items: __S(352, __c11, 0),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1LimitRangeList" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pretty: S.optional(S.String.pipe(T.Query())),
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/namespaces", code: 200 })),
-      ).annotate({ identifier: "ListCoreV1NamespaceRequest" });
-    case 1:
-      return S.Array(__S(7234, __c226, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          items: __S(385, __c12, 1),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1NamespaceList" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           pretty: S.optional(S.String.pipe(T.Query())),
@@ -15673,7 +13966,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ListCoreV1NamespacedConfigMapRequest" });
   }
 }
-function __c14(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15697,7 +13990,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "ListCoreV1NamespacedEndpointsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15719,25 +14012,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "ListCoreV1NamespacedEventRequest" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          ports: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/namespaces/{namespace}/pods/{name}/portforward",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectCoreV1GetNamespacedPodPortforwardRequest" });
-  }
-}
-function __c17(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15761,7 +14036,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ListCoreV1NamespacedLimitRangeRequest" });
   }
 }
-function __c18(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15789,22 +14064,22 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ListCoreV1NamespacedPersistentVolumeClaimRequest" });
   }
 }
-function __c19(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7876, __c246, 4));
+      return S.Array(__S(6724, __c210, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(608, __c19, 0),
+          items: __S(192, __c6, 0),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
+          metadata: S.optional(__S(7841, __c245, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimList" });
   }
 }
-function __c20(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15826,22 +14101,22 @@ function __c20(j: number): any {
       ).annotate({ identifier: "ListCoreV1NamespacedPodRequest" });
   }
 }
-function __c21(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8194, __c256, 2));
+      return S.Array(__S(7042, __c220, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(672, __c21, 0),
+          items: __S(256, __c8, 0),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
+          metadata: S.optional(__S(7841, __c245, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodList" });
   }
 }
-function __c22(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15865,22 +14140,22 @@ function __c22(j: number): any {
       ).annotate({ identifier: "ListCoreV1NamespacedPodTemplateRequest" });
   }
 }
-function __c23(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8384, __c262, 0));
+      return S.Array(__S(7232, __c226, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(736, __c23, 0),
+          items: __S(320, __c10, 0),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
+          metadata: S.optional(__S(7841, __c245, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodTemplateList" });
   }
 }
-function __c24(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15908,22 +14183,22 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ListCoreV1NamespacedReplicationControllerRequest" });
   }
 }
-function __c25(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8482, __c265, 2));
+      return S.Array(__S(7330, __c229, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(800, __c25, 0),
+          items: __S(384, __c12, 0),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
+          metadata: S.optional(__S(7841, __c245, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ReplicationControllerList" });
   }
 }
-function __c26(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15951,22 +14226,22 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ListCoreV1NamespacedResourceQuotaRequest" });
   }
 }
-function __c27(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8549, __c267, 5));
+      return S.Array(__S(7397, __c231, 5));
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(864, __c27, 0),
+          items: __S(448, __c14, 0),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
+          metadata: S.optional(__S(7841, __c245, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ResourceQuotaList" });
   }
 }
-function __c28(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15990,22 +14265,40 @@ function __c28(j: number): any {
       ).annotate({ identifier: "ListCoreV1NamespacedSecretRequest" });
   }
 }
-function __c29(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8609, __c269, 1));
+      return S.Array(__S(7457, __c233, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(928, __c29, 0),
+          items: __S(512, __c16, 0),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
+          metadata: S.optional(__S(7841, __c245, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SecretList" });
   }
 }
-function __c30(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          ports: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/namespaces/{namespace}/pods/{name}/portforward",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectCoreV1GetNamespacedPodPortforwardRequest" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16029,22 +14322,22 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ListCoreV1NamespacedServiceRequest" });
   }
 }
-function __c31(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8715, __c272, 11));
+      return S.Array(__S(7533, __c235, 13));
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(992, __c31, 0),
+          items: __S(608, __c19, 0),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
+          metadata: S.optional(__S(7841, __c245, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ServiceList" });
   }
 }
-function __c32(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16072,22 +14365,22 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ListCoreV1NamespacedServiceAccountRequest" });
   }
 }
-function __c33(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8769, __c274, 1));
+      return S.Array(__S(7585, __c237, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(1056, __c33, 0),
+          items: __S(672, __c21, 0),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
+          metadata: S.optional(__S(7841, __c245, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ServiceAccountList" });
   }
 }
-function __c34(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16107,37 +14400,19 @@ function __c34(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/nodes", code: 200 })),
       ).annotate({ identifier: "ListCoreV1NodeRequest" });
     case 1:
-      return S.Array(__S(8886, __c277, 22));
+      return S.Array(__S(7702, __c240, 22));
     case 2:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(1089, __c34, 1),
+          items: __S(705, __c22, 1),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
+          metadata: S.optional(__S(7841, __c245, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeList" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          path: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/namespaces/{namespace}/pods/{name}/proxy",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectCoreV1GetNamespacedPodProxyRequest" });
-  }
-}
-function __c36(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16157,19 +14432,19 @@ function __c36(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/persistentvolumes", code: 200 })),
       ).annotate({ identifier: "ListCoreV1PersistentVolumeRequest" });
     case 1:
-      return S.Array(__S(8943, __c279, 15));
+      return S.Array(__S(7759, __c242, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          items: __S(1153, __c36, 1),
+          items: __S(737, __c23, 1),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
+          metadata: S.optional(__S(7841, __c245, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeList" });
   }
 }
-function __c37(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16190,7 +14465,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "ListCoreV1PersistentVolumeClaimForAllNamespacesRequest" });
   }
 }
-function __c38(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16211,7 +14486,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "ListCoreV1PodForAllNamespacesRequest" });
   }
 }
-function __c39(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16232,7 +14507,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ListCoreV1PodTemplateForAllNamespacesRequest" });
   }
 }
-function __c40(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16253,7 +14528,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "ListCoreV1ReplicationControllerForAllNamespacesRequest" });
   }
 }
-function __c41(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16274,7 +14549,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "ListCoreV1ResourceQuotaForAllNamespacesRequest" });
   }
 }
-function __c42(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16295,7 +14570,25 @@ function __c42(j: number): any {
       ).annotate({ identifier: "ListCoreV1SecretForAllNamespacesRequest" });
   }
 }
-function __c43(j: number): any {
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          path: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/namespaces/{namespace}/pods/{name}/proxy",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectCoreV1GetNamespacedPodProxyRequest" });
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16316,7 +14609,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ListCoreV1ServiceAccountForAllNamespacesRequest" });
   }
 }
-function __c44(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16337,161 +14630,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ListCoreV1ServiceForAllNamespacesRequest" });
   }
 }
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/apis/lifecycle.k8s.io/v1alpha1/evictions", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListLifecycleV1alpha1EvictionForAllNamespacesRequest" });
-  }
-}
-function __c46(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(9000, __c281, 8));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          items: __S(1472, __c46, 0),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
-        }),
-      ).annotate({ identifier: "IoK8sApiLifecycleV1alpha1EvictionList" });
-  }
-}
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          path: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/namespaces/{namespace}/pods/{name}/proxy/{path}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectCoreV1GetNamespacedPodProxyWithPathRequest" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/evictionrequests",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListLifecycleV1alpha1EvictionRequestForAllNamespacesRequest" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(9090, __c284, 2));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          items: __S(1568, __c49, 0),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
-        }),
-      ).annotate({ identifier: "IoK8sApiLifecycleV1alpha1EvictionRequestList" });
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListLifecycleV1alpha1NamespacedEvictionRequest2" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListLifecycleV1alpha1NamespacedEvictionRequestRequest" });
-  }
-}
-function __c52(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16501,13 +14640,13 @@ function __c52(j: number): any {
       ).annotate({ identifier: "LogFileHandlerRequest" });
   }
 }
-function __c53(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "LogFileHandlerResponse" });
   }
 }
-function __c54(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16515,7 +14654,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "LogFileListHandlerRequest" });
   }
 }
-function __c55(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16530,14 +14669,14 @@ function __c55(j: number): any {
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7232, __c226, 0)),
-          status: S.optional(__S(7233, __c226, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6176, __c193, 0)),
+          status: S.optional(__S(6177, __c193, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/namespaces/{name}", code: 200 })),
       ).annotate({ identifier: "PatchCoreV1NamespaceRequest" });
   }
 }
-function __c56(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16552,11 +14691,11 @@ function __c56(j: number): any {
           contentType: S.String.pipe(T.Header("Content-Type")),
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
-          binaryData: S.optional(__S(7264, __c227, 0)),
-          data: S.optional(__S(7264, __c227, 0)),
+          binaryData: S.optional(__S(6112, __c191, 0)),
+          data: S.optional(__S(6112, __c191, 0)),
           immutable: S.optional(S.Boolean),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
+          metadata: S.optional(__S(6117, __c191, 5)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16567,7 +14706,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "PatchCoreV1NamespacedConfigMapRequest" });
   }
 }
-function __c57(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16583,8 +14722,8 @@ function __c57(j: number): any {
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          subsets: S.optional(__S(7589, __c237, 5)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          subsets: S.optional(__S(6437, __c201, 5)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16595,7 +14734,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "PatchCoreV1NamespacedEndpointsRequest" });
   }
 }
-function __c58(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16614,17 +14753,17 @@ function __c58(j: number): any {
           count: S.optional(S.Number),
           eventTime: S.optional(S.String),
           firstTimestamp: S.optional(S.String),
-          involvedObject: S.optional(__S(7424, __c232, 0)),
+          involvedObject: S.optional(__S(6272, __c196, 0)),
           kind: S.optional(S.String),
           lastTimestamp: S.optional(S.String),
           message: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
+          metadata: S.optional(__S(6117, __c191, 5)),
           reason: S.optional(S.String),
-          related: S.optional(__S(7424, __c232, 0)),
+          related: S.optional(__S(6272, __c196, 0)),
           reportingComponent: S.optional(S.String),
           reportingInstance: S.optional(S.String),
-          series: S.optional(__S(7648, __c239, 0)),
-          source: S.optional(__S(7649, __c239, 1)),
+          series: S.optional(__S(6496, __c203, 0)),
+          source: S.optional(__S(6497, __c203, 1)),
           type: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -16636,7 +14775,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "PatchCoreV1NamespacedEventRequest" });
   }
 }
-function __c59(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16652,8 +14791,8 @@ function __c59(j: number): any {
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7714, __c241, 2)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6562, __c205, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16664,25 +14803,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "PatchCoreV1NamespacedLimitRangeRequest" });
   }
 }
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          path: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/namespaces/{namespace}/services/{name}/proxy",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectCoreV1GetNamespacedServiceProxyRequest" });
-  }
-}
-function __c61(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16698,9 +14819,9 @@ function __c61(j: number): any {
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7812, __c244, 4)),
-          status: S.optional(__S(7875, __c246, 3)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6660, __c208, 4)),
+          status: S.optional(__S(6723, __c210, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16711,7 +14832,25 @@ function __c61(j: number): any {
       ).annotate({ identifier: "PatchCoreV1NamespacedPersistentVolumeClaimRequest" });
   }
 }
-function __c62(j: number): any {
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          path: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/namespaces/{namespace}/pods/{name}/proxy/{path}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectCoreV1GetNamespacedPodProxyWithPathRequest" });
+  }
+}
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16727,9 +14866,9 @@ function __c62(j: number): any {
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7812, __c244, 4)),
-          status: S.optional(__S(7875, __c246, 3)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6660, __c208, 4)),
+          status: S.optional(__S(6723, __c210, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16740,7 +14879,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "PatchCoreV1NamespacedPersistentVolumeClaimStatusRequest" });
   }
 }
-function __c63(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16756,16 +14895,16 @@ function __c63(j: number): any {
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8137, __c254, 9)),
-          status: S.optional(__S(8193, __c256, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6985, __c218, 9)),
+          status: S.optional(__S(7041, __c220, 1)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/namespaces/{namespace}/pods/{name}", code: 200 }),
         ),
       ).annotate({ identifier: "PatchCoreV1NamespacedPodRequest" });
   }
 }
-function __c64(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16781,9 +14920,9 @@ function __c64(j: number): any {
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8137, __c254, 9)),
-          status: S.optional(__S(8193, __c256, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6985, __c218, 9)),
+          status: S.optional(__S(7041, __c220, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16794,7 +14933,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "PatchCoreV1NamespacedPodEphemeralcontainersRequest" });
   }
 }
-function __c65(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16810,9 +14949,9 @@ function __c65(j: number): any {
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8137, __c254, 9)),
-          status: S.optional(__S(8193, __c256, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6985, __c218, 9)),
+          status: S.optional(__S(7041, __c220, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16823,7 +14962,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "PatchCoreV1NamespacedPodResizeRequest" });
   }
 }
-function __c66(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16839,9 +14978,9 @@ function __c66(j: number): any {
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8137, __c254, 9)),
-          status: S.optional(__S(8193, __c256, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6985, __c218, 9)),
+          status: S.optional(__S(7041, __c220, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16852,7 +14991,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "PatchCoreV1NamespacedPodStatusRequest" });
   }
 }
-function __c67(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16868,8 +15007,8 @@ function __c67(j: number): any {
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          template: S.optional(__S(8352, __c261, 0)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          template: S.optional(__S(7200, __c225, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16880,7 +15019,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "PatchCoreV1NamespacedPodTemplateRequest" });
   }
 }
-function __c68(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16896,9 +15035,9 @@ function __c68(j: number): any {
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8480, __c265, 0)),
-          status: S.optional(__S(8481, __c265, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7328, __c229, 0)),
+          status: S.optional(__S(7329, __c229, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16909,7 +15048,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "PatchCoreV1NamespacedReplicationControllerRequest" });
   }
 }
-function __c69(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16925,9 +15064,9 @@ function __c69(j: number): any {
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(2240, __c70, 0)),
-          status: S.optional(__S(2241, __c70, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(1632, __c51, 0)),
+          status: S.optional(__S(1633, __c51, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16938,7 +15077,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "PatchCoreV1NamespacedReplicationControllerScaleRequest" });
   }
 }
-function __c70(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16958,14 +15097,14 @@ function __c70(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(2240, __c70, 0)),
-          status: S.optional(__S(2241, __c70, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(1632, __c51, 0)),
+          status: S.optional(__S(1633, __c51, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiAutoscalingV1Scale" });
   }
 }
-function __c71(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16981,9 +15120,9 @@ function __c71(j: number): any {
           patch: S.optional(S.Unknown.pipe(T.HttpBody())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8480, __c265, 0)),
-          status: S.optional(__S(8481, __c265, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7328, __c229, 0)),
+          status: S.optional(__S(7329, __c229, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16994,7 +15133,314 @@ function __c71(j: number): any {
       ).annotate({ identifier: "PatchCoreV1NamespacedReplicationControllerStatusRequest" });
   }
 }
-function __c72(j: number): any {
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7395, __c231, 3)),
+          status: S.optional(__S(7396, __c231, 4)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/namespaces/{namespace}/resourcequotas/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PatchCoreV1NamespacedResourceQuotaRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          path: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/namespaces/{namespace}/services/{name}/proxy",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectCoreV1GetNamespacedServiceProxyRequest" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7395, __c231, 3)),
+          status: S.optional(__S(7396, __c231, 4)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/namespaces/{namespace}/resourcequotas/{name}/status",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PatchCoreV1NamespacedResourceQuotaStatusRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          data: S.optional(__S(7456, __c233, 0)),
+          immutable: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          stringData: S.optional(__S(7456, __c233, 0)),
+          type: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/namespaces/{namespace}/secrets/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PatchCoreV1NamespacedSecretRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7524, __c235, 4)),
+          status: S.optional(__S(7532, __c235, 12)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/namespaces/{namespace}/services/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PatchCoreV1NamespacedServiceRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          automountServiceAccountToken: S.optional(S.Boolean),
+          imagePullSecrets: S.optional(__S(6785, __c212, 1)),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          secrets: S.optional(__S(7584, __c237, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/namespaces/{namespace}/serviceaccounts/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PatchCoreV1NamespacedServiceAccountRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7524, __c235, 4)),
+          status: S.optional(__S(7532, __c235, 12)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/namespaces/{namespace}/services/{name}/status",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PatchCoreV1NamespacedServiceStatusRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6176, __c193, 0)),
+          status: S.optional(__S(6177, __c193, 1)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/namespaces/{name}/status", code: 200 })),
+      ).annotate({ identifier: "PatchCoreV1NamespaceStatusRequest" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7685, __c240, 5)),
+          status: S.optional(__S(7701, __c240, 21)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/nodes/{name}", code: 200 })),
+      ).annotate({ identifier: "PatchCoreV1NodeRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7685, __c240, 5)),
+          status: S.optional(__S(7701, __c240, 21)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/nodes/{name}/status", code: 200 })),
+      ).annotate({ identifier: "PatchCoreV1NodeStatusRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7757, __c242, 13)),
+          status: S.optional(__S(7758, __c242, 14)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/persistentvolumes/{name}", code: 200 })),
+      ).annotate({ identifier: "PatchCoreV1PersistentVolumeRequest" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7757, __c242, 13)),
+          status: S.optional(__S(7758, __c242, 14)),
+        }).pipe(
+          T.Http({ method: "PATCH", uri: "/api/v1/persistentvolumes/{name}/status", code: 200 }),
+        ),
+      ).annotate({ identifier: "PatchCoreV1PersistentVolumeStatusRequest" });
+  }
+}
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17012,423 +15458,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1GetNamespacedServiceProxyWithPathRequest" });
   }
 }
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8547, __c267, 3)),
-          status: S.optional(__S(8548, __c267, 4)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v1/namespaces/{namespace}/resourcequotas/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchCoreV1NamespacedResourceQuotaRequest" });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8547, __c267, 3)),
-          status: S.optional(__S(8548, __c267, 4)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v1/namespaces/{namespace}/resourcequotas/{name}/status",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchCoreV1NamespacedResourceQuotaStatusRequest" });
-  }
-}
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          data: S.optional(__S(8608, __c269, 0)),
-          immutable: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          stringData: S.optional(__S(8608, __c269, 0)),
-          type: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v1/namespaces/{namespace}/secrets/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchCoreV1NamespacedSecretRequest" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8708, __c272, 4)),
-          status: S.optional(__S(8714, __c272, 10)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v1/namespaces/{namespace}/services/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchCoreV1NamespacedServiceRequest" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          automountServiceAccountToken: S.optional(S.Boolean),
-          imagePullSecrets: S.optional(__S(7937, __c248, 1)),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          secrets: S.optional(__S(8768, __c274, 0)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v1/namespaces/{namespace}/serviceaccounts/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchCoreV1NamespacedServiceAccountRequest" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8708, __c272, 4)),
-          status: S.optional(__S(8714, __c272, 10)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v1/namespaces/{namespace}/services/{name}/status",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchCoreV1NamespacedServiceStatusRequest" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7232, __c226, 0)),
-          status: S.optional(__S(7233, __c226, 1)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/namespaces/{name}/status", code: 200 })),
-      ).annotate({ identifier: "PatchCoreV1NamespaceStatusRequest" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8869, __c277, 5)),
-          status: S.optional(__S(8885, __c277, 21)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/nodes/{name}", code: 200 })),
-      ).annotate({ identifier: "PatchCoreV1NodeRequest" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8869, __c277, 5)),
-          status: S.optional(__S(8885, __c277, 21)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/nodes/{name}/status", code: 200 })),
-      ).annotate({ identifier: "PatchCoreV1NodeStatusRequest" });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8941, __c279, 13)),
-          status: S.optional(__S(8942, __c279, 14)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/persistentvolumes/{name}", code: 200 })),
-      ).annotate({ identifier: "PatchCoreV1PersistentVolumeRequest" });
-  }
-}
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          path: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/nodes/{name}/proxy", code: 200 })),
-      ).annotate({ identifier: "ConnectCoreV1GetNodeProxyRequest" });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8941, __c279, 13)),
-          status: S.optional(__S(8942, __c279, 14)),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "/api/v1/persistentvolumes/{name}/status", code: 200 }),
-        ),
-      ).annotate({ identifier: "PatchCoreV1PersistentVolumeStatusRequest" });
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8992, __c281, 0)),
-          status: S.optional(__S(8999, __c281, 7)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchLifecycleV1alpha1NamespacedEvictionRequest2" });
-  }
-}
-function __c86(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(9088, __c284, 0)),
-          status: S.optional(__S(9089, __c284, 1)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchLifecycleV1alpha1NamespacedEvictionRequestRequest" });
-  }
-}
-function __c87(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(9088, __c284, 0)),
-          status: S.optional(__S(9089, __c284, 1)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}/status",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchLifecycleV1alpha1NamespacedEvictionRequestStatusRequest" });
-  }
-}
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-          contentType: S.String.pipe(T.Header("Content-Type")),
-          patch: S.optional(S.Unknown.pipe(T.HttpBody())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8992, __c281, 0)),
-          status: S.optional(__S(8999, __c281, 7)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}/status",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PatchLifecycleV1alpha1NamespacedEvictionStatusRequest" });
-  }
-}
-function __c89(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17439,7 +15469,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "ReadCoreV1ComponentStatusRequest" });
   }
 }
-function __c90(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17450,7 +15480,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespaceRequest" });
   }
 }
-function __c91(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17468,7 +15498,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedConfigMapRequest" });
   }
 }
-function __c92(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17486,7 +15516,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedEndpointsRequest" });
   }
 }
-function __c93(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17500,18 +15530,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedEventRequest" });
   }
 }
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          path: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/nodes/{name}/proxy/{path}", code: 200 })),
-      ).annotate({ identifier: "ConnectCoreV1GetNodeProxyWithPathRequest" });
-  }
-}
-function __c95(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17529,7 +15548,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedLimitRangeRequest" });
   }
 }
-function __c96(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17547,7 +15566,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedPersistentVolumeClaimRequest" });
   }
 }
-function __c97(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17565,7 +15584,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedPersistentVolumeClaimStatusRequest" });
   }
 }
-function __c98(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17579,7 +15598,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedPodRequest" });
   }
 }
-function __c99(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17597,7 +15616,18 @@ function __c99(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedPodEphemeralcontainersRequest" });
   }
 }
-function __c100(j: number): any {
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          path: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/nodes/{name}/proxy", code: 200 })),
+      ).annotate({ identifier: "ConnectCoreV1GetNodeProxyRequest" });
+  }
+}
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17624,7 +15654,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedPodLogRequest" });
   }
 }
-function __c101(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17642,7 +15672,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedPodResizeRequest" });
   }
 }
-function __c102(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17660,7 +15690,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedPodStatusRequest" });
   }
 }
-function __c103(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17678,7 +15708,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedPodTemplateRequest" });
   }
 }
-function __c104(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17696,25 +15726,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedReplicationControllerRequest" });
   }
 }
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          path: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v1/namespaces/{namespace}/pods/{name}/proxy",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectCoreV1PatchNamespacedPodProxyRequest" });
-  }
-}
-function __c106(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17732,7 +15744,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedReplicationControllerScaleRequest" });
   }
 }
-function __c107(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17750,7 +15762,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedReplicationControllerStatusRequest" });
   }
 }
-function __c108(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17768,7 +15780,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedResourceQuotaRequest" });
   }
 }
-function __c109(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17786,7 +15798,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedResourceQuotaStatusRequest" });
   }
 }
-function __c110(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17804,7 +15816,18 @@ function __c110(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedSecretRequest" });
   }
 }
-function __c111(j: number): any {
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          path: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/nodes/{name}/proxy/{path}", code: 200 })),
+      ).annotate({ identifier: "ConnectCoreV1GetNodeProxyWithPathRequest" });
+  }
+}
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17822,7 +15845,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedServiceRequest" });
   }
 }
-function __c112(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17840,7 +15863,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedServiceAccountRequest" });
   }
 }
-function __c113(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17858,7 +15881,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespacedServiceStatusRequest" });
   }
 }
-function __c114(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17869,7 +15892,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NamespaceStatusRequest" });
   }
 }
-function __c115(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17880,7 +15903,367 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ReadCoreV1NodeRequest" });
   }
 }
-function __c116(j: number): any {
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/nodes/{name}/status", code: 200 })),
+      ).annotate({ identifier: "ReadCoreV1NodeStatusRequest" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/persistentvolumes/{name}", code: 200 })),
+      ).annotate({ identifier: "ReadCoreV1PersistentVolumeRequest" });
+  }
+}
+function __c95(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/persistentvolumes/{name}/status", code: 200 }),
+        ),
+      ).annotate({ identifier: "ReadCoreV1PersistentVolumeStatusRequest" });
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6176, __c193, 0)),
+          status: S.optional(__S(6177, __c193, 1)),
+        }).pipe(T.Http({ method: "PUT", uri: "/api/v1/namespaces/{name}", code: 200 })),
+      ).annotate({ identifier: "ReplaceCoreV1NamespaceRequest" });
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          binaryData: S.optional(__S(6112, __c191, 0)),
+          data: S.optional(__S(6112, __c191, 0)),
+          immutable: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/configmaps/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedConfigMapRequest" });
+  }
+}
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          path: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/namespaces/{namespace}/pods/{name}/proxy",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectCoreV1PatchNamespacedPodProxyRequest" });
+  }
+}
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          subsets: S.optional(__S(6437, __c201, 5)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/endpoints/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedEndpointsRequest" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          action: S.optional(S.String),
+          apiVersion: S.optional(S.String),
+          count: S.optional(S.Number),
+          eventTime: S.optional(S.String),
+          firstTimestamp: S.optional(S.String),
+          involvedObject: __S(6272, __c196, 0),
+          kind: S.optional(S.String),
+          lastTimestamp: S.optional(S.String),
+          message: S.optional(S.String),
+          metadata: __S(6117, __c191, 5),
+          reason: S.optional(S.String),
+          related: S.optional(__S(6272, __c196, 0)),
+          reportingComponent: S.optional(S.String),
+          reportingInstance: S.optional(S.String),
+          series: S.optional(__S(6496, __c203, 0)),
+          source: S.optional(__S(6497, __c203, 1)),
+          type: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/api/v1/namespaces/{namespace}/events/{name}", code: 200 }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedEventRequest" });
+  }
+}
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6562, __c205, 2)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/limitranges/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedLimitRangeRequest" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6660, __c208, 4)),
+          status: S.optional(__S(6723, __c210, 3)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedPersistentVolumeClaimRequest" });
+  }
+}
+function __c103(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6660, __c208, 4)),
+          status: S.optional(__S(6723, __c210, 3)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}/status",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedPersistentVolumeClaimStatusRequest" });
+  }
+}
+function __c104(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6985, __c218, 9)),
+          status: S.optional(__S(7041, __c220, 1)),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/api/v1/namespaces/{namespace}/pods/{name}", code: 200 }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedPodRequest" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6985, __c218, 9)),
+          status: S.optional(__S(7041, __c220, 1)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/pods/{name}/ephemeralcontainers",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedPodEphemeralcontainersRequest" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6985, __c218, 9)),
+          status: S.optional(__S(7041, __c220, 1)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/pods/{name}/resize",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedPodResizeRequest" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6985, __c218, 9)),
+          status: S.optional(__S(7041, __c220, 1)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/pods/{name}/status",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedPodStatusRequest" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          template: S.optional(__S(7200, __c225, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/podtemplates/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedPodTemplateRequest" });
+  }
+}
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17898,15 +16281,215 @@ function __c116(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PatchNamespacedPodProxyWithPathRequest" });
   }
 }
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7328, __c229, 0)),
+          status: S.optional(__S(7329, __c229, 1)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedReplicationControllerRequest" });
+  }
+}
+function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(1632, __c51, 0)),
+          status: S.optional(__S(1633, __c51, 1)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}/scale",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedReplicationControllerScaleRequest" });
+  }
+}
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7328, __c229, 0)),
+          status: S.optional(__S(7329, __c229, 1)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}/status",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedReplicationControllerStatusRequest" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7395, __c231, 3)),
+          status: S.optional(__S(7396, __c231, 4)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/resourcequotas/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedResourceQuotaRequest" });
+  }
+}
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7395, __c231, 3)),
+          status: S.optional(__S(7396, __c231, 4)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/resourcequotas/{name}/status",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedResourceQuotaStatusRequest" });
+  }
+}
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          data: S.optional(__S(7456, __c233, 0)),
+          immutable: S.optional(S.Boolean),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          stringData: S.optional(__S(7456, __c233, 0)),
+          type: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/secrets/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedSecretRequest" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7524, __c235, 4)),
+          status: S.optional(__S(7532, __c235, 12)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/services/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedServiceRequest" });
+  }
+}
 function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          namespace: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           pretty: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/nodes/{name}/status", code: 200 })),
-      ).annotate({ identifier: "ReadCoreV1NodeStatusRequest" });
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          automountServiceAccountToken: S.optional(S.Boolean),
+          imagePullSecrets: S.optional(__S(6785, __c212, 1)),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          secrets: S.optional(__S(7584, __c237, 0)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/serviceaccounts/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedServiceAccountRequest" });
   }
 }
 function __c118(j: number): any {
@@ -17914,10 +16497,25 @@ function __c118(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          namespace: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           pretty: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/persistentvolumes/{name}", code: 200 })),
-      ).annotate({ identifier: "ReadCoreV1PersistentVolumeRequest" });
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7524, __c235, 4)),
+          status: S.optional(__S(7532, __c235, 12)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/namespaces/{namespace}/services/{name}/status",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ReplaceCoreV1NamespacedServiceStatusRequest" });
   }
 }
 function __c119(j: number): any {
@@ -17926,157 +16524,20 @@ function __c119(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
+          dryRun: S.optional(S.String.pipe(T.Query())),
+          fieldManager: S.optional(S.String.pipe(T.Query())),
+          fieldValidation: S.optional(S.String.pipe(T.Query())),
           pretty: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/persistentvolumes/{name}/status", code: 200 }),
-        ),
-      ).annotate({ identifier: "ReadCoreV1PersistentVolumeStatusRequest" });
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6176, __c193, 0)),
+          status: S.optional(__S(6177, __c193, 1)),
+        }).pipe(T.Http({ method: "PUT", uri: "/api/v1/namespaces/{name}/finalize", code: 200 })),
+      ).annotate({ identifier: "ReplaceCoreV1NamespaceFinalizeRequest" });
   }
 }
 function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReadLifecycleV1alpha1NamespacedEvictionRequest2" });
-  }
-}
-function __c121(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReadLifecycleV1alpha1NamespacedEvictionRequestRequest" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}/status",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReadLifecycleV1alpha1NamespacedEvictionRequestStatusRequest" });
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}/status",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReadLifecycleV1alpha1NamespacedEvictionStatusRequest" });
-  }
-}
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7232, __c226, 0)),
-          status: S.optional(__S(7233, __c226, 1)),
-        }).pipe(T.Http({ method: "PUT", uri: "/api/v1/namespaces/{name}", code: 200 })),
-      ).annotate({ identifier: "ReplaceCoreV1NamespaceRequest" });
-  }
-}
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          binaryData: S.optional(__S(7264, __c227, 0)),
-          data: S.optional(__S(7264, __c227, 0)),
-          immutable: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/configmaps/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedConfigMapRequest" });
-  }
-}
-function __c126(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          subsets: S.optional(__S(7589, __c237, 5)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/endpoints/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedEndpointsRequest" });
-  }
-}
-function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18094,517 +16555,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PatchNamespacedServiceProxyRequest" });
   }
 }
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          action: S.optional(S.String),
-          apiVersion: S.optional(S.String),
-          count: S.optional(S.Number),
-          eventTime: S.optional(S.String),
-          firstTimestamp: S.optional(S.String),
-          involvedObject: __S(7424, __c232, 0),
-          kind: S.optional(S.String),
-          lastTimestamp: S.optional(S.String),
-          message: S.optional(S.String),
-          metadata: __S(7269, __c227, 5),
-          reason: S.optional(S.String),
-          related: S.optional(__S(7424, __c232, 0)),
-          reportingComponent: S.optional(S.String),
-          reportingInstance: S.optional(S.String),
-          series: S.optional(__S(7648, __c239, 0)),
-          source: S.optional(__S(7649, __c239, 1)),
-          type: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/api/v1/namespaces/{namespace}/events/{name}", code: 200 }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedEventRequest" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7714, __c241, 2)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/limitranges/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedLimitRangeRequest" });
-  }
-}
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7812, __c244, 4)),
-          status: S.optional(__S(7875, __c246, 3)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedPersistentVolumeClaimRequest" });
-  }
-}
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7812, __c244, 4)),
-          status: S.optional(__S(7875, __c246, 3)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/persistentvolumeclaims/{name}/status",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedPersistentVolumeClaimStatusRequest" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8137, __c254, 9)),
-          status: S.optional(__S(8193, __c256, 1)),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/api/v1/namespaces/{namespace}/pods/{name}", code: 200 }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedPodRequest" });
-  }
-}
-function __c133(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8137, __c254, 9)),
-          status: S.optional(__S(8193, __c256, 1)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/pods/{name}/ephemeralcontainers",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedPodEphemeralcontainersRequest" });
-  }
-}
-function __c134(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8137, __c254, 9)),
-          status: S.optional(__S(8193, __c256, 1)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/pods/{name}/resize",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedPodResizeRequest" });
-  }
-}
-function __c135(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8137, __c254, 9)),
-          status: S.optional(__S(8193, __c256, 1)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/pods/{name}/status",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedPodStatusRequest" });
-  }
-}
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          template: S.optional(__S(8352, __c261, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/podtemplates/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedPodTemplateRequest" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8480, __c265, 0)),
-          status: S.optional(__S(8481, __c265, 1)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedReplicationControllerRequest" });
-  }
-}
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          path: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v1/namespaces/{namespace}/services/{name}/proxy/{path}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectCoreV1PatchNamespacedServiceProxyWithPathRequest" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(2240, __c70, 0)),
-          status: S.optional(__S(2241, __c70, 1)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}/scale",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedReplicationControllerScaleRequest" });
-  }
-}
-function __c140(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8480, __c265, 0)),
-          status: S.optional(__S(8481, __c265, 1)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/replicationcontrollers/{name}/status",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedReplicationControllerStatusRequest" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8547, __c267, 3)),
-          status: S.optional(__S(8548, __c267, 4)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/resourcequotas/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedResourceQuotaRequest" });
-  }
-}
-function __c142(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8547, __c267, 3)),
-          status: S.optional(__S(8548, __c267, 4)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/resourcequotas/{name}/status",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedResourceQuotaStatusRequest" });
-  }
-}
-function __c143(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          data: S.optional(__S(8608, __c269, 0)),
-          immutable: S.optional(S.Boolean),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          stringData: S.optional(__S(8608, __c269, 0)),
-          type: S.optional(S.String),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/secrets/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedSecretRequest" });
-  }
-}
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8708, __c272, 4)),
-          status: S.optional(__S(8714, __c272, 10)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/services/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedServiceRequest" });
-  }
-}
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          automountServiceAccountToken: S.optional(S.Boolean),
-          imagePullSecrets: S.optional(__S(7937, __c248, 1)),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          secrets: S.optional(__S(8768, __c274, 0)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/serviceaccounts/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedServiceAccountRequest" });
-  }
-}
-function __c146(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8708, __c272, 4)),
-          status: S.optional(__S(8714, __c272, 10)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/namespaces/{namespace}/services/{name}/status",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceCoreV1NamespacedServiceStatusRequest" });
-  }
-}
-function __c147(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7232, __c226, 0)),
-          status: S.optional(__S(7233, __c226, 1)),
-        }).pipe(T.Http({ method: "PUT", uri: "/api/v1/namespaces/{name}/finalize", code: 200 })),
-      ).annotate({ identifier: "ReplaceCoreV1NamespaceFinalizeRequest" });
-  }
-}
-function __c148(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18616,25 +16567,14 @@ function __c148(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7232, __c226, 0)),
-          status: S.optional(__S(7233, __c226, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6176, __c193, 0)),
+          status: S.optional(__S(6177, __c193, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/namespaces/{name}/status", code: 200 })),
       ).annotate({ identifier: "ReplaceCoreV1NamespaceStatusRequest" });
   }
 }
-function __c149(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          path: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/nodes/{name}/proxy", code: 200 })),
-      ).annotate({ identifier: "ConnectCoreV1PatchNodeProxyRequest" });
-  }
-}
-function __c150(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18646,14 +16586,14 @@ function __c150(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8869, __c277, 5)),
-          status: S.optional(__S(8885, __c277, 21)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7685, __c240, 5)),
+          status: S.optional(__S(7701, __c240, 21)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/nodes/{name}", code: 200 })),
       ).annotate({ identifier: "ReplaceCoreV1NodeRequest" });
   }
 }
-function __c151(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18665,14 +16605,14 @@ function __c151(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8869, __c277, 5)),
-          status: S.optional(__S(8885, __c277, 21)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7685, __c240, 5)),
+          status: S.optional(__S(7701, __c240, 21)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/nodes/{name}/status", code: 200 })),
       ).annotate({ identifier: "ReplaceCoreV1NodeStatusRequest" });
   }
 }
-function __c152(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18684,14 +16624,14 @@ function __c152(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8941, __c279, 13)),
-          status: S.optional(__S(8942, __c279, 14)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7757, __c242, 13)),
+          status: S.optional(__S(7758, __c242, 14)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/persistentvolumes/{name}", code: 200 })),
       ).annotate({ identifier: "ReplaceCoreV1PersistentVolumeRequest" });
   }
 }
-function __c153(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18703,120 +16643,16 @@ function __c153(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8941, __c279, 13)),
-          status: S.optional(__S(8942, __c279, 14)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7757, __c242, 13)),
+          status: S.optional(__S(7758, __c242, 14)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/persistentvolumes/{name}/status", code: 200 }),
         ),
       ).annotate({ identifier: "ReplaceCoreV1PersistentVolumeStatusRequest" });
   }
 }
-function __c154(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: __S(8992, __c281, 0),
-          status: S.optional(__S(8999, __c281, 7)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceLifecycleV1alpha1NamespacedEvictionRequest2" });
-  }
-}
-function __c155(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: __S(9088, __c284, 0),
-          status: S.optional(__S(9089, __c284, 1)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceLifecycleV1alpha1NamespacedEvictionRequestRequest" });
-  }
-}
-function __c156(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: __S(9088, __c284, 0),
-          status: S.optional(__S(9089, __c284, 1)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}/status",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceLifecycleV1alpha1NamespacedEvictionRequestStatusRequest" });
-  }
-}
-function __c157(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: __S(8992, __c281, 0),
-          status: S.optional(__S(8999, __c281, 7)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}/status",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ReplaceLifecycleV1alpha1NamespacedEvictionStatusRequest" });
-  }
-}
-function __c158(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18837,7 +16673,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "WatchCoreV1ConfigMapListForAllNamespacesRequest" });
   }
 }
-function __c159(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18848,7 +16684,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1WatchEvent" });
   }
 }
-function __c160(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18869,18 +16705,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "WatchCoreV1EndpointsListForAllNamespacesRequest" });
   }
 }
-function __c161(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          path: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/nodes/{name}/proxy/{path}", code: 200 })),
-      ).annotate({ identifier: "ConnectCoreV1PatchNodeProxyWithPathRequest" });
-  }
-}
-function __c162(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18901,7 +16726,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "WatchCoreV1EventListForAllNamespacesRequest" });
   }
 }
-function __c163(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18922,7 +16747,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "WatchCoreV1LimitRangeListForAllNamespacesRequest" });
   }
 }
-function __c164(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18944,7 +16769,25 @@ function __c164(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespaceRequest" });
   }
 }
-function __c165(j: number): any {
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          path: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/namespaces/{namespace}/services/{name}/proxy/{path}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectCoreV1PatchNamespacedServiceProxyWithPathRequest" });
+  }
+}
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18973,7 +16816,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedConfigMapRequest" });
   }
 }
-function __c166(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19001,7 +16844,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedConfigMapListRequest" });
   }
 }
-function __c167(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19030,7 +16873,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedEndpointsRequest" });
   }
 }
-function __c168(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19058,7 +16901,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedEndpointsListRequest" });
   }
 }
-function __c169(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19087,7 +16930,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedEventRequest" });
   }
 }
-function __c170(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19111,7 +16954,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedEventListRequest" });
   }
 }
-function __c171(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19140,29 +16983,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedLimitRangeRequest" });
   }
 }
-function __c172(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          container: S.optional(S.String.pipe(T.Query())),
-          stderr: S.optional(S.Boolean.pipe(T.Query())),
-          stdin: S.optional(S.Boolean.pipe(T.Query())),
-          stdout: S.optional(S.Boolean.pipe(T.Query())),
-          tty: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/namespaces/{namespace}/pods/{name}/attach",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectCoreV1PostNamespacedPodAttachRequest" });
-  }
-}
-function __c173(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19190,7 +17011,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedLimitRangeListRequest" });
   }
 }
-function __c174(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19219,7 +17040,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedPersistentVolumeClaimRequest" });
   }
 }
-function __c175(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19247,7 +17068,18 @@ function __c175(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedPersistentVolumeClaimListRequest" });
   }
 }
-function __c176(j: number): any {
+function __c143(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          path: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/nodes/{name}/proxy", code: 200 })),
+      ).annotate({ identifier: "ConnectCoreV1PatchNodeProxyRequest" });
+  }
+}
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19276,7 +17108,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedPodRequest" });
   }
 }
-function __c177(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19300,7 +17132,7 @@ function __c177(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedPodListRequest" });
   }
 }
-function __c178(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19329,7 +17161,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedPodTemplateRequest" });
   }
 }
-function __c179(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19357,7 +17189,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedPodTemplateListRequest" });
   }
 }
-function __c180(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19386,7 +17218,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedReplicationControllerRequest" });
   }
 }
-function __c181(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19414,7 +17246,7 @@ function __c181(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedReplicationControllerListRequest" });
   }
 }
-function __c182(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19443,30 +17275,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedResourceQuotaRequest" });
   }
 }
-function __c183(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          command: S.optional(S.String.pipe(T.Query())),
-          container: S.optional(S.String.pipe(T.Query())),
-          stderr: S.optional(S.Boolean.pipe(T.Query())),
-          stdin: S.optional(S.Boolean.pipe(T.Query())),
-          stdout: S.optional(S.Boolean.pipe(T.Query())),
-          tty: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/namespaces/{namespace}/pods/{name}/exec",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectCoreV1PostNamespacedPodExecRequest" });
-  }
-}
-function __c184(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19494,7 +17303,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedResourceQuotaListRequest" });
   }
 }
-function __c185(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19523,7 +17332,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedSecretRequest" });
   }
 }
-function __c186(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19547,7 +17356,18 @@ function __c186(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedSecretListRequest" });
   }
 }
-function __c187(j: number): any {
+function __c154(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          path: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "PATCH", uri: "/api/v1/nodes/{name}/proxy/{path}", code: 200 })),
+      ).annotate({ identifier: "ConnectCoreV1PatchNodeProxyWithPathRequest" });
+  }
+}
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19576,7 +17396,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedServiceRequest" });
   }
 }
-function __c188(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19605,7 +17425,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedServiceAccountRequest" });
   }
 }
-function __c189(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19633,7 +17453,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedServiceAccountListRequest" });
   }
 }
-function __c190(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19661,7 +17481,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespacedServiceListRequest" });
   }
 }
-function __c191(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19682,7 +17502,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NamespaceListRequest" });
   }
 }
-function __c192(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19704,7 +17524,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NodeRequest" });
   }
 }
-function __c193(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19725,25 +17545,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "WatchCoreV1NodeListRequest" });
   }
 }
-function __c194(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          ports: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/namespaces/{namespace}/pods/{name}/portforward",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectCoreV1PostNamespacedPodPortforwardRequest" });
-  }
-}
-function __c195(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19767,7 +17569,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "WatchCoreV1PersistentVolumeRequest" });
   }
 }
-function __c196(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19788,7 +17590,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "WatchCoreV1PersistentVolumeClaimListForAllNamespacesRequest" });
   }
 }
-function __c197(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19809,7 +17611,29 @@ function __c197(j: number): any {
       ).annotate({ identifier: "WatchCoreV1PersistentVolumeListRequest" });
   }
 }
-function __c198(j: number): any {
+function __c165(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          container: S.optional(S.String.pipe(T.Query())),
+          stderr: S.optional(S.Boolean.pipe(T.Query())),
+          stdin: S.optional(S.Boolean.pipe(T.Query())),
+          stdout: S.optional(S.Boolean.pipe(T.Query())),
+          tty: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/namespaces/{namespace}/pods/{name}/attach",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectCoreV1PostNamespacedPodAttachRequest" });
+  }
+}
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19830,7 +17654,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "WatchCoreV1PodListForAllNamespacesRequest" });
   }
 }
-function __c199(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19851,7 +17675,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "WatchCoreV1PodTemplateListForAllNamespacesRequest" });
   }
 }
-function __c200(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19872,7 +17696,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "WatchCoreV1ReplicationControllerListForAllNamespacesRequest" });
   }
 }
-function __c201(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19893,7 +17717,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "WatchCoreV1ResourceQuotaListForAllNamespacesRequest" });
   }
 }
-function __c202(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19914,7 +17738,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "WatchCoreV1SecretListForAllNamespacesRequest" });
   }
 }
-function __c203(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19935,7 +17759,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "WatchCoreV1ServiceAccountListForAllNamespacesRequest" });
   }
 }
-function __c204(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19956,7 +17780,48 @@ function __c204(j: number): any {
       ).annotate({ identifier: "WatchCoreV1ServiceListForAllNamespacesRequest" });
   }
 }
-function __c205(j: number): any {
+function __c173(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          command: S.optional(S.String.pipe(T.Query())),
+          container: S.optional(S.String.pipe(T.Query())),
+          stderr: S.optional(S.Boolean.pipe(T.Query())),
+          stdin: S.optional(S.Boolean.pipe(T.Query())),
+          stdout: S.optional(S.Boolean.pipe(T.Query())),
+          tty: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/namespaces/{namespace}/pods/{name}/exec",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectCoreV1PostNamespacedPodExecRequest" });
+  }
+}
+function __c174(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          ports: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/namespaces/{namespace}/pods/{name}/portforward",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectCoreV1PostNamespacedPodPortforwardRequest" });
+  }
+}
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19974,177 +17839,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PostNamespacedPodProxyRequest" });
   }
 }
-function __c206(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/watch/evictions",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "WatchLifecycleV1alpha1EvictionListForAllNamespacesRequest" });
-  }
-}
-function __c207(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/watch/evictionrequests",
-            code: 200,
-          }),
-        ),
-      ).annotate({
-        identifier: "WatchLifecycleV1alpha1EvictionRequestListForAllNamespacesRequest",
-      });
-  }
-}
-function __c208(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/watch/namespaces/{namespace}/evictions/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "WatchLifecycleV1alpha1NamespacedEvictionRequest2" });
-  }
-}
-function __c209(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/watch/namespaces/{namespace}/evictions",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "WatchLifecycleV1alpha1NamespacedEvictionListRequest" });
-  }
-}
-function __c210(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/watch/namespaces/{namespace}/evictionrequests/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "WatchLifecycleV1alpha1NamespacedEvictionRequestRequest" });
-  }
-}
-function __c211(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          watch: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/watch/namespaces/{namespace}/evictionrequests",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "WatchLifecycleV1alpha1NamespacedEvictionRequestListRequest" });
-  }
-}
-function __c212(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20162,7 +17857,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PostNamespacedPodProxyWithPathRequest" });
   }
 }
-function __c213(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20180,7 +17875,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PostNamespacedServiceProxyRequest" });
   }
 }
-function __c214(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20198,7 +17893,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1DeleteNamespacedPodProxyRequest" });
   }
 }
-function __c215(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
@@ -20206,7 +17901,7 @@ function __c215(j: number): any {
       });
   }
 }
-function __c216(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20224,7 +17919,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PostNamespacedServiceProxyWithPathRequest" });
   }
 }
-function __c217(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20235,7 +17930,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PostNodeProxyRequest" });
   }
 }
-function __c218(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20246,7 +17941,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PostNodeProxyWithPathRequest" });
   }
 }
-function __c219(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20264,7 +17959,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PutNamespacedPodProxyRequest" });
   }
 }
-function __c220(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20282,7 +17977,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PutNamespacedPodProxyWithPathRequest" });
   }
 }
-function __c221(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20300,7 +17995,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PutNamespacedServiceProxyRequest" });
   }
 }
-function __c222(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20318,7 +18013,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PutNamespacedServiceProxyWithPathRequest" });
   }
 }
-function __c223(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20329,7 +18024,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PutNodeProxyRequest" });
   }
 }
-function __c224(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20340,7 +18035,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1PutNodeProxyWithPathRequest" });
   }
 }
-function __c225(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20351,41 +18046,20 @@ function __c225(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7232, __c226, 0)),
-          status: S.optional(__S(7233, __c226, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6176, __c193, 0)),
+          status: S.optional(__S(6177, __c193, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/namespaces", code: 200 })),
       ).annotate({ identifier: "CreateCoreV1NamespaceRequest" });
   }
 }
-function __c226(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          finalizers: S.optional(__S(7296, __c228, 0)),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1NamespaceSpec" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          conditions: S.optional(__S(7329, __c229, 1)),
-          phase: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1NamespaceStatus" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7232, __c226, 0)),
-          status: S.optional(__S(7233, __c226, 1)),
-        }),
-      ).annotate({ identifier: "IoK8sApiCoreV1Namespace" });
+      return S.Array(S.String);
   }
 }
-function __c227(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -20402,7 +18076,7 @@ function __c227(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ManagedFieldsEntry" });
     case 2:
-      return S.Array(__S(7265, __c227, 1));
+      return S.Array(__S(6113, __c191, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -20415,22 +18089,22 @@ function __c227(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1OwnerReference" });
     case 4:
-      return S.Array(__S(7267, __c227, 3));
+      return S.Array(__S(6115, __c191, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          annotations: S.optional(__S(7264, __c227, 0)),
+          annotations: S.optional(__S(6112, __c191, 0)),
           creationTimestamp: S.optional(S.String),
           deletionGracePeriodSeconds: S.optional(S.Number),
           deletionTimestamp: S.optional(S.String),
-          finalizers: S.optional(__S(7296, __c228, 0)),
+          finalizers: S.optional(__S(6080, __c190, 0)),
           generateName: S.optional(S.String),
           generation: S.optional(S.Number),
-          labels: S.optional(__S(7264, __c227, 0)),
-          managedFields: S.optional(__S(7266, __c227, 2)),
+          labels: S.optional(__S(6112, __c191, 0)),
+          managedFields: S.optional(__S(6114, __c191, 2)),
           name: S.optional(S.String),
           namespace: S.optional(S.String),
-          ownerReferences: S.optional(__S(7268, __c227, 4)),
+          ownerReferences: S.optional(__S(6116, __c191, 4)),
           resourceVersion: S.optional(S.String),
           selfLink: S.optional(S.String),
           uid: S.optional(S.String),
@@ -20438,13 +18112,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ObjectMeta" });
   }
 }
-function __c228(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c229(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20457,10 +18125,37 @@ function __c229(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NamespaceCondition" });
     case 1:
-      return S.Array(__S(7328, __c229, 0));
+      return S.Array(__S(6144, __c192, 0));
   }
 }
-function __c230(j: number): any {
+function __c193(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          finalizers: S.optional(__S(6080, __c190, 0)),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1NamespaceSpec" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          conditions: S.optional(__S(6145, __c192, 1)),
+          phase: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1NamespaceStatus" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6176, __c193, 0)),
+          status: S.optional(__S(6177, __c193, 1)),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1Namespace" });
+  }
+}
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20478,7 +18173,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1DeleteNamespacedPodProxyWithPathRequest" });
   }
 }
-function __c231(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20490,15 +18185,15 @@ function __c231(j: number): any {
           pretty: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          target: __S(7424, __c232, 0),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          target: __S(6272, __c196, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/bindings", code: 200 }),
         ),
       ).annotate({ identifier: "CreateCoreV1NamespacedBindingRequest" });
   }
 }
-function __c232(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20514,20 +18209,20 @@ function __c232(j: number): any {
       ).annotate({ identifier: "IoK8sApiCoreV1ObjectReference" });
   }
 }
-function __c233(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          target: __S(7424, __c232, 0),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          target: __S(6272, __c196, 0),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Binding" });
   }
 }
-function __c234(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20538,33 +18233,33 @@ function __c234(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
-          binaryData: S.optional(__S(7264, __c227, 0)),
-          data: S.optional(__S(7264, __c227, 0)),
+          binaryData: S.optional(__S(6112, __c191, 0)),
+          data: S.optional(__S(6112, __c191, 0)),
           immutable: S.optional(S.Boolean),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
+          metadata: S.optional(__S(6117, __c191, 5)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/configmaps", code: 200 }),
         ),
       ).annotate({ identifier: "CreateCoreV1NamespacedConfigMapRequest" });
   }
 }
-function __c235(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          binaryData: S.optional(__S(7264, __c227, 0)),
-          data: S.optional(__S(7264, __c227, 0)),
+          binaryData: S.optional(__S(6112, __c191, 0)),
+          data: S.optional(__S(6112, __c191, 0)),
           immutable: S.optional(S.Boolean),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
+          metadata: S.optional(__S(6117, __c191, 5)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ConfigMap" });
   }
 }
-function __c236(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20576,15 +18271,15 @@ function __c236(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          subsets: S.optional(__S(7589, __c237, 5)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          subsets: S.optional(__S(6437, __c201, 5)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/endpoints", code: 200 }),
         ),
       ).annotate({ identifier: "CreateCoreV1NamespacedEndpointsRequest" });
   }
 }
-function __c237(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20592,11 +18287,11 @@ function __c237(j: number): any {
           hostname: S.optional(S.String),
           ip: S.String,
           nodeName: S.optional(S.String),
-          targetRef: S.optional(__S(7424, __c232, 0)),
+          targetRef: S.optional(__S(6272, __c196, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EndpointAddress" });
     case 1:
-      return S.Array(__S(7584, __c237, 0));
+      return S.Array(__S(6432, __c201, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20607,29 +18302,29 @@ function __c237(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EndpointPort" });
     case 3:
-      return S.Array(__S(7586, __c237, 2));
+      return S.Array(__S(6434, __c201, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          addresses: S.optional(__S(7585, __c237, 1)),
-          notReadyAddresses: S.optional(__S(7585, __c237, 1)),
-          ports: S.optional(__S(7587, __c237, 3)),
+          addresses: S.optional(__S(6433, __c201, 1)),
+          notReadyAddresses: S.optional(__S(6433, __c201, 1)),
+          ports: S.optional(__S(6435, __c201, 3)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EndpointSubset" });
     case 5:
-      return S.Array(__S(7588, __c237, 4));
+      return S.Array(__S(6436, __c201, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          subsets: S.optional(__S(7589, __c237, 5)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          subsets: S.optional(__S(6437, __c201, 5)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Endpoints" });
   }
 }
-function __c238(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20644,17 +18339,17 @@ function __c238(j: number): any {
           count: S.optional(S.Number),
           eventTime: S.optional(S.String),
           firstTimestamp: S.optional(S.String),
-          involvedObject: __S(7424, __c232, 0),
+          involvedObject: __S(6272, __c196, 0),
           kind: S.optional(S.String),
           lastTimestamp: S.optional(S.String),
           message: S.optional(S.String),
-          metadata: __S(7269, __c227, 5),
+          metadata: __S(6117, __c191, 5),
           reason: S.optional(S.String),
-          related: S.optional(__S(7424, __c232, 0)),
+          related: S.optional(__S(6272, __c196, 0)),
           reportingComponent: S.optional(S.String),
           reportingInstance: S.optional(S.String),
-          series: S.optional(__S(7648, __c239, 0)),
-          source: S.optional(__S(7649, __c239, 1)),
+          series: S.optional(__S(6496, __c203, 0)),
+          source: S.optional(__S(6497, __c203, 1)),
           type: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/events", code: 200 }),
@@ -20662,7 +18357,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "CreateCoreV1NamespacedEventRequest" });
   }
 }
-function __c239(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20686,23 +18381,23 @@ function __c239(j: number): any {
           count: S.optional(S.Number),
           eventTime: S.optional(S.String),
           firstTimestamp: S.optional(S.String),
-          involvedObject: __S(7424, __c232, 0),
+          involvedObject: __S(6272, __c196, 0),
           kind: S.optional(S.String),
           lastTimestamp: S.optional(S.String),
           message: S.optional(S.String),
-          metadata: __S(7269, __c227, 5),
+          metadata: __S(6117, __c191, 5),
           reason: S.optional(S.String),
-          related: S.optional(__S(7424, __c232, 0)),
+          related: S.optional(__S(6272, __c196, 0)),
           reportingComponent: S.optional(S.String),
           reportingInstance: S.optional(S.String),
-          series: S.optional(__S(7648, __c239, 0)),
-          source: S.optional(__S(7649, __c239, 1)),
+          series: S.optional(__S(6496, __c203, 0)),
+          source: S.optional(__S(6497, __c203, 1)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Event" });
   }
 }
-function __c240(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20714,33 +18409,33 @@ function __c240(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7714, __c241, 2)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6562, __c205, 2)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/limitranges", code: 200 }),
         ),
       ).annotate({ identifier: "CreateCoreV1NamespacedLimitRangeRequest" });
   }
 }
-function __c241(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          default: S.optional(__S(7264, __c227, 0)),
-          defaultRequest: S.optional(__S(7264, __c227, 0)),
-          max: S.optional(__S(7264, __c227, 0)),
-          maxLimitRequestRatio: S.optional(__S(7264, __c227, 0)),
-          min: S.optional(__S(7264, __c227, 0)),
+          default: S.optional(__S(6112, __c191, 0)),
+          defaultRequest: S.optional(__S(6112, __c191, 0)),
+          max: S.optional(__S(6112, __c191, 0)),
+          maxLimitRequestRatio: S.optional(__S(6112, __c191, 0)),
+          min: S.optional(__S(6112, __c191, 0)),
           type: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1LimitRangeItem" });
     case 1:
-      return S.Array(__S(7712, __c241, 0));
+      return S.Array(__S(6560, __c205, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          limits: __S(7713, __c241, 1),
+          limits: __S(6561, __c205, 1),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1LimitRangeSpec" });
     case 3:
@@ -20748,13 +18443,13 @@ function __c241(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7714, __c241, 2)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6562, __c205, 2)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1LimitRange" });
   }
 }
-function __c242(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20766,9 +18461,9 @@ function __c242(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7812, __c244, 4)),
-          status: S.optional(__S(7875, __c246, 3)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6660, __c208, 4)),
+          status: S.optional(__S(6723, __c210, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20779,21 +18474,21 @@ function __c242(j: number): any {
       ).annotate({ identifier: "CreateCoreV1NamespacedPersistentVolumeClaimRequest" });
   }
 }
-function __c243(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           operator: S.String,
-          values: S.optional(__S(7296, __c228, 0)),
+          values: S.optional(__S(6080, __c190, 0)),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1LabelSelectorRequirement" });
     case 1:
-      return S.Array(__S(7776, __c243, 0));
+      return S.Array(__S(6624, __c207, 0));
   }
 }
-function __c244(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20815,25 +18510,25 @@ function __c244(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          limits: S.optional(__S(7264, __c227, 0)),
-          requests: S.optional(__S(7264, __c227, 0)),
+          limits: S.optional(__S(6112, __c191, 0)),
+          requests: S.optional(__S(6112, __c191, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeResourceRequirements" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          matchExpressions: S.optional(__S(7777, __c243, 1)),
-          matchLabels: S.optional(__S(7264, __c227, 0)),
+          matchExpressions: S.optional(__S(6625, __c207, 1)),
+          matchLabels: S.optional(__S(6112, __c191, 0)),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1LabelSelector" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          accessModes: S.optional(__S(7296, __c228, 0)),
-          dataSource: S.optional(__S(7808, __c244, 0)),
-          dataSourceRef: S.optional(__S(7809, __c244, 1)),
-          resources: S.optional(__S(7810, __c244, 2)),
-          selector: S.optional(__S(7811, __c244, 3)),
+          accessModes: S.optional(__S(6080, __c190, 0)),
+          dataSource: S.optional(__S(6656, __c208, 0)),
+          dataSourceRef: S.optional(__S(6657, __c208, 1)),
+          resources: S.optional(__S(6658, __c208, 2)),
+          selector: S.optional(__S(6659, __c208, 3)),
           storageClassName: S.optional(S.String),
           volumeAttributesClassName: S.optional(S.String),
           volumeMode: S.optional(S.String),
@@ -20842,7 +18537,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimSpec" });
   }
 }
-function __c245(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20853,17 +18548,17 @@ function __c245(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeHealthCondition" });
     case 1:
-      return S.Array(__S(7840, __c245, 0));
+      return S.Array(__S(6688, __c209, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          healthConditions: S.optional(__S(7841, __c245, 1)),
+          healthConditions: S.optional(__S(6689, __c209, 1)),
           lastTransitionTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeHealthStatus" });
   }
 }
-function __c246(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20877,7 +18572,7 @@ function __c246(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimCondition" });
     case 1:
-      return S.Array(__S(7872, __c246, 0));
+      return S.Array(__S(6720, __c210, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20888,14 +18583,14 @@ function __c246(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          accessModes: S.optional(__S(7296, __c228, 0)),
-          allocatedResourceStatuses: S.optional(__S(7264, __c227, 0)),
-          allocatedResources: S.optional(__S(7264, __c227, 0)),
-          capacity: S.optional(__S(7264, __c227, 0)),
-          conditions: S.optional(__S(7873, __c246, 1)),
+          accessModes: S.optional(__S(6080, __c190, 0)),
+          allocatedResourceStatuses: S.optional(__S(6112, __c191, 0)),
+          allocatedResources: S.optional(__S(6112, __c191, 0)),
+          capacity: S.optional(__S(6112, __c191, 0)),
+          conditions: S.optional(__S(6721, __c210, 1)),
           currentVolumeAttributesClassName: S.optional(S.String),
-          healthStatus: S.optional(__S(7842, __c245, 2)),
-          modifyVolumeStatus: S.optional(__S(7874, __c246, 2)),
+          healthStatus: S.optional(__S(6690, __c209, 2)),
+          modifyVolumeStatus: S.optional(__S(6722, __c210, 2)),
           phase: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimStatus" });
@@ -20904,14 +18599,14 @@ function __c246(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(7812, __c244, 4)),
-          status: S.optional(__S(7875, __c246, 3)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6660, __c208, 4)),
+          status: S.optional(__S(6723, __c210, 3)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaim" });
   }
 }
-function __c247(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20923,14 +18618,14 @@ function __c247(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8137, __c254, 9)),
-          status: S.optional(__S(8193, __c256, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6985, __c218, 9)),
+          status: S.optional(__S(7041, __c220, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/pods", code: 200 })),
       ).annotate({ identifier: "CreateCoreV1NamespacedPodRequest" });
   }
 }
-function __c248(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20939,10 +18634,10 @@ function __c248(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1LocalObjectReference" });
     case 1:
-      return S.Array(__S(7936, __c248, 0));
+      return S.Array(__S(6784, __c212, 0));
   }
 }
-function __c249(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20952,24 +18647,24 @@ function __c249(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeDevice" });
     case 1:
-      return S.Array(__S(7968, __c249, 0));
+      return S.Array(__S(6816, __c213, 0));
   }
 }
-function __c250(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          matchExpressions: S.optional(__S(7777, __c243, 1)),
-          matchFields: S.optional(__S(7777, __c243, 1)),
+          matchExpressions: S.optional(__S(6625, __c207, 1)),
+          matchFields: S.optional(__S(6625, __c207, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeSelectorTerm" });
     case 1:
-      return S.Array(__S(8000, __c250, 0));
+      return S.Array(__S(6848, __c214, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nodeSelectorTerms: __S(8001, __c250, 1),
+          nodeSelectorTerms: __S(6849, __c214, 1),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeSelector" });
     case 3:
@@ -20998,8 +18693,8 @@ function __c250(j: number): any {
           fsType: S.optional(S.String),
           lun: S.optional(S.Number),
           readOnly: S.optional(S.Boolean),
-          targetWWNs: S.optional(__S(7296, __c228, 0)),
-          wwids: S.optional(__S(7296, __c228, 0)),
+          targetWWNs: S.optional(__S(6080, __c190, 0)),
+          wwids: S.optional(__S(6080, __c190, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1FCVolumeSource" });
     case 6:
@@ -21070,59 +18765,59 @@ function __c250(j: number): any {
       ).annotate({ identifier: "IoK8sApiCoreV1VsphereVirtualDiskVolumeSource" });
   }
 }
-function __c251(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          preference: __S(8000, __c250, 0),
+          preference: __S(6848, __c214, 0),
           weight: S.Number,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PreferredSchedulingTerm" });
     case 1:
-      return S.Array(__S(8032, __c251, 0));
+      return S.Array(__S(6880, __c215, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          preferredDuringSchedulingIgnoredDuringExecution: S.optional(__S(8033, __c251, 1)),
-          requiredDuringSchedulingIgnoredDuringExecution: S.optional(__S(8002, __c250, 2)),
+          preferredDuringSchedulingIgnoredDuringExecution: S.optional(__S(6881, __c215, 1)),
+          requiredDuringSchedulingIgnoredDuringExecution: S.optional(__S(6850, __c214, 2)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeAffinity" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          labelSelector: S.optional(__S(7811, __c244, 3)),
-          matchLabelKeys: S.optional(__S(7296, __c228, 0)),
-          mismatchLabelKeys: S.optional(__S(7296, __c228, 0)),
-          namespaceSelector: S.optional(__S(7811, __c244, 3)),
-          namespaces: S.optional(__S(7296, __c228, 0)),
+          labelSelector: S.optional(__S(6659, __c208, 3)),
+          matchLabelKeys: S.optional(__S(6080, __c190, 0)),
+          mismatchLabelKeys: S.optional(__S(6080, __c190, 0)),
+          namespaceSelector: S.optional(__S(6659, __c208, 3)),
+          namespaces: S.optional(__S(6080, __c190, 0)),
           topologyKey: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodAffinityTerm" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          podAffinityTerm: __S(8035, __c251, 3),
+          podAffinityTerm: __S(6883, __c215, 3),
           weight: S.Number,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1WeightedPodAffinityTerm" });
     case 5:
-      return S.Array(__S(8036, __c251, 4));
+      return S.Array(__S(6884, __c215, 4));
     case 6:
-      return S.Array(__S(8035, __c251, 3));
+      return S.Array(__S(6883, __c215, 3));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          preferredDuringSchedulingIgnoredDuringExecution: S.optional(__S(8037, __c251, 5)),
-          requiredDuringSchedulingIgnoredDuringExecution: S.optional(__S(8038, __c251, 6)),
+          preferredDuringSchedulingIgnoredDuringExecution: S.optional(__S(6885, __c215, 5)),
+          requiredDuringSchedulingIgnoredDuringExecution: S.optional(__S(6886, __c215, 6)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodAffinity" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          nodeAffinity: S.optional(__S(8034, __c251, 2)),
-          podAffinity: S.optional(__S(8039, __c251, 7)),
-          podAntiAffinity: S.optional(__S(8039, __c251, 7)),
+          nodeAffinity: S.optional(__S(6882, __c215, 2)),
+          podAffinity: S.optional(__S(6887, __c215, 7)),
+          podAntiAffinity: S.optional(__S(6887, __c215, 7)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Affinity" });
     case 9:
@@ -21160,11 +18855,11 @@ function __c251(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          configMapKeyRef: S.optional(__S(8041, __c251, 9)),
-          fieldRef: S.optional(__S(8042, __c251, 10)),
-          fileKeyRef: S.optional(__S(8043, __c251, 11)),
-          resourceFieldRef: S.optional(__S(8044, __c251, 12)),
-          secretKeyRef: S.optional(__S(8041, __c251, 9)),
+          configMapKeyRef: S.optional(__S(6889, __c215, 9)),
+          fieldRef: S.optional(__S(6890, __c215, 10)),
+          fileKeyRef: S.optional(__S(6891, __c215, 11)),
+          resourceFieldRef: S.optional(__S(6892, __c215, 12)),
+          secretKeyRef: S.optional(__S(6889, __c215, 9)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EnvVarSource" });
     case 14:
@@ -21172,11 +18867,11 @@ function __c251(j: number): any {
         S.Struct({
           name: S.String,
           value: S.optional(S.String),
-          valueFrom: S.optional(__S(8045, __c251, 13)),
+          valueFrom: S.optional(__S(6893, __c215, 13)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EnvVar" });
     case 15:
-      return S.Array(__S(8046, __c251, 14));
+      return S.Array(__S(6894, __c215, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -21187,17 +18882,17 @@ function __c251(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          configMapRef: S.optional(__S(8048, __c251, 16)),
+          configMapRef: S.optional(__S(6896, __c215, 16)),
           prefix: S.optional(S.String),
-          secretRef: S.optional(__S(8048, __c251, 16)),
+          secretRef: S.optional(__S(6896, __c215, 16)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EnvFromSource" });
     case 18:
-      return S.Array(__S(8049, __c251, 17));
+      return S.Array(__S(6897, __c215, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          command: S.optional(__S(7296, __c228, 0)),
+          command: S.optional(__S(6080, __c190, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ExecAction" });
     case 20:
@@ -21208,12 +18903,12 @@ function __c251(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1HTTPHeader" });
     case 21:
-      return S.Array(__S(8052, __c251, 20));
+      return S.Array(__S(6900, __c215, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
           host: S.optional(S.String),
-          httpHeaders: S.optional(__S(8053, __c251, 21)),
+          httpHeaders: S.optional(__S(6901, __c215, 21)),
           path: S.optional(S.String),
           port: S.String,
           protocol: S.optional(S.String),
@@ -21236,17 +18931,17 @@ function __c251(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          exec: S.optional(__S(8051, __c251, 19)),
-          httpGet: S.optional(__S(8054, __c251, 22)),
-          sleep: S.optional(__S(8055, __c251, 23)),
-          tcpSocket: S.optional(__S(8056, __c251, 24)),
+          exec: S.optional(__S(6899, __c215, 19)),
+          httpGet: S.optional(__S(6902, __c215, 22)),
+          sleep: S.optional(__S(6903, __c215, 23)),
+          tcpSocket: S.optional(__S(6904, __c215, 24)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1LifecycleHandler" });
     case 26:
       return S.suspend(() =>
         S.Struct({
-          postStart: S.optional(__S(8057, __c251, 25)),
-          preStop: S.optional(__S(8057, __c251, 25)),
+          postStart: S.optional(__S(6905, __c215, 25)),
+          preStop: S.optional(__S(6905, __c215, 25)),
           stopSignal: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Lifecycle" });
@@ -21261,14 +18956,14 @@ function __c251(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          exec: S.optional(__S(8051, __c251, 19)),
+          exec: S.optional(__S(6899, __c215, 19)),
           failureThreshold: S.optional(S.Number),
-          grpc: S.optional(__S(8059, __c251, 27)),
-          httpGet: S.optional(__S(8054, __c251, 22)),
+          grpc: S.optional(__S(6907, __c215, 27)),
+          httpGet: S.optional(__S(6902, __c215, 22)),
           initialDelaySeconds: S.optional(S.Number),
           periodSeconds: S.optional(S.Number),
           successThreshold: S.optional(S.Number),
-          tcpSocket: S.optional(__S(8056, __c251, 24)),
+          tcpSocket: S.optional(__S(6904, __c215, 24)),
           terminationGracePeriodSeconds: S.optional(S.Number),
           timeoutSeconds: S.optional(S.Number),
         }),
@@ -21284,7 +18979,7 @@ function __c251(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ContainerPort" });
     case 30:
-      return S.Array(__S(8061, __c251, 29));
+      return S.Array(__S(6909, __c215, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
@@ -21294,10 +18989,10 @@ function __c251(j: number): any {
       ).annotate({ identifier: "IoK8sApiCoreV1ContainerResizePolicy" });
   }
 }
-function __c252(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8063, __c251, 31));
+      return S.Array(__S(6911, __c215, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -21306,13 +19001,13 @@ function __c252(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ResourceClaim" });
     case 2:
-      return S.Array(__S(8065, __c252, 1));
+      return S.Array(__S(6913, __c216, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          claims: S.optional(__S(8066, __c252, 2)),
-          limits: S.optional(__S(7264, __c227, 0)),
-          requests: S.optional(__S(7264, __c227, 0)),
+          claims: S.optional(__S(6914, __c216, 2)),
+          limits: S.optional(__S(6112, __c191, 0)),
+          requests: S.optional(__S(6112, __c191, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ResourceRequirements" });
     case 4:
@@ -21321,18 +19016,18 @@ function __c252(j: number): any {
       return S.suspend(() =>
         S.Struct({
           operator: S.String,
-          values: S.optional(__S(8068, __c252, 4)),
+          values: S.optional(__S(6916, __c216, 4)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ContainerRestartRuleOnExitCodes" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          exitCodes: S.optional(__S(8069, __c252, 5)),
+          exitCodes: S.optional(__S(6917, __c216, 5)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ContainerRestartRule" });
     case 7:
-      return S.Array(__S(8070, __c252, 6));
+      return S.Array(__S(6918, __c216, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -21343,8 +19038,8 @@ function __c252(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          add: S.optional(__S(7296, __c228, 0)),
-          drop: S.optional(__S(7296, __c228, 0)),
+          add: S.optional(__S(6080, __c190, 0)),
+          drop: S.optional(__S(6080, __c190, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Capabilities" });
     case 10:
@@ -21359,7 +19054,7 @@ function __c252(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          baseProfile: S.optional(__S(8072, __c252, 8)),
+          baseProfile: S.optional(__S(6920, __c216, 8)),
           ref: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SecurityProfileOCI" });
@@ -21367,7 +19062,7 @@ function __c252(j: number): any {
       return S.suspend(() =>
         S.Struct({
           localhostProfile: S.optional(S.String),
-          oci: S.optional(__S(8075, __c252, 11)),
+          oci: S.optional(__S(6923, __c216, 11)),
           type: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SeccompProfile" });
@@ -21384,23 +19079,23 @@ function __c252(j: number): any {
       return S.suspend(() =>
         S.Struct({
           allowPrivilegeEscalation: S.optional(S.Boolean),
-          appArmorProfile: S.optional(__S(8072, __c252, 8)),
-          capabilities: S.optional(__S(8073, __c252, 9)),
+          appArmorProfile: S.optional(__S(6920, __c216, 8)),
+          capabilities: S.optional(__S(6921, __c216, 9)),
           privileged: S.optional(S.Boolean),
           procMount: S.optional(S.String),
           readOnlyRootFilesystem: S.optional(S.Boolean),
           runAsGroup: S.optional(S.Number),
           runAsNonRoot: S.optional(S.Boolean),
           runAsUser: S.optional(S.Number),
-          seLinuxOptions: S.optional(__S(8074, __c252, 10)),
-          seccompProfile: S.optional(__S(8076, __c252, 12)),
-          windowsOptions: S.optional(__S(8077, __c252, 13)),
+          seLinuxOptions: S.optional(__S(6922, __c216, 10)),
+          seccompProfile: S.optional(__S(6924, __c216, 12)),
+          windowsOptions: S.optional(__S(6925, __c216, 13)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SecurityContext" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          bindMountOptions: S.optional(__S(7296, __c228, 0)),
+          bindMountOptions: S.optional(__S(6080, __c190, 0)),
           mountPath: S.String,
           mountPropagation: S.optional(S.String),
           name: S.String,
@@ -21411,39 +19106,39 @@ function __c252(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeMount" });
     case 16:
-      return S.Array(__S(8079, __c252, 15));
+      return S.Array(__S(6927, __c216, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          args: S.optional(__S(7296, __c228, 0)),
-          command: S.optional(__S(7296, __c228, 0)),
-          env: S.optional(__S(8047, __c251, 15)),
-          envFrom: S.optional(__S(8050, __c251, 18)),
+          args: S.optional(__S(6080, __c190, 0)),
+          command: S.optional(__S(6080, __c190, 0)),
+          env: S.optional(__S(6895, __c215, 15)),
+          envFrom: S.optional(__S(6898, __c215, 18)),
           image: S.optional(S.String),
           imagePullPolicy: S.optional(S.String),
-          lifecycle: S.optional(__S(8058, __c251, 26)),
-          livenessProbe: S.optional(__S(8060, __c251, 28)),
+          lifecycle: S.optional(__S(6906, __c215, 26)),
+          livenessProbe: S.optional(__S(6908, __c215, 28)),
           name: S.String,
-          ports: S.optional(__S(8062, __c251, 30)),
-          readinessProbe: S.optional(__S(8060, __c251, 28)),
-          resizePolicy: S.optional(__S(8064, __c252, 0)),
-          resources: S.optional(__S(8067, __c252, 3)),
+          ports: S.optional(__S(6910, __c215, 30)),
+          readinessProbe: S.optional(__S(6908, __c215, 28)),
+          resizePolicy: S.optional(__S(6912, __c216, 0)),
+          resources: S.optional(__S(6915, __c216, 3)),
           restartPolicy: S.optional(S.String),
-          restartPolicyRules: S.optional(__S(8071, __c252, 7)),
-          securityContext: S.optional(__S(8078, __c252, 14)),
-          startupProbe: S.optional(__S(8060, __c251, 28)),
+          restartPolicyRules: S.optional(__S(6919, __c216, 7)),
+          securityContext: S.optional(__S(6926, __c216, 14)),
+          startupProbe: S.optional(__S(6908, __c215, 28)),
           stdin: S.optional(S.Boolean),
           stdinOnce: S.optional(S.Boolean),
           terminationMessagePath: S.optional(S.String),
           terminationMessagePolicy: S.optional(S.String),
           tty: S.optional(S.Boolean),
-          volumeDevices: S.optional(__S(7969, __c249, 1)),
-          volumeMounts: S.optional(__S(8080, __c252, 16)),
+          volumeDevices: S.optional(__S(6817, __c213, 1)),
+          volumeMounts: S.optional(__S(6928, __c216, 16)),
           workingDir: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Container" });
     case 18:
-      return S.Array(__S(8081, __c252, 17));
+      return S.Array(__S(6929, __c216, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -21452,48 +19147,48 @@ function __c252(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodDNSConfigOption" });
     case 20:
-      return S.Array(__S(8083, __c252, 19));
+      return S.Array(__S(6931, __c216, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          nameservers: S.optional(__S(7296, __c228, 0)),
-          options: S.optional(__S(8084, __c252, 20)),
-          searches: S.optional(__S(7296, __c228, 0)),
+          nameservers: S.optional(__S(6080, __c190, 0)),
+          options: S.optional(__S(6932, __c216, 20)),
+          searches: S.optional(__S(6080, __c190, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodDNSConfig" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          args: S.optional(__S(7296, __c228, 0)),
-          command: S.optional(__S(7296, __c228, 0)),
-          env: S.optional(__S(8047, __c251, 15)),
-          envFrom: S.optional(__S(8050, __c251, 18)),
+          args: S.optional(__S(6080, __c190, 0)),
+          command: S.optional(__S(6080, __c190, 0)),
+          env: S.optional(__S(6895, __c215, 15)),
+          envFrom: S.optional(__S(6898, __c215, 18)),
           image: S.optional(S.String),
           imagePullPolicy: S.optional(S.String),
-          lifecycle: S.optional(__S(8058, __c251, 26)),
-          livenessProbe: S.optional(__S(8060, __c251, 28)),
+          lifecycle: S.optional(__S(6906, __c215, 26)),
+          livenessProbe: S.optional(__S(6908, __c215, 28)),
           name: S.String,
-          ports: S.optional(__S(8062, __c251, 30)),
-          readinessProbe: S.optional(__S(8060, __c251, 28)),
-          resizePolicy: S.optional(__S(8064, __c252, 0)),
-          resources: S.optional(__S(8067, __c252, 3)),
+          ports: S.optional(__S(6910, __c215, 30)),
+          readinessProbe: S.optional(__S(6908, __c215, 28)),
+          resizePolicy: S.optional(__S(6912, __c216, 0)),
+          resources: S.optional(__S(6915, __c216, 3)),
           restartPolicy: S.optional(S.String),
-          restartPolicyRules: S.optional(__S(8071, __c252, 7)),
-          securityContext: S.optional(__S(8078, __c252, 14)),
-          startupProbe: S.optional(__S(8060, __c251, 28)),
+          restartPolicyRules: S.optional(__S(6919, __c216, 7)),
+          securityContext: S.optional(__S(6926, __c216, 14)),
+          startupProbe: S.optional(__S(6908, __c215, 28)),
           stdin: S.optional(S.Boolean),
           stdinOnce: S.optional(S.Boolean),
           targetContainerName: S.optional(S.String),
           terminationMessagePath: S.optional(S.String),
           terminationMessagePolicy: S.optional(S.String),
           tty: S.optional(S.Boolean),
-          volumeDevices: S.optional(__S(7969, __c249, 1)),
-          volumeMounts: S.optional(__S(8080, __c252, 16)),
+          volumeDevices: S.optional(__S(6817, __c213, 1)),
+          volumeMounts: S.optional(__S(6928, __c216, 16)),
           workingDir: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EphemeralContainer" });
     case 23:
-      return S.Array(__S(8086, __c252, 22));
+      return S.Array(__S(6934, __c216, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -21502,16 +19197,16 @@ function __c252(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EvictionResponder" });
     case 25:
-      return S.Array(__S(8088, __c252, 24));
+      return S.Array(__S(6936, __c216, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
-          hostnames: S.optional(__S(7296, __c228, 0)),
+          hostnames: S.optional(__S(6080, __c190, 0)),
           ip: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1HostAlias" });
     case 27:
-      return S.Array(__S(8090, __c252, 26));
+      return S.Array(__S(6938, __c216, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
@@ -21525,7 +19220,7 @@ function __c252(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodReadinessGate" });
     case 30:
-      return S.Array(__S(8093, __c252, 29));
+      return S.Array(__S(6941, __c216, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
@@ -21536,12 +19231,12 @@ function __c252(j: number): any {
       ).annotate({ identifier: "IoK8sApiCoreV1PodResourceClaim" });
   }
 }
-function __c253(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8095, __c252, 31));
+      return S.Array(__S(6943, __c216, 31));
     case 1:
-      return S.Array(__S(8092, __c252, 28));
+      return S.Array(__S(6940, __c216, 28));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21551,19 +19246,19 @@ function __c253(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          appArmorProfile: S.optional(__S(8072, __c252, 8)),
+          appArmorProfile: S.optional(__S(6920, __c216, 8)),
           fsGroup: S.optional(S.Number),
           fsGroupChangePolicy: S.optional(S.String),
           runAsGroup: S.optional(S.Number),
           runAsNonRoot: S.optional(S.Boolean),
           runAsUser: S.optional(S.Number),
           seLinuxChangePolicy: S.optional(S.String),
-          seLinuxOptions: S.optional(__S(8074, __c252, 10)),
-          seccompProfile: S.optional(__S(8076, __c252, 12)),
-          supplementalGroups: S.optional(__S(8068, __c252, 4)),
+          seLinuxOptions: S.optional(__S(6922, __c216, 10)),
+          seccompProfile: S.optional(__S(6924, __c216, 12)),
+          supplementalGroups: S.optional(__S(6916, __c216, 4)),
           supplementalGroupsPolicy: S.optional(S.String),
-          sysctls: S.optional(__S(8053, __c251, 21)),
-          windowsOptions: S.optional(__S(8077, __c252, 13)),
+          sysctls: S.optional(__S(6901, __c215, 21)),
+          windowsOptions: S.optional(__S(6925, __c216, 13)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodSecurityContext" });
     case 4:
@@ -21577,12 +19272,12 @@ function __c253(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Toleration" });
     case 5:
-      return S.Array(__S(8100, __c253, 4));
+      return S.Array(__S(6948, __c217, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          labelSelector: S.optional(__S(7811, __c244, 3)),
-          matchLabelKeys: S.optional(__S(7296, __c228, 0)),
+          labelSelector: S.optional(__S(6659, __c208, 3)),
+          matchLabelKeys: S.optional(__S(6080, __c190, 0)),
           maxSkew: S.Number,
           minDomains: S.optional(S.Number),
           nodeAffinityPolicy: S.optional(S.String),
@@ -21592,7 +19287,7 @@ function __c253(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1TopologySpreadConstraint" });
     case 7:
-      return S.Array(__S(8102, __c253, 6));
+      return S.Array(__S(6950, __c217, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -21604,11 +19299,11 @@ function __c253(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          monitors: __S(7296, __c228, 0),
+          monitors: __S(6080, __c190, 0),
           path: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
           secretFile: S.optional(S.String),
-          secretRef: S.optional(__S(7936, __c248, 0)),
+          secretRef: S.optional(__S(6784, __c212, 0)),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CephFSVolumeSource" });
@@ -21617,7 +19312,7 @@ function __c253(j: number): any {
         S.Struct({
           fsType: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(7936, __c248, 0)),
+          secretRef: S.optional(__S(6784, __c212, 0)),
           volumeID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CinderVolumeSource" });
@@ -21631,13 +19326,13 @@ function __c253(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1KeyToPath" });
     case 12:
-      return S.Array(__S(8107, __c253, 11));
+      return S.Array(__S(6955, __c217, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          items: S.optional(__S(8108, __c253, 12)),
+          items: S.optional(__S(6956, __c217, 12)),
           name: S.optional(S.String),
           optional: S.optional(S.Boolean),
         }),
@@ -21647,29 +19342,29 @@ function __c253(j: number): any {
         S.Struct({
           driver: S.String,
           fsType: S.optional(S.String),
-          nodePublishSecretRef: S.optional(__S(7936, __c248, 0)),
+          nodePublishSecretRef: S.optional(__S(6784, __c212, 0)),
           readOnly: S.optional(S.Boolean),
-          volumeAttributes: S.optional(__S(7264, __c227, 0)),
+          volumeAttributes: S.optional(__S(6112, __c191, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CSIVolumeSource" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          fieldRef: S.optional(__S(8042, __c251, 10)),
+          fieldRef: S.optional(__S(6890, __c215, 10)),
           mode: S.optional(S.Number),
           path: S.String,
-          resourceFieldRef: S.optional(__S(8044, __c251, 12)),
+          resourceFieldRef: S.optional(__S(6892, __c215, 12)),
           user: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1DownwardAPIVolumeFile" });
     case 16:
-      return S.Array(__S(8111, __c253, 15));
+      return S.Array(__S(6959, __c217, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          items: S.optional(__S(8112, __c253, 16)),
+          items: S.optional(__S(6960, __c217, 16)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1DownwardAPIVolumeSource" });
     case 18:
@@ -21683,14 +19378,14 @@ function __c253(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: __S(7812, __c244, 4),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: __S(6660, __c208, 4),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeClaimTemplate" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          volumeClaimTemplate: __S(8115, __c253, 19),
+          volumeClaimTemplate: __S(6963, __c217, 19),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1EphemeralVolumeSource" });
     case 21:
@@ -21698,9 +19393,9 @@ function __c253(j: number): any {
         S.Struct({
           driver: S.String,
           fsType: S.optional(S.String),
-          options: S.optional(__S(7264, __c227, 0)),
+          options: S.optional(__S(6112, __c191, 0)),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(7936, __c248, 0)),
+          secretRef: S.optional(__S(6784, __c212, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1FlexVolumeSource" });
     case 22:
@@ -21736,9 +19431,9 @@ function __c253(j: number): any {
           iqn: S.String,
           iscsiInterface: S.optional(S.String),
           lun: S.optional(S.Number),
-          portals: S.optional(__S(7296, __c228, 0)),
+          portals: S.optional(__S(6080, __c190, 0)),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(7936, __c248, 0)),
+          secretRef: S.optional(__S(6784, __c212, 0)),
           targetPortal: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ISCSIVolumeSource" });
@@ -21752,7 +19447,7 @@ function __c253(j: number): any {
     case 27:
       return S.suspend(() =>
         S.Struct({
-          labelSelector: S.optional(__S(7811, __c244, 3)),
+          labelSelector: S.optional(__S(6659, __c208, 3)),
           name: S.optional(S.String),
           optional: S.optional(S.Boolean),
           path: S.String,
@@ -21763,7 +19458,7 @@ function __c253(j: number): any {
     case 28:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(8108, __c253, 12)),
+          items: S.optional(__S(6956, __c217, 12)),
           name: S.optional(S.String),
           optional: S.optional(S.Boolean),
         }),
@@ -21771,7 +19466,7 @@ function __c253(j: number): any {
     case 29:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(8112, __c253, 16)),
+          items: S.optional(__S(6960, __c217, 16)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1DownwardAPIProjection" });
     case 30:
@@ -21784,7 +19479,7 @@ function __c253(j: number): any {
           maxExpirationSeconds: S.optional(S.Number),
           signerName: S.String,
           user: S.optional(S.Number),
-          userAnnotations: S.optional(__S(7264, __c227, 0)),
+          userAnnotations: S.optional(__S(6112, __c191, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodCertificateProjection" });
     case 31:
@@ -21798,27 +19493,27 @@ function __c253(j: number): any {
       ).annotate({ identifier: "IoK8sApiCoreV1ServiceAccountTokenProjection" });
   }
 }
-function __c254(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          clusterTrustBundle: S.optional(__S(8123, __c253, 27)),
-          configMap: S.optional(__S(8124, __c253, 28)),
-          downwardAPI: S.optional(__S(8125, __c253, 29)),
-          podCertificate: S.optional(__S(8126, __c253, 30)),
-          secret: S.optional(__S(8124, __c253, 28)),
-          serviceAccountToken: S.optional(__S(8127, __c253, 31)),
+          clusterTrustBundle: S.optional(__S(6971, __c217, 27)),
+          configMap: S.optional(__S(6972, __c217, 28)),
+          downwardAPI: S.optional(__S(6973, __c217, 29)),
+          podCertificate: S.optional(__S(6974, __c217, 30)),
+          secret: S.optional(__S(6972, __c217, 28)),
+          serviceAccountToken: S.optional(__S(6975, __c217, 31)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeProjection" });
     case 1:
-      return S.Array(__S(8128, __c254, 0));
+      return S.Array(__S(6976, __c218, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          sources: S.optional(__S(8129, __c254, 1)),
+          sources: S.optional(__S(6977, __c218, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ProjectedVolumeSource" });
     case 3:
@@ -21827,10 +19522,10 @@ function __c254(j: number): any {
           fsType: S.optional(S.String),
           image: S.String,
           keyring: S.optional(S.String),
-          monitors: __S(7296, __c228, 0),
+          monitors: __S(6080, __c190, 0),
           pool: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(7936, __c248, 0)),
+          secretRef: S.optional(__S(6784, __c212, 0)),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1RBDVolumeSource" });
@@ -21841,7 +19536,7 @@ function __c254(j: number): any {
           gateway: S.String,
           protectionDomain: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(7936, __c248, 0)),
+          secretRef: S.optional(__S(6784, __c212, 0)),
           sslEnabled: S.optional(S.Boolean),
           storageMode: S.optional(S.String),
           storagePool: S.optional(S.String),
@@ -21854,7 +19549,7 @@ function __c254(j: number): any {
         S.Struct({
           defaultMode: S.optional(S.Number),
           defaultUser: S.optional(S.Number),
-          items: S.optional(__S(8108, __c253, 12)),
+          items: S.optional(__S(6956, __c217, 12)),
           optional: S.optional(S.Boolean),
           secretName: S.optional(S.String),
         }),
@@ -21864,7 +19559,7 @@ function __c254(j: number): any {
         S.Struct({
           fsType: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(7936, __c248, 0)),
+          secretRef: S.optional(__S(6784, __c212, 0)),
           volumeName: S.String,
           volumeNamespace: S.optional(S.String),
         }),
@@ -21872,92 +19567,92 @@ function __c254(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          awsElasticBlockStore: S.optional(__S(8003, __c250, 3)),
-          azureDisk: S.optional(__S(8004, __c250, 4)),
-          azureFile: S.optional(__S(8104, __c253, 8)),
-          cephfs: S.optional(__S(8105, __c253, 9)),
-          cinder: S.optional(__S(8106, __c253, 10)),
-          configMap: S.optional(__S(8109, __c253, 13)),
-          csi: S.optional(__S(8110, __c253, 14)),
-          downwardAPI: S.optional(__S(8113, __c253, 17)),
-          emptyDir: S.optional(__S(8114, __c253, 18)),
-          ephemeral: S.optional(__S(8116, __c253, 20)),
-          fc: S.optional(__S(8005, __c250, 5)),
-          flexVolume: S.optional(__S(8117, __c253, 21)),
-          flocker: S.optional(__S(8006, __c250, 6)),
-          gcePersistentDisk: S.optional(__S(8007, __c250, 7)),
-          gitRepo: S.optional(__S(8118, __c253, 22)),
-          glusterfs: S.optional(__S(8119, __c253, 23)),
-          hostPath: S.optional(__S(8008, __c250, 8)),
-          image: S.optional(__S(8120, __c253, 24)),
-          iscsi: S.optional(__S(8121, __c253, 25)),
+          awsElasticBlockStore: S.optional(__S(6851, __c214, 3)),
+          azureDisk: S.optional(__S(6852, __c214, 4)),
+          azureFile: S.optional(__S(6952, __c217, 8)),
+          cephfs: S.optional(__S(6953, __c217, 9)),
+          cinder: S.optional(__S(6954, __c217, 10)),
+          configMap: S.optional(__S(6957, __c217, 13)),
+          csi: S.optional(__S(6958, __c217, 14)),
+          downwardAPI: S.optional(__S(6961, __c217, 17)),
+          emptyDir: S.optional(__S(6962, __c217, 18)),
+          ephemeral: S.optional(__S(6964, __c217, 20)),
+          fc: S.optional(__S(6853, __c214, 5)),
+          flexVolume: S.optional(__S(6965, __c217, 21)),
+          flocker: S.optional(__S(6854, __c214, 6)),
+          gcePersistentDisk: S.optional(__S(6855, __c214, 7)),
+          gitRepo: S.optional(__S(6966, __c217, 22)),
+          glusterfs: S.optional(__S(6967, __c217, 23)),
+          hostPath: S.optional(__S(6856, __c214, 8)),
+          image: S.optional(__S(6968, __c217, 24)),
+          iscsi: S.optional(__S(6969, __c217, 25)),
           name: S.String,
-          nfs: S.optional(__S(8009, __c250, 9)),
-          persistentVolumeClaim: S.optional(__S(8122, __c253, 26)),
-          photonPersistentDisk: S.optional(__S(8010, __c250, 10)),
-          portworxVolume: S.optional(__S(8011, __c250, 11)),
-          projected: S.optional(__S(8130, __c254, 2)),
-          quobyte: S.optional(__S(8012, __c250, 12)),
-          rbd: S.optional(__S(8131, __c254, 3)),
-          scaleIO: S.optional(__S(8132, __c254, 4)),
-          secret: S.optional(__S(8133, __c254, 5)),
-          storageos: S.optional(__S(8134, __c254, 6)),
-          vsphereVolume: S.optional(__S(8013, __c250, 13)),
+          nfs: S.optional(__S(6857, __c214, 9)),
+          persistentVolumeClaim: S.optional(__S(6970, __c217, 26)),
+          photonPersistentDisk: S.optional(__S(6858, __c214, 10)),
+          portworxVolume: S.optional(__S(6859, __c214, 11)),
+          projected: S.optional(__S(6978, __c218, 2)),
+          quobyte: S.optional(__S(6860, __c214, 12)),
+          rbd: S.optional(__S(6979, __c218, 3)),
+          scaleIO: S.optional(__S(6980, __c218, 4)),
+          secret: S.optional(__S(6981, __c218, 5)),
+          storageos: S.optional(__S(6982, __c218, 6)),
+          vsphereVolume: S.optional(__S(6861, __c214, 13)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Volume" });
     case 8:
-      return S.Array(__S(8135, __c254, 7));
+      return S.Array(__S(6983, __c218, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           activeDeadlineSeconds: S.optional(S.Number),
-          affinity: S.optional(__S(8040, __c251, 8)),
+          affinity: S.optional(__S(6888, __c215, 8)),
           automountServiceAccountToken: S.optional(S.Boolean),
-          containers: __S(8082, __c252, 18),
-          dnsConfig: S.optional(__S(8085, __c252, 21)),
+          containers: __S(6930, __c216, 18),
+          dnsConfig: S.optional(__S(6933, __c216, 21)),
           dnsPolicy: S.optional(S.String),
           enableServiceLinks: S.optional(S.Boolean),
-          ephemeralContainers: S.optional(__S(8087, __c252, 23)),
-          evictionResponders: S.optional(__S(8089, __c252, 25)),
-          hostAliases: S.optional(__S(8091, __c252, 27)),
+          ephemeralContainers: S.optional(__S(6935, __c216, 23)),
+          evictionResponders: S.optional(__S(6937, __c216, 25)),
+          hostAliases: S.optional(__S(6939, __c216, 27)),
           hostIPC: S.optional(S.Boolean),
           hostNetwork: S.optional(S.Boolean),
           hostPID: S.optional(S.Boolean),
           hostUsers: S.optional(S.Boolean),
           hostname: S.optional(S.String),
           hostnameOverride: S.optional(S.String),
-          imagePullSecrets: S.optional(__S(7937, __c248, 1)),
-          initContainers: S.optional(__S(8082, __c252, 18)),
+          imagePullSecrets: S.optional(__S(6785, __c212, 1)),
+          initContainers: S.optional(__S(6930, __c216, 18)),
           nodeName: S.optional(S.String),
-          nodeSelector: S.optional(__S(7264, __c227, 0)),
-          os: S.optional(__S(8092, __c252, 28)),
-          overhead: S.optional(__S(7264, __c227, 0)),
+          nodeSelector: S.optional(__S(6112, __c191, 0)),
+          os: S.optional(__S(6940, __c216, 28)),
+          overhead: S.optional(__S(6112, __c191, 0)),
           preemptionPolicy: S.optional(S.String),
           priority: S.optional(S.Number),
           priorityClassName: S.optional(S.String),
-          readinessGates: S.optional(__S(8094, __c252, 30)),
-          resourceClaims: S.optional(__S(8096, __c253, 0)),
-          resources: S.optional(__S(8067, __c252, 3)),
+          readinessGates: S.optional(__S(6942, __c216, 30)),
+          resourceClaims: S.optional(__S(6944, __c217, 0)),
+          resources: S.optional(__S(6915, __c216, 3)),
           restartPolicy: S.optional(S.String),
           runtimeClassName: S.optional(S.String),
           schedulerName: S.optional(S.String),
-          schedulingGates: S.optional(__S(8097, __c253, 1)),
-          schedulingGroup: S.optional(__S(8098, __c253, 2)),
-          securityContext: S.optional(__S(8099, __c253, 3)),
+          schedulingGates: S.optional(__S(6945, __c217, 1)),
+          schedulingGroup: S.optional(__S(6946, __c217, 2)),
+          securityContext: S.optional(__S(6947, __c217, 3)),
           serviceAccount: S.optional(S.String),
           serviceAccountName: S.optional(S.String),
           setHostnameAsFQDN: S.optional(S.Boolean),
           shareProcessNamespace: S.optional(S.Boolean),
           subdomain: S.optional(S.String),
           terminationGracePeriodSeconds: S.optional(S.Number),
-          tolerations: S.optional(__S(8101, __c253, 5)),
-          topologySpreadConstraints: S.optional(__S(8103, __c253, 7)),
-          volumes: S.optional(__S(8136, __c254, 8)),
+          tolerations: S.optional(__S(6949, __c217, 5)),
+          topologySpreadConstraints: S.optional(__S(6951, __c217, 7)),
+          volumes: S.optional(__S(6984, __c218, 8)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodSpec" });
   }
 }
-function __c255(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21972,7 +19667,7 @@ function __c255(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodCondition" });
     case 1:
-      return S.Array(__S(8160, __c255, 0));
+      return S.Array(__S(7008, __c219, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21982,16 +19677,16 @@ function __c255(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ResourceHealth" });
     case 3:
-      return S.Array(__S(8162, __c255, 2));
+      return S.Array(__S(7010, __c219, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          resources: S.optional(__S(8163, __c255, 3)),
+          resources: S.optional(__S(7011, __c219, 3)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ResourceStatus" });
     case 5:
-      return S.Array(__S(8164, __c255, 4));
+      return S.Array(__S(7012, __c219, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -22020,23 +19715,23 @@ function __c255(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          running: S.optional(__S(8166, __c255, 6)),
-          terminated: S.optional(__S(8167, __c255, 7)),
-          waiting: S.optional(__S(8168, __c255, 8)),
+          running: S.optional(__S(7014, __c219, 6)),
+          terminated: S.optional(__S(7015, __c219, 7)),
+          waiting: S.optional(__S(7016, __c219, 8)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ContainerState" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           gid: S.Number,
-          supplementalGroups: S.optional(__S(8068, __c252, 4)),
+          supplementalGroups: S.optional(__S(6916, __c216, 4)),
           uid: S.Number,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1LinuxContainerUser" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          linux: S.optional(__S(8170, __c255, 10)),
+          linux: S.optional(__S(7018, __c219, 10)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ContainerUser" });
     case 12:
@@ -22048,7 +19743,7 @@ function __c255(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(__S(8172, __c255, 12)),
+          image: S.optional(__S(7020, __c219, 12)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeStatus" });
     case 14:
@@ -22058,33 +19753,33 @@ function __c255(j: number): any {
           name: S.String,
           readOnly: S.optional(S.Boolean),
           recursiveReadOnly: S.optional(S.String),
-          volumeStatus: S.optional(__S(8173, __c255, 13)),
+          volumeStatus: S.optional(__S(7021, __c219, 13)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeMountStatus" });
     case 15:
-      return S.Array(__S(8174, __c255, 14));
+      return S.Array(__S(7022, __c219, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          allocatedResources: S.optional(__S(7264, __c227, 0)),
-          allocatedResourcesStatus: S.optional(__S(8165, __c255, 5)),
+          allocatedResources: S.optional(__S(6112, __c191, 0)),
+          allocatedResourcesStatus: S.optional(__S(7013, __c219, 5)),
           containerID: S.optional(S.String),
           image: S.String,
           imageID: S.String,
-          lastState: S.optional(__S(8169, __c255, 9)),
+          lastState: S.optional(__S(7017, __c219, 9)),
           name: S.String,
           ready: S.Boolean,
-          resources: S.optional(__S(8067, __c252, 3)),
+          resources: S.optional(__S(6915, __c216, 3)),
           restartCount: S.Number,
           started: S.optional(S.Boolean),
-          state: S.optional(__S(8169, __c255, 9)),
+          state: S.optional(__S(7017, __c219, 9)),
           stopSignal: S.optional(S.String),
-          user: S.optional(__S(8171, __c255, 11)),
-          volumeMounts: S.optional(__S(8175, __c255, 15)),
+          user: S.optional(__S(7019, __c219, 11)),
+          volumeMounts: S.optional(__S(7023, __c219, 15)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ContainerStatus" });
     case 17:
-      return S.Array(__S(8176, __c255, 16));
+      return S.Array(__S(7024, __c219, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -22094,11 +19789,11 @@ function __c255(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ContainerExtendedResourceRequest" });
     case 19:
-      return S.Array(__S(8178, __c255, 18));
+      return S.Array(__S(7026, __c219, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          requestMappings: __S(8179, __c255, 19),
+          requestMappings: __S(7027, __c219, 19),
           resourceClaimName: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodExtendedResourceClaimStatus" });
@@ -22109,7 +19804,7 @@ function __c255(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1HostIP" });
     case 22:
-      return S.Array(__S(8181, __c255, 21));
+      return S.Array(__S(7029, __c219, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
@@ -22118,7 +19813,7 @@ function __c255(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeAllocatableMappedResources" });
     case 24:
-      return S.Array(__S(8183, __c255, 23));
+      return S.Array(__S(7031, __c219, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
@@ -22128,18 +19823,18 @@ function __c255(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeAllocatableOverheadResources" });
     case 26:
-      return S.Array(__S(8185, __c255, 25));
+      return S.Array(__S(7033, __c219, 25));
     case 27:
       return S.suspend(() =>
         S.Struct({
-          containers: S.optional(__S(7296, __c228, 0)),
-          mapping: S.optional(__S(8184, __c255, 24)),
-          overhead: S.optional(__S(8186, __c255, 26)),
+          containers: S.optional(__S(6080, __c190, 0)),
+          mapping: S.optional(__S(7032, __c219, 24)),
+          overhead: S.optional(__S(7034, __c219, 26)),
           resourceClaimName: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeAllocatableResourceClaimStatus" });
     case 28:
-      return S.Array(__S(8187, __c255, 27));
+      return S.Array(__S(7035, __c219, 27));
     case 29:
       return S.suspend(() =>
         S.Struct({
@@ -22148,45 +19843,45 @@ function __c255(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodResourceClaimStatus" });
     case 30:
-      return S.Array(__S(8189, __c255, 29));
+      return S.Array(__S(7037, __c219, 29));
     case 31:
       return S.suspend(() =>
         S.Struct({
-          healthStatus: S.optional(__S(7842, __c245, 2)),
+          healthStatus: S.optional(__S(6690, __c209, 2)),
           name: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodVolumeStatus" });
   }
 }
-function __c256(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8191, __c255, 31));
+      return S.Array(__S(7039, __c219, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          allocatedResources: S.optional(__S(7264, __c227, 0)),
-          conditions: S.optional(__S(8161, __c255, 1)),
-          containerStatuses: S.optional(__S(8177, __c255, 17)),
-          ephemeralContainerStatuses: S.optional(__S(8177, __c255, 17)),
-          extendedResourceClaimStatus: S.optional(__S(8180, __c255, 20)),
+          allocatedResources: S.optional(__S(6112, __c191, 0)),
+          conditions: S.optional(__S(7009, __c219, 1)),
+          containerStatuses: S.optional(__S(7025, __c219, 17)),
+          ephemeralContainerStatuses: S.optional(__S(7025, __c219, 17)),
+          extendedResourceClaimStatus: S.optional(__S(7028, __c219, 20)),
           hostIP: S.optional(S.String),
-          hostIPs: S.optional(__S(8182, __c255, 22)),
-          initContainerStatuses: S.optional(__S(8177, __c255, 17)),
+          hostIPs: S.optional(__S(7030, __c219, 22)),
+          initContainerStatuses: S.optional(__S(7025, __c219, 17)),
           message: S.optional(S.String),
-          nodeAllocatableResourceClaimStatuses: S.optional(__S(8188, __c255, 28)),
+          nodeAllocatableResourceClaimStatuses: S.optional(__S(7036, __c219, 28)),
           nominatedNodeName: S.optional(S.String),
           observedGeneration: S.optional(S.Number),
           phase: S.optional(S.String),
           podIP: S.optional(S.String),
-          podIPs: S.optional(__S(8182, __c255, 22)),
+          podIPs: S.optional(__S(7030, __c219, 22)),
           qosClass: S.optional(S.String),
           reason: S.optional(S.String),
           resize: S.optional(S.String),
-          resourceClaimStatuses: S.optional(__S(8190, __c255, 30)),
-          resources: S.optional(__S(8067, __c252, 3)),
+          resourceClaimStatuses: S.optional(__S(7038, __c219, 30)),
+          resources: S.optional(__S(6915, __c216, 3)),
           startTime: S.optional(S.String),
-          volumeStatuses: S.optional(__S(8192, __c256, 0)),
+          volumeStatuses: S.optional(__S(7040, __c220, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodStatus" });
     case 2:
@@ -22194,14 +19889,14 @@ function __c256(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8137, __c254, 9)),
-          status: S.optional(__S(8193, __c256, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6985, __c218, 9)),
+          status: S.optional(__S(7041, __c220, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Pod" });
   }
 }
-function __c257(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22214,8 +19909,8 @@ function __c257(j: number): any {
           pretty: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          target: __S(7424, __c232, 0),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          target: __S(6272, __c196, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22226,18 +19921,18 @@ function __c257(j: number): any {
       ).annotate({ identifier: "CreateCoreV1NamespacedPodBindingRequest" });
   }
 }
-function __c258(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          dryRun: S.optional(__S(7296, __c228, 0)),
+          dryRun: S.optional(__S(6080, __c190, 0)),
           gracePeriodSeconds: S.optional(S.Number),
           ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean),
           kind: S.optional(S.String),
           orphanDependents: S.optional(S.Boolean),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
           propagationPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1DeleteOptions" });
@@ -22251,9 +19946,9 @@ function __c258(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           pretty: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
-          deleteOptions: S.optional(__S(8256, __c258, 0)),
+          deleteOptions: S.optional(__S(7104, __c222, 0)),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
+          metadata: S.optional(__S(6117, __c191, 5)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22266,14 +19961,14 @@ function __c258(j: number): any {
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          deleteOptions: S.optional(__S(8256, __c258, 0)),
+          deleteOptions: S.optional(__S(7104, __c222, 0)),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
+          metadata: S.optional(__S(6117, __c191, 5)),
         }),
       ).annotate({ identifier: "IoK8sApiPolicyV1Eviction" });
   }
 }
-function __c259(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22284,7 +19979,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1Preconditions" });
   }
 }
-function __c260(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22296,39 +19991,39 @@ function __c260(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          template: S.optional(__S(8352, __c261, 0)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          template: S.optional(__S(7200, __c225, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/podtemplates", code: 200 }),
         ),
       ).annotate({ identifier: "CreateCoreV1NamespacedPodTemplateRequest" });
   }
 }
-function __c261(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8137, __c254, 9)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(6985, __c218, 9)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodTemplateSpec" });
   }
 }
-function __c262(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          template: S.optional(__S(8352, __c261, 0)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          template: S.optional(__S(7200, __c225, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PodTemplate" });
   }
 }
-function __c263(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22346,7 +20041,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1DeleteNamespacedServiceProxyRequest" });
   }
 }
-function __c264(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22358,9 +20053,9 @@ function __c264(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8480, __c265, 0)),
-          status: S.optional(__S(8481, __c265, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7328, __c229, 0)),
+          status: S.optional(__S(7329, __c229, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22371,22 +20066,22 @@ function __c264(j: number): any {
       ).annotate({ identifier: "CreateCoreV1NamespacedReplicationControllerRequest" });
   }
 }
-function __c265(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           minReadySeconds: S.optional(S.Number),
           replicas: S.optional(S.Number),
-          selector: S.optional(__S(7264, __c227, 0)),
-          template: S.optional(__S(8352, __c261, 0)),
+          selector: S.optional(__S(6112, __c191, 0)),
+          template: S.optional(__S(7200, __c225, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ReplicationControllerSpec" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           availableReplicas: S.optional(S.Number),
-          conditions: S.optional(__S(7329, __c229, 1)),
+          conditions: S.optional(__S(6145, __c192, 1)),
           fullyLabeledReplicas: S.optional(S.Number),
           observedGeneration: S.optional(S.Number),
           readyReplicas: S.optional(S.Number),
@@ -22398,14 +20093,14 @@ function __c265(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8480, __c265, 0)),
-          status: S.optional(__S(8481, __c265, 1)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7328, __c229, 0)),
+          status: S.optional(__S(7329, __c229, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ReplicationController" });
   }
 }
-function __c266(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22417,9 +20112,9 @@ function __c266(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8547, __c267, 3)),
-          status: S.optional(__S(8548, __c267, 4)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7395, __c231, 3)),
+          status: S.optional(__S(7396, __c231, 4)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22430,37 +20125,37 @@ function __c266(j: number): any {
       ).annotate({ identifier: "CreateCoreV1NamespacedResourceQuotaRequest" });
   }
 }
-function __c267(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           operator: S.String,
           scopeName: S.String,
-          values: S.optional(__S(7296, __c228, 0)),
+          values: S.optional(__S(6080, __c190, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ScopedResourceSelectorRequirement" });
     case 1:
-      return S.Array(__S(8544, __c267, 0));
+      return S.Array(__S(7392, __c231, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          matchExpressions: S.optional(__S(8545, __c267, 1)),
+          matchExpressions: S.optional(__S(7393, __c231, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ScopeSelector" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          hard: S.optional(__S(7264, __c227, 0)),
-          scopeSelector: S.optional(__S(8546, __c267, 2)),
-          scopes: S.optional(__S(7296, __c228, 0)),
+          hard: S.optional(__S(6112, __c191, 0)),
+          scopeSelector: S.optional(__S(7394, __c231, 2)),
+          scopes: S.optional(__S(6080, __c190, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ResourceQuotaSpec" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          hard: S.optional(__S(7264, __c227, 0)),
-          used: S.optional(__S(7264, __c227, 0)),
+          hard: S.optional(__S(6112, __c191, 0)),
+          used: S.optional(__S(6112, __c191, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ResourceQuotaStatus" });
     case 5:
@@ -22468,14 +20163,14 @@ function __c267(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8547, __c267, 3)),
-          status: S.optional(__S(8548, __c267, 4)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7395, __c231, 3)),
+          status: S.optional(__S(7396, __c231, 4)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ResourceQuota" });
   }
 }
-function __c268(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22486,11 +20181,11 @@ function __c268(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
-          data: S.optional(__S(8608, __c269, 0)),
+          data: S.optional(__S(7456, __c233, 0)),
           immutable: S.optional(S.Boolean),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          stringData: S.optional(__S(8608, __c269, 0)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          stringData: S.optional(__S(7456, __c233, 0)),
           type: S.optional(S.String),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/secrets", code: 200 }),
@@ -22498,7 +20193,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "CreateCoreV1NamespacedSecretRequest" });
   }
 }
-function __c269(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.SensitiveValue({})));
@@ -22506,17 +20201,17 @@ function __c269(j: number): any {
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          data: S.optional(__S(8608, __c269, 0)),
+          data: S.optional(__S(7456, __c233, 0)),
           immutable: S.optional(S.Boolean),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          stringData: S.optional(__S(8608, __c269, 0)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          stringData: S.optional(__S(7456, __c233, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Secret" });
   }
 }
-function __c270(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22528,33 +20223,16 @@ function __c270(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8708, __c272, 4)),
-          status: S.optional(__S(8714, __c272, 10)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7524, __c235, 4)),
+          status: S.optional(__S(7532, __c235, 12)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/namespaces/{namespace}/services", code: 200 }),
         ),
       ).annotate({ identifier: "CreateCoreV1NamespacedServiceRequest" });
   }
 }
-function __c271(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          lastTransitionTime: S.String,
-          message: S.optional(S.String),
-          observedGeneration: S.optional(S.Number),
-          reason: S.String,
-          status: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1Condition" });
-    case 1:
-      return S.Array(__S(8672, __c271, 0));
-  }
-}
-function __c272(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22568,7 +20246,7 @@ function __c272(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ServicePort" });
     case 1:
-      return S.Array(__S(8704, __c272, 0));
+      return S.Array(__S(7520, __c235, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -22578,7 +20256,7 @@ function __c272(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          clientIP: S.optional(__S(8706, __c272, 2)),
+          clientIP: S.optional(__S(7522, __c235, 2)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1SessionAffinityConfig" });
     case 4:
@@ -22586,22 +20264,22 @@ function __c272(j: number): any {
         S.Struct({
           allocateLoadBalancerNodePorts: S.optional(S.Boolean),
           clusterIP: S.optional(S.String),
-          clusterIPs: S.optional(__S(7296, __c228, 0)),
-          externalIPs: S.optional(__S(7296, __c228, 0)),
+          clusterIPs: S.optional(__S(6080, __c190, 0)),
+          externalIPs: S.optional(__S(6080, __c190, 0)),
           externalName: S.optional(S.String),
           externalTrafficPolicy: S.optional(S.String),
           healthCheckNodePort: S.optional(S.Number),
           internalTrafficPolicy: S.optional(S.String),
-          ipFamilies: S.optional(__S(7296, __c228, 0)),
+          ipFamilies: S.optional(__S(6080, __c190, 0)),
           ipFamilyPolicy: S.optional(S.String),
           loadBalancerClass: S.optional(S.String),
           loadBalancerIP: S.optional(S.String),
-          loadBalancerSourceRanges: S.optional(__S(7296, __c228, 0)),
-          ports: S.optional(__S(8705, __c272, 1)),
+          loadBalancerSourceRanges: S.optional(__S(6080, __c190, 0)),
+          ports: S.optional(__S(7521, __c235, 1)),
           publishNotReadyAddresses: S.optional(S.Boolean),
-          selector: S.optional(__S(7264, __c227, 0)),
+          selector: S.optional(__S(6112, __c191, 0)),
           sessionAffinity: S.optional(S.String),
-          sessionAffinityConfig: S.optional(__S(8707, __c272, 3)),
+          sessionAffinityConfig: S.optional(__S(7523, __c235, 3)),
           trafficDistribution: S.optional(S.String),
           type: S.optional(S.String),
         }),
@@ -22609,50 +20287,63 @@ function __c272(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          lastTransitionTime: S.String,
+          message: S.optional(S.String),
+          observedGeneration: S.optional(S.Number),
+          reason: S.String,
+          status: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1Condition" });
+    case 6:
+      return S.Array(__S(7525, __c235, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           error: S.optional(S.String),
           port: S.Number,
           protocol: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PortStatus" });
-    case 6:
-      return S.Array(__S(8709, __c272, 5));
-    case 7:
+    case 8:
+      return S.Array(__S(7527, __c235, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           hostname: S.optional(S.String),
           ip: S.optional(S.String),
           ipMode: S.optional(S.String),
-          ports: S.optional(__S(8710, __c272, 6)),
+          ports: S.optional(__S(7528, __c235, 8)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1LoadBalancerIngress" });
-    case 8:
-      return S.Array(__S(8711, __c272, 7));
-    case 9:
+    case 10:
+      return S.Array(__S(7529, __c235, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
-          ingress: S.optional(__S(8712, __c272, 8)),
+          ingress: S.optional(__S(7530, __c235, 10)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1LoadBalancerStatus" });
-    case 10:
+    case 12:
       return S.suspend(() =>
         S.Struct({
-          conditions: S.optional(__S(8673, __c271, 1)),
-          loadBalancer: S.optional(__S(8713, __c272, 9)),
+          conditions: S.optional(__S(7526, __c235, 6)),
+          loadBalancer: S.optional(__S(7531, __c235, 11)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ServiceStatus" });
-    case 11:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8708, __c272, 4)),
-          status: S.optional(__S(8714, __c272, 10)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7524, __c235, 4)),
+          status: S.optional(__S(7532, __c235, 12)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Service" });
   }
 }
-function __c273(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22664,10 +20355,10 @@ function __c273(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           automountServiceAccountToken: S.optional(S.Boolean),
-          imagePullSecrets: S.optional(__S(7937, __c248, 1)),
+          imagePullSecrets: S.optional(__S(6785, __c212, 1)),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          secrets: S.optional(__S(8768, __c274, 0)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          secrets: S.optional(__S(7584, __c237, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22678,27 +20369,27 @@ function __c273(j: number): any {
       ).annotate({ identifier: "CreateCoreV1NamespacedServiceAccountRequest" });
   }
 }
-function __c274(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7424, __c232, 0));
+      return S.Array(__S(6272, __c196, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           automountServiceAccountToken: S.optional(S.Boolean),
-          imagePullSecrets: S.optional(__S(7937, __c248, 1)),
+          imagePullSecrets: S.optional(__S(6785, __c212, 1)),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          secrets: S.optional(__S(8768, __c274, 0)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          secrets: S.optional(__S(7584, __c237, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ServiceAccount" });
   }
 }
-function __c275(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(7296, __c228, 0));
+      return S.Record(S.String, __S(6080, __c190, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -22711,9 +20402,9 @@ function __c275(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          attestations: S.optional(__S(8800, __c275, 0)),
-          audiences: S.optional(__S(7296, __c228, 0)),
-          boundObjectRef: S.optional(__S(8801, __c275, 1)),
+          attestations: S.optional(__S(7616, __c238, 0)),
+          audiences: S.optional(__S(6080, __c190, 0)),
+          boundObjectRef: S.optional(__S(7617, __c238, 1)),
           expirationSeconds: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiAuthenticationV1TokenRequestSpec" });
@@ -22735,9 +20426,9 @@ function __c275(j: number): any {
           pretty: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8802, __c275, 2)),
-          status: S.optional(__S(8803, __c275, 3)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7618, __c238, 2)),
+          status: S.optional(__S(7619, __c238, 3)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22751,14 +20442,14 @@ function __c275(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8802, __c275, 2)),
-          status: S.optional(__S(8803, __c275, 3)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7618, __c238, 2)),
+          status: S.optional(__S(7619, __c238, 3)),
         }),
       ).annotate({ identifier: "IoK8sApiAuthenticationV1TokenRequest" });
   }
 }
-function __c276(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22769,14 +20460,14 @@ function __c276(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8869, __c277, 5)),
-          status: S.optional(__S(8885, __c277, 21)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7685, __c240, 5)),
+          status: S.optional(__S(7701, __c240, 21)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/nodes", code: 200 })),
       ).annotate({ identifier: "CreateCoreV1NodeRequest" });
   }
 }
-function __c277(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22791,13 +20482,13 @@ function __c277(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          configMap: S.optional(__S(8864, __c277, 0)),
+          configMap: S.optional(__S(7680, __c240, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeConfigSource" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          disableResizePreemption: S.optional(__S(7296, __c228, 0)),
+          disableResizePreemption: S.optional(__S(6080, __c190, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodePodPreemptionPolicy" });
     case 3:
@@ -22810,17 +20501,17 @@ function __c277(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Taint" });
     case 4:
-      return S.Array(__S(8867, __c277, 3));
+      return S.Array(__S(7683, __c240, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          configSource: S.optional(__S(8865, __c277, 1)),
+          configSource: S.optional(__S(7681, __c240, 1)),
           externalID: S.optional(S.String),
           podCIDR: S.optional(S.String),
-          podCIDRs: S.optional(__S(7296, __c228, 0)),
-          podPreemptionPolicy: S.optional(__S(8866, __c277, 2)),
+          podCIDRs: S.optional(__S(6080, __c190, 0)),
+          podPreemptionPolicy: S.optional(__S(7682, __c240, 2)),
           providerID: S.optional(S.String),
-          taints: S.optional(__S(8868, __c277, 4)),
+          taints: S.optional(__S(7684, __c240, 4)),
           unschedulable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeSpec" });
@@ -22832,7 +20523,7 @@ function __c277(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeAddress" });
     case 7:
-      return S.Array(__S(8870, __c277, 6));
+      return S.Array(__S(7686, __c240, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -22845,14 +20536,14 @@ function __c277(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeCondition" });
     case 9:
-      return S.Array(__S(8872, __c277, 8));
+      return S.Array(__S(7688, __c240, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          active: S.optional(__S(8865, __c277, 1)),
-          assigned: S.optional(__S(8865, __c277, 1)),
+          active: S.optional(__S(7681, __c240, 1)),
+          assigned: S.optional(__S(7681, __c240, 1)),
           error: S.optional(S.String),
-          lastKnownGood: S.optional(__S(8865, __c277, 1)),
+          lastKnownGood: S.optional(__S(7681, __c240, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeConfigStatus" });
     case 11:
@@ -22864,7 +20555,7 @@ function __c277(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          kubeletEndpoint: S.optional(__S(8875, __c277, 11)),
+          kubeletEndpoint: S.optional(__S(7691, __c240, 11)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeDaemonEndpoints" });
     case 13:
@@ -22876,12 +20567,12 @@ function __c277(j: number): any {
     case 14:
       return S.suspend(() =>
         S.Struct({
-          names: S.optional(__S(7296, __c228, 0)),
+          names: S.optional(__S(6080, __c190, 0)),
           sizeBytes: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ContainerImage" });
     case 15:
-      return S.Array(__S(8878, __c277, 14));
+      return S.Array(__S(7694, __c240, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -22901,7 +20592,7 @@ function __c277(j: number): any {
           operatingSystem: S.String,
           osImage: S.String,
           runningInUserNamespace: S.optional(S.Boolean),
-          swap: S.optional(__S(8880, __c277, 16)),
+          swap: S.optional(__S(7696, __c240, 16)),
           systemUUID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeSystemInfo" });
@@ -22915,29 +20606,29 @@ function __c277(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          features: S.optional(__S(8882, __c277, 18)),
+          features: S.optional(__S(7698, __c240, 18)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeRuntimeHandler" });
     case 20:
-      return S.Array(__S(8883, __c277, 19));
+      return S.Array(__S(7699, __c240, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          addresses: S.optional(__S(8871, __c277, 7)),
-          allocatable: S.optional(__S(7264, __c227, 0)),
-          capacity: S.optional(__S(7264, __c227, 0)),
-          conditions: S.optional(__S(8873, __c277, 9)),
-          config: S.optional(__S(8874, __c277, 10)),
-          daemonEndpoints: S.optional(__S(8876, __c277, 12)),
-          declaredFeatures: S.optional(__S(7296, __c228, 0)),
-          features: S.optional(__S(8877, __c277, 13)),
-          images: S.optional(__S(8879, __c277, 15)),
-          nodeInfo: S.optional(__S(8881, __c277, 17)),
+          addresses: S.optional(__S(7687, __c240, 7)),
+          allocatable: S.optional(__S(6112, __c191, 0)),
+          capacity: S.optional(__S(6112, __c191, 0)),
+          conditions: S.optional(__S(7689, __c240, 9)),
+          config: S.optional(__S(7690, __c240, 10)),
+          daemonEndpoints: S.optional(__S(7692, __c240, 12)),
+          declaredFeatures: S.optional(__S(6080, __c190, 0)),
+          features: S.optional(__S(7693, __c240, 13)),
+          images: S.optional(__S(7695, __c240, 15)),
+          nodeInfo: S.optional(__S(7697, __c240, 17)),
           phase: S.optional(S.String),
-          runtimeHandlers: S.optional(__S(8884, __c277, 20)),
-          volumesAttached: S.optional(__S(7969, __c249, 1)),
-          volumesInUse: S.optional(__S(7296, __c228, 0)),
+          runtimeHandlers: S.optional(__S(7700, __c240, 20)),
+          volumesAttached: S.optional(__S(6817, __c213, 1)),
+          volumesInUse: S.optional(__S(6080, __c190, 0)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1NodeStatus" });
     case 22:
@@ -22945,14 +20636,14 @@ function __c277(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8869, __c277, 5)),
-          status: S.optional(__S(8885, __c277, 21)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7685, __c240, 5)),
+          status: S.optional(__S(7701, __c240, 21)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1Node" });
   }
 }
-function __c278(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22963,14 +20654,14 @@ function __c278(j: number): any {
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8941, __c279, 13)),
-          status: S.optional(__S(8942, __c279, 14)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7757, __c242, 13)),
+          status: S.optional(__S(7758, __c242, 14)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/persistentvolumes", code: 200 })),
       ).annotate({ identifier: "CreateCoreV1PersistentVolumeRequest" });
   }
 }
-function __c279(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22991,11 +20682,11 @@ function __c279(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          monitors: __S(7296, __c228, 0),
+          monitors: __S(6080, __c190, 0),
           path: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
           secretFile: S.optional(S.String),
-          secretRef: S.optional(__S(8929, __c279, 1)),
+          secretRef: S.optional(__S(7745, __c242, 1)),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CephFSPersistentVolumeSource" });
@@ -23004,22 +20695,22 @@ function __c279(j: number): any {
         S.Struct({
           fsType: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(8929, __c279, 1)),
+          secretRef: S.optional(__S(7745, __c242, 1)),
           volumeID: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CinderPersistentVolumeSource" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          controllerExpandSecretRef: S.optional(__S(8929, __c279, 1)),
-          controllerPublishSecretRef: S.optional(__S(8929, __c279, 1)),
+          controllerExpandSecretRef: S.optional(__S(7745, __c242, 1)),
+          controllerPublishSecretRef: S.optional(__S(7745, __c242, 1)),
           driver: S.String,
           fsType: S.optional(S.String),
-          nodeExpandSecretRef: S.optional(__S(8929, __c279, 1)),
-          nodePublishSecretRef: S.optional(__S(8929, __c279, 1)),
-          nodeStageSecretRef: S.optional(__S(8929, __c279, 1)),
+          nodeExpandSecretRef: S.optional(__S(7745, __c242, 1)),
+          nodePublishSecretRef: S.optional(__S(7745, __c242, 1)),
+          nodeStageSecretRef: S.optional(__S(7745, __c242, 1)),
           readOnly: S.optional(S.Boolean),
-          volumeAttributes: S.optional(__S(7264, __c227, 0)),
+          volumeAttributes: S.optional(__S(6112, __c191, 0)),
           volumeHandle: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1CSIPersistentVolumeSource" });
@@ -23028,9 +20719,9 @@ function __c279(j: number): any {
         S.Struct({
           driver: S.String,
           fsType: S.optional(S.String),
-          options: S.optional(__S(7264, __c227, 0)),
+          options: S.optional(__S(6112, __c191, 0)),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(8929, __c279, 1)),
+          secretRef: S.optional(__S(7745, __c242, 1)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1FlexPersistentVolumeSource" });
     case 6:
@@ -23052,9 +20743,9 @@ function __c279(j: number): any {
           iqn: S.String,
           iscsiInterface: S.optional(S.String),
           lun: S.optional(S.Number),
-          portals: S.optional(__S(7296, __c228, 0)),
+          portals: S.optional(__S(6080, __c190, 0)),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(8929, __c279, 1)),
+          secretRef: S.optional(__S(7745, __c242, 1)),
           targetPortal: S.String,
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1ISCSIPersistentVolumeSource" });
@@ -23068,7 +20759,7 @@ function __c279(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          required: __S(8002, __c250, 2),
+          required: __S(6850, __c214, 2),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1VolumeNodeAffinity" });
     case 10:
@@ -23077,10 +20768,10 @@ function __c279(j: number): any {
           fsType: S.optional(S.String),
           image: S.String,
           keyring: S.optional(S.String),
-          monitors: __S(7296, __c228, 0),
+          monitors: __S(6080, __c190, 0),
           pool: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(8929, __c279, 1)),
+          secretRef: S.optional(__S(7745, __c242, 1)),
           user: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1RBDPersistentVolumeSource" });
@@ -23091,7 +20782,7 @@ function __c279(j: number): any {
           gateway: S.String,
           protectionDomain: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(8929, __c279, 1)),
+          secretRef: S.optional(__S(7745, __c242, 1)),
           sslEnabled: S.optional(S.Boolean),
           storageMode: S.optional(S.String),
           storagePool: S.optional(S.String),
@@ -23104,7 +20795,7 @@ function __c279(j: number): any {
         S.Struct({
           fsType: S.optional(S.String),
           readOnly: S.optional(S.Boolean),
-          secretRef: S.optional(__S(7424, __c232, 0)),
+          secretRef: S.optional(__S(6272, __c196, 0)),
           volumeName: S.String,
           volumeNamespace: S.optional(S.String),
         }),
@@ -23112,37 +20803,37 @@ function __c279(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          accessModes: S.optional(__S(7296, __c228, 0)),
-          awsElasticBlockStore: S.optional(__S(8003, __c250, 3)),
-          azureDisk: S.optional(__S(8004, __c250, 4)),
-          azureFile: S.optional(__S(8928, __c279, 0)),
-          capacity: S.optional(__S(7264, __c227, 0)),
-          cephfs: S.optional(__S(8930, __c279, 2)),
-          cinder: S.optional(__S(8931, __c279, 3)),
-          claimRef: S.optional(__S(7424, __c232, 0)),
-          csi: S.optional(__S(8932, __c279, 4)),
-          fc: S.optional(__S(8005, __c250, 5)),
-          flexVolume: S.optional(__S(8933, __c279, 5)),
-          flocker: S.optional(__S(8006, __c250, 6)),
-          gcePersistentDisk: S.optional(__S(8007, __c250, 7)),
-          glusterfs: S.optional(__S(8934, __c279, 6)),
-          hostPath: S.optional(__S(8008, __c250, 8)),
-          iscsi: S.optional(__S(8935, __c279, 7)),
-          local: S.optional(__S(8936, __c279, 8)),
-          mountOptions: S.optional(__S(7296, __c228, 0)),
-          nfs: S.optional(__S(8009, __c250, 9)),
-          nodeAffinity: S.optional(__S(8937, __c279, 9)),
+          accessModes: S.optional(__S(6080, __c190, 0)),
+          awsElasticBlockStore: S.optional(__S(6851, __c214, 3)),
+          azureDisk: S.optional(__S(6852, __c214, 4)),
+          azureFile: S.optional(__S(7744, __c242, 0)),
+          capacity: S.optional(__S(6112, __c191, 0)),
+          cephfs: S.optional(__S(7746, __c242, 2)),
+          cinder: S.optional(__S(7747, __c242, 3)),
+          claimRef: S.optional(__S(6272, __c196, 0)),
+          csi: S.optional(__S(7748, __c242, 4)),
+          fc: S.optional(__S(6853, __c214, 5)),
+          flexVolume: S.optional(__S(7749, __c242, 5)),
+          flocker: S.optional(__S(6854, __c214, 6)),
+          gcePersistentDisk: S.optional(__S(6855, __c214, 7)),
+          glusterfs: S.optional(__S(7750, __c242, 6)),
+          hostPath: S.optional(__S(6856, __c214, 8)),
+          iscsi: S.optional(__S(7751, __c242, 7)),
+          local: S.optional(__S(7752, __c242, 8)),
+          mountOptions: S.optional(__S(6080, __c190, 0)),
+          nfs: S.optional(__S(6857, __c214, 9)),
+          nodeAffinity: S.optional(__S(7753, __c242, 9)),
           persistentVolumeReclaimPolicy: S.optional(S.String),
-          photonPersistentDisk: S.optional(__S(8010, __c250, 10)),
-          portworxVolume: S.optional(__S(8011, __c250, 11)),
-          quobyte: S.optional(__S(8012, __c250, 12)),
-          rbd: S.optional(__S(8938, __c279, 10)),
-          scaleIO: S.optional(__S(8939, __c279, 11)),
+          photonPersistentDisk: S.optional(__S(6858, __c214, 10)),
+          portworxVolume: S.optional(__S(6859, __c214, 11)),
+          quobyte: S.optional(__S(6860, __c214, 12)),
+          rbd: S.optional(__S(7754, __c242, 10)),
+          scaleIO: S.optional(__S(7755, __c242, 11)),
           storageClassName: S.optional(S.String),
-          storageos: S.optional(__S(8940, __c279, 12)),
+          storageos: S.optional(__S(7756, __c242, 12)),
           volumeAttributesClassName: S.optional(S.String),
           volumeMode: S.optional(S.String),
-          vsphereVolume: S.optional(__S(8013, __c250, 13)),
+          vsphereVolume: S.optional(__S(6861, __c214, 13)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolumeSpec" });
     case 14:
@@ -23159,172 +20850,132 @@ function __c279(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: S.optional(__S(8941, __c279, 13)),
-          status: S.optional(__S(8942, __c279, 14)),
+          metadata: S.optional(__S(6117, __c191, 5)),
+          spec: S.optional(__S(7757, __c242, 13)),
+          status: S.optional(__S(7758, __c242, 14)),
         }),
       ).annotate({ identifier: "IoK8sApiCoreV1PersistentVolume" });
   }
 }
-function __c280(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           pretty: S.optional(S.String.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
           dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+          propagationPolicy: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: __S(8992, __c281, 0),
-          status: S.optional(__S(8999, __c281, 7)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions",
-            code: 200,
-          }),
+          T.Http({ method: "DELETE", uri: "/api/v1/namespaces/{namespace}/configmaps", code: 200 }),
         ),
-      ).annotate({ identifier: "CreateLifecycleV1alpha1NamespacedEvictionRequest2" });
+      ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedConfigMapRequest" });
   }
 }
-function __c281(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          target: __S(9025, __c282, 1),
+          field: S.optional(S.String),
+          message: S.optional(S.String),
+          reason: S.optional(S.String),
         }),
-      ).annotate({ identifier: "IoK8sApiLifecycleV1alpha1EvictionSpec" });
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1StatusCause" });
     case 1:
+      return S.Array(__S(7808, __c244, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          intent: S.String,
-          name: S.String,
+          causes: S.optional(__S(7809, __c244, 1)),
+          group: S.optional(S.String),
+          kind: S.optional(S.String),
+          name: S.optional(S.String),
+          retryAfterSeconds: S.optional(S.Number),
+          uid: S.optional(S.String),
         }),
-      ).annotate({ identifier: "IoK8sApiLifecycleV1alpha1Requester" });
-    case 2:
-      return S.Array(__S(8993, __c281, 1));
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1StatusDetails" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          completionTime: S.optional(S.String),
-          expectedCompletionTime: S.optional(S.String),
-          heartbeatTime: S.optional(S.String),
-          message: S.optional(S.String),
-          name: S.String,
-          startTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApiLifecycleV1alpha1ResponderStatus" });
-    case 4:
-      return S.Array(__S(8995, __c281, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          priority: S.Number,
-          state: S.String,
-        }),
-      ).annotate({ identifier: "IoK8sApiLifecycleV1alpha1TargetResponder" });
-    case 6:
-      return S.Array(__S(8997, __c281, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          conditions: S.optional(__S(8673, __c271, 1)),
-          observedGeneration: S.optional(S.Number),
-          requesters: S.optional(__S(8994, __c281, 2)),
-          responders: S.optional(__S(8996, __c281, 4)),
-          targetResponders: S.optional(__S(8998, __c281, 6)),
-        }),
-      ).annotate({ identifier: "IoK8sApiLifecycleV1alpha1EvictionStatus" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
           apiVersion: S.optional(S.String),
+          code: S.optional(S.Number),
+          details: S.optional(__S(7810, __c244, 2)),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: __S(8992, __c281, 0),
-          status: S.optional(__S(8999, __c281, 7)),
+          message: S.optional(S.String),
+          metadata: S.optional(__S(7841, __c245, 1)),
+          reason: S.optional(S.String),
+          status: S.optional(S.String),
         }),
-      ).annotate({ identifier: "IoK8sApiLifecycleV1alpha1Eviction" });
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1Status" });
   }
 }
-function __c282(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String,
-          uid: S.String,
+          selector: S.String,
         }),
-      ).annotate({ identifier: "IoK8sApiLifecycleV1alpha1EvictionPodReference" });
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ShardInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          pod: S.optional(__S(9024, __c282, 0)),
+          continue: S.optional(S.String),
+          remainingItemCount: S.optional(S.Number),
+          resourceVersion: S.optional(S.String),
+          selfLink: S.optional(S.String),
+          shardInfo: S.optional(__S(7840, __c245, 0)),
         }),
-      ).annotate({ identifier: "IoK8sApiLifecycleV1alpha1EvictionTarget" });
+      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ListMeta" });
   }
 }
-function __c283(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           pretty: S.optional(S.String.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
           dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldManager: S.optional(S.String.pipe(T.Query())),
-          fieldValidation: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
+          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
+          propagationPolicy: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: __S(9088, __c284, 0),
-          status: S.optional(__S(9089, __c284, 1)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests",
-            code: 200,
-          }),
+          T.Http({ method: "DELETE", uri: "/api/v1/namespaces/{namespace}/endpoints", code: 200 }),
         ),
-      ).annotate({ identifier: "CreateLifecycleV1alpha1NamespacedEvictionRequestRequest" });
+      ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedEndpointsRequest" });
   }
 }
-function __c284(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          intent: S.String,
-          requester: S.String,
-          target: __S(9025, __c282, 1),
-        }),
-      ).annotate({ identifier: "IoK8sApiLifecycleV1alpha1EvictionRequestSpec" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          conditions: S.optional(__S(8673, __c271, 1)),
-          observedGeneration: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "IoK8sApiLifecycleV1alpha1EvictionRequestStatus" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          metadata: S.optional(__S(7269, __c227, 5)),
-          spec: __S(9088, __c284, 0),
-          status: S.optional(__S(9089, __c284, 1)),
-        }),
-      ).annotate({ identifier: "IoK8sApiLifecycleV1alpha1EvictionRequest" });
-  }
-}
-function __c285(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23342,7 +20993,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "ConnectCoreV1DeleteNamespacedServiceProxyWithPathRequest" });
   }
 }
-function __c286(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23365,132 +21016,14 @@ function __c286(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/v1/namespaces/{namespace}/configmaps", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedConfigMapRequest" });
-  }
-}
-function __c287(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          message: S.optional(S.String),
-          reason: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1StatusCause" });
-    case 1:
-      return S.Array(__S(9184, __c287, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          causes: S.optional(__S(9185, __c287, 1)),
-          group: S.optional(S.String),
-          kind: S.optional(S.String),
-          name: S.optional(S.String),
-          retryAfterSeconds: S.optional(S.Number),
-          uid: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1StatusDetails" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          apiVersion: S.optional(S.String),
-          code: S.optional(S.Number),
-          details: S.optional(__S(9186, __c287, 2)),
-          kind: S.optional(S.String),
-          message: S.optional(S.String),
-          metadata: S.optional(__S(9217, __c288, 1)),
-          reason: S.optional(S.String),
-          status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1Status" });
-  }
-}
-function __c288(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          selector: S.String,
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ShardInfo" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          continue: S.optional(S.String),
-          remainingItemCount: S.optional(S.Number),
-          resourceVersion: S.optional(S.String),
-          selfLink: S.optional(S.String),
-          shardInfo: S.optional(__S(9216, __c288, 0)),
-        }),
-      ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ListMeta" });
-  }
-}
-function __c289(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
-          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
-          propagationPolicy: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/v1/namespaces/{namespace}/endpoints", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedEndpointsRequest" });
-  }
-}
-function __c290(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
-          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
-          propagationPolicy: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/api/v1/namespaces/{namespace}/events", code: 200 }),
         ),
       ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedEventRequest" });
   }
 }
-function __c291(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23513,7 +21046,7 @@ function __c291(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -23524,7 +21057,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedLimitRangeRequest" });
   }
 }
-function __c292(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23547,7 +21080,7 @@ function __c292(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -23558,7 +21091,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedPersistentVolumeClaimRequest" });
   }
 }
-function __c293(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23581,14 +21114,14 @@ function __c293(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/api/v1/namespaces/{namespace}/pods", code: 200 }),
         ),
       ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedPodRequest" });
   }
 }
-function __c294(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23611,7 +21144,7 @@ function __c294(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -23622,7 +21155,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedPodTemplateRequest" });
   }
 }
-function __c295(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23645,7 +21178,7 @@ function __c295(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -23656,7 +21189,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedReplicationControllerRequest" });
   }
 }
-function __c296(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23679,7 +21212,7 @@ function __c296(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -23690,7 +21223,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedResourceQuotaRequest" });
   }
 }
-function __c297(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23713,25 +21246,14 @@ function __c297(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/api/v1/namespaces/{namespace}/secrets", code: 200 }),
         ),
       ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedSecretRequest" });
   }
 }
-function __c298(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          path: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/nodes/{name}/proxy", code: 200 })),
-      ).annotate({ identifier: "ConnectCoreV1DeleteNodeProxyRequest" });
-  }
-}
-function __c299(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23754,14 +21276,14 @@ function __c299(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/api/v1/namespaces/{namespace}/services", code: 200 }),
         ),
       ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedServiceRequest" });
   }
 }
-function __c300(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23784,7 +21306,7 @@ function __c300(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -23795,7 +21317,18 @@ function __c300(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1CollectionNamespacedServiceAccountRequest" });
   }
 }
-function __c301(j: number): any {
+function __c258(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          path: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/nodes/{name}/proxy", code: 200 })),
+      ).annotate({ identifier: "ConnectCoreV1DeleteNodeProxyRequest" });
+  }
+}
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23817,12 +21350,12 @@ function __c301(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/nodes", code: 200 })),
       ).annotate({ identifier: "DeleteCoreV1CollectionNodeRequest" });
   }
 }
-function __c302(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23844,12 +21377,12 @@ function __c302(j: number): any {
           timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/persistentvolumes", code: 200 })),
       ).annotate({ identifier: "DeleteCoreV1CollectionPersistentVolumeRequest" });
   }
 }
-function __c303(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23863,12 +21396,12 @@ function __c303(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/namespaces/{name}", code: 200 })),
       ).annotate({ identifier: "DeleteCoreV1NamespaceRequest" });
   }
 }
-function __c304(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23883,7 +21416,7 @@ function __c304(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -23894,7 +21427,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1NamespacedConfigMapRequest" });
   }
 }
-function __c305(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23909,7 +21442,7 @@ function __c305(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -23920,7 +21453,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1NamespacedEndpointsRequest" });
   }
 }
-function __c306(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23935,7 +21468,7 @@ function __c306(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -23946,7 +21479,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1NamespacedEventRequest" });
   }
 }
-function __c307(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23961,7 +21494,7 @@ function __c307(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -23972,7 +21505,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1NamespacedLimitRangeRequest" });
   }
 }
-function __c308(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23987,7 +21520,7 @@ function __c308(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -23998,18 +21531,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1NamespacedPersistentVolumeClaimRequest" });
   }
 }
-function __c309(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          path: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/nodes/{name}/proxy/{path}", code: 200 })),
-      ).annotate({ identifier: "ConnectCoreV1DeleteNodeProxyWithPathRequest" });
-  }
-}
-function __c310(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24024,7 +21546,7 @@ function __c310(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -24035,7 +21557,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1NamespacedPodRequest" });
   }
 }
-function __c311(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24050,7 +21572,7 @@ function __c311(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -24061,7 +21583,18 @@ function __c311(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1NamespacedPodTemplateRequest" });
   }
 }
-function __c312(j: number): any {
+function __c269(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          path: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/nodes/{name}/proxy/{path}", code: 200 })),
+      ).annotate({ identifier: "ConnectCoreV1DeleteNodeProxyWithPathRequest" });
+  }
+}
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24076,7 +21609,7 @@ function __c312(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -24087,7 +21620,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1NamespacedReplicationControllerRequest" });
   }
 }
-function __c313(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24102,7 +21635,7 @@ function __c313(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -24113,7 +21646,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1NamespacedResourceQuotaRequest" });
   }
 }
-function __c314(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24128,7 +21661,7 @@ function __c314(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -24139,7 +21672,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1NamespacedSecretRequest" });
   }
 }
-function __c315(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24154,7 +21687,7 @@ function __c315(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -24165,7 +21698,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1NamespacedServiceRequest" });
   }
 }
-function __c316(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24180,7 +21713,7 @@ function __c316(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -24191,7 +21724,7 @@ function __c316(j: number): any {
       ).annotate({ identifier: "DeleteCoreV1NamespacedServiceAccountRequest" });
   }
 }
-function __c317(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24205,12 +21738,12 @@ function __c317(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/nodes/{name}", code: 200 })),
       ).annotate({ identifier: "DeleteCoreV1NodeRequest" });
   }
 }
-function __c318(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24224,174 +21757,30 @@ function __c318(j: number): any {
           propagationPolicy: S.optional(S.String.pipe(T.Query())),
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
+          preconditions: S.optional(__S(7136, __c223, 0)),
         }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/persistentvolumes/{name}", code: 200 })),
       ).annotate({ identifier: "DeleteCoreV1PersistentVolumeRequest" });
   }
 }
-function __c319(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
-          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
-          propagationPolicy: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequest2" });
-  }
-}
-function __c320(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          container: S.optional(S.String.pipe(T.Query())),
-          stderr: S.optional(S.Boolean.pipe(T.Query())),
-          stdin: S.optional(S.Boolean.pipe(T.Query())),
-          stdout: S.optional(S.Boolean.pipe(T.Query())),
-          tty: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/namespaces/{namespace}/pods/{name}/attach",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ConnectCoreV1GetNamespacedPodAttachRequest" });
-  }
-}
-function __c321(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          continue: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          fieldSelector: S.optional(S.String.pipe(T.Query())),
-          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
-          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
-          labelSelector: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
-          propagationPolicy: S.optional(S.String.pipe(T.Query())),
-          resourceVersion: S.optional(S.String.pipe(T.Query())),
-          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
-          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
-          shardSelector: S.optional(S.String.pipe(T.Query())),
-          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests",
-            code: 200,
-          }),
-        ),
-      ).annotate({
-        identifier: "DeleteLifecycleV1alpha1CollectionNamespacedEvictionRequestRequest",
-      });
-  }
-}
-function __c322(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
-          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
-          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
-          propagationPolicy: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictions/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteLifecycleV1alpha1NamespacedEvictionRequest2" });
-  }
-}
-function __c323(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          pretty: S.optional(S.String.pipe(T.Query())),
-          dryRun: S.optional(S.String.pipe(T.Query())),
-          gracePeriodSeconds: S.optional(S.Number.pipe(T.Query())),
-          ignoreStoreReadErrorWithClusterBreakingPotential: S.optional(S.Boolean.pipe(T.Query())),
-          orphanDependents: S.optional(S.Boolean.pipe(T.Query())),
-          propagationPolicy: S.optional(S.String.pipe(T.Query())),
-          apiVersion: S.optional(S.String),
-          kind: S.optional(S.String),
-          preconditions: S.optional(__S(8288, __c259, 0)),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/apis/lifecycle.k8s.io/v1alpha1/namespaces/{namespace}/evictionrequests/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteLifecycleV1alpha1NamespacedEvictionRequestRequest" });
-  }
-}
-function __c324(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apis/", code: 200 })),
       ).annotate({ identifier: "GetAPIVersionsRequest" });
     case 1:
-      return S.Array(__S(10434, __c326, 2));
+      return S.Array(__S(8930, __c279, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          groups: __S(10369, __c324, 1),
+          groups: __S(8865, __c277, 1),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1APIGroupList" });
   }
 }
-function __c325(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24401,10 +21790,10 @@ function __c325(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1ServerAddressByClientCIDR" });
     case 1:
-      return S.Array(__S(10400, __c325, 0));
+      return S.Array(__S(8896, __c278, 0));
   }
 }
-function __c326(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24414,21 +21803,21 @@ function __c326(j: number): any {
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1GroupVersionForDiscovery" });
     case 1:
-      return S.Array(__S(10432, __c326, 0));
+      return S.Array(__S(8928, __c279, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
           name: S.String,
-          preferredVersion: S.optional(__S(10432, __c326, 0)),
-          serverAddressByClientCIDRs: S.optional(__S(10401, __c325, 1)),
-          versions: __S(10433, __c326, 1),
+          preferredVersion: S.optional(__S(8928, __c279, 0)),
+          serverAddressByClientCIDRs: S.optional(__S(8897, __c278, 1)),
+          versions: __S(8929, __c279, 1),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1APIGroup" });
   }
 }
-function __c327(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24454,7 +21843,7 @@ function __c327(j: number): any {
       ).annotate({ identifier: "IoK8sApimachineryPkgVersionInfo" });
   }
 }
-function __c328(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24465,51 +21854,69 @@ function __c328(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          serverAddressByClientCIDRs: __S(10401, __c325, 1),
-          versions: __S(7296, __c228, 0),
+          serverAddressByClientCIDRs: __S(8897, __c278, 1),
+          versions: __S(6080, __c190, 0),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1APIVersions" });
   }
 }
-function __c329(j: number): any {
+function __c282(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          container: S.optional(S.String.pipe(T.Query())),
+          stderr: S.optional(S.Boolean.pipe(T.Query())),
+          stdin: S.optional(S.Boolean.pipe(T.Query())),
+          stdout: S.optional(S.Boolean.pipe(T.Query())),
+          tty: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/namespaces/{namespace}/pods/{name}/attach",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ConnectCoreV1GetNamespacedPodAttachRequest" });
+  }
+}
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/", code: 200 })),
       ).annotate({ identifier: "GetCoreV1APIResourcesRequest" });
-  }
-}
-function __c330(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(__S(7296, __c228, 0)),
+          categories: S.optional(__S(6080, __c190, 0)),
           group: S.optional(S.String),
           kind: S.String,
           name: S.String,
           namespaced: S.Boolean,
-          shortNames: S.optional(__S(7296, __c228, 0)),
+          shortNames: S.optional(__S(6080, __c190, 0)),
           singularName: S.String,
           storageVersionHash: S.optional(S.String),
-          verbs: __S(7296, __c228, 0),
+          verbs: __S(6080, __c190, 0),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1APIResource" });
-    case 1:
-      return S.Array(__S(10560, __c330, 0));
     case 2:
+      return S.Array(__S(9057, __c283, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
           groupVersion: S.String,
           kind: S.optional(S.String),
-          resources: __S(10561, __c330, 1),
+          resources: __S(9058, __c283, 2),
         }),
       ).annotate({ identifier: "IoK8sApimachineryPkgApisMetaV1APIResourceList" });
   }
 }
-function __c331(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24517,17 +21924,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "GetLifecycleAPIGroupRequest" });
   }
 }
-function __c332(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/apis/lifecycle.k8s.io/v1alpha1/", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetLifecycleV1alpha1APIResourcesRequest" });
-  }
-}
-function __c333(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24535,6 +21932,246 @@ function __c333(j: number): any {
           T.Http({ method: "GET", uri: "/.well-known/openid-configuration/", code: 200 }),
         ),
       ).annotate({ identifier: "GetServiceAccountIssuerOpenIDConfigurationRequest" });
+  }
+}
+function __c286(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/openid/v1/jwks/", code: 200 })),
+      ).annotate({ identifier: "GetServiceAccountIssuerOpenIDKeysetRequest" });
+  }
+}
+function __c287(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          watch: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/componentstatuses", code: 200 })),
+      ).annotate({ identifier: "ListCoreV1ComponentStatusRequest" });
+    case 1:
+      return S.Array(__S(9218, __c288, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          items: __S(9185, __c287, 1),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(7841, __c245, 1)),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1ComponentStatusList" });
+  }
+}
+function __c288(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(S.String),
+          message: S.optional(S.String),
+          status: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1ComponentCondition" });
+    case 1:
+      return S.Array(__S(9216, __c288, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          conditions: S.optional(__S(9217, __c288, 1)),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(6117, __c191, 5)),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1ComponentStatus" });
+  }
+}
+function __c289(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          watch: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/configmaps", code: 200 })),
+      ).annotate({ identifier: "ListCoreV1ConfigMapForAllNamespacesRequest" });
+  }
+}
+function __c290(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(6368, __c199, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          items: __S(9280, __c290, 0),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(7841, __c245, 1)),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1ConfigMapList" });
+  }
+}
+function __c291(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          watch: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/endpoints", code: 200 })),
+      ).annotate({ identifier: "ListCoreV1EndpointsForAllNamespacesRequest" });
+  }
+}
+function __c292(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(6438, __c201, 6));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          items: __S(9344, __c292, 0),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(7841, __c245, 1)),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1EndpointsList" });
+  }
+}
+function __c293(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          watch: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/events", code: 200 })),
+      ).annotate({ identifier: "ListCoreV1EventForAllNamespacesRequest" });
+  }
+}
+function __c294(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(6498, __c203, 2));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          items: __S(9408, __c294, 0),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(7841, __c245, 1)),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1EventList" });
+  }
+}
+function __c295(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          pretty: S.optional(S.String.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          watch: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/limitranges", code: 200 })),
+      ).annotate({ identifier: "ListCoreV1LimitRangeForAllNamespacesRequest" });
+  }
+}
+function __c296(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(6563, __c205, 3));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          items: __S(9472, __c296, 0),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(7841, __c245, 1)),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1LimitRangeList" });
+  }
+}
+function __c297(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pretty: S.optional(S.String.pipe(T.Query())),
+          allowWatchBookmarks: S.optional(S.Boolean.pipe(T.Query())),
+          continue: S.optional(S.String.pipe(T.Query())),
+          fieldSelector: S.optional(S.String.pipe(T.Query())),
+          labelSelector: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          resourceVersion: S.optional(S.String.pipe(T.Query())),
+          resourceVersionMatch: S.optional(S.String.pipe(T.Query())),
+          sendInitialEvents: S.optional(S.Boolean.pipe(T.Query())),
+          shardSelector: S.optional(S.String.pipe(T.Query())),
+          timeoutSeconds: S.optional(S.Number.pipe(T.Query())),
+          watch: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/namespaces", code: 200 })),
+      ).annotate({ identifier: "ListCoreV1NamespaceRequest" });
+    case 1:
+      return S.Array(__S(6178, __c193, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          apiVersion: S.optional(S.String),
+          items: __S(9505, __c297, 1),
+          kind: S.optional(S.String),
+          metadata: S.optional(__S(7841, __c245, 1)),
+        }),
+      ).annotate({ identifier: "IoK8sApiCoreV1NamespaceList" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

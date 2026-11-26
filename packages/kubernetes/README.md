@@ -29,6 +29,20 @@ const Live = Layer.mergeAll(
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
 
+## Alpha and beta APIs
+
+Operations served at an alpha or beta API version (`v1alpha1`, `v1beta2`, …)
+import from `unstable/`, under the same group name. A group with stable and
+pre-GA versions splits across both paths:
+
+```ts
+import * as Scheduling from "@distilled.cloud/kubernetes/scheduling";
+import * as SchedulingBeta from "@distilled.cloud/kubernetes/unstable/scheduling";
+
+yield* Scheduling.listSchedulingV1PriorityClass({});
+yield* SchedulingBeta.listSchedulingV1beta1NamespacedWorkload({ namespace: "default" });
+```
+
 ## Patching
 
 Every `patch*` operation takes its patch type as `contentType`. For a merge
