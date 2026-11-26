@@ -5,6 +5,11 @@
  * `scripts/convert.ts` converts from the OpenAPI spec. Everything else in this
  * folder is hand-written.
  *
+ * The experimental routes (`/api/experimental/...`) are generated to
+ * `./unstable-services` and imported as
+ * `@distilled.cloud/opencode/unstable/opencode`; they are not re-exported
+ * from the package root.
+ *
  * @example
  * ```ts
  * import * as Opencode from "@distilled.cloud/opencode";
@@ -31,10 +36,4 @@ export * as Services from "./services/index.ts";
 // same-named shared ones from ./errors.ts -- the ops actually raise the
 // service-local classes.
 export * from "./services/opencode.ts";
-export {
-  BadRequest,
-  Conflict,
-  Forbidden,
-  NotFound,
-  UnprocessableEntity,
-} from "./services/opencode.ts";
+export { BadRequest, Conflict, Forbidden, NotFound } from "./services/opencode.ts";
