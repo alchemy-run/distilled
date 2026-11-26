@@ -6,7 +6,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  *
  * Input:  .generated-specs/<slug>.json  (one model per Scaleway API service
  *         and version, written by scripts/convert.ts)
- * Output: src/services/<slug>.ts  +  src/services/index.ts
+ * Output: src/services/<slug>.ts  +  src/services/index.ts, and
+ *         src/unstable-services/ for the alpha and beta API versions
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Scaleway's provider spec:
@@ -129,5 +130,6 @@ runGeneratorCli({
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
   barrelExportName: camel,
+  unstableOutDir: "src/unstable-services",
   spec: () => spec,
 });
