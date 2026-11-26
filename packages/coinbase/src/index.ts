@@ -5,9 +5,15 @@
  * `scripts/convert.ts` converts from the CDP OpenAPI spec. Everything else in
  * this folder is hand-written.
  *
+ * Operations in a tag the spec tiers `beta` (`x-slo-tier`) are generated to
+ * `./unstable-services` and imported as
+ * `@distilled.cloud/coinbase/unstable/cdp`.
+ *
  * @example
  * ```ts
  * import * as Coinbase from "@distilled.cloud/coinbase";
+ * import * as Cdp from "@distilled.cloud/coinbase/cdp";
+ * import * as CdpUnstable from "@distilled.cloud/coinbase/unstable/cdp";
  * ```
  */
 export * from "./credentials.ts";
