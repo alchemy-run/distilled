@@ -14,11 +14,18 @@
  * routes, whose `operationId`s are Java resource methods, are named in
  * `scripts/operation-names.ts`.
  *
+ * Operations the spec marks `x-experimental: true` are marked
+ * `smithy.api#unstable`, so generate writes them to
+ * `src/unstable-services/jira.ts` (`@distilled.cloud/jira/unstable/jira`).
+ *
  * Pagination and sensitive members are patches in `patches/`.
  */
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 import { operationNames } from "./operation-names.ts";
+
+/** Atlassian's experimental flag: not generally available. */
+const isExperimental = (op: Record<string, any>): boolean => op["x-experimental"] === true;
 
 await runOpenApiConvert({
   root: path.resolve(import.meta.dirname, ".."),
@@ -33,5 +40,6 @@ await runOpenApiConvert({
     serviceName: "Jira",
     skipDeprecated: true,
     operationNames,
+    unstableOperation: isExperimental,
   },
 });
