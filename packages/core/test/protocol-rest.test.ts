@@ -1,6 +1,7 @@
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
+import type * as HttpBody from "effect/http/HttpBody";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
@@ -462,11 +463,11 @@ describe("restProtocol raw request bodies", () => {
       fakeClient(() => json({}), recorded),
       creds(),
     );
-    const body = recorded.requests[0]!.body;
+    const body = recorded.requests[0]!.body as HttpBody.Stream;
     expect(body._tag).toBe("Stream");
     expect(body.contentType).toBe("application/octet-stream");
     expect(body.contentLength).toBeUndefined();
-    const sent = await Effect.runPromise(Stream.mkUint8Array((body as any).stream));
+    const sent = await Effect.runPromise(Stream.mkUint8Array(body.stream));
     expect(new TextDecoder().decode(sent)).toBe("abcdef");
 
     const Sized = S.Struct({
@@ -479,7 +480,7 @@ describe("restProtocol raw request bodies", () => {
       fakeClient(() => json({}), sized),
       creds(),
     );
-    expect(sized.requests[0]!.body.contentLength).toBe(6);
+    expect((sized.requests[0]!.body as HttpBody.Stream).contentLength).toBe(6);
   });
 
   test("a JSON body is sent under the Content-Type member, else as application/json", async () => {
