@@ -14,13 +14,6 @@
       "value": {
         "target": "com.prisma#Conflict"
       }
-    },
-    {
-      "op": "add",
-      "path": "/shapes/com.prisma#PostV1ProjectsByProjectIdDatabases/errors/3",
-      "value": {
-        "target": "com.prisma#Conflict"
-      }
     }
   ]
 }
