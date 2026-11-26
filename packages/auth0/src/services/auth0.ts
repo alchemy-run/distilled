@@ -47,16 +47,11 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
-      ),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  )
-{
-  declare readonly body?: ConflictSchema | string;
-}
+  ) {}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -79,20 +74,11 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
-      body: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
-          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
-          S.String,
-        ]),
-      ),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
       headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  )
-{
-  declare readonly body?: NotFoundSchema | Error404Body | string;
-}
+  ) {}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -105,188 +91,6 @@ export class UnprocessableEntity
     [{ status: 422 }],
   ) {}
 
-export interface AdvanceExperimentRampRequest {
-  /** The ID of the experiment to advance. */
-  id: string;
-  /** The target percentage level from the experiment schedule. Must be the immediate next level. */
-  target_level: number;
-}
-export interface AdvanceRampResponseContent {
-  experiment_id: string;
-  from_level: number;
-  to_level: number;
-  current_level: number;
-}
-export interface ActionModuleSecretRequest {
-  /** The name of the secret. */
-  name: string;
-  /** The value of the secret. */
-  value: string | Redacted.Redacted<string>;
-}
-/** The secrets to associate with the action module. */
-export type CreateActionModuleRequestSecretsList = Array<ActionModuleSecretRequest>;
-export interface ActionModuleDependencyRequest {
-  /** The name of the npm dependency. */
-  name: string;
-  /** The version of the npm dependency. */
-  version: string;
-}
-/** The npm dependencies of the action module. */
-export type CreateActionModuleRequestDependenciesList = Array<ActionModuleDependencyRequest>;
-export interface CreateActionModuleRequest {
-  /** The name of the action module. */
-  name: string;
-  /** The source code of the action module. */
-  code: string;
-  /** The secrets to associate with the action module. */
-  secrets?: CreateActionModuleRequestSecretsList | undefined;
-  /** The npm dependencies of the action module. */
-  dependencies?: CreateActionModuleRequestDependenciesList | undefined;
-  /** The API version of the module. */
-  api_version?: string | undefined;
-  /** Whether to publish the module immediately after creation. */
-  publish?: boolean | undefined;
-}
-export interface ActionModuleDependency {
-  /** The name of the npm dependency. */
-  name?: string | undefined;
-  /** The version of the npm dependency. */
-  version?: string | undefined;
-}
-/** The npm dependencies from the module's draft version. */
-export type CreateActionModuleResponseContentDependenciesList = Array<ActionModuleDependency>;
-export interface ActionModuleSecret {
-  /** The name of the secret. */
-  name?: string | undefined;
-  /** The time when the secret was last updated. */
-  updated_at?: string | undefined;
-}
-/** The secrets from the module's draft version (names and timestamps only, values never returned). */
-export type CreateActionModuleResponseContentSecretsList = Array<ActionModuleSecret>;
-/** The npm dependencies from this version. */
-export type ActionModuleVersionReferenceDependenciesList = Array<ActionModuleDependency>;
-/** The secrets from this version (names and timestamps only, values never returned). */
-export type ActionModuleVersionReferenceSecretsList = Array<ActionModuleSecret>;
-/** The latest published version as a reference object. Omitted if no versions have been published. */
-export interface ActionModuleVersionReference {
-  /** The unique ID of the version. */
-  id?: string | undefined;
-  /** The version number. */
-  version_number?: number | undefined;
-  /** The source code from this version. */
-  code?: string | undefined;
-  /** The npm dependencies from this version. */
-  dependencies?: ActionModuleVersionReferenceDependenciesList | undefined;
-  /** The secrets from this version (names and timestamps only, values never returned). */
-  secrets?: ActionModuleVersionReferenceSecretsList | undefined;
-  /** Timestamp when the version was created. */
-  created_at?: string | undefined;
-}
-export interface CreateActionModuleResponseContent {
-  /** The unique ID of the module. */
-  id?: string | undefined;
-  /** The name of the module. */
-  name?: string | undefined;
-  /** The source code from the module's draft version. */
-  code?: string | undefined;
-  /** The npm dependencies from the module's draft version. */
-  dependencies?: CreateActionModuleResponseContentDependenciesList | undefined;
-  /** The secrets from the module's draft version (names and timestamps only, values never returned). */
-  secrets?: CreateActionModuleResponseContentSecretsList | undefined;
-  /** The number of deployed actions using this module. */
-  actions_using_module_total?: number | undefined;
-  /** Whether all draft changes have been published as a version. */
-  all_changes_published?: boolean | undefined;
-  /** The version number of the latest published version. Omitted if no versions have been published. */
-  latest_version_number?: number | undefined;
-  /** Timestamp when the module was created. */
-  created_at?: string | undefined;
-  /** Timestamp when the module was last updated. */
-  updated_at?: string | undefined;
-  latest_version?: ActionModuleVersionReference | undefined;
-}
-export interface CreateActionModuleRollbackRequest {
-  /** The unique ID of the module to roll back. */
-  id: string;
-  /** The unique ID of the module version to roll back to. */
-  module_version_id: string;
-}
-/** The npm dependencies from the module's draft version. */
-export type RollbackActionModuleResponseContentDependenciesList = Array<ActionModuleDependency>;
-/** The secrets from the module's draft version (names and timestamps only, values never returned). */
-export type RollbackActionModuleResponseContentSecretsList = Array<ActionModuleSecret>;
-export interface RollbackActionModuleResponseContent {
-  /** The unique ID of the module. */
-  id?: string | undefined;
-  /** The name of the module. */
-  name?: string | undefined;
-  /** The source code from the module's draft version. */
-  code?: string | undefined;
-  /** The npm dependencies from the module's draft version. */
-  dependencies?: RollbackActionModuleResponseContentDependenciesList | undefined;
-  /** The secrets from the module's draft version (names and timestamps only, values never returned). */
-  secrets?: RollbackActionModuleResponseContentSecretsList | undefined;
-  /** The number of deployed actions using this module. */
-  actions_using_module_total?: number | undefined;
-  /** Whether all draft changes have been published as a version. */
-  all_changes_published?: boolean | undefined;
-  /** The version number of the latest published version. Omitted if no versions have been published. */
-  latest_version_number?: number | undefined;
-  /** Timestamp when the module was created. */
-  created_at?: string | undefined;
-  /** Timestamp when the module was last updated. */
-  updated_at?: string | undefined;
-  latest_version?: ActionModuleVersionReference | undefined;
-}
-export interface CreateActionModuleVersionRequest {
-  /** The ID of the action module to create a version for. */
-  id: string;
-}
-/** Secrets available to this version (name and updated_at only, values never returned). */
-export type CreateActionModuleVersionResponseContentSecretsList = Array<ActionModuleSecret>;
-/** Dependencies locked to this version. */
-export type CreateActionModuleVersionResponseContentDependenciesList =
-  Array<ActionModuleDependency>;
-export interface CreateActionModuleVersionResponseContent {
-  /** The unique ID for this version. */
-  id?: string | undefined;
-  /** The ID of the parent module. */
-  module_id?: string | undefined;
-  /** The sequential version number. */
-  version_number?: number | undefined;
-  /** The exact source code that was published with this version. */
-  code?: string | undefined;
-  /** Secrets available to this version (name and updated_at only, values never returned). */
-  secrets?: CreateActionModuleVersionResponseContentSecretsList | undefined;
-  /** Dependencies locked to this version. */
-  dependencies?: CreateActionModuleVersionResponseContentDependenciesList | undefined;
-  /** The timestamp when this version was created. */
-  created_at?: string | undefined;
-}
-/** Arbitrary key-value metadata for the agent */
-export type AgentMetadata = { [key: string]: unknown | undefined };
-export interface CreateAgentRequest {
-  /** The agent name. Cannot contain <, >, or null bytes. */
-  name: string;
-  /** Optional client ID to associate with the agent */
-  client_id?: string | undefined;
-  /** Optional external identifier for the agent. Immutable after creation. Must be unique within the tenant. */
-  external_agent_id?: string | undefined;
-  metadata?: AgentMetadata | undefined;
-}
-export interface AgentResponseContent {
-  /** The agent ID */
-  agent_id: string;
-  /** The agent name */
-  name: string;
-  /** When the agent was created */
-  created_at: string;
-  /** When the agent was last updated */
-  updated_at: string;
-  /** External identifier for the agent, if set. Omitted when not set. */
-  external_agent_id?: string | undefined;
-  metadata: AgentMetadata;
-}
 /** Buttons style */
 export type BrandingThemeBordersButtonsStyleEnum = "pill" | "rounded" | "sharp";
 /** Inputs style */
@@ -1632,123 +1436,6 @@ export interface CreateClientGrantResponseContent {
   /** If enabled, all scopes configured on the resource server are allowed for this grant. */
   allow_all_scopes?: boolean | undefined;
 }
-/** Default refresh token lifetime, in seconds, applied to matched clients. */
-export interface ClientProfileRefreshTokenTokenLifetime {
-  default_value?: number | undefined;
-}
-/** Default idle refresh token lifetime, in seconds, applied to matched clients. */
-export type ClientProfileRefreshTokenIdleTokenLifetime = ClientProfileRefreshTokenTokenLifetime;
-/** Default refresh token rotation leeway, in seconds, applied to matched clients. */
-export type ClientProfileRefreshTokenLeeway = ClientProfileRefreshTokenTokenLifetime;
-/** Refresh token settings. Omit any sub-field to use the client's own value. */
-export interface ClientProfileClientConfigurationRefreshToken {
-  token_lifetime?: ClientProfileRefreshTokenTokenLifetime | undefined;
-  idle_token_lifetime?: ClientProfileRefreshTokenTokenLifetime | undefined;
-  leeway?: ClientProfileRefreshTokenTokenLifetime | undefined;
-}
-/** How matched clients handle organizations. */
-export type ClientProfileClientConfigurationOrganizationUsageEnum = "deny" | "allow" | "require";
-/** Default organization usage applied to matched clients. */
-export interface ClientProfileClientConfigurationOrganizationUsage {
-  default_value?: ClientProfileClientConfigurationOrganizationUsageEnum | (string & {}) | undefined;
-}
-/** When an organization is required, how matched clients prompt for it. */
-export type ClientProfileClientConfigurationOrganizationRequireBehaviorEnum =
-  | "no_prompt"
-  | "pre_login_prompt"
-  | "post_login_prompt";
-/** Default organization prompt behavior applied to matched clients. */
-export interface ClientProfileClientConfigurationOrganizationRequireBehavior {
-  default_value?:
-    | ClientProfileClientConfigurationOrganizationRequireBehaviorEnum
-    | (string & {})
-    | undefined;
-}
-/** A method used to discover a user's organization. */
-export type ClientProfileClientConfigurationOrganizationDiscoveryMethodEnum =
-  | "email"
-  | "organization_name";
-export type ClientProfileClientConfigurationOrganizationDiscoveryMethodsDefaultValueList = Array<
-  ClientProfileClientConfigurationOrganizationDiscoveryMethodEnum | (string & {})
->;
-/** Default organization discovery methods applied to matched clients. */
-export interface ClientProfileClientConfigurationOrganizationDiscoveryMethods {
-  default_value?:
-    | ClientProfileClientConfigurationOrganizationDiscoveryMethodsDefaultValueList
-    | undefined;
-}
-/** Whether matched clients default to requiring proof of possession. */
-export interface ClientProfileClientConfigurationRequireProofOfPossession {
-  default_value?: boolean | undefined;
-}
-/** Optional OIDC scope that matched clients may be granted. */
-export type ClientProfileClientConfigurationOidcSupportAllowedScopesEnum =
-  | "profile"
-  | "email"
-  | "address"
-  | "phone";
-/** Optional OIDC scopes that matched clients may request. */
-export type ClientProfileClientConfigurationOidcSupportDefaultValueAllowedScopesList = Array<
-  ClientProfileClientConfigurationOidcSupportAllowedScopesEnum | (string & {})
->;
-/** OIDC support settings applied to matched clients. */
-export interface ClientProfileClientConfigurationOidcSupportDefaultValue {
-  /** Whether matched clients may use OIDC. */
-  is_allowed: boolean;
-  /** Whether matched clients may request all optional OIDC scopes. Cannot be combined with allowed_scopes. */
-  allow_all_scopes?: boolean | undefined;
-  /** Optional OIDC scopes that matched clients may request. */
-  allowed_scopes?:
-    | ClientProfileClientConfigurationOidcSupportDefaultValueAllowedScopesList
-    | undefined;
-}
-/** Default OIDC support applied to matched clients. */
-export interface ClientProfileClientConfigurationOidcSupport {
-  default_value: ClientProfileClientConfigurationOidcSupportDefaultValue;
-}
-/** Runtime policy applied to matched clients. Omitted fields fall back to each client's own setting. */
-export interface ClientProfileClientConfiguration {
-  refresh_token?: ClientProfileClientConfigurationRefreshToken | undefined;
-  organization_usage?: ClientProfileClientConfigurationOrganizationUsage | undefined;
-  organization_require_behavior?:
-    | ClientProfileClientConfigurationOrganizationRequireBehavior
-    | undefined;
-  organization_discovery_methods?:
-    | ClientProfileClientConfigurationOrganizationDiscoveryMethods
-    | undefined;
-  require_proof_of_possession?:
-    | ClientProfileClientConfigurationRequireProofOfPossession
-    | undefined;
-  oidc_support?: ClientProfileClientConfigurationOidcSupport | undefined;
-}
-/** The client's type of external metadata to match. The value <code>cimd</code> identifies clients registered via a Client ID Metadata Document. */
-export type ClientProfileApplyPolicyExternalMetadataTypeEnum = "cimd";
-/** The external metadata client's creator to match. The value <code>client</code> indicates the client was registered dynamically. */
-export type ClientProfileApplyPolicyExternalMetadataCreatedByEnum = "client";
-/** Runtime matching rules that determine which clients this profile governs. */
-export interface ClientProfileApplyPolicy {
-  external_metadata_type: ClientProfileApplyPolicyExternalMetadataTypeEnum | (string & {});
-  external_metadata_created_by:
-    | ClientProfileApplyPolicyExternalMetadataCreatedByEnum
-    | (string & {});
-}
-export interface CreateClientProfileRequest {
-  name: string;
-  description?: string | null | undefined;
-  client_configuration: ClientProfileClientConfiguration;
-  apply_policy: ClientProfileApplyPolicy;
-}
-export interface ClientProfile {
-  id: string;
-  name: string;
-  description?: string | null | undefined;
-  client_configuration: ClientProfileClientConfiguration;
-  apply_policy: ClientProfileApplyPolicy;
-  /** Timestamp of creation. */
-  created_at?: string | undefined;
-  /** Timestamp of last update. */
-  updated_at?: string | undefined;
-}
 export interface CreateClientsCimdPreviewRequest {
   /** URL to the Client ID Metadata Document */
   external_client_id: string;
@@ -3011,135 +2698,6 @@ export type CreateEventStreamResponseContent =
   | EventStreamEventBridgeResponseContent
   | EventStreamActionResponseContent;
 export type CreateEventStreamResponse = CreateEventStreamResponseContent;
-/** Specifies the target authentication flow for this experiment. Must be one of: authentication, mfa_enrollment, mfa_challenge, password_reset, passkey_enrollment, or all. Note that the all value targets every flow at once, but requires that this is the only active experiment. */
-export type AuthenticationFlowEnum =
-  | "authentication"
-  | "mfa_enrollment"
-  | "mfa_challenge"
-  | "password_reset"
-  | "passkey_enrollment"
-  | "all";
-/** For Auth0-managed flags, where non-overridden config keys resolve from: 'tenant' inherits the tenant's live config, 'flag' uses the flag's frozen defaults. Omitted when unset (defaults to 'tenant' at resolution). Not applicable to customer-defined flags. */
-export type DefaultConfigEnum = "tenant" | "flag";
-export type AllocationStrategyEnum = "percentage" | "segment";
-export interface AllocationRequestItem {
-  /** The ID of the variation to allocate */
-  variation_id: string;
-  /** Percentage weight for this allocation (percentage strategy only) */
-  weight?: number | undefined;
-  /** The segment this allocation targets (segment strategy only) */
-  segment_id?: string | undefined;
-  /** Evaluation order; 1 = highest priority (segment strategy only) */
-  priority?: number | undefined;
-  /** Whether this allocation is the control group */
-  is_control: boolean;
-  /** Whether this allocation is the default fallback (segment strategy only) */
-  is_fallback?: boolean | undefined;
-}
-/** Traffic allocations mapping variations to weights or segments */
-export type CreateExperimentRequestAllocationsList = Array<AllocationRequestItem>;
-/** Ramp experiment levels configuration. A strictly-increasing sequence of exposure percentages, each an integer in [0, 100]. */
-export type CreateExperimentRequestLevelsList = Array<number>;
-export interface CreateExperimentRequest {
-  /** A human-readable name for the experiment */
-  name: string;
-  /** A description of the experiment */
-  description?: string | undefined;
-  /** The ID of the feature flag this experiment is based on */
-  feature_flag_id: string;
-  authentication_flow: AuthenticationFlowEnum | (string & {});
-  /** Applies only to Auth0-managed flags. Controls where non-overridden config keys resolve from: 'tenant' inherits the tenant's live config so the experiment overlays only its changes, 'flag' uses the flag's frozen defaults for a complete config. Optional; defaults to 'tenant' when omitted. Rejected for customer-defined flags. */
-  default_config?: DefaultConfigEnum | (string & {}) | undefined;
-  /** The traffic allocation strategy for this experiment */
-  allocation_strategy: AllocationStrategyEnum | (string & {});
-  /** Traffic allocations mapping variations to weights or segments */
-  allocations?: CreateExperimentRequestAllocationsList | undefined;
-  /** Ramp experiment levels configuration. A strictly-increasing sequence of exposure percentages, each an integer in [0, 100]. */
-  levels?: CreateExperimentRequestLevelsList | undefined;
-}
-/** Filter by status. Exact match. */
-export type ExperimentStatusEnum = "draft" | "active" | "paused" | "completed" | "archived";
-export type CreateExperimentResponseContentFeatureFlagSnapshotMap = {
-  [key: string]: unknown | undefined;
-};
-export type AllocationItemVariationSnapshotMap = { [key: string]: unknown | undefined };
-export type AllocationItemSegmentSnapshotMap = { [key: string]: unknown | undefined };
-export interface AllocationItem {
-  variation_id?: string | undefined;
-  variation_name?: string | undefined;
-  segment_id?: string | undefined;
-  segment_name?: string | undefined;
-  weight?: number | undefined;
-  priority?: number | undefined;
-  is_control?: boolean | undefined;
-  is_fallback?: boolean | undefined;
-  variation_snapshot?: AllocationItemVariationSnapshotMap | null | undefined;
-  segment_snapshot?: AllocationItemSegmentSnapshotMap | null | undefined;
-}
-export type CreateExperimentResponseContentAllocationsList = Array<AllocationItem>;
-/** Fields that may be mutated given the experiment's current status. Computed at response time; always current with the API's enforcement logic. */
-export type CreateExperimentResponseContentEditableFieldsList = Array<string>;
-/** Ramp experiment levels configuration. */
-export type CreateExperimentResponseContentLevelsList = Array<number>;
-export interface CreateExperimentResponseContent {
-  id: string;
-  name: string;
-  description?: string | undefined;
-  feature_flag_id: string;
-  feature_flag_name?: string | undefined;
-  authentication_flow: string;
-  allocation_strategy: AllocationStrategyEnum;
-  status: ExperimentStatusEnum;
-  /** Whether the experiment is valid and ready to activate, as of its last update. It can lag changes made later to related entities. Call POST /experiments/{id}/validate for the current result. */
-  is_valid: boolean;
-  default_config?: DefaultConfigEnum | undefined;
-  feature_flag_snapshot?: CreateExperimentResponseContentFeatureFlagSnapshotMap | null | undefined;
-  allocations: CreateExperimentResponseContentAllocationsList;
-  /** Fields that may be mutated given the experiment's current status. Computed at response time; always current with the API's enforcement logic. */
-  editable_fields: CreateExperimentResponseContentEditableFieldsList;
-  /** Ramp experiment levels configuration. */
-  levels?: CreateExperimentResponseContentLevelsList | undefined;
-  /** Read-only. The active exposure percentage for the current ramp step. Null when no ramp schedule is active. */
-  current_level?: number | null | undefined;
-  started_at?: string | undefined;
-  ended_at?: string | undefined;
-  created_at: string;
-  updated_at: string;
-}
-/** The data type of the parameter value */
-export type FeatureFlagConfigParamTypeEnum = "string" | "boolean" | "number" | "array" | "object";
-export interface FeatureFlagConfigParam {
-  type: FeatureFlagConfigParamTypeEnum | (string & {});
-  /** The parameter value */
-  value: unknown;
-  /** A human-readable description of the parameter */
-  description?: string | undefined;
-}
-/** Configuration parameters for this feature flag */
-export type CreateFeatureFlagParameters = { [key: string]: FeatureFlagConfigParam | undefined };
-export interface CreateFeatureFlagRequest {
-  /** A human-readable name for the feature flag */
-  name: string;
-  /** A description of what this feature flag controls */
-  description?: string | undefined;
-  parameters: CreateFeatureFlagParameters;
-}
-/** Filter by type. Exact match. */
-export type FeatureFlagTypeEnum = "auth0" | "self";
-/** Filter by status. Exact match. */
-export type FeatureFlagStatusEnum = "draft" | "active" | "archived";
-/** Configuration parameters for this feature flag */
-export type FeatureFlagConfigParams = { [key: string]: FeatureFlagConfigParam | undefined };
-export interface CreateFeatureFlagResponseContent {
-  id: string;
-  name: string;
-  description?: string | undefined;
-  type: FeatureFlagTypeEnum;
-  status: FeatureFlagStatusEnum;
-  parameters?: FeatureFlagConfigParams | undefined;
-  created_at: string;
-  updated_at: string;
-}
 export type FlowActionActivecampaignListContactsType = "ACTIVECAMPAIGN";
 export type FlowActionActivecampaignListContactsAction = "LIST_CONTACTS";
 export interface FlowActionActivecampaignListContactsParams {
@@ -5620,28 +5178,6 @@ export interface CreateHookResponseContent {
   script?: string | undefined;
   dependencies?: HookDependencies | undefined;
 }
-/** Signing algorithm used to verify the signature. Currently only HMAC-SHA256 is supported. */
-export type NetworkAclKeyAlgorithmEnum = "hmac-sha256";
-export interface CreateKeysNetworkAclsRequest {
-  /** Customer-supplied label with no cryptographic meaning. Must be unique across all Network ACL keys for the tenant. */
-  name: string;
-  alg: NetworkAclKeyAlgorithmEnum | (string & {});
-  /** Base64-encoded raw key material. Constraints on the decoded value depend on the algorithm specified. Currently only HMAC-SHA256 is supported. */
-  value: string;
-}
-export interface CreateKeysNetworkAclsResponseContent {
-  /** Auth0-generated identifier for the key. Used to reference the key from a Network ACL and to identify it in Tenant Logs. */
-  id: string;
-  /** Customer-supplied label with no cryptographic meaning. */
-  name: string;
-  alg: NetworkAclKeyAlgorithmEnum;
-  /** Fingerprint of the key material, determined by the algorithm specified. Currently only HMAC-SHA256 is supported. */
-  fingerprint: string;
-  /** Time when the key was created. */
-  created_at: string;
-  /** Time when the key was last updated. */
-  updated_at: string;
-}
 export type LogStreamHttpEnum = "http";
 /** Filter type. Currently `category` is the only valid type. */
 export type LogStreamFilterTypeEnum = "category";
@@ -6276,47 +5812,6 @@ export interface CreateOrganizationResponseContent {
   enabled_connections?: CreateOrganizationResponseContentEnabledConnectionsList | undefined;
   [key: string]: unknown;
 }
-export interface CreateOrganizationClientRequestItem {
-  /** The identifier of the client to associate. */
-  client_id: string;
-  /** Whether this client is used for member access to the organization. */
-  use_for_member_access: boolean;
-}
-/** List of clients to associate with the organization. */
-export type CreateOrganizationClientRequestClientsList = Array<CreateOrganizationClientRequestItem>;
-export interface CreateOrganizationClientRequest {
-  /** ID of the organization. */
-  id: string;
-  /** List of clients to associate with the organization. */
-  clients: CreateOrganizationClientRequestClientsList;
-}
-/** The grant types enabled for the client. */
-export type OrganizationClientMetadataGrantTypesList = Array<string>;
-/** Whether organizations may be used with the client. */
-export type OrganizationClientMetadataOrganizationUsageEnum = "deny" | "allow" | "require";
-/** Metadata about the associated client. */
-export interface OrganizationClientMetadata {
-  /** The name of the client. */
-  name?: string | undefined;
-  /** The type of the client application. */
-  app_type?: string | undefined;
-  /** The URI of the client logo. */
-  logo_uri?: string | null | undefined;
-  /** Whether this client is a first-party client (true) or not (false). */
-  is_first_party?: boolean | undefined;
-  /** The grant types enabled for the client. */
-  grant_types?: OrganizationClientMetadataGrantTypesList | undefined;
-  organization_usage?: OrganizationClientMetadataOrganizationUsageEnum | undefined;
-}
-export interface OrganizationClient {
-  /** The identifier of the client associated with the organization. */
-  client_id: string;
-  /** Whether this client is used for member access to the organization. */
-  use_for_member_access: boolean;
-  client: OrganizationClientMetadata;
-}
-export type CreateOrganizationClientsResponseContent = Array<OrganizationClient>;
-export type CreateOrganizationClientResponse = CreateOrganizationClientsResponseContent;
 export interface CreateOrganizationClientGrantsRequest {
   /** Organization identifier. */
   id: string;
@@ -6339,45 +5834,6 @@ export interface AssociateOrganizationClientGrantResponseContent {
   organization_usage?: OrganizationUsageEnum | undefined;
   /** If enabled, any organization can be used with this grant. If disabled (default), the grant must be explicitly assigned to the desired organizations. */
   allow_any_organization?: boolean | undefined;
-}
-/** Access level for the organization (e.g., "none", "full"). */
-export type OrganizationAccessLevelEnum = "none" | "readonly" | "limited" | "full";
-/** Access level for the organization member (e.g., "none", "full"). */
-export type OrganizationMemberAccessLevelEnum = "none" | "readonly" | "limited" | "full";
-export interface CreateOrganizationConnectionRequest {
-  /** Organization identifier. */
-  id: string;
-  /** Name of the connection in the scope of this organization. */
-  organization_connection_name?: string | undefined;
-  /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean | undefined;
-  /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean | undefined;
-  /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean | undefined;
-  organization_access_level?: OrganizationAccessLevelEnum | (string & {}) | undefined;
-  organization_member_access_level?: OrganizationMemberAccessLevelEnum | (string & {}) | undefined;
-  /** Whether the connection is enabled for the organization. */
-  is_enabled?: boolean | undefined;
-  /** Connection identifier. */
-  connection_id: string;
-}
-export interface CreateOrganizationAllConnectionResponseContent {
-  /** Name of the connection in the scope of this organization. */
-  organization_connection_name?: string | undefined;
-  /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean | undefined;
-  /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean | undefined;
-  /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean | undefined;
-  organization_access_level?: OrganizationAccessLevelEnum | undefined;
-  organization_member_access_level?: OrganizationMemberAccessLevelEnum | undefined;
-  /** Whether the connection is enabled for the organization. */
-  is_enabled?: boolean | undefined;
-  /** Connection identifier. */
-  connection_id: string;
-  connection?: OrganizationConnectionInformation | undefined;
 }
 /** Array of role IDs to assign to organization group. */
 export type CreateOrganizationGroupRoleRequestRolesList = Array<string>;
@@ -6483,267 +5939,6 @@ export interface CreatePhoneTemplateResponseContent {
   type: PhoneTemplateNotificationTypeEnum;
   /** Whether the template is enabled (false) or disabled (true). */
   disabled: boolean;
-}
-export interface PortalClientSecretPostRequest {
-  token_endpoint_auth_method: unknown;
-  client_id: string;
-  client_secret: string | Redacted.Redacted<string>;
-}
-export interface SidebarComponentAuth0ExternalLinkConfig {
-  /** Text shown for the link. */
-  label: string;
-  /** External URL to navigate to. */
-  url: string;
-  /** Name of the icon displayed next to the link label. */
-  icon?: string | undefined;
-}
-/** Deprecated. Use "sidebar:component:auth0:external_link:v2" instead. */
-export interface SidebarComponentAuth0ExternalLink {
-  type: string;
-  config: SidebarComponentAuth0ExternalLinkConfig;
-}
-export interface SidebarComponentAuth0InternalLinkConfig {
-  /** Text shown for the link. */
-  label: string;
-  /** Slug of the internal portal page to navigate to. */
-  to: string;
-  /** Name of the icon displayed next to the link label. */
-  icon?: string | undefined;
-}
-/** Deprecated. Use "sidebar:component:auth0:internal_link:v2" instead. */
-export interface SidebarComponentAuth0InternalLink {
-  type: string;
-  config: SidebarComponentAuth0InternalLinkConfig;
-}
-export interface SidebarComponentAuth0ExternalLinkV2Config {
-  /** Text shown for the link. */
-  label: string;
-  /** External URL to navigate to. */
-  href: string;
-  /** Name of the icon displayed next to the link label. */
-  icon?: string | undefined;
-}
-export interface SidebarComponentAuth0ExternalLinkV2 {
-  type: string;
-  config: SidebarComponentAuth0ExternalLinkV2Config;
-}
-export interface SidebarComponentAuth0InternalLinkV2Config {
-  /** Text shown for the link. */
-  label: string;
-  /** Slug of the internal portal page to navigate to. */
-  page_slug: string;
-  /** Name of the icon displayed next to the link label. */
-  icon?: string | undefined;
-}
-export interface SidebarComponentAuth0InternalLinkV2 {
-  type: string;
-  config: SidebarComponentAuth0InternalLinkV2Config;
-}
-export type SidebarComponent =
-  | SidebarComponentAuth0ExternalLink
-  | SidebarComponentAuth0InternalLink
-  | SidebarComponentAuth0ExternalLinkV2
-  | SidebarComponentAuth0InternalLinkV2;
-export type SidebarComponentsList = Array<SidebarComponent>;
-export interface Sidebar {
-  components?: SidebarComponentsList | undefined;
-}
-export interface PortalNavigation {
-  sidebar?: Sidebar | undefined;
-}
-export interface PageComponentAuth0FormConfig {
-  /** The identifier of the form you want to render. */
-  form_id: string;
-  /** Toast message displayed after successful form submission. */
-  completion_message: string;
-}
-export interface PageComponentAuth0Form {
-  type: string;
-  config: PageComponentAuth0FormConfig;
-}
-export interface PageComponentAuth0TypographyHeadingConfig {
-  /** Heading displayed. */
-  title: string;
-  /** Optional description displayed below the title. Supports basic HTML formatting: links, bold, italic, and underline. */
-  description?: string | undefined;
-}
-export interface PageComponentAuth0TypographyHeading {
-  type: string;
-  config: PageComponentAuth0TypographyHeadingConfig;
-}
-/** Horizontal alignment of the image within its container. */
-export type PageComponentAuth0MediaImagePositionEnum = "left" | "center" | "right";
-export interface PageComponentAuth0MediaImageConfig {
-  /** URL of the image to display. */
-  src: string;
-  position?: PageComponentAuth0MediaImagePositionEnum | (string & {}) | undefined;
-  /** Height of the image in pixels. Width scales automatically to preserve aspect ratio. */
-  height?: number | undefined;
-}
-export interface PageComponentAuth0MediaImage {
-  type: string;
-  config: PageComponentAuth0MediaImageConfig;
-}
-export interface PageComponentAuth0TypographyRichTextConfig {
-  /** HTML content to render. Supports headings, bold, italic, underline, links, text alignment, and lists. */
-  content: string;
-}
-export interface PageComponentAuth0TypographyRichText {
-  type: string;
-  config: PageComponentAuth0TypographyRichTextConfig;
-}
-/** Controls the section container style. */
-export type PageComponentAuth0StructureSectionVariantEnum = "card" | "none";
-/** Controls the line style. Defaults to "solid". */
-export type PageComponentAuth0StructureSeparatorVariantEnum = "dashed" | "none" | "solid";
-export interface PageComponentAuth0StructureSeparatorConfig {
-  variant?: PageComponentAuth0StructureSeparatorVariantEnum | (string & {}) | undefined;
-  /** Optional label centered within the separator line (ignored when variant is "none"). */
-  text?: string | undefined;
-}
-export interface PageComponentAuth0StructureSeparator {
-  type: string;
-  config?: PageComponentAuth0StructureSeparatorConfig | undefined;
-}
-export interface PageComponentAuth0MyOrganizationDomainTable {
-  type: string;
-  config?: unknown | undefined;
-}
-export type PageComponentAuth0MyOrganizationMemberManagement =
-  PageComponentAuth0MyOrganizationDomainTable;
-export type PageComponentAuth0MyOrganizationDetailsEdit =
-  PageComponentAuth0MyOrganizationDomainTable;
-export type PageComponentAuth0MyAccountPasskeyManagement =
-  PageComponentAuth0MyOrganizationDomainTable;
-export type PageComponentAuth0MyAccountMfaManagement = PageComponentAuth0MyOrganizationDomainTable;
-export type PageComponentNoChildren =
-  | PageComponentAuth0Form
-  | PageComponentAuth0TypographyHeading
-  | PageComponentAuth0MediaImage
-  | PageComponentAuth0TypographyRichText
-  | PageComponentAuth0StructureSeparator
-  | PageComponentAuth0MyOrganizationDomainTable
-  | PageComponentAuth0MyOrganizationDomainTable
-  | PageComponentAuth0MyOrganizationDomainTable
-  | PageComponentAuth0MyOrganizationDomainTable
-  | PageComponentAuth0MyOrganizationDomainTable;
-/** Components to render inside the section. */
-export type PageComponentAuth0StructureSectionConfigChildrenList = Array<PageComponentNoChildren>;
-export interface PageComponentAuth0StructureSectionConfig {
-  /** Heading displayed at the top of the section. */
-  title?: string | undefined;
-  /** Optional description displayed below the title. */
-  description?: string | undefined;
-  variant: PageComponentAuth0StructureSectionVariantEnum | (string & {});
-  /** Components to render inside the section. */
-  children: PageComponentAuth0StructureSectionConfigChildrenList;
-}
-export interface PageComponentAuth0StructureSection {
-  type: string;
-  config: PageComponentAuth0StructureSectionConfig;
-}
-export type PageComponent =
-  | PageComponentAuth0Form
-  | PageComponentAuth0TypographyHeading
-  | PageComponentAuth0MediaImage
-  | PageComponentAuth0TypographyRichText
-  | PageComponentAuth0StructureSection
-  | PageComponentAuth0StructureSeparator
-  | PageComponentAuth0MyOrganizationDomainTable
-  | PageComponentAuth0MyOrganizationDomainTable
-  | PageComponentAuth0MyOrganizationDomainTable
-  | PageComponentAuth0MyOrganizationDomainTable
-  | PageComponentAuth0MyOrganizationDomainTable;
-export type PortalPageComponentsList = Array<PageComponent>;
-export interface PortalPage {
-  title: string;
-  slug: string;
-  components?: PortalPageComponentsList | undefined;
-}
-export type PortalPagesByTypeStandardList = Array<PortalPage>;
-export interface PortalPagesByType {
-  default?: string | undefined;
-  standard?: PortalPagesByTypeStandardList | undefined;
-}
-export interface PortalCustomCode {
-  /** Custom code injected into the <head> of the portal. Only injected when the portal is accessed via a custom domain; it is not injected on canonical domains. */
-  head?: string | undefined;
-}
-export interface CreatePortalRequest {
-  slug: string;
-  name: string;
-  client: PortalClientSecretPostRequest;
-  navigation?: PortalNavigation | undefined;
-  pages?: PortalPagesByType | undefined;
-  custom_code?: PortalCustomCode | undefined;
-}
-export interface PortalClientSecretPost {
-  token_endpoint_auth_method: unknown;
-  client_id: string;
-}
-export interface Portal {
-  id: string;
-  name: string;
-  navigation?: PortalNavigation | undefined;
-  pages?: PortalPagesByType | undefined;
-  slug: string;
-  client?: PortalClientSecretPost | undefined;
-  custom_code?: PortalCustomCode | undefined;
-  created_at: string;
-  updated_at: string;
-}
-/** The API protected by the Rate Limit Policy. */
-export type RateLimitPolicyResourceEnum = "oauth_authentication_api";
-/** The consumer to which the rate limit policy applies. */
-export type RateLimitPolicyConsumerEnum = "client";
-/** Determines the action to take when the rate limit is exceeded. */
-export type RateLimitPolicyConfigurationCase0Action = "allow";
-export interface RateLimitPolicyConfigurationCase0 {
-  /** Determines the action to take when the rate limit is exceeded. */
-  action: RateLimitPolicyConfigurationCase0Action;
-}
-/** Determines the action to take when the rate limit is exceeded. */
-export type RateLimitPolicyConfigurationCase1Action = "block" | "log";
-export interface RateLimitPolicyConfigurationCase1 {
-  /** Determines the action to take when the rate limit is exceeded. */
-  action: RateLimitPolicyConfigurationCase1Action | (string & {});
-  /** The maximum number of requests allowed per second. */
-  limit: number;
-}
-/** Determines the action to take when the rate limit is exceeded. */
-export type RateLimitPolicyConfigurationCase2Action = "redirect";
-export interface RateLimitPolicyConfigurationCase2 {
-  /** Determines the action to take when the rate limit is exceeded. */
-  action: RateLimitPolicyConfigurationCase2Action;
-  /** The maximum number of requests allowed per second. */
-  limit: number;
-  /** The HTTPS URI to redirect to when the rate limit is exceeded. */
-  redirect_uri: string;
-}
-/** The configuration of the rate limit policy. */
-export type RateLimitPolicyConfiguration =
-  | RateLimitPolicyConfigurationCase0
-  | RateLimitPolicyConfigurationCase1
-  | RateLimitPolicyConfigurationCase2;
-export interface CreateRateLimitPolicyRequest {
-  resource: RateLimitPolicyResourceEnum | (string & {});
-  consumer: RateLimitPolicyConsumerEnum | (string & {});
-  /** Identifier or category within the consumer to which the policy applies. Supported values: `client_id:<client_id>` to target a specific client by ID, `client_id:<cimd_uri>` to target a CIMD client by URI, `cimd_clients` to target all CIMD clients, `third_party_clients` to target all third-party clients, or `default` to apply the policy to any consumer identifier not otherwise explicitly targeted. */
-  consumer_selector: string;
-  configuration: RateLimitPolicyConfiguration;
-}
-export interface CreateRateLimitPolicyResponseContent {
-  /** Unique identifier for the Rate Limit Policy. */
-  id: string;
-  resource: RateLimitPolicyResourceEnum;
-  consumer: RateLimitPolicyConsumerEnum;
-  /** Identifier or category within the consumer to which the policy applies. Supported values: `client_id:<client_id>` to target a specific client by ID, `client_id:<cimd_uri>` to target a CIMD client by URI, `cimd_clients` to target all CIMD clients, `third_party_clients` to target all third-party clients, or `default` to apply the policy to any consumer identifier not otherwise explicitly targeted. */
-  consumer_selector: string;
-  configuration: RateLimitPolicyConfiguration;
-  /** The date and time when the rate limit policy was created. */
-  created_at?: string | undefined;
-  /** The date and time when the rate limit policy was last updated. */
-  updated_at?: string | undefined;
 }
 export interface ResourceServerScope {
   /** Value of this scope. */
@@ -7017,73 +6212,6 @@ export interface CreateRuleResponseContent {
   order?: number | undefined;
   /** Execution stage of this rule. Can be `login_success`, `login_failure`, or `pre_authorize`. */
   stage?: string | undefined;
-}
-export type SegmentMatchExpressionCase0List = Array<string>;
-export type SegmentContainsExpressionContainsList = Array<string>;
-export interface SegmentContainsExpression {
-  contains: SegmentContainsExpressionContainsList;
-}
-export type SegmentStartsWithExpressionStartsWithList = Array<string>;
-export interface SegmentStartsWithExpression {
-  starts_with: SegmentStartsWithExpressionStartsWithList;
-}
-export type SegmentEndsWithExpressionEndsWithList = Array<string>;
-export interface SegmentEndsWithExpression {
-  ends_with: SegmentEndsWithExpressionEndsWithList;
-}
-export interface SegmentExistsExpression {
-  exists: boolean;
-}
-export type SegmentMatchExpression =
-  | SegmentMatchExpressionCase0List
-  | SegmentContainsExpression
-  | SegmentStartsWithExpression
-  | SegmentEndsWithExpression
-  | SegmentExistsExpression;
-/** Attribute conditions that must match. */
-export interface SegmentMatchConditions {
-  client_id?: SegmentMatchExpression | undefined;
-  connection?: SegmentMatchExpression | undefined;
-  connection_type?: SegmentMatchExpression | undefined;
-  organization_id?: SegmentMatchExpression | undefined;
-  domain?: SegmentMatchExpression | undefined;
-  device_type?: SegmentMatchExpression | undefined;
-  browser?: SegmentMatchExpression | undefined;
-  platform?: SegmentMatchExpression | undefined;
-  user_agent?: SegmentMatchExpression | undefined;
-  country?: SegmentMatchExpression | undefined;
-  region?: SegmentMatchExpression | undefined;
-  [key: string]: unknown;
-}
-/** Attribute conditions that must not match. */
-export type SegmentNotMatchConditions = SegmentMatchConditions;
-export interface SegmentRule {
-  match?: SegmentMatchConditions | undefined;
-  not_match?: SegmentMatchConditions | undefined;
-}
-/** An ordered list of rules. A segment matches if any rule matches. Each rule is limited to 4KB and the whole segment to 10KB (serialized). */
-export type CreateSegmentRequestRulesList = Array<SegmentRule>;
-export interface CreateSegmentRequest {
-  /** A human-readable name for the segment */
-  name: string;
-  /** A description of the segment */
-  description?: string | undefined;
-  /** An ordered list of rules. A segment matches if any rule matches. Each rule is limited to 4KB and the whole segment to 10KB (serialized). */
-  rules: CreateSegmentRequestRulesList;
-}
-export type SegmentTypeEnum = "self" | "auth0";
-/** Filter by status. Exact match. */
-export type SegmentStatusEnum = "active" | "archived";
-export type CreateSegmentResponseContentRulesList = Array<SegmentRule>;
-export interface CreateSegmentResponseContent {
-  id: string;
-  name: string;
-  description?: string | undefined;
-  type: SegmentTypeEnum;
-  status: SegmentStatusEnum;
-  rules: CreateSegmentResponseContentRulesList;
-  created_at: string;
-  updated_at: string;
 }
 export interface SelfServiceProfileBrandingColors {
   primary: string;
@@ -7371,95 +6499,6 @@ export interface CreateUserResponseContent {
   family_name?: string | undefined;
   [key: string]: unknown;
 }
-/** OIDC mapping for user ID */
-export type UserAttributeProfileUserIdOidcMappingEnum = "sub";
-/** SAML mapping for user ID */
-export type UserAttributeProfileUserIdSamlMapping = Array<string>;
-/** OIDC mapping override for this strategy */
-export type UserAttributeProfileUserIdOidcStrategyOverrideMapping = "sub" | "oid" | "email";
-/** SAML mapping override for this strategy */
-export type UserAttributeProfileSamlMapping = Array<string>;
-export interface UserAttributeProfileStrategyOverridesUserIdMapping {
-  oidc_mapping?: UserAttributeProfileUserIdOidcStrategyOverrideMapping | (string & {}) | undefined;
-  saml_mapping?: UserAttributeProfileSamlMapping | undefined;
-  /** SCIM mapping override for this strategy */
-  scim_mapping?: string | undefined;
-}
-/** Strategy-specific overrides for user ID */
-export interface UserAttributeProfileStrategyOverridesUserId {
-  pingfederate?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
-  ad?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
-  adfs?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
-  waad?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
-  google_apps?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
-  okta?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
-  oidc?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
-  samlp?: UserAttributeProfileStrategyOverridesUserIdMapping | undefined;
-}
-/** User ID mapping configuration */
-export interface UserAttributeProfileUserId {
-  oidc_mapping?: UserAttributeProfileUserIdOidcMappingEnum | (string & {}) | undefined;
-  saml_mapping?: UserAttributeProfileUserIdSamlMapping | undefined;
-  /** SCIM mapping for user ID */
-  scim_mapping?: string | undefined;
-  strategy_overrides?: UserAttributeProfileStrategyOverridesUserId | undefined;
-}
-/** OIDC mapping for this attribute */
-export interface UserAttributeProfileOidcMapping {
-  /** OIDC mapping field */
-  mapping: string;
-  /** Display name for the OIDC mapping */
-  display_name?: string | undefined;
-}
-export interface UserAttributeProfileStrategyOverridesMapping {
-  /** OIDC mapping override for this strategy */
-  oidc_mapping?: UserAttributeProfileOidcMapping | undefined;
-  saml_mapping?: UserAttributeProfileSamlMapping | undefined;
-  /** SCIM mapping override for this strategy */
-  scim_mapping?: string | undefined;
-}
-/** Strategy-specific overrides for this attribute */
-export interface UserAttributeProfileStrategyOverrides {
-  pingfederate?: UserAttributeProfileStrategyOverridesMapping | undefined;
-  ad?: UserAttributeProfileStrategyOverridesMapping | undefined;
-  adfs?: UserAttributeProfileStrategyOverridesMapping | undefined;
-  waad?: UserAttributeProfileStrategyOverridesMapping | undefined;
-  google_apps?: UserAttributeProfileStrategyOverridesMapping | undefined;
-  okta?: UserAttributeProfileStrategyOverridesMapping | undefined;
-  oidc?: UserAttributeProfileStrategyOverridesMapping | undefined;
-  samlp?: UserAttributeProfileStrategyOverridesMapping | undefined;
-}
-export interface UserAttributeProfileUserAttributeAdditionalProperties {
-  /** Description of this attribute */
-  description: string;
-  /** Display label for this attribute */
-  label: string;
-  /** Whether this attribute is required in the profile */
-  profile_required: boolean;
-  /** Auth0 mapping for this attribute */
-  auth0_mapping: string;
-  oidc_mapping?: UserAttributeProfileOidcMapping | undefined;
-  /** SAML mapping for this attribute */
-  saml_mapping?: UserAttributeProfileSamlMapping | undefined;
-  /** SCIM mapping for this attribute */
-  scim_mapping?: string | undefined;
-  strategy_overrides?: UserAttributeProfileStrategyOverrides | undefined;
-}
-/** User attributes configuration map. Keys are attribute names, values are the mapping configuration for each attribute. */
-export type UserAttributeProfileUserAttributes = {
-  [key: string]: UserAttributeProfileUserAttributeAdditionalProperties | undefined;
-};
-export interface CreateUserAttributeProfileRequest {
-  name: string;
-  user_id?: UserAttributeProfileUserId | undefined;
-  user_attributes: UserAttributeProfileUserAttributes;
-}
-export interface CreateUserAttributeProfileResponseContent {
-  id?: string | undefined;
-  name?: string | undefined;
-  user_id?: UserAttributeProfileUserId | undefined;
-  user_attributes?: UserAttributeProfileUserAttributes | undefined;
-}
 /** List of roles IDs to associated with the user. */
 export type CreateUserRoleRequestRolesList = Array<string>;
 export interface CreateUserRoleRequest {
@@ -7469,27 +6508,6 @@ export interface CreateUserRoleRequest {
   roles: CreateUserRoleRequestRolesList;
 }
 export interface CreateUserRoleResponse {}
-/** Configuration overrides for this variation */
-export type VariationOverridesMap = { [key: string]: unknown | undefined };
-export interface CreateVariationRequest {
-  /** The ID of the parent feature flag. */
-  id: string;
-  /** A human-readable name for the variation */
-  name: string;
-  /** A description of what this variation controls */
-  description?: string | undefined;
-  /** Configuration overrides for this variation; keys must exist in the parent flag parameters. Empty {} is the baseline (control) variation that overrides nothing. */
-  overrides: VariationOverridesMap;
-}
-export interface CreateVariationResponseContent {
-  id: string;
-  feature_flag_id: string;
-  name: string;
-  description?: string | undefined;
-  overrides: VariationOverridesMap;
-  created_at: string;
-  updated_at: string;
-}
 export interface DeleteActionRequest {
   /** The ID of the action to delete. */
   id: string;
@@ -7497,16 +6515,6 @@ export interface DeleteActionRequest {
   force?: boolean | undefined;
 }
 export interface DeleteActionResponse {}
-export interface DeleteActionModuleRequest {
-  /** The ID of the Actions Module to delete. */
-  id: string;
-}
-export interface DeleteActionModuleResponse {}
-export interface DeleteAgentRequest {
-  /** The agent ID */
-  id: string;
-}
-export interface DeleteAgentResponse {}
 export interface DeleteAuthenticationMethodsRequest {
   /** The ID of the user in question. */
   id: string;
@@ -7546,11 +6554,6 @@ export interface DeleteClientGrantsByGrantIdRequest {
   grant_id: string;
 }
 export interface DeleteClientGrantsByGrantIdResponse {}
-export interface DeleteClientProfileRequest {
-  /** ID of the client profile. */
-  id: string;
-}
-export interface DeleteClientProfileResponse {}
 export interface DeleteConnectionRequest {
   /** The id of the connection to delete */
   id: string;
@@ -7614,16 +6617,6 @@ export interface DeleteEventStreamRequest {
   id: string;
 }
 export interface DeleteEventStreamResponse {}
-export interface DeleteExperimentRequest {
-  /** The ID of the experiment to delete. */
-  id: string;
-}
-export interface DeleteExperimentResponse {}
-export interface DeleteFeatureFlagRequest {
-  /** The ID of the feature flag to delete. */
-  id: string;
-}
-export interface DeleteFeatureFlagResponse {}
 export interface DeleteFlowRequest {
   /** Flow id */
   id: string;
@@ -7687,11 +6680,6 @@ export interface DeleteIpsByIdRequest {
   id: string;
 }
 export interface DeleteIpsByIdResponse {}
-export interface DeleteKeysNetworkAclsRequest {
-  /** ID of the Network ACL Key to delete. */
-  id: string;
-}
-export interface DeleteKeysNetworkAclsResponse {}
 export interface DeleteLogStreamRequest {
   /** The id of the log stream to delete */
   id: string;
@@ -7725,22 +6713,6 @@ export interface DeleteOrganizationRequest {
   id: string;
 }
 export interface DeleteOrganizationResponse {}
-/** List of client IDs to disassociate from the organization. */
-export type DeleteOrganizationClientsRequestClientsList = Array<string>;
-export interface DeleteOrganizationClientsRequest {
-  /** ID of the organization. */
-  id: string;
-  /** List of client IDs to disassociate from the organization. */
-  clients: DeleteOrganizationClientsRequestClientsList;
-}
-export interface DeleteOrganizationClientsResponse {}
-export interface DeleteOrganizationConnectionRequest {
-  /** Organization identifier. */
-  id: string;
-  /** Connection identifier. */
-  connection_id: string;
-}
-export interface DeleteOrganizationConnectionResponse {}
 /** Array of role IDs to delete from organization group. */
 export type DeleteOrganizationGroupRolesRequestRolesList = Array<string>;
 export interface DeleteOrganizationGroupRolesRequest {
@@ -7786,17 +6758,8 @@ export interface DeletePhoneTemplateRequest {
   id: string;
 }
 export interface DeletePhoneTemplateResponse {}
-export interface DeletePortalRequest {
-  id: string;
-}
-export interface DeletePortalResponse {}
 export interface DeleteProviderRequest {}
 export interface DeleteProviderResponse {}
-export interface DeleteRateLimitPolicyRequest {
-  /** Unique identifier for the Rate Limit Policy. */
-  id: string;
-}
-export interface DeleteRateLimitPolicyResponse {}
 export interface DeleteRefreshTokenRequest {
   /** ID of the refresh token to delete. */
   id: string;
@@ -7858,11 +6821,6 @@ export interface DeleteSecretsRequest {
   body?: DeleteHookSecretRequestContent | undefined;
 }
 export interface DeleteSecretsResponse {}
-export interface DeleteSegmentRequest {
-  /** The ID of the segment to delete. */
-  id: string;
-}
-export interface DeleteSegmentResponse {}
 export interface DeleteSelfServiceProfileRequest {
   /** The id of the self-service profile to delete */
   id: string;
@@ -7910,11 +6868,6 @@ export interface DeleteUserRequest {
   id: string;
 }
 export interface DeleteUserResponse {}
-export interface DeleteUserAttributeProfileRequest {
-  /** ID of the user-attribute-profile to delete. */
-  id: string;
-}
-export interface DeleteUserAttributeProfileResponse {}
 export interface DeleteUserBlockRequest {
   /** The user_id of the user to update. */
   id: string;
@@ -7925,13 +6878,6 @@ export interface DeleteUserBlocksRequest {
   identifier: string;
 }
 export interface DeleteUserBlocksResponse {}
-export interface DeleteUserConsentSigningKeyRequest {
-  /** The ID of the user. */
-  id: string;
-  /** The key identifier of the consent signing key. */
-  kid: string;
-}
-export interface DeleteUserConsentSigningKeyResponse {}
 /** The type of identity provider */
 export type DeleteUserIdentityRequestProvider =
   | "ad"
@@ -8033,13 +6979,6 @@ export interface DeleteUsersByEmailRequest {
   email: string;
 }
 export interface DeleteUsersByEmailResponse {}
-export interface DeleteVariationRequest {
-  /** The ID of the parent feature flag. */
-  id: string;
-  /** The ID of the variation to delete. */
-  vid: string;
-}
-export interface DeleteVariationResponse {}
 export interface DeleteVcTemplatesByIdRequest {
   /** ID of the template to retrieve. */
   id: string;
@@ -8326,181 +7265,6 @@ export interface GetActionResponseContent {
   /** The list of action modules and their versions used by this action. */
   modules?: GetActionResponseContentModulesList | undefined;
 }
-export interface GetActionModuleRequest {
-  /** The ID of the action module to retrieve. */
-  id: string;
-}
-/** The npm dependencies from the module's draft version. */
-export type GetActionModuleResponseContentDependenciesList = Array<ActionModuleDependency>;
-/** The secrets from the module's draft version (names and timestamps only, values never returned). */
-export type GetActionModuleResponseContentSecretsList = Array<ActionModuleSecret>;
-export interface GetActionModuleResponseContent {
-  /** The unique ID of the module. */
-  id?: string | undefined;
-  /** The name of the module. */
-  name?: string | undefined;
-  /** The source code from the module's draft version. */
-  code?: string | undefined;
-  /** The npm dependencies from the module's draft version. */
-  dependencies?: GetActionModuleResponseContentDependenciesList | undefined;
-  /** The secrets from the module's draft version (names and timestamps only, values never returned). */
-  secrets?: GetActionModuleResponseContentSecretsList | undefined;
-  /** The number of deployed actions using this module. */
-  actions_using_module_total?: number | undefined;
-  /** Whether all draft changes have been published as a version. */
-  all_changes_published?: boolean | undefined;
-  /** The version number of the latest published version. Omitted if no versions have been published. */
-  latest_version_number?: number | undefined;
-  /** Timestamp when the module was created. */
-  created_at?: string | undefined;
-  /** Timestamp when the module was last updated. */
-  updated_at?: string | undefined;
-  latest_version?: ActionModuleVersionReference | undefined;
-}
-export interface GetActionModuleActionsRequest {
-  /** The unique ID of the module. */
-  id: string;
-  /** Page index of the results to return. First page is 0. */
-  page?: number | undefined;
-  /** Number of results per page. */
-  per_page?: number | undefined;
-}
-/** The triggers that this action supports. */
-export type ActionModuleActionSupportedTriggersList = Array<ActionTrigger>;
-export interface ActionModuleAction {
-  /** The unique ID of the action. */
-  action_id?: string | undefined;
-  /** The name of the action. */
-  action_name?: string | undefined;
-  /** The ID of the module version this action is using. */
-  module_version_id?: string | undefined;
-  /** The version number of the module this action is using. */
-  module_version_number?: number | undefined;
-  /** The triggers that this action supports. */
-  supported_triggers?: ActionModuleActionSupportedTriggersList | undefined;
-}
-/** A list of action references. */
-export type GetActionModuleActionsResponseContentActionsList = Array<ActionModuleAction>;
-export interface GetActionModuleActionsResponseContent {
-  /** A list of action references. */
-  actions?: GetActionModuleActionsResponseContentActionsList | undefined;
-  /** The total number of actions using this module. */
-  total?: number | undefined;
-  /** The page index of the returned results. */
-  page?: number | undefined;
-  /** The number of results requested per page. */
-  per_page?: number | undefined;
-}
-export interface GetActionModulesRequest {
-  /** Page index of the results to return. First page is 0. */
-  page?: number | undefined;
-  /** Number of results per page. Paging is disabled if parameter not sent. */
-  per_page?: number | undefined;
-}
-/** The npm dependencies from the module's draft version. */
-export type ActionModuleListItemDependenciesList = Array<ActionModuleDependency>;
-/** The secrets from the module's draft version (names and timestamps only, values never returned). */
-export type ActionModuleListItemSecretsList = Array<ActionModuleSecret>;
-export interface ActionModuleListItem {
-  /** The unique ID of the module. */
-  id?: string | undefined;
-  /** The name of the module. */
-  name?: string | undefined;
-  /** The source code from the module's draft version. */
-  code?: string | undefined;
-  /** The npm dependencies from the module's draft version. */
-  dependencies?: ActionModuleListItemDependenciesList | undefined;
-  /** The secrets from the module's draft version (names and timestamps only, values never returned). */
-  secrets?: ActionModuleListItemSecretsList | undefined;
-  /** The number of deployed actions using this module. */
-  actions_using_module_total?: number | undefined;
-  /** Whether all draft changes have been published as a version. */
-  all_changes_published?: boolean | undefined;
-  /** The version number of the latest published version. Omitted if no versions have been published. */
-  latest_version_number?: number | undefined;
-  /** Timestamp when the module was created. */
-  created_at?: string | undefined;
-  /** Timestamp when the module was last updated. */
-  updated_at?: string | undefined;
-}
-/** A list of ActionsModule objects. */
-export type GetActionModulesResponseContentModulesList = Array<ActionModuleListItem>;
-export interface GetActionModulesResponseContent {
-  /** A list of ActionsModule objects. */
-  modules?: GetActionModulesResponseContentModulesList | undefined;
-  /** The total number of modules in the tenant. */
-  total?: number | undefined;
-  /** The page index of the returned results. */
-  page?: number | undefined;
-  /** The number of results requested per page. */
-  per_page?: number | undefined;
-}
-export interface GetActionModuleVersionRequest {
-  /** The unique ID of the module. */
-  id: string;
-  /** The unique ID of the module version to retrieve. */
-  versionId: string;
-}
-/** Secrets available to this version (name and updated_at only, values never returned). */
-export type GetActionModuleVersionResponseContentSecretsList = Array<ActionModuleSecret>;
-/** Dependencies locked to this version. */
-export type GetActionModuleVersionResponseContentDependenciesList = Array<ActionModuleDependency>;
-export interface GetActionModuleVersionResponseContent {
-  /** The unique ID for this version. */
-  id?: string | undefined;
-  /** The ID of the parent module. */
-  module_id?: string | undefined;
-  /** The sequential version number. */
-  version_number?: number | undefined;
-  /** The exact source code that was published with this version. */
-  code?: string | undefined;
-  /** Secrets available to this version (name and updated_at only, values never returned). */
-  secrets?: GetActionModuleVersionResponseContentSecretsList | undefined;
-  /** Dependencies locked to this version. */
-  dependencies?: GetActionModuleVersionResponseContentDependenciesList | undefined;
-  /** The timestamp when this version was created. */
-  created_at?: string | undefined;
-}
-export interface GetActionModuleVersionsRequest {
-  /** The unique ID of the module. */
-  id: string;
-  /** Use this field to request a specific page of the list results. */
-  page?: number | undefined;
-  /** The maximum number of results to be returned by the server in a single response. 20 by default. */
-  per_page?: number | undefined;
-}
-/** Secrets available to this version (name and updated_at only, values never returned). */
-export type ActionModuleVersionSecretsList = Array<ActionModuleSecret>;
-/** Dependencies locked to this version. */
-export type ActionModuleVersionDependenciesList = Array<ActionModuleDependency>;
-export interface ActionModuleVersion {
-  /** The unique ID for this version. */
-  id?: string | undefined;
-  /** The ID of the parent module. */
-  module_id?: string | undefined;
-  /** The sequential version number. */
-  version_number?: number | undefined;
-  /** The exact source code that was published with this version. */
-  code?: string | undefined;
-  /** Secrets available to this version (name and updated_at only, values never returned). */
-  secrets?: ActionModuleVersionSecretsList | undefined;
-  /** Dependencies locked to this version. */
-  dependencies?: ActionModuleVersionDependenciesList | undefined;
-  /** The timestamp when this version was created. */
-  created_at?: string | undefined;
-}
-/** A list of ActionsModuleVersion objects. */
-export type GetActionModuleVersionsResponseContentVersionsList = Array<ActionModuleVersion>;
-export interface GetActionModuleVersionsResponseContent {
-  /** A list of ActionsModuleVersion objects. */
-  versions?: GetActionModuleVersionsResponseContentVersionsList | undefined;
-  /** The total number of versions for this module. */
-  total?: number | undefined;
-  /** The page index of the returned results. */
-  page?: number | undefined;
-  /** The number of results requested per page. */
-  per_page?: number | undefined;
-}
 export interface GetActionsRequest {
   /** An actions extensibility point. */
   triggerId?: ActionTriggerTypeEnum | (string & {}) | undefined;
@@ -8678,42 +7442,6 @@ export interface ListActionVersionsPaginatedResponseContent {
 }
 export interface GetActiveUsersRequest {}
 export type GetActiveUsersResponse = number;
-export interface GetAgentRequest {
-  /** The agent ID */
-  id: string;
-}
-export interface GetAgentsRequest {
-  /** Optional Id from which to start selection. */
-  from?: string | undefined;
-  /** Number of results per page. Defaults to 50. */
-  take?: number | undefined;
-}
-export type ListAgentsResponseContentAgentsList = Array<AgentResponseContent>;
-export interface ListAgentsResponseContent {
-  agents: ListAgentsResponseContentAgentsList;
-  /** A cursor to be used as the "from" query parameter for the next page of results. Omitted when there are no further results. */
-  next?: string | undefined;
-}
-export interface GetAllKeysNetworkAclsRequest {}
-export interface NetworkAclKey {
-  /** Generated identifier for the key. Used to reference the key from a Network ACL and to identify it in Tenant Logs. */
-  id: string;
-  /** User supplied label for the key. */
-  name: string;
-  alg: NetworkAclKeyAlgorithmEnum;
-  /** Fingerprint of the key material, determined by the algorithm specified. Currently only HMAC-SHA256 is supported. */
-  fingerprint: string;
-  /** Time when the key was created. */
-  created_at: string;
-  /** Time when the key was last updated. */
-  updated_at: string;
-}
-/** The tenant's Network ACL Keys. */
-export type GetAllKeysNetworkAclsResponseContentKeysList = Array<NetworkAclKey>;
-export interface GetAllKeysNetworkAclsResponseContent {
-  /** The tenant's Network ACL Keys. */
-  keys: GetAllKeysNetworkAclsResponseContentKeysList;
-}
 /** Rendering mode to filter by */
 export type AculRenderingModeEnum = "advanced" | "standard";
 export interface GetAllRenderingRequest {
@@ -9684,51 +8412,6 @@ export type ListClientGrantResponseContent =
   | ListClientGrantOffsetPaginatedResponseContent
   | ListClientGrantPaginatedResponseContent;
 export type GetClientGrantsResponse = ListClientGrantResponseContent;
-/** Query parser to use for the filter expression. Use "scim" for SCIM filter syntax or "lucene" for Lucene query syntax (default). */
-export type SearchParserEnum = "scim" | "lucene";
-/** Field name to sort results by in ascending order. Defaults to insertion order (oldest first) if not provided. */
-export type ClientGrantSortFieldEnum = "audience" | "updated_at";
-export interface GetClientGrantsSearchRequest {
-  /** Filter expression in SCIM or Lucene syntax (depending on parser parameter). SCIM examples: `audience eq "https://api.example.com"`, `client_id eq "cli_abc"`, `subject_type eq "client"`, `allow_any_organization eq true`, `default_for eq "third_party_clients"`, `audience co "example" and organization_id eq "org_123"`. SCIM operators: eq, ne, sw, ew, co, pr, gt, ge, lt, le, and, or. <br /><br /><b>Supported Fields</b>:<ul><li><i>audience</i> - Filter by audience (eq, ne, sw, co, ew, pr)</li><li><i>client_id</i> - Filter by client ID (eq, ne, sw, pr)</li><li><i>subject_type</i> - Filter by subject type (eq, ne, sw, pr)</li><li><i>allow_any_organization</i> - Filter by allow_any_organization (eq, ne, pr)</li><li><i>organization_id</i> - Filter by organization ID (eq, ne, sw, pr)</li><li><i>updated_at</i> - Filter by last update date (eq, ne, gt, ge, lt, le, pr)</li><li><i>default_for</i> - Filter by default grant group (eq, ne, sw, pr)</li></ul>Maximum 5 filter operations per query. Results are eventually consistent and may not reflect recent updates. */
-  q?: string | undefined;
-  /** Query parser to use for the filter expression. Use "scim" for SCIM filter syntax or "lucene" for Lucene query syntax (default). */
-  parser?: SearchParserEnum | (string & {}) | undefined;
-  /** Comma-separated list of fields to include or exclude in the response. Works with the include_fields parameter to control projection mode. */
-  fields?: string | undefined;
-  /** Controls field projection mode. Set to true to include only fields specified in the fields parameter. Set to false to exclude fields specified in the fields parameter. Defaults to true if not specified. */
-  include_fields?: boolean | undefined;
-  /** Maximum number of results to return per page (1-100). Defaults to 50. */
-  take?: number | undefined;
-  /** Cursor for the next page of results. Use the value from the next field in the previous response. */
-  from?: string | undefined;
-  /** Field name to sort results by in ascending order. Defaults to insertion order (oldest first) if not provided. */
-  sort?: ClientGrantSortFieldEnum | (string & {}) | undefined;
-}
-/** Array of client grant objects matching the search criteria. */
-export type SearchClientGrantsResponseContentClientGrantsList = Array<ClientGrantResponseContent>;
-export interface SearchClientGrantsResponseContent {
-  /** Array of client grant objects matching the search criteria. */
-  client_grants: SearchClientGrantsResponseContentClientGrantsList;
-  /** Cursor for retrieving the next page of results. Omitted if there are no more results. */
-  next?: string | undefined;
-}
-export interface GetClientProfileRequest {
-  /** ID of the client profile. */
-  id: string;
-}
-export interface GetClientProfilesRequest {
-  /** Optional Id from which to start selection. */
-  from?: string | undefined;
-  /** Number of results per page. Defaults to 50. */
-  take?: number | undefined;
-}
-export type ListClientProfilesPaginatedResponseContentClientProfilesList = Array<ClientProfile>;
-/** Checkpoint paginated list of client profiles. */
-export interface ListClientProfilesPaginatedResponseContent {
-  /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string | undefined;
-  client_profiles: ListClientProfilesPaginatedResponseContentClientProfilesList;
-}
 export interface GetClientsRequest {
   /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
   fields?: string | undefined;
@@ -9908,160 +8591,6 @@ export type GetClientsResponseBody =
   | ListClientsOffsetPaginatedResponseContent
   | ListClientsPaginatedResponseContent;
 export type GetClientsResponse = GetClientsResponseBody;
-/** Field name to sort results by in ascending order. Defaults to insertion order (oldest first) if not provided. */
-export type ClientSortFieldEnum = "name" | "updated_at";
-export interface GetClientsSearchRequest {
-  /** Filter expression in SCIM or Lucene syntax (depending on parser parameter). SCIM examples: `name eq "Auth0"`, `name sw "auth" and app_type eq "spa"`. SCIM operators: eq, ne, sw, ew, co, pr, gt, ge, lt, le, and, or. <br /><br /><b>Supported Fields</b>:<br /><ul><li><i>client_id</i> - Auth0 client ID (case-sensitive, exact match)</li><li><i>external_client_id</i> - URL of the Client ID Metadata Document (CIMD); case-sensitive, exact match</li><li><i>name</i> - Client name (supports contains, starts-with, ends-with operators; sortable)</li><li><i>app_type</i> - Application type (e.g. "spa", "native", "non_interactive")</li><li><i>is_first_party</i> - Whether the client is first-party (boolean)</li><li><i>updated_at</i> - Last update timestamp (supports date range operators; sortable)</li><li><i>metadata.{key}</i> - Filter by client metadata key-value pairs (max 2-level key depth, values indexed up to 64 characters)</li><li><i>client_grant.organization_id</i> - Filter by associated organization ID</li><li><i>client_grant.allow_any_organization</i> - Filter by allow any organization setting</li></ul>Maximum 5 filter operations per query. Results are eventually consistent and may not reflect recent updates. */
-  q?: string | undefined;
-  /** Query parser to use for the filter expression. Use "scim" for SCIM filter syntax or "lucene" for Lucene query syntax (default). */
-  parser?: SearchParserEnum | (string & {}) | undefined;
-  /** Comma-separated list of fields to include or exclude in the response. Works with the include_fields parameter to control projection mode. Maximum 50 fields. */
-  fields?: string | undefined;
-  /** Controls field projection mode. Set to true to include only fields specified in the fields parameter. Set to false to exclude fields specified in the fields parameter. Defaults to true if not specified. */
-  include_fields?: boolean | undefined;
-  /** Maximum number of results to return per page (1-100). Defaults to 50. */
-  take?: number | undefined;
-  /** Cursor for the next page of results. Use the value from the next field in the previous response. */
-  from?: string | undefined;
-  /** Field name to sort results by in ascending order. Defaults to insertion order (oldest first) if not provided. */
-  sort?: ClientSortFieldEnum | (string & {}) | undefined;
-}
-/** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
-export type ClientSearchResponseCallbacksList = Array<string>;
-/** Comma-separated list of URLs allowed to make requests from JavaScript to Auth0 API (typically used with CORS). By default, all your callback URLs will be allowed. This field allows you to enter other origins if necessary. You can also use wildcards at the subdomain level (e.g., https://*.contoso.com). Query strings and hash information are not taken into account when validating these URLs. */
-export type ClientSearchResponseAllowedOriginsList = Array<string>;
-/** Comma-separated list of allowed origins for use with <a href='https://auth0.com/docs/cross-origin-authentication'>Cross-Origin Authentication</a>, <a href='https://auth0.com/docs/flows/concepts/device-auth'>Device Flow</a>, and <a href='https://auth0.com/docs/protocols/oauth2#how-response-mode-works'>web message response mode</a>. */
-export type ClientSearchResponseWebOriginsList = Array<string>;
-/** List of audiences/realms for SAML protocol. Used by the wsfed addon. */
-export type ClientSearchResponseClientAliasesList = Array<string>;
-/** List of allow clients and API ids that are allowed to make delegation requests. Empty means all all your clients are allowed. */
-export type ClientSearchResponseAllowedClientsList = Array<string>;
-/** Comma-separated list of URLs that are valid to redirect to after logout from Auth0. Wildcards are allowed for subdomains. */
-export type ClientSearchResponseAllowedLogoutUrlsList = Array<string>;
-/** List of grant types supported for this application. Can include `authorization_code`, `implicit`, `refresh_token`, `client_credentials`, `password`, `http://auth0.com/oauth/grant-type/password-realm`, `http://auth0.com/oauth/grant-type/mfa-oob`, `http://auth0.com/oauth/grant-type/mfa-otp`, `http://auth0.com/oauth/grant-type/mfa-recovery-code`, `urn:openid:params:grant-type:ciba`, `urn:ietf:params:oauth:grant-type:device_code`, and `urn:auth0:params:oauth:grant-type:token-exchange:federated-connection-access-token`. */
-export type ClientSearchResponseGrantTypesList = Array<string>;
-/** Defines the available methods for organization discovery during the `pre_login_prompt`. Users can discover their organization either by `email`, `organization_name` or both. */
-export type ClientSearchResponseOrganizationDiscoveryMethodsList =
-  Array<ClientOrganizationDiscoveryEnum>;
-export interface ClientSearchResponse {
-  /** ID of this client. */
-  client_id?: string | undefined;
-  /** The ISO 8601 timestamp of when this client was created. */
-  created_at?: string | undefined;
-  /** The ISO 8601 timestamp of when this client was last updated. */
-  updated_at?: string | undefined;
-  /** Name of the tenant this client belongs to. */
-  tenant?: string | undefined;
-  /** Name of this client (min length: 1 character, does not allow `<` or `>`). */
-  name?: string | undefined;
-  /** Free text description of this client (max length: 140 characters). */
-  description?: string | undefined;
-  /** Whether this is your global 'All Applications' client representing legacy tenant settings (true) or a regular client (false). */
-  global?: boolean | undefined;
-  app_type?: ClientAppTypeEnum | undefined;
-  /** URL of the logo to display for this client. Recommended size is 150x150 pixels. */
-  logo_uri?: string | undefined;
-  /** Whether this client a first party client (true) or not (false). */
-  is_first_party?: boolean | undefined;
-  /** Whether this client conforms to <a href='https://auth0.com/docs/api-auth/tutorials/adoption'>strict OIDC specifications</a> (true) or uses legacy features (false). */
-  oidc_conformant?: boolean | undefined;
-  /** Comma-separated list of URLs whitelisted for Auth0 to use as a callback to the client after authentication. */
-  callbacks?: ClientSearchResponseCallbacksList | undefined;
-  /** Comma-separated list of URLs allowed to make requests from JavaScript to Auth0 API (typically used with CORS). By default, all your callback URLs will be allowed. This field allows you to enter other origins if necessary. You can also use wildcards at the subdomain level (e.g., https://*.contoso.com). Query strings and hash information are not taken into account when validating these URLs. */
-  allowed_origins?: ClientSearchResponseAllowedOriginsList | undefined;
-  /** Comma-separated list of allowed origins for use with <a href='https://auth0.com/docs/cross-origin-authentication'>Cross-Origin Authentication</a>, <a href='https://auth0.com/docs/flows/concepts/device-auth'>Device Flow</a>, and <a href='https://auth0.com/docs/protocols/oauth2#how-response-mode-works'>web message response mode</a>. */
-  web_origins?: ClientSearchResponseWebOriginsList | undefined;
-  /** List of audiences/realms for SAML protocol. Used by the wsfed addon. */
-  client_aliases?: ClientSearchResponseClientAliasesList | undefined;
-  /** List of allow clients and API ids that are allowed to make delegation requests. Empty means all all your clients are allowed. */
-  allowed_clients?: ClientSearchResponseAllowedClientsList | undefined;
-  /** Comma-separated list of URLs that are valid to redirect to after logout from Auth0. Wildcards are allowed for subdomains. */
-  allowed_logout_urls?: ClientSearchResponseAllowedLogoutUrlsList | undefined;
-  session_transfer?: ClientSessionTransferConfiguration | null | undefined;
-  oidc_logout?: ClientOIDCBackchannelLogoutSettings | undefined;
-  /** List of grant types supported for this application. Can include `authorization_code`, `implicit`, `refresh_token`, `client_credentials`, `password`, `http://auth0.com/oauth/grant-type/password-realm`, `http://auth0.com/oauth/grant-type/mfa-oob`, `http://auth0.com/oauth/grant-type/mfa-otp`, `http://auth0.com/oauth/grant-type/mfa-recovery-code`, `urn:openid:params:grant-type:ciba`, `urn:ietf:params:oauth:grant-type:device_code`, and `urn:auth0:params:oauth:grant-type:token-exchange:federated-connection-access-token`. */
-  grant_types?: ClientSearchResponseGrantTypesList | undefined;
-  jwt_configuration?: ClientJwtConfiguration | undefined;
-  /** Applies only to SSO clients and determines whether Auth0 will handle Single Sign On (true) or whether the Identity Provider will (false). */
-  sso?: boolean | undefined;
-  /** Whether Single Sign On is disabled (true) or enabled (true). Defaults to true. */
-  sso_disabled?: boolean | undefined;
-  /** Whether this client can be used to make cross-origin authentication requests (true) or it is not allowed to make such requests (false). */
-  cross_origin_authentication?: boolean | undefined;
-  /** URL of the location in your site where the cross origin verification takes place for the cross-origin auth flow when performing Auth in your own domain instead of Auth0 hosted login page. */
-  cross_origin_loc?: string | undefined;
-  /** Whether a custom login page is to be used (true) or the default provided login page (false). */
-  custom_login_page_on?: boolean | undefined;
-  /** The content (HTML, CSS, JS) of the custom login page. */
-  custom_login_page?: string | undefined;
-  /** The content (HTML, CSS, JS) of the custom login page. (Used on Previews) */
-  custom_login_page_preview?: string | undefined;
-  /** HTML form template to be used for WS-Federation. */
-  form_template?: string | undefined;
-  token_endpoint_auth_method?: ClientTokenEndpointAuthMethodEnum | undefined;
-  /** If true, trust that the IP specified in the `auth0-forwarded-for` header is the end-user's IP for brute-force-protection on token endpoint. */
-  is_token_endpoint_ip_header_trusted?: boolean | undefined;
-  client_metadata?: ClientMetadata | undefined;
-  mobile?: ClientMobile | undefined;
-  /** Initiate login uri, must be https */
-  initiate_login_uri?: string | undefined;
-  native_social_login?: NativeSocialLogin | undefined;
-  fedcm_login?: FedCMLogin | undefined;
-  refresh_token?: ClientRefreshTokenConfiguration | null | undefined;
-  default_organization?: ClientDefaultOrganization | null | undefined;
-  organization_usage?: ClientOrganizationUsageEnum | undefined;
-  organization_require_behavior?: ClientOrganizationRequireBehaviorEnum | undefined;
-  /** Defines the available methods for organization discovery during the `pre_login_prompt`. Users can discover their organization either by `email`, `organization_name` or both. */
-  organization_discovery_methods?: ClientSearchResponseOrganizationDiscoveryMethodsList | undefined;
-  client_authentication_methods?: ClientAuthenticationMethod | null | undefined;
-  /** Makes the use of Pushed Authorization Requests mandatory for this client */
-  require_pushed_authorization_requests?: boolean | undefined;
-  /** Makes the use of Proof-of-Possession mandatory for this client */
-  require_proof_of_possession?: boolean | undefined;
-  signed_request_object?: ClientSignedRequestObjectWithCredentialId | undefined;
-  token_vault_privileged_access?: ClientTokenVaultPrivilegedAccessWithCredentialId | undefined;
-  compliance_level?: ClientComplianceLevelEnum | null | undefined;
-  /** Controls whether a confirmation prompt is shown during login flows when the redirect URI uses non-verifiable callback URIs (for example, a custom URI schema such as `myapp://`, or `localhost`). If set to true, a confirmation prompt will not be shown. We recommend that this is set to false for improved protection from malicious apps. See https://auth0.com/docs/secure/security-guidance/measures-against-app-impersonation for more information. */
-  skip_non_verifiable_callback_uri_confirmation_prompt?: boolean | undefined;
-  token_exchange?: ClientTokenExchangeConfiguration | undefined;
-  /** Specifies how long, in seconds, a Pushed Authorization Request URI remains valid */
-  par_request_expiry?: number | null | undefined;
-  token_quota?: CreateTokenQuota | undefined;
-  express_configuration?: ExpressConfiguration | undefined;
-  b2b_integration_configuration?: B2bIntegrationConfiguration | undefined;
-  my_organization_configuration?: ClientMyOrganizationResponseConfiguration | undefined;
-  identity_assertion_authorization_grant?: CreateIdentityAssertionAuthorizationGrant | undefined;
-  anonymous_sessions?: CreateAnonymousSessions | undefined;
-  enforce_anon_session_transfer_network_binding?:
-    | ClientAnonymousSessionTransferNetworkBindingEnum
-    | undefined;
-  third_party_security_mode?: ClientThirdPartySecurityModeEnum | undefined;
-  oidc_support?: ClientOidcSupport | undefined;
-  redirection_policy?: ClientRedirectionPolicyEnum | undefined;
-  /** The identifier of the resource server that this client is linked to. */
-  resource_server_identifier?: string | undefined;
-  async_approval_notification_channels?:
-    | ClientAsyncApprovalNotificationsChannelsAPIPostConfiguration
-    | undefined;
-  external_metadata_type?: ClientExternalMetadataTypeEnum | undefined;
-  external_metadata_created_by?: ClientExternalMetadataCreatedByEnum | undefined;
-  external_metadata_status?: ClientExternalMetadataStatusEnum | undefined;
-  /** ID of the agent associated with this client. */
-  agent_id?: string | undefined;
-  /** An alternate client identifier to be used during authorization flows. Only supports CIMD-based client identifiers. */
-  external_client_id?: string | undefined;
-  /** URL for the JSON Web Key Set (JWKS) containing the public keys used for private_key_jwt authentication. Only present for CIMD clients using private_key_jwt authentication. */
-  jwks_uri?: string | undefined;
-  [key: string]: unknown;
-}
-/** Array of client objects matching the search criteria. */
-export type SearchClientsResponseContentClientsList = Array<ClientSearchResponse>;
-export interface SearchClientsResponseContent {
-  /** Array of client objects matching the search criteria. */
-  clients: SearchClientsResponseContentClientsList;
-  /** Cursor for retrieving the next page of results. Absent when no more results are available. */
-  next?: string | undefined;
-}
 export interface GetConnectedAccountsRequest {
   /** ID of the user to list connected accounts for. */
   id: string;
@@ -11316,92 +9845,6 @@ export interface GetActionExecutionResponseContent {
   /** The time that the exeution finished executing. */
   updated_at?: string | undefined;
 }
-export interface GetExperimentRequest {
-  /** The ID of the experiment to retrieve. */
-  id: string;
-}
-export type GetExperimentResponseContentFeatureFlagSnapshotMap = {
-  [key: string]: unknown | undefined;
-};
-export type GetExperimentResponseContentAllocationsList = Array<AllocationItem>;
-/** Fields that may be mutated given the experiment's current status. Computed at response time; always current with the API's enforcement logic. */
-export type GetExperimentResponseContentEditableFieldsList = Array<string>;
-/** Ramp experiment levels configuration. */
-export type GetExperimentResponseContentLevelsList = Array<number>;
-export interface GetExperimentResponseContent {
-  id: string;
-  name: string;
-  description?: string | undefined;
-  feature_flag_id: string;
-  feature_flag_name?: string | undefined;
-  authentication_flow: string;
-  allocation_strategy: AllocationStrategyEnum;
-  status: ExperimentStatusEnum;
-  /** Whether the experiment is valid and ready to activate, as of its last update. It can lag changes made later to related entities. Call POST /experiments/{id}/validate for the current result. */
-  is_valid: boolean;
-  default_config?: DefaultConfigEnum | undefined;
-  feature_flag_snapshot?: GetExperimentResponseContentFeatureFlagSnapshotMap | null | undefined;
-  allocations: GetExperimentResponseContentAllocationsList;
-  /** Fields that may be mutated given the experiment's current status. Computed at response time; always current with the API's enforcement logic. */
-  editable_fields: GetExperimentResponseContentEditableFieldsList;
-  /** Ramp experiment levels configuration. */
-  levels?: GetExperimentResponseContentLevelsList | undefined;
-  /** Read-only. The active exposure percentage for the current ramp step. Null when no ramp schedule is active. */
-  current_level?: number | null | undefined;
-  started_at?: string | undefined;
-  ended_at?: string | undefined;
-  created_at: string;
-  updated_at: string;
-}
-export interface GetExperimentsRequest {
-  /** Optional Id from which to start selection. */
-  from?: string | undefined;
-  /** Number of experiments to return per page. Defaults to 25, maximum 50. */
-  take?: number | undefined;
-  /** Filter by status. Exact match. */
-  status?: ExperimentStatusEnum | (string & {}) | undefined;
-  /** Filter by authentication flow. Exact match. */
-  authentication_flow?: string | undefined;
-  /** Filter by feature flag ID. Exact match. */
-  feature_flag_id?: string | undefined;
-}
-export type ExperimentListItemFeatureFlagSnapshotMap = { [key: string]: unknown | undefined };
-export type ExperimentListItemAllocationsList = Array<AllocationItem>;
-/** Fields that may be mutated given the experiment's current status. Computed at response time; always current with the API's enforcement logic. */
-export type ExperimentListItemEditableFieldsList = Array<string>;
-/** Ramp experiment levels configuration. */
-export type ExperimentListItemLevelsList = Array<number>;
-export interface ExperimentListItem {
-  id: string;
-  name: string;
-  description?: string | undefined;
-  feature_flag_id: string;
-  feature_flag_name?: string | undefined;
-  authentication_flow: string;
-  allocation_strategy: AllocationStrategyEnum;
-  status: ExperimentStatusEnum;
-  /** Whether the experiment is valid and ready to activate, as of its last update. It can lag changes made later to related entities. Call POST /experiments/{id}/validate for the current result. */
-  is_valid: boolean;
-  default_config?: DefaultConfigEnum | undefined;
-  feature_flag_snapshot?: ExperimentListItemFeatureFlagSnapshotMap | null | undefined;
-  allocations: ExperimentListItemAllocationsList;
-  /** Fields that may be mutated given the experiment's current status. Computed at response time; always current with the API's enforcement logic. */
-  editable_fields: ExperimentListItemEditableFieldsList;
-  /** Ramp experiment levels configuration. */
-  levels?: ExperimentListItemLevelsList | undefined;
-  /** Read-only. The active exposure percentage for the current ramp step. Null when no ramp schedule is active. */
-  current_level?: number | null | undefined;
-  started_at?: string | undefined;
-  ended_at?: string | undefined;
-  created_at: string;
-  updated_at: string;
-}
-export type ListExperimentsResponseContentExperimentsList = Array<ExperimentListItem>;
-export interface ListExperimentsResponseContent {
-  experiments: ListExperimentsResponseContentExperimentsList;
-  /** Checkpoint token for the next page. Omitted when there are no further results. */
-  next?: string | undefined;
-}
 export interface GetFactorDuoSettingsRequest {}
 export interface GetGuardianFactorDuoSettingsResponseContent {
   ikey?: string | undefined;
@@ -11451,46 +9894,6 @@ export interface GetGuardianFactorSmsTemplatesResponseContent {
   enrollment_message: string;
   /** Message sent to the user when they are prompted to verify their account. */
   verification_message: string;
-}
-export interface GetFeatureFlagRequest {
-  /** The ID of the feature flag to retrieve. */
-  id: string;
-}
-export interface GetFeatureFlagResponseContent {
-  id: string;
-  name: string;
-  description?: string | undefined;
-  type: FeatureFlagTypeEnum;
-  status: FeatureFlagStatusEnum;
-  parameters?: FeatureFlagConfigParams | undefined;
-  created_at: string;
-  updated_at: string;
-}
-export interface GetFeatureFlagsRequest {
-  /** Optional Id from which to start selection. */
-  from?: string | undefined;
-  /** Number of feature flags to return per page. Defaults to 25, maximum 50. */
-  take?: number | undefined;
-  /** Filter by type. Exact match. */
-  type?: FeatureFlagTypeEnum | (string & {}) | undefined;
-  /** Filter by status. Exact match. */
-  status?: FeatureFlagStatusEnum | (string & {}) | undefined;
-}
-export interface FeatureFlag {
-  id: string;
-  name: string;
-  description?: string | undefined;
-  type: FeatureFlagTypeEnum;
-  status: FeatureFlagStatusEnum;
-  parameters?: FeatureFlagConfigParams | undefined;
-  created_at: string;
-  updated_at: string;
-}
-export type ListFeatureFlagsResponseContentFeatureFlagsList = Array<FeatureFlag>;
-export interface ListFeatureFlagsResponseContent {
-  feature_flags: ListFeatureFlagsResponseContentFeatureFlagsList;
-  /** Checkpoint token for the next page. Omitted when there are no further results. */
-  next?: string | undefined;
 }
 export type GetFlowRequestParametersHydrateEnum = "form_count" | "forms";
 export type GetFlowRequestHydrateList = Array<GetFlowRequestParametersHydrateEnum | (string & {})>;
@@ -12179,10 +10582,6 @@ export interface ConnectionKey {
 }
 export type GetKeysResponseBodyList = Array<ConnectionKey>;
 export type GetKeysResponse = GetKeysResponseBodyList;
-export interface GetKeysNetworkAclsRequest {
-  /** ID of the Network ACL Key to retrieve. */
-  id: string;
-}
 export interface GetLogRequest {
   /** log_id of the log to retrieve. */
   id: string;
@@ -12508,19 +10907,6 @@ export interface GetOrganizationResponseContent {
   client?: OrganizationClientAssociation | undefined;
   [key: string]: unknown;
 }
-export interface GetOrganizationClientRequest {
-  /** ID of the organization. */
-  id: string;
-  /** ID of the client association to retrieve. */
-  client_id: string;
-}
-export interface GetOrganizationClientResponseContent {
-  /** The identifier of the client associated with the organization. */
-  client_id: string;
-  /** Whether this client is used for member access to the organization. */
-  use_for_member_access: boolean;
-  client: OrganizationClientMetadata;
-}
 export type GetOrganizationClientGrantsRequestGrantIdsList = Array<string>;
 export interface GetOrganizationClientGrantsRequest {
   /** Organization identifier. */
@@ -12568,90 +10954,6 @@ export type ListOrganizationClientGrantsResponseContent =
   | ListOrganizationClientGrantsResponseContentCase0List
   | ListOrganizationClientGrantsOffsetPaginatedResponseContent;
 export type GetOrganizationClientGrantsResponse = ListOrganizationClientGrantsResponseContent;
-export interface GetOrganizationClientsRequest {
-  /** ID of the organization. */
-  id: string;
-  /** Optional Id from which to start selection. */
-  from?: string | undefined;
-  /** Number of results per page. Defaults to 50. Values greater than the maximum of 100 are capped at 100. */
-  take?: number | undefined;
-}
-/** The list of clients associated with the organization. */
-export type ListOrganizationClientsResponseContentClientsList = Array<OrganizationClient>;
-export interface ListOrganizationClientsResponseContent {
-  /** The list of clients associated with the organization. */
-  clients: ListOrganizationClientsResponseContentClientsList;
-  /** An opaque token that, when present, can be passed as the `from` query parameter to retrieve the next page of results. */
-  next?: string | undefined;
-}
-export interface GetOrganizationConnectionRequest {
-  /** Organization identifier. */
-  id: string;
-  /** Connection identifier. */
-  connection_id: string;
-}
-export interface GetOrganizationAllConnectionResponseContent {
-  /** Name of the connection in the scope of this organization. */
-  organization_connection_name?: string | undefined;
-  /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean | undefined;
-  /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean | undefined;
-  /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean | undefined;
-  organization_access_level?: OrganizationAccessLevelEnum | undefined;
-  organization_member_access_level?: OrganizationMemberAccessLevelEnum | undefined;
-  /** Whether the connection is enabled for the organization. */
-  is_enabled?: boolean | undefined;
-  /** Connection identifier. */
-  connection_id: string;
-  connection?: OrganizationConnectionInformation | undefined;
-}
-export interface GetOrganizationConnectionsRequest {
-  /** Organization identifier. */
-  id: string;
-  /** Page index of the results to return. First page is 0. */
-  page?: number | undefined;
-  /** Number of results per page. Defaults to 50. */
-  per_page?: number | undefined;
-  /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean | undefined;
-  /** Filter connections by enabled status. */
-  is_enabled?: boolean | undefined;
-}
-export interface OrganizationAllConnectionPost {
-  /** Name of the connection in the scope of this organization. */
-  organization_connection_name?: string | undefined;
-  /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean | undefined;
-  /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean | undefined;
-  /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean | undefined;
-  organization_access_level?: OrganizationAccessLevelEnum | undefined;
-  organization_member_access_level?: OrganizationMemberAccessLevelEnum | undefined;
-  /** Whether the connection is enabled for the organization. */
-  is_enabled?: boolean | undefined;
-  /** Connection identifier. */
-  connection_id: string;
-  connection?: OrganizationConnectionInformation | undefined;
-}
-export type ListOrganizationAllConnectionsResponseContentCase0List =
-  Array<OrganizationAllConnectionPost>;
-export type ListOrganizationAllConnectionsOffsetPaginatedResponseContentConnectionsList =
-  Array<OrganizationAllConnectionPost>;
-export interface ListOrganizationAllConnectionsOffsetPaginatedResponseContent {
-  start?: number | undefined;
-  limit?: number | undefined;
-  total?: number | undefined;
-  connections?:
-    | ListOrganizationAllConnectionsOffsetPaginatedResponseContentConnectionsList
-    | undefined;
-}
-export type ListOrganizationAllConnectionsResponseContent =
-  | ListOrganizationAllConnectionsResponseContentCase0List
-  | ListOrganizationAllConnectionsOffsetPaginatedResponseContent;
-export type GetOrganizationConnectionsResponse = ListOrganizationAllConnectionsResponseContent;
 export interface GetOrganizationGroupRolesRequest {
   /** ID of the organization */
   organization_id: string;
@@ -12811,76 +11113,6 @@ export type ListOrganizationMembersResponseContent =
   | ListOrganizationMembersOffsetPaginatedResponseContent
   | ListOrganizationMembersPaginatedResponseContent;
 export type GetOrganizationMembersResponse = ListOrganizationMembersResponseContent;
-export interface GetOrganizationRoleGroupsRequest {
-  /** ID of the organization. */
-  organization_id: string;
-  /** ID of the role. */
-  role_id: string;
-  /** Optional Id from which to start selection. */
-  from?: string | undefined;
-  /** Number of results per page. Defaults to 50. */
-  take?: number | undefined;
-}
-/** A group assigned to a role in the context of an organization. */
-export interface RoleGroup {
-  /** Unique identifier for the group (service-generated). */
-  id: string;
-  /** Name of the group. Must be unique within its connection. Must contain between 1 and 128 printable ASCII characters. */
-  name: string;
-  /** External identifier for the group, often used for SCIM synchronization. Max length of 256 characters. */
-  external_id?: string | null | undefined;
-  /** Identifier for the connection this group belongs to (if a connection group). */
-  connection_id?: string | undefined;
-  /** Identifier for the organization this group belongs to (if an organization group). */
-  organization_id?: string | null | undefined;
-  /** Identifier for the tenant this group belongs to. */
-  tenant_name?: string | undefined;
-  /** Description of the group. */
-  description?: string | null | undefined;
-  /** Timestamp of when the group was created. */
-  created_at?: string | undefined;
-  /** Timestamp of when the group was last updated. */
-  updated_at?: string | undefined;
-}
-export type ListOrganizationRoleGroupsResponseContentGroupsList = Array<RoleGroup>;
-/** Checkpoint paginated list of groups assigned to a role within an organization. */
-export interface ListOrganizationRoleGroupsResponseContent {
-  groups: ListOrganizationRoleGroupsResponseContentGroupsList;
-  /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string | undefined;
-}
-export interface GetOrganizationRoleMembersRequest {
-  /** ID of the organization. */
-  id: string;
-  /** ID of the role to retrieve the assigned members for. */
-  role_id: string;
-  /** Optional Id from which to start selection. */
-  from?: string | undefined;
-  /** Number of results per page. Defaults to 50. Values above the maximum permitted size are capped. */
-  take?: number | undefined;
-  /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string | undefined;
-  /** Whether specified fields are to be included (true) or excluded (false). Defaults to true. */
-  include_fields?: boolean | undefined;
-}
-export interface RoleMember {
-  /** ID of this user. */
-  user_id?: string | undefined;
-  /** URL to a picture for this user. */
-  picture?: string | undefined;
-  /** Name of this user. */
-  name?: string | undefined;
-  /** Email address of this user. */
-  email?: string | undefined;
-}
-/** List of members assigned to the role within the organization. */
-export type ListOrganizationRoleMembersResponseContentMembersList = Array<RoleMember>;
-export interface ListOrganizationRoleMembersResponseContent {
-  /** List of members assigned to the role within the organization. */
-  members: ListOrganizationRoleMembersResponseContentMembersList;
-  /** Cursor for the next page of results. Absent when there are no more results. */
-  next?: string | undefined;
-}
 export interface GetOrganizationsRequest {
   /** Page index of the results to return. First page is 0. */
   page?: number | undefined;
@@ -13052,9 +11284,6 @@ export interface GetPoliciesRequest {}
 export type MFAPolicyEnum = "all-applications" | "confidence-score";
 export type ListGuardianPoliciesResponseContent = Array<MFAPolicyEnum>;
 export type GetPoliciesResponse = ListGuardianPoliciesResponseContent;
-export interface GetPortalRequest {
-  id: string;
-}
 export interface GetPromptsRequest {}
 /** Which login experience to use. Can be `new` or `classic`. */
 export type UniversalLoginExperienceEnum = "new" | "classic";
@@ -13096,57 +11325,6 @@ export interface GetEmailProviderResponseContent {
   default_from_address?: string | undefined;
   credentials?: EmailProviderCredentials | undefined;
   settings?: EmailProviderSettings | undefined;
-}
-export interface GetRateLimitPoliciesRequest {
-  /** The API protected by the Rate Limit Policy. */
-  resource?: RateLimitPolicyResourceEnum | (string & {}) | undefined;
-  /** The consumer to which the rate limit policy applies. */
-  consumer?: RateLimitPolicyConsumerEnum | (string & {}) | undefined;
-  /** Identifier or category within the consumer to which the policy applies. Supported values: `client_id:<client_id>` to target a specific client by ID, `client_id:<cimd_uri>` to target a CIMD client by URI, `cimd_clients` to target all CIMD clients, `third_party_clients` to target all third-party clients, or `default` to apply the policy to any consumer identifier not otherwise explicitly targeted. */
-  consumer_selector?: string | undefined;
-  /** Number of results per page. Defaults to 50. */
-  take?: number | undefined;
-  /** Cursor for pagination. */
-  from?: string | undefined;
-}
-export interface RateLimitPolicy {
-  /** Unique identifier for the Rate Limit Policy. */
-  id: string;
-  resource: RateLimitPolicyResourceEnum;
-  consumer: RateLimitPolicyConsumerEnum;
-  /** Identifier or category within the consumer to which the policy applies. Supported values: `client_id:<client_id>` to target a specific client by ID, `client_id:<cimd_uri>` to target a CIMD client by URI, `cimd_clients` to target all CIMD clients, `third_party_clients` to target all third-party clients, or `default` to apply the policy to any consumer identifier not otherwise explicitly targeted. */
-  consumer_selector: string;
-  configuration: RateLimitPolicyConfiguration;
-  /** The date and time when the rate limit policy was created. */
-  created_at?: string | undefined;
-  /** The date and time when the rate limit policy was last updated. */
-  updated_at?: string | undefined;
-}
-export type ListRateLimitPoliciesPaginatedResponseContentRateLimitPoliciesList =
-  Array<RateLimitPolicy>;
-export interface ListRateLimitPoliciesPaginatedResponseContent {
-  rate_limit_policies?:
-    | ListRateLimitPoliciesPaginatedResponseContentRateLimitPoliciesList
-    | undefined;
-  /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string | undefined;
-}
-export interface GetRateLimitPolicyRequest {
-  /** Unique identifier for the Rate Limit Policy. */
-  id: string;
-}
-export interface GetRateLimitPolicyResponseContent {
-  /** Unique identifier for the Rate Limit Policy. */
-  id: string;
-  resource: RateLimitPolicyResourceEnum;
-  consumer: RateLimitPolicyConsumerEnum;
-  /** Identifier or category within the consumer to which the policy applies. Supported values: `client_id:<client_id>` to target a specific client by ID, `client_id:<cimd_uri>` to target a CIMD client by URI, `cimd_clients` to target all CIMD clients, `third_party_clients` to target all third-party clients, or `default` to apply the policy to any consumer identifier not otherwise explicitly targeted. */
-  consumer_selector: string;
-  configuration: RateLimitPolicyConfiguration;
-  /** The date and time when the rate limit policy was created. */
-  created_at?: string | undefined;
-  /** The date and time when the rate limit policy was last updated. */
-  updated_at?: string | undefined;
 }
 export interface GetRefreshTokenRequest {
   /** ID refresh token to retrieve */
@@ -13202,19 +11380,15 @@ export interface GetRefreshTokenResponseContent {
   last_exchanged_at?: RefreshTokenDate | null | undefined;
   [key: string]: unknown;
 }
-export interface GetRefreshTokensRequest {
-  /** ID of the user whose refresh tokens to retrieve. Required. */
+export interface GetRefreshTokensForUserRequest {
+  /** ID of the user to get refresh tokens for */
   user_id: string;
-  /** Filter results by client ID. Only valid when user_id is provided. */
-  client_id?: string | undefined;
-  /** An opaque cursor from which to start the selection (exclusive). Expires after 24 hours. Obtained from the next property of a previous response. */
+  /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
+  include_totals?: boolean | undefined;
+  /** An optional cursor from which to start the selection (exclusive). */
   from?: string | undefined;
   /** Number of results per page. Defaults to 50. */
   take?: number | undefined;
-  /** Comma-separated list of fields to include or exclude (based on value provided for include_fields) in the result. Leave empty to retrieve all fields. */
-  fields?: string | undefined;
-  /** Whether specified fields are to be included (true) or excluded (false). */
-  include_fields?: boolean | undefined;
 }
 /** A list of the resource server IDs associated to this refresh-token and their granted scopes */
 export type RefreshTokenResponseContentResourceServersList = Array<RefreshTokenResourceServer>;
@@ -13237,24 +11411,6 @@ export interface RefreshTokenResponseContent {
   refresh_token_metadata?: RefreshTokenMetadata | null | undefined;
   last_exchanged_at?: RefreshTokenDate | null | undefined;
   [key: string]: unknown;
-}
-export type GetRefreshTokensPaginatedResponseContentRefreshTokensList =
-  Array<RefreshTokenResponseContent>;
-export interface GetRefreshTokensPaginatedResponseContent {
-  refresh_tokens?: GetRefreshTokensPaginatedResponseContentRefreshTokensList | undefined;
-  /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string | undefined;
-  [key: string]: unknown;
-}
-export interface GetRefreshTokensForUserRequest {
-  /** ID of the user to get refresh tokens for */
-  user_id: string;
-  /** Return results inside an object that contains the total result count (true) or as a direct array of results (false, default). */
-  include_totals?: boolean | undefined;
-  /** An optional cursor from which to start the selection (exclusive). */
-  from?: string | undefined;
-  /** Number of results per page. Defaults to 50. */
-  take?: number | undefined;
 }
 export type ListRefreshTokensPaginatedResponseContentTokensList =
   Array<RefreshTokenResponseContent>;
@@ -13557,79 +11713,6 @@ export type ListResourceServerResponseContent =
   | ListResourceServerResponseContentCase0List
   | ListResourceServerOffsetPaginatedResponseContent;
 export type GetResourceServersResponse = ListResourceServerResponseContent;
-/** Field name to sort results by in ascending order only. Defaults to insertion order (oldest first) if not provided. */
-export type ResourceServerSortFieldEnum = "identifier" | "name" | "updated_at";
-export interface GetResourceServersSearchRequest {
-  /** Filter expression in SCIM or Lucene syntax (depending on parser parameter). SCIM examples: `name eq "My API"`, `identifier sw "https://"`. SCIM operators: eq, ne, sw, ew, co, pr, gt, ge, lt, le, and, or. <br /><br /><b>Supported Fields</b>:<ul><li><i>id</i> - Filter by resource server ID</li><li><i>identifier</i> - Filter by resource server identifier</li><li><i>name</i> - Filter by resource server name</li><li><i>updated_at</i> - Filter by last update date</li></ul>Maximum 5 filter operations per query. Results are eventually consistent and may not reflect recent updates. */
-  q?: string | undefined;
-  /** Query parser to use for the filter expression. Use "scim" for SCIM filter syntax or "lucene" for Lucene query syntax (default). */
-  parser?: SearchParserEnum | (string & {}) | undefined;
-  /** Comma-separated list of fields to include or exclude in the response. Works with the include_fields parameter to control projection mode. */
-  fields?: string | undefined;
-  /** Controls field projection mode. Set to true to include only fields specified in the fields parameter. Set to false to exclude fields specified in the fields parameter. Defaults to true if not specified. */
-  include_fields?: boolean | undefined;
-  /** Maximum number of results to return per page (1-100). Defaults to 50. */
-  take?: number | undefined;
-  /** Cursor for the next page of results. Use the value from the next field in the previous response. */
-  from?: string | undefined;
-  /** Field name to sort results by in ascending order only. Defaults to insertion order (oldest first) if not provided. */
-  sort?: ResourceServerSortFieldEnum | (string & {}) | undefined;
-}
-/** List of permissions (scopes) that this API uses. */
-export type ResourceServerSearchResponseScopesList = Array<ResourceServerScope>;
-export type ResourceServerSearchResponseAuthorizationDetailsList = Array<unknown>;
-export interface ResourceServerSearchResponse {
-  /** ID of the API (resource server). */
-  id?: string | undefined;
-  /** Friendly name for this resource server. Can not contain `<` or `>` characters. */
-  name?: string | undefined;
-  /** Whether this is an Auth0 system API (true) or a custom API (false). */
-  is_system?: boolean | undefined;
-  /** Unique identifier for the API used as the audience parameter on authorization calls. Can not be changed once set. */
-  identifier?: string | undefined;
-  /** List of permissions (scopes) that this API uses. */
-  scopes?: ResourceServerSearchResponseScopesList | undefined;
-  signing_alg?: SigningAlgorithmEnum | undefined;
-  /** Whether refresh tokens can be issued for this API (true) or not (false). */
-  allow_offline_access?: boolean | undefined;
-  /** Whether Online Refresh Tokens can be issued for this API (true) or not (false). */
-  allow_online_access?: boolean | undefined;
-  /** Whether Online Refresh Tokens can be issued even when sessions are configured as ephemeral (true) or not (false). */
-  allow_online_access_with_ephemeral_sessions?: boolean | undefined;
-  /** Whether to skip user consent for applications flagged as first party (true) or not (false). */
-  skip_consent_for_verifiable_first_party_clients?: boolean | undefined;
-  /** Expiration value (in seconds) for access tokens issued for this API from the token endpoint. */
-  token_lifetime?: number | undefined;
-  /** Expiration value (in seconds) for access tokens issued for this API via Implicit or Hybrid Flows. Cannot be greater than the `token_lifetime` value. */
-  token_lifetime_for_web?: number | undefined;
-  /** Whether authorization polices are enforced (true) or unenforced (false). */
-  enforce_policies?: boolean | undefined;
-  /** Expiration value (in seconds) for anonymous-session access tokens issued for this API. */
-  token_lifetime_for_anonymous_access_tokens?: number | undefined;
-  token_dialect?: ResourceServerTokenDialectResponseEnum | undefined;
-  access_token?: ResourceServerAccessToken | null | undefined;
-  token_encryption?: ResourceServerTokenEncryption | null | undefined;
-  consent_policy?: ResourceServerConsentPolicyEnum | null | undefined;
-  /** When true, the resource server requires every consent approval to be digitally signed, so the approver cannot later deny a consent they granted. When false, consent decisions do not need a signature. Defaults to false. A configured value is still returned even after the related entitlement is disabled. */
-  require_consent_non_repudiation?: boolean | undefined;
-  authorization_details?: ResourceServerSearchResponseAuthorizationDetailsList | null | undefined;
-  proof_of_possession?: ResourceServerProofOfPossession | null | undefined;
-  subject_type_authorization?: ResourceServerSubjectTypeAuthorization | undefined;
-  authorization_policy?: ResourceServerAuthorizationPolicy | null | undefined;
-  /** The client ID of the client that this resource server is linked to */
-  client_id?: string | undefined;
-  agent_subject_claims?: ResourceServerAgentSubjectClaimsResponseEnum | undefined;
-  type?: ResourceServerTypeEnum | null | undefined;
-}
-/** Array of resource server objects matching the search criteria. */
-export type SearchResourceServersResponseContentResourceServersList =
-  Array<ResourceServerSearchResponse>;
-export interface SearchResourceServersResponseContent {
-  /** Array of resource server objects matching the search criteria. */
-  resource_servers: SearchResourceServersResponseContentResourceServersList;
-  /** Cursor for retrieving the next page of results. Omitted if there are no more results. */
-  next?: string | undefined;
-}
 export interface GetRiskAssessmentsSettingsRequest {}
 export interface GetRiskAssessmentsSettingsResponseContent {
   /** Whether or not risk assessment is enabled. */
@@ -13748,16 +11831,25 @@ export interface GetRoleUserRequest {
   /** Number of results per page. Defaults to 50. */
   take?: number | undefined;
 }
-export type RoleUser = RoleMember;
-export type ListRoleUsersResponseContentCase0List = Array<RoleMember>;
-export type ListRoleUsersOffsetPaginatedResponseContentUsersList = Array<RoleMember>;
+export interface RoleUser {
+  /** ID of this user. */
+  user_id?: string | undefined;
+  /** URL to a picture for this user. */
+  picture?: string | undefined;
+  /** Name of this user. */
+  name?: string | undefined;
+  /** Email address of this user. */
+  email?: string | undefined;
+}
+export type ListRoleUsersResponseContentCase0List = Array<RoleUser>;
+export type ListRoleUsersOffsetPaginatedResponseContentUsersList = Array<RoleUser>;
 export interface ListRoleUsersOffsetPaginatedResponseContent {
   start?: number | undefined;
   limit?: number | undefined;
   total?: number | undefined;
   users?: ListRoleUsersOffsetPaginatedResponseContentUsersList | undefined;
 }
-export type ListRoleUsersPaginatedResponseContentUsersList = Array<RoleMember>;
+export type ListRoleUsersPaginatedResponseContentUsersList = Array<RoleUser>;
 export interface ListRoleUsersPaginatedResponseContent {
   next?: string | undefined;
   users?: ListRoleUsersPaginatedResponseContentUsersList | undefined;
@@ -13883,43 +11975,6 @@ export interface ScimTokenItem {
 /** The list of scim tokens for scim clients */
 export type GetScimTokensResponseContent = Array<ScimTokenItem>;
 export type GetScimTokensResponse = GetScimTokensResponseContent;
-/** Field name to sort results by in ascending order only. Defaults to insertion order (oldest first) if not provided. */
-export type OrganizationSortFieldEnum = "name" | "display_name" | "created_at";
-export interface GetSearchRequest {
-  /** Filter expression in SCIM or Lucene syntax (depending on parser parameter, default: Lucene). Lucene examples: `name:acme*`, `display_name:*auth*`. SCIM examples: `name eq "Auth0"`, `display_name sw "auth" and created_at gt "2024-01-01"`. SCIM operators: eq, ne, sw, ew, co, pr, gt, ge, lt, le, and, or. <br /><br /><b>Supported Fields</b>:<ul><li><i>id</i> - Organization ID (case-sensitive, exact match)</li><li><i>name</i> - Organization name (supports contains, starts-with, ends-with operators; sortable)</li><li><i>display_name</i> - Organization display name (supports contains, starts-with, ends-with operators; sortable)</li><li><i>created_at</i> - Creation timestamp (supports date range operators; sortable)</li><li><i>metadata.{key}</i> - Filter by organization metadata key-value pairs</li></ul>Maximum 5 filter operations per query. Results are eventually consistent and may not reflect recent updates. */
-  q?: string | undefined;
-  /** Query parser to use for the filter expression. Use "scim" for SCIM filter syntax or "lucene" for Lucene query syntax (default). */
-  parser?: SearchParserEnum | (string & {}) | undefined;
-  /** Maximum number of results to return per page (1-100). Defaults to 50. */
-  take?: number | undefined;
-  /** Cursor for the next page of results. Use the value from the next field in the previous response. */
-  from?: string | undefined;
-  /** Field name to sort results by in ascending order only. Defaults to insertion order (oldest first) if not provided. */
-  sort?: OrganizationSortFieldEnum | (string & {}) | undefined;
-}
-export interface SearchOrganization {
-  /** Organization identifier. */
-  id?: string | undefined;
-  /** The name of this organization. */
-  name?: string | undefined;
-  /** Friendly name of this organization. */
-  display_name?: string | undefined;
-  branding?: OrganizationBranding | undefined;
-  token_quota?: CreateTokenQuota | undefined;
-  third_party_client_access?: OrganizationThirdPartyClientAccessEnum | undefined;
-  /** Whether app entitlement is active for this organization. */
-  is_app_entitlement_active?: boolean | undefined;
-  [key: string]: unknown;
-}
-/** Array of organization objects matching the search criteria. */
-export type SearchOrganizationsPaginatedResponseContentOrganizationsList =
-  Array<SearchOrganization>;
-export interface SearchOrganizationsPaginatedResponseContent {
-  /** Array of organization objects matching the search criteria. */
-  organizations: SearchOrganizationsPaginatedResponseContentOrganizationsList;
-  /** Cursor for retrieving the next page of results. Absent when no more results are available. */
-  next?: string | undefined;
-}
 export interface GetSecretsRequest {
   /** ID of the hook to retrieve secrets from. */
   id: string;
@@ -13927,50 +11982,6 @@ export interface GetSecretsRequest {
 /** Hashmap of key-value pairs where the value must be a string. */
 export type GetHookSecretResponseContent = { [key: string]: string | undefined };
 export type GetSecretsResponse = GetHookSecretResponseContent;
-export interface GetSegmentRequest {
-  /** The ID of the segment to retrieve. */
-  id: string;
-}
-export type GetSegmentResponseContentRulesList = Array<SegmentRule>;
-export interface GetSegmentResponseContent {
-  id: string;
-  name: string;
-  description?: string | undefined;
-  type: SegmentTypeEnum;
-  status: SegmentStatusEnum;
-  rules: GetSegmentResponseContentRulesList;
-  created_at: string;
-  updated_at: string;
-}
-/** Filter by type. Exact match. */
-export type SegmentTypeFilterEnum = "auth0" | "self";
-export interface GetSegmentsRequest {
-  /** Optional Id from which to start selection. */
-  from?: string | undefined;
-  /** Number of segments to return per page. Defaults to 25, maximum 50. */
-  take?: number | undefined;
-  /** Filter by type. Exact match. */
-  type?: SegmentTypeFilterEnum | (string & {}) | undefined;
-  /** Filter by status. Exact match. */
-  status?: SegmentStatusEnum | (string & {}) | undefined;
-}
-export type SegmentRulesList = Array<SegmentRule>;
-export interface Segment {
-  id: string;
-  name: string;
-  description?: string | undefined;
-  type: SegmentTypeEnum;
-  status: SegmentStatusEnum;
-  rules: SegmentRulesList;
-  created_at: string;
-  updated_at: string;
-}
-export type ListSegmentsResponseContentSegmentsList = Array<Segment>;
-export interface ListSegmentsResponseContent {
-  segments: ListSegmentsResponseContentSegmentsList;
-  /** Checkpoint token for the next page. Omitted when there are no further results. */
-  next?: string | undefined;
-}
 export interface GetSelfServiceProfileRequest {
   /** The id of the self-service profile to retrieve */
   id: string;
@@ -14266,12 +12277,6 @@ export interface GetStatusRequest {
   id: string;
 }
 export interface GetStatusResponse {}
-export interface GetSupplementalSignalsRequest {}
-export interface GetSupplementalSignalsResponseContent {
-  /** Indicates if incoming Akamai Headers should be processed */
-  akamai_enabled?: boolean | undefined;
-  [key: string]: unknown;
-}
 export interface GetSuspiciousIpThrottlingRequest {}
 export type SuspiciousIPThrottlingShieldsEnum = "block" | "admin_notification";
 /** Action to take when a suspicious IP throttling threshold is violated. Possible values: <code>block</code>, <code>admin_notification</code>. */
@@ -14460,69 +12465,6 @@ export interface GetUserResponseContent {
   family_name?: string | undefined;
   [key: string]: unknown;
 }
-export interface GetUserAttributeProfileRequest {
-  /** ID of the user-attribute-profile to retrieve. */
-  id: string;
-}
-export interface GetUserAttributeProfileResponseContent {
-  id?: string | undefined;
-  name?: string | undefined;
-  user_id?: UserAttributeProfileUserId | undefined;
-  user_attributes?: UserAttributeProfileUserAttributes | undefined;
-}
-export interface GetUserAttributeProfilesRequest {
-  /** Optional Id from which to start selection. */
-  from?: string | undefined;
-  /** Number of results per page. Defaults to 5. */
-  take?: number | undefined;
-}
-export interface UserAttributeProfile {
-  id?: string | undefined;
-  name?: string | undefined;
-  user_id?: UserAttributeProfileUserId | undefined;
-  user_attributes?: UserAttributeProfileUserAttributes | undefined;
-}
-export type ListUserAttributeProfilesPaginatedResponseContentUserAttributeProfilesList =
-  Array<UserAttributeProfile>;
-export interface ListUserAttributeProfilesPaginatedResponseContent {
-  /** A cursor to be used as the "from" query parameter for the next page of results. */
-  next?: string | undefined;
-  user_attribute_profiles?:
-    | ListUserAttributeProfilesPaginatedResponseContentUserAttributeProfilesList
-    | undefined;
-}
-export interface GetUserAttributeProfileTemplateRequest {
-  /** ID of the user-attribute-profile-template to retrieve. */
-  id: string;
-}
-/** The structure of the template, which can be used as the payload for creating or updating a User Attribute Profile. */
-export interface UserAttributeProfileTemplate {
-  name?: string | undefined;
-  user_id?: UserAttributeProfileUserId | undefined;
-  user_attributes?: UserAttributeProfileUserAttributes | undefined;
-}
-export interface GetUserAttributeProfileTemplateResponseContent {
-  /** The id of the template. */
-  id?: string | undefined;
-  /** The user-friendly name of the template displayed in the UI. */
-  display_name?: string | undefined;
-  template?: UserAttributeProfileTemplate | undefined;
-}
-export interface GetUserAttributeProfileTemplatesRequest {}
-export interface UserAttributeProfileTemplateItem {
-  /** The id of the template. */
-  id?: string | undefined;
-  /** The user-friendly name of the template displayed in the UI. */
-  display_name?: string | undefined;
-  template?: UserAttributeProfileTemplate | undefined;
-}
-export type ListUserAttributeProfileTemplateResponseContentUserAttributeProfileTemplatesList =
-  Array<UserAttributeProfileTemplateItem>;
-export interface ListUserAttributeProfileTemplateResponseContent {
-  user_attribute_profile_templates?:
-    | ListUserAttributeProfileTemplateResponseContentUserAttributeProfileTemplatesList
-    | undefined;
-}
 export interface GetUserBlockRequest {
   /** user_id of the user blocks to retrieve. */
   id: string;
@@ -14555,32 +12497,6 @@ export type ListUserBlocksByIdentifierResponseContentBlockedForList = Array<User
 export interface ListUserBlocksByIdentifierResponseContent {
   /** Array of identifier + IP address pairs. IP address is optional, and may be omitted in certain circumstances (such as Account Lockout mode). */
   blocked_for?: ListUserBlocksByIdentifierResponseContentBlockedForList | undefined;
-}
-export interface GetUserConsentSigningKeyRequest {
-  /** The ID of the user. */
-  id: string;
-  /** The key identifier of the consent signing key. */
-  kid: string;
-}
-export interface ConsentSigningKey {
-  /** The key identifier of the consent signing key. */
-  kid: string;
-  /** A human-readable label for the device holding the corresponding private key. */
-  device_identifier: string;
-  /** The ISO 8601 timestamp at which the key was registered. */
-  created_at: string;
-  /** The ISO 8601 timestamp at which the key expires and can no longer be used to verify consent decisions. */
-  expires_at: string;
-}
-export interface GetUserConsentSigningKeysRequest {
-  /** The ID of the user. */
-  id: string;
-}
-/** The consent signing keys registered for the user. */
-export type ListUserConsentSigningKeysResponseContentKeysList = Array<ConsentSigningKey>;
-export interface ListUserConsentSigningKeysResponseContent {
-  /** The consent signing keys registered for the user. */
-  keys: ListUserConsentSigningKeysResponseContentKeysList;
 }
 export interface GetUserEffectivePermissionRoleSourcesRequest {
   /** ID of the user to retrieve the permissions for. */
@@ -14904,38 +12820,6 @@ export interface GetUsersByEmailRequest {
 }
 export type GetUsersByEmailResponseBodyList = Array<UserResponseSchema>;
 export type GetUsersByEmailResponse = GetUsersByEmailResponseBodyList;
-export interface GetVariationRequest {
-  /** The ID of the parent feature flag. */
-  id: string;
-  /** The ID of the variation to retrieve. */
-  vid: string;
-}
-export interface GetVariationResponseContent {
-  id: string;
-  feature_flag_id: string;
-  name: string;
-  description?: string | undefined;
-  overrides: VariationOverridesMap;
-  created_at: string;
-  updated_at: string;
-}
-export interface GetVariationsRequest {
-  /** The ID of the parent feature flag. */
-  id: string;
-}
-export interface Variation {
-  id: string;
-  feature_flag_id: string;
-  name: string;
-  description?: string | undefined;
-  overrides: VariationOverridesMap;
-  created_at: string;
-  updated_at: string;
-}
-export type ListVariationsResponseContentVariationsList = Array<Variation>;
-export interface ListVariationsResponseContent {
-  variations: ListVariationsResponseContentVariationsList;
-}
 export interface GetVcTemplatesRequest {
   /** Optional Id from which to start selection. */
   from?: string | undefined;
@@ -15044,18 +12928,6 @@ export interface GetVerifiableCredentialTemplateResponseContent {
   /** The date and time the template was created. */
   updated_at?: string | undefined;
   [key: string]: unknown;
-}
-export interface ListPortalsRequest {}
-export interface PortalSummary {
-  id: string;
-  name: string;
-  slug: string;
-  created_at: string;
-  updated_at: string;
-}
-export type ListPortalsResponseContentPortalsList = Array<PortalSummary>;
-export interface ListPortalsResponseContent {
-  portals: ListPortalsResponseContentPortalsList;
 }
 /** The list of triggers that this action supports. At this time, an action can only target a single trigger at a time. */
 export type PatchActionRequestSupportedTriggersList = Array<ActionTrigger>;
@@ -18523,19 +16395,6 @@ export interface ResetPhoneTemplateResponseContent {
   /** Whether the template is enabled (false) or disabled (true). */
   disabled: boolean;
 }
-/** Array of refresh token IDs to revoke. Limited to 100 at a time. */
-export type RevokeRefreshTokensRequestIdsList = Array<string>;
-export interface RevokeRefreshTokensRequest {
-  /** Array of refresh token IDs to revoke. Limited to 100 at a time. */
-  ids?: RevokeRefreshTokensRequestIdsList | undefined;
-  /** Revoke all refresh tokens for this user. */
-  user_id?: string | undefined;
-  /** Revoke refresh tokens for this client. Must be paired with `user_id`; optionally narrowed further with `audience`. */
-  client_id?: string | undefined;
-  /** Resource server identifier (audience) to scope the revocation. Must be used with both `user_id` and `client_id`. */
-  audience?: string | undefined;
-}
-export interface RevokeRefreshTokensResponse {}
 export interface RevokeSessionRequest {
   /** ID of the session to revoke. */
   id: string;
@@ -18741,57 +16600,6 @@ export interface TryPhoneTemplateRequest {
   delivery_method?: PhoneProviderDeliveryMethodEnum | (string & {}) | undefined;
 }
 export interface TryPhoneTemplateResponse {}
-/** The secrets to associate with the action module. */
-export type UpdateActionModuleRequestSecretsList = Array<ActionModuleSecretRequest>;
-/** The npm dependencies of the action module. */
-export type UpdateActionModuleRequestDependenciesList = Array<ActionModuleDependencyRequest>;
-export interface UpdateActionModuleRequest {
-  /** The ID of the action module to update. */
-  id: string;
-  /** The source code of the action module. */
-  code?: string | undefined;
-  /** The secrets to associate with the action module. */
-  secrets?: UpdateActionModuleRequestSecretsList | undefined;
-  /** The npm dependencies of the action module. */
-  dependencies?: UpdateActionModuleRequestDependenciesList | undefined;
-}
-/** The npm dependencies from the module's draft version. */
-export type UpdateActionModuleResponseContentDependenciesList = Array<ActionModuleDependency>;
-/** The secrets from the module's draft version (names and timestamps only, values never returned). */
-export type UpdateActionModuleResponseContentSecretsList = Array<ActionModuleSecret>;
-export interface UpdateActionModuleResponseContent {
-  /** The unique ID of the module. */
-  id?: string | undefined;
-  /** The name of the module. */
-  name?: string | undefined;
-  /** The source code from the module's draft version. */
-  code?: string | undefined;
-  /** The npm dependencies from the module's draft version. */
-  dependencies?: UpdateActionModuleResponseContentDependenciesList | undefined;
-  /** The secrets from the module's draft version (names and timestamps only, values never returned). */
-  secrets?: UpdateActionModuleResponseContentSecretsList | undefined;
-  /** The number of deployed actions using this module. */
-  actions_using_module_total?: number | undefined;
-  /** Whether all draft changes have been published as a version. */
-  all_changes_published?: boolean | undefined;
-  /** The version number of the latest published version. Omitted if no versions have been published. */
-  latest_version_number?: number | undefined;
-  /** Timestamp when the module was created. */
-  created_at?: string | undefined;
-  /** Timestamp when the module was last updated. */
-  updated_at?: string | undefined;
-  latest_version?: ActionModuleVersionReference | undefined;
-}
-/** Arbitrary key-value metadata for the agent. Pass null to clear all metadata. */
-export type UpdateAgentRequestMetadataMap = { [key: string]: unknown | undefined };
-export interface UpdateAgentRequest {
-  /** The agent ID */
-  id: string;
-  /** The agent name. Cannot contain <, >, or null bytes. */
-  name?: string | undefined;
-  /** Arbitrary key-value metadata for the agent. Pass null to clear all metadata. */
-  metadata?: UpdateAgentRequestMetadataMap | null | undefined;
-}
 export type UpdateBrandingPageBackgroundCase1Map = { [key: string]: unknown | undefined };
 /** Page Background Color or Gradient. Property contains either `null` to unset, a solid color as a string value `#FFFFFF`, or a gradient as an object. ```js { type: 'linear-gradient', start: '#FFFFFF', end: '#000000', angle_deg: 35 } ``` */
 export type UpdateBrandingPageBackground = string | UpdateBrandingPageBackgroundCase1Map;
@@ -19266,14 +17074,6 @@ export interface UpdateClientGrantResponseContent {
   /** If enabled, all scopes configured on the resource server are allowed for this grant. */
   allow_all_scopes?: boolean | undefined;
 }
-export interface UpdateClientProfileRequest {
-  /** ID of the client profile. */
-  id: string;
-  name?: string | undefined;
-  description?: string | null | undefined;
-  client_configuration?: ClientProfileClientConfiguration | undefined;
-  apply_policy?: ClientProfileApplyPolicy | undefined;
-}
 /** An array of user fields that should not be stored in the Auth0 database (https://auth0.com/docs/security/data-security/denylist) */
 export type UpdateConnectionOptionsNonPersistentAttrsList = Array<string>;
 /** Order of precedence for attribute types. If the property is not specified, the default precedence of attributes will be used. */
@@ -19532,85 +17332,6 @@ export type UpdateEventStreamResponseContent =
   | EventStreamEventBridgeResponseContent
   | EventStreamActionResponseContent;
 export type UpdateEventStreamResponse = UpdateEventStreamResponseContent;
-/** Replaces all traffic allocations. Cannot be modified while the experiment is active. */
-export type UpdateExperimentRequestAllocationsList = Array<AllocationRequestItem>;
-/** Ramp experiment levels configuration. A strictly-increasing sequence of exposure percentages, each an integer in [0, 100]. Can only be modified on draft experiments. */
-export type UpdateExperimentRequestLevelsList = Array<number>;
-/** Target lifecycle status. Transitions the experiment through its lifecycle (draft -> active, draft -> archived, active -> paused, paused -> active, active/paused -> completed, paused/completed -> archived). Activation runs full readiness validation and snapshots the configuration. When combined with field edits, the edits apply first and the transition sees the updated config. */
-export type ExperimentTransitionStatusEnum = "active" | "paused" | "completed" | "archived";
-export interface UpdateExperimentRequest {
-  /** The ID of the experiment to update. */
-  id: string;
-  /** A human-readable name for the experiment */
-  name?: string | undefined;
-  /** A description of the experiment */
-  description?: string | null | undefined;
-  /** Specifies the target authentication flow for this experiment. This field can only be modified on draft experiments. Must be one of: authentication, mfa_enrollment, mfa_challenge, password_reset, passkey_enrollment, or all. Note that the all value targets every flow at once, but requires that this is the only active experiment. */
-  authentication_flow?: AuthenticationFlowEnum | (string & {}) | undefined;
-  /** Replaces all traffic allocations. Cannot be modified while the experiment is active. */
-  allocations?: UpdateExperimentRequestAllocationsList | undefined;
-  /** Applies only to Auth0-managed flags. Controls where non-overridden config keys resolve from: 'tenant' inherits the tenant's live config, 'flag' uses the flag's frozen defaults. Can only be modified on draft experiments. Rejected for customer-defined flags. */
-  default_config?: DefaultConfigEnum | (string & {}) | undefined;
-  /** Ramp experiment levels configuration. A strictly-increasing sequence of exposure percentages, each an integer in [0, 100]. Can only be modified on draft experiments. */
-  levels?: UpdateExperimentRequestLevelsList | undefined;
-  status?: ExperimentTransitionStatusEnum | (string & {}) | undefined;
-}
-export type UpdateExperimentResponseContentFeatureFlagSnapshotMap = {
-  [key: string]: unknown | undefined;
-};
-export type UpdateExperimentResponseContentAllocationsList = Array<AllocationItem>;
-/** Fields that may be mutated given the experiment's current status. Computed at response time; always current with the API's enforcement logic. */
-export type UpdateExperimentResponseContentEditableFieldsList = Array<string>;
-/** Ramp experiment levels configuration. */
-export type UpdateExperimentResponseContentLevelsList = Array<number>;
-export interface UpdateExperimentResponseContent {
-  id: string;
-  name: string;
-  description?: string | undefined;
-  feature_flag_id: string;
-  feature_flag_name?: string | undefined;
-  authentication_flow: string;
-  allocation_strategy: AllocationStrategyEnum;
-  status: ExperimentStatusEnum;
-  /** Whether the experiment is valid and ready to activate, as of its last update. It can lag changes made later to related entities. Call POST /experiments/{id}/validate for the current result. */
-  is_valid: boolean;
-  default_config?: DefaultConfigEnum | undefined;
-  feature_flag_snapshot?: UpdateExperimentResponseContentFeatureFlagSnapshotMap | null | undefined;
-  allocations: UpdateExperimentResponseContentAllocationsList;
-  /** Fields that may be mutated given the experiment's current status. Computed at response time; always current with the API's enforcement logic. */
-  editable_fields: UpdateExperimentResponseContentEditableFieldsList;
-  /** Ramp experiment levels configuration. */
-  levels?: UpdateExperimentResponseContentLevelsList | undefined;
-  /** Read-only. The active exposure percentage for the current ramp step. Null when no ramp schedule is active. */
-  current_level?: number | null | undefined;
-  started_at?: string | undefined;
-  ended_at?: string | undefined;
-  created_at: string;
-  updated_at: string;
-}
-/** Configuration parameters for this feature flag */
-export type UpdateFeatureFlagParameters = { [key: string]: FeatureFlagConfigParam | undefined };
-export interface UpdateFeatureFlagRequest {
-  /** The ID of the feature flag to update. */
-  id: string;
-  /** A human-readable name for the feature flag */
-  name?: string | undefined;
-  /** A description of what this feature flag controls */
-  description?: string | null | undefined;
-  parameters?: UpdateFeatureFlagParameters | undefined;
-  /** Target lifecycle status (draft -> active, draft -> archived, active -> archived). Activating a flag requires at least 2 variations. When combined with field edits, the edits and the transition are applied together; if the transition is rejected, no edits are applied. */
-  status?: FeatureFlagStatusEnum | (string & {}) | undefined;
-}
-export interface UpdateFeatureFlagResponseContent {
-  id: string;
-  name: string;
-  description?: string | undefined;
-  type: FeatureFlagTypeEnum;
-  status: FeatureFlagStatusEnum;
-  parameters?: FeatureFlagConfigParams | undefined;
-  created_at: string;
-  updated_at: string;
-}
 export type UpdateFlowRequestActionsList = Array<FlowAction>;
 export interface UpdateFlowRequest {
   /** Flow identifier */
@@ -19821,68 +17542,6 @@ export interface UpdateOrganizationResponseContent {
   client?: OrganizationClientAssociation | undefined;
   [key: string]: unknown;
 }
-export interface UpdateOrganizationClientRequest {
-  /** ID of the organization. */
-  id: string;
-  /** ID of the client association to update. */
-  client_id: string;
-  /** Whether this client is used for member access to the organization. */
-  use_for_member_access?: boolean | undefined;
-}
-export interface UpdateOrganizationClientResponseContent {
-  /** The identifier of the client associated with the organization. */
-  client_id: string;
-  /** Whether this client is used for member access to the organization. */
-  use_for_member_access: boolean;
-  client?: OrganizationClientMetadata | undefined;
-}
-/** Access level for the organization (e.g., "none", "full"). */
-export type OrganizationAccessLevelEnumWithNull = "none" | "readonly" | "limited" | "full";
-/** Access level for the organization member (e.g., "none", "full"). */
-export type OrganizationMemberAccessLevelEnumWithNull = "none" | "readonly" | "limited" | "full";
-export interface UpdateOrganizationConnectionRequest {
-  /** Organization identifier. */
-  id: string;
-  /** Connection identifier. */
-  connection_id: string;
-  /** Name of the connection in the scope of this organization. */
-  organization_connection_name?: string | null | undefined;
-  /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean | undefined;
-  /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean | undefined;
-  /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean | undefined;
-  organization_access_level?:
-    | OrganizationAccessLevelEnumWithNull
-    | (string & {})
-    | null
-    | undefined;
-  organization_member_access_level?:
-    | OrganizationMemberAccessLevelEnumWithNull
-    | (string & {})
-    | null
-    | undefined;
-  /** Whether the connection is enabled for the organization. */
-  is_enabled?: boolean | null | undefined;
-}
-export interface UpdateOrganizationAllConnectionResponseContent {
-  /** Name of the connection in the scope of this organization. */
-  organization_connection_name?: string | undefined;
-  /** When true, all users that log in with this connection will be automatically granted membership in the organization. When false, users must be granted membership in the organization before logging in with this connection. */
-  assign_membership_on_login?: boolean | undefined;
-  /** Determines whether a connection should be displayed on this organization's login prompt. Only applicable for enterprise connections. Default: true. */
-  show_as_button?: boolean | undefined;
-  /** Determines whether organization signup should be enabled for this organization connection. Only applicable for database connections. Default: false. */
-  is_signup_enabled?: boolean | undefined;
-  organization_access_level?: OrganizationAccessLevelEnum | undefined;
-  organization_member_access_level?: OrganizationMemberAccessLevelEnum | undefined;
-  /** Whether the connection is enabled for the organization. */
-  is_enabled?: boolean | undefined;
-  /** Connection identifier. */
-  connection_id: string;
-  connection?: OrganizationConnectionInformation | undefined;
-}
 export interface UpdatePhoneProviderRequest {
   id: string;
   name?: PhoneProviderNameEnum | (string & {}) | undefined;
@@ -19927,15 +17586,6 @@ export interface UpdatePhoneTemplateResponseContent {
   /** Whether the template is enabled (false) or disabled (true). */
   disabled: boolean;
 }
-export interface UpdatePortalRequest {
-  id: string;
-  slug?: string | undefined;
-  name?: string | undefined;
-  client?: PortalClientSecretPostRequest | undefined;
-  navigation?: PortalNavigation | null | undefined;
-  pages?: PortalPagesByType | null | undefined;
-  custom_code?: PortalCustomCode | null | undefined;
-}
 export interface UpdatePromptsRequest {
   universal_login_experience?: UniversalLoginExperienceEnum | (string & {}) | undefined;
   /** Whether identifier first is enabled or not */
@@ -19950,52 +17600,6 @@ export interface UpdateSettingsResponseContent {
   /** Use WebAuthn with Device Biometrics as the first authentication factor */
   webauthn_platform_first_factor?: boolean | undefined;
   [key: string]: unknown;
-}
-/** Determines the action to take when the rate limit is exceeded. */
-export type PatchRateLimitPolicyConfigurationRequestContentCase0Action = "allow";
-export interface PatchRateLimitPolicyConfigurationRequestContentCase0 {
-  /** Determines the action to take when the rate limit is exceeded. */
-  action: PatchRateLimitPolicyConfigurationRequestContentCase0Action;
-}
-/** Determines the action to take when the rate limit is exceeded. */
-export type PatchRateLimitPolicyConfigurationRequestContentCase1Action = "block" | "log";
-export interface PatchRateLimitPolicyConfigurationRequestContentCase1 {
-  /** Determines the action to take when the rate limit is exceeded. */
-  action: PatchRateLimitPolicyConfigurationRequestContentCase1Action | (string & {});
-  /** The maximum number of requests allowed per second. */
-  limit: number;
-}
-/** Determines the action to take when the rate limit is exceeded. */
-export type PatchRateLimitPolicyConfigurationRequestContentCase2Action = "redirect";
-export interface PatchRateLimitPolicyConfigurationRequestContentCase2 {
-  /** Determines the action to take when the rate limit is exceeded. */
-  action: PatchRateLimitPolicyConfigurationRequestContentCase2Action;
-  /** The maximum number of requests allowed per second. */
-  limit: number;
-  /** The HTTPS URI to redirect to when the rate limit is exceeded. */
-  redirect_uri: string;
-}
-export type PatchRateLimitPolicyConfigurationRequestContent =
-  | PatchRateLimitPolicyConfigurationRequestContentCase0
-  | PatchRateLimitPolicyConfigurationRequestContentCase1
-  | PatchRateLimitPolicyConfigurationRequestContentCase2;
-export interface UpdateRateLimitPolicyRequest {
-  /** Unique identifier for the Rate Limit Policy. */
-  id: string;
-  configuration: PatchRateLimitPolicyConfigurationRequestContent;
-}
-export interface UpdateRateLimitPolicyResponseContent {
-  /** Unique identifier for the Rate Limit Policy. */
-  id: string;
-  resource: RateLimitPolicyResourceEnum;
-  consumer: RateLimitPolicyConsumerEnum;
-  /** Identifier or category within the consumer to which the policy applies. Supported values: `client_id:<client_id>` to target a specific client by ID, `client_id:<cimd_uri>` to target a CIMD client by URI, `cimd_clients` to target all CIMD clients, `third_party_clients` to target all third-party clients, or `default` to apply the policy to any consumer identifier not otherwise explicitly targeted. */
-  consumer_selector: string;
-  configuration: RateLimitPolicyConfiguration;
-  /** The date and time when the rate limit policy was created. */
-  created_at?: string | undefined;
-  /** The date and time when the rate limit policy was last updated. */
-  updated_at?: string | undefined;
 }
 export interface UpdateRefreshTokenRequest {
   /** ID of the refresh token to update. */
@@ -20169,31 +17773,6 @@ export interface UpdateRuleResponseContent {
   /** Execution stage of this rule. Can be `login_success`, `login_failure`, or `pre_authorize`. */
   stage?: string | undefined;
 }
-/** Replaces the entire rules array. Each rule is limited to 4KB and the whole segment to 10KB (serialized). */
-export type UpdateSegmentRequestRulesList = Array<SegmentRule>;
-export interface UpdateSegmentRequest {
-  /** The ID of the segment to update. */
-  id: string;
-  /** A human-readable name for the segment */
-  name?: string | undefined;
-  /** A description of the segment */
-  description?: string | null | undefined;
-  /** Replaces the entire rules array. Each rule is limited to 4KB and the whole segment to 10KB (serialized). */
-  rules?: UpdateSegmentRequestRulesList | undefined;
-  /** Target lifecycle status. Archiving removes the segment from the active pool and is terminal (an archived segment cannot return to active). When combined with field edits, the edits apply first and the transition follows. */
-  status?: SegmentStatusEnum | (string & {}) | undefined;
-}
-export type UpdateSegmentResponseContentRulesList = Array<SegmentRule>;
-export interface UpdateSegmentResponseContent {
-  id: string;
-  name: string;
-  description?: string | undefined;
-  type: SegmentTypeEnum;
-  status: SegmentStatusEnum;
-  rules: UpdateSegmentResponseContentRulesList;
-  created_at: string;
-  updated_at: string;
-}
 /** List of IdP strategies that will be shown to users during the Self-Service Enterprise Configuration flow. Possible values: [`oidc`, `samlp`, `waad`, `google-apps`, `adfs`, `okta`, `auth0-samlp`, `okta-samlp`, `keycloak-samlp`, `pingfederate`] */
 export type UpdateSelfServiceProfileRequestAllowedStrategiesList = Array<
   SelfServiceProfileAllowedStrategyEnum | (string & {})
@@ -20264,15 +17843,6 @@ export interface UpdateSessionResponseContent {
   cookie?: SessionCookieMetadata | undefined;
   session_metadata?: SessionMetadata | null | undefined;
   actor?: SessionActorMetadata | undefined;
-  [key: string]: unknown;
-}
-export interface UpdateSupplementalSignalsRequest {
-  /** Indicates if incoming Akamai Headers should be processed */
-  akamai_enabled: boolean;
-}
-export interface PatchSupplementalSignalsResponseContent {
-  /** Indicates if incoming Akamai Headers should be processed */
-  akamai_enabled?: boolean | undefined;
   [key: string]: unknown;
 }
 export interface UpdateTokenExchangeProfileRequest {
@@ -20375,177 +17945,14 @@ export interface UpdateUserResponseContent {
   family_name?: string | undefined;
   [key: string]: unknown;
 }
-export interface UpdateUserAttributeProfileRequest {
-  /** ID of the user attribute profile to update. */
-  id: string;
-  name?: string | undefined;
-  user_id?: UserAttributeProfileUserId | null | undefined;
-  user_attributes?: UserAttributeProfileUserAttributes | undefined;
-}
-export interface UpdateUserAttributeProfileResponseContent {
-  id?: string | undefined;
-  name?: string | undefined;
-  user_id?: UserAttributeProfileUserId | undefined;
-  user_attributes?: UserAttributeProfileUserAttributes | undefined;
-}
-/** Top-level keys merge into the stored overrides. Set a key to `null` to remove it. Set `overrides` to `null` or `{}` to clear all. Keys must exist in the parent flag parameters. */
-export type UpdateVariationOverridesMap = { [key: string]: unknown | undefined };
-export interface UpdateVariationRequest {
-  /** The ID of the parent feature flag. */
-  id: string;
-  /** The ID of the variation to update. */
-  vid: string;
-  /** A human-readable name for the variation */
-  name?: string | undefined;
-  /** A description of what this variation controls */
-  description?: string | null | undefined;
-  overrides?: UpdateVariationOverridesMap | null | undefined;
-}
-export interface UpdateVariationResponseContent {
-  id: string;
-  feature_flag_id: string;
-  name: string;
-  description?: string | undefined;
-  overrides: VariationOverridesMap;
-  created_at: string;
-  updated_at: string;
-}
-export interface ValidateExperimentRequest {
-  /** The ID of the experiment to validate. */
-  id: string;
-}
-export interface ExperimentValidationError {
-  /** Machine-readable error code identifying the validation failure. */
-  code: string;
-  /** Human-readable description of the validation failure. */
-  message: string;
-}
-/** List of validation errors preventing activation. Empty when is_valid is true. */
-export type ValidateExperimentResponseContentErrorsList = Array<ExperimentValidationError>;
-export interface ValidateExperimentResponseContent {
-  /** Whether the experiment is ready to be activated. */
-  is_valid: boolean;
-  /** List of validation errors preventing activation. Empty when is_valid is true. */
-  errors: ValidateExperimentResponseContentErrorsList;
-}
 /** Bad Request */
 export interface BadRequestSchema {
   message: string;
   statusCode: unknown;
   error: unknown;
 }
-/** Conflict */
-export type ConflictSchema = BadRequestSchema;
 /** Forbidden */
 export type ForbiddenSchema = BadRequestSchema;
-/** Not Found */
-export type NotFoundSchema = BadRequestSchema;
-export type Error404Body = BadRequestSchema;
-export type AdvanceExperimentRampError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | Auth0OpError;
-/** Advance the rollout level of a ramp experiment. Increments the current ramp index to the requested target level. Up-only: the target must be the immediate next level in the schedule. Idempotent: calling with the current level returns success without writing anything. */
-export const advanceExperimentRamp: API.OperationMethod<
-  AdvanceExperimentRampRequest,
-  AdvanceRampResponseContent,
-  AdvanceExperimentRampError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(17760, __c555, 0) as any as S.Schema<AdvanceExperimentRampRequest>,
-  output: __S(17761, __c555, 1) as any as S.Schema<AdvanceRampResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "AdvanceExperimentRamp",
-}));
-
-export type CreateActionModuleError = BadRequest | Forbidden | Conflict | Auth0OpError;
-/** Create a new Actions Module Create a new Actions Module for reusable code across actions. */
-export const createActionModule: API.OperationMethod<
-  CreateActionModuleRequest,
-  CreateActionModuleResponseContent,
-  CreateActionModuleError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(18272, __c571, 0) as any as S.Schema<CreateActionModuleRequest>,
-  output: __S(18337, __c573, 1) as any as S.Schema<CreateActionModuleResponseContent>,
-  errors: [BadRequest, Forbidden, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateActionModule",
-}));
-
-export type CreateActionModuleRollbackError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | Auth0OpError;
-/** Rollback an Actions Module to a previous version Rolls back an Actions Module's draft to a previously created version. This action copies the code, dependencies, and secrets from the specified version into the current draft. */
-export const createActionModuleRollback: API.OperationMethod<
-  CreateActionModuleRollbackRequest,
-  RollbackActionModuleResponseContent,
-  CreateActionModuleRollbackError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(18720, __c585, 0) as any as S.Schema<CreateActionModuleRollbackRequest>,
-  output: __S(18337, __c573, 1) as any as S.Schema<RollbackActionModuleResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateActionModuleRollback",
-}));
-
-export type CreateActionModuleVersionError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | Auth0OpError;
-/** Create a new version of an Actions Module Creates a new immutable version of an Actions Module from the current draft version. This publishes the draft as a new version that can be referenced by actions, while maintaining the existing draft for continued development. */
-export const createActionModuleVersion: API.OperationMethod<
-  CreateActionModuleVersionRequest,
-  CreateActionModuleVersionResponseContent,
-  CreateActionModuleVersionError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(19072, __c596, 0) as any as S.Schema<CreateActionModuleVersionRequest>,
-  output: __S(19104, __c597, 0) as any as S.Schema<CreateActionModuleVersionResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateActionModuleVersion",
-}));
-
-export type CreateAgentError = BadRequest | Forbidden | Conflict | Auth0OpError;
-/** Create an agent Create an agent */
-export const createAgent: API.OperationMethod<
-  CreateAgentRequest,
-  AgentResponseContent,
-  CreateAgentError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(19456, __c608, 0) as any as S.Schema<CreateAgentRequest>,
-  output: __S(19520, __c610, 0) as any as S.Schema<AgentResponseContent>,
-  errors: [BadRequest, Forbidden, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateAgent",
-}));
-
 export type CreateBrandingThemeError = BadRequest | Forbidden | Conflict | Auth0OpError;
 /** Create branding theme Create branding theme. */
 export const createBrandingTheme: API.OperationMethod<
@@ -20554,8 +17961,8 @@ export const createBrandingTheme: API.OperationMethod<
   CreateBrandingThemeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<CreateBrandingThemeRequest>,
-  output: __S(72, __c2, 8) as any as S.Schema<CreateBrandingThemeResponseContent>,
+  input: __S(13984, __c437, 0) as any as S.Schema<CreateBrandingThemeRequest>,
+  output: __S(14024, __c438, 8) as any as S.Schema<CreateBrandingThemeResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20572,8 +17979,8 @@ export const createClient: API.OperationMethod<
   CreateClientError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(460, __c14, 12) as any as S.Schema<CreateClientRequest>,
-  output: __S(632, __c19, 24) as any as S.Schema<CreateClientResponseContent>,
+  input: __S(14380, __c449, 12) as any as S.Schema<CreateClientRequest>,
+  output: __S(14582, __c455, 22) as any as S.Schema<CreateClientResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20590,32 +17997,14 @@ export const createClientGrant: API.OperationMethod<
   CreateClientGrantError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<CreateClientGrantRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<CreateClientGrantResponseContent>,
+  input: __S(15072, __c471, 0) as any as S.Schema<CreateClientGrantRequest>,
+  output: __S(15104, __c472, 0) as any as S.Schema<CreateClientGrantResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateClientGrant",
-}));
-
-export type CreateClientProfileError = BadRequest | Forbidden | Conflict | Auth0OpError;
-/** Create a client profile Create a client profile. At most one profile is allowed per tenant in this release; attempting to create a second returns <code>409 Conflict</code>. The profile governs Dynamic CIMD clients matched by its <code>apply_policy</code> at runtime. */
-export const createClientProfile: API.OperationMethod<
-  CreateClientProfileRequest,
-  ClientProfile,
-  CreateClientProfileError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<CreateClientProfileRequest>,
-  output: __S(1544, __c48, 8) as any as S.Schema<ClientProfile>,
-  errors: [BadRequest, Forbidden, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateClientProfile",
 }));
 
 export type CreateClientsCimdPreviewError = BadRequest | Forbidden | Auth0OpError;
@@ -20626,8 +18015,8 @@ export const createClientsCimdPreview: API.OperationMethod<
   CreateClientsCimdPreviewError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<CreateClientsCimdPreviewRequest>,
-  output: __S(2017, __c63, 1) as any as S.Schema<PreviewCimdMetadataResponseContent>,
+  input: __S(15488, __c484, 0) as any as S.Schema<CreateClientsCimdPreviewRequest>,
+  output: __S(15489, __c484, 1) as any as S.Schema<PreviewCimdMetadataResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20644,8 +18033,8 @@ export const createClientsCimdRegister: API.OperationMethod<
   CreateClientsCimdRegisterError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<CreateClientsCimdRegisterRequest>,
-  output: __S(2401, __c75, 1) as any as S.Schema<RegisterCimdClientResponseContent>,
+  input: __S(15872, __c496, 0) as any as S.Schema<CreateClientsCimdRegisterRequest>,
+  output: __S(15873, __c496, 1) as any as S.Schema<RegisterCimdClientResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20667,8 +18056,8 @@ export const createConnection: API.OperationMethod<
   CreateConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<CreateConnectionRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<CreateConnectionResponseContent>,
+  input: __S(32, __c1, 0) as any as S.Schema<CreateConnectionRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<CreateConnectionResponseContent>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20685,8 +18074,8 @@ export const createConnectionProfile: API.OperationMethod<
   CreateConnectionProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<CreateConnectionProfileRequest>,
-  output: __S(3522, __c110, 2) as any as S.Schema<CreateConnectionProfileResponseContent>,
+  input: __S(640, __c20, 0) as any as S.Schema<CreateConnectionProfileRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<CreateConnectionProfileResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20703,8 +18092,8 @@ export const createCustomDomain: API.OperationMethod<
   CreateCustomDomainError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<CreateCustomDomainRequest>,
-  output: __S(4128, __c129, 0) as any as S.Schema<CreateCustomDomainResponseContent>,
+  input: __S(1248, __c39, 0) as any as S.Schema<CreateCustomDomainRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<CreateCustomDomainResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20721,8 +18110,8 @@ export const createDeviceCredentials: API.OperationMethod<
   CreateDeviceCredentialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<CreateDeviceCredentialsRequest>,
-  output: __S(4577, __c143, 1) as any as S.Schema<CreatePublicKeyDeviceCredentialResponseContent>,
+  input: __S(1696, __c53, 0) as any as S.Schema<CreateDeviceCredentialsRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<CreatePublicKeyDeviceCredentialResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20739,8 +18128,8 @@ export const createEmailTemplate: API.OperationMethod<
   CreateEmailTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<CreateEmailTemplateRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<CreateEmailTemplateResponseContent>,
+  input: __S(2240, __c70, 0) as any as S.Schema<CreateEmailTemplateRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<CreateEmailTemplateResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20757,56 +18146,14 @@ export const createEventStream: API.OperationMethod<
   CreateEventStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<CreateEventStreamRequest>,
-  output: __S(5473, __c171, 1) as any as S.Schema<CreateEventStreamResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<CreateEventStreamRequest>,
+  output: __S(2721, __c85, 1) as any as S.Schema<CreateEventStreamResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateEventStream",
-}));
-
-export type CreateExperimentError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | Auth0OpError;
-/** Create an experiment for the Experiment Center. Create a new experiment for A/B testing. */
-export const createExperiment: API.OperationMethod<
-  CreateExperimentRequest,
-  CreateExperimentResponseContent,
-  CreateExperimentError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<CreateExperimentRequest>,
-  output: __S(5922, __c185, 2) as any as S.Schema<CreateExperimentResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateExperiment",
-}));
-
-export type CreateFeatureFlagError = BadRequest | Forbidden | Conflict | Auth0OpError;
-/** Create a feature flag for the Experiment Center. Create a new feature flag with parameters for use in experiments. */
-export const createFeatureFlag: API.OperationMethod<
-  CreateFeatureFlagRequest,
-  CreateFeatureFlagResponseContent,
-  CreateFeatureFlagError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<CreateFeatureFlagRequest>,
-  output: __S(6434, __c201, 2) as any as S.Schema<CreateFeatureFlagResponseContent>,
-  errors: [BadRequest, Forbidden, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateFeatureFlag",
 }));
 
 export type CreateFlowError = BadRequest | Forbidden | Auth0OpError;
@@ -20817,8 +18164,8 @@ export const createFlow: API.OperationMethod<
   CreateFlowError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<CreateFlowRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<CreateFlowResponseContent>,
+  input: __S(3232, __c101, 0) as any as S.Schema<CreateFlowRequest>,
+  output: __S(3265, __c102, 1) as any as S.Schema<CreateFlowResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20835,8 +18182,8 @@ export const createFlowsVaultConnection: API.OperationMethod<
   CreateFlowsVaultConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<CreateFlowsVaultConnectionRequest>,
-  output: __S(7392, __c231, 0) as any as S.Schema<CreateFlowsVaultConnectionResponseContent>,
+  input: __S(3680, __c115, 0) as any as S.Schema<CreateFlowsVaultConnectionRequest>,
+  output: __S(3712, __c116, 0) as any as S.Schema<CreateFlowsVaultConnectionResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20853,8 +18200,8 @@ export const createForm: API.OperationMethod<
   CreateFormError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<CreateFormRequest>,
-  output: __S(7852, __c245, 12) as any as S.Schema<CreateFormResponseContent>,
+  input: __S(4064, __c127, 0) as any as S.Schema<CreateFormRequest>,
+  output: __S(4108, __c128, 12) as any as S.Schema<CreateFormResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20871,8 +18218,8 @@ export const createGroupRole: API.OperationMethod<
   CreateGroupRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<CreateGroupRoleRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<CreateGroupRoleResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<CreateGroupRoleRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<CreateGroupRoleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20889,32 +18236,14 @@ export const createHook: API.OperationMethod<
   CreateHookError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<CreateHookRequest>,
-  output: __S(8800, __c275, 0) as any as S.Schema<CreateHookResponseContent>,
+  input: __S(5056, __c158, 0) as any as S.Schema<CreateHookRequest>,
+  output: __S(5088, __c159, 0) as any as S.Schema<CreateHookResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateHook",
-}));
-
-export type CreateKeysNetworkAclsError = BadRequest | Forbidden | Conflict | Auth0OpError;
-/** Create a Network ACL key Create a new key used to verify HTTP Message Signatures on Network ACL rules. */
-export const createKeysNetworkAcls: API.OperationMethod<
-  CreateKeysNetworkAclsRequest,
-  CreateKeysNetworkAclsResponseContent,
-  CreateKeysNetworkAclsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<CreateKeysNetworkAclsRequest>,
-  output: __S(9312, __c291, 0) as any as S.Schema<CreateKeysNetworkAclsResponseContent>,
-  errors: [BadRequest, Forbidden, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateKeysNetworkAcls",
 }));
 
 export type CreateLogStreamError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -20925,8 +18254,8 @@ export const createLogStream: API.OperationMethod<
   CreateLogStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<CreateLogStreamRequest>,
-  output: __S(9697, __c303, 1) as any as S.Schema<CreateLogStreamResponse>,
+  input: __S(5568, __c174, 0) as any as S.Schema<CreateLogStreamRequest>,
+  output: __S(5569, __c174, 1) as any as S.Schema<CreateLogStreamResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20943,8 +18272,8 @@ export const createNetworkAcl: API.OperationMethod<
   CreateNetworkAclError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10112, __c316, 0) as any as S.Schema<CreateNetworkAclRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<CreateNetworkAclResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<CreateNetworkAclRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<CreateNetworkAclResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -20961,37 +18290,14 @@ export const createOrganization: API.OperationMethod<
   CreateOrganizationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10626, __c332, 2) as any as S.Schema<CreateOrganizationRequest>,
-  output: __S(10629, __c332, 5) as any as S.Schema<CreateOrganizationResponseContent>,
+  input: __S(6562, __c205, 2) as any as S.Schema<CreateOrganizationRequest>,
+  output: __S(6565, __c205, 5) as any as S.Schema<CreateOrganizationResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganization",
-}));
-
-export type CreateOrganizationClientError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | Auth0OpError;
-/** Associate clients with an organization Associate one or more clients with an organization. */
-export const createOrganizationClient: API.OperationMethod<
-  CreateOrganizationClientRequest,
-  CreateOrganizationClientResponse,
-  CreateOrganizationClientError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(11170, __c349, 2) as any as S.Schema<CreateOrganizationClientRequest>,
-  output: __S(11171, __c349, 3) as any as S.Schema<CreateOrganizationClientResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateOrganizationClient",
 }));
 
 export type CreateOrganizationClientGrantsError =
@@ -21007,37 +18313,14 @@ export const createOrganizationClientGrants: API.OperationMethod<
   CreateOrganizationClientGrantsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11616, __c363, 0) as any as S.Schema<CreateOrganizationClientGrantsRequest>,
-  output: __S(11617, __c363, 1) as any as S.Schema<AssociateOrganizationClientGrantResponseContent>,
+  input: __S(6976, __c218, 0) as any as S.Schema<CreateOrganizationClientGrantsRequest>,
+  output: __S(6977, __c218, 1) as any as S.Schema<AssociateOrganizationClientGrantResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationClientGrants",
-}));
-
-export type CreateOrganizationConnectionError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | Auth0OpError;
-/** Add a connection to an organization */
-export const createOrganizationConnection: API.OperationMethod<
-  CreateOrganizationConnectionRequest,
-  CreateOrganizationAllConnectionResponseContent,
-  CreateOrganizationConnectionError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(12064, __c377, 0) as any as S.Schema<CreateOrganizationConnectionRequest>,
-  output: __S(12096, __c378, 0) as any as S.Schema<CreateOrganizationAllConnectionResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateOrganizationConnection",
 }));
 
 export type CreateOrganizationGroupRoleError =
@@ -21053,8 +18336,8 @@ export const createOrganizationGroupRole: API.OperationMethod<
   CreateOrganizationGroupRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12448, __c389, 0) as any as S.Schema<CreateOrganizationGroupRoleRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<CreateOrganizationGroupRoleResponse>,
+  input: __S(7424, __c232, 0) as any as S.Schema<CreateOrganizationGroupRoleRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<CreateOrganizationGroupRoleResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21071,8 +18354,8 @@ export const createOrganizationMemberRole: API.OperationMethod<
   CreateOrganizationMemberRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12832, __c401, 0) as any as S.Schema<CreateOrganizationMemberRoleRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<CreateOrganizationMemberRoleResponse>,
+  input: __S(7904, __c247, 0) as any as S.Schema<CreateOrganizationMemberRoleRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<CreateOrganizationMemberRoleResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21089,8 +18372,8 @@ export const createPhoneProvider: API.OperationMethod<
   CreatePhoneProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13248, __c414, 0) as any as S.Schema<CreatePhoneProviderRequest>,
-  output: __S(13280, __c415, 0) as any as S.Schema<CreateBrandingPhoneProviderResponseContent>,
+  input: __S(8256, __c258, 0) as any as S.Schema<CreatePhoneProviderRequest>,
+  output: __S(8288, __c259, 0) as any as S.Schema<CreateBrandingPhoneProviderResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21107,50 +18390,14 @@ export const createPhoneTemplate: API.OperationMethod<
   CreatePhoneTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13632, __c426, 0) as any as S.Schema<CreatePhoneTemplateRequest>,
-  output: __S(13666, __c427, 2) as any as S.Schema<CreatePhoneTemplateResponseContent>,
+  input: __S(8736, __c273, 0) as any as S.Schema<CreatePhoneTemplateRequest>,
+  output: __S(8770, __c274, 2) as any as S.Schema<CreatePhoneTemplateResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatePhoneTemplate",
-}));
-
-export type CreatePortalError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
-/** Create a portal */
-export const createPortal: API.OperationMethod<
-  CreatePortalRequest,
-  Portal,
-  CreatePortalError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(14016, __c438, 0) as any as S.Schema<CreatePortalRequest>,
-  output: __S(14057, __c439, 9) as any as S.Schema<Portal>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreatePortal",
-}));
-
-export type CreateRateLimitPolicyError = BadRequest | Forbidden | Conflict | Auth0OpError;
-/** Create a rate limit policy */
-export const createRateLimitPolicy: API.OperationMethod<
-  CreateRateLimitPolicyRequest,
-  CreateRateLimitPolicyResponseContent,
-  CreateRateLimitPolicyError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(14464, __c452, 0) as any as S.Schema<CreateRateLimitPolicyRequest>,
-  output: __S(14496, __c453, 0) as any as S.Schema<CreateRateLimitPolicyResponseContent>,
-  errors: [BadRequest, Forbidden, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateRateLimitPolicy",
 }));
 
 export type CreateResourceServerError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -21161,8 +18408,8 @@ export const createResourceServer: API.OperationMethod<
   CreateResourceServerError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14848, __c464, 0) as any as S.Schema<CreateResourceServerRequest>,
-  output: __S(14944, __c467, 0) as any as S.Schema<CreateResourceServerResponseContent>,
+  input: __S(9120, __c285, 0) as any as S.Schema<CreateResourceServerRequest>,
+  output: __S(9193, __c287, 9) as any as S.Schema<CreateResourceServerResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21179,8 +18426,8 @@ export const createRole: API.OperationMethod<
   CreateRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15296, __c478, 0) as any as S.Schema<CreateRoleRequest>,
-  output: __S(15328, __c479, 0) as any as S.Schema<CreateRoleResponseContent>,
+  input: __S(9568, __c299, 0) as any as S.Schema<CreateRoleRequest>,
+  output: __S(9600, __c300, 0) as any as S.Schema<CreateRoleResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21197,8 +18444,8 @@ export const createRoleGroup: API.OperationMethod<
   CreateRoleGroupError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15680, __c490, 0) as any as S.Schema<CreateRoleGroupRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<CreateRoleGroupResponse>,
+  input: __S(10016, __c313, 0) as any as S.Schema<CreateRoleGroupRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<CreateRoleGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21215,8 +18462,8 @@ export const createRoleUser: API.OperationMethod<
   CreateRoleUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16032, __c501, 0) as any as S.Schema<CreateRoleUserRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<CreateRoleUserResponse>,
+  input: __S(10368, __c324, 0) as any as S.Schema<CreateRoleUserRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<CreateRoleUserResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21233,37 +18480,14 @@ export const createRule: API.OperationMethod<
   CreateRuleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16384, __c512, 0) as any as S.Schema<CreateRuleRequest>,
-  output: __S(16416, __c513, 0) as any as S.Schema<CreateRuleResponseContent>,
+  input: __S(10720, __c335, 0) as any as S.Schema<CreateRuleRequest>,
+  output: __S(10752, __c336, 0) as any as S.Schema<CreateRuleResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateRule",
-}));
-
-export type CreateSegmentError =
-  | BadRequest
-  | Forbidden
-  | Conflict
-  | UnprocessableEntity
-  | Auth0OpError;
-/** Create a segment for the Experiment Center. Create a new segment with rule-based membership criteria for use in experiments. */
-export const createSegment: API.OperationMethod<
-  CreateSegmentRequest,
-  CreateSegmentResponseContent,
-  CreateSegmentError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16768, __c524, 0) as any as S.Schema<CreateSegmentRequest>,
-  output: __S(16803, __c525, 3) as any as S.Schema<CreateSegmentResponseContent>,
-  errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateSegment",
 }));
 
 export type CreateSelfServiceProfileError = BadRequest | Forbidden | Conflict | Auth0OpError;
@@ -21274,8 +18498,8 @@ export const createSelfServiceProfile: API.OperationMethod<
   CreateSelfServiceProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17152, __c536, 0) as any as S.Schema<CreateSelfServiceProfileRequest>,
-  output: __S(17188, __c537, 4) as any as S.Schema<CreateSelfServiceProfileResponseContent>,
+  input: __S(11136, __c348, 0) as any as S.Schema<CreateSelfServiceProfileRequest>,
+  output: __S(11172, __c349, 4) as any as S.Schema<CreateSelfServiceProfileResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21292,8 +18516,8 @@ export const createTokenExchangeProfile: API.OperationMethod<
   CreateTokenExchangeProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17536, __c548, 0) as any as S.Schema<CreateTokenExchangeProfileRequest>,
-  output: __S(17568, __c549, 0) as any as S.Schema<CreateTokenExchangeProfileResponseContent>,
+  input: __S(11520, __c360, 0) as any as S.Schema<CreateTokenExchangeProfileRequest>,
+  output: __S(11552, __c361, 0) as any as S.Schema<CreateTokenExchangeProfileResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21310,32 +18534,14 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17792, __c556, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(17858, __c558, 2) as any as S.Schema<CreateUserResponseContent>,
+  input: __S(11904, __c372, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(11970, __c374, 2) as any as S.Schema<CreateUserResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateUser",
-}));
-
-export type CreateUserAttributeProfileError = BadRequest | Forbidden | Conflict | Auth0OpError;
-/** Post User Attribute Profile Create a User Attribute Profile. */
-export const createUserAttributeProfile: API.OperationMethod<
-  CreateUserAttributeProfileRequest,
-  CreateUserAttributeProfileResponseContent,
-  CreateUserAttributeProfileError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(17888, __c559, 0) as any as S.Schema<CreateUserAttributeProfileRequest>,
-  output: __S(17952, __c561, 0) as any as S.Schema<CreateUserAttributeProfileResponseContent>,
-  errors: [BadRequest, Forbidden, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateUserAttributeProfile",
 }));
 
 export type CreateUserRoleError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21346,32 +18552,14 @@ export const createUserRole: API.OperationMethod<
   CreateUserRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17984, __c562, 0) as any as S.Schema<CreateUserRoleRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<CreateUserRoleResponse>,
+  input: __S(12320, __c385, 0) as any as S.Schema<CreateUserRoleRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<CreateUserRoleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateUserRole",
-}));
-
-export type CreateVariationError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
-/** Create a variation for a feature flag. Create a new variation with parameter overrides for a specific feature flag. */
-export const createVariation: API.OperationMethod<
-  CreateVariationRequest,
-  CreateVariationResponseContent,
-  CreateVariationError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(18016, __c563, 0) as any as S.Schema<CreateVariationRequest>,
-  output: __S(18048, __c564, 0) as any as S.Schema<CreateVariationResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "CreateVariation",
 }));
 
 export type DeleteActionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -21382,50 +18570,14 @@ export const deleteAction: API.OperationMethod<
   DeleteActionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18080, __c565, 0) as any as S.Schema<DeleteActionRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteActionResponse>,
+  input: __S(12672, __c396, 0) as any as S.Schema<DeleteActionRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteActionResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteAction",
-}));
-
-export type DeleteActionModuleError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Delete a specific Actions Module by ID Permanently delete an Actions Module. This will fail if the module is still in use by any actions. */
-export const deleteActionModule: API.OperationMethod<
-  DeleteActionModuleRequest,
-  DeleteActionModuleResponse,
-  DeleteActionModuleError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(18112, __c566, 0) as any as S.Schema<DeleteActionModuleRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteActionModuleResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteActionModule",
-}));
-
-export type DeleteAgentError = BadRequest | Forbidden | Auth0OpError;
-/** Delete an agent Delete an agent */
-export const deleteAgent: API.OperationMethod<
-  DeleteAgentRequest,
-  DeleteAgentResponse,
-  DeleteAgentError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(18144, __c567, 0) as any as S.Schema<DeleteAgentRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteAgentResponse>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteAgent",
 }));
 
 export type DeleteAuthenticationMethodsError = BadRequest | Forbidden | Auth0OpError;
@@ -21436,8 +18588,8 @@ export const deleteAuthenticationMethods: API.OperationMethod<
   DeleteAuthenticationMethodsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18176, __c568, 0) as any as S.Schema<DeleteAuthenticationMethodsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteAuthenticationMethodsResponse>,
+  input: __S(13024, __c407, 0) as any as S.Schema<DeleteAuthenticationMethodsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteAuthenticationMethodsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21459,13 +18611,13 @@ export const deleteAuthenticationMethodsByAuthenticationMethodId: API.OperationM
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18208,
-    __c569,
+    13376,
+    __c418,
     0,
   ) as any as S.Schema<DeleteAuthenticationMethodsByAuthenticationMethodIdRequest>,
   output: __S(
-    8288,
-    __c259,
+    4640,
+    __c145,
     0,
   ) as any as S.Schema<DeleteAuthenticationMethodsByAuthenticationMethodIdResponse>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -21484,8 +18636,8 @@ export const deleteAuthenticators: API.OperationMethod<
   DeleteAuthenticatorsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18240, __c570, 0) as any as S.Schema<DeleteAuthenticatorsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteAuthenticatorsResponse>,
+  input: __S(13696, __c428, 0) as any as S.Schema<DeleteAuthenticatorsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteAuthenticatorsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21502,8 +18654,8 @@ export const deleteBrandingTheme: API.OperationMethod<
   DeleteBrandingThemeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18400, __c575, 0) as any as S.Schema<DeleteBrandingThemeRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteBrandingThemeResponse>,
+  input: __S(13728, __c429, 0) as any as S.Schema<DeleteBrandingThemeRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteBrandingThemeResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21520,8 +18672,8 @@ export const deleteClient: API.OperationMethod<
   DeleteClientError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18432, __c576, 0) as any as S.Schema<DeleteClientRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteClientResponse>,
+  input: __S(13760, __c430, 0) as any as S.Schema<DeleteClientRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteClientResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21538,8 +18690,8 @@ export const deleteClientGrant: API.OperationMethod<
   DeleteClientGrantError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18464, __c577, 0) as any as S.Schema<DeleteClientGrantRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteClientGrantResponse>,
+  input: __S(13792, __c431, 0) as any as S.Schema<DeleteClientGrantRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteClientGrantResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21556,32 +18708,14 @@ export const deleteClientGrantsByGrantId: API.OperationMethod<
   DeleteClientGrantsByGrantIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18496, __c578, 0) as any as S.Schema<DeleteClientGrantsByGrantIdRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteClientGrantsByGrantIdResponse>,
+  input: __S(13824, __c432, 0) as any as S.Schema<DeleteClientGrantsByGrantIdRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteClientGrantsByGrantIdResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteClientGrantsByGrantId",
-}));
-
-export type DeleteClientProfileError = BadRequest | Forbidden | Auth0OpError;
-/** Delete a client profile Delete a client profile. Idempotent: returns <code>204 No Content</code> whether or not a profile with the given ID existed. Deleting the profile removes fleet governance for matched clients immediately. */
-export const deleteClientProfile: API.OperationMethod<
-  DeleteClientProfileRequest,
-  DeleteClientProfileResponse,
-  DeleteClientProfileError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(18528, __c579, 0) as any as S.Schema<DeleteClientProfileRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteClientProfileResponse>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteClientProfile",
 }));
 
 export type DeleteConnectionError = BadRequest | Forbidden | Auth0OpError;
@@ -21592,8 +18726,8 @@ export const deleteConnection: API.OperationMethod<
   DeleteConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18560, __c580, 0) as any as S.Schema<DeleteConnectionRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteConnectionResponse>,
+  input: __S(13856, __c433, 0) as any as S.Schema<DeleteConnectionRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteConnectionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21610,8 +18744,8 @@ export const deleteConnectionProfile: API.OperationMethod<
   DeleteConnectionProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18592, __c581, 0) as any as S.Schema<DeleteConnectionProfileRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteConnectionProfileResponse>,
+  input: __S(13888, __c434, 0) as any as S.Schema<DeleteConnectionProfileRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteConnectionProfileResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21628,8 +18762,8 @@ export const deleteCredentialsByCredentialId: API.OperationMethod<
   DeleteCredentialsByCredentialIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18624, __c582, 0) as any as S.Schema<DeleteCredentialsByCredentialIdRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteCredentialsByCredentialIdResponse>,
+  input: __S(13920, __c435, 0) as any as S.Schema<DeleteCredentialsByCredentialIdRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteCredentialsByCredentialIdResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21646,8 +18780,8 @@ export const deleteCustomDomain: API.OperationMethod<
   DeleteCustomDomainError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18656, __c583, 0) as any as S.Schema<DeleteCustomDomainRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteCustomDomainResponse>,
+  input: __S(13952, __c436, 0) as any as S.Schema<DeleteCustomDomainRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteCustomDomainResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21664,8 +18798,8 @@ export const deleteCustomSigningKeys: API.OperationMethod<
   DeleteCustomSigningKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18688, __c584, 0) as any as S.Schema<DeleteCustomSigningKeysRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteCustomSigningKeysResponse>,
+  input: __S(14048, __c439, 0) as any as S.Schema<DeleteCustomSigningKeysRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteCustomSigningKeysResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21682,8 +18816,8 @@ export const deleteDeviceCredentials: API.OperationMethod<
   DeleteDeviceCredentialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18752, __c586, 0) as any as S.Schema<DeleteDeviceCredentialsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteDeviceCredentialsResponse>,
+  input: __S(14080, __c440, 0) as any as S.Schema<DeleteDeviceCredentialsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteDeviceCredentialsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21700,8 +18834,8 @@ export const deleteDirectoryProvisioning: API.OperationMethod<
   DeleteDirectoryProvisioningError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18784, __c587, 0) as any as S.Schema<DeleteDirectoryProvisioningRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteDirectoryProvisioningResponse>,
+  input: __S(14112, __c441, 0) as any as S.Schema<DeleteDirectoryProvisioningRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteDirectoryProvisioningResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21718,10 +18852,10 @@ export const deleteDiscoveryDomainsByDiscoveryDomainId: API.OperationMethod<
   DeleteDiscoveryDomainsByDiscoveryDomainIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18816, __c588, 0) as any as S.Schema<DeleteDiscoveryDomainsByDiscoveryDomainIdRequest>,
+  input: __S(14144, __c442, 0) as any as S.Schema<DeleteDiscoveryDomainsByDiscoveryDomainIdRequest>,
   output: __S(
-    8288,
-    __c259,
+    4640,
+    __c145,
     0,
   ) as any as S.Schema<DeleteDiscoveryDomainsByDiscoveryDomainIdResponse>,
   errors: [Forbidden, NotFound],
@@ -21744,8 +18878,8 @@ export const deleteEnabledConnectionsByConnectionId: API.OperationMethod<
   DeleteEnabledConnectionsByConnectionIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18848, __c589, 0) as any as S.Schema<DeleteEnabledConnectionsByConnectionIdRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteEnabledConnectionsByConnectionIdResponse>,
+  input: __S(14176, __c443, 0) as any as S.Schema<DeleteEnabledConnectionsByConnectionIdRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteEnabledConnectionsByConnectionIdResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21762,8 +18896,8 @@ export const deleteEncryptionKey: API.OperationMethod<
   DeleteEncryptionKeyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18880, __c590, 0) as any as S.Schema<DeleteEncryptionKeyRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteEncryptionKeyResponse>,
+  input: __S(14208, __c444, 0) as any as S.Schema<DeleteEncryptionKeyRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteEncryptionKeyResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21780,8 +18914,8 @@ export const deleteEnrollmentsById: API.OperationMethod<
   DeleteEnrollmentsByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18912, __c591, 0) as any as S.Schema<DeleteEnrollmentsByIdRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteEnrollmentsByIdResponse>,
+  input: __S(14240, __c445, 0) as any as S.Schema<DeleteEnrollmentsByIdRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteEnrollmentsByIdResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21798,50 +18932,14 @@ export const deleteEventStream: API.OperationMethod<
   DeleteEventStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18944, __c592, 0) as any as S.Schema<DeleteEventStreamRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteEventStreamResponse>,
+  input: __S(14272, __c446, 0) as any as S.Schema<DeleteEventStreamRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteEventStreamResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteEventStream",
-}));
-
-export type DeleteExperimentError = BadRequest | Forbidden | Auth0OpError;
-/** Delete an experiment. Permanently delete an experiment and its allocations by ID. Active experiments cannot be deleted; pause or complete first. Idempotent: returns 204 even if the experiment does not exist. */
-export const deleteExperiment: API.OperationMethod<
-  DeleteExperimentRequest,
-  DeleteExperimentResponse,
-  DeleteExperimentError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(18976, __c593, 0) as any as S.Schema<DeleteExperimentRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteExperimentResponse>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteExperiment",
-}));
-
-export type DeleteFeatureFlagError = Forbidden | Conflict | Auth0OpError;
-/** Delete a feature flag. Delete a feature flag by ID. Idempotent: returns 204 even if flag does not exist. */
-export const deleteFeatureFlag: API.OperationMethod<
-  DeleteFeatureFlagRequest,
-  DeleteFeatureFlagResponse,
-  DeleteFeatureFlagError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(19008, __c594, 0) as any as S.Schema<DeleteFeatureFlagRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteFeatureFlagResponse>,
-  errors: [Forbidden, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteFeatureFlag",
 }));
 
 export type DeleteFlowError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -21852,8 +18950,8 @@ export const deleteFlow: API.OperationMethod<
   DeleteFlowError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19040, __c595, 0) as any as S.Schema<DeleteFlowRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteFlowResponse>,
+  input: __S(14304, __c447, 0) as any as S.Schema<DeleteFlowRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteFlowResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21870,8 +18968,8 @@ export const deleteFlowsExecution: API.OperationMethod<
   DeleteFlowsExecutionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19136, __c598, 0) as any as S.Schema<DeleteFlowsExecutionRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteFlowsExecutionResponse>,
+  input: __S(14336, __c448, 0) as any as S.Schema<DeleteFlowsExecutionRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteFlowsExecutionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21888,8 +18986,8 @@ export const deleteFlowsVaultConnection: API.OperationMethod<
   DeleteFlowsVaultConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19168, __c599, 0) as any as S.Schema<DeleteFlowsVaultConnectionRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteFlowsVaultConnectionResponse>,
+  input: __S(14752, __c461, 0) as any as S.Schema<DeleteFlowsVaultConnectionRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteFlowsVaultConnectionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21906,8 +19004,8 @@ export const deleteForm: API.OperationMethod<
   DeleteFormError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19200, __c600, 0) as any as S.Schema<DeleteFormRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteFormResponse>,
+  input: __S(14784, __c462, 0) as any as S.Schema<DeleteFormRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteFormResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21924,8 +19022,8 @@ export const deleteGrant: API.OperationMethod<
   DeleteGrantError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19232, __c601, 0) as any as S.Schema<DeleteGrantRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteGrantResponse>,
+  input: __S(14816, __c463, 0) as any as S.Schema<DeleteGrantRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteGrantResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21942,8 +19040,8 @@ export const deleteGrantsByUserId: API.OperationMethod<
   DeleteGrantsByUserIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19264, __c602, 0) as any as S.Schema<DeleteGrantsByUserIdRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteGrantsByUserIdResponse>,
+  input: __S(14848, __c464, 0) as any as S.Schema<DeleteGrantsByUserIdRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteGrantsByUserIdResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21960,8 +19058,8 @@ export const deleteGroup: API.OperationMethod<
   DeleteGroupError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19296, __c603, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteGroupResponse>,
+  input: __S(14880, __c465, 0) as any as S.Schema<DeleteGroupRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteGroupResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21978,8 +19076,8 @@ export const deleteGroupRoles: API.OperationMethod<
   DeleteGroupRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19328, __c604, 0) as any as S.Schema<DeleteGroupRolesRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteGroupRolesResponse>,
+  input: __S(14912, __c466, 0) as any as S.Schema<DeleteGroupRolesRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteGroupRolesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -21996,8 +19094,8 @@ export const deleteHook: API.OperationMethod<
   DeleteHookError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19360, __c605, 0) as any as S.Schema<DeleteHookRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteHookResponse>,
+  input: __S(14944, __c467, 0) as any as S.Schema<DeleteHookRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteHookResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22014,8 +19112,8 @@ export const deleteInvitationsByInvitationId: API.OperationMethod<
   DeleteInvitationsByInvitationIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19392, __c606, 0) as any as S.Schema<DeleteInvitationsByInvitationIdRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteInvitationsByInvitationIdResponse>,
+  input: __S(14976, __c468, 0) as any as S.Schema<DeleteInvitationsByInvitationIdRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteInvitationsByInvitationIdResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22032,32 +19130,14 @@ export const deleteIpsById: API.OperationMethod<
   DeleteIpsByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19424, __c607, 0) as any as S.Schema<DeleteIpsByIdRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteIpsByIdResponse>,
+  input: __S(15008, __c469, 0) as any as S.Schema<DeleteIpsByIdRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteIpsByIdResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteIpsById",
-}));
-
-export type DeleteKeysNetworkAclsError = BadRequest | Forbidden | Conflict | Auth0OpError;
-/** Delete a Network ACL key Delete a key used to verify HTTP Message Signatures on Network ACL rules */
-export const deleteKeysNetworkAcls: API.OperationMethod<
-  DeleteKeysNetworkAclsRequest,
-  DeleteKeysNetworkAclsResponse,
-  DeleteKeysNetworkAclsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(19552, __c611, 0) as any as S.Schema<DeleteKeysNetworkAclsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteKeysNetworkAclsResponse>,
-  errors: [BadRequest, Forbidden, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteKeysNetworkAcls",
 }));
 
 export type DeleteLogStreamError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22068,8 +19148,8 @@ export const deleteLogStream: API.OperationMethod<
   DeleteLogStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19584, __c612, 0) as any as S.Schema<DeleteLogStreamRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteLogStreamResponse>,
+  input: __S(15040, __c470, 0) as any as S.Schema<DeleteLogStreamRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteLogStreamResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22086,8 +19166,8 @@ export const deleteMembers: API.OperationMethod<
   DeleteMembersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19616, __c613, 0) as any as S.Schema<DeleteMembersRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteMembersResponse>,
+  input: __S(15136, __c473, 0) as any as S.Schema<DeleteMembersRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteMembersResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22104,8 +19184,8 @@ export const deleteMultifactorByProvider: API.OperationMethod<
   DeleteMultifactorByProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19648, __c614, 0) as any as S.Schema<DeleteMultifactorByProviderRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteMultifactorByProviderResponse>,
+  input: __S(15168, __c474, 0) as any as S.Schema<DeleteMultifactorByProviderRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteMultifactorByProviderResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22122,8 +19202,8 @@ export const deleteNetworkAcl: API.OperationMethod<
   DeleteNetworkAclError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19680, __c615, 0) as any as S.Schema<DeleteNetworkAclRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteNetworkAclResponse>,
+  input: __S(15200, __c475, 0) as any as S.Schema<DeleteNetworkAclRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteNetworkAclResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22140,50 +19220,14 @@ export const deleteOrganization: API.OperationMethod<
   DeleteOrganizationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19712, __c616, 0) as any as S.Schema<DeleteOrganizationRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteOrganizationResponse>,
+  input: __S(15232, __c476, 0) as any as S.Schema<DeleteOrganizationRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteOrganizationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOrganization",
-}));
-
-export type DeleteOrganizationClientsError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Remove client associations from an organization Remove one or more client associations from an organization. */
-export const deleteOrganizationClients: API.OperationMethod<
-  DeleteOrganizationClientsRequest,
-  DeleteOrganizationClientsResponse,
-  DeleteOrganizationClientsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(19744, __c617, 0) as any as S.Schema<DeleteOrganizationClientsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteOrganizationClientsResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteOrganizationClients",
-}));
-
-export type DeleteOrganizationConnectionError = Forbidden | Auth0OpError;
-/** Delete a connection from an organization */
-export const deleteOrganizationConnection: API.OperationMethod<
-  DeleteOrganizationConnectionRequest,
-  DeleteOrganizationConnectionResponse,
-  DeleteOrganizationConnectionError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(19776, __c618, 0) as any as S.Schema<DeleteOrganizationConnectionRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteOrganizationConnectionResponse>,
-  errors: [Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteOrganizationConnection",
 }));
 
 export type DeleteOrganizationGroupRolesError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22194,8 +19238,8 @@ export const deleteOrganizationGroupRoles: API.OperationMethod<
   DeleteOrganizationGroupRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19808, __c619, 0) as any as S.Schema<DeleteOrganizationGroupRolesRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteOrganizationGroupRolesResponse>,
+  input: __S(15264, __c477, 0) as any as S.Schema<DeleteOrganizationGroupRolesRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteOrganizationGroupRolesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22212,8 +19256,8 @@ export const deleteOrganizationMemberRoles: API.OperationMethod<
   DeleteOrganizationMemberRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19840, __c620, 0) as any as S.Schema<DeleteOrganizationMemberRolesRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteOrganizationMemberRolesResponse>,
+  input: __S(15296, __c478, 0) as any as S.Schema<DeleteOrganizationMemberRolesRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteOrganizationMemberRolesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22230,8 +19274,8 @@ export const deletePermissions: API.OperationMethod<
   DeletePermissionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<DeletePermissionsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeletePermissionsResponse>,
+  input: __S(15328, __c479, 0) as any as S.Schema<DeletePermissionsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeletePermissionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22248,8 +19292,8 @@ export const deletePhoneProvider: API.OperationMethod<
   DeletePhoneProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<DeletePhoneProviderRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeletePhoneProviderResponse>,
+  input: __S(15392, __c481, 0) as any as S.Schema<DeletePhoneProviderRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeletePhoneProviderResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22266,32 +19310,14 @@ export const deletePhoneTemplate: API.OperationMethod<
   DeletePhoneTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DeletePhoneTemplateRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeletePhoneTemplateResponse>,
+  input: __S(15424, __c482, 0) as any as S.Schema<DeletePhoneTemplateRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeletePhoneTemplateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeletePhoneTemplate",
-}));
-
-export type DeletePortalError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Delete a portal */
-export const deletePortal: API.OperationMethod<
-  DeletePortalRequest,
-  DeletePortalResponse,
-  DeletePortalError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<DeletePortalRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeletePortalResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeletePortal",
 }));
 
 export type DeleteProviderError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22302,32 +19328,14 @@ export const deleteProvider: API.OperationMethod<
   DeleteProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<DeleteProviderRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteProviderResponse>,
+  input: __S(15456, __c483, 0) as any as S.Schema<DeleteProviderRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteProviderResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProvider",
-}));
-
-export type DeleteRateLimitPolicyError = Forbidden | NotFound | Auth0OpError;
-/** Delete a rate limit policy */
-export const deleteRateLimitPolicy: API.OperationMethod<
-  DeleteRateLimitPolicyRequest,
-  DeleteRateLimitPolicyResponse,
-  DeleteRateLimitPolicyError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DeleteRateLimitPolicyRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteRateLimitPolicyResponse>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteRateLimitPolicy",
 }));
 
 export type DeleteRefreshTokenError = BadRequest | Forbidden | Auth0OpError;
@@ -22338,8 +19346,8 @@ export const deleteRefreshToken: API.OperationMethod<
   DeleteRefreshTokenError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DeleteRefreshTokenRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteRefreshTokenResponse>,
+  input: __S(15552, __c486, 0) as any as S.Schema<DeleteRefreshTokenRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRefreshTokenResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22356,8 +19364,8 @@ export const deleteRefreshTokensForUser: API.OperationMethod<
   DeleteRefreshTokensForUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<DeleteRefreshTokensForUserRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteRefreshTokensForUserResponse>,
+  input: __S(15584, __c487, 0) as any as S.Schema<DeleteRefreshTokensForUserRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRefreshTokensForUserResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22374,8 +19382,8 @@ export const deleteResourceServer: API.OperationMethod<
   DeleteResourceServerError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DeleteResourceServerRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteResourceServerResponse>,
+  input: __S(15616, __c488, 0) as any as S.Schema<DeleteResourceServerRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteResourceServerResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22392,8 +19400,8 @@ export const deleteRole: API.OperationMethod<
   DeleteRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<DeleteRoleRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteRoleResponse>,
+  input: __S(15648, __c489, 0) as any as S.Schema<DeleteRoleRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRoleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22410,8 +19418,8 @@ export const deleteRoleGroups: API.OperationMethod<
   DeleteRoleGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<DeleteRoleGroupsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteRoleGroupsResponse>,
+  input: __S(15680, __c490, 0) as any as S.Schema<DeleteRoleGroupsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRoleGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22428,8 +19436,8 @@ export const deleteRolePermissionAssignment: API.OperationMethod<
   DeleteRolePermissionAssignmentError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteRolePermissionAssignmentRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteRolePermissionAssignmentResponse>,
+  input: __S(15712, __c491, 0) as any as S.Schema<DeleteRolePermissionAssignmentRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRolePermissionAssignmentResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22446,8 +19454,8 @@ export const deleteRule: API.OperationMethod<
   DeleteRuleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteRuleRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteRuleResponse>,
+  input: __S(15744, __c492, 0) as any as S.Schema<DeleteRuleRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRuleResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22464,8 +19472,8 @@ export const deleteRulesConfig: API.OperationMethod<
   DeleteRulesConfigError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DeleteRulesConfigRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteRulesConfigResponse>,
+  input: __S(15776, __c493, 0) as any as S.Schema<DeleteRulesConfigRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteRulesConfigResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22482,8 +19490,8 @@ export const deleteScimConfiguration: API.OperationMethod<
   DeleteScimConfigurationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<DeleteScimConfigurationRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteScimConfigurationResponse>,
+  input: __S(15808, __c494, 0) as any as S.Schema<DeleteScimConfigurationRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteScimConfigurationResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22500,32 +19508,14 @@ export const deleteSecrets: API.OperationMethod<
   DeleteSecretsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteSecretsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteSecretsResponse>,
+  input: __S(15840, __c495, 0) as any as S.Schema<DeleteSecretsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteSecretsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSecrets",
-}));
-
-export type DeleteSegmentError = Forbidden | Conflict | Auth0OpError;
-/** Delete a segment. Delete a segment by ID. Idempotent: returns 204 even if segment does not exist. */
-export const deleteSegment: API.OperationMethod<
-  DeleteSegmentRequest,
-  DeleteSegmentResponse,
-  DeleteSegmentError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteSegmentRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteSegmentResponse>,
-  errors: [Forbidden, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteSegment",
 }));
 
 export type DeleteSelfServiceProfileError = BadRequest | Forbidden | Auth0OpError;
@@ -22536,8 +19526,8 @@ export const deleteSelfServiceProfile: API.OperationMethod<
   DeleteSelfServiceProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeleteSelfServiceProfileRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteSelfServiceProfileResponse>,
+  input: __S(15904, __c497, 0) as any as S.Schema<DeleteSelfServiceProfileRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteSelfServiceProfileResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22554,8 +19544,8 @@ export const deleteSession: API.OperationMethod<
   DeleteSessionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DeleteSessionRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteSessionResponse>,
+  input: __S(15936, __c498, 0) as any as S.Schema<DeleteSessionRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteSessionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22572,8 +19562,8 @@ export const deleteSessionsForUser: API.OperationMethod<
   DeleteSessionsForUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DeleteSessionsForUserRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteSessionsForUserResponse>,
+  input: __S(15968, __c499, 0) as any as S.Schema<DeleteSessionsForUserRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteSessionsForUserResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22590,8 +19580,8 @@ export const deleteSynchronizedGroups: API.OperationMethod<
   DeleteSynchronizedGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<DeleteSynchronizedGroupsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteSynchronizedGroupsResponse>,
+  input: __S(16000, __c500, 0) as any as S.Schema<DeleteSynchronizedGroupsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteSynchronizedGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22608,8 +19598,8 @@ export const deleteTokenExchangeProfile: API.OperationMethod<
   DeleteTokenExchangeProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<DeleteTokenExchangeProfileRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteTokenExchangeProfileResponse>,
+  input: __S(16032, __c501, 0) as any as S.Schema<DeleteTokenExchangeProfileRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteTokenExchangeProfileResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22626,8 +19616,8 @@ export const deleteTokensByTokenId: API.OperationMethod<
   DeleteTokensByTokenIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<DeleteTokensByTokenIdRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteTokensByTokenIdResponse>,
+  input: __S(16064, __c502, 0) as any as S.Schema<DeleteTokensByTokenIdRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteTokensByTokenIdResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22644,8 +19634,8 @@ export const deleteUniversalLogin: API.OperationMethod<
   DeleteUniversalLoginError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DeleteUniversalLoginRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteUniversalLoginResponse>,
+  input: __S(16096, __c503, 0) as any as S.Schema<DeleteUniversalLoginRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteUniversalLoginResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22662,32 +19652,14 @@ export const deleteUser: API.OperationMethod<
   DeleteUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteUserResponse>,
+  input: __S(16128, __c504, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteUser",
-}));
-
-export type DeleteUserAttributeProfileError = Forbidden | Auth0OpError;
-/** Delete User Attribute Profile Delete a single User Attribute Profile specified by ID. */
-export const deleteUserAttributeProfile: API.OperationMethod<
-  DeleteUserAttributeProfileRequest,
-  DeleteUserAttributeProfileResponse,
-  DeleteUserAttributeProfileError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<DeleteUserAttributeProfileRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteUserAttributeProfileResponse>,
-  errors: [Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteUserAttributeProfile",
 }));
 
 export type DeleteUserBlockError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -22698,8 +19670,8 @@ export const deleteUserBlock: API.OperationMethod<
   DeleteUserBlockError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<DeleteUserBlockRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteUserBlockResponse>,
+  input: __S(16160, __c505, 0) as any as S.Schema<DeleteUserBlockRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteUserBlockResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22716,32 +19688,14 @@ export const deleteUserBlocks: API.OperationMethod<
   DeleteUserBlocksError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<DeleteUserBlocksRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteUserBlocksResponse>,
+  input: __S(16192, __c506, 0) as any as S.Schema<DeleteUserBlocksRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteUserBlocksResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteUserBlocks",
-}));
-
-export type DeleteUserConsentSigningKeyError = BadRequest | Forbidden | Auth0OpError;
-/** Delete a consent signing key by key ID Remove a single consent signing key for a user by its key identifier (kid). The operation is idempotent and returns 204 whether or not the key existed. */
-export const deleteUserConsentSigningKey: API.OperationMethod<
-  DeleteUserConsentSigningKeyRequest,
-  DeleteUserConsentSigningKeyResponse,
-  DeleteUserConsentSigningKeyError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<DeleteUserConsentSigningKeyRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteUserConsentSigningKeyResponse>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteUserConsentSigningKey",
 }));
 
 export type DeleteUserIdentityError = BadRequest | Forbidden | Auth0OpError;
@@ -22752,8 +19706,8 @@ export const deleteUserIdentity: API.OperationMethod<
   DeleteUserIdentityError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<DeleteUserIdentityRequest>,
-  output: __S(1475, __c46, 3) as any as S.Schema<DeleteUserIdentityResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<DeleteUserIdentityRequest>,
+  output: __S(195, __c6, 3) as any as S.Schema<DeleteUserIdentityResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22770,8 +19724,8 @@ export const deleteUserRoles: API.OperationMethod<
   DeleteUserRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<DeleteUserRolesRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteUserRolesResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<DeleteUserRolesRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteUserRolesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22788,32 +19742,14 @@ export const deleteUsersByEmail: API.OperationMethod<
   DeleteUsersByEmailError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DeleteUsersByEmailRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteUsersByEmailResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteUsersByEmailRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteUsersByEmailResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteUsersByEmail",
-}));
-
-export type DeleteVariationError = Forbidden | NotFound | Conflict | Auth0OpError;
-/** Delete a variation. Delete a variation by ID. Returns 204 if the variation does not exist. Returns 404 if the parent feature flag does not exist. */
-export const deleteVariation: API.OperationMethod<
-  DeleteVariationRequest,
-  DeleteVariationResponse,
-  DeleteVariationError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<DeleteVariationRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteVariationResponse>,
-  errors: [Forbidden, NotFound, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "DeleteVariation",
 }));
 
 export type DeleteVcTemplatesByIdError = BadRequest | Forbidden | Auth0OpError;
@@ -22824,8 +19760,8 @@ export const deleteVcTemplatesById: API.OperationMethod<
   DeleteVcTemplatesByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<DeleteVcTemplatesByIdRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<DeleteVcTemplatesByIdResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<DeleteVcTemplatesByIdRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<DeleteVcTemplatesByIdResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22842,104 +19778,14 @@ export const getAction: API.OperationMethod<
   GetActionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetActionRequest>,
-  output: __S(1831, __c57, 7) as any as S.Schema<GetActionResponseContent>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetActionRequest>,
+  output: __S(455, __c14, 7) as any as S.Schema<GetActionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAction",
-}));
-
-export type GetActionModuleError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Get a specific Actions Module by ID Retrieve details of a specific Actions Module by its unique identifier. */
-export const getActionModule: API.OperationMethod<
-  GetActionModuleRequest,
-  GetActionModuleResponseContent,
-  GetActionModuleError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<GetActionModuleRequest>,
-  output: __S(18337, __c573, 1) as any as S.Schema<GetActionModuleResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetActionModule",
-}));
-
-export type GetActionModuleActionsError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** List all actions using an Actions Module Lists all actions that are using a specific Actions Module, showing which deployed action versions reference this Actions Module. */
-export const getActionModuleActions: API.OperationMethod<
-  GetActionModuleActionsRequest,
-  GetActionModuleActionsResponseContent,
-  GetActionModuleActionsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetActionModuleActionsRequest>,
-  output: __S(1891, __c59, 3) as any as S.Schema<GetActionModuleActionsResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetActionModuleActions",
-}));
-
-export type GetActionModulesError = BadRequest | Forbidden | Auth0OpError;
-/** List Actions Modules Retrieve a paginated list of all Actions Modules with optional filtering and totals. */
-export const getActionModules: API.OperationMethod<
-  GetActionModulesRequest,
-  GetActionModulesResponseContent,
-  GetActionModulesError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetActionModulesRequest>,
-  output: __S(1923, __c60, 3) as any as S.Schema<GetActionModulesResponseContent>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetActionModules",
-}));
-
-export type GetActionModuleVersionError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Get a specific version of an Actions Module Retrieve the details of a specific, immutable version of an Actions Module. */
-export const getActionModuleVersion: API.OperationMethod<
-  GetActionModuleVersionRequest,
-  GetActionModuleVersionResponseContent,
-  GetActionModuleVersionError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<GetActionModuleVersionRequest>,
-  output: __S(19104, __c597, 0) as any as S.Schema<GetActionModuleVersionResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetActionModuleVersion",
-}));
-
-export type GetActionModuleVersionsError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** List all versions of an Actions Module List all published versions of a specific Actions Module. */
-export const getActionModuleVersions: API.OperationMethod<
-  GetActionModuleVersionsRequest,
-  GetActionModuleVersionsResponseContent,
-  GetActionModuleVersionsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<GetActionModuleVersionsRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<GetActionModuleVersionsResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetActionModuleVersions",
 }));
 
 export type GetActionsError = BadRequest | Forbidden | Auth0OpError;
@@ -22950,8 +19796,8 @@ export const getActions: API.OperationMethod<
   GetActionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GetActionsRequest>,
-  output: __S(2082, __c65, 2) as any as S.Schema<ListActionsPaginatedResponseContent>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetActionsRequest>,
+  output: __S(482, __c15, 2) as any as S.Schema<ListActionsPaginatedResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22968,8 +19814,8 @@ export const getActionVersion: API.OperationMethod<
   GetActionVersionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetActionVersionRequest>,
-  output: __S(1800, __c56, 8) as any as S.Schema<GetActionVersionResponseContent>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetActionVersionRequest>,
+  output: __S(424, __c13, 8) as any as S.Schema<GetActionVersionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -22986,8 +19832,8 @@ export const getActionVersions: API.OperationMethod<
   GetActionVersionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<GetActionVersionsRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<ListActionVersionsPaginatedResponseContent>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetActionVersionsRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<ListActionVersionsPaginatedResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23004,68 +19850,14 @@ export const getActiveUsers: API.OperationMethod<
   GetActiveUsersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetActiveUsersRequest>,
-  output: __S(2177, __c68, 1) as any as S.Schema<GetActiveUsersResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetActiveUsersRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<GetActiveUsersResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetActiveUsers",
-}));
-
-export type GetAgentError = Forbidden | NotFound | Auth0OpError;
-/** Get an agent Get an agent */
-export const getAgent: API.OperationMethod<
-  GetAgentRequest,
-  AgentResponseContent,
-  GetAgentError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<GetAgentRequest>,
-  output: __S(19520, __c610, 0) as any as S.Schema<AgentResponseContent>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetAgent",
-}));
-
-export type GetAgentsError = BadRequest | Forbidden | Auth0OpError;
-/** Get agents Get agents */
-export const getAgents: API.OperationMethod<
-  GetAgentsRequest,
-  ListAgentsResponseContent,
-  GetAgentsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<GetAgentsRequest>,
-  output: __S(2242, __c70, 2) as any as S.Schema<ListAgentsResponseContent>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetAgents",
-}));
-
-export type GetAllKeysNetworkAclsError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Get all Network ACL keys Retrieve all keys used to verify HTTP Message Signatures on Network ACL rules, ordered by creation time descending. */
-export const getAllKeysNetworkAcls: API.OperationMethod<
-  GetAllKeysNetworkAclsRequest,
-  GetAllKeysNetworkAclsResponseContent,
-  GetAllKeysNetworkAclsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<GetAllKeysNetworkAclsRequest>,
-  output: __S(2274, __c71, 2) as any as S.Schema<GetAllKeysNetworkAclsResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetAllKeysNetworkAcls",
 }));
 
 export type GetAllRenderingError = BadRequest | Forbidden | Auth0OpError;
@@ -23076,8 +19868,8 @@ export const getAllRendering: API.OperationMethod<
   GetAllRenderingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<GetAllRenderingRequest>,
-  output: __S(2305, __c72, 1) as any as S.Schema<GetAllRenderingResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetAllRenderingRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<GetAllRenderingResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23094,8 +19886,8 @@ export const getApns: API.OperationMethod<
   GetApnsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<GetApnsRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<GetGuardianFactorsProviderApnsResponseContent>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetApnsRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<GetGuardianFactorsProviderApnsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23112,8 +19904,8 @@ export const getAuthenticationMethods: API.OperationMethod<
   GetAuthenticationMethodsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<GetAuthenticationMethodsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<GetAuthenticationMethodsResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetAuthenticationMethodsRequest>,
+  output: __S(769, __c24, 1) as any as S.Schema<GetAuthenticationMethodsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23135,11 +19927,11 @@ export const getAuthenticationMethodsByAuthenticationMethodId: API.OperationMeth
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2433,
-    __c76,
+    801,
+    __c25,
     1,
   ) as any as S.Schema<GetAuthenticationMethodsByAuthenticationMethodIdRequest>,
-  output: __S(2432, __c76, 0) as any as S.Schema<GetUserAuthenticationMethodResponseContent>,
+  output: __S(800, __c25, 0) as any as S.Schema<GetUserAuthenticationMethodResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23156,8 +19948,8 @@ export const getBindings: API.OperationMethod<
   GetBindingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetBindingsRequest>,
-  output: __S(2497, __c78, 1) as any as S.Schema<ListActionBindingsPaginatedResponseContent>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetBindingsRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<ListActionBindingsPaginatedResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23174,8 +19966,8 @@ export const getBotDetection: API.OperationMethod<
   GetBotDetectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<GetBotDetectionRequest>,
-  output: __S(2561, __c80, 1) as any as S.Schema<GetBotDetectionSettingsResponseContent>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetBotDetectionRequest>,
+  output: __S(929, __c29, 1) as any as S.Schema<GetBotDetectionSettingsResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23192,8 +19984,8 @@ export const getBranding: API.OperationMethod<
   GetBrandingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<GetBrandingRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<GetBrandingResponseContent>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetBrandingRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<GetBrandingResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23210,8 +20002,8 @@ export const getBrandingPhoneProviders: API.OperationMethod<
   GetBrandingPhoneProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<GetBrandingPhoneProvidersRequest>,
-  output: __S(2690, __c84, 2) as any as S.Schema<ListBrandingPhoneProvidersResponseContent>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetBrandingPhoneProvidersRequest>,
+  output: __S(1058, __c33, 2) as any as S.Schema<ListBrandingPhoneProvidersResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23228,8 +20020,8 @@ export const getBrandingTheme: API.OperationMethod<
   GetBrandingThemeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<GetBrandingThemeRequest>,
-  output: __S(72, __c2, 8) as any as S.Schema<GetBrandingThemeResponseContent>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetBrandingThemeRequest>,
+  output: __S(14024, __c438, 8) as any as S.Schema<GetBrandingThemeResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23246,10 +20038,10 @@ export const getBreachedPasswordDetection: API.OperationMethod<
   GetBreachedPasswordDetectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<GetBreachedPasswordDetectionRequest>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetBreachedPasswordDetectionRequest>,
   output: __S(
-    2786,
-    __c87,
+    1154,
+    __c36,
     2,
   ) as any as S.Schema<GetBreachedPasswordDetectionSettingsResponseContent>,
   errors: [Forbidden],
@@ -23268,8 +20060,8 @@ export const getBruteForceProtection: API.OperationMethod<
   GetBruteForceProtectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<GetBruteForceProtectionRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<GetBruteForceSettingsResponseContent>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetBruteForceProtectionRequest>,
+  output: __S(1216, __c38, 0) as any as S.Schema<GetBruteForceSettingsResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23286,8 +20078,8 @@ export const getCaptcha: API.OperationMethod<
   GetCaptchaError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<GetCaptchaRequest>,
-  output: __S(2916, __c91, 4) as any as S.Schema<GetAttackProtectionCaptchaResponseContent>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetCaptchaRequest>,
+  output: __S(1380, __c43, 4) as any as S.Schema<GetAttackProtectionCaptchaResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23304,8 +20096,8 @@ export const getClient: API.OperationMethod<
   GetClientError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<GetClientRequest>,
-  output: __S(632, __c19, 24) as any as S.Schema<GetClientResponseContent>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetClientRequest>,
+  output: __S(14582, __c455, 22) as any as S.Schema<GetClientResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23322,8 +20114,8 @@ export const getClientConnections: API.OperationMethod<
   GetClientConnectionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<GetClientConnectionsRequest>,
-  output: __S(3139, __c98, 3) as any as S.Schema<ListClientConnectionsResponseContent>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetClientConnectionsRequest>,
+  output: __S(1443, __c45, 3) as any as S.Schema<ListClientConnectionsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23340,8 +20132,8 @@ export const getClientGrant: API.OperationMethod<
   GetClientGrantError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<GetClientGrantRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<GetClientGrantResponseContent>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetClientGrantRequest>,
+  output: __S(15104, __c472, 0) as any as S.Schema<GetClientGrantResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23358,8 +20150,8 @@ export const getClientGrantOrganizations: API.OperationMethod<
   GetClientGrantOrganizationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<GetClientGrantOrganizationsRequest>,
-  output: __S(3201, __c100, 1) as any as S.Schema<GetClientGrantOrganizationsResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetClientGrantOrganizationsRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<GetClientGrantOrganizationsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23376,68 +20168,14 @@ export const getClientGrants: API.OperationMethod<
   GetClientGrantsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<GetClientGrantsRequest>,
-  output: __S(3233, __c101, 1) as any as S.Schema<GetClientGrantsResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetClientGrantsRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<GetClientGrantsResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetClientGrants",
-}));
-
-export type GetClientGrantsSearchError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Search client grants Search client grants using SCIM or Lucene filter syntax with low-latency, eventually consistent results. Use the parser parameter to specify "scim" or "lucene" syntax (default: "lucene"). This endpoint provides an alternative to the standard GET /client-grants endpoint with better performance for complex queries. Results may not reflect recent updates immediately. */
-export const getClientGrantsSearch: API.OperationMethod<
-  GetClientGrantsSearchRequest,
-  SearchClientGrantsResponseContent,
-  GetClientGrantsSearchError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3265, __c102, 1) as any as S.Schema<GetClientGrantsSearchRequest>,
-  output: __S(3266, __c102, 2) as any as S.Schema<SearchClientGrantsResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetClientGrantsSearch",
-}));
-
-export type GetClientProfileError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Get a client profile Retrieve a single client profile by its identifier. Returns <code>404</code> if no profile with the given ID exists for the tenant. */
-export const getClientProfile: API.OperationMethod<
-  GetClientProfileRequest,
-  ClientProfile,
-  GetClientProfileError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<GetClientProfileRequest>,
-  output: __S(1544, __c48, 8) as any as S.Schema<ClientProfile>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetClientProfile",
-}));
-
-export type GetClientProfilesError = BadRequest | Forbidden | Auth0OpError;
-/** List client profiles Retrieve a paginated list of client profiles for the tenant. Uses checkpoint pagination: pass the <code>next</code> cursor from a previous response as the <code>from</code> query parameter to retrieve the following page. */
-export const getClientProfiles: API.OperationMethod<
-  GetClientProfilesRequest,
-  ListClientProfilesPaginatedResponseContent,
-  GetClientProfilesError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<GetClientProfilesRequest>,
-  output: __S(3330, __c104, 2) as any as S.Schema<ListClientProfilesPaginatedResponseContent>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetClientProfiles",
 }));
 
 export type GetClientsError = BadRequest | Forbidden | Auth0OpError;
@@ -23448,32 +20186,14 @@ export const getClients: API.OperationMethod<
   GetClientsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<GetClientsRequest>,
-  output: __S(3361, __c105, 1) as any as S.Schema<GetClientsResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetClientsRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<GetClientsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetClients",
-}));
-
-export type GetClientsSearchError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Search clients using SCIM or Lucene filter syntax Search clients using SCIM or Lucene filter syntax with low-latency, eventually consistent results. Use the parser parameter to specify "scim" or "lucene" syntax (default: "lucene"). This endpoint provides an alternative to the standard GET /clients endpoint with better performance for complex queries. Results may not reflect recent updates immediately. - This endpoint only supports `read:clients` and `read:client_summary` scopes. The `read:client_keys` and `read:client_credentials` scopes are not supported. - The following fields are never returned by this endpoint: - `client_secret` - `encryption_key` - `signing_keys` - `owners` - `addons` */
-export const getClientsSearch: API.OperationMethod<
-  GetClientsSearchRequest,
-  SearchClientsResponseContent,
-  GetClientsSearchError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<GetClientsSearchRequest>,
-  output: __S(3395, __c106, 3) as any as S.Schema<SearchClientsResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetClientsSearch",
 }));
 
 export type GetConnectedAccountsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -23484,8 +20204,8 @@ export const getConnectedAccounts: API.OperationMethod<
   GetConnectedAccountsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<GetConnectedAccountsRequest>,
-  output: __S(3427, __c107, 3) as any as S.Schema<ListUserConnectedAccountsResponseContent>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetConnectedAccountsRequest>,
+  output: __S(1603, __c50, 3) as any as S.Schema<ListUserConnectedAccountsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23502,8 +20222,8 @@ export const getConnection: API.OperationMethod<
   GetConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<GetConnectionRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<GetConnectionResponseContent>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetConnectionRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<GetConnectionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23520,8 +20240,8 @@ export const getConnectionClients: API.OperationMethod<
   GetConnectionClientsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<GetConnectionClientsRequest>,
-  output: __S(3587, __c112, 3) as any as S.Schema<GetConnectionEnabledClientsResponseContent>,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetConnectionClientsRequest>,
+  output: __S(1667, __c52, 3) as any as S.Schema<GetConnectionEnabledClientsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23538,8 +20258,8 @@ export const getConnectionProfile: API.OperationMethod<
   GetConnectionProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<GetConnectionProfileRequest>,
-  output: __S(3522, __c110, 2) as any as S.Schema<GetConnectionProfileResponseContent>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetConnectionProfileRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<GetConnectionProfileResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23556,8 +20276,8 @@ export const getConnectionProfiles: API.OperationMethod<
   GetConnectionProfilesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetConnectionProfilesRequest>,
-  output: __S(3650, __c114, 2) as any as S.Schema<ListConnectionProfilesPaginatedResponseContent>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetConnectionProfilesRequest>,
+  output: __S(1762, __c55, 2) as any as S.Schema<ListConnectionProfilesPaginatedResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23574,8 +20294,8 @@ export const getConnectionProfileTemplate: API.OperationMethod<
   GetConnectionProfileTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<GetConnectionProfileTemplateRequest>,
-  output: __S(3713, __c116, 1) as any as S.Schema<GetConnectionProfileTemplateResponseContent>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetConnectionProfileTemplateRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<GetConnectionProfileTemplateResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23592,8 +20312,8 @@ export const getConnectionProfileTemplates: API.OperationMethod<
   GetConnectionProfileTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetConnectionProfileTemplatesRequest>,
-  output: __S(3746, __c117, 2) as any as S.Schema<ListConnectionProfileTemplateResponseContent>,
+  input: __S(1856, __c58, 0) as any as S.Schema<GetConnectionProfileTemplatesRequest>,
+  output: __S(1858, __c58, 2) as any as S.Schema<ListConnectionProfileTemplateResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23610,8 +20330,8 @@ export const getConnections: API.OperationMethod<
   GetConnectionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GetConnectionsRequest>,
-  output: __S(3777, __c118, 1) as any as S.Schema<GetConnectionsResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetConnectionsRequest>,
+  output: __S(1889, __c59, 1) as any as S.Schema<GetConnectionsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23628,8 +20348,8 @@ export const getConnectionsDirectoryProvisionings: API.OperationMethod<
   GetConnectionsDirectoryProvisioningsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<GetConnectionsDirectoryProvisioningsRequest>,
-  output: __S(3810, __c119, 2) as any as S.Schema<ListDirectoryProvisioningsResponseContent>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetConnectionsDirectoryProvisioningsRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<ListDirectoryProvisioningsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23646,8 +20366,8 @@ export const getConnectionsScimConfigurations: API.OperationMethod<
   GetConnectionsScimConfigurationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<GetConnectionsScimConfigurationsRequest>,
-  output: __S(3906, __c122, 2) as any as S.Schema<ListSCIMConfigurationsResponseContent>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetConnectionsScimConfigurationsRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<ListSCIMConfigurationsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23664,8 +20384,8 @@ export const getCredentials: API.OperationMethod<
   GetCredentialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<GetCredentialsRequest>,
-  output: __S(4002, __c125, 2) as any as S.Schema<GetCredentialsResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetCredentialsRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<GetCredentialsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23682,8 +20402,8 @@ export const getCredentialsByCredentialId: API.OperationMethod<
   GetCredentialsByCredentialIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetCredentialsByCredentialIdRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<GetClientCredentialResponseContent>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetCredentialsByCredentialIdRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<GetClientCredentialResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23700,8 +20420,8 @@ export const getCustomDomain: API.OperationMethod<
   GetCustomDomainError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<GetCustomDomainRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetCustomDomainResponseContent>,
+  input: __S(2208, __c69, 0) as any as S.Schema<GetCustomDomainRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<GetCustomDomainResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23718,8 +20438,8 @@ export const getCustomDomains: API.OperationMethod<
   GetCustomDomainsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<GetCustomDomainsRequest>,
-  output: __S(4225, __c132, 1) as any as S.Schema<GetCustomDomainsResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<GetCustomDomainsRequest>,
+  output: __S(2305, __c72, 1) as any as S.Schema<GetCustomDomainsResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23736,8 +20456,8 @@ export const getCustomSigningKeys: API.OperationMethod<
   GetCustomSigningKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetCustomSigningKeysRequest>,
-  output: __S(4290, __c134, 2) as any as S.Schema<GetCustomSigningKeysResponseContent>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetCustomSigningKeysRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<GetCustomSigningKeysResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23754,8 +20474,8 @@ export const getCustomTextByLanguage: API.OperationMethod<
   GetCustomTextByLanguageError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<GetCustomTextByLanguageRequest>,
-  output: __S(4352, __c136, 0) as any as S.Schema<GetCustomTextByLanguageResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<GetCustomTextByLanguageRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<GetCustomTextByLanguageResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23772,8 +20492,8 @@ export const getDaily: API.OperationMethod<
   GetDailyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<GetDailyRequest>,
-  output: __S(4387, __c137, 3) as any as S.Schema<GetDailyResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<GetDailyRequest>,
+  output: __S(2467, __c77, 3) as any as S.Schema<GetDailyResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23790,8 +20510,8 @@ export const getDefault: API.OperationMethod<
   GetDefaultError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<GetDefaultRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<GetDefaultResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<GetDefaultRequest>,
+  output: __S(2497, __c78, 1) as any as S.Schema<GetDefaultResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23808,8 +20528,8 @@ export const getDefaultBrandingTheme: API.OperationMethod<
   GetDefaultBrandingThemeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<GetDefaultBrandingThemeRequest>,
-  output: __S(72, __c2, 8) as any as S.Schema<GetBrandingDefaultThemeResponseContent>,
+  input: __S(2528, __c79, 0) as any as S.Schema<GetDefaultBrandingThemeRequest>,
+  output: __S(14024, __c438, 8) as any as S.Schema<GetBrandingDefaultThemeResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23826,12 +20546,8 @@ export const getDefaultMapping: API.OperationMethod<
   GetDefaultMappingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetDefaultMappingRequest>,
-  output: __S(
-    4481,
-    __c140,
-    1,
-  ) as any as S.Schema<GetScimConfigurationDefaultMappingResponseContent>,
+  input: __S(2560, __c80, 0) as any as S.Schema<GetDefaultMappingRequest>,
+  output: __S(2561, __c80, 1) as any as S.Schema<GetScimConfigurationDefaultMappingResponseContent>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23848,8 +20564,8 @@ export const getDeliveriesByEventId: API.OperationMethod<
   GetDeliveriesByEventIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<GetDeliveriesByEventIdRequest>,
-  output: __S(4547, __c142, 3) as any as S.Schema<GetEventStreamDeliveryHistoryResponseContent>,
+  input: __S(2592, __c81, 0) as any as S.Schema<GetDeliveriesByEventIdRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<GetEventStreamDeliveryHistoryResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23866,8 +20582,8 @@ export const getDeviceCredentials: API.OperationMethod<
   GetDeviceCredentialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<GetDeviceCredentialsRequest>,
-  output: __S(4609, __c144, 1) as any as S.Schema<GetDeviceCredentialsResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<GetDeviceCredentialsRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<GetDeviceCredentialsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23884,8 +20600,8 @@ export const getDirectoryProvisioning: API.OperationMethod<
   GetDirectoryProvisioningError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<GetDirectoryProvisioningRequest>,
-  output: __S(3872, __c121, 0) as any as S.Schema<GetDirectoryProvisioningResponseContent>,
+  input: __S(2688, __c84, 0) as any as S.Schema<GetDirectoryProvisioningRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<GetDirectoryProvisioningResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23906,10 +20622,10 @@ export const getDirectoryProvisioningDefaultMapping: API.OperationMethod<
   GetDirectoryProvisioningDefaultMappingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<GetDirectoryProvisioningDefaultMappingRequest>,
+  input: __S(2752, __c86, 0) as any as S.Schema<GetDirectoryProvisioningDefaultMappingRequest>,
   output: __S(
-    4673,
-    __c146,
+    2753,
+    __c86,
     1,
   ) as any as S.Schema<GetDirectoryProvisioningDefaultMappingResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -23928,8 +20644,8 @@ export const getDiscoveryDomains: API.OperationMethod<
   GetDiscoveryDomainsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<GetDiscoveryDomainsRequest>,
-  output: __S(4706, __c147, 2) as any as S.Schema<ListOrganizationDiscoveryDomainsResponseContent>,
+  input: __S(2784, __c87, 0) as any as S.Schema<GetDiscoveryDomainsRequest>,
+  output: __S(2786, __c87, 2) as any as S.Schema<ListOrganizationDiscoveryDomainsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23950,8 +20666,8 @@ export const getDiscoveryDomainsByDiscoveryDomainId: API.OperationMethod<
   GetDiscoveryDomainsByDiscoveryDomainIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<GetDiscoveryDomainsByDiscoveryDomainIdRequest>,
-  output: __S(4736, __c148, 0) as any as S.Schema<GetOrganizationDiscoveryDomainResponseContent>,
+  input: __S(2848, __c89, 0) as any as S.Schema<GetDiscoveryDomainsByDiscoveryDomainIdRequest>,
+  output: __S(2816, __c88, 0) as any as S.Schema<GetOrganizationDiscoveryDomainResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23968,8 +20684,8 @@ export const getEmailFactorSettings: API.OperationMethod<
   GetEmailFactorSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<GetEmailFactorSettingsRequest>,
-  output: __S(4832, __c151, 0) as any as S.Schema<GetEmailFactorSettingsResponseContent>,
+  input: __S(2880, __c90, 0) as any as S.Schema<GetEmailFactorSettingsRequest>,
+  output: __S(2912, __c91, 0) as any as S.Schema<GetEmailFactorSettingsResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -23986,8 +20702,8 @@ export const getEmailTemplate: API.OperationMethod<
   GetEmailTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<GetEmailTemplateRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<GetEmailTemplateResponseContent>,
+  input: __S(2944, __c92, 0) as any as S.Schema<GetEmailTemplateRequest>,
+  output: __S(2976, __c93, 0) as any as S.Schema<GetEmailTemplateResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24004,8 +20720,8 @@ export const getEnabledConnections: API.OperationMethod<
   GetEnabledConnectionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<GetEnabledConnectionsRequest>,
-  output: __S(4929, __c154, 1) as any as S.Schema<GetEnabledConnectionsResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<GetEnabledConnectionsRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<GetEnabledConnectionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24022,8 +20738,8 @@ export const getEnabledConnectionsByConnectionId: API.OperationMethod<
   GetEnabledConnectionsByConnectionIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<GetEnabledConnectionsByConnectionIdRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<GetOrganizationConnectionResponseContent>,
+  input: __S(3040, __c95, 0) as any as S.Schema<GetEnabledConnectionsByConnectionIdRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<GetOrganizationConnectionResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24040,8 +20756,8 @@ export const getEncryptionKey: API.OperationMethod<
   GetEncryptionKeyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<GetEncryptionKeyRequest>,
-  output: __S(5056, __c158, 0) as any as S.Schema<GetEncryptionKeyResponseContent>,
+  input: __S(3104, __c97, 0) as any as S.Schema<GetEncryptionKeyRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<GetEncryptionKeyResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24058,8 +20774,8 @@ export const getEncryptionKeys: API.OperationMethod<
   GetEncryptionKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<GetEncryptionKeysRequest>,
-  output: __S(5153, __c161, 1) as any as S.Schema<GetEncryptionKeysResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<GetEncryptionKeysRequest>,
+  output: __S(3169, __c99, 1) as any as S.Schema<GetEncryptionKeysResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24076,8 +20792,8 @@ export const getEnrollments: API.OperationMethod<
   GetEnrollmentsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<GetEnrollmentsRequest>,
-  output: __S(5187, __c162, 3) as any as S.Schema<GetEnrollmentsResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<GetEnrollmentsRequest>,
+  output: __S(3203, __c100, 3) as any as S.Schema<GetEnrollmentsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24094,8 +20810,8 @@ export const getEnrollmentsById: API.OperationMethod<
   GetEnrollmentsByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<GetEnrollmentsByIdRequest>,
-  output: __S(5217, __c163, 1) as any as S.Schema<GetGuardianEnrollmentResponseContent>,
+  input: __S(3296, __c103, 0) as any as S.Schema<GetEnrollmentsByIdRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<GetGuardianEnrollmentResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24112,8 +20828,8 @@ export const getErrors: API.OperationMethod<
   GetErrorsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<GetErrorsRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<GetErrorsResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<GetErrorsRequest>,
+  output: __S(3329, __c104, 1) as any as S.Schema<GetErrorsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24130,8 +20846,8 @@ export const getEventDeliveries: API.OperationMethod<
   GetEventDeliveriesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<GetEventDeliveriesRequest>,
-  output: __S(5282, __c165, 2) as any as S.Schema<ListEventStreamDeliveriesResponseContent>,
+  input: __S(3360, __c105, 0) as any as S.Schema<GetEventDeliveriesRequest>,
+  output: __S(3362, __c105, 2) as any as S.Schema<ListEventStreamDeliveriesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24148,8 +20864,8 @@ export const getEventStream: API.OperationMethod<
   GetEventStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<GetEventStreamRequest>,
-  output: __S(5313, __c166, 1) as any as S.Schema<GetEventStreamResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<GetEventStreamRequest>,
+  output: __S(3393, __c106, 1) as any as S.Schema<GetEventStreamResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24166,8 +20882,8 @@ export const getEventStreams: API.OperationMethod<
   GetEventStreamsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<GetEventStreamsRequest>,
-  output: __S(5346, __c167, 2) as any as S.Schema<ListEventStreamsResponseContent>,
+  input: __S(3424, __c107, 0) as any as S.Schema<GetEventStreamsRequest>,
+  output: __S(3426, __c107, 2) as any as S.Schema<ListEventStreamsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24184,50 +20900,14 @@ export const getExecution: API.OperationMethod<
   GetExecutionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<GetExecutionRequest>,
-  output: __S(5379, __c168, 3) as any as S.Schema<GetActionExecutionResponseContent>,
+  input: __S(3456, __c108, 0) as any as S.Schema<GetExecutionRequest>,
+  output: __S(3459, __c108, 3) as any as S.Schema<GetActionExecutionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetExecution",
-}));
-
-export type GetExperimentError = Forbidden | NotFound | Auth0OpError;
-/** Get an experiment by ID. Retrieve a single experiment with its allocations by ID. */
-export const getExperiment: API.OperationMethod<
-  GetExperimentRequest,
-  GetExperimentResponseContent,
-  GetExperimentError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<GetExperimentRequest>,
-  output: __S(5922, __c185, 2) as any as S.Schema<GetExperimentResponseContent>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetExperiment",
-}));
-
-export type GetExperimentsError = BadRequest | Forbidden | Auth0OpError;
-/** List experiments for the tenant. Retrieve a paginated list of experiments for the tenant, with optional filters. */
-export const getExperiments: API.OperationMethod<
-  GetExperimentsRequest,
-  ListExperimentsResponseContent,
-  GetExperimentsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<GetExperimentsRequest>,
-  output: __S(5442, __c170, 2) as any as S.Schema<ListExperimentsResponseContent>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetExperiments",
 }));
 
 export type GetFactorDuoSettingsError = BadRequest | Forbidden | Auth0OpError;
@@ -24238,8 +20918,8 @@ export const getFactorDuoSettings: API.OperationMethod<
   GetFactorDuoSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<GetFactorDuoSettingsRequest>,
-  output: __S(5536, __c173, 0) as any as S.Schema<GetGuardianFactorDuoSettingsResponseContent>,
+  input: __S(3488, __c109, 0) as any as S.Schema<GetFactorDuoSettingsRequest>,
+  output: __S(3520, __c110, 0) as any as S.Schema<GetGuardianFactorDuoSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24256,8 +20936,8 @@ export const getFactorPhoneTemplates: API.OperationMethod<
   GetFactorPhoneTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<GetFactorPhoneTemplatesRequest>,
-  output: __S(5600, __c175, 0) as any as S.Schema<GetGuardianFactorPhoneTemplatesResponseContent>,
+  input: __S(3552, __c111, 0) as any as S.Schema<GetFactorPhoneTemplatesRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<GetGuardianFactorPhoneTemplatesResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24274,8 +20954,8 @@ export const getFactors: API.OperationMethod<
   GetFactorsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<GetFactorsRequest>,
-  output: __S(5636, __c176, 4) as any as S.Schema<GetFactorsResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<GetFactorsRequest>,
+  output: __S(3620, __c113, 4) as any as S.Schema<GetFactorsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24292,50 +20972,14 @@ export const getFactorSmsTemplates: API.OperationMethod<
   GetFactorSmsTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<GetFactorSmsTemplatesRequest>,
-  output: __S(5600, __c175, 0) as any as S.Schema<GetGuardianFactorSmsTemplatesResponseContent>,
+  input: __S(3648, __c114, 0) as any as S.Schema<GetFactorSmsTemplatesRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<GetGuardianFactorSmsTemplatesResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFactorSmsTemplates",
-}));
-
-export type GetFeatureFlagError = Forbidden | NotFound | Auth0OpError;
-/** Get a feature flag by ID. Retrieve a single feature flag by its ID. */
-export const getFeatureFlag: API.OperationMethod<
-  GetFeatureFlagRequest,
-  GetFeatureFlagResponseContent,
-  GetFeatureFlagError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<GetFeatureFlagRequest>,
-  output: __S(6434, __c201, 2) as any as S.Schema<GetFeatureFlagResponseContent>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetFeatureFlag",
-}));
-
-export type GetFeatureFlagsError = BadRequest | Forbidden | Auth0OpError;
-/** List feature flags for the tenant. Retrieve a paginated list of feature flags for the tenant. */
-export const getFeatureFlags: API.OperationMethod<
-  GetFeatureFlagsRequest,
-  ListFeatureFlagsResponseContent,
-  GetFeatureFlagsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<GetFeatureFlagsRequest>,
-  output: __S(5730, __c179, 2) as any as S.Schema<ListFeatureFlagsResponseContent>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetFeatureFlags",
 }));
 
 export type GetFlowError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24346,8 +20990,8 @@ export const getFlow: API.OperationMethod<
   GetFlowError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<GetFlowRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<GetFlowResponseContent>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetFlowRequest>,
+  output: __S(3265, __c102, 1) as any as S.Schema<GetFlowResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24364,8 +21008,8 @@ export const getFlows: API.OperationMethod<
   GetFlowsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<GetFlowsRequest>,
-  output: __S(5793, __c181, 1) as any as S.Schema<GetFlowsResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<GetFlowsRequest>,
+  output: __S(3777, __c118, 1) as any as S.Schema<GetFlowsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24382,8 +21026,8 @@ export const getFlowsExecution: API.OperationMethod<
   GetFlowsExecutionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<GetFlowsExecutionRequest>,
-  output: __S(5825, __c182, 1) as any as S.Schema<GetFlowExecutionResponseContent>,
+  input: __S(3808, __c119, 0) as any as S.Schema<GetFlowsExecutionRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<GetFlowExecutionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24400,8 +21044,8 @@ export const getFlowsExecutions: API.OperationMethod<
   GetFlowsExecutionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<GetFlowsExecutionsRequest>,
-  output: __S(5857, __c183, 1) as any as S.Schema<GetFlowsExecutionsResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<GetFlowsExecutionsRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<GetFlowsExecutionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24418,8 +21062,8 @@ export const getFlowsVaultConnection: API.OperationMethod<
   GetFlowsVaultConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<GetFlowsVaultConnectionRequest>,
-  output: __S(7392, __c231, 0) as any as S.Schema<GetFlowsVaultConnectionResponseContent>,
+  input: __S(3872, __c121, 0) as any as S.Schema<GetFlowsVaultConnectionRequest>,
+  output: __S(3712, __c116, 0) as any as S.Schema<GetFlowsVaultConnectionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24436,8 +21080,8 @@ export const getFlowsVaultConnections: API.OperationMethod<
   GetFlowsVaultConnectionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<GetFlowsVaultConnectionsRequest>,
-  output: __S(6049, __c189, 1) as any as S.Schema<GetFlowsVaultConnectionsResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<GetFlowsVaultConnectionsRequest>,
+  output: __S(3905, __c122, 1) as any as S.Schema<GetFlowsVaultConnectionsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24454,8 +21098,8 @@ export const getForm: API.OperationMethod<
   GetFormError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<GetFormRequest>,
-  output: __S(7852, __c245, 12) as any as S.Schema<GetFormResponseContent>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetFormRequest>,
+  output: __S(4108, __c128, 12) as any as S.Schema<GetFormResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24472,8 +21116,8 @@ export const getForms: API.OperationMethod<
   GetFormsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<GetFormsRequest>,
-  output: __S(6113, __c191, 1) as any as S.Schema<GetFormsResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetFormsRequest>,
+  output: __S(3969, __c124, 1) as any as S.Schema<GetFormsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24490,8 +21134,8 @@ export const getGrants: API.OperationMethod<
   GetGrantsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GetGrantsRequest>,
-  output: __S(6145, __c192, 1) as any as S.Schema<GetGrantsResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<GetGrantsRequest>,
+  output: __S(4001, __c125, 1) as any as S.Schema<GetGrantsResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24508,8 +21152,8 @@ export const getGroup: API.OperationMethod<
   GetGroupError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<GetGroupRequest>,
-  output: __S(6177, __c193, 1) as any as S.Schema<GetGroupResponseContent>,
+  input: __S(4032, __c126, 0) as any as S.Schema<GetGroupRequest>,
+  output: __S(4033, __c126, 1) as any as S.Schema<GetGroupResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24526,8 +21170,8 @@ export const getGroupMembers: API.OperationMethod<
   GetGroupMembersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<GetGroupMembersRequest>,
-  output: __S(6211, __c194, 3) as any as S.Schema<GetGroupMembersResponseContent>,
+  input: __S(4160, __c130, 0) as any as S.Schema<GetGroupMembersRequest>,
+  output: __S(4163, __c130, 3) as any as S.Schema<GetGroupMembersResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24544,8 +21188,8 @@ export const getGroupRoles: API.OperationMethod<
   GetGroupRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<GetGroupRolesRequest>,
-  output: __S(6273, __c196, 1) as any as S.Schema<ListGroupRolesResponseContent>,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetGroupRolesRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<ListGroupRolesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24562,8 +21206,8 @@ export const getGroups: API.OperationMethod<
   GetGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<GetGroupsRequest>,
-  output: __S(6305, __c197, 1) as any as S.Schema<GetGroupsResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetGroupsRequest>,
+  output: __S(4257, __c133, 1) as any as S.Schema<GetGroupsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24580,8 +21224,8 @@ export const getGuardianPhoneProviders: API.OperationMethod<
   GetGuardianPhoneProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<GetGuardianPhoneProvidersRequest>,
-  output: __S(6368, __c199, 0) as any as S.Schema<GetGuardianFactorsProviderPhoneResponseContent>,
+  input: __S(4288, __c134, 0) as any as S.Schema<GetGuardianPhoneProvidersRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<GetGuardianFactorsProviderPhoneResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24598,8 +21242,8 @@ export const getGuardianSettings: API.OperationMethod<
   GetGuardianSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<GetGuardianSettingsRequest>,
-  output: __S(6496, __c203, 0) as any as S.Schema<GetGuardianSettingsResponseContent>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetGuardianSettingsRequest>,
+  output: __S(4384, __c137, 0) as any as S.Schema<GetGuardianSettingsResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24616,8 +21260,8 @@ export const getHook: API.OperationMethod<
   GetHookError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<GetHookRequest>,
-  output: __S(8800, __c275, 0) as any as S.Schema<GetHookResponseContent>,
+  input: __S(4416, __c138, 0) as any as S.Schema<GetHookRequest>,
+  output: __S(5088, __c159, 0) as any as S.Schema<GetHookResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24634,8 +21278,8 @@ export const getHooks: API.OperationMethod<
   GetHooksError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<GetHooksRequest>,
-  output: __S(6561, __c205, 1) as any as S.Schema<GetHooksResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetHooksRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<GetHooksResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24652,8 +21296,8 @@ export const getInvitations: API.OperationMethod<
   GetInvitationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<GetInvitationsRequest>,
-  output: __S(6593, __c206, 1) as any as S.Schema<GetInvitationsResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetInvitationsRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<GetInvitationsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24670,8 +21314,8 @@ export const getInvitationsByInvitationId: API.OperationMethod<
   GetInvitationsByInvitationIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<GetInvitationsByInvitationIdRequest>,
-  output: __S(6658, __c208, 2) as any as S.Schema<GetOrganizationInvitationResponseContent>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetInvitationsByInvitationIdRequest>,
+  output: __S(4546, __c142, 2) as any as S.Schema<GetOrganizationInvitationResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24688,8 +21332,8 @@ export const getIpsById: API.OperationMethod<
   GetIpsByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<GetIpsByIdRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<GetIpsByIdResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<GetIpsByIdRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<GetIpsByIdResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24706,8 +21350,8 @@ export const getJob: API.OperationMethod<
   GetJobError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<GetJobRequest>,
-  output: __S(6722, __c210, 2) as any as S.Schema<GetJobResponseContent>,
+  input: __S(4672, __c146, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(4674, __c146, 2) as any as S.Schema<GetJobResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24724,32 +21368,14 @@ export const getKeys: API.OperationMethod<
   GetKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<GetKeysRequest>,
-  output: __S(6755, __c211, 3) as any as S.Schema<GetKeysResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<GetKeysRequest>,
+  output: __S(4707, __c147, 3) as any as S.Schema<GetKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetKeys",
-}));
-
-export type GetKeysNetworkAclsError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Get a Network ACL Key Retrieve a specific key used to verify HTTP Message Signatures on Network ACL rules. */
-export const getKeysNetworkAcls: API.OperationMethod<
-  GetKeysNetworkAclsRequest,
-  NetworkAclKey,
-  GetKeysNetworkAclsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<GetKeysNetworkAclsRequest>,
-  output: __S(9312, __c291, 0) as any as S.Schema<NetworkAclKey>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetKeysNetworkAcls",
 }));
 
 export type GetLogError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -24760,8 +21386,8 @@ export const getLog: API.OperationMethod<
   GetLogError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<GetLogRequest>,
-  output: __S(6819, __c213, 3) as any as S.Schema<GetLogResponseContent>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetLogRequest>,
+  output: __S(4739, __c148, 3) as any as S.Schema<GetLogResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24778,8 +21404,8 @@ export const getLogs: API.OperationMethod<
   GetLogsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<GetLogsRequest>,
-  output: __S(6913, __c216, 1) as any as S.Schema<GetLogsResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetLogsRequest>,
+  output: __S(4769, __c149, 1) as any as S.Schema<GetLogsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24796,8 +21422,8 @@ export const getLogsByUser: API.OperationMethod<
   GetLogsByUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<GetLogsByUserRequest>,
-  output: __S(6945, __c217, 1) as any as S.Schema<GetLogsByUserResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<GetLogsByUserRequest>,
+  output: __S(4801, __c150, 1) as any as S.Schema<GetLogsByUserResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24814,8 +21440,8 @@ export const getLogStream: API.OperationMethod<
   GetLogStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<GetLogStreamRequest>,
-  output: __S(6977, __c218, 1) as any as S.Schema<GetLogStreamResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetLogStreamRequest>,
+  output: __S(4833, __c151, 1) as any as S.Schema<GetLogStreamResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24832,8 +21458,8 @@ export const getLogStreams: API.OperationMethod<
   GetLogStreamsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<GetLogStreamsRequest>,
-  output: __S(7010, __c219, 2) as any as S.Schema<GetLogStreamsResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<GetLogStreamsRequest>,
+  output: __S(4866, __c152, 2) as any as S.Schema<GetLogStreamsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24850,10 +21476,10 @@ export const getMessageTypes: API.OperationMethod<
   GetMessageTypesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<GetMessageTypesRequest>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetMessageTypesRequest>,
   output: __S(
-    7072,
-    __c221,
+    4928,
+    __c154,
     0,
   ) as any as S.Schema<GetGuardianFactorPhoneMessageTypesResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -24872,10 +21498,10 @@ export const getNameByDiscoveryDomain: API.OperationMethod<
   GetNameByDiscoveryDomainError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<GetNameByDiscoveryDomainRequest>,
+  input: __S(4960, __c155, 0) as any as S.Schema<GetNameByDiscoveryDomainRequest>,
   output: __S(
-    4736,
-    __c148,
+    2816,
+    __c88,
     0,
   ) as any as S.Schema<GetOrganizationDiscoveryDomainByNameResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -24894,8 +21520,8 @@ export const getNameByName: API.OperationMethod<
   GetNameByNameError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<GetNameByNameRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<GetOrganizationByNameResponseContent>,
+  input: __S(4992, __c156, 0) as any as S.Schema<GetNameByNameRequest>,
+  output: __S(5024, __c157, 0) as any as S.Schema<GetOrganizationByNameResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24912,8 +21538,8 @@ export const getNetworkAcl: API.OperationMethod<
   GetNetworkAclError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<GetNetworkAclRequest>,
-  output: __S(7232, __c226, 0) as any as S.Schema<GetNetworkAclsResponseContent>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetNetworkAclRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<GetNetworkAclsResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24930,8 +21556,8 @@ export const getNetworkAcls: API.OperationMethod<
   GetNetworkAclsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<GetNetworkAclsRequest>,
-  output: __S(7265, __c227, 1) as any as S.Schema<GetNetworkAclsResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<GetNetworkAclsRequest>,
+  output: __S(5185, __c162, 1) as any as S.Schema<GetNetworkAclsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -24948,10 +21574,10 @@ export const getNewDevice: API.OperationMethod<
   GetNewDeviceError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<GetNewDeviceRequest>,
+  input: __S(5216, __c163, 0) as any as S.Schema<GetNewDeviceRequest>,
   output: __S(
-    7328,
-    __c229,
+    5248,
+    __c164,
     0,
   ) as any as S.Schema<GetRiskAssessmentsSettingsNewDeviceResponseContent>,
   errors: [Forbidden, NotFound],
@@ -24970,32 +21596,14 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<GetOrganizationResponseContent>,
+  input: __S(5280, __c165, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(5024, __c157, 0) as any as S.Schema<GetOrganizationResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganization",
-}));
-
-export type GetOrganizationClientError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Get an organization client association Get a specific client association for an organization. */
-export const getOrganizationClient: API.OperationMethod<
-  GetOrganizationClientRequest,
-  GetOrganizationClientResponseContent,
-  GetOrganizationClientError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<GetOrganizationClientRequest>,
-  output: __S(11200, __c350, 0) as any as S.Schema<GetOrganizationClientResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetOrganizationClient",
 }));
 
 export type GetOrganizationClientGrantsError = BadRequest | Forbidden | Auth0OpError;
@@ -25006,68 +21614,14 @@ export const getOrganizationClientGrants: API.OperationMethod<
   GetOrganizationClientGrantsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<GetOrganizationClientGrantsRequest>,
-  output: __S(7489, __c234, 1) as any as S.Schema<GetOrganizationClientGrantsResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<GetOrganizationClientGrantsRequest>,
+  output: __S(5313, __c166, 1) as any as S.Schema<GetOrganizationClientGrantsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationClientGrants",
-}));
-
-export type GetOrganizationClientsError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** List organization client associations List all clients associated with an organization, using checkpoint pagination. <ul> <li> <b>Note</b>: The first time you call this endpoint, omit the <code>from</code> parameter. If there are more results, a <code>next</code> value is included in the response. You can use this for subsequent API calls. When <code>next</code> is no longer included in the response, no further results are remaining. </li> </ul> */
-export const getOrganizationClients: API.OperationMethod<
-  GetOrganizationClientsRequest,
-  ListOrganizationClientsResponseContent,
-  GetOrganizationClientsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<GetOrganizationClientsRequest>,
-  output: __S(7521, __c235, 1) as any as S.Schema<ListOrganizationClientsResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetOrganizationClients",
-}));
-
-export type GetOrganizationConnectionError = Forbidden | NotFound | Auth0OpError;
-/** Get a specific connection associated with an organization */
-export const getOrganizationConnection: API.OperationMethod<
-  GetOrganizationConnectionRequest,
-  GetOrganizationAllConnectionResponseContent,
-  GetOrganizationConnectionError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<GetOrganizationConnectionRequest>,
-  output: __S(12096, __c378, 0) as any as S.Schema<GetOrganizationAllConnectionResponseContent>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetOrganizationConnection",
-}));
-
-export type GetOrganizationConnectionsError = BadRequest | Forbidden | Auth0OpError;
-/** Get connections associated with an organization */
-export const getOrganizationConnections: API.OperationMethod<
-  GetOrganizationConnectionsRequest,
-  GetOrganizationConnectionsResponse,
-  GetOrganizationConnectionsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<GetOrganizationConnectionsRequest>,
-  output: __S(7585, __c237, 1) as any as S.Schema<GetOrganizationConnectionsResponse>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetOrganizationConnections",
 }));
 
 export type GetOrganizationGroupRolesError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25078,8 +21632,8 @@ export const getOrganizationGroupRoles: API.OperationMethod<
   GetOrganizationGroupRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<GetOrganizationGroupRolesRequest>,
-  output: __S(6273, __c196, 1) as any as S.Schema<ListOrganizationGroupRolesResponseContent>,
+  input: __S(5344, __c167, 0) as any as S.Schema<GetOrganizationGroupRolesRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<ListOrganizationGroupRolesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25096,8 +21650,8 @@ export const getOrganizationGroups: API.OperationMethod<
   GetOrganizationGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<GetOrganizationGroupsRequest>,
-  output: __S(7682, __c240, 2) as any as S.Schema<ListOrganizationGroupsResponseContent>,
+  input: __S(5376, __c168, 0) as any as S.Schema<GetOrganizationGroupsRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<ListOrganizationGroupsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25118,10 +21672,10 @@ export const getOrganizationMemberEffectiveRoles: API.OperationMethod<
   GetOrganizationMemberEffectiveRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<GetOrganizationMemberEffectiveRolesRequest>,
+  input: __S(5440, __c170, 0) as any as S.Schema<GetOrganizationMemberEffectiveRolesRequest>,
   output: __S(
-    7746,
-    __c242,
+    5474,
+    __c171,
     2,
   ) as any as S.Schema<ListOrganizationMemberEffectiveRolesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -25140,8 +21694,8 @@ export const getOrganizationMemberRoles: API.OperationMethod<
   GetOrganizationMemberRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<GetOrganizationMemberRolesRequest>,
-  output: __S(7777, __c243, 1) as any as S.Schema<GetOrganizationMemberRolesResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<GetOrganizationMemberRolesRequest>,
+  output: __S(5505, __c172, 1) as any as S.Schema<GetOrganizationMemberRolesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25162,10 +21716,10 @@ export const getOrganizationMemberRoleSourceGroups: API.OperationMethod<
   GetOrganizationMemberRoleSourceGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<GetOrganizationMemberRoleSourceGroupsRequest>,
+  input: __S(5536, __c173, 0) as any as S.Schema<GetOrganizationMemberRoleSourceGroupsRequest>,
   output: __S(
-    7682,
-    __c240,
+    5410,
+    __c169,
     2,
   ) as any as S.Schema<ListOrganizationMemberRoleSourceGroupsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -25184,50 +21738,14 @@ export const getOrganizationMembers: API.OperationMethod<
   GetOrganizationMembersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<GetOrganizationMembersRequest>,
-  output: __S(7937, __c248, 1) as any as S.Schema<GetOrganizationMembersResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<GetOrganizationMembersRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<GetOrganizationMembersResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationMembers",
-}));
-
-export type GetOrganizationRoleGroupsError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** List the groups assigned to a role in the context of an organization Retrieve the list of groups assigned to a role in the context of an organization. */
-export const getOrganizationRoleGroups: API.OperationMethod<
-  GetOrganizationRoleGroupsRequest,
-  ListOrganizationRoleGroupsResponseContent,
-  GetOrganizationRoleGroupsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<GetOrganizationRoleGroupsRequest>,
-  output: __S(7971, __c249, 3) as any as S.Schema<ListOrganizationRoleGroupsResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetOrganizationRoleGroups",
-}));
-
-export type GetOrganizationRoleMembersError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** List the members assigned to a role in the context of an organization List the organization members assigned a specific role within the context of an organization. <ul> <li> <b>Note</b>: Returns only members with direct role assignments. For groups assigned to this role within the organization, use <code>GET /api/v2/organizations/{organization_id}/roles/{role_id}/groups</code>. </li> </ul> */
-export const getOrganizationRoleMembers: API.OperationMethod<
-  GetOrganizationRoleMembersRequest,
-  ListOrganizationRoleMembersResponseContent,
-  GetOrganizationRoleMembersError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<GetOrganizationRoleMembersRequest>,
-  output: __S(8003, __c250, 3) as any as S.Schema<ListOrganizationRoleMembersResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetOrganizationRoleMembers",
 }));
 
 export type GetOrganizationsError = BadRequest | Forbidden | Auth0OpError;
@@ -25238,8 +21756,8 @@ export const getOrganizations: API.OperationMethod<
   GetOrganizationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<GetOrganizationsRequest>,
-  output: __S(8033, __c251, 1) as any as S.Schema<GetOrganizationsResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<GetOrganizationsRequest>,
+  output: __S(5633, __c176, 1) as any as S.Schema<GetOrganizationsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25256,8 +21774,8 @@ export const getPartials: API.OperationMethod<
   GetPartialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<GetPartialsRequest>,
-  output: __S(4352, __c136, 0) as any as S.Schema<GetPartialsResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetPartialsRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<GetPartialsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25274,8 +21792,8 @@ export const getPermissions: API.OperationMethod<
   GetPermissionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<GetPermissionsRequest>,
-  output: __S(8097, __c253, 1) as any as S.Schema<GetPermissionsResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<GetPermissionsRequest>,
+  output: __S(5697, __c178, 1) as any as S.Schema<GetPermissionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25292,8 +21810,8 @@ export const getPhoneFactorSettings: API.OperationMethod<
   GetPhoneFactorSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<GetPhoneFactorSettingsRequest>,
-  output: __S(4832, __c151, 0) as any as S.Schema<GetPhoneFactorSettingsResponseContent>,
+  input: __S(5728, __c179, 0) as any as S.Schema<GetPhoneFactorSettingsRequest>,
+  output: __S(2912, __c91, 0) as any as S.Schema<GetPhoneFactorSettingsResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25310,8 +21828,8 @@ export const getPhoneProvider: API.OperationMethod<
   GetPhoneProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<GetPhoneProviderRequest>,
-  output: __S(13280, __c415, 0) as any as S.Schema<GetBrandingPhoneProviderResponseContent>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetPhoneProviderRequest>,
+  output: __S(8288, __c259, 0) as any as S.Schema<GetBrandingPhoneProviderResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25328,8 +21846,8 @@ export const getPhoneProviderProtection: API.OperationMethod<
   GetPhoneProviderProtectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<GetPhoneProviderProtectionRequest>,
-  output: __S(8224, __c257, 0) as any as S.Schema<GetPhoneProviderProtectionResponseContent>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetPhoneProviderProtectionRequest>,
+  output: __S(5824, __c182, 0) as any as S.Schema<GetPhoneProviderProtectionResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25346,8 +21864,8 @@ export const getPhoneTemplate: API.OperationMethod<
   GetPhoneTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<GetPhoneTemplateRequest>,
-  output: __S(13666, __c427, 2) as any as S.Schema<GetPhoneTemplateResponseContent>,
+  input: __S(5856, __c183, 0) as any as S.Schema<GetPhoneTemplateRequest>,
+  output: __S(8770, __c274, 2) as any as S.Schema<GetPhoneTemplateResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25364,8 +21882,8 @@ export const getPhoneTemplates: API.OperationMethod<
   GetPhoneTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<GetPhoneTemplatesRequest>,
-  output: __S(8354, __c261, 2) as any as S.Schema<ListPhoneTemplatesResponseContent>,
+  input: __S(5888, __c184, 0) as any as S.Schema<GetPhoneTemplatesRequest>,
+  output: __S(5890, __c184, 2) as any as S.Schema<ListPhoneTemplatesResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25382,10 +21900,10 @@ export const getPhoneTwilioFactorProvider: API.OperationMethod<
   GetPhoneTwilioFactorProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<GetPhoneTwilioFactorProviderRequest>,
+  input: __S(5920, __c185, 0) as any as S.Schema<GetPhoneTwilioFactorProviderRequest>,
   output: __S(
-    8416,
-    __c263,
+    5952,
+    __c186,
     0,
   ) as any as S.Schema<GetGuardianFactorsProviderPhoneTwilioResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -25404,10 +21922,10 @@ export const getPnProviders: API.OperationMethod<
   GetPnProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<GetPnProvidersRequest>,
+  input: __S(6048, __c189, 0) as any as S.Schema<GetPnProvidersRequest>,
   output: __S(
-    6368,
-    __c199,
+    4320,
+    __c135,
     0,
   ) as any as S.Schema<GetGuardianFactorsProviderPushNotificationResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -25426,32 +21944,14 @@ export const getPolicies: API.OperationMethod<
   GetPoliciesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<GetPoliciesRequest>,
-  output: __S(8512, __c266, 0) as any as S.Schema<GetPoliciesResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<GetPoliciesRequest>,
+  output: __S(6112, __c191, 0) as any as S.Schema<GetPoliciesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPolicies",
-}));
-
-export type GetPortalError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Get a portal */
-export const getPortal: API.OperationMethod<
-  GetPortalRequest,
-  Portal,
-  GetPortalError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<GetPortalRequest>,
-  output: __S(14057, __c439, 9) as any as S.Schema<Portal>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetPortal",
 }));
 
 export type GetPromptsError = Forbidden | Auth0OpError;
@@ -25462,8 +21962,8 @@ export const getPrompts: API.OperationMethod<
   GetPromptsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<GetPromptsRequest>,
-  output: __S(8608, __c269, 0) as any as S.Schema<GetSettingsResponseContent>,
+  input: __S(6144, __c192, 0) as any as S.Schema<GetPromptsRequest>,
+  output: __S(6176, __c193, 0) as any as S.Schema<GetSettingsResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25480,50 +21980,14 @@ export const getProvider: API.OperationMethod<
   GetProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<GetProviderRequest>,
-  output: __S(8673, __c271, 1) as any as S.Schema<GetEmailProviderResponseContent>,
+  input: __S(6208, __c194, 0) as any as S.Schema<GetProviderRequest>,
+  output: __S(6241, __c195, 1) as any as S.Schema<GetEmailProviderResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProvider",
-}));
-
-export type GetRateLimitPoliciesError = BadRequest | Forbidden | Auth0OpError;
-/** Get rate limit policies */
-export const getRateLimitPolicies: API.OperationMethod<
-  GetRateLimitPoliciesRequest,
-  ListRateLimitPoliciesPaginatedResponseContent,
-  GetRateLimitPoliciesError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<GetRateLimitPoliciesRequest>,
-  output: __S(8706, __c272, 2) as any as S.Schema<ListRateLimitPoliciesPaginatedResponseContent>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetRateLimitPolicies",
-}));
-
-export type GetRateLimitPolicyError = Forbidden | NotFound | Auth0OpError;
-/** Get a rate limit policy */
-export const getRateLimitPolicy: API.OperationMethod<
-  GetRateLimitPolicyRequest,
-  GetRateLimitPolicyResponseContent,
-  GetRateLimitPolicyError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<GetRateLimitPolicyRequest>,
-  output: __S(14496, __c453, 0) as any as S.Schema<GetRateLimitPolicyResponseContent>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetRateLimitPolicy",
 }));
 
 export type GetRefreshTokenError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25534,32 +21998,14 @@ export const getRefreshToken: API.OperationMethod<
   GetRefreshTokenError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<GetRefreshTokenRequest>,
-  output: __S(8867, __c277, 3) as any as S.Schema<GetRefreshTokenResponseContent>,
+  input: __S(6272, __c196, 0) as any as S.Schema<GetRefreshTokenRequest>,
+  output: __S(6307, __c197, 3) as any as S.Schema<GetRefreshTokenResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRefreshToken",
-}));
-
-export type GetRefreshTokensError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Get refresh tokens Retrieve a paginated list of refresh tokens for a specific user, with optional filtering by client ID. Results are sorted by credential_id ascending. */
-export const getRefreshTokens: API.OperationMethod<
-  GetRefreshTokensRequest,
-  GetRefreshTokensPaginatedResponseContent,
-  GetRefreshTokensError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<GetRefreshTokensRequest>,
-  output: __S(8897, __c278, 1) as any as S.Schema<GetRefreshTokensPaginatedResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetRefreshTokens",
 }));
 
 export type GetRefreshTokensForUserError = Forbidden | NotFound | Auth0OpError;
@@ -25570,8 +22016,8 @@ export const getRefreshTokensForUser: API.OperationMethod<
   GetRefreshTokensForUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<GetRefreshTokensForUserRequest>,
-  output: __S(8961, __c280, 1) as any as S.Schema<ListRefreshTokensPaginatedResponseContent>,
+  input: __S(6336, __c198, 0) as any as S.Schema<GetRefreshTokensForUserRequest>,
+  output: __S(6338, __c198, 2) as any as S.Schema<ListRefreshTokensPaginatedResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25588,8 +22034,8 @@ export const getRendering: API.OperationMethod<
   GetRenderingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8993, __c281, 1) as any as S.Schema<GetRenderingRequest>,
-  output: __S(8992, __c281, 0) as any as S.Schema<GetAculResponseContent>,
+  input: __S(6369, __c199, 1) as any as S.Schema<GetRenderingRequest>,
+  output: __S(6368, __c199, 0) as any as S.Schema<GetAculResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25606,8 +22052,8 @@ export const getResourceServer: API.OperationMethod<
   GetResourceServerError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<GetResourceServerRequest>,
-  output: __S(14944, __c467, 0) as any as S.Schema<GetResourceServerResponseContent>,
+  input: __S(6432, __c201, 0) as any as S.Schema<GetResourceServerRequest>,
+  output: __S(9193, __c287, 9) as any as S.Schema<GetResourceServerResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25624,32 +22070,14 @@ export const getResourceServers: API.OperationMethod<
   GetResourceServersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<GetResourceServersRequest>,
-  output: __S(9089, __c284, 1) as any as S.Schema<GetResourceServersResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<GetResourceServersRequest>,
+  output: __S(6465, __c202, 1) as any as S.Schema<GetResourceServersResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResourceServers",
-}));
-
-export type GetResourceServersSearchError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Search resource servers Search resource servers using SCIM or Lucene filter syntax with low-latency, eventually consistent results. Use the parser parameter to specify "scim" or "lucene" syntax (default: "lucene"). This endpoint provides an alternative to the standard GET /resource-servers endpoint with better performance for complex queries. Results may not reflect recent updates immediately. The `signing_secret` field is not supported by this endpoint. */
-export const getResourceServersSearch: API.OperationMethod<
-  GetResourceServersSearchRequest,
-  SearchResourceServersResponseContent,
-  GetResourceServersSearchError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<GetResourceServersSearchRequest>,
-  output: __S(9123, __c285, 3) as any as S.Schema<SearchResourceServersResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetResourceServersSearch",
 }));
 
 export type GetRiskAssessmentsSettingsError = Forbidden | NotFound | Auth0OpError;
@@ -25660,8 +22088,8 @@ export const getRiskAssessmentsSettings: API.OperationMethod<
   GetRiskAssessmentsSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<GetRiskAssessmentsSettingsRequest>,
-  output: __S(9184, __c287, 0) as any as S.Schema<GetRiskAssessmentsSettingsResponseContent>,
+  input: __S(6496, __c203, 0) as any as S.Schema<GetRiskAssessmentsSettingsRequest>,
+  output: __S(6528, __c204, 0) as any as S.Schema<GetRiskAssessmentsSettingsResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25678,8 +22106,8 @@ export const getRole: API.OperationMethod<
   GetRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<GetRoleRequest>,
-  output: __S(15328, __c479, 0) as any as S.Schema<GetRoleResponseContent>,
+  input: __S(6656, __c208, 0) as any as S.Schema<GetRoleRequest>,
+  output: __S(9600, __c300, 0) as any as S.Schema<GetRoleResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25696,8 +22124,8 @@ export const getRoleGroups: API.OperationMethod<
   GetRoleGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<GetRoleGroupsRequest>,
-  output: __S(7682, __c240, 2) as any as S.Schema<ListRoleGroupsResponseContent>,
+  input: __S(6688, __c209, 0) as any as S.Schema<GetRoleGroupsRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<ListRoleGroupsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25714,8 +22142,8 @@ export const getRolePermission: API.OperationMethod<
   GetRolePermissionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<GetRolePermissionRequest>,
-  output: __S(9345, __c292, 1) as any as S.Schema<GetRolePermissionResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<GetRolePermissionRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<GetRolePermissionResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25732,8 +22160,8 @@ export const getRoles: API.OperationMethod<
   GetRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<GetRolesRequest>,
-  output: __S(9377, __c293, 1) as any as S.Schema<GetRolesResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<GetRolesRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<GetRolesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25750,8 +22178,8 @@ export const getRoleUser: API.OperationMethod<
   GetRoleUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<GetRoleUserRequest>,
-  output: __S(9409, __c294, 1) as any as S.Schema<GetRoleUserResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<GetRoleUserRequest>,
+  output: __S(6785, __c212, 1) as any as S.Schema<GetRoleUserResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25768,8 +22196,8 @@ export const getRule: API.OperationMethod<
   GetRuleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9440, __c295, 0) as any as S.Schema<GetRuleRequest>,
-  output: __S(16416, __c513, 0) as any as S.Schema<GetRuleResponseContent>,
+  input: __S(6816, __c213, 0) as any as S.Schema<GetRuleRequest>,
+  output: __S(10752, __c336, 0) as any as S.Schema<GetRuleResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25786,8 +22214,8 @@ export const getRules: API.OperationMethod<
   GetRulesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<GetRulesRequest>,
-  output: __S(9473, __c296, 1) as any as S.Schema<GetRulesResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<GetRulesRequest>,
+  output: __S(6849, __c214, 1) as any as S.Schema<GetRulesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25804,8 +22232,8 @@ export const getRulesConfigs: API.OperationMethod<
   GetRulesConfigsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<GetRulesConfigsRequest>,
-  output: __S(9507, __c297, 3) as any as S.Schema<GetRulesConfigsResponse>,
+  input: __S(6880, __c215, 0) as any as S.Schema<GetRulesConfigsRequest>,
+  output: __S(6883, __c215, 3) as any as S.Schema<GetRulesConfigsResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25822,8 +22250,8 @@ export const getScimConfiguration: API.OperationMethod<
   GetScimConfigurationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<GetScimConfigurationRequest>,
-  output: __S(3968, __c124, 0) as any as S.Schema<GetScimConfigurationResponseContent>,
+  input: __S(6912, __c216, 0) as any as S.Schema<GetScimConfigurationRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<GetScimConfigurationResponseContent>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25840,32 +22268,14 @@ export const getScimTokens: API.OperationMethod<
   GetScimTokensError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<GetScimTokensRequest>,
-  output: __S(9571, __c299, 3) as any as S.Schema<GetScimTokensResponse>,
+  input: __S(6944, __c217, 0) as any as S.Schema<GetScimTokensRequest>,
+  output: __S(6947, __c217, 3) as any as S.Schema<GetScimTokensResponse>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetScimTokens",
-}));
-
-export type GetSearchError = BadRequest | Forbidden | Auth0OpError;
-/** Search organizations Retrieve details of organizations matching a search criteria. It is possible to: - Specify a search criteria for organizations - Search via `name` - Search via `display_name` - Substring matching (`contains` and `ends-with`) requires at least 3 characters - Use wildcards The `q` query parameter can be used to get organizations that match the specified criteria on `name` OR `display_name`. This endpoint supports SCIM or Lucene filter syntax with low-latency, cursor-based pagination. Use the `parser` parameter to specify "scim" or "lucene" syntax (default: "lucene"). Results are eventually consistent and may not reflect recent updates immediately. **Sortable fields:** `name`, `display_name`, `created_at` (ascending only). Defaults to insertion order (oldest first). */
-export const getSearch: API.OperationMethod<
-  GetSearchRequest,
-  SearchOrganizationsPaginatedResponseContent,
-  GetSearchError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<GetSearchRequest>,
-  output: __S(9603, __c300, 3) as any as S.Schema<SearchOrganizationsPaginatedResponseContent>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetSearch",
 }));
 
 export type GetSecretsError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25876,50 +22286,14 @@ export const getSecrets: API.OperationMethod<
   GetSecretsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<GetSecretsRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<GetSecretsResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<GetSecretsRequest>,
+  output: __S(7040, __c220, 0) as any as S.Schema<GetSecretsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSecrets",
-}));
-
-export type GetSegmentError = Forbidden | NotFound | Auth0OpError;
-/** Get a segment by ID. Retrieve a single segment by its ID. */
-export const getSegment: API.OperationMethod<
-  GetSegmentRequest,
-  GetSegmentResponseContent,
-  GetSegmentError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<GetSegmentRequest>,
-  output: __S(16803, __c525, 3) as any as S.Schema<GetSegmentResponseContent>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetSegment",
-}));
-
-export type GetSegmentsError = BadRequest | Forbidden | Auth0OpError;
-/** List segments for the tenant. Retrieve a paginated list of segments for the tenant. */
-export const getSegments: API.OperationMethod<
-  GetSegmentsRequest,
-  ListSegmentsResponseContent,
-  GetSegmentsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<GetSegmentsRequest>,
-  output: __S(9762, __c305, 2) as any as S.Schema<ListSegmentsResponseContent>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetSegments",
 }));
 
 export type GetSelfServiceProfileError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -25930,8 +22304,8 @@ export const getSelfServiceProfile: API.OperationMethod<
   GetSelfServiceProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<GetSelfServiceProfileRequest>,
-  output: __S(17188, __c537, 4) as any as S.Schema<GetSelfServiceProfileResponseContent>,
+  input: __S(7072, __c221, 0) as any as S.Schema<GetSelfServiceProfileRequest>,
+  output: __S(11172, __c349, 4) as any as S.Schema<GetSelfServiceProfileResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25948,8 +22322,8 @@ export const getSelfServiceProfileCustomText: API.OperationMethod<
   GetSelfServiceProfileCustomTextError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<GetSelfServiceProfileCustomTextRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<GetSelfServiceProfileCustomTextResponse>,
+  input: __S(7104, __c222, 0) as any as S.Schema<GetSelfServiceProfileCustomTextRequest>,
+  output: __S(7040, __c220, 0) as any as S.Schema<GetSelfServiceProfileCustomTextResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25966,8 +22340,8 @@ export const getSelfServiceProfiles: API.OperationMethod<
   GetSelfServiceProfilesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<GetSelfServiceProfilesRequest>,
-  output: __S(9857, __c308, 1) as any as S.Schema<GetSelfServiceProfilesResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<GetSelfServiceProfilesRequest>,
+  output: __S(7137, __c223, 1) as any as S.Schema<GetSelfServiceProfilesResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -25984,8 +22358,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(9928, __c310, 8) as any as S.Schema<GetSessionResponseContent>,
+  input: __S(7168, __c224, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(7208, __c225, 8) as any as S.Schema<GetSessionResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26002,8 +22376,8 @@ export const getSessionsForUser: API.OperationMethod<
   GetSessionsForUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<GetSessionsForUserRequest>,
-  output: __S(9954, __c311, 2) as any as S.Schema<ListUserSessionsPaginatedResponseContent>,
+  input: __S(7232, __c226, 0) as any as S.Schema<GetSessionsForUserRequest>,
+  output: __S(7234, __c226, 2) as any as S.Schema<ListUserSessionsPaginatedResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26020,8 +22394,8 @@ export const getSigningKey: API.OperationMethod<
   GetSigningKeyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9984, __c312, 0) as any as S.Schema<GetSigningKeyRequest>,
-  output: __S(10016, __c313, 0) as any as S.Schema<GetSigningKeysResponseContent>,
+  input: __S(7264, __c227, 0) as any as S.Schema<GetSigningKeyRequest>,
+  output: __S(7296, __c228, 0) as any as S.Schema<GetSigningKeysResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26038,8 +22412,8 @@ export const getSigningKeys: API.OperationMethod<
   GetSigningKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<GetSigningKeysRequest>,
-  output: __S(10050, __c314, 2) as any as S.Schema<GetSigningKeysResponse>,
+  input: __S(7328, __c229, 0) as any as S.Schema<GetSigningKeysRequest>,
+  output: __S(7330, __c229, 2) as any as S.Schema<GetSigningKeysResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26056,8 +22430,8 @@ export const getSmsProviders: API.OperationMethod<
   GetSmsProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10080, __c315, 0) as any as S.Schema<GetSmsProvidersRequest>,
-  output: __S(6368, __c199, 0) as any as S.Schema<GetGuardianFactorsProviderSmsResponseContent>,
+  input: __S(7360, __c230, 0) as any as S.Schema<GetSmsProvidersRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<GetGuardianFactorsProviderSmsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26074,10 +22448,10 @@ export const getSmsTwilioFactorProvider: API.OperationMethod<
   GetSmsTwilioFactorProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<GetSmsTwilioFactorProviderRequest>,
+  input: __S(7392, __c231, 0) as any as S.Schema<GetSmsTwilioFactorProviderRequest>,
   output: __S(
-    8416,
-    __c263,
+    5952,
+    __c186,
     0,
   ) as any as S.Schema<GetGuardianFactorsProviderSmsTwilioResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -26096,8 +22470,8 @@ export const getSns: API.OperationMethod<
   GetSnsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10208, __c319, 0) as any as S.Schema<GetSnsRequest>,
-  output: __S(10240, __c320, 0) as any as S.Schema<GetGuardianFactorsProviderSnsResponseContent>,
+  input: __S(7456, __c233, 0) as any as S.Schema<GetSnsRequest>,
+  output: __S(7488, __c234, 0) as any as S.Schema<GetGuardianFactorsProviderSnsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26114,32 +22488,14 @@ export const getStatus: API.OperationMethod<
   GetStatusError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10272, __c321, 0) as any as S.Schema<GetStatusRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<GetStatusResponse>,
+  input: __S(7520, __c235, 0) as any as S.Schema<GetStatusRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<GetStatusResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetStatus",
-}));
-
-export type GetSupplementalSignalsError = Forbidden | NotFound | Auth0OpError;
-/** Get the supplemental signals configuration for a tenant Get the supplemental signals configuration for a tenant. */
-export const getSupplementalSignals: API.OperationMethod<
-  GetSupplementalSignalsRequest,
-  GetSupplementalSignalsResponseContent,
-  GetSupplementalSignalsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(10304, __c322, 0) as any as S.Schema<GetSupplementalSignalsRequest>,
-  output: __S(10336, __c323, 0) as any as S.Schema<GetSupplementalSignalsResponseContent>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetSupplementalSignals",
 }));
 
 export type GetSuspiciousIpThrottlingError = Forbidden | Auth0OpError;
@@ -26150,12 +22506,8 @@ export const getSuspiciousIpThrottling: API.OperationMethod<
   GetSuspiciousIpThrottlingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<GetSuspiciousIpThrottlingRequest>,
-  output: __S(
-    10402,
-    __c325,
-    2,
-  ) as any as S.Schema<GetSuspiciousIPThrottlingSettingsResponseContent>,
+  input: __S(7552, __c236, 0) as any as S.Schema<GetSuspiciousIpThrottlingRequest>,
+  output: __S(7586, __c237, 2) as any as S.Schema<GetSuspiciousIPThrottlingSettingsResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26172,8 +22524,8 @@ export const getSynchronizedGroups: API.OperationMethod<
   GetSynchronizedGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10432, __c326, 0) as any as S.Schema<GetSynchronizedGroupsRequest>,
-  output: __S(10433, __c326, 1) as any as S.Schema<ListSynchronizedGroupsResponseContent>,
+  input: __S(7616, __c238, 0) as any as S.Schema<GetSynchronizedGroupsRequest>,
+  output: __S(7617, __c238, 1) as any as S.Schema<ListSynchronizedGroupsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26190,8 +22542,8 @@ export const getTokenExchangeProfile: API.OperationMethod<
   GetTokenExchangeProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10496, __c328, 0) as any as S.Schema<GetTokenExchangeProfileRequest>,
-  output: __S(17568, __c549, 0) as any as S.Schema<GetTokenExchangeProfileResponseContent>,
+  input: __S(7680, __c240, 0) as any as S.Schema<GetTokenExchangeProfileRequest>,
+  output: __S(11552, __c361, 0) as any as S.Schema<GetTokenExchangeProfileResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26208,8 +22560,8 @@ export const getTokenExchangeProfiles: API.OperationMethod<
   GetTokenExchangeProfilesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<GetTokenExchangeProfilesRequest>,
-  output: __S(10530, __c329, 2) as any as S.Schema<ListTokenExchangeProfileResponseContent>,
+  input: __S(7712, __c241, 0) as any as S.Schema<GetTokenExchangeProfilesRequest>,
+  output: __S(7714, __c241, 2) as any as S.Schema<ListTokenExchangeProfileResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26226,8 +22578,8 @@ export const getTriggers: API.OperationMethod<
   GetTriggersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10560, __c330, 0) as any as S.Schema<GetTriggersRequest>,
-  output: __S(10561, __c330, 1) as any as S.Schema<ListActionTriggersResponseContent>,
+  input: __S(7744, __c242, 0) as any as S.Schema<GetTriggersRequest>,
+  output: __S(7745, __c242, 1) as any as S.Schema<ListActionTriggersResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26244,8 +22596,8 @@ export const getUniversalLogin: API.OperationMethod<
   GetUniversalLoginError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10592, __c331, 0) as any as S.Schema<GetUniversalLoginRequest>,
-  output: __S(10593, __c331, 1) as any as S.Schema<GetUniversalLoginResponse>,
+  input: __S(7776, __c243, 0) as any as S.Schema<GetUniversalLoginRequest>,
+  output: __S(7777, __c243, 1) as any as S.Schema<GetUniversalLoginResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26262,90 +22614,14 @@ export const getUser: API.OperationMethod<
   GetUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10752, __c336, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(17858, __c558, 2) as any as S.Schema<GetUserResponseContent>,
+  input: __S(7808, __c244, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(11970, __c374, 2) as any as S.Schema<GetUserResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetUser",
-}));
-
-export type GetUserAttributeProfileError = Forbidden | NotFound | Auth0OpError;
-/** Get User Attribute Profile Retrieve details about a single User Attribute Profile specified by ID. */
-export const getUserAttributeProfile: API.OperationMethod<
-  GetUserAttributeProfileRequest,
-  GetUserAttributeProfileResponseContent,
-  GetUserAttributeProfileError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(10784, __c337, 0) as any as S.Schema<GetUserAttributeProfileRequest>,
-  output: __S(17952, __c561, 0) as any as S.Schema<GetUserAttributeProfileResponseContent>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetUserAttributeProfile",
-}));
-
-export type GetUserAttributeProfilesError = BadRequest | Forbidden | Auth0OpError;
-/** Get User Attribute Profiles Retrieve a list of User Attribute Profiles. This endpoint supports Checkpoint pagination. */
-export const getUserAttributeProfiles: API.OperationMethod<
-  GetUserAttributeProfilesRequest,
-  ListUserAttributeProfilesPaginatedResponseContent,
-  GetUserAttributeProfilesError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(10816, __c338, 0) as any as S.Schema<GetUserAttributeProfilesRequest>,
-  output: __S(
-    10818,
-    __c338,
-    2,
-  ) as any as S.Schema<ListUserAttributeProfilesPaginatedResponseContent>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetUserAttributeProfiles",
-}));
-
-export type GetUserAttributeProfileTemplateError = Forbidden | NotFound | Auth0OpError;
-/** Get User Attribute Profile Template Retrieve a User Attribute Profile Template. */
-export const getUserAttributeProfileTemplate: API.OperationMethod<
-  GetUserAttributeProfileTemplateRequest,
-  GetUserAttributeProfileTemplateResponseContent,
-  GetUserAttributeProfileTemplateError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(10848, __c339, 0) as any as S.Schema<GetUserAttributeProfileTemplateRequest>,
-  output: __S(10881, __c340, 1) as any as S.Schema<GetUserAttributeProfileTemplateResponseContent>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetUserAttributeProfileTemplate",
-}));
-
-export type GetUserAttributeProfileTemplatesError = Forbidden | Auth0OpError;
-/** Get User Attribute Profile Templates Retrieve a list of User Attribute Profile Templates. */
-export const getUserAttributeProfileTemplates: API.OperationMethod<
-  GetUserAttributeProfileTemplatesRequest,
-  ListUserAttributeProfileTemplateResponseContent,
-  GetUserAttributeProfileTemplatesError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(10912, __c341, 0) as any as S.Schema<GetUserAttributeProfileTemplatesRequest>,
-  output: __S(10914, __c341, 2) as any as S.Schema<ListUserAttributeProfileTemplateResponseContent>,
-  errors: [Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetUserAttributeProfileTemplates",
 }));
 
 export type GetUserBlockError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26356,8 +22632,8 @@ export const getUserBlock: API.OperationMethod<
   GetUserBlockError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10944, __c342, 0) as any as S.Schema<GetUserBlockRequest>,
-  output: __S(10978, __c343, 2) as any as S.Schema<ListUserBlocksResponseContent>,
+  input: __S(7840, __c245, 0) as any as S.Schema<GetUserBlockRequest>,
+  output: __S(7874, __c246, 2) as any as S.Schema<ListUserBlocksResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26374,50 +22650,14 @@ export const getUserBlocks: API.OperationMethod<
   GetUserBlocksError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11008, __c344, 0) as any as S.Schema<GetUserBlocksRequest>,
-  output: __S(10978, __c343, 2) as any as S.Schema<ListUserBlocksByIdentifierResponseContent>,
+  input: __S(7936, __c248, 0) as any as S.Schema<GetUserBlocksRequest>,
+  output: __S(7874, __c246, 2) as any as S.Schema<ListUserBlocksByIdentifierResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetUserBlocks",
-}));
-
-export type GetUserConsentSigningKeyError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Get a consent signing key by key ID Retrieve a single consent signing key for a user by its key identifier (kid). Returns 404 if the key does not exist. */
-export const getUserConsentSigningKey: API.OperationMethod<
-  GetUserConsentSigningKeyRequest,
-  ConsentSigningKey,
-  GetUserConsentSigningKeyError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(11040, __c345, 0) as any as S.Schema<GetUserConsentSigningKeyRequest>,
-  output: __S(11072, __c346, 0) as any as S.Schema<ConsentSigningKey>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetUserConsentSigningKey",
-}));
-
-export type GetUserConsentSigningKeysError = BadRequest | Forbidden | Auth0OpError;
-/** Get consent signing keys for a user Retrieve all consent signing keys registered for a user. Returns an empty `keys` array when the user has no keys registered. */
-export const getUserConsentSigningKeys: API.OperationMethod<
-  GetUserConsentSigningKeysRequest,
-  ListUserConsentSigningKeysResponseContent,
-  GetUserConsentSigningKeysError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(11104, __c347, 0) as any as S.Schema<GetUserConsentSigningKeysRequest>,
-  output: __S(11106, __c347, 2) as any as S.Schema<ListUserConsentSigningKeysResponseContent>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetUserConsentSigningKeys",
 }));
 
 export type GetUserEffectivePermissionRoleSourcesError =
@@ -26432,10 +22672,10 @@ export const getUserEffectivePermissionRoleSources: API.OperationMethod<
   GetUserEffectivePermissionRoleSourcesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11136, __c348, 0) as any as S.Schema<GetUserEffectivePermissionRoleSourcesRequest>,
+  input: __S(7968, __c249, 0) as any as S.Schema<GetUserEffectivePermissionRoleSourcesRequest>,
   output: __S(
-    11139,
-    __c348,
+    7971,
+    __c249,
     3,
   ) as any as S.Schema<ListUserEffectivePermissionRoleSourcesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -26454,8 +22694,8 @@ export const getUserEffectivePermissions: API.OperationMethod<
   GetUserEffectivePermissionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11296, __c353, 0) as any as S.Schema<GetUserEffectivePermissionsRequest>,
-  output: __S(11299, __c353, 3) as any as S.Schema<ListUserEffectivePermissionsResponseContent>,
+  input: __S(8000, __c250, 0) as any as S.Schema<GetUserEffectivePermissionsRequest>,
+  output: __S(8003, __c250, 3) as any as S.Schema<ListUserEffectivePermissionsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26472,8 +22712,8 @@ export const getUserEffectiveRoles: API.OperationMethod<
   GetUserEffectiveRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11328, __c354, 0) as any as S.Schema<GetUserEffectiveRolesRequest>,
-  output: __S(7746, __c242, 2) as any as S.Schema<ListUserEffectiveRolesResponseContent>,
+  input: __S(8032, __c251, 0) as any as S.Schema<GetUserEffectiveRolesRequest>,
+  output: __S(5474, __c171, 2) as any as S.Schema<ListUserEffectiveRolesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26490,8 +22730,8 @@ export const getUserGroups: API.OperationMethod<
   GetUserGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11360, __c355, 0) as any as S.Schema<GetUserGroupsRequest>,
-  output: __S(11361, __c355, 1) as any as S.Schema<GetUserGroupsResponse>,
+  input: __S(8064, __c252, 0) as any as S.Schema<GetUserGroupsRequest>,
+  output: __S(8065, __c252, 1) as any as S.Schema<GetUserGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26508,8 +22748,8 @@ export const getUserOrganizations: API.OperationMethod<
   GetUserOrganizationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11392, __c356, 0) as any as S.Schema<GetUserOrganizationsRequest>,
-  output: __S(11393, __c356, 1) as any as S.Schema<GetUserOrganizationsResponse>,
+  input: __S(8096, __c253, 0) as any as S.Schema<GetUserOrganizationsRequest>,
+  output: __S(8097, __c253, 1) as any as S.Schema<GetUserOrganizationsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26526,8 +22766,8 @@ export const getUserRoles: API.OperationMethod<
   GetUserRolesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11424, __c357, 0) as any as S.Schema<GetUserRolesRequest>,
-  output: __S(11425, __c357, 1) as any as S.Schema<GetUserRolesResponse>,
+  input: __S(8128, __c254, 0) as any as S.Schema<GetUserRolesRequest>,
+  output: __S(8129, __c254, 1) as any as S.Schema<GetUserRolesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26544,8 +22784,8 @@ export const getUserRoleSourceGroups: API.OperationMethod<
   GetUserRoleSourceGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11456, __c358, 0) as any as S.Schema<GetUserRoleSourceGroupsRequest>,
-  output: __S(7682, __c240, 2) as any as S.Schema<ListUserRoleSourceGroupsResponseContent>,
+  input: __S(8160, __c255, 0) as any as S.Schema<GetUserRoleSourceGroupsRequest>,
+  output: __S(5410, __c169, 2) as any as S.Schema<ListUserRoleSourceGroupsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26562,8 +22802,8 @@ export const getUsers: API.OperationMethod<
   GetUsersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11488, __c359, 0) as any as S.Schema<GetUsersRequest>,
-  output: __S(11489, __c359, 1) as any as S.Schema<GetUsersResponse>,
+  input: __S(8192, __c256, 0) as any as S.Schema<GetUsersRequest>,
+  output: __S(8193, __c256, 1) as any as S.Schema<GetUsersResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26580,50 +22820,14 @@ export const getUsersByEmail: API.OperationMethod<
   GetUsersByEmailError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11521, __c360, 1) as any as S.Schema<GetUsersByEmailRequest>,
-  output: __S(11522, __c360, 2) as any as S.Schema<GetUsersByEmailResponse>,
+  input: __S(8225, __c257, 1) as any as S.Schema<GetUsersByEmailRequest>,
+  output: __S(8226, __c257, 2) as any as S.Schema<GetUsersByEmailResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetUsersByEmail",
-}));
-
-export type GetVariationError = Forbidden | NotFound | Auth0OpError;
-/** Get a variation by ID. Retrieve a single variation by its ID. */
-export const getVariation: API.OperationMethod<
-  GetVariationRequest,
-  GetVariationResponseContent,
-  GetVariationError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(11552, __c361, 0) as any as S.Schema<GetVariationRequest>,
-  output: __S(18048, __c564, 0) as any as S.Schema<GetVariationResponseContent>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetVariation",
-}));
-
-export type GetVariationsError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** List all variations for a feature flag. Retrieve all variations defined for a specific feature flag. */
-export const getVariations: API.OperationMethod<
-  GetVariationsRequest,
-  ListVariationsResponseContent,
-  GetVariationsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(11584, __c362, 0) as any as S.Schema<GetVariationsRequest>,
-  output: __S(11586, __c362, 2) as any as S.Schema<ListVariationsResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetVariations",
 }));
 
 export type GetVcTemplatesError = BadRequest | Forbidden | Auth0OpError;
@@ -26634,10 +22838,10 @@ export const getVcTemplates: API.OperationMethod<
   GetVcTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11648, __c364, 0) as any as S.Schema<GetVcTemplatesRequest>,
+  input: __S(8320, __c260, 0) as any as S.Schema<GetVcTemplatesRequest>,
   output: __S(
-    11650,
-    __c364,
+    8322,
+    __c260,
     2,
   ) as any as S.Schema<ListVerifiableCredentialTemplatesPaginatedResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -26656,32 +22860,14 @@ export const getVcTemplatesById: API.OperationMethod<
   GetVcTemplatesByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11712, __c366, 0) as any as S.Schema<GetVcTemplatesByIdRequest>,
-  output: __S(11683, __c365, 3) as any as S.Schema<GetVerifiableCredentialTemplateResponseContent>,
+  input: __S(8384, __c262, 0) as any as S.Schema<GetVcTemplatesByIdRequest>,
+  output: __S(8355, __c261, 3) as any as S.Schema<GetVerifiableCredentialTemplateResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVcTemplatesById",
-}));
-
-export type ListPortalsError = Forbidden | NotFound | Auth0OpError;
-/** Retrieve all portals */
-export const listPortals: API.OperationMethod<
-  ListPortalsRequest,
-  ListPortalsResponseContent,
-  ListPortalsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(11744, __c367, 0) as any as S.Schema<ListPortalsRequest>,
-  output: __S(11747, __c367, 3) as any as S.Schema<ListPortalsResponseContent>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListPortals",
 }));
 
 export type PatchActionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -26692,8 +22878,8 @@ export const patchAction: API.OperationMethod<
   PatchActionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11776, __c368, 0) as any as S.Schema<PatchActionRequest>,
-  output: __S(1831, __c57, 7) as any as S.Schema<UpdateActionResponseContent>,
+  input: __S(8416, __c263, 0) as any as S.Schema<PatchActionRequest>,
+  output: __S(455, __c14, 7) as any as S.Schema<UpdateActionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26710,10 +22896,10 @@ export const patchApns: API.OperationMethod<
   PatchApnsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11840, __c370, 0) as any as S.Schema<PatchApnsRequest>,
+  input: __S(8480, __c265, 0) as any as S.Schema<PatchApnsRequest>,
   output: __S(
-    11872,
-    __c371,
+    8512,
+    __c266,
     0,
   ) as any as S.Schema<UpdateGuardianFactorsProviderPushNotificationApnsResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -26737,11 +22923,11 @@ export const patchAuthenticationMethodsByAuthenticationMethodId: API.OperationMe
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    11904,
-    __c372,
+    8544,
+    __c267,
     0,
   ) as any as S.Schema<PatchAuthenticationMethodsByAuthenticationMethodIdRequest>,
-  output: __S(11905, __c372, 1) as any as S.Schema<UpdateUserAuthenticationMethodResponseContent>,
+  output: __S(8545, __c267, 1) as any as S.Schema<UpdateUserAuthenticationMethodResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26758,8 +22944,8 @@ export const patchBindings: API.OperationMethod<
   PatchBindingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11939, __c373, 3) as any as S.Schema<PatchBindingsRequest>,
-  output: __S(11940, __c373, 4) as any as S.Schema<UpdateActionBindingsResponseContent>,
+  input: __S(8579, __c268, 3) as any as S.Schema<PatchBindingsRequest>,
+  output: __S(8580, __c268, 4) as any as S.Schema<UpdateActionBindingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26776,8 +22962,8 @@ export const patchBotDetection: API.OperationMethod<
   PatchBotDetectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11968, __c374, 0) as any as S.Schema<PatchBotDetectionRequest>,
-  output: __S(11969, __c374, 1) as any as S.Schema<UpdateBotDetectionSettingsResponseContent>,
+  input: __S(8608, __c269, 0) as any as S.Schema<PatchBotDetectionRequest>,
+  output: __S(8609, __c269, 1) as any as S.Schema<UpdateBotDetectionSettingsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26794,10 +22980,10 @@ export const patchBreachedPasswordDetection: API.OperationMethod<
   PatchBreachedPasswordDetectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12000, __c375, 0) as any as S.Schema<PatchBreachedPasswordDetectionRequest>,
+  input: __S(8640, __c270, 0) as any as S.Schema<PatchBreachedPasswordDetectionRequest>,
   output: __S(
-    2786,
-    __c87,
+    1154,
+    __c36,
     2,
   ) as any as S.Schema<UpdateBreachedPasswordDetectionSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -26816,8 +23002,8 @@ export const patchBruteForceProtection: API.OperationMethod<
   PatchBruteForceProtectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12032, __c376, 0) as any as S.Schema<PatchBruteForceProtectionRequest>,
-  output: __S(2848, __c89, 0) as any as S.Schema<UpdateBruteForceSettingsResponseContent>,
+  input: __S(8672, __c271, 0) as any as S.Schema<PatchBruteForceProtectionRequest>,
+  output: __S(1216, __c38, 0) as any as S.Schema<UpdateBruteForceSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26834,8 +23020,8 @@ export const patchBulkRendering: API.OperationMethod<
   PatchBulkRenderingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12130, __c379, 2) as any as S.Schema<PatchBulkRenderingRequest>,
-  output: __S(12131, __c379, 3) as any as S.Schema<BulkUpdateAculResponseContent>,
+  input: __S(8706, __c272, 2) as any as S.Schema<PatchBulkRenderingRequest>,
+  output: __S(8707, __c272, 3) as any as S.Schema<BulkUpdateAculResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26852,8 +23038,8 @@ export const patchCaptcha: API.OperationMethod<
   PatchCaptchaError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12164, __c380, 4) as any as S.Schema<PatchCaptchaRequest>,
-  output: __S(2916, __c91, 4) as any as S.Schema<UpdateAttackProtectionCaptchaResponseContent>,
+  input: __S(8804, __c275, 4) as any as S.Schema<PatchCaptchaRequest>,
+  output: __S(1380, __c43, 4) as any as S.Schema<UpdateAttackProtectionCaptchaResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26870,8 +23056,8 @@ export const patchClients: API.OperationMethod<
   PatchClientsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12194, __c381, 2) as any as S.Schema<PatchClientsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PatchClientsResponse>,
+  input: __S(8834, __c276, 2) as any as S.Schema<PatchClientsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PatchClientsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26888,8 +23074,8 @@ export const patchCredentialsByCredentialId: API.OperationMethod<
   PatchCredentialsByCredentialIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12224, __c382, 0) as any as S.Schema<PatchCredentialsByCredentialIdRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<PatchClientCredentialResponseContent>,
+  input: __S(8864, __c277, 0) as any as S.Schema<PatchCredentialsByCredentialIdRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<PatchClientCredentialResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26906,8 +23092,8 @@ export const patchDefault: API.OperationMethod<
   PatchDefaultError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12256, __c383, 0) as any as S.Schema<PatchDefaultRequest>,
-  output: __S(12257, __c383, 1) as any as S.Schema<PatchDefaultResponse>,
+  input: __S(8896, __c278, 0) as any as S.Schema<PatchDefaultRequest>,
+  output: __S(8897, __c278, 1) as any as S.Schema<PatchDefaultResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26924,8 +23110,8 @@ export const patchDirectoryProvisioning: API.OperationMethod<
   PatchDirectoryProvisioningError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12288, __c384, 0) as any as S.Schema<PatchDirectoryProvisioningRequest>,
-  output: __S(3872, __c121, 0) as any as S.Schema<UpdateDirectoryProvisioningResponseContent>,
+  input: __S(8928, __c279, 0) as any as S.Schema<PatchDirectoryProvisioningRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<UpdateDirectoryProvisioningResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26942,8 +23128,8 @@ export const patchDiscoveryDomainsByDiscoveryDomainId: API.OperationMethod<
   PatchDiscoveryDomainsByDiscoveryDomainIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12320, __c385, 0) as any as S.Schema<PatchDiscoveryDomainsByDiscoveryDomainIdRequest>,
-  output: __S(4736, __c148, 0) as any as S.Schema<UpdateOrganizationDiscoveryDomainResponseContent>,
+  input: __S(8960, __c280, 0) as any as S.Schema<PatchDiscoveryDomainsByDiscoveryDomainIdRequest>,
+  output: __S(2816, __c88, 0) as any as S.Schema<UpdateOrganizationDiscoveryDomainResponseContent>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26964,8 +23150,8 @@ export const patchEnabledConnectionsByConnectionId: API.OperationMethod<
   PatchEnabledConnectionsByConnectionIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12352, __c386, 0) as any as S.Schema<PatchEnabledConnectionsByConnectionIdRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateOrganizationConnectionResponseContent>,
+  input: __S(8992, __c281, 0) as any as S.Schema<PatchEnabledConnectionsByConnectionIdRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<UpdateOrganizationConnectionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -26982,8 +23168,8 @@ export const patchFactorDuoSettings: API.OperationMethod<
   PatchFactorDuoSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12384, __c387, 0) as any as S.Schema<PatchFactorDuoSettingsRequest>,
-  output: __S(5536, __c173, 0) as any as S.Schema<UpdateGuardianFactorDuoSettingsResponseContent>,
+  input: __S(9024, __c282, 0) as any as S.Schema<PatchFactorDuoSettingsRequest>,
+  output: __S(3520, __c110, 0) as any as S.Schema<UpdateGuardianFactorDuoSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27000,8 +23186,8 @@ export const patchFcm: API.OperationMethod<
   PatchFcmError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12416, __c388, 0) as any as S.Schema<PatchFcmRequest>,
-  output: __S(4352, __c136, 0) as any as S.Schema<PatchFcmResponse>,
+  input: __S(9056, __c283, 0) as any as S.Schema<PatchFcmRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<PatchFcmResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27018,8 +23204,8 @@ export const patchFcmv1: API.OperationMethod<
   PatchFcmv1Error,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12480, __c390, 0) as any as S.Schema<PatchFcmv1Request>,
-  output: __S(4352, __c136, 0) as any as S.Schema<PatchFcmv1Response>,
+  input: __S(9088, __c284, 0) as any as S.Schema<PatchFcmv1Request>,
+  output: __S(2432, __c76, 0) as any as S.Schema<PatchFcmv1Response>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27036,10 +23222,10 @@ export const patchNewDevice: API.OperationMethod<
   PatchNewDeviceError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12512, __c391, 0) as any as S.Schema<PatchNewDeviceRequest>,
+  input: __S(9216, __c288, 0) as any as S.Schema<PatchNewDeviceRequest>,
   output: __S(
-    7328,
-    __c229,
+    5248,
+    __c164,
     0,
   ) as any as S.Schema<UpdateRiskAssessmentsSettingsNewDeviceResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -27058,8 +23244,8 @@ export const patchPhoneProviderProtection: API.OperationMethod<
   PatchPhoneProviderProtectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12544, __c392, 0) as any as S.Schema<PatchPhoneProviderProtectionRequest>,
-  output: __S(8224, __c257, 0) as any as S.Schema<PatchPhoneProviderProtectionResponseContent>,
+  input: __S(9248, __c289, 0) as any as S.Schema<PatchPhoneProviderProtectionRequest>,
+  output: __S(5824, __c182, 0) as any as S.Schema<PatchPhoneProviderProtectionResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27076,8 +23262,8 @@ export const patchProvider: API.OperationMethod<
   PatchProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12576, __c393, 0) as any as S.Schema<PatchProviderRequest>,
-  output: __S(8673, __c271, 1) as any as S.Schema<UpdateEmailProviderResponseContent>,
+  input: __S(9280, __c290, 0) as any as S.Schema<PatchProviderRequest>,
+  output: __S(6241, __c195, 1) as any as S.Schema<UpdateEmailProviderResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27094,8 +23280,8 @@ export const patchRendering: API.OperationMethod<
   PatchRenderingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12608, __c394, 0) as any as S.Schema<PatchRenderingRequest>,
-  output: __S(12609, __c394, 1) as any as S.Schema<UpdateAculResponseContent>,
+  input: __S(9312, __c291, 0) as any as S.Schema<PatchRenderingRequest>,
+  output: __S(9313, __c291, 1) as any as S.Schema<UpdateAculResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27112,8 +23298,8 @@ export const patchScimConfiguration: API.OperationMethod<
   PatchScimConfigurationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12640, __c395, 0) as any as S.Schema<PatchScimConfigurationRequest>,
-  output: __S(3968, __c124, 0) as any as S.Schema<UpdateScimConfigurationResponseContent>,
+  input: __S(9344, __c292, 0) as any as S.Schema<PatchScimConfigurationRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<UpdateScimConfigurationResponseContent>,
   errors: [BadRequest, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27130,8 +23316,8 @@ export const patchSecrets: API.OperationMethod<
   PatchSecretsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12672, __c396, 0) as any as S.Schema<PatchSecretsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PatchSecretsResponse>,
+  input: __S(9376, __c293, 0) as any as S.Schema<PatchSecretsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PatchSecretsResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27148,8 +23334,8 @@ export const patchSettings: API.OperationMethod<
   PatchSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12704, __c397, 0) as any as S.Schema<PatchSettingsRequest>,
-  output: __S(12758, __c398, 22) as any as S.Schema<UpdateTenantSettingsResponseContent>,
+  input: __S(9408, __c294, 0) as any as S.Schema<PatchSettingsRequest>,
+  output: __S(9462, __c295, 22) as any as S.Schema<UpdateTenantSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27166,10 +23352,10 @@ export const patchSns: API.OperationMethod<
   PatchSnsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12768, __c399, 0) as any as S.Schema<PatchSnsRequest>,
+  input: __S(9472, __c296, 0) as any as S.Schema<PatchSnsRequest>,
   output: __S(
-    10240,
-    __c320,
+    7488,
+    __c234,
     0,
   ) as any as S.Schema<UpdateGuardianFactorsProviderPushNotificationSnsResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -27188,10 +23374,10 @@ export const patchSuspiciousIpThrottling: API.OperationMethod<
   PatchSuspiciousIpThrottlingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12800, __c400, 0) as any as S.Schema<PatchSuspiciousIpThrottlingRequest>,
+  input: __S(9504, __c297, 0) as any as S.Schema<PatchSuspiciousIpThrottlingRequest>,
   output: __S(
-    10402,
-    __c325,
+    7586,
+    __c237,
     2,
   ) as any as S.Schema<UpdateSuspiciousIPThrottlingSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -27210,10 +23396,10 @@ export const patchVcTemplatesById: API.OperationMethod<
   PatchVcTemplatesByIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12864, __c402, 0) as any as S.Schema<PatchVcTemplatesByIdRequest>,
+  input: __S(9536, __c298, 0) as any as S.Schema<PatchVcTemplatesByIdRequest>,
   output: __S(
-    11683,
-    __c365,
+    8355,
+    __c261,
     3,
   ) as any as S.Schema<UpdateVerifiableCredentialTemplateResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
@@ -27232,8 +23418,8 @@ export const postAction: API.OperationMethod<
   PostActionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12896, __c403, 0) as any as S.Schema<PostActionRequest>,
-  output: __S(1831, __c57, 7) as any as S.Schema<CreateActionResponseContent>,
+  input: __S(9632, __c301, 0) as any as S.Schema<PostActionRequest>,
+  output: __S(455, __c14, 7) as any as S.Schema<CreateActionResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27255,8 +23441,8 @@ export const postAuthenticationMethods: API.OperationMethod<
   PostAuthenticationMethodsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12928, __c404, 0) as any as S.Schema<PostAuthenticationMethodsRequest>,
-  output: __S(12929, __c404, 1) as any as S.Schema<CreateUserAuthenticationMethodResponseContent>,
+  input: __S(9664, __c302, 0) as any as S.Schema<PostAuthenticationMethodsRequest>,
+  output: __S(9665, __c302, 1) as any as S.Schema<CreateUserAuthenticationMethodResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27273,8 +23459,8 @@ export const postClearAssessors: API.OperationMethod<
   PostClearAssessorsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12960, __c405, 0) as any as S.Schema<PostClearAssessorsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostClearAssessorsResponse>,
+  input: __S(9696, __c303, 0) as any as S.Schema<PostClearAssessorsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostClearAssessorsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27291,8 +23477,8 @@ export const postCredentials: API.OperationMethod<
   PostCredentialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12992, __c406, 0) as any as S.Schema<PostCredentialsRequest>,
-  output: __S(4032, __c126, 0) as any as S.Schema<PostClientCredentialResponseContent>,
+  input: __S(9728, __c304, 0) as any as S.Schema<PostCredentialsRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<PostClientCredentialResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27309,8 +23495,8 @@ export const postDeployAction: API.OperationMethod<
   PostDeployActionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13024, __c407, 0) as any as S.Schema<PostDeployActionRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostDeployActionResponse>,
+  input: __S(9760, __c305, 0) as any as S.Schema<PostDeployActionRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostDeployActionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27327,8 +23513,8 @@ export const postDeployDraftVersion: API.OperationMethod<
   PostDeployDraftVersionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13056, __c408, 0) as any as S.Schema<PostDeployDraftVersionRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostDeployDraftVersionResponse>,
+  input: __S(9792, __c306, 0) as any as S.Schema<PostDeployDraftVersionRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostDeployDraftVersionResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27350,8 +23536,8 @@ export const postDirectoryProvisioning: API.OperationMethod<
   PostDirectoryProvisioningError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13088, __c409, 0) as any as S.Schema<PostDirectoryProvisioningRequest>,
-  output: __S(3872, __c121, 0) as any as S.Schema<CreateDirectoryProvisioningResponseContent>,
+  input: __S(9824, __c307, 0) as any as S.Schema<PostDirectoryProvisioningRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<CreateDirectoryProvisioningResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27368,8 +23554,8 @@ export const postDiscoveryDomains: API.OperationMethod<
   PostDiscoveryDomainsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13120, __c410, 0) as any as S.Schema<PostDiscoveryDomainsRequest>,
-  output: __S(4736, __c148, 0) as any as S.Schema<CreateOrganizationDiscoveryDomainResponseContent>,
+  input: __S(9856, __c308, 0) as any as S.Schema<PostDiscoveryDomainsRequest>,
+  output: __S(2816, __c88, 0) as any as S.Schema<CreateOrganizationDiscoveryDomainResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27386,8 +23572,8 @@ export const postEmailVerification: API.OperationMethod<
   PostEmailVerificationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13152, __c411, 0) as any as S.Schema<PostEmailVerificationRequest>,
-  output: __S(13184, __c412, 0) as any as S.Schema<VerifyEmailTicketResponseContent>,
+  input: __S(9888, __c309, 0) as any as S.Schema<PostEmailVerificationRequest>,
+  output: __S(9920, __c310, 0) as any as S.Schema<VerifyEmailTicketResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27409,8 +23595,8 @@ export const postEnabledConnections: API.OperationMethod<
   PostEnabledConnectionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13312, __c416, 0) as any as S.Schema<PostEnabledConnectionsRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<AddOrganizationConnectionResponseContent>,
+  input: __S(9984, __c312, 0) as any as S.Schema<PostEnabledConnectionsRequest>,
+  output: __S(3072, __c96, 0) as any as S.Schema<AddOrganizationConnectionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27427,8 +23613,8 @@ export const postEncryption: API.OperationMethod<
   PostEncryptionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13344, __c417, 0) as any as S.Schema<PostEncryptionRequest>,
-  output: __S(5056, __c158, 0) as any as S.Schema<CreateEncryptionKeyResponseContent>,
+  input: __S(10048, __c314, 0) as any as S.Schema<PostEncryptionRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<CreateEncryptionKeyResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27445,8 +23631,8 @@ export const postEncryptionKey: API.OperationMethod<
   PostEncryptionKeyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13376, __c418, 0) as any as S.Schema<PostEncryptionKeyRequest>,
-  output: __S(5056, __c158, 0) as any as S.Schema<ImportEncryptionKeyResponseContent>,
+  input: __S(10080, __c315, 0) as any as S.Schema<PostEncryptionKeyRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<ImportEncryptionKeyResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27463,8 +23649,8 @@ export const postEncryptionRekey: API.OperationMethod<
   PostEncryptionRekeyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13408, __c419, 0) as any as S.Schema<PostEncryptionRekeyRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostEncryptionRekeyResponse>,
+  input: __S(10112, __c316, 0) as any as S.Schema<PostEncryptionRekeyRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostEncryptionRekeyResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27481,10 +23667,10 @@ export const postEncryptionWrappingKey: API.OperationMethod<
   PostEncryptionWrappingKeyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13440, __c420, 0) as any as S.Schema<PostEncryptionWrappingKeyRequest>,
+  input: __S(10144, __c317, 0) as any as S.Schema<PostEncryptionWrappingKeyRequest>,
   output: __S(
-    13441,
-    __c420,
+    10145,
+    __c317,
     1,
   ) as any as S.Schema<CreateEncryptionKeyPublicWrappingResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
@@ -27503,8 +23689,8 @@ export const postIdentities: API.OperationMethod<
   PostIdentitiesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13472, __c421, 0) as any as S.Schema<PostIdentitiesRequest>,
-  output: __S(13475, __c421, 3) as any as S.Schema<PostIdentitiesResponse>,
+  input: __S(10176, __c318, 0) as any as S.Schema<PostIdentitiesRequest>,
+  output: __S(10179, __c318, 3) as any as S.Schema<PostIdentitiesResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27521,8 +23707,8 @@ export const postInvalidateRememberBrowser: API.OperationMethod<
   PostInvalidateRememberBrowserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13504, __c422, 0) as any as S.Schema<PostInvalidateRememberBrowserRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostInvalidateRememberBrowserResponse>,
+  input: __S(10208, __c319, 0) as any as S.Schema<PostInvalidateRememberBrowserRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostInvalidateRememberBrowserResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27539,8 +23725,8 @@ export const postInvitations: API.OperationMethod<
   PostInvitationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13536, __c423, 0) as any as S.Schema<PostInvitationsRequest>,
-  output: __S(6658, __c208, 2) as any as S.Schema<CreateOrganizationInvitationResponseContent>,
+  input: __S(10240, __c320, 0) as any as S.Schema<PostInvitationsRequest>,
+  output: __S(4546, __c142, 2) as any as S.Schema<CreateOrganizationInvitationResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27557,8 +23743,8 @@ export const postKeys: API.OperationMethod<
   PostKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13568, __c424, 0) as any as S.Schema<PostKeysRequest>,
-  output: __S(13571, __c424, 3) as any as S.Schema<PostKeysResponse>,
+  input: __S(10272, __c321, 0) as any as S.Schema<PostKeysRequest>,
+  output: __S(10275, __c321, 3) as any as S.Schema<PostKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27575,8 +23761,8 @@ export const postMembers: API.OperationMethod<
   PostMembersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13600, __c425, 0) as any as S.Schema<PostMembersRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostMembersResponse>,
+  input: __S(10304, __c322, 0) as any as S.Schema<PostMembersRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostMembersResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27593,8 +23779,8 @@ export const postPasswordChange: API.OperationMethod<
   PostPasswordChangeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13696, __c428, 0) as any as S.Schema<PostPasswordChangeRequest>,
-  output: __S(13184, __c412, 0) as any as S.Schema<ChangePasswordTicketResponseContent>,
+  input: __S(10336, __c323, 0) as any as S.Schema<PostPasswordChangeRequest>,
+  output: __S(9920, __c310, 0) as any as S.Schema<ChangePasswordTicketResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27611,8 +23797,8 @@ export const postPermissions: API.OperationMethod<
   PostPermissionsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13728, __c429, 0) as any as S.Schema<PostPermissionsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostPermissionsResponse>,
+  input: __S(10400, __c325, 0) as any as S.Schema<PostPermissionsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostPermissionsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27629,8 +23815,8 @@ export const postProvider: API.OperationMethod<
   PostProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13760, __c430, 0) as any as S.Schema<PostProviderRequest>,
-  output: __S(8673, __c271, 1) as any as S.Schema<CreateEmailProviderResponseContent>,
+  input: __S(10432, __c326, 0) as any as S.Schema<PostProviderRequest>,
+  output: __S(6241, __c195, 1) as any as S.Schema<CreateEmailProviderResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27647,8 +23833,8 @@ export const postRecoveryCodeRegeneration: API.OperationMethod<
   PostRecoveryCodeRegenerationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13792, __c431, 0) as any as S.Schema<PostRecoveryCodeRegenerationRequest>,
-  output: __S(13793, __c431, 1) as any as S.Schema<RegenerateUsersRecoveryCodeResponseContent>,
+  input: __S(10464, __c327, 0) as any as S.Schema<PostRecoveryCodeRegenerationRequest>,
+  output: __S(10465, __c327, 1) as any as S.Schema<RegenerateUsersRecoveryCodeResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27665,8 +23851,8 @@ export const postRedeliver: API.OperationMethod<
   PostRedeliverError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13824, __c432, 0) as any as S.Schema<PostRedeliverRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostRedeliverResponse>,
+  input: __S(10496, __c328, 0) as any as S.Schema<PostRedeliverRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostRedeliverResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27683,8 +23869,8 @@ export const postRedeliverByEventId: API.OperationMethod<
   PostRedeliverByEventIdError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13856, __c433, 0) as any as S.Schema<PostRedeliverByEventIdRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostRedeliverByEventIdResponse>,
+  input: __S(10528, __c329, 0) as any as S.Schema<PostRedeliverByEventIdRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostRedeliverByEventIdResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27701,8 +23887,8 @@ export const postRevoke: API.OperationMethod<
   PostRevokeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13888, __c434, 0) as any as S.Schema<PostRevokeRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostRevokeResponse>,
+  input: __S(10560, __c330, 0) as any as S.Schema<PostRevokeRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostRevokeResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27719,8 +23905,8 @@ export const postRolePermissionAssignment: API.OperationMethod<
   PostRolePermissionAssignmentError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13920, __c435, 0) as any as S.Schema<PostRolePermissionAssignmentRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostRolePermissionAssignmentResponse>,
+  input: __S(10592, __c331, 0) as any as S.Schema<PostRolePermissionAssignmentRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostRolePermissionAssignmentResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27737,8 +23923,8 @@ export const postRotate: API.OperationMethod<
   PostRotateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13952, __c436, 0) as any as S.Schema<PostRotateRequest>,
-  output: __S(13953, __c436, 1) as any as S.Schema<RotateConnectionsKeysResponseContent>,
+  input: __S(10624, __c332, 0) as any as S.Schema<PostRotateRequest>,
+  output: __S(10625, __c332, 1) as any as S.Schema<RotateConnectionsKeysResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27755,8 +23941,8 @@ export const postRotateSecret: API.OperationMethod<
   PostRotateSecretError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13984, __c437, 0) as any as S.Schema<PostRotateSecretRequest>,
-  output: __S(632, __c19, 24) as any as S.Schema<RotateClientSecretResponseContent>,
+  input: __S(10656, __c333, 0) as any as S.Schema<PostRotateSecretRequest>,
+  output: __S(14582, __c455, 22) as any as S.Schema<RotateClientSecretResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27773,8 +23959,8 @@ export const postScimConfiguration: API.OperationMethod<
   PostScimConfigurationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14112, __c441, 0) as any as S.Schema<PostScimConfigurationRequest>,
-  output: __S(3968, __c124, 0) as any as S.Schema<CreateScimConfigurationResponseContent>,
+  input: __S(10688, __c334, 0) as any as S.Schema<PostScimConfigurationRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<CreateScimConfigurationResponseContent>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27791,8 +23977,8 @@ export const postScimToken: API.OperationMethod<
   PostScimTokenError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14144, __c442, 0) as any as S.Schema<PostScimTokenRequest>,
-  output: __S(14145, __c442, 1) as any as S.Schema<CreateScimTokenResponseContent>,
+  input: __S(10784, __c337, 0) as any as S.Schema<PostScimTokenRequest>,
+  output: __S(10785, __c337, 1) as any as S.Schema<CreateScimTokenResponseContent>,
   errors: [BadRequest, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27809,8 +23995,8 @@ export const postSecrets: API.OperationMethod<
   PostSecretsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14176, __c443, 0) as any as S.Schema<PostSecretsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostSecretsResponse>,
+  input: __S(10816, __c338, 0) as any as S.Schema<PostSecretsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostSecretsResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27827,8 +24013,8 @@ export const postSigningKeys: API.OperationMethod<
   PostSigningKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14208, __c444, 0) as any as S.Schema<PostSigningKeysRequest>,
-  output: __S(14240, __c445, 0) as any as S.Schema<RotateSigningKeysResponseContent>,
+  input: __S(10848, __c339, 0) as any as S.Schema<PostSigningKeysRequest>,
+  output: __S(10880, __c340, 0) as any as S.Schema<RotateSigningKeysResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27845,10 +24031,10 @@ export const postSsoTicket: API.OperationMethod<
   PostSsoTicketError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14282, __c446, 10) as any as S.Schema<PostSsoTicketRequest>,
+  input: __S(10922, __c341, 10) as any as S.Schema<PostSsoTicketRequest>,
   output: __S(
-    14283,
-    __c446,
+    10923,
+    __c341,
     11,
   ) as any as S.Schema<CreateSelfServiceProfileSsoTicketResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
@@ -27867,8 +24053,8 @@ export const postSynchronizations: API.OperationMethod<
   PostSynchronizationsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14304, __c447, 0) as any as S.Schema<PostSynchronizationsRequest>,
-  output: __S(14305, __c447, 1) as any as S.Schema<CreateDirectorySynchronizationResponseContent>,
+  input: __S(10944, __c342, 0) as any as S.Schema<PostSynchronizationsRequest>,
+  output: __S(10945, __c342, 1) as any as S.Schema<CreateDirectorySynchronizationResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27885,8 +24071,8 @@ export const postSynchronizedGroups: API.OperationMethod<
   PostSynchronizedGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14336, __c448, 0) as any as S.Schema<PostSynchronizedGroupsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostSynchronizedGroupsResponse>,
+  input: __S(10976, __c343, 0) as any as S.Schema<PostSynchronizedGroupsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostSynchronizedGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27903,8 +24089,8 @@ export const postTestAction: API.OperationMethod<
   PostTestActionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14368, __c449, 0) as any as S.Schema<PostTestActionRequest>,
-  output: __S(14369, __c449, 1) as any as S.Schema<TestActionResponseContent>,
+  input: __S(11008, __c344, 0) as any as S.Schema<PostTestActionRequest>,
+  output: __S(11009, __c344, 1) as any as S.Schema<TestActionResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27921,8 +24107,8 @@ export const postTestDomain: API.OperationMethod<
   PostTestDomainError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14400, __c450, 0) as any as S.Schema<PostTestDomainRequest>,
-  output: __S(14401, __c450, 1) as any as S.Schema<TestCustomDomainResponseContent>,
+  input: __S(11040, __c345, 0) as any as S.Schema<PostTestDomainRequest>,
+  output: __S(11041, __c345, 1) as any as S.Schema<TestCustomDomainResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27939,8 +24125,8 @@ export const postTestEvent: API.OperationMethod<
   PostTestEventError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14432, __c451, 0) as any as S.Schema<PostTestEventRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostTestEventResponse>,
+  input: __S(11072, __c346, 0) as any as S.Schema<PostTestEventRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostTestEventResponse>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27957,8 +24143,8 @@ export const postTicket: API.OperationMethod<
   PostTicketError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14528, __c454, 0) as any as S.Schema<PostTicketRequest>,
-  output: __S(14529, __c454, 1) as any as S.Schema<CreateGuardianEnrollmentTicketResponseContent>,
+  input: __S(11104, __c347, 0) as any as S.Schema<PostTicketRequest>,
+  output: __S(11105, __c347, 1) as any as S.Schema<CreateGuardianEnrollmentTicketResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27975,8 +24161,8 @@ export const postUsersExports: API.OperationMethod<
   PostUsersExportsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14562, __c455, 2) as any as S.Schema<PostUsersExportsRequest>,
-  output: __S(14563, __c455, 3) as any as S.Schema<CreateExportUsersResponseContent>,
+  input: __S(11202, __c350, 2) as any as S.Schema<PostUsersExportsRequest>,
+  output: __S(11203, __c350, 3) as any as S.Schema<CreateExportUsersResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -27993,8 +24179,8 @@ export const postUsersImports: API.OperationMethod<
   PostUsersImportsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14592, __c456, 0) as any as S.Schema<PostUsersImportsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PostUsersImportsResponse>,
+  input: __S(11232, __c351, 0) as any as S.Schema<PostUsersImportsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PostUsersImportsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28011,10 +24197,10 @@ export const postVcTemplates: API.OperationMethod<
   PostVcTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14624, __c457, 0) as any as S.Schema<PostVcTemplatesRequest>,
+  input: __S(11264, __c352, 0) as any as S.Schema<PostVcTemplatesRequest>,
   output: __S(
-    11683,
-    __c365,
+    8355,
+    __c261,
     3,
   ) as any as S.Schema<CreateVerifiableCredentialTemplateResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
@@ -28033,8 +24219,8 @@ export const postVerificationEmail: API.OperationMethod<
   PostVerificationEmailError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14656, __c458, 0) as any as S.Schema<PostVerificationEmailRequest>,
-  output: __S(14657, __c458, 1) as any as S.Schema<CreateVerificationEmailResponseContent>,
+  input: __S(11296, __c353, 0) as any as S.Schema<PostVerificationEmailRequest>,
+  output: __S(11297, __c353, 1) as any as S.Schema<CreateVerificationEmailResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28051,8 +24237,8 @@ export const postVerify: API.OperationMethod<
   PostVerifyError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14688, __c459, 0) as any as S.Schema<PostVerifyRequest>,
-  output: __S(14689, __c459, 1) as any as S.Schema<VerifyCustomDomainResponseContent>,
+  input: __S(11328, __c354, 0) as any as S.Schema<PostVerifyRequest>,
+  output: __S(11329, __c354, 1) as any as S.Schema<VerifyCustomDomainResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28069,10 +24255,10 @@ export const putApns: API.OperationMethod<
   PutApnsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14720, __c460, 0) as any as S.Schema<PutApnsRequest>,
+  input: __S(11360, __c355, 0) as any as S.Schema<PutApnsRequest>,
   output: __S(
-    11872,
-    __c371,
+    8512,
+    __c266,
     0,
   ) as any as S.Schema<SetGuardianFactorsProviderPushNotificationApnsResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -28091,8 +24277,8 @@ export const putAuthenticationMethods: API.OperationMethod<
   PutAuthenticationMethodsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14754, __c461, 2) as any as S.Schema<PutAuthenticationMethodsRequest>,
-  output: __S(14757, __c461, 5) as any as S.Schema<PutAuthenticationMethodsResponse>,
+  input: __S(11394, __c356, 2) as any as S.Schema<PutAuthenticationMethodsRequest>,
+  output: __S(11397, __c356, 5) as any as S.Schema<PutAuthenticationMethodsResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28109,8 +24295,8 @@ export const putCustomSigningKeys: API.OperationMethod<
   PutCustomSigningKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14784, __c462, 0) as any as S.Schema<PutCustomSigningKeysRequest>,
-  output: __S(4290, __c134, 2) as any as S.Schema<SetCustomSigningKeysResponseContent>,
+  input: __S(11424, __c357, 0) as any as S.Schema<PutCustomSigningKeysRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<SetCustomSigningKeysResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28127,8 +24313,8 @@ export const putCustomTextByLanguage: API.OperationMethod<
   PutCustomTextByLanguageError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14816, __c463, 0) as any as S.Schema<PutCustomTextByLanguageRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PutCustomTextByLanguageResponse>,
+  input: __S(11456, __c358, 0) as any as S.Schema<PutCustomTextByLanguageRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PutCustomTextByLanguageResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28145,8 +24331,8 @@ export const putEmailTemplate: API.OperationMethod<
   PutEmailTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14976, __c468, 0) as any as S.Schema<PutEmailTemplateRequest>,
-  output: __S(5120, __c160, 0) as any as S.Schema<SetEmailTemplateResponseContent>,
+  input: __S(11488, __c359, 0) as any as S.Schema<PutEmailTemplateRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<SetEmailTemplateResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28163,8 +24349,8 @@ export const putFactorDuoSettings: API.OperationMethod<
   PutFactorDuoSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15008, __c469, 0) as any as S.Schema<PutFactorDuoSettingsRequest>,
-  output: __S(5536, __c173, 0) as any as S.Schema<SetGuardianFactorDuoSettingsResponseContent>,
+  input: __S(11584, __c362, 0) as any as S.Schema<PutFactorDuoSettingsRequest>,
+  output: __S(3520, __c110, 0) as any as S.Schema<SetGuardianFactorDuoSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28181,8 +24367,8 @@ export const putFactorPhoneTemplates: API.OperationMethod<
   PutFactorPhoneTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15040, __c470, 0) as any as S.Schema<PutFactorPhoneTemplatesRequest>,
-  output: __S(5600, __c175, 0) as any as S.Schema<SetGuardianFactorPhoneTemplatesResponseContent>,
+  input: __S(11616, __c363, 0) as any as S.Schema<PutFactorPhoneTemplatesRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<SetGuardianFactorPhoneTemplatesResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28199,8 +24385,8 @@ export const putFactorsByName: API.OperationMethod<
   PutFactorsByNameError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15072, __c471, 0) as any as S.Schema<PutFactorsByNameRequest>,
-  output: __S(9184, __c287, 0) as any as S.Schema<SetGuardianFactorResponseContent>,
+  input: __S(11648, __c364, 0) as any as S.Schema<PutFactorsByNameRequest>,
+  output: __S(6528, __c204, 0) as any as S.Schema<SetGuardianFactorResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28217,8 +24403,8 @@ export const putFactorSmsTemplates: API.OperationMethod<
   PutFactorSmsTemplatesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15104, __c472, 0) as any as S.Schema<PutFactorSmsTemplatesRequest>,
-  output: __S(5600, __c175, 0) as any as S.Schema<SetGuardianFactorSmsTemplatesResponseContent>,
+  input: __S(11680, __c365, 0) as any as S.Schema<PutFactorSmsTemplatesRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<SetGuardianFactorSmsTemplatesResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28235,8 +24421,8 @@ export const putFcm: API.OperationMethod<
   PutFcmError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15136, __c473, 0) as any as S.Schema<PutFcmRequest>,
-  output: __S(4352, __c136, 0) as any as S.Schema<PutFcmResponse>,
+  input: __S(11712, __c366, 0) as any as S.Schema<PutFcmRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<PutFcmResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28253,8 +24439,8 @@ export const putFcmv1: API.OperationMethod<
   PutFcmv1Error,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15168, __c474, 0) as any as S.Schema<PutFcmv1Request>,
-  output: __S(4352, __c136, 0) as any as S.Schema<PutFcmv1Response>,
+  input: __S(11744, __c367, 0) as any as S.Schema<PutFcmv1Request>,
+  output: __S(2432, __c76, 0) as any as S.Schema<PutFcmv1Response>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28271,10 +24457,10 @@ export const putMessageTypes: API.OperationMethod<
   PutMessageTypesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15200, __c475, 0) as any as S.Schema<PutMessageTypesRequest>,
+  input: __S(11776, __c368, 0) as any as S.Schema<PutMessageTypesRequest>,
   output: __S(
-    7072,
-    __c221,
+    4928,
+    __c154,
     0,
   ) as any as S.Schema<SetGuardianFactorPhoneMessageTypesResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -28293,8 +24479,8 @@ export const putNetworkAcl: API.OperationMethod<
   PutNetworkAclError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15232, __c476, 0) as any as S.Schema<PutNetworkAclRequest>,
-  output: __S(7232, __c226, 0) as any as S.Schema<SetNetworkAclsResponseContent>,
+  input: __S(11808, __c369, 0) as any as S.Schema<PutNetworkAclRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<SetNetworkAclsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28311,8 +24497,8 @@ export const putPartials: API.OperationMethod<
   PutPartialsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15264, __c477, 0) as any as S.Schema<PutPartialsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PutPartialsResponse>,
+  input: __S(11840, __c370, 0) as any as S.Schema<PutPartialsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PutPartialsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28329,8 +24515,8 @@ export const putPhoneProviders: API.OperationMethod<
   PutPhoneProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15360, __c480, 0) as any as S.Schema<PutPhoneProvidersRequest>,
-  output: __S(6368, __c199, 0) as any as S.Schema<SetGuardianFactorsProviderPhoneResponseContent>,
+  input: __S(11872, __c371, 0) as any as S.Schema<PutPhoneProvidersRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<SetGuardianFactorsProviderPhoneResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28347,10 +24533,10 @@ export const putPnProviders: API.OperationMethod<
   PutPnProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15392, __c481, 0) as any as S.Schema<PutPnProvidersRequest>,
+  input: __S(12000, __c375, 0) as any as S.Schema<PutPnProvidersRequest>,
   output: __S(
-    6368,
-    __c199,
+    4320,
+    __c135,
     0,
   ) as any as S.Schema<SetGuardianFactorsProviderPushNotificationResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -28369,8 +24555,8 @@ export const putPolicies: API.OperationMethod<
   PutPoliciesError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15424, __c482, 0) as any as S.Schema<PutPoliciesRequest>,
-  output: __S(8512, __c266, 0) as any as S.Schema<PutPoliciesResponse>,
+  input: __S(12032, __c376, 0) as any as S.Schema<PutPoliciesRequest>,
+  output: __S(6112, __c191, 0) as any as S.Schema<PutPoliciesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28387,8 +24573,8 @@ export const putRulesConfig: API.OperationMethod<
   PutRulesConfigError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15456, __c483, 0) as any as S.Schema<PutRulesConfigRequest>,
-  output: __S(15457, __c483, 1) as any as S.Schema<SetRulesConfigResponseContent>,
+  input: __S(12064, __c377, 0) as any as S.Schema<PutRulesConfigRequest>,
+  output: __S(12065, __c377, 1) as any as S.Schema<SetRulesConfigResponseContent>,
   errors: [Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28405,8 +24591,8 @@ export const putSelfServiceProfileCustomText: API.OperationMethod<
   PutSelfServiceProfileCustomTextError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15488, __c484, 0) as any as S.Schema<PutSelfServiceProfileCustomTextRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<PutSelfServiceProfileCustomTextResponse>,
+  input: __S(12096, __c378, 0) as any as S.Schema<PutSelfServiceProfileCustomTextRequest>,
+  output: __S(7040, __c220, 0) as any as S.Schema<PutSelfServiceProfileCustomTextResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28423,8 +24609,8 @@ export const putSigningKeys: API.OperationMethod<
   PutSigningKeysError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15520, __c485, 0) as any as S.Schema<PutSigningKeysRequest>,
-  output: __S(14240, __c445, 0) as any as S.Schema<RevokedSigningKeysResponseContent>,
+  input: __S(12128, __c379, 0) as any as S.Schema<PutSigningKeysRequest>,
+  output: __S(10880, __c340, 0) as any as S.Schema<RevokedSigningKeysResponseContent>,
   errors: [Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28441,8 +24627,8 @@ export const putSmsProviders: API.OperationMethod<
   PutSmsProvidersError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15552, __c486, 0) as any as S.Schema<PutSmsProvidersRequest>,
-  output: __S(6368, __c199, 0) as any as S.Schema<SetGuardianFactorsProviderSmsResponseContent>,
+  input: __S(12160, __c380, 0) as any as S.Schema<PutSmsProvidersRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<SetGuardianFactorsProviderSmsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28459,10 +24645,10 @@ export const putSmsTwilioFactorProvider: API.OperationMethod<
   PutSmsTwilioFactorProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15584, __c487, 0) as any as S.Schema<PutSmsTwilioFactorProviderRequest>,
+  input: __S(12192, __c381, 0) as any as S.Schema<PutSmsTwilioFactorProviderRequest>,
   output: __S(
-    8416,
-    __c263,
+    5952,
+    __c186,
     0,
   ) as any as S.Schema<SetGuardianFactorsProviderSmsTwilioResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -28481,10 +24667,10 @@ export const putSns: API.OperationMethod<
   PutSnsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15616, __c488, 0) as any as S.Schema<PutSnsRequest>,
+  input: __S(12224, __c382, 0) as any as S.Schema<PutSnsRequest>,
   output: __S(
-    10240,
-    __c320,
+    7488,
+    __c234,
     0,
   ) as any as S.Schema<SetGuardianFactorsProviderPushNotificationSnsResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -28508,8 +24694,8 @@ export const putSynchronizedGroups: API.OperationMethod<
   PutSynchronizedGroupsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15648, __c489, 0) as any as S.Schema<PutSynchronizedGroupsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PutSynchronizedGroupsResponse>,
+  input: __S(12256, __c383, 0) as any as S.Schema<PutSynchronizedGroupsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PutSynchronizedGroupsResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28526,10 +24712,10 @@ export const putTwilio: API.OperationMethod<
   PutTwilioError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15712, __c491, 0) as any as S.Schema<PutTwilioRequest>,
+  input: __S(12288, __c384, 0) as any as S.Schema<PutTwilioRequest>,
   output: __S(
-    8416,
-    __c263,
+    5952,
+    __c186,
     0,
   ) as any as S.Schema<SetGuardianFactorsProviderPhoneTwilioResponseContent>,
   errors: [BadRequest, Forbidden],
@@ -28548,8 +24734,8 @@ export const putUniversalLogin: API.OperationMethod<
   PutUniversalLoginError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15744, __c492, 0) as any as S.Schema<PutUniversalLoginRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<PutUniversalLoginResponse>,
+  input: __S(12352, __c386, 0) as any as S.Schema<PutUniversalLoginRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<PutUniversalLoginResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28566,32 +24752,14 @@ export const resetPhoneTemplate: API.OperationMethod<
   ResetPhoneTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15776, __c493, 0) as any as S.Schema<ResetPhoneTemplateRequest>,
-  output: __S(13666, __c427, 2) as any as S.Schema<ResetPhoneTemplateResponseContent>,
+  input: __S(12384, __c387, 0) as any as S.Schema<ResetPhoneTemplateRequest>,
+  output: __S(8770, __c274, 2) as any as S.Schema<ResetPhoneTemplateResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetPhoneTemplate",
-}));
-
-export type RevokeRefreshTokensError = BadRequest | Forbidden | Auth0OpError;
-/** Revoke refresh tokens Revoke refresh tokens in bulk by ID list, user, user+client, or user+client+audience. */
-export const revokeRefreshTokens: API.OperationMethod<
-  RevokeRefreshTokensRequest,
-  RevokeRefreshTokensResponse,
-  RevokeRefreshTokensError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(15808, __c494, 0) as any as S.Schema<RevokeRefreshTokensRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<RevokeRefreshTokensResponse>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "RevokeRefreshTokens",
 }));
 
 export type RevokeSessionError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -28602,8 +24770,8 @@ export const revokeSession: API.OperationMethod<
   RevokeSessionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15840, __c495, 0) as any as S.Schema<RevokeSessionRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<RevokeSessionResponse>,
+  input: __S(12416, __c388, 0) as any as S.Schema<RevokeSessionRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<RevokeSessionResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28620,8 +24788,8 @@ export const revokeUserAccess: API.OperationMethod<
   RevokeUserAccessError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15872, __c496, 0) as any as S.Schema<RevokeUserAccessRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<RevokeUserAccessResponse>,
+  input: __S(12448, __c389, 0) as any as S.Schema<RevokeUserAccessRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<RevokeUserAccessResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28638,8 +24806,8 @@ export const setEmailFactorSettings: API.OperationMethod<
   SetEmailFactorSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15904, __c497, 0) as any as S.Schema<SetEmailFactorSettingsRequest>,
-  output: __S(4832, __c151, 0) as any as S.Schema<SetEmailFactorSettingsResponseContent>,
+  input: __S(12480, __c390, 0) as any as S.Schema<SetEmailFactorSettingsRequest>,
+  output: __S(2912, __c91, 0) as any as S.Schema<SetEmailFactorSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28656,8 +24824,8 @@ export const setGuardianSettings: API.OperationMethod<
   SetGuardianSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15936, __c498, 0) as any as S.Schema<SetGuardianSettingsRequest>,
-  output: __S(6496, __c203, 0) as any as S.Schema<SetGuardianSettingsResponseContent>,
+  input: __S(12512, __c391, 0) as any as S.Schema<SetGuardianSettingsRequest>,
+  output: __S(4384, __c137, 0) as any as S.Schema<SetGuardianSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28674,8 +24842,8 @@ export const setPhoneFactorSettings: API.OperationMethod<
   SetPhoneFactorSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15968, __c499, 0) as any as S.Schema<SetPhoneFactorSettingsRequest>,
-  output: __S(4832, __c151, 0) as any as S.Schema<SetPhoneFactorSettingsResponseContent>,
+  input: __S(12544, __c392, 0) as any as S.Schema<SetPhoneFactorSettingsRequest>,
+  output: __S(2912, __c91, 0) as any as S.Schema<SetPhoneFactorSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28692,8 +24860,8 @@ export const subscribeEvents: API.OperationMethod<
   SubscribeEventsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16000, __c500, 0) as any as S.Schema<SubscribeEventsRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<SubscribeEventsResponse>,
+  input: __S(12576, __c393, 0) as any as S.Schema<SubscribeEventsRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<SubscribeEventsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28710,8 +24878,8 @@ export const tenantSettingsRoute: API.OperationMethod<
   TenantSettingsRouteError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16064, __c502, 0) as any as S.Schema<TenantSettingsRouteRequest>,
-  output: __S(12758, __c398, 22) as any as S.Schema<GetTenantSettingsResponseContent>,
+  input: __S(12608, __c394, 0) as any as S.Schema<TenantSettingsRouteRequest>,
+  output: __S(9462, __c295, 22) as any as S.Schema<GetTenantSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28728,8 +24896,8 @@ export const tryPhoneProvider: API.OperationMethod<
   TryPhoneProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16096, __c503, 0) as any as S.Schema<TryPhoneProviderRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<TryPhoneProviderResponse>,
+  input: __S(12640, __c395, 0) as any as S.Schema<TryPhoneProviderRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<TryPhoneProviderResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28746,50 +24914,14 @@ export const tryPhoneTemplate: API.OperationMethod<
   TryPhoneTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16128, __c504, 0) as any as S.Schema<TryPhoneTemplateRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<TryPhoneTemplateResponse>,
+  input: __S(12704, __c397, 0) as any as S.Schema<TryPhoneTemplateRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<TryPhoneTemplateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TryPhoneTemplate",
-}));
-
-export type UpdateActionModuleError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
-/** Update a specific Actions Module Update properties of an existing Actions Module, such as code, dependencies, or secrets. */
-export const updateActionModule: API.OperationMethod<
-  UpdateActionModuleRequest,
-  UpdateActionModuleResponseContent,
-  UpdateActionModuleError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16160, __c505, 0) as any as S.Schema<UpdateActionModuleRequest>,
-  output: __S(18337, __c573, 1) as any as S.Schema<UpdateActionModuleResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateActionModule",
-}));
-
-export type UpdateAgentError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Update an agent Update an agent */
-export const updateAgent: API.OperationMethod<
-  UpdateAgentRequest,
-  AgentResponseContent,
-  UpdateAgentError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16192, __c506, 0) as any as S.Schema<UpdateAgentRequest>,
-  output: __S(19520, __c610, 0) as any as S.Schema<AgentResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateAgent",
 }));
 
 export type UpdateBrandingError = BadRequest | Forbidden | Auth0OpError;
@@ -28800,8 +24932,8 @@ export const updateBranding: API.OperationMethod<
   UpdateBrandingError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16226, __c507, 2) as any as S.Schema<UpdateBrandingRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<UpdateBrandingResponseContent>,
+  input: __S(12738, __c398, 2) as any as S.Schema<UpdateBrandingRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<UpdateBrandingResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28818,8 +24950,8 @@ export const updateBrandingTheme: API.OperationMethod<
   UpdateBrandingThemeError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16256, __c508, 0) as any as S.Schema<UpdateBrandingThemeRequest>,
-  output: __S(72, __c2, 8) as any as S.Schema<UpdateBrandingThemeResponseContent>,
+  input: __S(12768, __c399, 0) as any as S.Schema<UpdateBrandingThemeRequest>,
+  output: __S(14024, __c438, 8) as any as S.Schema<UpdateBrandingThemeResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28836,8 +24968,8 @@ export const updateClient: API.OperationMethod<
   UpdateClientError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16290, __c509, 2) as any as S.Schema<UpdateClientRequest>,
-  output: __S(632, __c19, 24) as any as S.Schema<UpdateClientResponseContent>,
+  input: __S(12802, __c400, 2) as any as S.Schema<UpdateClientRequest>,
+  output: __S(14582, __c455, 22) as any as S.Schema<UpdateClientResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28854,32 +24986,14 @@ export const updateClientGrant: API.OperationMethod<
   UpdateClientGrantError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16320, __c510, 0) as any as S.Schema<UpdateClientGrantRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<UpdateClientGrantResponseContent>,
+  input: __S(12832, __c401, 0) as any as S.Schema<UpdateClientGrantRequest>,
+  output: __S(15104, __c472, 0) as any as S.Schema<UpdateClientGrantResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateClientGrant",
-}));
-
-export type UpdateClientProfileError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Update a client profile Update a client profile. Supports partial updates at the top level (JSON Merge Patch); omitted top-level fields remain unchanged. Nested objects such as <code>client_configuration</code> must be supplied in full. */
-export const updateClientProfile: API.OperationMethod<
-  UpdateClientProfileRequest,
-  ClientProfile,
-  UpdateClientProfileError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16352, __c511, 0) as any as S.Schema<UpdateClientProfileRequest>,
-  output: __S(1544, __c48, 8) as any as S.Schema<ClientProfile>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateClientProfile",
 }));
 
 export type UpdateConnectionError =
@@ -28896,8 +25010,8 @@ export const updateConnection: API.OperationMethod<
   UpdateConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16448, __c514, 0) as any as S.Schema<UpdateConnectionRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<UpdateConnectionResponseContent>,
+  input: __S(12864, __c402, 0) as any as S.Schema<UpdateConnectionRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<UpdateConnectionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28914,8 +25028,8 @@ export const updateConnectionProfile: API.OperationMethod<
   UpdateConnectionProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16480, __c515, 0) as any as S.Schema<UpdateConnectionProfileRequest>,
-  output: __S(3522, __c110, 2) as any as S.Schema<UpdateConnectionProfileResponseContent>,
+  input: __S(12896, __c403, 0) as any as S.Schema<UpdateConnectionProfileRequest>,
+  output: __S(706, __c22, 2) as any as S.Schema<UpdateConnectionProfileResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28932,8 +25046,8 @@ export const updateCustomDomain: API.OperationMethod<
   UpdateCustomDomainError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16512, __c516, 0) as any as S.Schema<UpdateCustomDomainRequest>,
-  output: __S(4128, __c129, 0) as any as S.Schema<UpdateCustomDomainResponseContent>,
+  input: __S(12928, __c404, 0) as any as S.Schema<UpdateCustomDomainRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<UpdateCustomDomainResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28950,8 +25064,8 @@ export const updateEmailTemplate: API.OperationMethod<
   UpdateEmailTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16544, __c517, 0) as any as S.Schema<UpdateEmailTemplateRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<UpdateEmailTemplateResponseContent>,
+  input: __S(12960, __c405, 0) as any as S.Schema<UpdateEmailTemplateRequest>,
+  output: __S(2976, __c93, 0) as any as S.Schema<UpdateEmailTemplateResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -28968,56 +25082,14 @@ export const updateEventStream: API.OperationMethod<
   UpdateEventStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16578, __c518, 2) as any as S.Schema<UpdateEventStreamRequest>,
-  output: __S(16579, __c518, 3) as any as S.Schema<UpdateEventStreamResponse>,
+  input: __S(12994, __c406, 2) as any as S.Schema<UpdateEventStreamRequest>,
+  output: __S(12995, __c406, 3) as any as S.Schema<UpdateEventStreamResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateEventStream",
-}));
-
-export type UpdateExperimentError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | Auth0OpError;
-/** Update an experiment. Partially update an experiment by ID. Only provided fields are updated. Providing allocations replaces the entire allocations set. */
-export const updateExperiment: API.OperationMethod<
-  UpdateExperimentRequest,
-  UpdateExperimentResponseContent,
-  UpdateExperimentError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16608, __c519, 0) as any as S.Schema<UpdateExperimentRequest>,
-  output: __S(5922, __c185, 2) as any as S.Schema<UpdateExperimentResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateExperiment",
-}));
-
-export type UpdateFeatureFlagError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
-/** Update a feature flag. Partially update a feature flag by ID. Only provided fields are updated. */
-export const updateFeatureFlag: API.OperationMethod<
-  UpdateFeatureFlagRequest,
-  UpdateFeatureFlagResponseContent,
-  UpdateFeatureFlagError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16640, __c520, 0) as any as S.Schema<UpdateFeatureFlagRequest>,
-  output: __S(6434, __c201, 2) as any as S.Schema<UpdateFeatureFlagResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateFeatureFlag",
 }));
 
 export type UpdateFlowError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -29028,8 +25100,8 @@ export const updateFlow: API.OperationMethod<
   UpdateFlowError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16672, __c521, 0) as any as S.Schema<UpdateFlowRequest>,
-  output: __S(6881, __c215, 1) as any as S.Schema<UpdateFlowResponseContent>,
+  input: __S(13056, __c408, 0) as any as S.Schema<UpdateFlowRequest>,
+  output: __S(3265, __c102, 1) as any as S.Schema<UpdateFlowResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -29046,8 +25118,8 @@ export const updateFlowsVaultConnection: API.OperationMethod<
   UpdateFlowsVaultConnectionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16704, __c522, 0) as any as S.Schema<UpdateFlowsVaultConnectionRequest>,
-  output: __S(7392, __c231, 0) as any as S.Schema<UpdateFlowsVaultConnectionResponseContent>,
+  input: __S(13088, __c409, 0) as any as S.Schema<UpdateFlowsVaultConnectionRequest>,
+  output: __S(3712, __c116, 0) as any as S.Schema<UpdateFlowsVaultConnectionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -29064,8 +25136,8 @@ export const updateForm: API.OperationMethod<
   UpdateFormError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16736, __c523, 0) as any as S.Schema<UpdateFormRequest>,
-  output: __S(7852, __c245, 12) as any as S.Schema<UpdateFormResponseContent>,
+  input: __S(13120, __c410, 0) as any as S.Schema<UpdateFormRequest>,
+  output: __S(4108, __c128, 12) as any as S.Schema<UpdateFormResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -29082,8 +25154,8 @@ export const updateHook: API.OperationMethod<
   UpdateHookError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16832, __c526, 0) as any as S.Schema<UpdateHookRequest>,
-  output: __S(8800, __c275, 0) as any as S.Schema<UpdateHookResponseContent>,
+  input: __S(13152, __c411, 0) as any as S.Schema<UpdateHookRequest>,
+  output: __S(5088, __c159, 0) as any as S.Schema<UpdateHookResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -29100,8 +25172,8 @@ export const updateLogStream: API.OperationMethod<
   UpdateLogStreamError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16867, __c527, 3) as any as S.Schema<UpdateLogStreamRequest>,
-  output: __S(16868, __c527, 4) as any as S.Schema<UpdateLogStreamResponse>,
+  input: __S(13187, __c412, 3) as any as S.Schema<UpdateLogStreamRequest>,
+  output: __S(13188, __c412, 4) as any as S.Schema<UpdateLogStreamResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -29118,8 +25190,8 @@ export const updateNetworkAcl: API.OperationMethod<
   UpdateNetworkAclError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16896, __c528, 0) as any as S.Schema<UpdateNetworkAclRequest>,
-  output: __S(7232, __c226, 0) as any as S.Schema<UpdateNetworkAclResponseContent>,
+  input: __S(13216, __c413, 0) as any as S.Schema<UpdateNetworkAclRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<UpdateNetworkAclResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -29136,50 +25208,14 @@ export const updateOrganization: API.OperationMethod<
   UpdateOrganizationError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16928, __c529, 0) as any as S.Schema<UpdateOrganizationRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<UpdateOrganizationResponseContent>,
+  input: __S(13248, __c414, 0) as any as S.Schema<UpdateOrganizationRequest>,
+  output: __S(5024, __c157, 0) as any as S.Schema<UpdateOrganizationResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateOrganization",
-}));
-
-export type UpdateOrganizationClientError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Update an organization client association Update an organization client association. */
-export const updateOrganizationClient: API.OperationMethod<
-  UpdateOrganizationClientRequest,
-  UpdateOrganizationClientResponseContent,
-  UpdateOrganizationClientError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16960, __c530, 0) as any as S.Schema<UpdateOrganizationClientRequest>,
-  output: __S(16961, __c530, 1) as any as S.Schema<UpdateOrganizationClientResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateOrganizationClient",
-}));
-
-export type UpdateOrganizationConnectionError = BadRequest | Forbidden | Auth0OpError;
-/** Update a connection for an organization */
-export const updateOrganizationConnection: API.OperationMethod<
-  UpdateOrganizationConnectionRequest,
-  UpdateOrganizationAllConnectionResponseContent,
-  UpdateOrganizationConnectionError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16992, __c531, 0) as any as S.Schema<UpdateOrganizationConnectionRequest>,
-  output: __S(12096, __c378, 0) as any as S.Schema<UpdateOrganizationAllConnectionResponseContent>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateOrganizationConnection",
 }));
 
 export type UpdatePhoneProviderError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
@@ -29190,8 +25226,8 @@ export const updatePhoneProvider: API.OperationMethod<
   UpdatePhoneProviderError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17024, __c532, 0) as any as S.Schema<UpdatePhoneProviderRequest>,
-  output: __S(13280, __c415, 0) as any as S.Schema<UpdateBrandingPhoneProviderResponseContent>,
+  input: __S(13280, __c415, 0) as any as S.Schema<UpdatePhoneProviderRequest>,
+  output: __S(8288, __c259, 0) as any as S.Schema<UpdateBrandingPhoneProviderResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -29208,32 +25244,14 @@ export const updatePhoneTemplate: API.OperationMethod<
   UpdatePhoneTemplateError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17057, __c533, 1) as any as S.Schema<UpdatePhoneTemplateRequest>,
-  output: __S(13666, __c427, 2) as any as S.Schema<UpdatePhoneTemplateResponseContent>,
+  input: __S(13313, __c416, 1) as any as S.Schema<UpdatePhoneTemplateRequest>,
+  output: __S(8770, __c274, 2) as any as S.Schema<UpdatePhoneTemplateResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdatePhoneTemplate",
-}));
-
-export type UpdatePortalError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
-/** Update a portal */
-export const updatePortal: API.OperationMethod<
-  UpdatePortalRequest,
-  Portal,
-  UpdatePortalError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(17088, __c534, 0) as any as S.Schema<UpdatePortalRequest>,
-  output: __S(14057, __c439, 9) as any as S.Schema<Portal>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdatePortal",
 }));
 
 export type UpdatePromptsError = BadRequest | Forbidden | Auth0OpError;
@@ -29244,32 +25262,14 @@ export const updatePrompts: API.OperationMethod<
   UpdatePromptsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17120, __c535, 0) as any as S.Schema<UpdatePromptsRequest>,
-  output: __S(8608, __c269, 0) as any as S.Schema<UpdateSettingsResponseContent>,
+  input: __S(13344, __c417, 0) as any as S.Schema<UpdatePromptsRequest>,
+  output: __S(6176, __c193, 0) as any as S.Schema<UpdateSettingsResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdatePrompts",
-}));
-
-export type UpdateRateLimitPolicyError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Update a rate limit policy */
-export const updateRateLimitPolicy: API.OperationMethod<
-  UpdateRateLimitPolicyRequest,
-  UpdateRateLimitPolicyResponseContent,
-  UpdateRateLimitPolicyError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(17216, __c538, 0) as any as S.Schema<UpdateRateLimitPolicyRequest>,
-  output: __S(14496, __c453, 0) as any as S.Schema<UpdateRateLimitPolicyResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateRateLimitPolicy",
 }));
 
 export type UpdateRefreshTokenError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -29280,8 +25280,8 @@ export const updateRefreshToken: API.OperationMethod<
   UpdateRefreshTokenError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17248, __c539, 0) as any as S.Schema<UpdateRefreshTokenRequest>,
-  output: __S(8867, __c277, 3) as any as S.Schema<UpdateRefreshTokenResponseContent>,
+  input: __S(13408, __c419, 0) as any as S.Schema<UpdateRefreshTokenRequest>,
+  output: __S(6307, __c197, 3) as any as S.Schema<UpdateRefreshTokenResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -29298,8 +25298,8 @@ export const updateResourceServer: API.OperationMethod<
   UpdateResourceServerError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17280, __c540, 0) as any as S.Schema<UpdateResourceServerRequest>,
-  output: __S(14944, __c467, 0) as any as S.Schema<UpdateResourceServerResponseContent>,
+  input: __S(13440, __c420, 0) as any as S.Schema<UpdateResourceServerRequest>,
+  output: __S(9193, __c287, 9) as any as S.Schema<UpdateResourceServerResponseContent>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -29316,8 +25316,8 @@ export const updateRiskAssessmentsSettings: API.OperationMethod<
   UpdateRiskAssessmentsSettingsError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17312, __c541, 0) as any as S.Schema<UpdateRiskAssessmentsSettingsRequest>,
-  output: __S(9184, __c287, 0) as any as S.Schema<UpdateRiskAssessmentsSettingsResponseContent>,
+  input: __S(13472, __c421, 0) as any as S.Schema<UpdateRiskAssessmentsSettingsRequest>,
+  output: __S(6528, __c204, 0) as any as S.Schema<UpdateRiskAssessmentsSettingsResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -29334,8 +25334,8 @@ export const updateRole: API.OperationMethod<
   UpdateRoleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17344, __c542, 0) as any as S.Schema<UpdateRoleRequest>,
-  output: __S(15328, __c479, 0) as any as S.Schema<UpdateRoleResponseContent>,
+  input: __S(13504, __c422, 0) as any as S.Schema<UpdateRoleRequest>,
+  output: __S(9600, __c300, 0) as any as S.Schema<UpdateRoleResponseContent>,
   errors: [BadRequest, Forbidden],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -29352,38 +25352,14 @@ export const updateRule: API.OperationMethod<
   UpdateRuleError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17376, __c543, 0) as any as S.Schema<UpdateRuleRequest>,
-  output: __S(16416, __c513, 0) as any as S.Schema<UpdateRuleResponseContent>,
+  input: __S(13536, __c423, 0) as any as S.Schema<UpdateRuleRequest>,
+  output: __S(10752, __c336, 0) as any as S.Schema<UpdateRuleResponseContent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateRule",
-}));
-
-export type UpdateSegmentError =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | Conflict
-  | UnprocessableEntity
-  | Auth0OpError;
-/** Update a segment. Partially update a segment by ID. Only provided fields are updated. Sending rules replaces the entire rules array. */
-export const updateSegment: API.OperationMethod<
-  UpdateSegmentRequest,
-  UpdateSegmentResponseContent,
-  UpdateSegmentError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(17408, __c544, 0) as any as S.Schema<UpdateSegmentRequest>,
-  output: __S(16803, __c525, 3) as any as S.Schema<UpdateSegmentResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateSegment",
 }));
 
 export type UpdateSelfServiceProfileError = BadRequest | Forbidden | NotFound | Auth0OpError;
@@ -29394,8 +25370,8 @@ export const updateSelfServiceProfile: API.OperationMethod<
   UpdateSelfServiceProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17440, __c545, 0) as any as S.Schema<UpdateSelfServiceProfileRequest>,
-  output: __S(17188, __c537, 4) as any as S.Schema<UpdateSelfServiceProfileResponseContent>,
+  input: __S(13568, __c424, 0) as any as S.Schema<UpdateSelfServiceProfileRequest>,
+  output: __S(11172, __c349, 4) as any as S.Schema<UpdateSelfServiceProfileResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -29412,32 +25388,14 @@ export const updateSession: API.OperationMethod<
   UpdateSessionError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17472, __c546, 0) as any as S.Schema<UpdateSessionRequest>,
-  output: __S(9928, __c310, 8) as any as S.Schema<UpdateSessionResponseContent>,
+  input: __S(13600, __c425, 0) as any as S.Schema<UpdateSessionRequest>,
+  output: __S(7208, __c225, 8) as any as S.Schema<UpdateSessionResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSession",
-}));
-
-export type UpdateSupplementalSignalsError = Forbidden | NotFound | Auth0OpError;
-/** Update the supplemental signals configuration for a tenant Update the supplemental signals configuration for a tenant. */
-export const updateSupplementalSignals: API.OperationMethod<
-  UpdateSupplementalSignalsRequest,
-  PatchSupplementalSignalsResponseContent,
-  UpdateSupplementalSignalsError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(17504, __c547, 0) as any as S.Schema<UpdateSupplementalSignalsRequest>,
-  output: __S(10336, __c323, 0) as any as S.Schema<PatchSupplementalSignalsResponseContent>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateSupplementalSignals",
 }));
 
 export type UpdateTokenExchangeProfileError =
@@ -29453,8 +25411,8 @@ export const updateTokenExchangeProfile: API.OperationMethod<
   UpdateTokenExchangeProfileError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17600, __c550, 0) as any as S.Schema<UpdateTokenExchangeProfileRequest>,
-  output: __S(8288, __c259, 0) as any as S.Schema<UpdateTokenExchangeProfileResponse>,
+  input: __S(13632, __c426, 0) as any as S.Schema<UpdateTokenExchangeProfileRequest>,
+  output: __S(4640, __c145, 0) as any as S.Schema<UpdateTokenExchangeProfileResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
@@ -29471,68 +25429,14 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   Auth0OpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17632, __c551, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(17858, __c558, 2) as any as S.Schema<UpdateUserResponseContent>,
+  input: __S(13664, __c427, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(11970, __c374, 2) as any as S.Schema<UpdateUserResponseContent>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: Auth0ServiceErrors,
   protocol: Auth0Protocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateUser",
-}));
-
-export type UpdateUserAttributeProfileError = BadRequest | Forbidden | NotFound | Auth0OpError;
-/** Modify a user attribute profile Update the details of a specific User attribute profile, such as name, user_id and user_attributes. */
-export const updateUserAttributeProfile: API.OperationMethod<
-  UpdateUserAttributeProfileRequest,
-  UpdateUserAttributeProfileResponseContent,
-  UpdateUserAttributeProfileError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(17664, __c552, 0) as any as S.Schema<UpdateUserAttributeProfileRequest>,
-  output: __S(17952, __c561, 0) as any as S.Schema<UpdateUserAttributeProfileResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateUserAttributeProfile",
-}));
-
-export type UpdateVariationError = BadRequest | Forbidden | NotFound | Conflict | Auth0OpError;
-/** Update a variation. Partially update a variation by ID. Only provided fields are updated. */
-export const updateVariation: API.OperationMethod<
-  UpdateVariationRequest,
-  UpdateVariationResponseContent,
-  UpdateVariationError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(17696, __c553, 0) as any as S.Schema<UpdateVariationRequest>,
-  output: __S(18048, __c564, 0) as any as S.Schema<UpdateVariationResponseContent>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "UpdateVariation",
-}));
-
-export type ValidateExperimentError = Forbidden | NotFound | Auth0OpError;
-/** Validate an experiment. Checks whether an experiment is ready to be activated. Returns is_valid boolean and an errors array describing any blockers. Read-only; no state is modified. */
-export const validateExperiment: API.OperationMethod<
-  ValidateExperimentRequest,
-  ValidateExperimentResponseContent,
-  ValidateExperimentError,
-  Auth0OpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(17728, __c554, 0) as any as S.Schema<ValidateExperimentRequest>,
-  output: __S(17731, __c554, 3) as any as S.Schema<ValidateExperimentResponseContent>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: Auth0ServiceErrors,
-  protocol: Auth0Protocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ValidateExperiment",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -29553,125 +25457,27 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          borders: __S(64, __c2, 0),
-          colors: __S(65, __c2, 1),
-          displayName: S.optional(S.String),
-          fonts: __S(67, __c2, 3),
-          identifiers: S.optional(__S(69, __c2, 5)),
-          page_background: __S(70, __c2, 6),
-          widget: __S(71, __c2, 7),
-        }).pipe(T.Http({ method: "POST", uri: "/branding/themes", code: 200 })),
-      ).annotate({ identifier: "CreateBrandingThemeRequest" });
+          name: S.String,
+          display_name: S.optional(S.String),
+          strategy: S.String,
+          options: S.optional(__S(191, __c5, 31)),
+          enabled_clients: S.optional(__S(14720, __c460, 0)),
+          is_domain_connection: S.optional(S.Boolean),
+          show_as_button: S.optional(S.Boolean),
+          realms: S.optional(__S(14720, __c460, 0)),
+          metadata: S.optional(__S(64, __c2, 0)),
+          authentication: S.optional(__S(14432, __c451, 0)),
+          connected_accounts: S.optional(__S(96, __c3, 0)),
+          cross_app_access_requesting_app: S.optional(__S(14432, __c451, 0)),
+          cross_app_access_resource_app: S.optional(__S(97, __c3, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/connections", code: 200 })),
+      ).annotate({ identifier: "CreateConnectionRequest" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          button_border_radius: S.Number,
-          button_border_weight: S.Number,
-          buttons_style: S.String,
-          input_border_radius: S.Number,
-          input_border_weight: S.Number,
-          inputs_style: S.String,
-          show_widget_shadow: S.Boolean,
-          widget_border_weight: S.Number,
-          widget_corner_radius: S.Number,
-        }),
-      ).annotate({ identifier: "BrandingThemeBorders" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          base_focus_color: S.optional(S.String),
-          base_hover_color: S.optional(S.String),
-          body_text: S.String,
-          captcha_widget_theme: S.optional(S.String),
-          error: S.String,
-          header: S.String,
-          icons: S.String,
-          input_background: S.String,
-          input_border: S.String,
-          input_filled_text: S.String,
-          input_labels_placeholders: S.String,
-          links_focused_components: S.String,
-          primary_button: S.String,
-          primary_button_label: S.String,
-          read_only_background: S.optional(S.String),
-          secondary_button_border: S.String,
-          secondary_button_label: S.String,
-          success: S.String,
-          widget_background: S.String,
-          widget_border: S.String,
-        }),
-      ).annotate({ identifier: "BrandingThemeColors" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          bold: S.Boolean,
-          size: S.Number,
-        }),
-      ).annotate({ identifier: "BrandingThemeFontBodyText" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          body_text: __S(66, __c2, 2),
-          buttons_text: __S(66, __c2, 2),
-          font_url: S.String,
-          input_labels: __S(66, __c2, 2),
-          links: __S(66, __c2, 2),
-          links_style: S.String,
-          reference_text_size: S.Number,
-          subtitle: __S(66, __c2, 2),
-          title: __S(66, __c2, 2),
-        }),
-      ).annotate({ identifier: "BrandingThemeFonts" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          formatting: S.String,
-          masking: S.String,
-        }),
-      ).annotate({ identifier: "BrandingThemeIdentifiersPhoneDisplay" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          login_display: S.String,
-          otp_autocomplete: S.Boolean,
-          phone_display: __S(68, __c2, 4),
-        }),
-      ).annotate({ identifier: "BrandingThemeIdentifiers" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          background_color: S.String,
-          background_image_url: S.String,
-          page_layout: S.String,
-        }),
-      ).annotate({ identifier: "BrandingThemePageBackground" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          header_text_alignment: S.String,
-          logo_height: S.Number,
-          logo_position: S.String,
-          logo_url: S.String,
-          social_buttons_layout: S.String,
-        }),
-      ).annotate({ identifier: "BrandingThemeWidget" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          borders: __S(64, __c2, 0),
-          colors: __S(65, __c2, 1),
-          displayName: S.String,
-          fonts: __S(67, __c2, 3),
-          identifiers: S.optional(__S(69, __c2, 5)),
-          page_background: __S(70, __c2, 6),
-          themeId: S.String,
-          widget: __S(71, __c2, 7),
-        }),
-      ).annotate({ identifier: "CreateBrandingThemeResponseContent" });
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
   }
 }
 function __c3(j: number): any {
@@ -29679,10 +25485,17 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-          permissions: __S(129, __c4, 1),
-        }).pipe(T.Http({ method: "DELETE", uri: "/users/{id}/permissions", code: 200 })),
-      ).annotate({ identifier: "DeletePermissionsRequest" });
+          active: S.Boolean,
+          cross_app_access: S.optional(S.Boolean),
+          allow_missing_user_id: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ConnectionConnectedAccountsPurpose" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+        }),
+      ).annotate({ identifier: "CreateCrossAppAccessResourceApp" });
   }
 }
 function __c4(j: number): any {
@@ -29690,12 +25503,22 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource_server_identifier: S.String,
-          permission_name: S.String,
+          name: S.optional(S.String),
+          display_name: S.optional(S.String),
+          options: S.optional(__S(14496, __c453, 0)),
+          id: S.optional(S.String),
+          strategy: S.optional(S.String),
+          realms: S.optional(__S(14720, __c460, 0)),
+          enabled_clients: S.optional(__S(14720, __c460, 0)),
+          is_domain_connection: S.optional(S.Boolean),
+          show_as_button: S.optional(S.Boolean),
+          metadata: S.optional(__S(64, __c2, 0)),
+          authentication: S.optional(__S(14432, __c451, 0)),
+          connected_accounts: S.optional(__S(96, __c3, 0)),
+          cross_app_access_requesting_app: S.optional(__S(14432, __c451, 0)),
+          cross_app_access_resource_app: S.optional(__S(97, __c3, 1)),
         }),
-      ).annotate({ identifier: "PermissionRequestPayload" });
-    case 1:
-      return S.Array(__S(128, __c4, 0));
+      ).annotate({ identifier: "CreateConnectionResponseContent" });
   }
 }
 function __c5(j: number): any {
@@ -29703,1188 +25526,341 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/branding/phone/providers/{id}", code: 200 })),
-      ).annotate({ identifier: "DeletePhoneProviderRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/branding/phone/templates/{id}", code: 200 })),
-      ).annotate({ identifier: "DeletePhoneTemplateRequest" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/portals/{id}", code: 200 })),
-      ).annotate({ identifier: "DeletePortalRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "DELETE", uri: "/emails/provider", code: 200 })),
-      ).annotate({ identifier: "DeleteProviderRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/rate-limit-policies/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteRateLimitPolicyRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/refresh-tokens/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteRefreshTokenRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/users/{user_id}/refresh-tokens", code: 200 })),
-      ).annotate({ identifier: "DeleteRefreshTokensForUserRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/resource-servers/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteResourceServerRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/roles/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteRoleRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          credential_type: S.String,
-          name: S.optional(S.String),
-          pem: S.String,
-          alg: S.optional(S.String),
-          parse_expiry_from_cert: S.optional(S.Boolean),
-          expires_at: S.optional(S.String),
-          kid: S.optional(S.String),
+          min: S.Number,
+          max: S.Number,
         }),
-      ).annotate({ identifier: "PublicKeyCredential" });
+      ).annotate({ identifier: "ConnectionUsernameValidationOptions" });
     case 1:
-      return S.Array(__S(448, __c14, 0));
+      return S.suspend(() =>
+        S.Struct({
+          username: S.optional(S.NullOr(__S(160, __c5, 0))),
+        }),
+      ).annotate({ identifier: "ConnectionValidationOptions" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          credentials: __S(449, __c14, 1),
+          active: S.optional(S.Boolean),
+          default_method: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ClientCreateAuthenticationMethodPrivateKeyJWT" });
+      ).annotate({ identifier: "EmailAttributeIdentifier" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          credential_type: S.String,
-          name: S.optional(S.String),
-          subject_dn: S.optional(S.String),
-          pem: S.optional(S.String),
+          active: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "CertificateSubjectDNCredential" });
-    case 4:
-      return S.Array(__S(451, __c14, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          credentials: __S(452, __c14, 4),
-        }),
-      ).annotate({ identifier: "ClientCreateAuthenticationMethodTLSClientAuth" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          credential_type: S.String,
-          name: S.optional(S.String),
-          pem: S.String,
-        }),
-      ).annotate({ identifier: "X509CertificateCredential" });
-    case 7:
-      return S.Array(__S(454, __c14, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          credentials: __S(455, __c14, 7),
-        }),
-      ).annotate({ identifier: "CreateClientAuthenticationMethodSelfSignedTLSClientAuth" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          private_key_jwt: S.optional(__S(450, __c14, 2)),
-          tls_client_auth: S.optional(__S(453, __c14, 5)),
-          self_signed_tls_client_auth: S.optional(__S(456, __c14, 8)),
-        }),
-      ).annotate({ identifier: "ClientCreateAuthenticationMethod" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          required: S.optional(S.Boolean),
-          credentials: S.optional(__S(449, __c14, 1)),
-        }),
-      ).annotate({ identifier: "ClientSignedRequestObjectWithPublicKey" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          credentials: __S(449, __c14, 1),
-          ip_allowlist: S.optional(__S(480, __c15, 0)),
-          grants: S.optional(__S(593, __c18, 17)),
-        }),
-      ).annotate({ identifier: "ClientTokenVaultPrivilegedAccessWithPublicKey" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-          logo_uri: S.optional(S.String),
-          callbacks: S.optional(__S(480, __c15, 0)),
-          oidc_logout: S.optional(__S(578, __c18, 2)),
-          oidc_backchannel_logout: S.optional(__S(578, __c18, 2)),
-          session_transfer: S.optional(S.NullOr(__S(580, __c18, 4))),
-          allowed_origins: S.optional(__S(480, __c15, 0)),
-          web_origins: S.optional(__S(480, __c15, 0)),
-          client_aliases: S.optional(__S(480, __c15, 0)),
-          allowed_clients: S.optional(__S(480, __c15, 0)),
-          allowed_logout_urls: S.optional(__S(480, __c15, 0)),
-          grant_types: S.optional(__S(480, __c15, 0)),
-          token_endpoint_auth_method: S.optional(S.String),
-          is_token_endpoint_ip_header_trusted: S.optional(S.Boolean),
-          app_type: S.optional(S.String),
-          is_first_party: S.optional(S.Boolean),
-          oidc_conformant: S.optional(S.Boolean),
-          jwt_configuration: S.optional(__S(581, __c18, 5)),
-          encryption_key: S.optional(S.NullOr(__S(608, __c19, 0))),
-          sso: S.optional(S.Boolean),
-          cross_origin_authentication: S.optional(S.Boolean),
-          cross_origin_loc: S.optional(S.String),
-          sso_disabled: S.optional(S.Boolean),
-          custom_login_page_on: S.optional(S.Boolean),
-          custom_login_page: S.optional(S.String),
-          custom_login_page_preview: S.optional(S.String),
-          form_template: S.optional(S.String),
-          addons: S.optional(__S(629, __c19, 21)),
-          client_metadata: S.optional(__S(19488, __c609, 0)),
-          mobile: S.optional(__S(584, __c18, 8)),
-          initiate_login_uri: S.optional(S.String),
-          native_social_login: S.optional(__S(585, __c18, 9)),
-          fedcm_login: S.optional(__S(587, __c18, 11)),
-          refresh_token: S.optional(S.NullOr(__S(590, __c18, 14))),
-          default_organization: S.optional(S.NullOr(__S(591, __c18, 15))),
-          organization_usage: S.optional(S.String),
-          organization_require_behavior: S.optional(S.String),
-          organization_discovery_methods: S.optional(__S(512, __c16, 0)),
-          client_authentication_methods: S.optional(__S(457, __c14, 9)),
-          require_pushed_authorization_requests: S.optional(S.Boolean),
-          require_proof_of_possession: S.optional(S.Boolean),
-          signed_request_object: S.optional(__S(458, __c14, 10)),
-          token_vault_privileged_access: S.optional(__S(459, __c14, 11)),
-          compliance_level: S.optional(S.NullOr(S.String)),
-          skip_non_verifiable_callback_uri_confirmation_prompt: S.optional(S.Boolean),
-          token_exchange: S.optional(__S(594, __c18, 18)),
-          par_request_expiry: S.optional(S.NullOr(S.Number)),
-          token_quota: S.optional(__S(768, __c24, 0)),
-          resource_server_identifier: S.optional(S.String),
-          identity_assertion_authorization_grant: S.optional(__S(640, __c20, 0)),
-          anonymous_sessions: S.optional(__S(640, __c20, 0)),
-          enforce_anon_session_transfer_network_binding: S.optional(S.String),
-          third_party_security_mode: S.optional(S.String),
-          redirection_policy: S.optional(S.String),
-          express_configuration: S.optional(__S(597, __c18, 21)),
-          b2b_integration_configuration: S.optional(__S(598, __c18, 22)),
-          my_organization_configuration: S.optional(__S(600, __c18, 24)),
-          async_approval_notification_channels: S.optional(__S(512, __c16, 0)),
-          agent_id: S.optional(S.NullOr(S.String)),
-          oidc_support: S.optional(__S(544, __c17, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/clients", code: 200 })),
-      ).annotate({ identifier: "CreateClientRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          is_allowed: S.Boolean,
-          allow_all_scopes: S.optional(S.Boolean),
-          allowed_scopes: S.optional(__S(512, __c16, 0)),
-        }),
-      ).annotate({ identifier: "ClientOidcSupportPost" });
-  }
-}
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            mode: S.optional(S.String),
-            selected_initiators: S.optional(__S(512, __c16, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientOIDCBackchannelLogoutInitiators" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            include: S.optional(S.Boolean),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientOIDCBackchannelLogoutSessionMetadata" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            backchannel_logout_urls: S.optional(__S(480, __c15, 0)),
-            backchannel_logout_initiators: S.optional(__S(576, __c18, 0)),
-            backchannel_logout_session_metadata: S.optional(S.NullOr(__S(577, __c18, 1))),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientOIDCBackchannelLogoutSettings" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          allow_delegated_access: S.optional(S.Boolean),
-          enforce_device_binding: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ClientSessionTransferDelegationConfiguration" });
+      ).annotate({ identifier: "SignupVerification" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          can_create_session_transfer_token: S.optional(S.Boolean),
-          enforce_cascade_revocation: S.optional(S.Boolean),
-          allowed_authentication_methods: S.optional(S.NullOr(__S(512, __c16, 0))),
-          enforce_device_binding: S.optional(S.String),
-          allow_refresh_token: S.optional(S.Boolean),
-          enforce_online_refresh_tokens: S.optional(S.Boolean),
-          delegation: S.optional(S.NullOr(__S(579, __c18, 3))),
+          status: S.optional(S.String),
+          verification: S.optional(__S(163, __c5, 3)),
         }),
-      ).annotate({ identifier: "ClientSessionTransferConfiguration" });
+      ).annotate({ identifier: "SignupVerified" });
     case 5:
       return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            lifetime_in_seconds: S.optional(S.Number),
-            secret_encoded: S.optional(S.Boolean),
-            scopes: S.optional(__S(19488, __c609, 0)),
-            alg: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientJwtConfiguration" });
+        S.Struct({
+          identifier: S.optional(__S(162, __c5, 2)),
+          unique: S.optional(S.Boolean),
+          profile_required: S.optional(S.Boolean),
+          verification_method: S.optional(S.String),
+          signup: S.optional(__S(164, __c5, 4)),
+        }),
+      ).annotate({ identifier: "EmailAttribute" });
     case 6:
       return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            app_package_name: S.optional(S.String),
-            sha256_cert_fingerprints: S.optional(__S(480, __c15, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientMobileAndroid" });
+        S.Struct({
+          identifier: S.optional(__S(162, __c5, 2)),
+          profile_required: S.optional(S.Boolean),
+          signup: S.optional(__S(164, __c5, 4)),
+        }),
+      ).annotate({ identifier: "PhoneAttribute" });
     case 7:
       return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            team_id: S.optional(S.String),
-            app_bundle_identifier: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientMobileiOS" });
+        S.Struct({
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SignupSchema" });
     case 8:
       return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            android: S.optional(__S(582, __c18, 6)),
-            ios: S.optional(__S(583, __c18, 7)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientMobile" });
+        S.Struct({
+          email: S.optional(S.Boolean),
+          phone_number: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "UsernameAllowedTypes" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          apple: S.optional(__S(672, __c21, 0)),
-          facebook: S.optional(__S(672, __c21, 0)),
-          google: S.optional(__S(672, __c21, 0)),
+          min_length: S.optional(S.Number),
+          max_length: S.optional(S.Number),
+          allowed_types: S.optional(__S(168, __c5, 8)),
         }),
-      ).annotate({ identifier: "NativeSocialLogin" });
+      ).annotate({ identifier: "UsernameValidation" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          is_enabled: S.optional(S.Boolean),
+          identifier: S.optional(__S(163, __c5, 3)),
+          profile_required: S.optional(S.Boolean),
+          signup: S.optional(__S(167, __c5, 7)),
+          validation: S.optional(__S(169, __c5, 9)),
         }),
-      ).annotate({ identifier: "FedCMLoginGoogle" });
+      ).annotate({ identifier: "UsernameAttribute" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          google: S.optional(__S(586, __c18, 10)),
+          email: S.optional(__S(165, __c5, 5)),
+          phone_number: S.optional(__S(166, __c5, 6)),
+          username: S.optional(__S(170, __c5, 10)),
         }),
-      ).annotate({ identifier: "FedCMLogin" });
+      ).annotate({ identifier: "ConnectionAttributes" });
     case 12:
       return S.suspend(() =>
-        S.Struct({
-          audience: S.String,
-          scope: __S(480, __c15, 0),
-        }),
-      ).annotate({ identifier: "ClientRefreshTokenPolicy" });
+        S.StructWithRest(
+          S.Struct({
+            login: S.optional(S.String),
+            get_user: S.optional(S.String),
+            delete: S.optional(S.String),
+            change_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            verify: S.optional(S.String),
+            create: S.optional(S.String),
+            change_username: S.optional(S.String),
+            change_email: S.optional(S.String),
+            change_phone_number: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ConnectionCustomScripts" });
     case 13:
-      return S.Array(__S(588, __c18, 12));
+      return S.suspend(() =>
+        S.Struct({
+          otp_length: S.optional(S.Number),
+          otp_expiry: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ConnectionOtpChannelSettings" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          rotation_type: S.String,
-          expiration_type: S.String,
-          leeway: S.optional(S.Number),
-          token_lifetime: S.optional(S.Number),
-          infinite_token_lifetime: S.optional(S.Boolean),
-          idle_token_lifetime: S.optional(S.Number),
-          infinite_idle_token_lifetime: S.optional(S.Boolean),
-          policies: S.optional(S.NullOr(__S(589, __c18, 13))),
+          email: S.optional(__S(173, __c5, 13)),
+          phone: S.optional(__S(173, __c5, 13)),
         }),
-      ).annotate({ identifier: "ClientRefreshTokenConfiguration" });
+      ).annotate({ identifier: "ConnectionOtpSettings" });
     case 15:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String,
-          flows: __S(512, __c16, 0),
-        }),
-      ).annotate({ identifier: "ClientDefaultOrganization" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          connection: S.String,
-          scopes: __S(480, __c15, 0),
-        }),
-      ).annotate({ identifier: "TokenVaultPrivilegedAccessGrant" });
-    case 17:
-      return S.Array(__S(592, __c18, 16));
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          allow_any_profile_of_type: S.optional(__S(512, __c16, 0)),
-        }),
-      ).annotate({ identifier: "ClientTokenExchangeConfiguration" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.String,
-        }),
-      ).annotate({ identifier: "LinkedClientConfiguration" });
-    case 20:
-      return S.Array(__S(595, __c18, 19));
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          initiate_login_uri_template: S.String,
-          user_attribute_profile_id: S.String,
-          connection_profile_id: S.String,
-          enable_client: S.Boolean,
-          enable_organization: S.Boolean,
-          linked_clients: S.optional(__S(596, __c18, 20)),
-          okta_oin_client_id: S.String,
-          admin_login_domain: S.String,
-          oin_submission_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExpressConfiguration" });
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          sso_profiles: S.optional(__S(480, __c15, 0)),
-          integration_type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "B2bIntegrationConfiguration" });
-    case 23:
-      return S.suspend(() =>
-        S.Struct({
-          default_value: S.String,
-          allowed_values: __S(512, __c16, 0),
-        }),
-      ).annotate({ identifier: "ClientMyOrganizationThirdPartyClientAccessConfiguration" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          connection_profile_id: S.optional(S.String),
-          user_attribute_profile_id: S.optional(S.String),
-          allowed_strategies: __S(512, __c16, 0),
-          third_party_client_access: S.optional(__S(599, __c18, 23)),
-          connection_deletion_behavior: S.String,
-          invitation_landing_client_id: S.optional(S.String),
-          enforce_permission_ceiling: S.optional(S.Boolean),
-          enforce_self_assignment_restriction: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ClientMyOrganizationPostConfiguration" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          credentials: __S(705, __c22, 1),
-        }),
-      ).annotate({ identifier: "ClientAuthenticationMethodPrivateKeyJWT" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          private_key_jwt: S.optional(__S(601, __c18, 25)),
-          tls_client_auth: S.optional(__S(601, __c18, 25)),
-          self_signed_tls_client_auth: S.optional(__S(601, __c18, 25)),
-        }),
-      ).annotate({ identifier: "ClientAuthenticationMethod" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          required: S.optional(S.Boolean),
-          credentials: S.optional(__S(705, __c22, 1)),
-        }),
-      ).annotate({ identifier: "ClientSignedRequestObjectWithCredentialId" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          credentials: __S(705, __c22, 1),
-          ip_allowlist: S.optional(__S(480, __c15, 0)),
-          grants: S.optional(__S(593, __c18, 17)),
-        }),
-      ).annotate({ identifier: "ClientTokenVaultPrivilegedAccessWithCredentialId" });
-    case 29:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            is_allowed: S.optional(S.Boolean),
-            allow_all_scopes: S.optional(S.Boolean),
-            allowed_scopes: S.optional(__S(512, __c16, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientOidcSupport" });
-  }
-}
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            pub: S.optional(S.String),
-            cert: S.optional(S.String),
-            subject: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientEncryptionKey" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            principal: S.optional(S.String),
-            role: S.optional(S.String),
-            lifetime_in_seconds: S.optional(S.Number),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonAWS" });
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            accountName: S.optional(S.String),
-            storageAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-            containerName: S.optional(S.String),
-            blobName: S.optional(S.String),
-            expiration: S.optional(S.Number),
-            signedIdentifier: S.optional(S.String),
-            blob_read: S.optional(S.Boolean),
-            blob_write: S.optional(S.Boolean),
-            blob_delete: S.optional(S.Boolean),
-            container_read: S.optional(S.Boolean),
-            container_write: S.optional(S.Boolean),
-            container_delete: S.optional(S.Boolean),
-            container_list: S.optional(S.Boolean),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonAzureBlob" });
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            namespace: S.optional(S.String),
-            sasKeyName: S.optional(S.String),
-            sasKey: S.optional(S.String),
-            entityPath: S.optional(S.String),
-            expiration: S.optional(S.Number),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonAzureSB" });
-    case 4:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            url: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonRMS" });
-    case 5:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            team: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonSlack" });
-    case 6:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            org_slug: S.optional(S.String),
-            base_url: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonSentry" });
-    case 7:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            domain: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonEchoSign" });
-    case 8:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-            private_key_id: S.optional(S.String),
-            private_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
-            client_email: S.optional(S.String),
-            lifetime_in_seconds: S.optional(S.Number),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonFirebase" });
-    case 9:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            account: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonNewRelic" });
-    case 10:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            domain: S.optional(S.String),
-            connection: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonOffice365" });
-    case 11:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            entity_id: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonSalesforce" });
-    case 12:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            clientid: S.optional(S.String),
-            principal: S.optional(S.String),
-            communityName: S.optional(S.String),
-            community_url_section: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonSalesforceAPI" });
-    case 13:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            mappings: S.optional(__S(19488, __c609, 0)),
-            audience: S.optional(S.String),
-            recipient: S.optional(S.String),
-            createUpnClaim: S.optional(S.Boolean),
-            mapUnknownClaimsAsIs: S.optional(S.Boolean),
-            passthroughClaimsWithNoMapping: S.optional(S.Boolean),
-            mapIdentities: S.optional(S.Boolean),
-            signatureAlgorithm: S.optional(S.String),
-            digestAlgorithm: S.optional(S.String),
-            issuer: S.optional(S.String),
-            destination: S.optional(S.String),
-            lifetimeInSeconds: S.optional(S.Number),
-            signResponse: S.optional(S.Boolean),
-            nameIdentifierFormat: S.optional(S.String),
-            nameIdentifierProbes: S.optional(__S(480, __c15, 0)),
-            authnContextClassRef: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonSAML" });
-    case 14:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            providerId: S.String,
-            keyId: S.String,
-            privateKey: S.String.pipe(T.SensitiveValue({})),
-            principal: S.optional(S.String),
-            expiration: S.optional(S.Number),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonLayer" });
-    case 15:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            clientid: S.optional(S.String),
-            usernameAttribute: S.optional(S.String),
-            tokenEndpointUrl: S.optional(S.String),
-            scope: S.optional(S.String),
-            servicePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-            nameIdentifierFormat: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonSAPAPI" });
-    case 16:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            url: S.optional(S.String),
-            external_url: S.optional(S.Unknown),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonSharePoint" });
-    case 17:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            acsurl: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonSpringCM" });
-    case 18:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            masterkey: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonWAMS" });
-    case 19:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            accountName: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonZendesk" });
-    case 20:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            name: S.optional(S.String),
-            version: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientAddonSSOIntegration" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          aws: S.optional(__S(609, __c19, 1)),
-          azure_blob: S.optional(__S(610, __c19, 2)),
-          azure_sb: S.optional(__S(611, __c19, 3)),
-          rms: S.optional(__S(612, __c19, 4)),
-          mscrm: S.optional(__S(612, __c19, 4)),
-          slack: S.optional(__S(613, __c19, 5)),
-          sentry: S.optional(__S(614, __c19, 6)),
-          box: S.optional(__S(19488, __c609, 0)),
-          cloudbees: S.optional(__S(19488, __c609, 0)),
-          concur: S.optional(__S(19488, __c609, 0)),
-          dropbox: S.optional(__S(19488, __c609, 0)),
-          echosign: S.optional(__S(615, __c19, 7)),
-          egnyte: S.optional(__S(615, __c19, 7)),
-          firebase: S.optional(__S(616, __c19, 8)),
-          newrelic: S.optional(__S(617, __c19, 9)),
-          office365: S.optional(__S(618, __c19, 10)),
-          salesforce: S.optional(__S(619, __c19, 11)),
-          salesforce_api: S.optional(__S(620, __c19, 12)),
-          salesforce_sandbox_api: S.optional(__S(620, __c19, 12)),
-          samlp: S.optional(__S(621, __c19, 13)),
-          layer: S.optional(__S(622, __c19, 14)),
-          sap_api: S.optional(__S(623, __c19, 15)),
-          sharepoint: S.optional(__S(624, __c19, 16)),
-          springcm: S.optional(__S(625, __c19, 17)),
-          wams: S.optional(__S(626, __c19, 18)),
-          wsfed: S.optional(__S(19488, __c609, 0)),
-          zendesk: S.optional(__S(627, __c19, 19)),
-          zoom: S.optional(__S(617, __c19, 9)),
-          sso_integration: S.optional(__S(628, __c19, 20)),
-          oag: S.optional(S.NullOr(S.Unknown)),
-        }),
-      ).annotate({ identifier: "ClientAddons" });
-    case 22:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            pkcs7: S.optional(S.String),
-            cert: S.optional(S.String),
-            subject: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientSigningKey" });
-    case 23:
-      return S.Array(__S(630, __c19, 22));
-    case 24:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            client_id: S.optional(S.String),
-            created_at: S.optional(S.String),
-            updated_at: S.optional(S.String),
-            tenant: S.optional(S.String),
-            name: S.optional(S.String),
-            description: S.optional(S.String),
-            global: S.optional(S.Boolean),
-            client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-            app_type: S.optional(S.String),
-            logo_uri: S.optional(S.String),
-            is_first_party: S.optional(S.Boolean),
-            oidc_conformant: S.optional(S.Boolean),
-            callbacks: S.optional(__S(480, __c15, 0)),
-            allowed_origins: S.optional(__S(480, __c15, 0)),
-            web_origins: S.optional(__S(480, __c15, 0)),
-            client_aliases: S.optional(__S(480, __c15, 0)),
-            allowed_clients: S.optional(__S(480, __c15, 0)),
-            allowed_logout_urls: S.optional(__S(480, __c15, 0)),
-            session_transfer: S.optional(S.NullOr(__S(580, __c18, 4))),
-            oidc_logout: S.optional(__S(578, __c18, 2)),
-            grant_types: S.optional(__S(480, __c15, 0)),
-            jwt_configuration: S.optional(__S(581, __c18, 5)),
-            signing_keys: S.optional(S.NullOr(__S(631, __c19, 23))),
-            encryption_key: S.optional(S.NullOr(__S(608, __c19, 0))),
-            sso: S.optional(S.Boolean),
-            sso_disabled: S.optional(S.Boolean),
-            cross_origin_authentication: S.optional(S.Boolean),
-            cross_origin_loc: S.optional(S.String),
-            custom_login_page_on: S.optional(S.Boolean),
-            custom_login_page: S.optional(S.String),
-            custom_login_page_preview: S.optional(S.String),
-            form_template: S.optional(S.String),
-            addons: S.optional(__S(629, __c19, 21)),
-            token_endpoint_auth_method: S.optional(S.String),
-            is_token_endpoint_ip_header_trusted: S.optional(S.Boolean),
-            client_metadata: S.optional(__S(19488, __c609, 0)),
-            mobile: S.optional(__S(584, __c18, 8)),
-            initiate_login_uri: S.optional(S.String),
-            native_social_login: S.optional(__S(585, __c18, 9)),
-            fedcm_login: S.optional(__S(587, __c18, 11)),
-            refresh_token: S.optional(S.NullOr(__S(590, __c18, 14))),
-            default_organization: S.optional(S.NullOr(__S(591, __c18, 15))),
-            organization_usage: S.optional(S.String),
-            organization_require_behavior: S.optional(S.String),
-            organization_discovery_methods: S.optional(__S(512, __c16, 0)),
-            client_authentication_methods: S.optional(S.NullOr(__S(602, __c18, 26))),
-            require_pushed_authorization_requests: S.optional(S.Boolean),
-            require_proof_of_possession: S.optional(S.Boolean),
-            signed_request_object: S.optional(__S(603, __c18, 27)),
-            token_vault_privileged_access: S.optional(__S(604, __c18, 28)),
-            compliance_level: S.optional(S.NullOr(S.String)),
-            skip_non_verifiable_callback_uri_confirmation_prompt: S.optional(S.Boolean),
-            token_exchange: S.optional(__S(594, __c18, 18)),
-            par_request_expiry: S.optional(S.NullOr(S.Number)),
-            token_quota: S.optional(__S(768, __c24, 0)),
-            express_configuration: S.optional(__S(597, __c18, 21)),
-            b2b_integration_configuration: S.optional(__S(598, __c18, 22)),
-            my_organization_configuration: S.optional(__S(600, __c18, 24)),
-            identity_assertion_authorization_grant: S.optional(__S(640, __c20, 0)),
-            anonymous_sessions: S.optional(__S(640, __c20, 0)),
-            enforce_anon_session_transfer_network_binding: S.optional(S.String),
-            third_party_security_mode: S.optional(S.String),
-            oidc_support: S.optional(__S(605, __c18, 29)),
-            redirection_policy: S.optional(S.String),
-            resource_server_identifier: S.optional(S.String),
-            async_approval_notification_channels: S.optional(__S(512, __c16, 0)),
-            external_metadata_type: S.optional(S.String),
-            external_metadata_created_by: S.optional(S.String),
-            external_metadata_status: S.optional(S.String),
-            agent_id: S.optional(S.String),
-            external_client_id: S.optional(S.String),
-            jwks_uri: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreateClientResponseContent" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.Boolean,
-        }),
-      ).annotate({ identifier: "CreateIdentityAssertionAuthorizationGrant" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
+          api_behavior: S.optional(S.String),
+          signup_behavior: S.optional(S.String),
         }),
-      ).annotate({ identifier: "NativeSocialLoginApple" });
-  }
-}
-function __c22(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "ConnectionPasswordAuthenticationMethod" });
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
+          password: S.optional(__S(175, __c5, 15)),
+          passkey: S.optional(__S(14464, __c452, 0)),
+          email_otp: S.optional(__S(14464, __c452, 0)),
+          phone_otp: S.optional(__S(14464, __c452, 0)),
         }),
-      ).annotate({ identifier: "CredentialId" });
-    case 1:
-      return S.Array(__S(704, __c22, 0));
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "ConnectionAuthenticationMethods" });
+    case 17:
       return S.suspend(() =>
         S.Struct({
-          enforce: S.optional(S.Boolean),
-          per_day: S.optional(S.Number),
-          per_hour: S.optional(S.Number),
+          challenge_ui: S.optional(S.String),
+          progressive_enrollment_enabled: S.optional(S.Boolean),
+          local_enrollment_enabled: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "TokenQuotaClientCredentials" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "ConnectionPasskeyOptions" });
+    case 18:
       return S.suspend(() =>
         S.Struct({
-          client_credentials: __S(736, __c23, 0),
+          min_length: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "CreateTokenQuota" });
-  }
-}
-function __c25(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "ConnectionPasswordComplexityOptions" });
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-          groups: __S(480, __c15, 0),
-        }).pipe(T.Http({ method: "DELETE", uri: "/roles/{id}/groups", code: 200 })),
-      ).annotate({ identifier: "DeleteRoleGroupsRequest" });
-  }
-}
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          permissions: __S(129, __c4, 1),
-        }).pipe(T.Http({ method: "DELETE", uri: "/roles/{id}/permissions", code: 200 })),
-      ).annotate({ identifier: "DeleteRolePermissionAssignmentRequest" });
-  }
-}
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/rules/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteRuleRequest" });
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/rules-configs/{key}", code: 200 })),
-      ).annotate({ identifier: "DeleteRulesConfigRequest" });
-  }
-}
-function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/connections/{id}/scim-configuration", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteScimConfigurationRequest" });
-  }
-}
-function __c30(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          body: S.optional(__S(480, __c15, 0).pipe(T.HttpBody())),
-        }).pipe(T.Http({ method: "DELETE", uri: "/hooks/{id}/secrets", code: 200 })),
-      ).annotate({ identifier: "DeleteSecretsRequest" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/experimentation/segments/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteSegmentRequest" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/self-service-profiles/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteSelfServiceProfileRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/sessions/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteSessionRequest" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/users/{user_id}/sessions", code: 200 })),
-      ).annotate({ identifier: "DeleteSessionsForUserRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.optional(S.String),
-          audience: S.String,
-          default_for: S.optional(S.String),
-          organization_usage: S.optional(S.String),
-          allow_any_organization: S.optional(S.Boolean),
-          scope: S.optional(__S(480, __c15, 0)),
-          subject_type: S.optional(S.String),
-          authorization_details_types: S.optional(__S(480, __c15, 0)),
-          allow_all_scopes: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/client-grants", code: 200 })),
-      ).annotate({ identifier: "CreateClientGrantRequest" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          client_id: S.optional(S.String),
-          audience: S.optional(S.String),
-          scope: S.optional(__S(480, __c15, 0)),
-          organization_usage: S.optional(S.String),
-          allow_any_organization: S.optional(S.Boolean),
-          default_for: S.optional(S.String),
-          is_system: S.optional(S.Boolean),
-          subject_type: S.optional(S.String),
-          authorization_details_types: S.optional(__S(480, __c15, 0)),
-          allow_all_scopes: S.optional(S.Boolean),
+          enable: S.Boolean,
+          size: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "CreateClientGrantResponseContent" });
-  }
-}
-function __c37(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "ConnectionPasswordHistoryOptions" });
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-          groups: __S(705, __c22, 1),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/connections/{id}/directory-provisioning/synchronized-groups",
-            code: 200,
+          enable: S.Boolean,
+        }),
+      ).annotate({ identifier: "ConnectionPasswordNoPersonalInfoOptions" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          enable: S.Boolean,
+          dictionary: S.optional(__S(14720, __c460, 0)),
+        }),
+      ).annotate({ identifier: "ConnectionPasswordDictionaryOptions" });
+    case 22:
+      return S.Record(S.String, S.Unknown);
+    case 23:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            method: S.String,
+            subject: S.optional(S.String),
+            audience: S.String,
+            secret: S.String.pipe(T.SensitiveValue({})),
+            secret_base64_encoded: S.optional(S.Boolean),
           }),
+          [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "DeleteSynchronizedGroupsRequest" });
-  }
-}
-function __c38(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "ConnectionGatewayAuthentication" });
+    case 24:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/token-exchange-profiles/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteTokenExchangeProfileRequest" });
-  }
-}
-function __c39(j: number): any {
-  switch (j) {
-    case 0:
+          min_length: S.optional(S.Number),
+          character_types: S.optional(__S(14400, __c450, 0)),
+          character_type_rule: S.optional(S.String),
+          identical_characters: S.optional(S.String),
+          sequential_characters: S.optional(S.String),
+          max_length_exceeded: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionPasswordOptionsComplexity" });
+    case 25:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-          tokenId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/connections/{id}/scim-configuration/tokens/{tokenId}",
-            code: 200,
+          active: S.optional(S.Boolean),
+          custom: S.optional(__S(14720, __c460, 0)),
+          default: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionPasswordOptionsDictionary" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          active: S.optional(S.Boolean),
+          size: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ConnectionPasswordOptionsHistory" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          active: S.optional(S.Boolean),
+          blocked_fields: S.optional(__S(14720, __c460, 0)),
+        }),
+      ).annotate({ identifier: "ConnectionPasswordOptionsProfileData" });
+    case 28:
+      return S.suspend(() =>
+        S.Struct({
+          complexity: S.optional(__S(184, __c5, 24)),
+          dictionary: S.optional(__S(185, __c5, 25)),
+          history: S.optional(__S(186, __c5, 26)),
+          profile_data: S.optional(__S(187, __c5, 27)),
+        }),
+      ).annotate({ identifier: "ConnectionPasswordOptions" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          algorithm_profile: S.String,
+          algorithm_exceptions: S.optional(__S(14720, __c460, 0)),
+        }),
+      ).annotate({ identifier: "ConnectionAssertionDecryptionSettings" });
+    case 30:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            issuer: S.optional(S.String),
+            authorization_endpoint: S.optional(S.String),
+            token_endpoint: S.optional(S.String),
+            userinfo_endpoint: S.optional(S.String),
+            jwks_uri: S.optional(S.String),
+            registration_endpoint: S.optional(S.String),
+            scopes_supported: S.optional(S.NullOr(__S(14720, __c460, 0))),
+            response_modes_supported: S.optional(__S(14720, __c460, 0)),
+            response_types_supported: S.optional(__S(14720, __c460, 0)),
+            grant_types_supported: S.optional(__S(14720, __c460, 0)),
+            acr_values_supported: S.optional(__S(14720, __c460, 0)),
+            subject_types_supported: S.optional(S.NullOr(__S(14720, __c460, 0))),
+            id_token_signing_alg_values_supported: S.optional(__S(14720, __c460, 0)),
+            id_token_encryption_alg_values_supported: S.optional(__S(14720, __c460, 0)),
+            id_token_encryption_enc_values_supported: S.optional(__S(14720, __c460, 0)),
+            userinfo_signing_alg_values_supported: S.optional(__S(14720, __c460, 0)),
+            userinfo_encryption_alg_values_supported: S.optional(__S(14720, __c460, 0)),
+            userinfo_encryption_enc_values_supported: S.optional(__S(14720, __c460, 0)),
+            request_object_signing_alg_values_supported: S.optional(__S(14720, __c460, 0)),
+            request_object_encryption_alg_values_supported: S.optional(__S(14720, __c460, 0)),
+            request_object_encryption_enc_values_supported: S.optional(__S(14720, __c460, 0)),
+            token_endpoint_auth_methods_supported: S.optional(__S(14720, __c460, 0)),
+            token_endpoint_auth_signing_alg_values_supported: S.optional(__S(14720, __c460, 0)),
+            display_values_supported: S.optional(__S(14720, __c460, 0)),
+            claim_types_supported: S.optional(__S(14720, __c460, 0)),
+            claims_supported: S.optional(__S(14720, __c460, 0)),
+            service_documentation: S.optional(S.String),
+            claims_locales_supported: S.optional(__S(14720, __c460, 0)),
+            ui_locales_supported: S.optional(__S(14720, __c460, 0)),
+            claims_parameter_supported: S.optional(S.Boolean),
+            request_parameter_supported: S.optional(S.Boolean),
+            request_uri_parameter_supported: S.optional(S.Boolean),
+            require_request_uri_registration: S.optional(S.Boolean),
+            op_policy_uri: S.optional(S.String),
+            op_tos_uri: S.optional(S.String),
+            end_session_endpoint: S.optional(S.String),
+            pushed_authorization_request_endpoint: S.optional(S.String),
+            require_pushed_authorization_requests: S.optional(S.Boolean),
+            dpop_signing_alg_values_supported: S.optional(__S(14720, __c460, 0)),
           }),
+          [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "DeleteTokensByTokenIdRequest" });
-  }
-}
-function __c40(j: number): any {
-  switch (j) {
-    case 0:
+      ).annotate({ identifier: "ConnectionsOIDCMetadata" });
+    case 31:
       return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "DELETE", uri: "/branding/templates/universal-login", code: 200 }),
+        S.StructWithRest(
+          S.Struct({
+            validation: S.optional(S.NullOr(__S(161, __c5, 1))),
+            non_persistent_attrs: S.optional(S.NullOr(__S(14720, __c460, 0))),
+            precedence: S.optional(__S(14400, __c450, 0)),
+            attributes: S.optional(__S(171, __c5, 11)),
+            enable_script_context: S.optional(S.Boolean),
+            enabledDatabaseCustomization: S.optional(S.Boolean),
+            import_mode: S.optional(S.Boolean),
+            configuration: S.optional(S.NullOr(__S(64, __c2, 0))),
+            customScripts: S.optional(__S(172, __c5, 12)),
+            otp_settings: S.optional(__S(174, __c5, 14)),
+            authentication_methods: S.optional(S.NullOr(__S(176, __c5, 16))),
+            passkey_options: S.optional(S.NullOr(__S(177, __c5, 17))),
+            passwordPolicy: S.optional(S.NullOr(S.String)),
+            password_complexity_options: S.optional(S.NullOr(__S(178, __c5, 18))),
+            password_history: S.optional(S.NullOr(__S(179, __c5, 19))),
+            password_no_personal_info: S.optional(S.NullOr(__S(180, __c5, 20))),
+            password_dictionary: S.optional(S.NullOr(__S(181, __c5, 21))),
+            api_enable_users: S.optional(S.Boolean),
+            api_enable_groups: S.optional(S.Boolean),
+            basic_profile: S.optional(S.Boolean),
+            ext_admin: S.optional(S.Boolean),
+            ext_is_suspended: S.optional(S.Boolean),
+            ext_agreed_terms: S.optional(S.Boolean),
+            ext_groups: S.optional(S.Boolean),
+            ext_assigned_plans: S.optional(S.Boolean),
+            ext_profile: S.optional(S.Boolean),
+            disable_self_service_change_password: S.optional(S.Boolean),
+            upstream_params: S.optional(S.NullOr(__S(182, __c5, 22))),
+            set_user_root_attributes: S.optional(S.String),
+            gateway_authentication: S.optional(S.NullOr(__S(183, __c5, 23))),
+            password_options: S.optional(__S(188, __c5, 28)),
+            assertion_decryption_settings: S.optional(__S(189, __c5, 29)),
+            id_token_signed_response_algs: S.optional(S.NullOr(__S(14400, __c450, 0))),
+            dpop_signing_alg: S.optional(S.String),
+            enable_pushed_authorization_requests: S.optional(S.Boolean),
+            pushed_authorization_request_endpoint: S.optional(S.String),
+            token_endpoint_auth_method: S.optional(S.NullOr(S.String)),
+            token_endpoint_auth_signing_alg: S.optional(S.NullOr(S.String)),
+            token_endpoint_jwtca_aud_format: S.optional(S.String),
+            id_token_session_expiry_supported: S.optional(S.Boolean),
+            useOauthSpecScope: S.optional(S.Boolean),
+            discovery_url: S.optional(S.NullOr(S.String)),
+            oidc_metadata: S.optional(S.NullOr(__S(190, __c5, 30))),
+            thumbprints: S.optional(__S(14720, __c460, 0)),
+            thumbprints_sha384: S.optional(__S(14720, __c460, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
         ),
-      ).annotate({ identifier: "DeleteUniversalLoginRequest" });
+      ).annotate({ identifier: "ConnectionPropertiesOptions" });
   }
 }
-function __c41(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/users/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteUserRequest" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/user-attribute-profiles/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteUserAttributeProfileRequest" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/user-blocks/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteUserBlockRequest" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          identifier: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/user-blocks", code: 200 })),
-      ).annotate({ identifier: "DeleteUserBlocksRequest" });
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          kid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/users/{id}/consent-signing-keys/{kid}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteUserConsentSigningKeyRequest" });
-  }
-}
-function __c46(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -30910,114 +25886,29 @@ function __c46(j: number): any {
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          profileData: S.optional(__S(17824, __c557, 0)),
+          profileData: S.optional(__S(11936, __c373, 0)),
         }),
       ).annotate({ identifier: "DeleteUserIdentityResponseContentItem" });
     case 2:
-      return S.Array(__S(1473, __c46, 1));
+      return S.Array(__S(193, __c6, 1));
     case 3:
-      return S.suspend(() => __S(1474, __c46, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(194, __c6, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "DeleteUserIdentityResponse",
       });
   }
 }
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.NullOr(S.String)),
-          client_configuration: __S(1542, __c48, 6),
-          apply_policy: __S(1543, __c48, 7),
-        }).pipe(T.Http({ method: "POST", uri: "/client-profiles", code: 200 })),
-      ).annotate({ identifier: "CreateClientProfileRequest" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          default_value: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ClientProfileRefreshTokenTokenLifetime" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          token_lifetime: S.optional(__S(1536, __c48, 0)),
-          idle_token_lifetime: S.optional(__S(1536, __c48, 0)),
-          leeway: S.optional(__S(1536, __c48, 0)),
-        }),
-      ).annotate({ identifier: "ClientProfileClientConfigurationRefreshToken" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          default_value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ClientProfileClientConfigurationOrganizationUsage" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          default_value: S.optional(__S(512, __c16, 0)),
-        }),
-      ).annotate({ identifier: "ClientProfileClientConfigurationOrganizationDiscoveryMethods" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          default_value: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ClientProfileClientConfigurationRequireProofOfPossession" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          default_value: __S(544, __c17, 0),
-        }),
-      ).annotate({ identifier: "ClientProfileClientConfigurationOidcSupport" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          refresh_token: S.optional(__S(1537, __c48, 1)),
-          organization_usage: S.optional(__S(1538, __c48, 2)),
-          organization_require_behavior: S.optional(__S(1538, __c48, 2)),
-          organization_discovery_methods: S.optional(__S(1539, __c48, 3)),
-          require_proof_of_possession: S.optional(__S(1540, __c48, 4)),
-          oidc_support: S.optional(__S(1541, __c48, 5)),
-        }),
-      ).annotate({ identifier: "ClientProfileClientConfiguration" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          external_metadata_type: S.String,
-          external_metadata_created_by: S.String,
-        }),
-      ).annotate({ identifier: "ClientProfileApplyPolicy" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.optional(S.NullOr(S.String)),
-          client_configuration: __S(1542, __c48, 6),
-          apply_policy: __S(1543, __c48, 7),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ClientProfile" });
-  }
-}
-function __c49(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          roles: __S(480, __c15, 0),
+          roles: __S(14720, __c460, 0),
         }).pipe(T.Http({ method: "DELETE", uri: "/users/{id}/roles", code: 200 })),
       ).annotate({ identifier: "DeleteUserRolesRequest" });
   }
 }
-function __c50(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31028,24 +25919,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DeleteUsersByEmailRequest" });
   }
 }
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          vid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/experimentation/feature-flags/{id}/variations/{vid}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteVariationRequest" });
-  }
-}
-function __c52(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31061,7 +25935,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteVcTemplatesByIdRequest" });
   }
 }
-function __c53(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31071,7 +25945,19 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetActionRequest" });
   }
 }
-function __c54(j: number): any {
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          msg: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ActionError" });
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31084,36 +25970,24 @@ function __c54(j: number): any {
         ),
       ).annotate({ identifier: "ActionTriggerCompatibleTrigger" });
     case 1:
-      return S.Array(__S(1728, __c54, 0));
+      return S.Array(__S(384, __c12, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           version: S.optional(S.String),
           status: S.optional(S.String),
-          runtimes: S.optional(__S(480, __c15, 0)),
+          runtimes: S.optional(__S(14720, __c460, 0)),
           default_runtime: S.optional(S.String),
-          compatible_triggers: S.optional(__S(1729, __c54, 1)),
+          compatible_triggers: S.optional(__S(385, __c12, 1)),
           binding_policy: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActionTrigger" });
     case 3:
-      return S.Array(__S(1730, __c54, 2));
+      return S.Array(__S(386, __c12, 2));
   }
 }
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          msg: S.optional(S.String),
-          url: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ActionError" });
-  }
-}
-function __c56(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31124,7 +25998,7 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "ActionVersionDependency" });
     case 1:
-      return S.Array(__S(1792, __c56, 0));
+      return S.Array(__S(416, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
@@ -31136,15 +26010,15 @@ function __c56(j: number): any {
         ),
       ).annotate({ identifier: "ActionSecretResponse" });
     case 3:
-      return S.Array(__S(1794, __c56, 2));
+      return S.Array(__S(418, __c13, 2));
     case 4:
-      return S.Array(__S(1760, __c55, 0));
+      return S.Array(__S(352, __c11, 0));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          supported_triggers: S.optional(__S(1731, __c54, 3)),
+          supported_triggers: S.optional(__S(387, __c12, 3)),
           all_changes_deployed: S.optional(S.Boolean),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
@@ -31160,31 +26034,31 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "ActionModuleReference" });
     case 7:
-      return S.Array(__S(1798, __c56, 6));
+      return S.Array(__S(422, __c13, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           action_id: S.optional(S.String),
           code: S.optional(S.String),
-          dependencies: S.optional(__S(1793, __c56, 1)),
+          dependencies: S.optional(__S(417, __c13, 1)),
           deployed: S.optional(S.Boolean),
           runtime: S.optional(S.String),
-          secrets: S.optional(__S(1795, __c56, 3)),
+          secrets: S.optional(__S(419, __c13, 3)),
           status: S.optional(S.String),
           number: S.optional(S.Number),
-          errors: S.optional(__S(1796, __c56, 4)),
-          action: S.optional(__S(1797, __c56, 5)),
+          errors: S.optional(__S(420, __c13, 4)),
+          action: S.optional(__S(421, __c13, 5)),
           built_at: S.optional(S.String),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          supported_triggers: S.optional(__S(1731, __c54, 3)),
-          modules: S.optional(__S(1799, __c56, 7)),
+          supported_triggers: S.optional(__S(387, __c12, 3)),
+          modules: S.optional(__S(423, __c13, 7)),
         }),
       ).annotate({ identifier: "ActionDeployedVersion" });
   }
 }
-function __c57(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31201,7 +26075,7 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationRequiredParamOption" });
     case 2:
-      return S.Array(__S(1825, __c57, 1));
+      return S.Array(__S(449, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -31213,20 +26087,20 @@ function __c57(j: number): any {
           description: S.optional(S.String),
           default_value: S.optional(S.String),
           placeholder: S.optional(S.String),
-          options: S.optional(__S(1826, __c57, 2)),
+          options: S.optional(__S(450, __c14, 2)),
         }),
       ).annotate({ identifier: "IntegrationRequiredParam" });
     case 4:
-      return S.Array(__S(1827, __c57, 3));
+      return S.Array(__S(451, __c14, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
             id: S.optional(S.String),
-            trigger: S.optional(__S(1730, __c54, 2)),
-            semver: S.optional(__S(1824, __c57, 0)),
-            required_secrets: S.optional(__S(1828, __c57, 4)),
-            required_configuration: S.optional(__S(1828, __c57, 4)),
+            trigger: S.optional(__S(386, __c12, 2)),
+            semver: S.optional(__S(448, __c14, 0)),
+            required_secrets: S.optional(__S(452, __c14, 4)),
+            required_configuration: S.optional(__S(452, __c14, 4)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -31246,7 +26120,7 @@ function __c57(j: number): any {
           terms_of_use_url: S.optional(S.String),
           privacy_policy_url: S.optional(S.String),
           public_support_link: S.optional(S.String),
-          current_release: S.optional(__S(1829, __c57, 5)),
+          current_release: S.optional(__S(453, __c14, 5)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
@@ -31256,229 +26130,26 @@ function __c57(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          supported_triggers: S.optional(__S(1731, __c54, 3)),
+          supported_triggers: S.optional(__S(387, __c12, 3)),
           all_changes_deployed: S.optional(S.Boolean),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           code: S.optional(S.String),
-          dependencies: S.optional(__S(1793, __c56, 1)),
+          dependencies: S.optional(__S(417, __c13, 1)),
           runtime: S.optional(S.String),
-          secrets: S.optional(__S(1795, __c56, 3)),
-          deployed_version: S.optional(__S(1800, __c56, 8)),
+          secrets: S.optional(__S(419, __c13, 3)),
+          deployed_version: S.optional(__S(424, __c13, 8)),
           installed_integration_id: S.optional(S.String),
-          integration: S.optional(__S(1830, __c57, 6)),
+          integration: S.optional(__S(454, __c14, 6)),
           status: S.optional(S.String),
           built_at: S.optional(S.String),
           deploy: S.optional(S.Boolean),
-          modules: S.optional(__S(1799, __c56, 7)),
+          modules: S.optional(__S(423, __c13, 7)),
         }),
       ).annotate({ identifier: "GetActionResponseContent" });
   }
 }
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/actions/modules/{id}", code: 200 })),
-      ).annotate({ identifier: "GetActionModuleRequest" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          page: S.optional(S.Number.pipe(T.Query())),
-          per_page: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/actions/modules/{id}/actions", code: 200 })),
-      ).annotate({ identifier: "GetActionModuleActionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          action_id: S.optional(S.String),
-          action_name: S.optional(S.String),
-          module_version_id: S.optional(S.String),
-          module_version_number: S.optional(S.Number),
-          supported_triggers: S.optional(__S(1731, __c54, 3)),
-        }),
-      ).annotate({ identifier: "ActionModuleAction" });
-    case 2:
-      return S.Array(__S(1889, __c59, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          actions: S.optional(__S(1890, __c59, 2)),
-          total: S.optional(S.Number),
-          page: S.optional(S.Number),
-          per_page: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GetActionModuleActionsResponseContent" });
-  }
-}
-function __c60(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          page: S.optional(S.Number.pipe(T.Query())),
-          per_page: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/actions/modules", code: 200 })),
-      ).annotate({ identifier: "GetActionModulesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          code: S.optional(S.String),
-          dependencies: S.optional(__S(18369, __c574, 1)),
-          secrets: S.optional(__S(18371, __c574, 3)),
-          actions_using_module_total: S.optional(S.Number),
-          all_changes_published: S.optional(S.Boolean),
-          latest_version_number: S.optional(S.Number),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ActionModuleListItem" });
-    case 2:
-      return S.Array(__S(1921, __c60, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          modules: S.optional(__S(1922, __c60, 2)),
-          total: S.optional(S.Number),
-          page: S.optional(S.Number),
-          per_page: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GetActionModulesResponseContent" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          versionId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/actions/modules/{id}/versions/{versionId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetActionModuleVersionRequest" });
-  }
-}
-function __c62(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          page: S.optional(S.Number.pipe(T.Query())),
-          per_page: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/actions/modules/{id}/versions", code: 200 })),
-      ).annotate({ identifier: "GetActionModuleVersionsRequest" });
-    case 1:
-      return S.Array(__S(19104, __c597, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          versions: S.optional(__S(1985, __c62, 1)),
-          total: S.optional(S.Number),
-          page: S.optional(S.Number),
-          per_page: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GetActionModuleVersionsResponseContent" });
-  }
-}
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          external_client_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/clients/cimd/preview", code: 200 })),
-      ).annotate({ identifier: "CreateClientsCimdPreviewRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            client_id: S.optional(S.String),
-            external_metadata_created_by: S.optional(S.String),
-            errors: S.optional(__S(480, __c15, 0)),
-            validation: S.optional(__S(2048, __c64, 0)),
-            mapped_fields: S.optional(__S(2053, __c64, 5)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "PreviewCimdMetadataResponseContent" });
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            valid: S.Boolean,
-            violations: __S(480, __c15, 0),
-            warnings: __S(480, __c15, 0),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CimdValidationResult" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            credential_type: S.String,
-            kid: S.String,
-            alg: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CimdMappedPrivateKeyJwtCredential" });
-    case 2:
-      return S.Array(__S(2049, __c64, 1));
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            credentials: __S(2050, __c64, 2),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CimdMappedClientAuthenticationMethodsPrivateKeyJwt" });
-    case 4:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            private_key_jwt: S.optional(__S(2051, __c64, 3)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CimdMappedClientAuthenticationMethods" });
-    case 5:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            external_client_id: S.optional(S.String),
-            name: S.optional(S.String),
-            app_type: S.optional(S.String),
-            callbacks: S.optional(__S(480, __c15, 0)),
-            logo_uri: S.optional(S.String),
-            description: S.optional(S.String),
-            grant_types: S.optional(__S(480, __c15, 0)),
-            token_endpoint_auth_method: S.optional(S.String),
-            jwks_uri: S.optional(S.String),
-            client_authentication_methods: S.optional(__S(2052, __c64, 4)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CimdMappedClientFields" });
-  }
-}
-function __c65(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31492,19 +26163,19 @@ function __c65(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/actions/actions", code: 200 })),
       ).annotate({ identifier: "GetActionsRequest" });
     case 1:
-      return S.Array(__S(1831, __c57, 7));
+      return S.Array(__S(455, __c14, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total: S.optional(S.Number),
           page: S.optional(S.Number),
           per_page: S.optional(S.Number),
-          actions: S.optional(__S(2081, __c65, 1)),
+          actions: S.optional(__S(481, __c15, 1)),
         }),
       ).annotate({ identifier: "ListActionsPaginatedResponseContent" });
   }
 }
-function __c66(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31517,7 +26188,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetActionVersionRequest" });
   }
 }
-function __c67(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31528,19 +26199,19 @@ function __c67(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/actions/actions/{actionId}/versions", code: 200 })),
       ).annotate({ identifier: "GetActionVersionsRequest" });
     case 1:
-      return S.Array(__S(1800, __c56, 8));
+      return S.Array(__S(424, __c13, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total: S.optional(S.Number),
           page: S.optional(S.Number),
           per_page: S.optional(S.Number),
-          versions: S.optional(__S(2145, __c67, 1)),
+          versions: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "ListActionVersionsPaginatedResponseContent" });
   }
 }
-function __c68(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31552,53 +26223,7 @@ function __c68(j: number): any {
       });
   }
 }
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/agents/{id}", code: 200 })),
-      ).annotate({ identifier: "GetAgentRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.String.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/agents", code: 200 })),
-      ).annotate({ identifier: "GetAgentsRequest" });
-    case 1:
-      return S.Array(__S(19520, __c610, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          agents: __S(2241, __c70, 1),
-          next: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListAgentsResponseContent" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/keys/network-acls", code: 200 })),
-      ).annotate({ identifier: "GetAllKeysNetworkAclsRequest" });
-    case 1:
-      return S.Array(__S(9312, __c291, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          keys: __S(2273, __c71, 1),
-        }),
-      ).annotate({ identifier: "GetAllKeysNetworkAclsResponseContent" });
-  }
-}
-function __c72(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31619,7 +26244,114 @@ function __c72(j: number): any {
       });
   }
 }
-function __c73(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          organization: S.optional(__S(672, __c21, 0)),
+          connection_name_prefix_template: S.optional(S.String),
+          enabled_features: S.optional(__S(14400, __c450, 0)),
+          connection_config: S.optional(S.Unknown),
+          strategy_overrides: S.optional(__S(678, __c21, 6)),
+          provisioning: S.optional(__S(676, __c21, 4)),
+          cross_app_access_resource_app: S.optional(__S(705, __c22, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/connection-profiles", code: 200 })),
+      ).annotate({ identifier: "CreateConnectionProfileRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          show_as_button: S.optional(S.String),
+          assign_membership_on_login: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConnectionProfileOrganization" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          scopes: __S(14400, __c450, 0),
+          default_expiry: S.optional(S.NullOr(S.Number)),
+          max_allowed_expiry: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "ConnectionProfileProvisioningScimTokens" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          tokens: __S(673, __c21, 1),
+        }),
+      ).annotate({ identifier: "ConnectionProfileProvisioningScim" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          sync_users: S.Boolean,
+        }),
+      ).annotate({ identifier: "ConnectionProfileProvisioningGoogleWorkspace" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          scim: S.optional(__S(674, __c21, 2)),
+          google_workspace: S.optional(__S(675, __c21, 3)),
+        }),
+      ).annotate({ identifier: "ConnectionProfileStrategyOverridesProvisioning" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          enabled_features: S.optional(__S(14400, __c450, 0)),
+          connection_config: S.optional(S.Unknown),
+          provisioning: S.optional(__S(676, __c21, 4)),
+        }),
+      ).annotate({ identifier: "ConnectionProfileStrategyOverride" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          pingfederate: S.optional(__S(677, __c21, 5)),
+          ad: S.optional(__S(677, __c21, 5)),
+          adfs: S.optional(__S(677, __c21, 5)),
+          waad: S.optional(__S(677, __c21, 5)),
+          google_apps: S.optional(__S(677, __c21, 5).pipe(T.Body("google-apps"))),
+          okta: S.optional(__S(677, __c21, 5)),
+          oidc: S.optional(__S(677, __c21, 5)),
+          samlp: S.optional(__S(677, __c21, 5)),
+        }),
+      ).annotate({ identifier: "ConnectionProfileStrategyOverrides" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          default_value: S.String,
+          allowed_values: S.optional(__S(14400, __c450, 0)),
+        }),
+      ).annotate({ identifier: "ConnectionProfileCrossAppAccessResourceAppStatus" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: __S(704, __c22, 0),
+        }),
+      ).annotate({ identifier: "ConnectionProfileCrossAppAccessResourceApp" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          organization: S.optional(__S(672, __c21, 0)),
+          connection_name_prefix_template: S.optional(S.String),
+          enabled_features: S.optional(__S(14400, __c450, 0)),
+          connection_config: S.optional(S.Unknown),
+          strategy_overrides: S.optional(__S(678, __c21, 6)),
+          provisioning: S.optional(__S(676, __c21, 4)),
+          cross_app_access_resource_app: S.optional(__S(705, __c22, 1)),
+        }),
+      ).annotate({ identifier: "CreateConnectionProfileResponseContent" });
+  }
+}
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31641,7 +26373,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "GetGuardianFactorsProviderApnsResponseContent" });
   }
 }
-function __c74(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31658,28 +26390,7 @@ function __c74(j: number): any {
       });
   }
 }
-function __c75(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          external_client_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/clients/cimd/register", code: 200 })),
-      ).annotate({ identifier: "CreateClientsCimdRegisterRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            client_id: S.String,
-            mapped_fields: __S(2053, __c64, 5),
-            validation: __S(2048, __c64, 0),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "RegisterCimdClientResponseContent" });
-  }
-}
-function __c76(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31688,7 +26399,7 @@ function __c76(j: number): any {
           type: S.String,
           confirmed: S.optional(S.Boolean),
           name: S.optional(S.String),
-          authentication_methods: S.optional(__S(2465, __c77, 1)),
+          authentication_methods: S.optional(__S(833, __c26, 1)),
           preferred_authentication_method: S.optional(S.String),
           link_id: S.optional(S.String),
           phone_number: S.optional(S.String),
@@ -31703,7 +26414,7 @@ function __c76(j: number): any {
           identity_user_id: S.optional(S.String),
           user_agent: S.optional(S.String),
           user_handle: S.optional(S.String),
-          transports: S.optional(__S(480, __c15, 0)),
+          transports: S.optional(__S(14720, __c460, 0)),
           aaguid: S.optional(S.String),
           relying_party_identifier: S.optional(S.String),
         }),
@@ -31723,7 +26434,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetAuthenticationMethodsByAuthenticationMethodIdRequest" });
   }
 }
-function __c77(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31736,10 +26447,10 @@ function __c77(j: number): any {
         ),
       ).annotate({ identifier: "UserAuthenticationMethodProperties" });
     case 1:
-      return S.Array(__S(2464, __c77, 0));
+      return S.Array(__S(832, __c26, 0));
   }
 }
-function __c78(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31757,12 +26468,12 @@ function __c78(j: number): any {
           total: S.optional(S.Number),
           page: S.optional(S.Number),
           per_page: S.optional(S.Number),
-          bindings: S.optional(__S(2529, __c79, 1)),
+          bindings: S.optional(__S(897, __c28, 1)),
         }),
       ).annotate({ identifier: "ListActionBindingsPaginatedResponseContent" });
   }
 }
-function __c79(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31770,16 +26481,16 @@ function __c79(j: number): any {
           id: S.optional(S.String),
           trigger_id: S.optional(S.String),
           display_name: S.optional(S.String),
-          action: S.optional(__S(1831, __c57, 7)),
+          action: S.optional(__S(455, __c14, 7)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActionBinding" });
     case 1:
-      return S.Array(__S(2528, __c79, 0));
+      return S.Array(__S(896, __c28, 0));
   }
 }
-function __c80(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31794,13 +26505,13 @@ function __c80(j: number): any {
           challenge_password_policy: S.String,
           challenge_passwordless_policy: S.String,
           challenge_password_reset_policy: S.String,
-          allowlist: __S(480, __c15, 0),
+          allowlist: __S(14720, __c460, 0),
           monitoring_mode_enabled: S.Boolean,
         }),
       ).annotate({ identifier: "GetBotDetectionSettingsResponseContent" });
   }
 }
-function __c81(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31808,7 +26519,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "GetBrandingRequest" });
   }
 }
-function __c82(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31818,7 +26529,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "BrandingFont" });
   }
 }
-function __c83(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31831,17 +26542,17 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            colors: S.optional(__S(2656, __c83, 0)),
+            colors: S.optional(__S(1024, __c32, 0)),
             favicon_url: S.optional(S.String),
             logo_url: S.optional(S.String),
-            font: S.optional(__S(2624, __c82, 0)),
+            font: S.optional(__S(992, __c31, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "GetBrandingResponseContent" });
   }
 }
-function __c84(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31850,16 +26561,16 @@ function __c84(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/branding/phone/providers", code: 200 })),
       ).annotate({ identifier: "GetBrandingPhoneProvidersRequest" });
     case 1:
-      return S.Array(__S(13280, __c415, 0));
+      return S.Array(__S(8288, __c259, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          providers: S.optional(__S(2689, __c84, 1)),
+          providers: S.optional(__S(1057, __c33, 1)),
         }),
       ).annotate({ identifier: "ListBrandingPhoneProvidersResponseContent" });
   }
 }
-function __c85(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31869,7 +26580,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "GetBrandingThemeRequest" });
   }
 }
-function __c86(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31883,36 +26594,36 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GetBreachedPasswordDetectionRequest" });
   }
 }
-function __c87(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          shields: S.optional(__S(512, __c16, 0)),
+          shields: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "BreachedPasswordDetectionPreUserRegistrationStage" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           pre_user_registration: S.optional(
-            __S(2784, __c87, 0).pipe(T.Body("pre-user-registration")),
+            __S(1152, __c36, 0).pipe(T.Body("pre-user-registration")),
           ),
-          pre_change_password: S.optional(__S(2784, __c87, 0).pipe(T.Body("pre-change-password"))),
+          pre_change_password: S.optional(__S(1152, __c36, 0).pipe(T.Body("pre-change-password"))),
         }),
       ).annotate({ identifier: "BreachedPasswordDetectionStage" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          shields: S.optional(__S(512, __c16, 0)),
-          admin_notification_frequency: S.optional(__S(512, __c16, 0)),
+          shields: S.optional(__S(14400, __c450, 0)),
+          admin_notification_frequency: S.optional(__S(14400, __c450, 0)),
           method: S.optional(S.String),
-          stage: S.optional(__S(2785, __c87, 1)),
+          stage: S.optional(__S(1153, __c36, 1)),
         }),
       ).annotate({ identifier: "GetBreachedPasswordDetectionSettingsResponseContent" });
   }
 }
-function __c88(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31922,14 +26633,14 @@ function __c88(j: number): any {
       ).annotate({ identifier: "GetBruteForceProtectionRequest" });
   }
 }
-function __c89(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          shields: S.optional(__S(512, __c16, 0)),
-          allowlist: S.optional(__S(480, __c15, 0)),
+          shields: S.optional(__S(14400, __c450, 0)),
+          allowlist: S.optional(__S(14720, __c460, 0)),
           mode: S.optional(S.String),
           form_submission_mode: S.optional(S.String),
           max_attempts: S.optional(S.Number),
@@ -31937,7 +26648,76 @@ function __c89(j: number): any {
       ).annotate({ identifier: "GetBruteForceSettingsResponseContent" });
   }
 }
-function __c90(j: number): any {
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String,
+          type: S.String,
+          verification_method: S.optional(S.String),
+          tls_policy: S.optional(S.String),
+          custom_client_ip_header: S.optional(S.NullOr(S.String)),
+          domain_metadata: S.optional(__S(64, __c2, 0)),
+          relying_party_identifier: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/custom-domains", code: 200 })),
+      ).annotate({ identifier: "CreateCustomDomainRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          record: S.String,
+          domain: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DomainVerificationMethod" });
+    case 1:
+      return S.Array(__S(1280, __c40, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          methods: S.optional(__S(1281, __c40, 1)),
+          status: S.optional(S.String),
+          error_msg: S.optional(S.String),
+          last_verified_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DomainVerification" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          error_msg: S.optional(S.String),
+          certificate_authority: S.optional(S.String),
+          renews_before: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DomainCertificate" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          custom_domain_id: S.String,
+          domain: S.String,
+          primary: S.Boolean,
+          is_default: S.optional(S.Boolean),
+          status: S.String,
+          type: S.String,
+          verification: __S(1282, __c40, 2),
+          custom_client_ip_header: S.optional(S.NullOr(S.String)),
+          tls_policy: S.optional(S.String),
+          domain_metadata: S.optional(__S(64, __c2, 0)),
+          certificate: S.optional(__S(1283, __c40, 3)),
+          relying_party_identifier: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateCustomDomainResponseContent" });
+  }
+}
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31945,7 +26725,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetCaptchaRequest" });
   }
 }
-function __c91(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -31992,20 +26772,20 @@ function __c91(j: number): any {
         S.StructWithRest(
           S.Struct({
             active_provider_id: S.optional(S.String),
-            arkose: S.optional(__S(2912, __c91, 0)),
-            auth_challenge: S.optional(__S(2913, __c91, 1)),
-            hcaptcha: S.optional(__S(2914, __c91, 2)),
-            friendly_captcha: S.optional(__S(2914, __c91, 2)),
-            recaptcha_enterprise: S.optional(__S(2915, __c91, 3)),
-            recaptcha_v2: S.optional(__S(2914, __c91, 2)),
-            simple_captcha: S.optional(__S(19488, __c609, 0)),
+            arkose: S.optional(__S(1376, __c43, 0)),
+            auth_challenge: S.optional(__S(1377, __c43, 1)),
+            hcaptcha: S.optional(__S(1378, __c43, 2)),
+            friendly_captcha: S.optional(__S(1378, __c43, 2)),
+            recaptcha_enterprise: S.optional(__S(1379, __c43, 3)),
+            recaptcha_v2: S.optional(__S(1378, __c43, 2)),
+            simple_captcha: S.optional(__S(14496, __c453, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "GetAttackProtectionCaptchaResponseContent" });
   }
 }
-function __c92(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32017,421 +26797,13 @@ function __c92(j: number): any {
       ).annotate({ identifier: "GetClientRequest" });
   }
 }
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          display_name: S.optional(S.String),
-          strategy: S.String,
-          options: S.optional(__S(3135, __c97, 31)),
-          enabled_clients: S.optional(__S(480, __c15, 0)),
-          is_domain_connection: S.optional(S.Boolean),
-          show_as_button: S.optional(S.Boolean),
-          realms: S.optional(__S(480, __c15, 0)),
-          metadata: S.optional(__S(3072, __c96, 0)),
-          authentication: S.optional(__S(640, __c20, 0)),
-          connected_accounts: S.optional(__S(3008, __c94, 0)),
-          cross_app_access_requesting_app: S.optional(__S(640, __c20, 0)),
-          cross_app_access_resource_app: S.optional(__S(3009, __c94, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/connections", code: 200 })),
-      ).annotate({ identifier: "CreateConnectionRequest" });
-  }
-}
-function __c94(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.Boolean,
-          cross_app_access: S.optional(S.Boolean),
-          allow_missing_user_id: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ConnectionConnectedAccountsPurpose" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.String,
-        }),
-      ).annotate({ identifier: "CreateCrossAppAccessResourceApp" });
-  }
-}
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          display_name: S.optional(S.String),
-          options: S.optional(__S(19488, __c609, 0)),
-          id: S.optional(S.String),
-          strategy: S.optional(S.String),
-          realms: S.optional(__S(480, __c15, 0)),
-          enabled_clients: S.optional(__S(480, __c15, 0)),
-          is_domain_connection: S.optional(S.Boolean),
-          show_as_button: S.optional(S.Boolean),
-          metadata: S.optional(__S(3072, __c96, 0)),
-          authentication: S.optional(__S(640, __c20, 0)),
-          connected_accounts: S.optional(__S(3008, __c94, 0)),
-          cross_app_access_requesting_app: S.optional(__S(640, __c20, 0)),
-          cross_app_access_resource_app: S.optional(__S(3009, __c94, 1)),
-        }),
-      ).annotate({ identifier: "CreateConnectionResponseContent" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          min: S.Number,
-          max: S.Number,
-        }),
-      ).annotate({ identifier: "ConnectionUsernameValidationOptions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.optional(S.NullOr(__S(3104, __c97, 0))),
-        }),
-      ).annotate({ identifier: "ConnectionValidationOptions" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.Boolean),
-          default_method: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EmailAttributeIdentifier" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "SignupVerification" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          verification: S.optional(__S(3107, __c97, 3)),
-        }),
-      ).annotate({ identifier: "SignupVerified" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          identifier: S.optional(__S(3106, __c97, 2)),
-          unique: S.optional(S.Boolean),
-          profile_required: S.optional(S.Boolean),
-          verification_method: S.optional(S.String),
-          signup: S.optional(__S(3108, __c97, 4)),
-        }),
-      ).annotate({ identifier: "EmailAttribute" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          identifier: S.optional(__S(3106, __c97, 2)),
-          profile_required: S.optional(S.Boolean),
-          signup: S.optional(__S(3108, __c97, 4)),
-        }),
-      ).annotate({ identifier: "PhoneAttribute" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SignupSchema" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.optional(S.Boolean),
-          phone_number: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "UsernameAllowedTypes" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          min_length: S.optional(S.Number),
-          max_length: S.optional(S.Number),
-          allowed_types: S.optional(__S(3112, __c97, 8)),
-        }),
-      ).annotate({ identifier: "UsernameValidation" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          identifier: S.optional(__S(3107, __c97, 3)),
-          profile_required: S.optional(S.Boolean),
-          signup: S.optional(__S(3111, __c97, 7)),
-          validation: S.optional(__S(3113, __c97, 9)),
-        }),
-      ).annotate({ identifier: "UsernameAttribute" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.optional(__S(3109, __c97, 5)),
-          phone_number: S.optional(__S(3110, __c97, 6)),
-          username: S.optional(__S(3114, __c97, 10)),
-        }),
-      ).annotate({ identifier: "ConnectionAttributes" });
-    case 12:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            login: S.optional(S.String),
-            get_user: S.optional(S.String),
-            delete: S.optional(S.String),
-            change_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-            verify: S.optional(S.String),
-            create: S.optional(S.String),
-            change_username: S.optional(S.String),
-            change_email: S.optional(S.String),
-            change_phone_number: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ConnectionCustomScripts" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          otp_length: S.optional(S.Number),
-          otp_expiry: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ConnectionOtpChannelSettings" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.optional(__S(3117, __c97, 13)),
-          phone: S.optional(__S(3117, __c97, 13)),
-        }),
-      ).annotate({ identifier: "ConnectionOtpSettings" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.optional(S.Boolean),
-          api_behavior: S.optional(S.String),
-          signup_behavior: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConnectionPasswordAuthenticationMethod" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          password: S.optional(__S(3119, __c97, 15)),
-          passkey: S.optional(__S(672, __c21, 0)),
-          email_otp: S.optional(__S(672, __c21, 0)),
-          phone_otp: S.optional(__S(672, __c21, 0)),
-        }),
-      ).annotate({ identifier: "ConnectionAuthenticationMethods" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          challenge_ui: S.optional(S.String),
-          progressive_enrollment_enabled: S.optional(S.Boolean),
-          local_enrollment_enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ConnectionPasskeyOptions" });
-    case 18:
-      return S.suspend(() =>
-        S.Struct({
-          min_length: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ConnectionPasswordComplexityOptions" });
-    case 19:
-      return S.suspend(() =>
-        S.Struct({
-          enable: S.Boolean,
-          size: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ConnectionPasswordHistoryOptions" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          enable: S.Boolean,
-        }),
-      ).annotate({ identifier: "ConnectionPasswordNoPersonalInfoOptions" });
-    case 21:
-      return S.suspend(() =>
-        S.Struct({
-          enable: S.Boolean,
-          dictionary: S.optional(__S(480, __c15, 0)),
-        }),
-      ).annotate({ identifier: "ConnectionPasswordDictionaryOptions" });
-    case 22:
-      return S.Record(S.String, S.Unknown);
-    case 23:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            method: S.String,
-            subject: S.optional(S.String),
-            audience: S.String,
-            secret: S.String.pipe(T.SensitiveValue({})),
-            secret_base64_encoded: S.optional(S.Boolean),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ConnectionGatewayAuthentication" });
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          min_length: S.optional(S.Number),
-          character_types: S.optional(__S(512, __c16, 0)),
-          character_type_rule: S.optional(S.String),
-          identical_characters: S.optional(S.String),
-          sequential_characters: S.optional(S.String),
-          max_length_exceeded: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConnectionPasswordOptionsComplexity" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.Boolean),
-          custom: S.optional(__S(480, __c15, 0)),
-          default: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConnectionPasswordOptionsDictionary" });
-    case 26:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.Boolean),
-          size: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ConnectionPasswordOptionsHistory" });
-    case 27:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.Boolean),
-          blocked_fields: S.optional(__S(480, __c15, 0)),
-        }),
-      ).annotate({ identifier: "ConnectionPasswordOptionsProfileData" });
-    case 28:
-      return S.suspend(() =>
-        S.Struct({
-          complexity: S.optional(__S(3128, __c97, 24)),
-          dictionary: S.optional(__S(3129, __c97, 25)),
-          history: S.optional(__S(3130, __c97, 26)),
-          profile_data: S.optional(__S(3131, __c97, 27)),
-        }),
-      ).annotate({ identifier: "ConnectionPasswordOptions" });
-    case 29:
-      return S.suspend(() =>
-        S.Struct({
-          algorithm_profile: S.String,
-          algorithm_exceptions: S.optional(__S(480, __c15, 0)),
-        }),
-      ).annotate({ identifier: "ConnectionAssertionDecryptionSettings" });
-    case 30:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            issuer: S.optional(S.String),
-            authorization_endpoint: S.optional(S.String),
-            token_endpoint: S.optional(S.String),
-            userinfo_endpoint: S.optional(S.String),
-            jwks_uri: S.optional(S.String),
-            registration_endpoint: S.optional(S.String),
-            scopes_supported: S.optional(S.NullOr(__S(480, __c15, 0))),
-            response_modes_supported: S.optional(__S(480, __c15, 0)),
-            response_types_supported: S.optional(__S(480, __c15, 0)),
-            grant_types_supported: S.optional(__S(480, __c15, 0)),
-            acr_values_supported: S.optional(__S(480, __c15, 0)),
-            subject_types_supported: S.optional(S.NullOr(__S(480, __c15, 0))),
-            id_token_signing_alg_values_supported: S.optional(__S(480, __c15, 0)),
-            id_token_encryption_alg_values_supported: S.optional(__S(480, __c15, 0)),
-            id_token_encryption_enc_values_supported: S.optional(__S(480, __c15, 0)),
-            userinfo_signing_alg_values_supported: S.optional(__S(480, __c15, 0)),
-            userinfo_encryption_alg_values_supported: S.optional(__S(480, __c15, 0)),
-            userinfo_encryption_enc_values_supported: S.optional(__S(480, __c15, 0)),
-            request_object_signing_alg_values_supported: S.optional(__S(480, __c15, 0)),
-            request_object_encryption_alg_values_supported: S.optional(__S(480, __c15, 0)),
-            request_object_encryption_enc_values_supported: S.optional(__S(480, __c15, 0)),
-            token_endpoint_auth_methods_supported: S.optional(__S(480, __c15, 0)),
-            token_endpoint_auth_signing_alg_values_supported: S.optional(__S(480, __c15, 0)),
-            display_values_supported: S.optional(__S(480, __c15, 0)),
-            claim_types_supported: S.optional(__S(480, __c15, 0)),
-            claims_supported: S.optional(__S(480, __c15, 0)),
-            service_documentation: S.optional(S.String),
-            claims_locales_supported: S.optional(__S(480, __c15, 0)),
-            ui_locales_supported: S.optional(__S(480, __c15, 0)),
-            claims_parameter_supported: S.optional(S.Boolean),
-            request_parameter_supported: S.optional(S.Boolean),
-            request_uri_parameter_supported: S.optional(S.Boolean),
-            require_request_uri_registration: S.optional(S.Boolean),
-            op_policy_uri: S.optional(S.String),
-            op_tos_uri: S.optional(S.String),
-            end_session_endpoint: S.optional(S.String),
-            pushed_authorization_request_endpoint: S.optional(S.String),
-            require_pushed_authorization_requests: S.optional(S.Boolean),
-            dpop_signing_alg_values_supported: S.optional(__S(480, __c15, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ConnectionsOIDCMetadata" });
-    case 31:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            validation: S.optional(S.NullOr(__S(3105, __c97, 1))),
-            non_persistent_attrs: S.optional(S.NullOr(__S(480, __c15, 0))),
-            precedence: S.optional(__S(512, __c16, 0)),
-            attributes: S.optional(__S(3115, __c97, 11)),
-            enable_script_context: S.optional(S.Boolean),
-            enabledDatabaseCustomization: S.optional(S.Boolean),
-            import_mode: S.optional(S.Boolean),
-            configuration: S.optional(S.NullOr(__S(3072, __c96, 0))),
-            customScripts: S.optional(__S(3116, __c97, 12)),
-            otp_settings: S.optional(__S(3118, __c97, 14)),
-            authentication_methods: S.optional(S.NullOr(__S(3120, __c97, 16))),
-            passkey_options: S.optional(S.NullOr(__S(3121, __c97, 17))),
-            passwordPolicy: S.optional(S.NullOr(S.String)),
-            password_complexity_options: S.optional(S.NullOr(__S(3122, __c97, 18))),
-            password_history: S.optional(S.NullOr(__S(3123, __c97, 19))),
-            password_no_personal_info: S.optional(S.NullOr(__S(3124, __c97, 20))),
-            password_dictionary: S.optional(S.NullOr(__S(3125, __c97, 21))),
-            api_enable_users: S.optional(S.Boolean),
-            api_enable_groups: S.optional(S.Boolean),
-            basic_profile: S.optional(S.Boolean),
-            ext_admin: S.optional(S.Boolean),
-            ext_is_suspended: S.optional(S.Boolean),
-            ext_agreed_terms: S.optional(S.Boolean),
-            ext_groups: S.optional(S.Boolean),
-            ext_assigned_plans: S.optional(S.Boolean),
-            ext_profile: S.optional(S.Boolean),
-            disable_self_service_change_password: S.optional(S.Boolean),
-            upstream_params: S.optional(S.NullOr(__S(3126, __c97, 22))),
-            set_user_root_attributes: S.optional(S.String),
-            gateway_authentication: S.optional(S.NullOr(__S(3127, __c97, 23))),
-            password_options: S.optional(__S(3132, __c97, 28)),
-            assertion_decryption_settings: S.optional(__S(3133, __c97, 29)),
-            id_token_signed_response_algs: S.optional(S.NullOr(__S(512, __c16, 0))),
-            dpop_signing_alg: S.optional(S.String),
-            enable_pushed_authorization_requests: S.optional(S.Boolean),
-            pushed_authorization_request_endpoint: S.optional(S.String),
-            token_endpoint_auth_method: S.optional(S.NullOr(S.String)),
-            token_endpoint_auth_signing_alg: S.optional(S.NullOr(S.String)),
-            token_endpoint_jwtca_aud_format: S.optional(S.String),
-            id_token_session_expiry_supported: S.optional(S.Boolean),
-            useOauthSpecScope: S.optional(S.Boolean),
-            discovery_url: S.optional(S.NullOr(S.String)),
-            oidc_metadata: S.optional(S.NullOr(__S(3134, __c97, 30))),
-            thumbprints: S.optional(__S(480, __c15, 0)),
-            thumbprints_sha384: S.optional(__S(480, __c15, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ConnectionPropertiesOptions" });
-  }
-}
-function __c98(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          strategy: S.optional(__S(512, __c16, 0).pipe(T.Query())),
+          strategy: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
           from: S.optional(S.String.pipe(T.Query())),
           take: S.optional(S.Number.pipe(T.Query())),
           fields: S.optional(S.String.pipe(T.Query())),
@@ -32443,26 +26815,26 @@ function __c98(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           display_name: S.optional(S.String),
-          options: S.optional(__S(19488, __c609, 0)),
+          options: S.optional(__S(14496, __c453, 0)),
           id: S.optional(S.String),
           strategy: S.optional(S.String),
-          realms: S.optional(__S(480, __c15, 0)),
+          realms: S.optional(__S(14720, __c460, 0)),
           is_domain_connection: S.optional(S.Boolean),
           show_as_button: S.optional(S.Boolean),
-          metadata: S.optional(__S(3072, __c96, 0)),
-          authentication: S.optional(__S(640, __c20, 0)),
-          connected_accounts: S.optional(__S(3008, __c94, 0)),
-          cross_app_access_requesting_app: S.optional(__S(640, __c20, 0)),
-          cross_app_access_resource_app: S.optional(__S(3009, __c94, 1)),
+          metadata: S.optional(__S(64, __c2, 0)),
+          authentication: S.optional(__S(14432, __c451, 0)),
+          connected_accounts: S.optional(__S(96, __c3, 0)),
+          cross_app_access_requesting_app: S.optional(__S(14432, __c451, 0)),
+          cross_app_access_resource_app: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "ConnectionForList" });
     case 2:
-      return S.Array(__S(3137, __c98, 1));
+      return S.Array(__S(1441, __c45, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            connections: __S(3138, __c98, 2),
+            connections: __S(1442, __c45, 2),
             next: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -32470,7 +26842,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ListClientConnectionsResponseContent" });
   }
 }
-function __c99(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32480,7 +26852,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "GetClientGrantRequest" });
   }
 }
-function __c100(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32499,7 +26871,7 @@ function __c100(j: number): any {
       });
   }
 }
-function __c101(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32522,62 +26894,7 @@ function __c101(j: number): any {
       });
   }
 }
-function __c102(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1152, __c36, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          q: S.optional(S.String.pipe(T.Query())),
-          parser: S.optional(S.String.pipe(T.Query())),
-          fields: S.optional(S.String.pipe(T.Query())),
-          include_fields: S.optional(S.Boolean.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-          from: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/client-grants/search", code: 200 })),
-      ).annotate({ identifier: "GetClientGrantsSearchRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          client_grants: __S(3264, __c102, 0),
-          next: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SearchClientGrantsResponseContent" });
-  }
-}
-function __c103(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/client-profiles/{id}", code: 200 })),
-      ).annotate({ identifier: "GetClientProfileRequest" });
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.String.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/client-profiles", code: 200 })),
-      ).annotate({ identifier: "GetClientProfilesRequest" });
-    case 1:
-      return S.Array(__S(1544, __c48, 8));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          next: S.optional(S.String),
-          client_profiles: __S(3329, __c104, 1),
-        }),
-      ).annotate({ identifier: "ListClientProfilesPaginatedResponseContent" });
-  }
-}
-function __c105(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32603,108 +26920,7 @@ function __c105(j: number): any {
       });
   }
 }
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          q: S.optional(S.String.pipe(T.Query())),
-          parser: S.optional(S.String.pipe(T.Query())),
-          fields: S.optional(S.String.pipe(T.Query())),
-          include_fields: S.optional(S.Boolean.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-          from: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/clients/search", code: 200 })),
-      ).annotate({ identifier: "GetClientsSearchRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            client_id: S.optional(S.String),
-            created_at: S.optional(S.String),
-            updated_at: S.optional(S.String),
-            tenant: S.optional(S.String),
-            name: S.optional(S.String),
-            description: S.optional(S.String),
-            global: S.optional(S.Boolean),
-            app_type: S.optional(S.String),
-            logo_uri: S.optional(S.String),
-            is_first_party: S.optional(S.Boolean),
-            oidc_conformant: S.optional(S.Boolean),
-            callbacks: S.optional(__S(480, __c15, 0)),
-            allowed_origins: S.optional(__S(480, __c15, 0)),
-            web_origins: S.optional(__S(480, __c15, 0)),
-            client_aliases: S.optional(__S(480, __c15, 0)),
-            allowed_clients: S.optional(__S(480, __c15, 0)),
-            allowed_logout_urls: S.optional(__S(480, __c15, 0)),
-            session_transfer: S.optional(S.NullOr(__S(580, __c18, 4))),
-            oidc_logout: S.optional(__S(578, __c18, 2)),
-            grant_types: S.optional(__S(480, __c15, 0)),
-            jwt_configuration: S.optional(__S(581, __c18, 5)),
-            sso: S.optional(S.Boolean),
-            sso_disabled: S.optional(S.Boolean),
-            cross_origin_authentication: S.optional(S.Boolean),
-            cross_origin_loc: S.optional(S.String),
-            custom_login_page_on: S.optional(S.Boolean),
-            custom_login_page: S.optional(S.String),
-            custom_login_page_preview: S.optional(S.String),
-            form_template: S.optional(S.String),
-            token_endpoint_auth_method: S.optional(S.String),
-            is_token_endpoint_ip_header_trusted: S.optional(S.Boolean),
-            client_metadata: S.optional(__S(19488, __c609, 0)),
-            mobile: S.optional(__S(584, __c18, 8)),
-            initiate_login_uri: S.optional(S.String),
-            native_social_login: S.optional(__S(585, __c18, 9)),
-            fedcm_login: S.optional(__S(587, __c18, 11)),
-            refresh_token: S.optional(S.NullOr(__S(590, __c18, 14))),
-            default_organization: S.optional(S.NullOr(__S(591, __c18, 15))),
-            organization_usage: S.optional(S.String),
-            organization_require_behavior: S.optional(S.String),
-            organization_discovery_methods: S.optional(__S(512, __c16, 0)),
-            client_authentication_methods: S.optional(S.NullOr(__S(602, __c18, 26))),
-            require_pushed_authorization_requests: S.optional(S.Boolean),
-            require_proof_of_possession: S.optional(S.Boolean),
-            signed_request_object: S.optional(__S(603, __c18, 27)),
-            token_vault_privileged_access: S.optional(__S(604, __c18, 28)),
-            compliance_level: S.optional(S.NullOr(S.String)),
-            skip_non_verifiable_callback_uri_confirmation_prompt: S.optional(S.Boolean),
-            token_exchange: S.optional(__S(594, __c18, 18)),
-            par_request_expiry: S.optional(S.NullOr(S.Number)),
-            token_quota: S.optional(__S(768, __c24, 0)),
-            express_configuration: S.optional(__S(597, __c18, 21)),
-            b2b_integration_configuration: S.optional(__S(598, __c18, 22)),
-            my_organization_configuration: S.optional(__S(600, __c18, 24)),
-            identity_assertion_authorization_grant: S.optional(__S(640, __c20, 0)),
-            anonymous_sessions: S.optional(__S(640, __c20, 0)),
-            enforce_anon_session_transfer_network_binding: S.optional(S.String),
-            third_party_security_mode: S.optional(S.String),
-            oidc_support: S.optional(__S(605, __c18, 29)),
-            redirection_policy: S.optional(S.String),
-            resource_server_identifier: S.optional(S.String),
-            async_approval_notification_channels: S.optional(__S(512, __c16, 0)),
-            external_metadata_type: S.optional(S.String),
-            external_metadata_created_by: S.optional(S.String),
-            external_metadata_status: S.optional(S.String),
-            agent_id: S.optional(S.String),
-            external_client_id: S.optional(S.String),
-            jwks_uri: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ClientSearchResponse" });
-    case 2:
-      return S.Array(__S(3393, __c106, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          clients: __S(3394, __c106, 2),
-          next: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SearchClientsResponseContent" });
-  }
-}
-function __c107(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32722,131 +26938,24 @@ function __c107(j: number): any {
           connection_id: S.String,
           strategy: S.String,
           access_type: S.String,
-          scopes: S.optional(__S(480, __c15, 0)),
+          scopes: S.optional(__S(14720, __c460, 0)),
           created_at: S.String,
           expires_at: S.optional(S.String),
           organization_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectedAccount" });
     case 2:
-      return S.Array(__S(3425, __c107, 1));
+      return S.Array(__S(1601, __c50, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          connected_accounts: __S(3426, __c107, 2),
+          connected_accounts: __S(1602, __c50, 2),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUserConnectedAccountsResponseContent" });
   }
 }
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          organization: S.optional(__S(3488, __c109, 0)),
-          connection_name_prefix_template: S.optional(S.String),
-          enabled_features: S.optional(__S(512, __c16, 0)),
-          connection_config: S.optional(S.Unknown),
-          strategy_overrides: S.optional(__S(3494, __c109, 6)),
-          provisioning: S.optional(__S(3492, __c109, 4)),
-          cross_app_access_resource_app: S.optional(__S(3521, __c110, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/connection-profiles", code: 200 })),
-      ).annotate({ identifier: "CreateConnectionProfileRequest" });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          show_as_button: S.optional(S.String),
-          assign_membership_on_login: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConnectionProfileOrganization" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          scopes: __S(512, __c16, 0),
-          default_expiry: S.optional(S.NullOr(S.Number)),
-          max_allowed_expiry: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "ConnectionProfileProvisioningScimTokens" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          tokens: __S(3489, __c109, 1),
-        }),
-      ).annotate({ identifier: "ConnectionProfileProvisioningScim" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          sync_users: S.Boolean,
-        }),
-      ).annotate({ identifier: "ConnectionProfileProvisioningGoogleWorkspace" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          scim: S.optional(__S(3490, __c109, 2)),
-          google_workspace: S.optional(__S(3491, __c109, 3)),
-        }),
-      ).annotate({ identifier: "ConnectionProfileStrategyOverridesProvisioning" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          enabled_features: S.optional(__S(512, __c16, 0)),
-          connection_config: S.optional(S.Unknown),
-          provisioning: S.optional(__S(3492, __c109, 4)),
-        }),
-      ).annotate({ identifier: "ConnectionProfileStrategyOverride" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          pingfederate: S.optional(__S(3493, __c109, 5)),
-          ad: S.optional(__S(3493, __c109, 5)),
-          adfs: S.optional(__S(3493, __c109, 5)),
-          waad: S.optional(__S(3493, __c109, 5)),
-          google_apps: S.optional(__S(3493, __c109, 5).pipe(T.Body("google-apps"))),
-          okta: S.optional(__S(3493, __c109, 5)),
-          oidc: S.optional(__S(3493, __c109, 5)),
-          samlp: S.optional(__S(3493, __c109, 5)),
-        }),
-      ).annotate({ identifier: "ConnectionProfileStrategyOverrides" });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          default_value: S.String,
-          allowed_values: S.optional(__S(512, __c16, 0)),
-        }),
-      ).annotate({ identifier: "ConnectionProfileCrossAppAccessResourceAppStatus" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: __S(3520, __c110, 0),
-        }),
-      ).annotate({ identifier: "ConnectionProfileCrossAppAccessResourceApp" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          organization: S.optional(__S(3488, __c109, 0)),
-          connection_name_prefix_template: S.optional(S.String),
-          enabled_features: S.optional(__S(512, __c16, 0)),
-          connection_config: S.optional(S.Unknown),
-          strategy_overrides: S.optional(__S(3494, __c109, 6)),
-          provisioning: S.optional(__S(3492, __c109, 4)),
-          cross_app_access_resource_app: S.optional(__S(3521, __c110, 1)),
-        }),
-      ).annotate({ identifier: "CreateConnectionProfileResponseContent" });
-  }
-}
-function __c111(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32858,7 +26967,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "GetConnectionRequest" });
   }
 }
-function __c112(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32878,12 +26987,12 @@ function __c112(j: number): any {
         ),
       ).annotate({ identifier: "ConnectionEnabledClient" });
     case 2:
-      return S.Array(__S(3585, __c112, 1));
+      return S.Array(__S(1665, __c52, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            clients: __S(3586, __c112, 2),
+            clients: __S(1666, __c52, 2),
             next: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -32891,7 +27000,30 @@ function __c112(j: number): any {
       ).annotate({ identifier: "GetConnectionEnabledClientsResponseContent" });
   }
 }
-function __c113(j: number): any {
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          device_name: S.String,
+          type: S.String,
+          value: S.String.pipe(T.SensitiveValue({})),
+          device_id: S.String,
+          client_id: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/device-credentials", code: 200 })),
+      ).annotate({ identifier: "CreateDeviceCredentialsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreatePublicKeyDeviceCredentialResponseContent" });
+  }
+}
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32901,7 +27033,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "GetConnectionProfileRequest" });
   }
 }
-function __c114(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32911,17 +27043,17 @@ function __c114(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/connection-profiles", code: 200 })),
       ).annotate({ identifier: "GetConnectionProfilesRequest" });
     case 1:
-      return S.Array(__S(3522, __c110, 2));
+      return S.Array(__S(706, __c22, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.String),
-          connection_profiles: S.optional(__S(3649, __c114, 1)),
+          connection_profiles: S.optional(__S(1761, __c55, 1)),
         }),
       ).annotate({ identifier: "ListConnectionProfilesPaginatedResponseContent" });
   }
 }
-function __c115(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32931,18 +27063,18 @@ function __c115(j: number): any {
       ).annotate({ identifier: "GetConnectionProfileTemplateRequest" });
   }
 }
-function __c116(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          organization: S.optional(__S(3488, __c109, 0)),
+          organization: S.optional(__S(672, __c21, 0)),
           connection_name_prefix_template: S.optional(S.String),
-          enabled_features: S.optional(__S(512, __c16, 0)),
+          enabled_features: S.optional(__S(14400, __c450, 0)),
           connection_config: S.optional(S.Unknown),
-          strategy_overrides: S.optional(__S(3494, __c109, 6)),
-          provisioning: S.optional(__S(3492, __c109, 4)),
+          strategy_overrides: S.optional(__S(678, __c21, 6)),
+          provisioning: S.optional(__S(676, __c21, 4)),
         }),
       ).annotate({ identifier: "ConnectionProfileTemplate" });
     case 1:
@@ -32950,12 +27082,12 @@ function __c116(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           display_name: S.optional(S.String),
-          template: S.optional(__S(3712, __c116, 0)),
+          template: S.optional(__S(1824, __c57, 0)),
         }),
       ).annotate({ identifier: "GetConnectionProfileTemplateResponseContent" });
   }
 }
-function __c117(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32964,16 +27096,16 @@ function __c117(j: number): any {
         ),
       ).annotate({ identifier: "GetConnectionProfileTemplatesRequest" });
     case 1:
-      return S.Array(__S(3713, __c116, 1));
+      return S.Array(__S(1825, __c57, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connection_profile_templates: S.optional(__S(3745, __c117, 1)),
+          connection_profile_templates: S.optional(__S(1857, __c58, 1)),
         }),
       ).annotate({ identifier: "ListConnectionProfileTemplateResponseContent" });
   }
 }
-function __c118(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -32983,7 +27115,7 @@ function __c118(j: number): any {
           include_totals: S.optional(S.Boolean.pipe(T.Query())),
           from: S.optional(S.String.pipe(T.Query())),
           take: S.optional(S.Number.pipe(T.Query())),
-          strategy: S.optional(__S(512, __c16, 0).pipe(T.Query())),
+          strategy: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
           name: S.optional(S.String.pipe(T.Query())),
           fields: S.optional(S.String.pipe(T.Query())),
           include_fields: S.optional(S.Boolean.pipe(T.Query())),
@@ -32995,7 +27127,7 @@ function __c118(j: number): any {
       });
   }
 }
-function __c119(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33005,17 +27137,17 @@ function __c119(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/connections-directory-provisionings", code: 200 })),
       ).annotate({ identifier: "GetConnectionsDirectoryProvisioningsRequest" });
     case 1:
-      return S.Array(__S(3872, __c121, 0));
+      return S.Array(__S(1984, __c62, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          directory_provisionings: __S(3809, __c119, 1),
+          directory_provisionings: __S(1921, __c60, 1),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDirectoryProvisioningsResponseContent" });
   }
 }
-function __c120(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33025,10 +27157,10 @@ function __c120(j: number): any {
         }),
       ).annotate({ identifier: "DirectoryProvisioningMappingItem" });
     case 1:
-      return S.Array(__S(3840, __c120, 0));
+      return S.Array(__S(1952, __c61, 0));
   }
 }
-function __c121(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33036,7 +27168,7 @@ function __c121(j: number): any {
           connection_id: S.String,
           connection_name: S.String,
           strategy: S.String,
-          mapping: __S(3841, __c120, 1),
+          mapping: __S(1953, __c61, 1),
           synchronize_automatically: S.Boolean,
           synchronize_groups: S.optional(S.String),
           created_at: S.String,
@@ -33048,7 +27180,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "DirectoryProvisioning" });
   }
 }
-function __c122(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33058,17 +27190,17 @@ function __c122(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/connections-scim-configurations", code: 200 })),
       ).annotate({ identifier: "GetConnectionsScimConfigurationsRequest" });
     case 1:
-      return S.Array(__S(3968, __c124, 0));
+      return S.Array(__S(2080, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          scim_configurations: __S(3905, __c122, 1),
+          scim_configurations: __S(2017, __c63, 1),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSCIMConfigurationsResponseContent" });
   }
 }
-function __c123(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33081,10 +27213,10 @@ function __c123(j: number): any {
         ),
       ).annotate({ identifier: "ScimMappingItem" });
     case 1:
-      return S.Array(__S(3936, __c123, 0));
+      return S.Array(__S(2048, __c64, 0));
   }
 }
-function __c124(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33094,14 +27226,14 @@ function __c124(j: number): any {
           strategy: S.String,
           tenant_name: S.String,
           user_id_attribute: S.String,
-          mapping: __S(3937, __c123, 1),
+          mapping: __S(2049, __c64, 1),
           created_at: S.String,
           updated_on: S.String,
         }),
       ).annotate({ identifier: "ScimConfiguration" });
   }
 }
-function __c125(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33110,14 +27242,14 @@ function __c125(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/clients/{client_id}/credentials", code: 200 })),
       ).annotate({ identifier: "GetCredentialsRequest" });
     case 1:
-      return S.Array(__S(4032, __c126, 0));
+      return S.Array(__S(2144, __c67, 0));
     case 2:
-      return S.suspend(() => __S(4001, __c125, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2113, __c66, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCredentialsResponse",
       });
   }
 }
-function __c126(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33139,76 +27271,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "ClientCredential" });
   }
 }
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String,
-          type: S.String,
-          verification_method: S.optional(S.String),
-          tls_policy: S.optional(S.String),
-          custom_client_ip_header: S.optional(S.NullOr(S.String)),
-          domain_metadata: S.optional(__S(3072, __c96, 0)),
-          relying_party_identifier: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/custom-domains", code: 200 })),
-      ).annotate({ identifier: "CreateCustomDomainRequest" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          record: S.String,
-          domain: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DomainVerificationMethod" });
-    case 1:
-      return S.Array(__S(4096, __c128, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          methods: S.optional(__S(4097, __c128, 1)),
-          status: S.optional(S.String),
-          error_msg: S.optional(S.String),
-          last_verified_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DomainVerification" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          error_msg: S.optional(S.String),
-          certificate_authority: S.optional(S.String),
-          renews_before: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DomainCertificate" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          custom_domain_id: S.String,
-          domain: S.String,
-          primary: S.Boolean,
-          is_default: S.optional(S.Boolean),
-          status: S.String,
-          type: S.String,
-          verification: __S(4098, __c128, 2),
-          custom_client_ip_header: S.optional(S.NullOr(S.String)),
-          tls_policy: S.optional(S.String),
-          domain_metadata: S.optional(__S(3072, __c96, 0)),
-          certificate: S.optional(__S(4099, __c128, 3)),
-          relying_party_identifier: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateCustomDomainResponseContent" });
-  }
-}
-function __c130(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33225,7 +27288,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetCredentialsByCredentialIdRequest" });
   }
 }
-function __c131(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33243,17 +27306,53 @@ function __c131(j: number): any {
           status: S.String,
           type: S.String,
           origin_domain_name: S.optional(S.String),
-          verification: S.optional(__S(4098, __c128, 2)),
+          verification: S.optional(__S(1282, __c40, 2)),
           custom_client_ip_header: S.optional(S.NullOr(S.String)),
           tls_policy: S.optional(S.String),
-          domain_metadata: S.optional(__S(3072, __c96, 0)),
-          certificate: S.optional(__S(4099, __c128, 3)),
+          domain_metadata: S.optional(__S(64, __c2, 0)),
+          certificate: S.optional(__S(1283, __c40, 3)),
           relying_party_identifier: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCustomDomainResponseContent" });
   }
 }
-function __c132(j: number): any {
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          template: S.String,
+          body: S.NullOr(S.String),
+          from: S.NullOr(S.String),
+          resultUrl: S.optional(S.NullOr(S.String)),
+          subject: S.NullOr(S.String),
+          syntax: S.NullOr(S.String),
+          urlLifetimeInSeconds: S.optional(S.NullOr(S.Number)),
+          includeEmailInRedirect: S.optional(S.Boolean),
+          enabled: S.NullOr(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/email-templates", code: 200 })),
+      ).annotate({ identifier: "CreateEmailTemplateRequest" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          template: S.String,
+          body: S.NullOr(S.String),
+          from: S.NullOr(S.String),
+          resultUrl: S.optional(S.NullOr(S.String)),
+          subject: S.NullOr(S.String),
+          syntax: S.NullOr(S.String),
+          urlLifetimeInSeconds: S.optional(S.NullOr(S.Number)),
+          includeEmailInRedirect: S.optional(S.Boolean),
+          enabled: S.NullOr(S.Boolean),
+        }),
+      ).annotate({ identifier: "CreateEmailTemplateResponseContent" });
+  }
+}
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33272,7 +27371,7 @@ function __c132(j: number): any {
       });
   }
 }
-function __c133(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33280,7 +27379,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetCustomSigningKeysRequest" });
   }
 }
-function __c134(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33288,7 +27387,7 @@ function __c134(j: number): any {
           kty: S.String,
           kid: S.optional(S.String),
           use: S.optional(S.String),
-          key_ops: S.optional(__S(512, __c16, 0)),
+          key_ops: S.optional(__S(14400, __c450, 0)),
           alg: S.optional(S.String),
           n: S.optional(S.String),
           e: S.optional(S.String),
@@ -33296,22 +27395,22 @@ function __c134(j: number): any {
           x: S.optional(S.String),
           y: S.optional(S.String),
           x5u: S.optional(S.String),
-          x5c: S.optional(__S(480, __c15, 0)),
+          x5c: S.optional(__S(14720, __c460, 0)),
           x5t: S.optional(S.String),
           x5t_S256: S.optional(S.String.pipe(T.Body("x5t#S256"))),
         }),
       ).annotate({ identifier: "CustomSigningKeyJWK" });
     case 1:
-      return S.Array(__S(4288, __c134, 0));
+      return S.Array(__S(2368, __c74, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(4289, __c134, 1)),
+          keys: S.optional(__S(2369, __c74, 1)),
         }),
       ).annotate({ identifier: "GetCustomSigningKeysResponseContent" });
   }
 }
-function __c135(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33324,15 +27423,15 @@ function __c135(j: number): any {
       ).annotate({ identifier: "GetCustomTextByLanguageRequest" });
   }
 }
-function __c136(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(19488, __c609, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14496, __c453, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCustomTextByLanguageResponse",
       });
   }
 }
-function __c137(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33356,14 +27455,14 @@ function __c137(j: number): any {
         ),
       ).annotate({ identifier: "DailyStats" });
     case 2:
-      return S.Array(__S(4385, __c137, 1));
+      return S.Array(__S(2465, __c77, 1));
     case 3:
-      return S.suspend(() => __S(4386, __c137, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2466, __c77, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetDailyResponse",
       });
   }
 }
-function __c138(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33375,7 +27474,7 @@ function __c138(j: number): any {
       });
   }
 }
-function __c139(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33383,7 +27482,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GetDefaultBrandingThemeRequest" });
   }
 }
-function __c140(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33400,12 +27499,12 @@ function __c140(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          mapping: S.optional(__S(3937, __c123, 1)),
+          mapping: S.optional(__S(2049, __c64, 1)),
         }),
       ).annotate({ identifier: "GetScimConfigurationDefaultMappingResponseContent" });
   }
 }
-function __c141(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33418,7 +27517,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetDeliveriesByEventIdRequest" });
   }
 }
-function __c142(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33430,7 +27529,7 @@ function __c142(j: number): any {
         }),
       ).annotate({ identifier: "EventStreamDeliveryAttempt" });
     case 1:
-      return S.Array(__S(4544, __c142, 0));
+      return S.Array(__S(2624, __c82, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -33439,7 +27538,7 @@ function __c142(j: number): any {
           specversion: S.optional(S.String),
           type: S.optional(S.String),
           time: S.optional(S.String),
-          data: S.optional(__S(19488, __c609, 0)),
+          data: S.optional(__S(14496, __c453, 0)),
         }),
       ).annotate({ identifier: "EventStreamCloudEvent" });
     case 3:
@@ -33449,36 +27548,13 @@ function __c142(j: number): any {
           event_stream_id: S.String,
           status: S.String,
           event_type: S.String,
-          attempts: __S(4545, __c142, 1),
-          event: S.optional(__S(4546, __c142, 2)),
+          attempts: __S(2625, __c82, 1),
+          event: S.optional(__S(2626, __c82, 2)),
         }),
       ).annotate({ identifier: "GetEventStreamDeliveryHistoryResponseContent" });
   }
 }
-function __c143(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          device_name: S.String,
-          type: S.String,
-          value: S.String.pipe(T.SensitiveValue({})),
-          device_id: S.String,
-          client_id: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/device-credentials", code: 200 })),
-      ).annotate({ identifier: "CreateDeviceCredentialsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreatePublicKeyDeviceCredentialResponseContent" });
-  }
-}
-function __c144(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33499,7 +27575,7 @@ function __c144(j: number): any {
       });
   }
 }
-function __c145(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33511,7 +27587,21 @@ function __c145(j: number): any {
       ).annotate({ identifier: "GetDirectoryProvisioningRequest" });
   }
 }
-function __c146(j: number): any {
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.optional(S.Unknown.pipe(T.HttpBody())),
+        }).pipe(T.Http({ method: "POST", uri: "/event-streams", code: 200 })),
+      ).annotate({ identifier: "CreateEventStreamRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateEventStreamResponse",
+      });
+  }
+}
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33528,12 +27618,12 @@ function __c146(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          mapping: S.optional(__S(3841, __c120, 1)),
+          mapping: S.optional(__S(1953, __c61, 1)),
         }),
       ).annotate({ identifier: "GetDirectoryProvisioningDefaultMappingResponseContent" });
   }
 }
-function __c147(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33544,17 +27634,17 @@ function __c147(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/organizations/{id}/discovery-domains", code: 200 })),
       ).annotate({ identifier: "GetDiscoveryDomainsRequest" });
     case 1:
-      return S.Array(__S(4736, __c148, 0));
+      return S.Array(__S(2816, __c88, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.String),
-          domains: __S(4705, __c147, 1),
+          domains: __S(2785, __c87, 1),
         }),
       ).annotate({ identifier: "ListOrganizationDiscoveryDomainsResponseContent" });
   }
 }
-function __c148(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33569,7 +27659,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "OrganizationDiscoveryDomain" });
   }
 }
-function __c149(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33586,7 +27676,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "GetDiscoveryDomainsByDiscoveryDomainIdRequest" });
   }
 }
-function __c150(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33596,7 +27686,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "GetEmailFactorSettingsRequest" });
   }
 }
-function __c151(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33607,7 +27697,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "GetEmailFactorSettingsResponseContent" });
   }
 }
-function __c152(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33617,7 +27707,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "GetEmailTemplateRequest" });
   }
 }
-function __c153(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33635,7 +27725,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "GetEmailTemplateResponseContent" });
   }
 }
-function __c154(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33654,7 +27744,7 @@ function __c154(j: number): any {
       });
   }
 }
-function __c155(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33671,7 +27761,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "GetEnabledConnectionsByConnectionIdRequest" });
   }
 }
-function __c156(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33680,12 +27770,12 @@ function __c156(j: number): any {
           assign_membership_on_login: S.optional(S.Boolean),
           show_as_button: S.optional(S.Boolean),
           is_signup_enabled: S.optional(S.Boolean),
-          connection: S.optional(__S(10720, __c335, 0)),
+          connection: S.optional(__S(6592, __c206, 0)),
         }),
       ).annotate({ identifier: "OrganizationConnection" });
   }
 }
-function __c157(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33695,7 +27785,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GetEncryptionKeyRequest" });
   }
 }
-function __c158(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33711,43 +27801,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "GetEncryptionKeyResponseContent" });
   }
 }
-function __c159(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          template: S.String,
-          body: S.NullOr(S.String),
-          from: S.NullOr(S.String),
-          resultUrl: S.optional(S.NullOr(S.String)),
-          subject: S.NullOr(S.String),
-          syntax: S.NullOr(S.String),
-          urlLifetimeInSeconds: S.optional(S.NullOr(S.Number)),
-          includeEmailInRedirect: S.optional(S.Boolean),
-          enabled: S.NullOr(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/email-templates", code: 200 })),
-      ).annotate({ identifier: "CreateEmailTemplateRequest" });
-  }
-}
-function __c160(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          template: S.String,
-          body: S.NullOr(S.String),
-          from: S.NullOr(S.String),
-          resultUrl: S.optional(S.NullOr(S.String)),
-          subject: S.NullOr(S.String),
-          syntax: S.NullOr(S.String),
-          urlLifetimeInSeconds: S.optional(S.NullOr(S.Number)),
-          includeEmailInRedirect: S.optional(S.Boolean),
-          enabled: S.NullOr(S.Boolean),
-        }),
-      ).annotate({ identifier: "CreateEmailTemplateResponseContent" });
-  }
-}
-function __c161(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33763,7 +27817,7 @@ function __c161(j: number): any {
       });
   }
 }
-function __c162(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33789,14 +27843,42 @@ function __c162(j: number): any {
         ),
       ).annotate({ identifier: "UsersEnrollment" });
     case 2:
-      return S.Array(__S(5185, __c162, 1));
+      return S.Array(__S(3201, __c100, 1));
     case 3:
-      return S.suspend(() => __S(5186, __c162, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3202, __c100, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetEnrollmentsResponse",
       });
   }
 }
-function __c163(j: number): any {
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          actions: S.optional(__S(3264, __c102, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/flows", code: 200 })),
+      ).annotate({ identifier: "CreateFlowRequest" });
+  }
+}
+function __c102(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          actions: S.optional(__S(3264, __c102, 0)),
+          created_at: S.String,
+          updated_at: S.String,
+          executed_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateFlowResponseContent" });
+  }
+}
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33818,7 +27900,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "GetGuardianEnrollmentResponseContent" });
   }
 }
-function __c164(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33832,7 +27914,7 @@ function __c164(j: number): any {
       });
   }
 }
-function __c165(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33847,17 +27929,17 @@ function __c165(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/event-streams/{id}/deliveries", code: 200 })),
       ).annotate({ identifier: "GetEventDeliveriesRequest" });
     case 1:
-      return S.Array(__S(4547, __c142, 3));
+      return S.Array(__S(2627, __c82, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deliveries: __S(5281, __c165, 1),
+          deliveries: __S(3361, __c105, 1),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEventStreamDeliveriesResponseContent" });
   }
 }
-function __c166(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33871,7 +27953,7 @@ function __c166(j: number): any {
       });
   }
 }
-function __c167(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33886,7 +27968,7 @@ function __c167(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            eventStreams: S.optional(__S(5345, __c167, 1)),
+            eventStreams: S.optional(__S(3425, __c107, 1)),
             next: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -33894,7 +27976,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "ListEventStreamsResponseContent" });
   }
 }
-function __c168(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33906,74 +27988,27 @@ function __c168(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action_name: S.optional(S.String),
-          error: S.optional(__S(1760, __c55, 0)),
+          error: S.optional(__S(352, __c11, 0)),
           started_at: S.optional(S.String),
           ended_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActionExecutionResult" });
     case 2:
-      return S.Array(__S(5377, __c168, 1));
+      return S.Array(__S(3457, __c108, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           trigger_id: S.optional(S.String),
           status: S.optional(S.String),
-          results: S.optional(__S(5378, __c168, 2)),
+          results: S.optional(__S(3458, __c108, 2)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetActionExecutionResponseContent" });
   }
 }
-function __c169(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/experimentation/experiments/{id}", code: 200 })),
-      ).annotate({ identifier: "GetExperimentRequest" });
-  }
-}
-function __c170(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.String.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-          authentication_flow: S.optional(S.String.pipe(T.Query())),
-          feature_flag_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/experimentation/experiments", code: 200 })),
-      ).annotate({ identifier: "GetExperimentsRequest" });
-    case 1:
-      return S.Array(__S(5922, __c185, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          experiments: __S(5441, __c170, 1),
-          next: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListExperimentsResponseContent" });
-  }
-}
-function __c171(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(S.Unknown.pipe(T.HttpBody())),
-        }).pipe(T.Http({ method: "POST", uri: "/event-streams", code: 200 })),
-      ).annotate({ identifier: "CreateEventStreamRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "CreateEventStreamResponse",
-      });
-  }
-}
-function __c172(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33983,7 +28018,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "GetFactorDuoSettingsRequest" });
   }
 }
-function __c173(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -33995,7 +28030,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "GetGuardianFactorDuoSettingsResponseContent" });
   }
 }
-function __c174(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34005,7 +28040,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "GetFactorPhoneTemplatesRequest" });
   }
 }
-function __c175(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34016,7 +28051,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "GetGuardianFactorPhoneTemplatesResponseContent" });
   }
 }
-function __c176(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34038,18 +28073,18 @@ function __c176(j: number): any {
           enabled: S.Boolean,
           trial_expired: S.optional(S.Boolean),
           name: S.optional(S.String),
-          settings: S.optional(__S(5633, __c176, 1)),
+          settings: S.optional(__S(3617, __c113, 1)),
         }),
       ).annotate({ identifier: "GuardianFactor" });
     case 3:
-      return S.Array(__S(5634, __c176, 2));
+      return S.Array(__S(3618, __c113, 2));
     case 4:
-      return S.suspend(() => __S(5635, __c176, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3619, __c113, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetFactorsResponse",
       });
   }
 }
-function __c177(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34059,50 +28094,47 @@ function __c177(j: number): any {
       ).annotate({ identifier: "GetFactorSmsTemplatesRequest" });
   }
 }
-function __c178(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/experimentation/feature-flags/{id}", code: 200 })),
-      ).annotate({ identifier: "GetFeatureFlagRequest" });
+          body: S.optional(S.Unknown.pipe(T.HttpBody())),
+        }).pipe(T.Http({ method: "POST", uri: "/flows/vault/connections", code: 200 })),
+      ).annotate({ identifier: "CreateFlowsVaultConnectionRequest" });
   }
 }
-function __c179(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          from: S.optional(S.String.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/experimentation/feature-flags", code: 200 })),
-      ).annotate({ identifier: "GetFeatureFlagsRequest" });
-    case 1:
-      return S.Array(__S(6434, __c201, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          feature_flags: __S(5729, __c179, 1),
-          next: S.optional(S.String),
+          id: S.String,
+          app_id: S.String,
+          environment: S.optional(S.String),
+          name: S.String,
+          account_name: S.optional(S.String),
+          ready: S.Boolean,
+          created_at: S.String,
+          updated_at: S.String,
+          refreshed_at: S.optional(S.String),
+          fingerprint: S.String,
         }),
-      ).annotate({ identifier: "ListFeatureFlagsResponseContent" });
+      ).annotate({ identifier: "CreateFlowsVaultConnectionResponseContent" });
   }
 }
-function __c180(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          hydrate: S.optional(__S(512, __c16, 0).pipe(T.Query())),
+          hydrate: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/flows/{id}", code: 200 })),
       ).annotate({ identifier: "GetFlowRequest" });
   }
 }
-function __c181(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34110,7 +28142,7 @@ function __c181(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
           include_totals: S.optional(S.Boolean.pipe(T.Query())),
-          hydrate: S.optional(__S(512, __c16, 0).pipe(T.Query())),
+          hydrate: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
           synchronous: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/flows", code: 200 })),
       ).annotate({ identifier: "GetFlowsRequest" });
@@ -34120,14 +28152,14 @@ function __c181(j: number): any {
       });
   }
 }
-function __c182(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           flow_id: S.String.pipe(T.Label()),
           execution_id: S.String.pipe(T.Label()),
-          hydrate: S.optional(__S(512, __c16, 0).pipe(T.Query())),
+          hydrate: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/flows/{flow_id}/executions/{execution_id}", code: 200 }),
         ),
@@ -34139,7 +28171,7 @@ function __c182(j: number): any {
           trace_id: S.String,
           journey_id: S.optional(S.String),
           status: S.String,
-          debug: S.optional(__S(19488, __c609, 0)),
+          debug: S.optional(__S(14496, __c453, 0)),
           created_at: S.String,
           updated_at: S.String,
           started_at: S.optional(S.String),
@@ -34148,7 +28180,7 @@ function __c182(j: number): any {
       ).annotate({ identifier: "GetFlowExecutionResponseContent" });
   }
 }
-function __c183(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34167,92 +28199,7 @@ function __c183(j: number): any {
       });
   }
 }
-function __c184(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-          feature_flag_id: S.String,
-          authentication_flow: S.String,
-          default_config: S.optional(S.String),
-          allocation_strategy: S.String,
-          allocations: S.optional(__S(5985, __c187, 1)),
-          levels: S.optional(__S(5952, __c186, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/experimentation/experiments", code: 200 })),
-      ).annotate({ identifier: "CreateExperimentRequest" });
-  }
-}
-function __c185(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          variation_id: S.optional(S.String),
-          variation_name: S.optional(S.String),
-          segment_id: S.optional(S.String),
-          segment_name: S.optional(S.String),
-          weight: S.optional(S.Number),
-          priority: S.optional(S.Number),
-          is_control: S.optional(S.Boolean),
-          is_fallback: S.optional(S.Boolean),
-          variation_snapshot: S.optional(S.NullOr(__S(19488, __c609, 0))),
-          segment_snapshot: S.optional(S.NullOr(__S(19488, __c609, 0))),
-        }),
-      ).annotate({ identifier: "AllocationItem" });
-    case 1:
-      return S.Array(__S(5920, __c185, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.optional(S.String),
-          feature_flag_id: S.String,
-          feature_flag_name: S.optional(S.String),
-          authentication_flow: S.String,
-          allocation_strategy: S.String,
-          status: S.String,
-          is_valid: S.Boolean,
-          default_config: S.optional(S.String),
-          feature_flag_snapshot: S.optional(S.NullOr(__S(19488, __c609, 0))),
-          allocations: __S(5921, __c185, 1),
-          editable_fields: __S(480, __c15, 0),
-          levels: S.optional(__S(5952, __c186, 0)),
-          current_level: S.optional(S.NullOr(S.Number)),
-          started_at: S.optional(S.String),
-          ended_at: S.optional(S.String),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "CreateExperimentResponseContent" });
-  }
-}
-function __c186(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
-  }
-}
-function __c187(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          variation_id: S.String,
-          weight: S.optional(S.Number),
-          segment_id: S.optional(S.String),
-          priority: S.optional(S.Number),
-          is_control: S.Boolean,
-          is_fallback: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "AllocationRequestItem" });
-    case 1:
-      return S.Array(__S(5984, __c187, 0));
-  }
-}
-function __c188(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34262,7 +28209,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "GetFlowsVaultConnectionRequest" });
   }
 }
-function __c189(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34278,18 +28225,18 @@ function __c189(j: number): any {
       });
   }
 }
-function __c190(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          hydrate: S.optional(__S(512, __c16, 0).pipe(T.Query())),
+          hydrate: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/forms/{id}", code: 200 })),
       ).annotate({ identifier: "GetFormRequest" });
   }
 }
-function __c191(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34297,7 +28244,7 @@ function __c191(j: number): any {
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
           include_totals: S.optional(S.Boolean.pipe(T.Query())),
-          hydrate: S.optional(__S(512, __c16, 0).pipe(T.Query())),
+          hydrate: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/forms", code: 200 })),
       ).annotate({ identifier: "GetFormsRequest" });
     case 1:
@@ -34306,7 +28253,7 @@ function __c191(j: number): any {
       });
   }
 }
-function __c192(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34325,7 +28272,7 @@ function __c192(j: number): any {
       });
   }
 }
-function __c193(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34350,7 +28297,122 @@ function __c193(j: number): any {
       ).annotate({ identifier: "GetGroupResponseContent" });
   }
 }
-function __c194(j: number): any {
+function __c127(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          messages: S.optional(__S(4096, __c128, 0)),
+          languages: S.optional(__S(4097, __c128, 1)),
+          translations: S.optional(__S(4098, __c128, 2)),
+          nodes: S.optional(__S(4100, __c128, 4)),
+          start: S.optional(__S(4103, __c128, 7)),
+          ending: S.optional(__S(4106, __c128, 10)),
+          style: S.optional(__S(4107, __c128, 11)),
+        }).pipe(T.Http({ method: "POST", uri: "/forms", code: 200 })),
+      ).annotate({ identifier: "CreateFormRequest" });
+  }
+}
+function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(4128, __c129, 0)),
+          custom: S.optional(__S(4128, __c129, 0)),
+        }),
+      ).annotate({ identifier: "FormMessages" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          primary: S.optional(S.String),
+          default: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FormLanguages" });
+    case 2:
+      return S.Record(S.String, __S(14496, __c453, 0));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          x: S.Number,
+          y: S.Number,
+        }),
+      ).annotate({ identifier: "FormNodeCoordinates" });
+    case 4:
+      return S.Array(S.Unknown);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FormHiddenField" });
+    case 6:
+      return S.Array(__S(4101, __c128, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          hidden_fields: S.optional(__S(4102, __c128, 6)),
+          next_node: S.optional(S.Unknown),
+          coordinates: S.optional(__S(4099, __c128, 3)),
+        }),
+      ).annotate({ identifier: "FormStartNode" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          delay: S.optional(S.Number),
+          target: S.String,
+        }),
+      ).annotate({ identifier: "FormEndingNodeRedirection" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          flow_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FormEndingNodeAfterSubmit" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          redirection: S.optional(__S(4104, __c128, 8)),
+          after_submit: S.optional(__S(4105, __c128, 9)),
+          coordinates: S.optional(__S(4099, __c128, 3)),
+          resume_flow: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "FormEndingNode" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          css: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FormStyle" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          messages: S.optional(__S(4096, __c128, 0)),
+          languages: S.optional(__S(4097, __c128, 1)),
+          translations: S.optional(__S(4098, __c128, 2)),
+          nodes: S.optional(__S(4100, __c128, 4)),
+          start: S.optional(__S(4103, __c128, 7)),
+          ending: S.optional(__S(4106, __c128, 10)),
+          style: S.optional(__S(4107, __c128, 11)),
+          created_at: S.String,
+          updated_at: S.String,
+          embedded_at: S.optional(S.String),
+          submitted_at: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateFormResponseContent" });
+  }
+}
+function __c129(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34376,17 +28438,17 @@ function __c194(j: number): any {
         ),
       ).annotate({ identifier: "GroupMember" });
     case 2:
-      return S.Array(__S(6209, __c194, 1));
+      return S.Array(__S(4161, __c130, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          members: __S(6210, __c194, 2),
+          members: __S(4162, __c130, 2),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetGroupMembersResponseContent" });
   }
 }
-function __c195(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34398,20 +28460,20 @@ function __c195(j: number): any {
       ).annotate({ identifier: "GetGroupRolesRequest" });
   }
 }
-function __c196(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(15328, __c479, 0));
+      return S.Array(__S(9600, __c300, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          roles: __S(6272, __c196, 0),
+          roles: __S(4224, __c132, 0),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListGroupRolesResponseContent" });
   }
 }
-function __c197(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34435,7 +28497,7 @@ function __c197(j: number): any {
       });
   }
 }
-function __c198(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34445,7 +28507,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "GetGuardianPhoneProvidersRequest" });
   }
 }
-function __c199(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34455,46 +28517,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "GetGuardianFactorsProviderPhoneResponseContent" });
   }
 }
-function __c200(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-          parameters: __S(6433, __c201, 1),
-        }).pipe(T.Http({ method: "POST", uri: "/experimentation/feature-flags", code: 200 })),
-      ).annotate({ identifier: "CreateFeatureFlagRequest" });
-  }
-}
-function __c201(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          value: S.Unknown,
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FeatureFlagConfigParam" });
-    case 1:
-      return S.Record(S.String, __S(6432, __c201, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.optional(S.String),
-          type: S.String,
-          status: S.String,
-          parameters: S.optional(__S(6433, __c201, 1)),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "CreateFeatureFlagResponseContent" });
-  }
-}
-function __c202(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34502,7 +28525,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "GetGuardianSettingsRequest" });
   }
 }
-function __c203(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34515,7 +28538,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "GetGuardianSettingsResponseContent" });
   }
 }
-function __c204(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34526,7 +28549,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "GetHookRequest" });
   }
 }
-function __c205(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34545,7 +28568,7 @@ function __c205(j: number): any {
       });
   }
 }
-function __c206(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34565,7 +28588,7 @@ function __c206(j: number): any {
       });
   }
 }
-function __c207(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34584,7 +28607,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "GetInvitationsByInvitationIdRequest" });
   }
 }
-function __c208(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34603,22 +28626,22 @@ function __c208(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           organization_id: S.optional(S.String),
-          inviter: S.optional(__S(6656, __c208, 0)),
-          invitee: S.optional(__S(6657, __c208, 1)),
+          inviter: S.optional(__S(4544, __c142, 0)),
+          invitee: S.optional(__S(4545, __c142, 1)),
           invitation_url: S.optional(S.String),
           created_at: S.optional(S.String),
           expires_at: S.optional(S.String),
           client_id: S.optional(S.String),
           connection_id: S.optional(S.String),
-          app_metadata: S.optional(__S(19488, __c609, 0)),
-          user_metadata: S.optional(__S(19488, __c609, 0)),
-          roles: S.optional(__S(480, __c15, 0)),
+          app_metadata: S.optional(__S(14496, __c453, 0)),
+          user_metadata: S.optional(__S(14496, __c453, 0)),
+          roles: S.optional(__S(14720, __c460, 0)),
           ticket_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrganizationInvitation" });
   }
 }
-function __c209(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34628,7 +28651,24 @@ function __c209(j: number): any {
       ).annotate({ identifier: "GetIpsByIdRequest" });
   }
 }
-function __c210(j: number): any {
+function __c144(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          roles: __S(14720, __c460, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/groups/{id}/roles", code: 200 })),
+      ).annotate({ identifier: "CreateGroupRoleRequest" });
+  }
+}
+function __c145(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateGroupRoleResponse" });
+  }
+}
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34662,14 +28702,14 @@ function __c210(j: number): any {
             time_left_seconds: S.optional(S.Number),
             format: S.optional(S.String),
             status_details: S.optional(S.String),
-            summary: S.optional(__S(6721, __c210, 1)),
+            summary: S.optional(__S(4673, __c146, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "GetJobResponseContent" });
   }
 }
-function __c211(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34698,24 +28738,14 @@ function __c211(j: number): any {
         ),
       ).annotate({ identifier: "ConnectionKey" });
     case 2:
-      return S.Array(__S(6753, __c211, 1));
+      return S.Array(__S(4705, __c147, 1));
     case 3:
-      return S.suspend(() => __S(6754, __c211, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4706, __c147, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetKeysResponse",
       });
   }
 }
-function __c212(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/keys/network-acls/{id}", code: 200 })),
-      ).annotate({ identifier: "GetKeysNetworkAclsRequest" });
-  }
-}
-function __c213(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34770,45 +28800,17 @@ function __c213(j: number): any {
             strategy_type: S.optional(S.String),
             log_id: S.optional(S.String),
             isMobile: S.optional(S.Boolean),
-            details: S.optional(__S(19488, __c609, 0)),
+            details: S.optional(__S(14496, __c453, 0)),
             user_agent: S.optional(S.String),
-            security_context: S.optional(__S(6817, __c213, 1)),
-            location_info: S.optional(__S(6818, __c213, 2)),
+            security_context: S.optional(__S(4737, __c148, 1)),
+            location_info: S.optional(__S(4738, __c148, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "GetLogResponseContent" });
   }
 }
-function __c214(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          actions: S.optional(__S(6880, __c215, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/flows", code: 200 })),
-      ).annotate({ identifier: "CreateFlowRequest" });
-  }
-}
-function __c215(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          actions: S.optional(__S(6880, __c215, 0)),
-          created_at: S.String,
-          updated_at: S.String,
-          executed_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateFlowResponseContent" });
-  }
-}
-function __c216(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34830,7 +28832,7 @@ function __c216(j: number): any {
       });
   }
 }
-function __c217(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34848,7 +28850,7 @@ function __c217(j: number): any {
       });
   }
 }
-function __c218(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34862,7 +28864,7 @@ function __c218(j: number): any {
       });
   }
 }
-function __c219(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34871,12 +28873,12 @@ function __c219(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(7009, __c219, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4865, __c152, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetLogStreamsResponse",
       });
   }
 }
-function __c220(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34886,17 +28888,17 @@ function __c220(j: number): any {
       ).annotate({ identifier: "GetMessageTypesRequest" });
   }
 }
-function __c221(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          message_types: S.optional(__S(512, __c16, 0)),
+          message_types: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "GetGuardianFactorPhoneMessageTypesResponseContent" });
   }
 }
-function __c222(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34913,7 +28915,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "GetNameByDiscoveryDomainRequest" });
   }
 }
-function __c223(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34923,7 +28925,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "GetNameByNameRequest" });
   }
 }
-function __c224(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34932,19 +28934,48 @@ function __c224(j: number): any {
             id: S.optional(S.String),
             name: S.optional(S.String),
             display_name: S.optional(S.String),
-            branding: S.optional(__S(10657, __c333, 1)),
-            metadata: S.optional(__S(3072, __c96, 0)),
-            token_quota: S.optional(__S(768, __c24, 0)),
+            branding: S.optional(__S(6625, __c207, 1)),
+            metadata: S.optional(__S(64, __c2, 0)),
+            token_quota: S.optional(__S(14656, __c458, 0)),
             third_party_client_access: S.optional(S.String),
             is_app_entitlement_active: S.optional(S.Boolean),
-            client: S.optional(__S(10688, __c334, 0)),
+            client: S.optional(__S(6626, __c207, 2)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "Organization" });
   }
 }
-function __c225(j: number): any {
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          script: S.String,
+          enabled: S.optional(S.Boolean),
+          dependencies: S.optional(__S(4128, __c129, 0)),
+          triggerId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/hooks", code: 200 })),
+      ).annotate({ identifier: "CreateHookRequest" });
+  }
+}
+function __c159(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          triggerId: S.optional(S.String),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          script: S.optional(S.String),
+          dependencies: S.optional(__S(4128, __c129, 0)),
+        }),
+      ).annotate({ identifier: "CreateHookResponseContent" });
+  }
+}
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34954,7 +28985,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "GetNetworkAclRequest" });
   }
 }
-function __c226(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34964,7 +28995,7 @@ function __c226(j: number): any {
             description: S.optional(S.String),
             active: S.optional(S.Boolean),
             priority: S.optional(S.Number),
-            rule: S.optional(__S(10147, __c317, 3)),
+            rule: S.optional(__S(6020, __c188, 4)),
             created_at: S.optional(S.String),
             updated_at: S.optional(S.String),
           }),
@@ -34973,7 +29004,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "GetNetworkAclsResponseContent" });
   }
 }
-function __c227(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34989,7 +29020,7 @@ function __c227(j: number): any {
       });
   }
 }
-function __c228(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -34999,7 +29030,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "GetNewDeviceRequest" });
   }
 }
-function __c229(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35009,36 +29040,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "GetRiskAssessmentsSettingsNewDeviceResponseContent" });
   }
 }
-function __c230(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(S.Unknown.pipe(T.HttpBody())),
-        }).pipe(T.Http({ method: "POST", uri: "/flows/vault/connections", code: 200 })),
-      ).annotate({ identifier: "CreateFlowsVaultConnectionRequest" });
-  }
-}
-function __c231(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          app_id: S.String,
-          environment: S.optional(S.String),
-          name: S.String,
-          account_name: S.optional(S.String),
-          ready: S.Boolean,
-          created_at: S.String,
-          updated_at: S.String,
-          refreshed_at: S.optional(S.String),
-          fingerprint: S.String,
-        }),
-      ).annotate({ identifier: "CreateFlowsVaultConnectionResponseContent" });
-  }
-}
-function __c232(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35048,20 +29050,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "GetOrganizationRequest" });
   }
 }
-function __c233(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          client_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/organizations/{id}/clients/{client_id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetOrganizationClientRequest" });
-  }
-}
-function __c234(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35069,7 +29058,7 @@ function __c234(j: number): any {
           id: S.String.pipe(T.Label()),
           audience: S.optional(S.String.pipe(T.Query())),
           client_id: S.optional(S.String.pipe(T.Query())),
-          grant_ids: S.optional(__S(480, __c15, 0).pipe(T.Query())),
+          grant_ids: S.optional(__S(14720, __c460, 0).pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
           include_totals: S.optional(S.Boolean.pipe(T.Query())),
@@ -35081,61 +29070,7 @@ function __c234(j: number): any {
       });
   }
 }
-function __c235(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          from: S.optional(S.String.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/organizations/{id}/clients", code: 200 })),
-      ).annotate({ identifier: "GetOrganizationClientsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          clients: __S(11264, __c352, 0),
-          next: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListOrganizationClientsResponseContent" });
-  }
-}
-function __c236(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          connection_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/organizations/{id}/connections/{connection_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetOrganizationConnectionRequest" });
-  }
-}
-function __c237(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          page: S.optional(S.Number.pipe(T.Query())),
-          per_page: S.optional(S.Number.pipe(T.Query())),
-          include_totals: S.optional(S.Boolean.pipe(T.Query())),
-          is_enabled: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/organizations/{id}/connections", code: 200 })),
-      ).annotate({ identifier: "GetOrganizationConnectionsRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetOrganizationConnectionsResponse",
-      });
-  }
-}
-function __c238(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35154,7 +29089,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "GetOrganizationGroupRolesRequest" });
   }
 }
-function __c239(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35168,7 +29103,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "GetOrganizationGroupsRequest" });
   }
 }
-function __c240(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35186,17 +29121,17 @@ function __c240(j: number): any {
         ),
       ).annotate({ identifier: "Group" });
     case 1:
-      return S.Array(__S(7680, __c240, 0));
+      return S.Array(__S(5408, __c169, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          groups: __S(7681, __c240, 1),
+          groups: __S(5409, __c169, 1),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOrganizationGroupsResponseContent" });
   }
 }
-function __c241(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35215,7 +29150,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "GetOrganizationMemberEffectiveRolesRequest" });
   }
 }
-function __c242(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35223,21 +29158,21 @@ function __c242(j: number): any {
           id: S.String,
           name: S.String,
           description: S.String,
-          sources: __S(512, __c16, 0),
+          sources: __S(14400, __c450, 0),
         }),
       ).annotate({ identifier: "OrganizationMemberEffectiveRole" });
     case 1:
-      return S.Array(__S(7744, __c242, 0));
+      return S.Array(__S(5472, __c171, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          roles: __S(7745, __c242, 1),
+          roles: __S(5473, __c171, 1),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOrganizationMemberEffectiveRolesResponseContent" });
   }
 }
-function __c243(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35257,122 +29192,7 @@ function __c243(j: number): any {
       });
   }
 }
-function __c244(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          messages: S.optional(__S(7840, __c245, 0)),
-          languages: S.optional(__S(7841, __c245, 1)),
-          translations: S.optional(__S(7842, __c245, 2)),
-          nodes: S.optional(__S(7844, __c245, 4)),
-          start: S.optional(__S(7847, __c245, 7)),
-          ending: S.optional(__S(7850, __c245, 10)),
-          style: S.optional(__S(7851, __c245, 11)),
-        }).pipe(T.Http({ method: "POST", uri: "/forms", code: 200 })),
-      ).annotate({ identifier: "CreateFormRequest" });
-  }
-}
-function __c245(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          errors: S.optional(__S(7872, __c246, 0)),
-          custom: S.optional(__S(7872, __c246, 0)),
-        }),
-      ).annotate({ identifier: "FormMessages" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          primary: S.optional(S.String),
-          default: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FormLanguages" });
-    case 2:
-      return S.Record(S.String, __S(19488, __c609, 0));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          x: S.Number,
-          y: S.Number,
-        }),
-      ).annotate({ identifier: "FormNodeCoordinates" });
-    case 4:
-      return S.Array(S.Unknown);
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.String,
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FormHiddenField" });
-    case 6:
-      return S.Array(__S(7845, __c245, 5));
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          hidden_fields: S.optional(__S(7846, __c245, 6)),
-          next_node: S.optional(S.Unknown),
-          coordinates: S.optional(__S(7843, __c245, 3)),
-        }),
-      ).annotate({ identifier: "FormStartNode" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          delay: S.optional(S.Number),
-          target: S.String,
-        }),
-      ).annotate({ identifier: "FormEndingNodeRedirection" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          flow_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FormEndingNodeAfterSubmit" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          redirection: S.optional(__S(7848, __c245, 8)),
-          after_submit: S.optional(__S(7849, __c245, 9)),
-          coordinates: S.optional(__S(7843, __c245, 3)),
-          resume_flow: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "FormEndingNode" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          css: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FormStyle" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          messages: S.optional(__S(7840, __c245, 0)),
-          languages: S.optional(__S(7841, __c245, 1)),
-          translations: S.optional(__S(7842, __c245, 2)),
-          nodes: S.optional(__S(7844, __c245, 4)),
-          start: S.optional(__S(7847, __c245, 7)),
-          ending: S.optional(__S(7850, __c245, 10)),
-          style: S.optional(__S(7851, __c245, 11)),
-          created_at: S.String,
-          updated_at: S.String,
-          embedded_at: S.optional(S.String),
-          submitted_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateFormResponseContent" });
-  }
-}
-function __c246(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c247(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35392,7 +29212,21 @@ function __c247(j: number): any {
       ).annotate({ identifier: "GetOrganizationMemberRoleSourceGroupsRequest" });
   }
 }
-function __c248(j: number): any {
+function __c174(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.optional(S.Unknown.pipe(T.HttpBody())),
+        }).pipe(T.Http({ method: "POST", uri: "/log-streams", code: 200 })),
+      ).annotate({ identifier: "CreateLogStreamRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateLogStreamResponse",
+      });
+  }
+}
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35413,84 +29247,7 @@ function __c248(j: number): any {
       });
   }
 }
-function __c249(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          role_id: S.String.pipe(T.Label()),
-          from: S.optional(S.String.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/organizations/{organization_id}/roles/{role_id}/groups",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetOrganizationRoleGroupsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          external_id: S.optional(S.NullOr(S.String)),
-          connection_id: S.optional(S.String),
-          organization_id: S.optional(S.NullOr(S.String)),
-          tenant_name: S.optional(S.String),
-          description: S.optional(S.NullOr(S.String)),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RoleGroup" });
-    case 2:
-      return S.Array(__S(7969, __c249, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          groups: __S(7970, __c249, 2),
-          next: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListOrganizationRoleGroupsResponseContent" });
-  }
-}
-function __c250(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          role_id: S.String.pipe(T.Label()),
-          from: S.optional(S.String.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-          fields: S.optional(S.String.pipe(T.Query())),
-          include_fields: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/organizations/{id}/roles/{role_id}/members", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetOrganizationRoleMembersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          user_id: S.optional(S.String),
-          picture: S.optional(S.String),
-          name: S.optional(S.String),
-          email: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RoleMember" });
-    case 2:
-      return S.Array(__S(8001, __c250, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          members: __S(8002, __c250, 2),
-          next: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListOrganizationRoleMembersResponseContent" });
-  }
-}
-function __c251(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35510,7 +29267,7 @@ function __c251(j: number): any {
       });
   }
 }
-function __c252(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35520,7 +29277,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "GetPartialsRequest" });
   }
 }
-function __c253(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35537,7 +29294,7 @@ function __c253(j: number): any {
       });
   }
 }
-function __c254(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35547,7 +29304,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "GetPhoneFactorSettingsRequest" });
   }
 }
-function __c255(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35557,7 +29314,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "GetPhoneProviderRequest" });
   }
 }
-function __c256(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35567,7 +29324,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "GetPhoneProviderProtectionRequest" });
   }
 }
-function __c257(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35580,24 +29337,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "FormFieldFileConfigStorage" });
   }
 }
-function __c258(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          roles: __S(480, __c15, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/groups/{id}/roles", code: 200 })),
-      ).annotate({ identifier: "CreateGroupRoleRequest" });
-  }
-}
-function __c259(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateGroupRoleResponse" });
-  }
-}
-function __c260(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35607,7 +29347,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "GetPhoneTemplateRequest" });
   }
 }
-function __c261(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35616,16 +29356,16 @@ function __c261(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/branding/phone/templates", code: 200 })),
       ).annotate({ identifier: "GetPhoneTemplatesRequest" });
     case 1:
-      return S.Array(__S(13666, __c427, 2));
+      return S.Array(__S(8770, __c274, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          templates: S.optional(__S(8353, __c261, 1)),
+          templates: S.optional(__S(5889, __c184, 1)),
         }),
       ).annotate({ identifier: "ListPhoneTemplatesResponseContent" });
   }
 }
-function __c262(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35635,7 +29375,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "GetPhoneTwilioFactorProviderRequest" });
   }
 }
-function __c263(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35648,7 +29388,70 @@ function __c263(j: number): any {
       ).annotate({ identifier: "GetGuardianFactorsProviderPhoneTwilioResponseContent" });
   }
 }
-function __c264(j: number): any {
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.String,
+          active: S.Boolean,
+          priority: S.optional(S.Number),
+          rule: __S(6020, __c188, 4),
+        }).pipe(T.Http({ method: "POST", uri: "/network-acls", code: 200 })),
+      ).annotate({ identifier: "CreateNetworkAclRequest" });
+  }
+}
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          block: S.optional(S.Boolean),
+          allow: S.optional(S.Boolean),
+          log: S.optional(S.Boolean),
+          redirect: S.optional(S.Boolean),
+          redirect_uri: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkAclAction" });
+    case 1:
+      return S.Array(S.Number);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          keys: __S(14593, __c456, 1),
+        }),
+      ).annotate({ identifier: "NetworkAclHttpMessageSignature" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          asns: S.optional(__S(6017, __c188, 1)),
+          auth0_managed: S.optional(__S(14720, __c460, 0)),
+          geo_country_codes: S.optional(__S(14720, __c460, 0)),
+          geo_subdivision_codes: S.optional(__S(14720, __c460, 0)),
+          ipv4_cidrs: S.optional(__S(14720, __c460, 0)),
+          ipv6_cidrs: S.optional(__S(14720, __c460, 0)),
+          ja3_fingerprints: S.optional(__S(14720, __c460, 0)),
+          ja4_fingerprints: S.optional(__S(14720, __c460, 0)),
+          user_agents: S.optional(__S(14720, __c460, 0)),
+          hostnames: S.optional(__S(14720, __c460, 0)),
+          connecting_ipv4_cidrs: S.optional(__S(14720, __c460, 0)),
+          connecting_ipv6_cidrs: S.optional(__S(14720, __c460, 0)),
+          http_message_signature: S.optional(__S(6018, __c188, 2)),
+        }),
+      ).annotate({ identifier: "NetworkAclMatch" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          action: __S(6016, __c188, 0),
+          match: S.optional(__S(6019, __c188, 3)),
+          not_match: S.optional(__S(6019, __c188, 3)),
+          match_all: S.optional(S.Boolean),
+          scope: S.String,
+        }),
+      ).annotate({ identifier: "NetworkAclRule" });
+  }
+}
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35662,7 +29465,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "GetPnProvidersRequest" });
   }
 }
-function __c265(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35670,25 +29473,15 @@ function __c265(j: number): any {
       ).annotate({ identifier: "GetPoliciesRequest" });
   }
 }
-function __c266(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(512, __c16, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14400, __c450, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetPoliciesResponse",
       });
   }
 }
-function __c267(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/portals/{id}", code: 200 })),
-      ).annotate({ identifier: "GetPortalRequest" });
-  }
-}
-function __c268(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35696,7 +29489,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "GetPromptsRequest" });
   }
 }
-function __c269(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35711,7 +29504,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "GetSettingsResponseContent" });
   }
 }
-function __c270(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35722,7 +29515,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "GetProviderRequest" });
   }
 }
-function __c271(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35740,75 +29533,13 @@ function __c271(j: number): any {
           name: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           default_from_address: S.optional(S.String),
-          credentials: S.optional(__S(8672, __c271, 0)),
-          settings: S.optional(__S(19488, __c609, 0)),
+          credentials: S.optional(__S(6240, __c195, 0)),
+          settings: S.optional(__S(14496, __c453, 0)),
         }),
       ).annotate({ identifier: "GetEmailProviderResponseContent" });
   }
 }
-function __c272(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.optional(S.String.pipe(T.Query())),
-          consumer: S.optional(S.String.pipe(T.Query())),
-          consumer_selector: S.optional(S.String.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-          from: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/rate-limit-policies", code: 200 })),
-      ).annotate({ identifier: "GetRateLimitPoliciesRequest" });
-    case 1:
-      return S.Array(__S(14496, __c453, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          rate_limit_policies: S.optional(__S(8705, __c272, 1)),
-          next: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListRateLimitPoliciesPaginatedResponseContent" });
-  }
-}
-function __c273(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/rate-limit-policies/{id}", code: 200 })),
-      ).annotate({ identifier: "GetRateLimitPolicyRequest" });
-  }
-}
-function __c274(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          script: S.String,
-          enabled: S.optional(S.Boolean),
-          dependencies: S.optional(__S(7872, __c246, 0)),
-          triggerId: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/hooks", code: 200 })),
-      ).annotate({ identifier: "CreateHookRequest" });
-  }
-}
-function __c275(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          triggerId: S.optional(S.String),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          script: S.optional(S.String),
-          dependencies: S.optional(__S(7872, __c246, 0)),
-        }),
-      ).annotate({ identifier: "CreateHookResponseContent" });
-  }
-}
-function __c276(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35818,7 +29549,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "GetRefreshTokenRequest" });
   }
 }
-function __c277(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35845,7 +29576,7 @@ function __c277(j: number): any {
         ),
       ).annotate({ identifier: "RefreshTokenResourceServer" });
     case 2:
-      return S.Array(__S(8865, __c277, 1));
+      return S.Array(__S(6305, __c197, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -35855,12 +29586,12 @@ function __c277(j: number): any {
             created_at: S.optional(S.NullOr(S.Unknown)),
             idle_expires_at: S.optional(S.NullOr(S.Unknown)),
             expires_at: S.optional(S.NullOr(S.Unknown)),
-            device: S.optional(__S(8864, __c277, 0)),
+            device: S.optional(__S(6304, __c197, 0)),
             client_id: S.optional(S.String),
             session_id: S.optional(S.NullOr(S.String)),
             rotating: S.optional(S.Boolean),
-            resource_servers: S.optional(__S(8866, __c277, 2)),
-            refresh_token_metadata: S.optional(S.NullOr(__S(19488, __c609, 0))),
+            resource_servers: S.optional(__S(6306, __c197, 2)),
+            refresh_token_metadata: S.optional(S.NullOr(__S(14496, __c453, 0))),
             last_exchanged_at: S.optional(S.NullOr(S.Unknown)),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -35868,38 +29599,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "GetRefreshTokenResponseContent" });
   }
 }
-function __c278(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user_id: S.String.pipe(T.Query()),
-          client_id: S.optional(S.String.pipe(T.Query())),
-          from: S.optional(S.String.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-          fields: S.optional(S.String.pipe(T.Query())),
-          include_fields: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/refresh-tokens", code: 200 })),
-      ).annotate({ identifier: "GetRefreshTokensRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            refresh_tokens: S.optional(__S(8928, __c279, 0)),
-            next: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "GetRefreshTokensPaginatedResponseContent" });
-  }
-}
-function __c279(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(8867, __c277, 3));
-  }
-}
-function __c280(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35911,10 +29611,12 @@ function __c280(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users/{user_id}/refresh-tokens", code: 200 })),
       ).annotate({ identifier: "GetRefreshTokensForUserRequest" });
     case 1:
+      return S.Array(__S(6307, __c197, 3));
+    case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            tokens: S.optional(__S(8928, __c279, 0)),
+            tokens: S.optional(__S(6337, __c198, 1)),
             next: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -35922,7 +29624,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "ListRefreshTokensPaginatedResponseContent" });
   }
 }
-function __c281(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35932,11 +29634,11 @@ function __c281(j: number): any {
             prompt: S.optional(S.String),
             screen: S.optional(S.String),
             rendering_mode: S.optional(S.String),
-            context_configuration: S.optional(S.NullOr(__S(9024, __c282, 0))),
+            context_configuration: S.optional(S.NullOr(__S(6400, __c200, 0))),
             default_head_tags_disabled: S.optional(S.NullOr(S.Boolean)),
             use_page_template: S.optional(S.NullOr(S.Boolean)),
-            head_tags: S.optional(S.NullOr(__S(9026, __c282, 2))),
-            filters: S.optional(S.NullOr(__S(9030, __c282, 6))),
+            head_tags: S.optional(S.NullOr(__S(6402, __c200, 2))),
+            filters: S.optional(S.NullOr(__S(6406, __c200, 6))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -35952,7 +29654,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "GetRenderingRequest" });
   }
 }
-function __c282(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -35961,14 +29663,14 @@ function __c282(j: number): any {
         S.StructWithRest(
           S.Struct({
             tag: S.optional(S.String),
-            attributes: S.optional(__S(19488, __c609, 0)),
+            attributes: S.optional(__S(14496, __c453, 0)),
             content: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "AculHeadTag" });
     case 2:
-      return S.Array(__S(9025, __c282, 1));
+      return S.Array(__S(6401, __c200, 1));
     case 3:
       return S.Array(S.Unknown);
     case 4:
@@ -35979,14 +29681,14 @@ function __c282(j: number): any {
       return S.suspend(() =>
         S.Struct({
           match_type: S.optional(S.String),
-          clients: S.optional(__S(9027, __c282, 3)),
-          organizations: S.optional(__S(9028, __c282, 4)),
-          domains: S.optional(__S(9029, __c282, 5)),
+          clients: S.optional(__S(6403, __c200, 3)),
+          organizations: S.optional(__S(6404, __c200, 4)),
+          domains: S.optional(__S(6405, __c200, 5)),
         }),
       ).annotate({ identifier: "AculFilters" });
   }
 }
-function __c283(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -35997,12 +29699,12 @@ function __c283(j: number): any {
       ).annotate({ identifier: "GetResourceServerRequest" });
   }
 }
-function __c284(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          identifiers: S.optional(__S(480, __c15, 0).pipe(T.Query())),
+          identifiers: S.optional(__S(14720, __c460, 0).pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
           include_totals: S.optional(S.Boolean.pipe(T.Query())),
@@ -36015,63 +29717,7 @@ function __c284(j: number): any {
       });
   }
 }
-function __c285(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          q: S.optional(S.String.pipe(T.Query())),
-          parser: S.optional(S.String.pipe(T.Query())),
-          fields: S.optional(S.String.pipe(T.Query())),
-          include_fields: S.optional(S.Boolean.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-          from: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/resource-servers/search", code: 200 })),
-      ).annotate({ identifier: "GetResourceServersSearchRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          is_system: S.optional(S.Boolean),
-          identifier: S.optional(S.String),
-          scopes: S.optional(__S(14914, __c466, 2)),
-          signing_alg: S.optional(S.String),
-          allow_offline_access: S.optional(S.Boolean),
-          allow_online_access: S.optional(S.Boolean),
-          allow_online_access_with_ephemeral_sessions: S.optional(S.Boolean),
-          skip_consent_for_verifiable_first_party_clients: S.optional(S.Boolean),
-          token_lifetime: S.optional(S.Number),
-          token_lifetime_for_web: S.optional(S.Number),
-          enforce_policies: S.optional(S.Boolean),
-          token_lifetime_for_anonymous_access_tokens: S.optional(S.Number),
-          token_dialect: S.optional(S.String),
-          access_token: S.optional(S.NullOr(__S(14883, __c465, 3))),
-          token_encryption: S.optional(S.NullOr(__S(14916, __c466, 4))),
-          consent_policy: S.optional(S.NullOr(S.String)),
-          require_consent_non_repudiation: S.optional(S.Boolean),
-          authorization_details: S.optional(S.NullOr(__S(14912, __c466, 0))),
-          proof_of_possession: S.optional(S.NullOr(__S(14917, __c466, 5))),
-          subject_type_authorization: S.optional(__S(14919, __c466, 7)),
-          authorization_policy: S.optional(S.NullOr(__S(14920, __c466, 8))),
-          client_id: S.optional(S.String),
-          agent_subject_claims: S.optional(S.String),
-          type: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "ResourceServerSearchResponse" });
-    case 2:
-      return S.Array(__S(9121, __c285, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          resource_servers: __S(9122, __c285, 2),
-          next: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SearchResourceServersResponseContent" });
-  }
-}
-function __c286(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36079,7 +29725,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "GetRiskAssessmentsSettingsRequest" });
   }
 }
-function __c287(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36089,7 +29735,106 @@ function __c287(j: number): any {
       ).annotate({ identifier: "GetRiskAssessmentsSettingsResponseContent" });
   }
 }
-function __c288(j: number): any {
+function __c205(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connection_id: S.String,
+          assign_membership_on_login: S.optional(S.Boolean),
+          show_as_button: S.optional(S.Boolean),
+          is_signup_enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ConnectionForOrganization" });
+    case 1:
+      return S.Array(__S(6560, __c205, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          display_name: S.optional(S.String),
+          branding: S.optional(__S(6625, __c207, 1)),
+          metadata: S.optional(__S(64, __c2, 0)),
+          enabled_connections: S.optional(__S(6561, __c205, 1)),
+          token_quota: S.optional(__S(14656, __c458, 0)),
+          third_party_client_access: S.optional(S.String),
+          is_app_entitlement_active: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/organizations", code: 200 })),
+      ).annotate({ identifier: "CreateOrganizationRequest" });
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            connection_id: S.optional(S.String),
+            assign_membership_on_login: S.optional(S.Boolean),
+            show_as_button: S.optional(S.Boolean),
+            is_signup_enabled: S.optional(S.Boolean),
+            connection: S.optional(__S(6592, __c206, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "OrganizationEnabledConnection" });
+    case 4:
+      return S.Array(__S(6563, __c205, 3));
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.optional(S.String),
+            name: S.optional(S.String),
+            display_name: S.optional(S.String),
+            branding: S.optional(__S(6625, __c207, 1)),
+            metadata: S.optional(__S(64, __c2, 0)),
+            token_quota: S.optional(__S(14656, __c458, 0)),
+            third_party_client_access: S.optional(S.String),
+            is_app_entitlement_active: S.optional(S.Boolean),
+            client: S.optional(__S(6626, __c207, 2)),
+            enabled_connections: S.optional(__S(6564, __c205, 4)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreateOrganizationResponseContent" });
+  }
+}
+function __c206(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            name: S.optional(S.String),
+            strategy: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "OrganizationConnectionInformation" });
+  }
+}
+function __c207(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          primary: S.String,
+          page_background: S.String,
+        }),
+      ).annotate({ identifier: "OrganizationBrandingColors" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          logo_url: S.optional(S.String),
+          colors: S.optional(__S(6624, __c207, 0)),
+        }),
+      ).annotate({ identifier: "OrganizationBranding" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          use_for_member_access: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "OrganizationClientAssociation" });
+  }
+}
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36099,7 +29844,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "GetRoleRequest" });
   }
 }
-function __c289(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36111,34 +29856,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "GetRoleGroupsRequest" });
   }
 }
-function __c290(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          alg: S.String,
-          value: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/keys/network-acls", code: 200 })),
-      ).annotate({ identifier: "CreateKeysNetworkAclsRequest" });
-  }
-}
-function __c291(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          alg: S.String,
-          fingerprint: S.String,
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "CreateKeysNetworkAclsResponseContent" });
-  }
-}
-function __c292(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36155,7 +29873,7 @@ function __c292(j: number): any {
       });
   }
 }
-function __c293(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36176,7 +29894,7 @@ function __c293(j: number): any {
       });
   }
 }
-function __c294(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36195,7 +29913,7 @@ function __c294(j: number): any {
       });
   }
 }
-function __c295(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36207,7 +29925,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "GetRuleRequest" });
   }
 }
-function __c296(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36226,7 +29944,7 @@ function __c296(j: number): any {
       });
   }
 }
-function __c297(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36242,14 +29960,14 @@ function __c297(j: number): any {
         ),
       ).annotate({ identifier: "RulesConfig" });
     case 2:
-      return S.Array(__S(9505, __c297, 1));
+      return S.Array(__S(6881, __c215, 1));
     case 3:
-      return S.suspend(() => __S(9506, __c297, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6882, __c215, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetRulesConfigsResponse",
       });
   }
 }
-function __c298(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36259,7 +29977,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "GetScimConfigurationRequest" });
   }
 }
-function __c299(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36274,7 +29992,7 @@ function __c299(j: number): any {
         S.StructWithRest(
           S.Struct({
             token_id: S.optional(S.String),
-            scopes: S.optional(__S(480, __c15, 0)),
+            scopes: S.optional(__S(14720, __c460, 0)),
             created_at: S.optional(S.String),
             valid_until: S.optional(S.String),
             last_used_at: S.optional(S.String),
@@ -36283,52 +30001,36 @@ function __c299(j: number): any {
         ),
       ).annotate({ identifier: "ScimTokenItem" });
     case 2:
-      return S.Array(__S(9569, __c299, 1));
+      return S.Array(__S(6945, __c217, 1));
     case 3:
-      return S.suspend(() => __S(9570, __c299, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6946, __c217, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetScimTokensResponse",
       });
   }
 }
-function __c300(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          q: S.optional(S.String.pipe(T.Query())),
-          parser: S.optional(S.String.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-          from: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/organizations/search", code: 200 })),
-      ).annotate({ identifier: "GetSearchRequest" });
+          id: S.String.pipe(T.Label()),
+          grant_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/organizations/{id}/client-grants", code: 200 })),
+      ).annotate({ identifier: "CreateOrganizationClientGrantsRequest" });
     case 1:
       return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.optional(S.String),
-            name: S.optional(S.String),
-            display_name: S.optional(S.String),
-            branding: S.optional(__S(10657, __c333, 1)),
-            token_quota: S.optional(__S(768, __c24, 0)),
-            third_party_client_access: S.optional(S.String),
-            is_app_entitlement_active: S.optional(S.Boolean),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "SearchOrganization" });
-    case 2:
-      return S.Array(__S(9601, __c300, 1));
-    case 3:
-      return S.suspend(() =>
         S.Struct({
-          organizations: __S(9602, __c300, 2),
-          next: S.optional(S.String),
+          id: S.optional(S.String),
+          client_id: S.optional(S.String),
+          audience: S.optional(S.String),
+          scope: S.optional(__S(14720, __c460, 0)),
+          organization_usage: S.optional(S.String),
+          allow_any_organization: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "SearchOrganizationsPaginatedResponseContent" });
+      ).annotate({ identifier: "AssociateOrganizationClientGrantResponseContent" });
   }
 }
-function __c301(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36338,61 +30040,15 @@ function __c301(j: number): any {
       ).annotate({ identifier: "GetSecretsRequest" });
   }
 }
-function __c302(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(7872, __c246, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4128, __c129, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSecretsResponse",
       });
   }
 }
-function __c303(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(S.Unknown.pipe(T.HttpBody())),
-        }).pipe(T.Http({ method: "POST", uri: "/log-streams", code: 200 })),
-      ).annotate({ identifier: "CreateLogStreamRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "CreateLogStreamResponse",
-      });
-  }
-}
-function __c304(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/experimentation/segments/{id}", code: 200 })),
-      ).annotate({ identifier: "GetSegmentRequest" });
-  }
-}
-function __c305(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.String.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/experimentation/segments", code: 200 })),
-      ).annotate({ identifier: "GetSegmentsRequest" });
-    case 1:
-      return S.Array(__S(16803, __c525, 3));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          segments: __S(9761, __c305, 1),
-          next: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListSegmentsResponseContent" });
-  }
-}
-function __c306(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36402,7 +30058,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "GetSelfServiceProfileRequest" });
   }
 }
-function __c307(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36420,7 +30076,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "GetSelfServiceProfileCustomTextRequest" });
   }
 }
-function __c308(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36436,7 +30092,7 @@ function __c308(j: number): any {
       });
   }
 }
-function __c309(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36446,7 +30102,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "GetSessionRequest" });
   }
 }
-function __c310(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36472,7 +30128,7 @@ function __c310(j: number): any {
         ),
       ).annotate({ identifier: "SessionClientMetadata" });
     case 2:
-      return S.Array(__S(9921, __c310, 1));
+      return S.Array(__S(7201, __c225, 1));
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
@@ -36485,12 +30141,12 @@ function __c310(j: number): any {
         ),
       ).annotate({ identifier: "SessionAuthenticationSignal" });
     case 4:
-      return S.Array(__S(9923, __c310, 3));
+      return S.Array(__S(7203, __c225, 3));
     case 5:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            methods: S.optional(__S(9924, __c310, 4)),
+            methods: S.optional(__S(7204, __c225, 4)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -36525,19 +30181,19 @@ function __c310(j: number): any {
             idle_expires_at: S.optional(S.NullOr(S.Unknown)),
             expires_at: S.optional(S.NullOr(S.Unknown)),
             last_interacted_at: S.optional(S.NullOr(S.Unknown)),
-            device: S.optional(__S(9920, __c310, 0)),
-            clients: S.optional(__S(9922, __c310, 2)),
-            authentication: S.optional(__S(9925, __c310, 5)),
-            cookie: S.optional(__S(9926, __c310, 6)),
-            session_metadata: S.optional(S.NullOr(__S(19488, __c609, 0))),
-            actor: S.optional(__S(9927, __c310, 7)),
+            device: S.optional(__S(7200, __c225, 0)),
+            clients: S.optional(__S(7202, __c225, 2)),
+            authentication: S.optional(__S(7205, __c225, 5)),
+            cookie: S.optional(__S(7206, __c225, 6)),
+            session_metadata: S.optional(S.NullOr(__S(14496, __c453, 0))),
+            actor: S.optional(__S(7207, __c225, 7)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "GetSessionResponseContent" });
   }
 }
-function __c311(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36549,12 +30205,12 @@ function __c311(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users/{user_id}/sessions", code: 200 })),
       ).annotate({ identifier: "GetSessionsForUserRequest" });
     case 1:
-      return S.Array(__S(9928, __c310, 8));
+      return S.Array(__S(7208, __c225, 8));
     case 2:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            sessions: S.optional(__S(9953, __c311, 1)),
+            sessions: S.optional(__S(7233, __c226, 1)),
             next: S.optional(S.String),
           }),
           [S.Record(S.String, S.Unknown)],
@@ -36562,7 +30218,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "ListUserSessionsPaginatedResponseContent" });
   }
 }
-function __c312(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36572,7 +30228,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "GetSigningKeyRequest" });
   }
 }
-function __c313(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36593,21 +30249,21 @@ function __c313(j: number): any {
       ).annotate({ identifier: "GetSigningKeysResponseContent" });
   }
 }
-function __c314(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/keys/signing", code: 200 })),
       ).annotate({ identifier: "GetSigningKeysRequest" });
     case 1:
-      return S.Array(__S(10016, __c313, 0));
+      return S.Array(__S(7296, __c228, 0));
     case 2:
-      return S.suspend(() => __S(10049, __c314, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(7329, __c229, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSigningKeysResponse",
       });
   }
 }
-function __c315(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36617,68 +30273,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "GetSmsProvidersRequest" });
   }
 }
-function __c316(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.String,
-          active: S.Boolean,
-          priority: S.optional(S.Number),
-          rule: __S(10147, __c317, 3),
-        }).pipe(T.Http({ method: "POST", uri: "/network-acls", code: 200 })),
-      ).annotate({ identifier: "CreateNetworkAclRequest" });
-  }
-}
-function __c317(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          block: S.optional(S.Boolean),
-          allow: S.optional(S.Boolean),
-          log: S.optional(S.Boolean),
-          redirect: S.optional(S.Boolean),
-          redirect_uri: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NetworkAclAction" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          keys: __S(705, __c22, 1),
-        }),
-      ).annotate({ identifier: "NetworkAclHttpMessageSignature" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          asns: S.optional(__S(5952, __c186, 0)),
-          auth0_managed: S.optional(__S(480, __c15, 0)),
-          geo_country_codes: S.optional(__S(480, __c15, 0)),
-          geo_subdivision_codes: S.optional(__S(480, __c15, 0)),
-          ipv4_cidrs: S.optional(__S(480, __c15, 0)),
-          ipv6_cidrs: S.optional(__S(480, __c15, 0)),
-          ja3_fingerprints: S.optional(__S(480, __c15, 0)),
-          ja4_fingerprints: S.optional(__S(480, __c15, 0)),
-          user_agents: S.optional(__S(480, __c15, 0)),
-          hostnames: S.optional(__S(480, __c15, 0)),
-          connecting_ipv4_cidrs: S.optional(__S(480, __c15, 0)),
-          connecting_ipv6_cidrs: S.optional(__S(480, __c15, 0)),
-          http_message_signature: S.optional(__S(10145, __c317, 1)),
-        }),
-      ).annotate({ identifier: "NetworkAclMatch" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          action: __S(10144, __c317, 0),
-          match: S.optional(__S(10146, __c317, 2)),
-          not_match: S.optional(__S(10146, __c317, 2)),
-          match_all: S.optional(S.Boolean),
-          scope: S.String,
-        }),
-      ).annotate({ identifier: "NetworkAclRule" });
-  }
-}
-function __c318(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36688,7 +30283,25 @@ function __c318(j: number): any {
       ).annotate({ identifier: "GetSmsTwilioFactorProviderRequest" });
   }
 }
-function __c319(j: number): any {
+function __c232(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String.pipe(T.Label()),
+          group_id: S.String.pipe(T.Label()),
+          roles: __S(14720, __c460, 0),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/organizations/{organization_id}/groups/{group_id}/roles",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateOrganizationGroupRoleRequest" });
+  }
+}
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36702,7 +30315,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "GetSnsRequest" });
   }
 }
-function __c320(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36716,7 +30329,7 @@ function __c320(j: number): any {
       ).annotate({ identifier: "GetGuardianFactorsProviderSnsResponseContent" });
   }
 }
-function __c321(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36726,28 +30339,7 @@ function __c321(j: number): any {
       ).annotate({ identifier: "GetStatusRequest" });
   }
 }
-function __c322(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/supplemental-signals", code: 200 })),
-      ).annotate({ identifier: "GetSupplementalSignalsRequest" });
-  }
-}
-function __c323(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            akamai_enabled: S.optional(S.Boolean),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "GetSupplementalSignalsResponseContent" });
-  }
-}
-function __c324(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36757,7 +30349,7 @@ function __c324(j: number): any {
       ).annotate({ identifier: "GetSuspiciousIpThrottlingRequest" });
   }
 }
-function __c325(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36769,12 +30361,12 @@ function __c325(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          pre_login: S.optional(__S(10400, __c325, 0).pipe(T.Body("pre-login"))),
+          pre_login: S.optional(__S(7584, __c237, 0).pipe(T.Body("pre-login"))),
           pre_user_registration: S.optional(
-            __S(10400, __c325, 0).pipe(T.Body("pre-user-registration")),
+            __S(7584, __c237, 0).pipe(T.Body("pre-user-registration")),
           ),
           pre_custom_token_exchange: S.optional(
-            __S(10400, __c325, 0).pipe(T.Body("pre-custom-token-exchange")),
+            __S(7584, __c237, 0).pipe(T.Body("pre-custom-token-exchange")),
           ),
         }),
       ).annotate({ identifier: "SuspiciousIPThrottlingStage" });
@@ -36782,14 +30374,14 @@ function __c325(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          shields: S.optional(__S(512, __c16, 0)),
-          allowlist: S.optional(__S(480, __c15, 0)),
-          stage: S.optional(__S(10401, __c325, 1)),
+          shields: S.optional(__S(14400, __c450, 0)),
+          allowlist: S.optional(__S(14720, __c460, 0)),
+          stage: S.optional(__S(7585, __c237, 1)),
         }),
       ).annotate({ identifier: "GetSuspiciousIPThrottlingSettingsResponseContent" });
   }
 }
-function __c326(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36809,13 +30401,13 @@ function __c326(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          groups: __S(10465, __c327, 1),
+          groups: __S(7649, __c239, 1),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSynchronizedGroupsResponseContent" });
   }
 }
-function __c327(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36827,10 +30419,10 @@ function __c327(j: number): any {
         }),
       ).annotate({ identifier: "SynchronizedGroupPayload" });
     case 1:
-      return S.Array(__S(10464, __c327, 0));
+      return S.Array(__S(7648, __c239, 0));
   }
 }
-function __c328(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36840,7 +30432,7 @@ function __c328(j: number): any {
       ).annotate({ identifier: "GetTokenExchangeProfileRequest" });
   }
 }
-function __c329(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36850,17 +30442,17 @@ function __c329(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/token-exchange-profiles", code: 200 })),
       ).annotate({ identifier: "GetTokenExchangeProfilesRequest" });
     case 1:
-      return S.Array(__S(17568, __c549, 0));
+      return S.Array(__S(11552, __c361, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.String),
-          token_exchange_profiles: S.optional(__S(10529, __c329, 1)),
+          token_exchange_profiles: S.optional(__S(7713, __c241, 1)),
         }),
       ).annotate({ identifier: "ListTokenExchangeProfileResponseContent" });
   }
 }
-function __c330(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36869,12 +30461,12 @@ function __c330(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          triggers: S.optional(__S(1731, __c54, 3)),
+          triggers: S.optional(__S(387, __c12, 3)),
         }),
       ).annotate({ identifier: "ListActionTriggersResponseContent" });
   }
 }
-function __c331(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -36888,110 +30480,7 @@ function __c331(j: number): any {
       });
   }
 }
-function __c332(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connection_id: S.String,
-          assign_membership_on_login: S.optional(S.Boolean),
-          show_as_button: S.optional(S.Boolean),
-          is_signup_enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ConnectionForOrganization" });
-    case 1:
-      return S.Array(__S(10624, __c332, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          display_name: S.optional(S.String),
-          branding: S.optional(__S(10657, __c333, 1)),
-          metadata: S.optional(__S(3072, __c96, 0)),
-          enabled_connections: S.optional(__S(10625, __c332, 1)),
-          token_quota: S.optional(__S(768, __c24, 0)),
-          third_party_client_access: S.optional(S.String),
-          is_app_entitlement_active: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/organizations", code: 200 })),
-      ).annotate({ identifier: "CreateOrganizationRequest" });
-    case 3:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            connection_id: S.optional(S.String),
-            assign_membership_on_login: S.optional(S.Boolean),
-            show_as_button: S.optional(S.Boolean),
-            is_signup_enabled: S.optional(S.Boolean),
-            connection: S.optional(__S(10720, __c335, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "OrganizationEnabledConnection" });
-    case 4:
-      return S.Array(__S(10627, __c332, 3));
-    case 5:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.optional(S.String),
-            name: S.optional(S.String),
-            display_name: S.optional(S.String),
-            branding: S.optional(__S(10657, __c333, 1)),
-            metadata: S.optional(__S(3072, __c96, 0)),
-            token_quota: S.optional(__S(768, __c24, 0)),
-            third_party_client_access: S.optional(S.String),
-            is_app_entitlement_active: S.optional(S.Boolean),
-            client: S.optional(__S(10688, __c334, 0)),
-            enabled_connections: S.optional(__S(10628, __c332, 4)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreateOrganizationResponseContent" });
-  }
-}
-function __c333(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          primary: S.String,
-          page_background: S.String,
-        }),
-      ).annotate({ identifier: "OrganizationBrandingColors" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          logo_url: S.optional(S.String),
-          colors: S.optional(__S(10656, __c333, 0)),
-        }),
-      ).annotate({ identifier: "OrganizationBranding" });
-  }
-}
-function __c334(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          use_for_member_access: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "OrganizationClientAssociation" });
-  }
-}
-function __c335(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            name: S.optional(S.String),
-            strategy: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "OrganizationConnectionInformation" });
-  }
-}
-function __c336(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37003,87 +30492,7 @@ function __c336(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c337(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/user-attribute-profiles/{id}", code: 200 })),
-      ).annotate({ identifier: "GetUserAttributeProfileRequest" });
-  }
-}
-function __c338(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          from: S.optional(S.String.pipe(T.Query())),
-          take: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/user-attribute-profiles", code: 200 })),
-      ).annotate({ identifier: "GetUserAttributeProfilesRequest" });
-    case 1:
-      return S.Array(__S(17952, __c561, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          next: S.optional(S.String),
-          user_attribute_profiles: S.optional(__S(10817, __c338, 1)),
-        }),
-      ).annotate({ identifier: "ListUserAttributeProfilesPaginatedResponseContent" });
-  }
-}
-function __c339(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/user-attribute-profiles/templates/{id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetUserAttributeProfileTemplateRequest" });
-  }
-}
-function __c340(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          user_id: S.optional(__S(17922, __c560, 2)),
-          user_attributes: S.optional(__S(17927, __c560, 7)),
-        }),
-      ).annotate({ identifier: "UserAttributeProfileTemplate" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          display_name: S.optional(S.String),
-          template: S.optional(__S(10880, __c340, 0)),
-        }),
-      ).annotate({ identifier: "GetUserAttributeProfileTemplateResponseContent" });
-  }
-}
-function __c341(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/user-attribute-profiles/templates", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetUserAttributeProfileTemplatesRequest" });
-    case 1:
-      return S.Array(__S(10881, __c340, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          user_attribute_profile_templates: S.optional(__S(10913, __c341, 1)),
-        }),
-      ).annotate({ identifier: "ListUserAttributeProfileTemplateResponseContent" });
-  }
-}
-function __c342(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37094,7 +30503,7 @@ function __c342(j: number): any {
       ).annotate({ identifier: "GetUserBlockRequest" });
   }
 }
-function __c343(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37108,16 +30517,30 @@ function __c343(j: number): any {
         ),
       ).annotate({ identifier: "UserBlockIdentifier" });
     case 1:
-      return S.Array(__S(10976, __c343, 0));
+      return S.Array(__S(7872, __c246, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          blocked_for: S.optional(__S(10977, __c343, 1)),
+          blocked_for: S.optional(__S(7873, __c246, 1)),
         }),
       ).annotate({ identifier: "ListUserBlocksResponseContent" });
   }
 }
-function __c344(j: number): any {
+function __c247(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
+          roles: __S(14720, __c460, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/organizations/{id}/members/{user_id}/roles", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateOrganizationMemberRoleRequest" });
+  }
+}
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37128,51 +30551,7 @@ function __c344(j: number): any {
       ).annotate({ identifier: "GetUserBlocksRequest" });
   }
 }
-function __c345(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          kid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/users/{id}/consent-signing-keys/{kid}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetUserConsentSigningKeyRequest" });
-  }
-}
-function __c346(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          kid: S.String,
-          device_identifier: S.String,
-          created_at: S.String,
-          expires_at: S.String,
-        }),
-      ).annotate({ identifier: "ConsentSigningKey" });
-  }
-}
-function __c347(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/users/{id}/consent-signing-keys", code: 200 })),
-      ).annotate({ identifier: "GetUserConsentSigningKeysRequest" });
-    case 1:
-      return S.Array(__S(11072, __c346, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          keys: __S(11105, __c347, 1),
-        }),
-      ).annotate({ identifier: "ListUserConsentSigningKeysResponseContent" });
-  }
-}
-function __c348(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37198,78 +30577,21 @@ function __c348(j: number): any {
           description: S.optional(S.String),
           type: S.optional(S.String),
           owner_id: S.optional(S.Unknown),
-          sources: S.optional(__S(512, __c16, 0)),
+          sources: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "UserEffectivePermissionRoleSourceResponseContent" });
     case 2:
-      return S.Array(__S(11137, __c348, 1));
+      return S.Array(__S(7969, __c249, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          roles: __S(11138, __c348, 2),
+          roles: __S(7970, __c249, 2),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUserEffectivePermissionRoleSourcesResponseContent" });
   }
 }
-function __c349(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.String,
-          use_for_member_access: S.Boolean,
-        }),
-      ).annotate({ identifier: "CreateOrganizationClientRequestItem" });
-    case 1:
-      return S.Array(__S(11168, __c349, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          clients: __S(11169, __c349, 1),
-        }).pipe(T.Http({ method: "POST", uri: "/organizations/{id}/clients", code: 200 })),
-      ).annotate({ identifier: "CreateOrganizationClientRequest" });
-    case 3:
-      return S.suspend(() => __S(11264, __c352, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "CreateOrganizationClientResponse",
-      });
-  }
-}
-function __c350(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.String,
-          use_for_member_access: S.Boolean,
-          client: __S(11232, __c351, 0),
-        }),
-      ).annotate({ identifier: "OrganizationClient" });
-  }
-}
-function __c351(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          app_type: S.optional(S.String),
-          logo_uri: S.optional(S.NullOr(S.String)),
-          is_first_party: S.optional(S.Boolean),
-          grant_types: S.optional(__S(480, __c15, 0)),
-          organization_usage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OrganizationClientMetadata" });
-  }
-}
-function __c352(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(11200, __c350, 0));
-  }
-}
-function __c353(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37287,21 +30609,21 @@ function __c353(j: number): any {
           permission_name: S.optional(S.String),
           resource_server_name: S.optional(S.String),
           description: S.optional(S.String),
-          sources: S.optional(__S(512, __c16, 0)),
+          sources: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "UserEffectivePermissionResponseContent" });
     case 2:
-      return S.Array(__S(11297, __c353, 1));
+      return S.Array(__S(8001, __c250, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          permissions: __S(11298, __c353, 2),
+          permissions: __S(8002, __c250, 2),
           next: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListUserEffectivePermissionsResponseContent" });
   }
 }
-function __c354(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37313,7 +30635,7 @@ function __c354(j: number): any {
       ).annotate({ identifier: "GetUserEffectiveRolesRequest" });
   }
 }
-function __c355(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37334,7 +30656,7 @@ function __c355(j: number): any {
       });
   }
 }
-function __c356(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37353,7 +30675,7 @@ function __c356(j: number): any {
       });
   }
 }
-function __c357(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37370,7 +30692,7 @@ function __c357(j: number): any {
       });
   }
 }
-function __c358(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37385,7 +30707,7 @@ function __c358(j: number): any {
       ).annotate({ identifier: "GetUserRoleSourceGroupsRequest" });
   }
 }
-function __c359(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37408,10 +30730,10 @@ function __c359(j: number): any {
       });
   }
 }
-function __c360(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(17858, __c558, 2));
+      return S.Array(__S(11970, __c374, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -37421,75 +30743,42 @@ function __c360(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users-by-email", code: 200 })),
       ).annotate({ identifier: "GetUsersByEmailRequest" });
     case 2:
-      return S.suspend(() => __S(11520, __c360, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(8224, __c257, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetUsersByEmailResponse",
       });
   }
 }
-function __c361(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-          vid: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/experimentation/feature-flags/{id}/variations/{vid}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetVariationRequest" });
+          name: S.String,
+          disabled: S.optional(S.Boolean),
+          configuration: S.optional(S.Unknown),
+          credentials: S.Unknown,
+        }).pipe(T.Http({ method: "POST", uri: "/branding/phone/providers", code: 200 })),
+      ).annotate({ identifier: "CreatePhoneProviderRequest" });
   }
 }
-function __c362(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/experimentation/feature-flags/{id}/variations",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetVariationsRequest" });
-    case 1:
-      return S.Array(__S(18048, __c564, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          variations: __S(11585, __c362, 1),
-        }),
-      ).annotate({ identifier: "ListVariationsResponseContent" });
-  }
-}
-function __c363(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          grant_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/organizations/{id}/client-grants", code: 200 })),
-      ).annotate({ identifier: "CreateOrganizationClientGrantsRequest" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          client_id: S.optional(S.String),
-          audience: S.optional(S.String),
-          scope: S.optional(__S(480, __c15, 0)),
-          organization_usage: S.optional(S.String),
-          allow_any_organization: S.optional(S.Boolean),
+          tenant: S.optional(S.String),
+          name: S.String,
+          channel: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          configuration: S.optional(S.Unknown),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
         }),
-      ).annotate({ identifier: "AssociateOrganizationClientGrantResponseContent" });
+      ).annotate({ identifier: "CreateBrandingPhoneProviderResponseContent" });
   }
 }
-function __c364(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37505,17 +30794,17 @@ function __c364(j: number): any {
         ),
       ).annotate({ identifier: "GetVcTemplatesRequest" });
     case 1:
-      return S.Array(__S(11683, __c365, 3));
+      return S.Array(__S(8355, __c261, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           next: S.optional(S.NullOr(S.String)),
-          templates: S.optional(__S(11649, __c364, 1)),
+          templates: S.optional(__S(8321, __c260, 1)),
         }),
       ).annotate({ identifier: "ListVerifiableCredentialTemplatesPaginatedResponseContent" });
   }
 }
-function __c365(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37549,13 +30838,13 @@ function __c365(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          org_iso_18013_5_1: __S(11680, __c365, 0).pipe(T.Body("org.iso.18013.5.1")),
+          org_iso_18013_5_1: __S(8352, __c261, 0).pipe(T.Body("org.iso.18013.5.1")),
         }),
       ).annotate({ identifier: "MdlPresentationRequestProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          org_iso_18013_5_1_mDL: __S(11681, __c365, 1).pipe(T.Body("org.iso.18013.5.1.mDL")),
+          org_iso_18013_5_1_mDL: __S(8353, __c261, 1).pipe(T.Body("org.iso.18013.5.1.mDL")),
         }),
       ).annotate({ identifier: "MdlPresentationRequest" });
     case 3:
@@ -37566,7 +30855,7 @@ function __c365(j: number): any {
             name: S.optional(S.String),
             type: S.optional(S.String),
             dialect: S.optional(S.String),
-            presentation: S.optional(__S(11682, __c365, 2)),
+            presentation: S.optional(__S(8354, __c261, 2)),
             custom_certificate_authority: S.optional(S.NullOr(S.String)),
             well_known_trusted_issuers: S.optional(S.NullOr(S.String)),
             created_at: S.optional(S.String),
@@ -37577,7 +30866,7 @@ function __c365(j: number): any {
       ).annotate({ identifier: "VerifiableCredentialTemplateResponse" });
   }
 }
-function __c366(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37593,50 +30882,24 @@ function __c366(j: number): any {
       ).annotate({ identifier: "GetVcTemplatesByIdRequest" });
   }
 }
-function __c367(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/portals", code: 200 })),
-      ).annotate({ identifier: "ListPortalsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          slug: S.String,
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "PortalSummary" });
-    case 2:
-      return S.Array(__S(11745, __c367, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          portals: __S(11746, __c367, 2),
-        }),
-      ).annotate({ identifier: "ListPortalsResponseContent" });
-  }
-}
-function __c368(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          supported_triggers: S.optional(__S(1731, __c54, 3)),
+          supported_triggers: S.optional(__S(387, __c12, 3)),
           code: S.optional(S.String),
-          dependencies: S.optional(__S(1793, __c56, 1)),
+          dependencies: S.optional(__S(417, __c13, 1)),
           runtime: S.optional(S.String),
-          secrets: S.optional(__S(11809, __c369, 1)),
-          modules: S.optional(__S(1799, __c56, 7)),
+          secrets: S.optional(__S(8449, __c264, 1)),
+          modules: S.optional(__S(423, __c13, 7)),
         }).pipe(T.Http({ method: "PATCH", uri: "/actions/actions/{id}", code: 200 })),
       ).annotate({ identifier: "PatchActionRequest" });
   }
 }
-function __c369(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37649,10 +30912,10 @@ function __c369(j: number): any {
         ),
       ).annotate({ identifier: "ActionSecretRequest" });
     case 1:
-      return S.Array(__S(11808, __c369, 0));
+      return S.Array(__S(8448, __c264, 0));
   }
 }
-function __c370(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37670,7 +30933,7 @@ function __c370(j: number): any {
       ).annotate({ identifier: "PatchApnsRequest" });
   }
 }
-function __c371(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37683,7 +30946,7 @@ function __c371(j: number): any {
       });
   }
 }
-function __c372(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37709,7 +30972,7 @@ function __c372(j: number): any {
           totp_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           phone_number: S.optional(S.String),
           email: S.optional(S.String),
-          authentication_methods: S.optional(__S(2465, __c77, 1)),
+          authentication_methods: S.optional(__S(833, __c26, 1)),
           preferred_authentication_method: S.optional(S.String),
           key_id: S.optional(S.String),
           public_key: S.optional(S.String),
@@ -37721,7 +30984,7 @@ function __c372(j: number): any {
       ).annotate({ identifier: "UpdateUserAuthenticationMethodResponseContent" });
   }
 }
-function __c373(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37736,18 +30999,18 @@ function __c373(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ref: __S(11936, __c373, 0),
+          ref: __S(8576, __c268, 0),
           display_name: S.optional(S.String),
-          secrets: S.optional(__S(11809, __c369, 1)),
+          secrets: S.optional(__S(8449, __c264, 1)),
         }),
       ).annotate({ identifier: "ActionBindingWithRef" });
     case 2:
-      return S.Array(__S(11937, __c373, 1));
+      return S.Array(__S(8577, __c268, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           triggerId: S.String.pipe(T.Label()),
-          bindings: S.optional(__S(11938, __c373, 2)),
+          bindings: S.optional(__S(8578, __c268, 2)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/actions/triggers/{triggerId}/bindings", code: 200 }),
         ),
@@ -37755,12 +31018,12 @@ function __c373(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          bindings: S.optional(__S(2529, __c79, 1)),
+          bindings: S.optional(__S(897, __c28, 1)),
         }),
       ).annotate({ identifier: "UpdateActionBindingsResponseContent" });
   }
 }
-function __c374(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37769,7 +31032,7 @@ function __c374(j: number): any {
           challenge_password_policy: S.optional(S.String),
           challenge_passwordless_policy: S.optional(S.String),
           challenge_password_reset_policy: S.optional(S.String),
-          allowlist: S.optional(__S(480, __c15, 0)),
+          allowlist: S.optional(__S(14720, __c460, 0)),
           monitoring_mode_enabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/attack-protection/bot-detection", code: 200 })),
       ).annotate({ identifier: "PatchBotDetectionRequest" });
@@ -37780,22 +31043,22 @@ function __c374(j: number): any {
           challenge_password_policy: S.optional(S.String),
           challenge_passwordless_policy: S.optional(S.String),
           challenge_password_reset_policy: S.optional(S.String),
-          allowlist: S.optional(__S(480, __c15, 0)),
+          allowlist: S.optional(__S(14720, __c460, 0)),
           monitoring_mode_enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UpdateBotDetectionSettingsResponseContent" });
   }
 }
-function __c375(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          shields: S.optional(__S(512, __c16, 0)),
-          admin_notification_frequency: S.optional(__S(512, __c16, 0)),
+          shields: S.optional(__S(14400, __c450, 0)),
+          admin_notification_frequency: S.optional(__S(14400, __c450, 0)),
           method: S.optional(S.String),
-          stage: S.optional(__S(2785, __c87, 1)),
+          stage: S.optional(__S(1153, __c36, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -37806,14 +31069,14 @@ function __c375(j: number): any {
       ).annotate({ identifier: "PatchBreachedPasswordDetectionRequest" });
   }
 }
-function __c376(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          shields: S.optional(__S(512, __c16, 0)),
-          allowlist: S.optional(__S(480, __c15, 0)),
+          shields: S.optional(__S(14400, __c450, 0)),
+          allowlist: S.optional(__S(14720, __c460, 0)),
           mode: S.optional(S.String),
           form_submission_mode: S.optional(S.String),
           max_attempts: S.optional(S.Number),
@@ -37823,43 +31086,7 @@ function __c376(j: number): any {
       ).annotate({ identifier: "PatchBruteForceProtectionRequest" });
   }
 }
-function __c377(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          organization_connection_name: S.optional(S.String),
-          assign_membership_on_login: S.optional(S.Boolean),
-          show_as_button: S.optional(S.Boolean),
-          is_signup_enabled: S.optional(S.Boolean),
-          organization_access_level: S.optional(S.String),
-          organization_member_access_level: S.optional(S.String),
-          is_enabled: S.optional(S.Boolean),
-          connection_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/organizations/{id}/connections", code: 200 })),
-      ).annotate({ identifier: "CreateOrganizationConnectionRequest" });
-  }
-}
-function __c378(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_connection_name: S.optional(S.String),
-          assign_membership_on_login: S.optional(S.Boolean),
-          show_as_button: S.optional(S.Boolean),
-          is_signup_enabled: S.optional(S.Boolean),
-          organization_access_level: S.optional(S.String),
-          organization_member_access_level: S.optional(S.String),
-          is_enabled: S.optional(S.Boolean),
-          connection_id: S.String,
-          connection: S.optional(__S(10720, __c335, 0)),
-        }),
-      ).annotate({ identifier: "CreateOrganizationAllConnectionResponseContent" });
-  }
-}
-function __c379(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37867,33 +31094,76 @@ function __c379(j: number): any {
           prompt: S.String,
           screen: S.String,
           rendering_mode: S.optional(S.String),
-          context_configuration: S.optional(S.NullOr(__S(9024, __c282, 0))),
+          context_configuration: S.optional(S.NullOr(__S(6400, __c200, 0))),
           default_head_tags_disabled: S.optional(S.NullOr(S.Boolean)),
           use_page_template: S.optional(S.NullOr(S.Boolean)),
-          head_tags: S.optional(S.NullOr(__S(9026, __c282, 2))),
-          filters: S.optional(S.NullOr(__S(9030, __c282, 6))),
+          head_tags: S.optional(S.NullOr(__S(6402, __c200, 2))),
+          filters: S.optional(S.NullOr(__S(6406, __c200, 6))),
         }),
       ).annotate({ identifier: "AculConfigsItem" });
     case 1:
-      return S.Array(__S(12128, __c379, 0));
+      return S.Array(__S(8704, __c272, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          configs: __S(12129, __c379, 1),
+          configs: __S(8705, __c272, 1),
         }).pipe(T.Http({ method: "PATCH", uri: "/prompts/rendering", code: 200 })),
       ).annotate({ identifier: "PatchBulkRenderingRequest" });
     case 3:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            configs: __S(12129, __c379, 1),
+            configs: __S(8705, __c272, 1),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "BulkUpdateAculResponseContent" });
   }
 }
-function __c380(j: number): any {
+function __c273(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          disabled: S.optional(S.Boolean),
+          content: S.optional(__S(8769, __c274, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/branding/phone/templates", code: 200 })),
+      ).annotate({ identifier: "CreatePhoneTemplateRequest" });
+  }
+}
+function __c274(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          text: S.optional(S.String),
+          voice: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PhoneTemplateBody" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          syntax: S.optional(S.String),
+          from: S.optional(S.String),
+          body: S.optional(__S(8768, __c274, 0)),
+        }),
+      ).annotate({ identifier: "PhoneTemplateContent" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          channel: S.optional(S.String),
+          customizable: S.optional(S.Boolean),
+          tenant: S.optional(S.String),
+          content: __S(8769, __c274, 1),
+          type: S.String,
+          disabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "CreatePhoneTemplateResponseContent" });
+  }
+}
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37930,18 +31200,18 @@ function __c380(j: number): any {
       return S.suspend(() =>
         S.Struct({
           active_provider_id: S.optional(S.String),
-          arkose: S.optional(__S(12160, __c380, 0)),
-          auth_challenge: S.optional(__S(12161, __c380, 1)),
-          hcaptcha: S.optional(__S(12162, __c380, 2)),
-          friendly_captcha: S.optional(__S(12162, __c380, 2)),
-          recaptcha_enterprise: S.optional(__S(12163, __c380, 3)),
-          recaptcha_v2: S.optional(__S(12162, __c380, 2)),
-          simple_captcha: S.optional(__S(19488, __c609, 0)),
+          arkose: S.optional(__S(8800, __c275, 0)),
+          auth_challenge: S.optional(__S(8801, __c275, 1)),
+          hcaptcha: S.optional(__S(8802, __c275, 2)),
+          friendly_captcha: S.optional(__S(8802, __c275, 2)),
+          recaptcha_enterprise: S.optional(__S(8803, __c275, 3)),
+          recaptcha_v2: S.optional(__S(8802, __c275, 2)),
+          simple_captcha: S.optional(__S(14496, __c453, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/attack-protection/captcha", code: 200 })),
       ).annotate({ identifier: "PatchCaptchaRequest" });
   }
 }
-function __c381(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37951,17 +31221,17 @@ function __c381(j: number): any {
         }),
       ).annotate({ identifier: "UpdateEnabledClientConnectionsRequestContentItem" });
     case 1:
-      return S.Array(__S(12192, __c381, 0));
+      return S.Array(__S(8832, __c276, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(12193, __c381, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(8833, __c276, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PATCH", uri: "/connections/{id}/clients", code: 200 })),
       ).annotate({ identifier: "PatchClientsRequest" });
   }
 }
-function __c382(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37979,7 +31249,7 @@ function __c382(j: number): any {
       ).annotate({ identifier: "PatchCredentialsByCredentialIdRequest" });
   }
 }
-function __c383(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -37993,13 +31263,13 @@ function __c383(j: number): any {
       });
   }
 }
-function __c384(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          mapping: S.optional(__S(3841, __c120, 1)),
+          mapping: S.optional(__S(1953, __c61, 1)),
           synchronize_automatically: S.optional(S.Boolean),
           synchronize_groups: S.optional(S.String),
         }).pipe(
@@ -38008,7 +31278,7 @@ function __c384(j: number): any {
       ).annotate({ identifier: "PatchDirectoryProvisioningRequest" });
   }
 }
-function __c385(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38027,7 +31297,7 @@ function __c385(j: number): any {
       ).annotate({ identifier: "PatchDiscoveryDomainsByDiscoveryDomainIdRequest" });
   }
 }
-function __c386(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38047,7 +31317,7 @@ function __c386(j: number): any {
       ).annotate({ identifier: "PatchEnabledConnectionsByConnectionIdRequest" });
   }
 }
-function __c387(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38059,7 +31329,7 @@ function __c387(j: number): any {
       ).annotate({ identifier: "PatchFactorDuoSettingsRequest" });
   }
 }
-function __c388(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38075,25 +31345,7 @@ function __c388(j: number): any {
       ).annotate({ identifier: "PatchFcmRequest" });
   }
 }
-function __c389(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organization_id: S.String.pipe(T.Label()),
-          group_id: S.String.pipe(T.Label()),
-          roles: __S(480, __c15, 0),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/organizations/{organization_id}/groups/{group_id}/roles",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateOrganizationGroupRoleRequest" });
-  }
-}
-function __c390(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38109,7 +31361,158 @@ function __c390(j: number): any {
       ).annotate({ identifier: "PatchFcmv1Request" });
   }
 }
-function __c391(j: number): any {
+function __c285(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          identifier: S.String,
+          scopes: S.optional(__S(9186, __c287, 2)),
+          signing_alg: S.optional(S.String),
+          signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          allow_offline_access: S.optional(S.Boolean),
+          allow_online_access: S.optional(S.Boolean),
+          allow_online_access_with_ephemeral_sessions: S.optional(S.Boolean),
+          token_lifetime: S.optional(S.Number),
+          token_lifetime_for_anonymous_access_tokens: S.optional(S.NullOr(S.Number)),
+          token_dialect: S.optional(S.String),
+          skip_consent_for_verifiable_first_party_clients: S.optional(S.Boolean),
+          enforce_policies: S.optional(S.Boolean),
+          access_token: S.optional(S.NullOr(__S(9155, __c286, 3))),
+          token_encryption: S.optional(S.NullOr(__S(9188, __c287, 4))),
+          consent_policy: S.optional(S.NullOr(S.String)),
+          require_consent_non_repudiation: S.optional(S.Boolean),
+          authorization_details: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          proof_of_possession: S.optional(S.NullOr(__S(9189, __c287, 5))),
+          subject_type_authorization: S.optional(__S(9191, __c287, 7)),
+          authorization_policy: S.optional(S.NullOr(__S(9192, __c287, 8))),
+          agent_subject_claims: S.optional(S.String),
+          type: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/resource-servers", code: 200 })),
+      ).annotate({ identifier: "CreateResourceServerRequest" });
+  }
+}
+function __c286(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          expression: S.String,
+        }),
+      ).annotate({ identifier: "ResourceServerAccessTokenCustomClaimsMappingRule" });
+    case 1:
+      return S.Array(__S(9152, __c286, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          custom_claims: S.optional(__S(9153, __c286, 1)),
+        }),
+      ).annotate({ identifier: "ResourceServerAccessTokenClaimsMapping" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          claims_mapping: S.optional(__S(9154, __c286, 2)),
+        }),
+      ).annotate({ identifier: "ResourceServerAccessToken" });
+  }
+}
+function __c287(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.String,
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceServerScope" });
+    case 2:
+      return S.Array(__S(9185, __c287, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          alg: S.String,
+          kid: S.optional(S.String),
+          pem: S.String,
+        }),
+      ).annotate({ identifier: "ResourceServerTokenEncryptionKey" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          format: S.String,
+          encryption_key: __S(9187, __c287, 3),
+        }),
+      ).annotate({ identifier: "ResourceServerTokenEncryption" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          mechanism: S.String,
+          required: S.Boolean,
+          required_for: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceServerProofOfPossession" });
+    case 6:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            policy: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ResourceServerSubjectTypeAuthorizationUser" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          user: S.optional(__S(9190, __c287, 6)),
+          client: S.optional(__S(9190, __c287, 6)),
+          anonymous_user: S.optional(__S(9190, __c287, 6)),
+        }),
+      ).annotate({ identifier: "ResourceServerSubjectTypeAuthorization" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          policy_id: S.String,
+        }),
+      ).annotate({ identifier: "ResourceServerAuthorizationPolicy" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          is_system: S.optional(S.Boolean),
+          identifier: S.optional(S.String),
+          scopes: S.optional(__S(9186, __c287, 2)),
+          signing_alg: S.optional(S.String),
+          signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          allow_offline_access: S.optional(S.Boolean),
+          allow_online_access: S.optional(S.Boolean),
+          allow_online_access_with_ephemeral_sessions: S.optional(S.Boolean),
+          skip_consent_for_verifiable_first_party_clients: S.optional(S.Boolean),
+          token_lifetime: S.optional(S.Number),
+          token_lifetime_for_web: S.optional(S.Number),
+          enforce_policies: S.optional(S.Boolean),
+          token_lifetime_for_anonymous_access_tokens: S.optional(S.Number),
+          token_dialect: S.optional(S.String),
+          access_token: S.optional(S.NullOr(__S(9155, __c286, 3))),
+          token_encryption: S.optional(S.NullOr(__S(9188, __c287, 4))),
+          consent_policy: S.optional(S.NullOr(S.String)),
+          require_consent_non_repudiation: S.optional(S.Boolean),
+          authorization_details: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          proof_of_possession: S.optional(S.NullOr(__S(9189, __c287, 5))),
+          subject_type_authorization: S.optional(__S(9191, __c287, 7)),
+          authorization_policy: S.optional(S.NullOr(__S(9192, __c287, 8))),
+          client_id: S.optional(S.String),
+          agent_subject_claims: S.optional(S.String),
+          type: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CreateResourceServerResponseContent" });
+  }
+}
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38121,7 +31524,7 @@ function __c391(j: number): any {
       ).annotate({ identifier: "PatchNewDeviceRequest" });
   }
 }
-function __c392(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38137,7 +31540,7 @@ function __c392(j: number): any {
       ).annotate({ identifier: "PatchPhoneProviderProtectionRequest" });
   }
 }
-function __c393(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38146,12 +31549,12 @@ function __c393(j: number): any {
           enabled: S.optional(S.Boolean),
           default_from_address: S.optional(S.String),
           credentials: S.optional(S.Unknown),
-          settings: S.optional(S.NullOr(__S(19488, __c609, 0))),
+          settings: S.optional(S.NullOr(__S(14496, __c453, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/emails/provider", code: 200 })),
       ).annotate({ identifier: "PatchProviderRequest" });
   }
 }
-function __c394(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38159,11 +31562,11 @@ function __c394(j: number): any {
           prompt: S.String.pipe(T.Label()),
           screen: S.String.pipe(T.Label()),
           rendering_mode: S.optional(S.String),
-          context_configuration: S.optional(S.NullOr(__S(9024, __c282, 0))),
+          context_configuration: S.optional(S.NullOr(__S(6400, __c200, 0))),
           default_head_tags_disabled: S.optional(S.NullOr(S.Boolean)),
           use_page_template: S.optional(S.NullOr(S.Boolean)),
-          head_tags: S.optional(S.NullOr(__S(9026, __c282, 2))),
-          filters: S.optional(S.NullOr(__S(9030, __c282, 6))),
+          head_tags: S.optional(S.NullOr(__S(6402, __c200, 2))),
+          filters: S.optional(S.NullOr(__S(6406, __c200, 6))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -38177,60 +31580,60 @@ function __c394(j: number): any {
         S.StructWithRest(
           S.Struct({
             rendering_mode: S.optional(S.String),
-            context_configuration: S.optional(S.NullOr(__S(9024, __c282, 0))),
+            context_configuration: S.optional(S.NullOr(__S(6400, __c200, 0))),
             default_head_tags_disabled: S.optional(S.NullOr(S.Boolean)),
             use_page_template: S.optional(S.NullOr(S.Boolean)),
-            head_tags: S.optional(S.NullOr(__S(9026, __c282, 2))),
-            filters: S.optional(S.NullOr(__S(9030, __c282, 6))),
+            head_tags: S.optional(S.NullOr(__S(6402, __c200, 2))),
+            filters: S.optional(S.NullOr(__S(6406, __c200, 6))),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "UpdateAculResponseContent" });
   }
 }
-function __c395(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           user_id_attribute: S.String,
-          mapping: __S(3937, __c123, 1),
+          mapping: __S(2049, __c64, 1),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/connections/{id}/scim-configuration", code: 200 }),
         ),
       ).annotate({ identifier: "PatchScimConfigurationRequest" });
   }
 }
-function __c396(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(7872, __c246, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(4128, __c129, 0).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PATCH", uri: "/hooks/{id}/secrets", code: 200 })),
       ).annotate({ identifier: "PatchSecretsRequest" });
   }
 }
-function __c397(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          change_password: S.optional(S.NullOr(__S(12736, __c398, 0))),
-          device_flow: S.optional(S.NullOr(__S(12737, __c398, 1))),
-          guardian_mfa_page: S.optional(S.NullOr(__S(12736, __c398, 0))),
+          change_password: S.optional(S.NullOr(__S(9440, __c295, 0))),
+          device_flow: S.optional(S.NullOr(__S(9441, __c295, 1))),
+          guardian_mfa_page: S.optional(S.NullOr(__S(9440, __c295, 0))),
           default_audience: S.optional(S.String),
           default_directory: S.optional(S.String),
-          error_page: S.optional(S.NullOr(__S(12738, __c398, 2))),
-          default_token_quota: S.optional(S.NullOr(__S(12740, __c398, 4))),
-          flags: S.optional(__S(12741, __c398, 5)),
+          error_page: S.optional(S.NullOr(__S(9442, __c295, 2))),
+          default_token_quota: S.optional(S.NullOr(__S(9444, __c295, 4))),
+          flags: S.optional(__S(9445, __c295, 5)),
           friendly_name: S.optional(S.String),
           picture_url: S.optional(S.String),
           support_email: S.optional(S.String),
           support_url: S.optional(S.String),
-          allowed_logout_urls: S.optional(__S(480, __c15, 0)),
+          allowed_logout_urls: S.optional(__S(14720, __c460, 0)),
           session_lifetime: S.optional(S.Number),
           session_lifetime_in_minutes: S.optional(S.Number),
           idle_session_lifetime: S.optional(S.Number),
@@ -38242,16 +31645,16 @@ function __c397(j: number): any {
           sandbox_version: S.optional(S.String),
           legacy_sandbox_version: S.optional(S.String),
           default_redirection_uri: S.optional(S.String),
-          enabled_locales: S.optional(__S(512, __c16, 0)),
-          access_token: S.optional(S.NullOr(__S(14883, __c465, 3))),
-          security_headers: S.optional(S.NullOr(__S(12751, __c398, 15))),
-          session_cookie: S.optional(S.NullOr(__S(12752, __c398, 16))),
-          sessions: S.optional(S.NullOr(__S(12754, __c398, 18))),
-          oidc_logout: S.optional(__S(12755, __c398, 19)),
+          enabled_locales: S.optional(__S(14400, __c450, 0)),
+          access_token: S.optional(S.NullOr(__S(9155, __c286, 3))),
+          security_headers: S.optional(S.NullOr(__S(9455, __c295, 15))),
+          session_cookie: S.optional(S.NullOr(__S(9456, __c295, 16))),
+          sessions: S.optional(S.NullOr(__S(9458, __c295, 18))),
+          oidc_logout: S.optional(__S(9459, __c295, 19)),
           customize_mfa_in_postlogin_action: S.optional(S.NullOr(S.Boolean)),
           allow_organization_name_in_authentication_api: S.optional(S.NullOr(S.Boolean)),
-          acr_values_supported: S.optional(S.NullOr(__S(480, __c15, 0))),
-          mtls: S.optional(S.NullOr(__S(12756, __c398, 20))),
+          acr_values_supported: S.optional(S.NullOr(__S(14720, __c460, 0))),
+          mtls: S.optional(S.NullOr(__S(9460, __c295, 20))),
           pushed_authorization_requests_supported: S.optional(S.NullOr(S.Boolean)),
           authorization_response_iss_parameter_supported: S.optional(S.NullOr(S.Boolean)),
           dpop_strict_refresh_token_binding: S.optional(S.NullOr(S.Boolean)),
@@ -38263,12 +31666,12 @@ function __c397(j: number): any {
           phone_consolidated_experience: S.optional(S.Boolean),
           include_session_metadata_in_tenant_logs: S.optional(S.Boolean),
           dynamic_client_registration_security_mode: S.optional(S.String),
-          country_codes: S.optional(S.NullOr(__S(12757, __c398, 21))),
+          country_codes: S.optional(S.NullOr(__S(9461, __c295, 21))),
         }).pipe(T.Http({ method: "PATCH", uri: "/tenants/settings", code: 200 })),
       ).annotate({ identifier: "PatchSettingsRequest" });
   }
 }
-function __c398(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38296,7 +31699,7 @@ function __c398(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            client_credentials: __S(736, __c23, 0),
+            client_credentials: __S(14624, __c457, 0),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -38304,8 +31707,8 @@ function __c398(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          clients: S.optional(__S(12739, __c398, 3)),
-          organizations: S.optional(__S(12739, __c398, 3)),
+          clients: S.optional(__S(9443, __c295, 3)),
+          organizations: S.optional(__S(9443, __c295, 3)),
         }),
       ).annotate({ identifier: "DefaultTokenQuota" });
     case 5:
@@ -38344,7 +31747,7 @@ function __c398(j: number): any {
         }),
       ).annotate({ identifier: "TenantSettingsFlags" });
     case 6:
-      return S.Record(S.String, __S(480, __c15, 0));
+      return S.Record(S.String, __S(14720, __c460, 0));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -38356,36 +31759,36 @@ function __c398(j: number): any {
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
-          directives: S.optional(__S(12742, __c398, 6)),
-          flags: S.optional(__S(512, __c16, 0)),
-          reporting: S.optional(S.NullOr(__S(12743, __c398, 7))),
+          directives: S.optional(__S(9446, __c295, 6)),
+          flags: S.optional(__S(14400, __c450, 0)),
+          reporting: S.optional(S.NullOr(__S(9447, __c295, 7))),
         }),
       ).annotate({ identifier: "CspPolicy" });
     case 9:
-      return S.Array(__S(12744, __c398, 8));
+      return S.Array(__S(9448, __c295, 8));
     case 10:
-      return S.Array(__S(2624, __c82, 0));
+      return S.Array(__S(992, __c31, 0));
     case 11:
       return S.suspend(() =>
         S.Struct({
           group: S.optional(S.String),
           max_age: S.optional(S.Number),
-          endpoints: S.optional(__S(12746, __c398, 10)),
+          endpoints: S.optional(__S(9450, __c295, 10)),
         }),
       ).annotate({ identifier: "CspReportTo" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          report_to: S.optional(S.NullOr(__S(12747, __c398, 11))),
-          reporting_endpoints: S.optional(__S(7872, __c246, 0)),
+          report_to: S.optional(S.NullOr(__S(9451, __c295, 11))),
+          reporting_endpoints: S.optional(__S(4128, __c129, 0)),
         }),
       ).annotate({ identifier: "CspReportingInfrastructure" });
     case 13:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          policies: S.optional(__S(12745, __c398, 9)),
-          reporting_infrastructure: S.optional(S.NullOr(__S(12748, __c398, 12))),
+          policies: S.optional(__S(9449, __c295, 9)),
+          reporting_infrastructure: S.optional(S.NullOr(__S(9452, __c295, 12))),
         }),
       ).annotate({ identifier: "ContentSecurityPolicyConfig" });
     case 14:
@@ -38399,8 +31802,8 @@ function __c398(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          content_security_policy: S.optional(S.NullOr(__S(12749, __c398, 13))),
-          x_xss_protection: S.optional(S.NullOr(__S(12750, __c398, 14))),
+          content_security_policy: S.optional(S.NullOr(__S(9453, __c295, 13))),
+          x_xss_protection: S.optional(S.NullOr(__S(9454, __c295, 14))),
         }),
       ).annotate({ identifier: "TenantSettingsNullableSecurityHeaders" });
     case 16:
@@ -38420,7 +31823,7 @@ function __c398(j: number): any {
       return S.suspend(() =>
         S.Struct({
           oidc_logout_prompt_enabled: S.optional(S.Boolean),
-          anonymous: S.optional(S.NullOr(__S(12753, __c398, 17))),
+          anonymous: S.optional(S.NullOr(__S(9457, __c295, 17))),
         }),
       ).annotate({ identifier: "TenantSettingsSessions" });
     case 19:
@@ -38438,44 +31841,44 @@ function __c398(j: number): any {
     case 21:
       return S.suspend(() =>
         S.Struct({
-          list: S.optional(__S(480, __c15, 0)),
+          list: S.optional(__S(14720, __c460, 0)),
           mode: S.optional(S.String),
         }),
       ).annotate({ identifier: "TenantSettingsCountryCodes" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          change_password: S.optional(S.NullOr(__S(12736, __c398, 0))),
-          guardian_mfa_page: S.optional(S.NullOr(__S(12736, __c398, 0))),
+          change_password: S.optional(S.NullOr(__S(9440, __c295, 0))),
+          guardian_mfa_page: S.optional(S.NullOr(__S(9440, __c295, 0))),
           default_audience: S.optional(S.String),
           default_directory: S.optional(S.String),
-          error_page: S.optional(S.NullOr(__S(12738, __c398, 2))),
-          device_flow: S.optional(S.NullOr(__S(12737, __c398, 1))),
-          default_token_quota: S.optional(S.NullOr(__S(12740, __c398, 4))),
-          flags: S.optional(__S(12741, __c398, 5)),
+          error_page: S.optional(S.NullOr(__S(9442, __c295, 2))),
+          device_flow: S.optional(S.NullOr(__S(9441, __c295, 1))),
+          default_token_quota: S.optional(S.NullOr(__S(9444, __c295, 4))),
+          flags: S.optional(__S(9445, __c295, 5)),
           friendly_name: S.optional(S.String),
           picture_url: S.optional(S.String),
           support_email: S.optional(S.String),
           support_url: S.optional(S.String),
-          allowed_logout_urls: S.optional(__S(480, __c15, 0)),
+          allowed_logout_urls: S.optional(__S(14720, __c460, 0)),
           session_lifetime: S.optional(S.Number),
           idle_session_lifetime: S.optional(S.Number),
           ephemeral_session_lifetime: S.optional(S.Number),
           idle_ephemeral_session_lifetime: S.optional(S.Number),
           sandbox_version: S.optional(S.String),
           legacy_sandbox_version: S.optional(S.String),
-          sandbox_versions_available: S.optional(__S(480, __c15, 0)),
+          sandbox_versions_available: S.optional(__S(14720, __c460, 0)),
           default_redirection_uri: S.optional(S.String),
-          enabled_locales: S.optional(__S(512, __c16, 0)),
-          access_token: S.optional(S.NullOr(__S(14883, __c465, 3))),
-          security_headers: S.optional(S.NullOr(__S(12751, __c398, 15))),
-          session_cookie: S.optional(S.NullOr(__S(12752, __c398, 16))),
-          sessions: S.optional(S.NullOr(__S(12754, __c398, 18))),
-          oidc_logout: S.optional(__S(12755, __c398, 19)),
+          enabled_locales: S.optional(__S(14400, __c450, 0)),
+          access_token: S.optional(S.NullOr(__S(9155, __c286, 3))),
+          security_headers: S.optional(S.NullOr(__S(9455, __c295, 15))),
+          session_cookie: S.optional(S.NullOr(__S(9456, __c295, 16))),
+          sessions: S.optional(S.NullOr(__S(9458, __c295, 18))),
+          oidc_logout: S.optional(__S(9459, __c295, 19)),
           allow_organization_name_in_authentication_api: S.optional(S.Boolean),
           customize_mfa_in_postlogin_action: S.optional(S.Boolean),
-          acr_values_supported: S.optional(S.NullOr(__S(480, __c15, 0))),
-          mtls: S.optional(S.NullOr(__S(12756, __c398, 20))),
+          acr_values_supported: S.optional(S.NullOr(__S(14720, __c460, 0))),
+          mtls: S.optional(S.NullOr(__S(9460, __c295, 20))),
           pushed_authorization_requests_supported: S.optional(S.Boolean),
           authorization_response_iss_parameter_supported: S.optional(S.NullOr(S.Boolean)),
           dpop_strict_refresh_token_binding: S.optional(S.NullOr(S.Boolean)),
@@ -38487,12 +31890,12 @@ function __c398(j: number): any {
           enable_ai_guide: S.optional(S.Boolean),
           include_session_metadata_in_tenant_logs: S.optional(S.Boolean),
           dynamic_client_registration_security_mode: S.optional(S.String),
-          country_codes: S.optional(__S(12757, __c398, 21)),
+          country_codes: S.optional(__S(9461, __c295, 21)),
         }),
       ).annotate({ identifier: "UpdateTenantSettingsResponseContent" });
   }
 }
-function __c399(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38512,15 +31915,15 @@ function __c399(j: number): any {
       ).annotate({ identifier: "PatchSnsRequest" });
   }
 }
-function __c400(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          shields: S.optional(__S(512, __c16, 0)),
-          allowlist: S.optional(__S(480, __c15, 0)),
-          stage: S.optional(__S(10401, __c325, 1)),
+          shields: S.optional(__S(14400, __c450, 0)),
+          allowlist: S.optional(__S(14720, __c460, 0)),
+          stage: S.optional(__S(7585, __c237, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -38531,21 +31934,7 @@ function __c400(j: number): any {
       ).annotate({ identifier: "PatchSuspiciousIpThrottlingRequest" });
   }
 }
-function __c401(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          user_id: S.String.pipe(T.Label()),
-          roles: __S(480, __c15, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/organizations/{id}/members/{user_id}/roles", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateOrganizationMemberRoleRequest" });
-  }
-}
-function __c402(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38554,7 +31943,7 @@ function __c402(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           type: S.optional(S.NullOr(S.String)),
           dialect: S.optional(S.NullOr(S.String)),
-          presentation: S.optional(__S(11682, __c365, 2)),
+          presentation: S.optional(__S(8354, __c261, 2)),
           well_known_trusted_issuers: S.optional(S.NullOr(S.String)),
           version: S.optional(S.NullOr(S.Number)),
         }).pipe(
@@ -38567,24 +31956,51 @@ function __c402(j: number): any {
       ).annotate({ identifier: "PatchVcTemplatesByIdRequest" });
   }
 }
-function __c403(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          supported_triggers: __S(1731, __c54, 3),
+          description: S.optional(S.String),
+          type: S.optional(S.String),
+          owner_id: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/roles", code: 200 })),
+      ).annotate({ identifier: "CreateRoleRequest" });
+  }
+}
+function __c300(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          type: S.optional(S.String),
+          owner_id: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "CreateRoleResponseContent" });
+  }
+}
+function __c301(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          supported_triggers: __S(387, __c12, 3),
           code: S.optional(S.String),
-          dependencies: S.optional(__S(1793, __c56, 1)),
+          dependencies: S.optional(__S(417, __c13, 1)),
           runtime: S.optional(S.String),
-          secrets: S.optional(__S(11809, __c369, 1)),
-          modules: S.optional(__S(1799, __c56, 7)),
+          secrets: S.optional(__S(8449, __c264, 1)),
+          modules: S.optional(__S(423, __c13, 7)),
           deploy: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/actions/actions", code: 200 })),
       ).annotate({ identifier: "PostActionRequest" });
   }
 }
-function __c404(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38605,7 +32021,7 @@ function __c404(j: number): any {
           identity_user_id: S.optional(S.String),
           user_agent: S.optional(S.String),
           user_handle: S.optional(S.String),
-          transports: S.optional(__S(480, __c15, 0)),
+          transports: S.optional(__S(14720, __c460, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/users/{id}/authentication-methods", code: 200 })),
       ).annotate({ identifier: "PostAuthenticationMethodsRequest" });
     case 1:
@@ -38617,7 +32033,7 @@ function __c404(j: number): any {
           totp_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           phone_number: S.optional(S.String),
           email: S.optional(S.String),
-          authentication_methods: S.optional(__S(2465, __c77, 1)),
+          authentication_methods: S.optional(__S(833, __c26, 1)),
           preferred_authentication_method: S.optional(S.String),
           key_id: S.optional(S.String),
           public_key: S.optional(S.String),
@@ -38628,25 +32044,25 @@ function __c404(j: number): any {
           identity_user_id: S.optional(S.String),
           user_agent: S.optional(S.String),
           user_handle: S.optional(S.String),
-          transports: S.optional(__S(480, __c15, 0)),
+          transports: S.optional(__S(14720, __c460, 0)),
           created_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateUserAuthenticationMethodResponseContent" });
   }
 }
-function __c405(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           connection: S.String,
-          assessors: __S(512, __c16, 0),
+          assessors: __S(14400, __c450, 0),
         }).pipe(T.Http({ method: "POST", uri: "/users/{id}/risk-assessments/clear", code: 200 })),
       ).annotate({ identifier: "PostClearAssessorsRequest" });
   }
 }
-function __c406(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38664,7 +32080,7 @@ function __c406(j: number): any {
       ).annotate({ identifier: "PostCredentialsRequest" });
   }
 }
-function __c407(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38674,7 +32090,7 @@ function __c407(j: number): any {
       ).annotate({ identifier: "PostDeployActionRequest" });
   }
 }
-function __c408(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38692,13 +32108,13 @@ function __c408(j: number): any {
       ).annotate({ identifier: "PostDeployDraftVersionRequest" });
   }
 }
-function __c409(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          mapping: S.optional(__S(3841, __c120, 1)),
+          mapping: S.optional(__S(1953, __c61, 1)),
           synchronize_automatically: S.optional(S.Boolean),
           synchronize_groups: S.optional(S.String),
         }).pipe(
@@ -38707,7 +32123,7 @@ function __c409(j: number): any {
       ).annotate({ identifier: "PostDirectoryProvisioningRequest" });
   }
 }
-function __c410(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38722,7 +32138,7 @@ function __c410(j: number): any {
       ).annotate({ identifier: "PostDiscoveryDomainsRequest" });
   }
 }
-function __c411(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38733,12 +32149,12 @@ function __c411(j: number): any {
           organization_id: S.optional(S.String),
           ttl_sec: S.optional(S.Number),
           includeEmailInRedirect: S.optional(S.Boolean),
-          identity: S.optional(__S(13216, __c413, 0)),
+          identity: S.optional(__S(9952, __c311, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/tickets/email-verification", code: 200 })),
       ).annotate({ identifier: "PostEmailVerificationRequest" });
   }
 }
-function __c412(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38751,7 +32167,7 @@ function __c412(j: number): any {
       ).annotate({ identifier: "VerifyEmailTicketResponseContent" });
   }
 }
-function __c413(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38763,37 +32179,7 @@ function __c413(j: number): any {
       ).annotate({ identifier: "Identity" });
   }
 }
-function __c414(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          disabled: S.optional(S.Boolean),
-          configuration: S.optional(S.Unknown),
-          credentials: S.Unknown,
-        }).pipe(T.Http({ method: "POST", uri: "/branding/phone/providers", code: 200 })),
-      ).annotate({ identifier: "CreatePhoneProviderRequest" });
-  }
-}
-function __c415(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          tenant: S.optional(S.String),
-          name: S.String,
-          channel: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          configuration: S.optional(S.Unknown),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateBrandingPhoneProviderResponseContent" });
-  }
-}
-function __c416(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38809,7 +32195,18 @@ function __c416(j: number): any {
       ).annotate({ identifier: "PostEnabledConnectionsRequest" });
   }
 }
-function __c417(j: number): any {
+function __c313(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          groups: __S(14720, __c460, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/roles/{id}/groups", code: 200 })),
+      ).annotate({ identifier: "CreateRoleGroupRequest" });
+  }
+}
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38819,7 +32216,7 @@ function __c417(j: number): any {
       ).annotate({ identifier: "PostEncryptionRequest" });
   }
 }
-function __c418(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38830,7 +32227,7 @@ function __c418(j: number): any {
       ).annotate({ identifier: "PostEncryptionKeyRequest" });
   }
 }
-function __c419(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38838,7 +32235,7 @@ function __c419(j: number): any {
       ).annotate({ identifier: "PostEncryptionRekeyRequest" });
   }
 }
-function __c420(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38858,7 +32255,7 @@ function __c420(j: number): any {
       ).annotate({ identifier: "CreateEncryptionKeyPublicWrappingResponseContent" });
   }
 }
-function __c421(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38876,7 +32273,7 @@ function __c421(j: number): any {
           connection: S.String,
           user_id: S.Unknown,
           provider: S.String,
-          profileData: S.optional(__S(17824, __c557, 0)),
+          profileData: S.optional(__S(11936, __c373, 0)),
           isSocial: S.optional(S.Boolean),
           access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           access_token_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
@@ -38884,14 +32281,14 @@ function __c421(j: number): any {
         }),
       ).annotate({ identifier: "UserIdentity" });
     case 2:
-      return S.Array(__S(13473, __c421, 1));
+      return S.Array(__S(10177, __c318, 1));
     case 3:
-      return S.suspend(() => __S(13474, __c421, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(10178, __c318, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostIdentitiesResponse",
       });
   }
 }
-function __c422(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38907,26 +32304,26 @@ function __c422(j: number): any {
       ).annotate({ identifier: "PostInvalidateRememberBrowserRequest" });
   }
 }
-function __c423(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          inviter: __S(6656, __c208, 0),
-          invitee: __S(6657, __c208, 1),
+          inviter: __S(4544, __c142, 0),
+          invitee: __S(4545, __c142, 1),
           client_id: S.String,
           connection_id: S.optional(S.String),
-          app_metadata: S.optional(__S(19488, __c609, 0)),
-          user_metadata: S.optional(__S(19488, __c609, 0)),
+          app_metadata: S.optional(__S(14496, __c453, 0)),
+          user_metadata: S.optional(__S(14496, __c453, 0)),
           ttl_sec: S.optional(S.Number),
-          roles: S.optional(__S(480, __c15, 0)),
+          roles: S.optional(__S(14720, __c460, 0)),
           send_invitation_email: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/organizations/{id}/invitations", code: 200 })),
       ).annotate({ identifier: "PostInvitationsRequest" });
   }
 }
-function __c424(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -38955,68 +32352,25 @@ function __c424(j: number): any {
         ),
       ).annotate({ identifier: "PostConnectionsKeysResponseContentItem" });
     case 2:
-      return S.Array(__S(13569, __c424, 1));
+      return S.Array(__S(10273, __c321, 1));
     case 3:
-      return S.suspend(() => __S(13570, __c424, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(10274, __c321, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "PostKeysResponse",
       });
   }
 }
-function __c425(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          members: __S(480, __c15, 0),
+          members: __S(14720, __c460, 0),
         }).pipe(T.Http({ method: "POST", uri: "/organizations/{id}/members", code: 200 })),
       ).annotate({ identifier: "PostMembersRequest" });
   }
 }
-function __c426(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          disabled: S.optional(S.Boolean),
-          content: S.optional(__S(13665, __c427, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/branding/phone/templates", code: 200 })),
-      ).annotate({ identifier: "CreatePhoneTemplateRequest" });
-  }
-}
-function __c427(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          text: S.optional(S.String),
-          voice: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PhoneTemplateBody" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          syntax: S.optional(S.String),
-          from: S.optional(S.String),
-          body: S.optional(__S(13664, __c427, 0)),
-        }),
-      ).annotate({ identifier: "PhoneTemplateContent" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          channel: S.optional(S.String),
-          customizable: S.optional(S.Boolean),
-          tenant: S.optional(S.String),
-          content: __S(13665, __c427, 1),
-          type: S.String,
-          disabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "CreatePhoneTemplateResponseContent" });
-  }
-}
-function __c428(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39030,23 +32384,34 @@ function __c428(j: number): any {
           ttl_sec: S.optional(S.Number),
           mark_email_as_verified: S.optional(S.Boolean),
           includeEmailInRedirect: S.optional(S.Boolean),
-          identity: S.optional(__S(13216, __c413, 0)),
+          identity: S.optional(__S(9952, __c311, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/tickets/password-change", code: 200 })),
       ).annotate({ identifier: "PostPasswordChangeRequest" });
   }
 }
-function __c429(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          permissions: __S(129, __c4, 1),
+          users: __S(14720, __c460, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/roles/{id}/users", code: 200 })),
+      ).annotate({ identifier: "CreateRoleUserRequest" });
+  }
+}
+function __c325(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          permissions: __S(15361, __c480, 1),
         }).pipe(T.Http({ method: "POST", uri: "/users/{id}/permissions", code: 200 })),
       ).annotate({ identifier: "PostPermissionsRequest" });
   }
 }
-function __c430(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39055,12 +32420,12 @@ function __c430(j: number): any {
           enabled: S.optional(S.Boolean),
           default_from_address: S.optional(S.String),
           credentials: S.Unknown,
-          settings: S.optional(S.NullOr(__S(19488, __c609, 0))),
+          settings: S.optional(S.NullOr(__S(14496, __c453, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/emails/provider", code: 200 })),
       ).annotate({ identifier: "PostProviderRequest" });
   }
 }
-function __c431(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39081,7 +32446,7 @@ function __c431(j: number): any {
       ).annotate({ identifier: "RegenerateUsersRecoveryCodeResponseContent" });
   }
 }
-function __c432(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39089,13 +32454,13 @@ function __c432(j: number): any {
           id: S.String.pipe(T.Label()),
           date_from: S.optional(S.String),
           date_to: S.optional(S.String),
-          statuses: S.optional(__S(512, __c16, 0)),
-          event_types: S.optional(__S(512, __c16, 0)),
+          statuses: S.optional(__S(14400, __c450, 0)),
+          event_types: S.optional(__S(14400, __c450, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/event-streams/{id}/redeliver", code: 200 })),
       ).annotate({ identifier: "PostRedeliverRequest" });
   }
 }
-function __c433(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39108,7 +32473,7 @@ function __c433(j: number): any {
       ).annotate({ identifier: "PostRedeliverByEventIdRequest" });
   }
 }
-function __c434(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39125,18 +32490,18 @@ function __c434(j: number): any {
       ).annotate({ identifier: "PostRevokeRequest" });
   }
 }
-function __c435(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          permissions: __S(129, __c4, 1),
+          permissions: __S(15361, __c480, 1),
         }).pipe(T.Http({ method: "POST", uri: "/roles/{id}/permissions", code: 200 })),
       ).annotate({ identifier: "PostRolePermissionAssignmentRequest" });
   }
 }
-function __c436(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39164,7 +32529,7 @@ function __c436(j: number): any {
       ).annotate({ identifier: "RotateConnectionsKeysResponseContent" });
   }
 }
-function __c437(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39174,116 +32539,53 @@ function __c437(j: number): any {
       ).annotate({ identifier: "PostRotateSecretRequest" });
   }
 }
-function __c438(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          slug: S.String,
-          name: S.String,
-          client: __S(14080, __c440, 0),
-          navigation: S.optional(__S(14050, __c439, 2)),
-          pages: S.optional(__S(14054, __c439, 6)),
-          custom_code: S.optional(__S(14055, __c439, 7)),
-        }).pipe(T.Http({ method: "POST", uri: "/portals", code: 200 })),
-      ).annotate({ identifier: "CreatePortalRequest" });
-  }
-}
-function __c439(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          components: S.optional(__S(14048, __c439, 0)),
-        }),
-      ).annotate({ identifier: "Sidebar" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          sidebar: S.optional(__S(14049, __c439, 1)),
-        }),
-      ).annotate({ identifier: "PortalNavigation" });
-    case 3:
-      return S.Array(S.Unknown);
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          title: S.String,
-          slug: S.String,
-          components: S.optional(__S(14051, __c439, 3)),
-        }),
-      ).annotate({ identifier: "PortalPage" });
-    case 5:
-      return S.Array(__S(14052, __c439, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          default: S.optional(S.String),
-          standard: S.optional(__S(14053, __c439, 5)),
-        }),
-      ).annotate({ identifier: "PortalPagesByType" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          head: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PortalCustomCode" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          token_endpoint_auth_method: S.Unknown,
-          client_id: S.String,
-        }),
-      ).annotate({ identifier: "PortalClientSecretPost" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          navigation: S.optional(__S(14050, __c439, 2)),
-          pages: S.optional(__S(14054, __c439, 6)),
-          slug: S.String,
-          client: S.optional(__S(14056, __c439, 8)),
-          custom_code: S.optional(__S(14055, __c439, 7)),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "Portal" });
-  }
-}
-function __c440(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          token_endpoint_auth_method: S.Unknown,
-          client_id: S.String,
-          client_secret: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "PortalClientSecretPostRequest" });
-  }
-}
-function __c441(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           user_id_attribute: S.optional(S.String),
-          mapping: S.optional(__S(3937, __c123, 1)),
+          mapping: S.optional(__S(2049, __c64, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/connections/{id}/scim-configuration", code: 200 })),
       ).annotate({ identifier: "PostScimConfigurationRequest" });
   }
 }
-function __c442(j: number): any {
+function __c335(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          script: S.String,
+          order: S.optional(S.Number),
+          enabled: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/rules", code: 200 })),
+      ).annotate({ identifier: "CreateRuleRequest" });
+  }
+}
+function __c336(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          id: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          script: S.optional(S.String),
+          order: S.optional(S.Number),
+          stage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateRuleResponseContent" });
+  }
+}
+function __c337(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          scopes: S.optional(__S(480, __c15, 0)),
+          scopes: S.optional(__S(14720, __c460, 0)),
           token_lifetime: S.optional(S.NullOr(S.Number)),
         }).pipe(
           T.Http({ method: "POST", uri: "/connections/{id}/scim-configuration/tokens", code: 200 }),
@@ -39294,25 +32596,25 @@ function __c442(j: number): any {
         S.Struct({
           token_id: S.optional(S.String),
           token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          scopes: S.optional(__S(480, __c15, 0)),
+          scopes: S.optional(__S(14720, __c460, 0)),
           created_at: S.optional(S.String),
           valid_until: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateScimTokenResponseContent" });
   }
 }
-function __c443(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(7872, __c246, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(4128, __c129, 0).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "POST", uri: "/hooks/{id}/secrets", code: 200 })),
       ).annotate({ identifier: "PostSecretsRequest" });
   }
 }
-function __c444(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39320,7 +32622,7 @@ function __c444(j: number): any {
       ).annotate({ identifier: "PostSigningKeysRequest" });
   }
 }
-function __c445(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39334,7 +32636,7 @@ function __c445(j: number): any {
       ).annotate({ identifier: "RotateSigningKeysResponseContent" });
   }
 }
-function __c446(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39349,8 +32651,8 @@ function __c446(j: number): any {
       return S.suspend(() =>
         S.Struct({
           icon_url: S.optional(S.NullOr(S.String)),
-          domain_aliases: S.optional(S.NullOr(__S(480, __c15, 0))),
-          idpinitiated: S.optional(S.NullOr(__S(14272, __c446, 0))),
+          domain_aliases: S.optional(S.NullOr(__S(14720, __c460, 0))),
+          idpinitiated: S.optional(S.NullOr(__S(10912, __c341, 0))),
         }),
       ).annotate({ identifier: "SelfServiceProfileSsoTicketConnectionOptions" });
     case 2:
@@ -39360,8 +32662,8 @@ function __c446(j: number): any {
           display_name: S.optional(S.String),
           is_domain_connection: S.optional(S.Boolean),
           show_as_button: S.optional(S.Boolean),
-          metadata: S.optional(__S(3072, __c96, 0)),
-          options: S.optional(S.NullOr(__S(14273, __c446, 1))),
+          metadata: S.optional(__S(64, __c2, 0)),
+          options: S.optional(S.NullOr(__S(10913, __c341, 1))),
         }),
       ).annotate({ identifier: "SelfServiceProfileSsoTicketConnectionConfig" });
     case 3:
@@ -39373,12 +32675,12 @@ function __c446(j: number): any {
         }),
       ).annotate({ identifier: "SelfServiceProfileSsoTicketEnabledOrganization" });
     case 4:
-      return S.Array(__S(14275, __c446, 3));
+      return S.Array(__S(10915, __c341, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           domain_verification: S.String,
-          pending_domains: S.optional(__S(480, __c15, 0)),
+          pending_domains: S.optional(__S(14720, __c460, 0)),
         }),
       ).annotate({ identifier: "SelfServiceProfileSsoTicketDomainAliasesConfig" });
     case 6:
@@ -39391,8 +32693,8 @@ function __c446(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          scopes: S.optional(__S(512, __c16, 0)),
-          google_workspace: S.optional(__S(14278, __c446, 6)),
+          scopes: S.optional(__S(14400, __c450, 0)),
+          google_workspace: S.optional(__S(10918, __c341, 6)),
           token_lifetime: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "SelfServiceProfileSsoTicketProvisioningConfig" });
@@ -39415,15 +32717,15 @@ function __c446(j: number): any {
         S.Struct({
           id: S.String.pipe(T.Label()),
           connection_id: S.optional(S.String),
-          connection_config: S.optional(__S(14274, __c446, 2)),
-          enabled_clients: S.optional(__S(480, __c15, 0)),
-          enabled_organizations: S.optional(__S(14276, __c446, 4)),
+          connection_config: S.optional(__S(10914, __c341, 2)),
+          enabled_clients: S.optional(__S(14720, __c460, 0)),
+          enabled_organizations: S.optional(__S(10916, __c341, 4)),
           ttl_sec: S.optional(S.Number),
-          domain_aliases_config: S.optional(__S(14277, __c446, 5)),
-          provisioning_config: S.optional(__S(14279, __c446, 7)),
+          domain_aliases_config: S.optional(__S(10917, __c341, 5)),
+          provisioning_config: S.optional(__S(10919, __c341, 7)),
           use_for_organization_discovery: S.optional(S.Boolean),
-          third_party_client_access_config: S.optional(__S(14280, __c446, 8)),
-          enabled_features: S.optional(__S(14281, __c446, 9)),
+          third_party_client_access_config: S.optional(__S(10920, __c341, 8)),
+          enabled_features: S.optional(__S(10921, __c341, 9)),
         }).pipe(
           T.Http({ method: "POST", uri: "/self-service-profiles/{id}/sso-ticket", code: 200 }),
         ),
@@ -39436,7 +32738,7 @@ function __c446(j: number): any {
       ).annotate({ identifier: "CreateSelfServiceProfileSsoTicketResponseContent" });
   }
 }
-function __c447(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39460,13 +32762,13 @@ function __c447(j: number): any {
       ).annotate({ identifier: "CreateDirectorySynchronizationResponseContent" });
   }
 }
-function __c448(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          groups: __S(10465, __c327, 1),
+          groups: __S(7649, __c239, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -39477,24 +32779,24 @@ function __c448(j: number): any {
       ).annotate({ identifier: "PostSynchronizedGroupsRequest" });
   }
 }
-function __c449(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          payload: __S(19488, __c609, 0),
+          payload: __S(14496, __c453, 0),
         }).pipe(T.Http({ method: "POST", uri: "/actions/actions/{id}/test", code: 200 })),
       ).annotate({ identifier: "PostTestActionRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          payload: S.optional(__S(19488, __c609, 0)),
+          payload: S.optional(__S(14496, __c453, 0)),
         }),
       ).annotate({ identifier: "TestActionResponseContent" });
   }
 }
-function __c450(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39511,48 +32813,19 @@ function __c450(j: number): any {
       ).annotate({ identifier: "TestCustomDomainResponseContent" });
   }
 }
-function __c451(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           event_type: S.String,
-          data: S.optional(__S(19488, __c609, 0)),
+          data: S.optional(__S(14496, __c453, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/event-streams/{id}/test", code: 200 })),
       ).annotate({ identifier: "PostTestEventRequest" });
   }
 }
-function __c452(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resource: S.String,
-          consumer: S.String,
-          consumer_selector: S.String,
-          configuration: S.Unknown,
-        }).pipe(T.Http({ method: "POST", uri: "/rate-limit-policies", code: 200 })),
-      ).annotate({ identifier: "CreateRateLimitPolicyRequest" });
-  }
-}
-function __c453(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          resource: S.String,
-          consumer: S.String,
-          consumer_selector: S.String,
-          configuration: S.Unknown,
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateRateLimitPolicyResponseContent" });
-  }
-}
-function __c454(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39577,7 +32850,69 @@ function __c454(j: number): any {
       ).annotate({ identifier: "CreateGuardianEnrollmentTicketResponseContent" });
   }
 }
-function __c455(j: number): any {
+function __c348(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+          branding: S.optional(__S(11169, __c349, 1)),
+          allowed_strategies: S.optional(__S(14400, __c450, 0)),
+          user_attributes: S.optional(__S(11171, __c349, 3)),
+          user_attribute_profile_id: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/self-service-profiles", code: 200 })),
+      ).annotate({ identifier: "CreateSelfServiceProfileRequest" });
+  }
+}
+function __c349(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            primary: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "SelfServiceProfileBrandingColors" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            logo_url: S.optional(S.String),
+            colors: S.optional(__S(11168, __c349, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "SelfServiceProfileBrandingProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.String,
+          is_optional: S.Boolean,
+        }),
+      ).annotate({ identifier: "SelfServiceProfileUserAttribute" });
+    case 3:
+      return S.Array(__S(11170, __c349, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          user_attributes: S.optional(__S(11171, __c349, 3)),
+          created_at: S.optional(S.String),
+          updated_at: S.optional(S.String),
+          branding: S.optional(__S(11169, __c349, 1)),
+          allowed_strategies: S.optional(__S(14400, __c450, 0)),
+          user_attribute_profile_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateSelfServiceProfileResponseContent" });
+  }
+}
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39587,14 +32922,14 @@ function __c455(j: number): any {
         }),
       ).annotate({ identifier: "CreateExportUsersFields" });
     case 1:
-      return S.Array(__S(14560, __c455, 0));
+      return S.Array(__S(11200, __c350, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           connection_id: S.optional(S.String),
           format: S.optional(S.String),
           limit: S.optional(S.Number),
-          fields: S.optional(__S(14561, __c455, 1)),
+          fields: S.optional(__S(11201, __c350, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/jobs/users-exports", code: 200 })),
       ).annotate({ identifier: "PostUsersExportsRequest" });
     case 3:
@@ -39608,14 +32943,14 @@ function __c455(j: number): any {
             connection_id: S.optional(S.String),
             format: S.optional(S.String),
             limit: S.optional(S.Number),
-            fields: S.optional(__S(14561, __c455, 1)),
+            fields: S.optional(__S(11201, __c350, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreateExportUsersResponseContent" });
   }
 }
-function __c456(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39636,7 +32971,7 @@ function __c456(j: number): any {
       ).annotate({ identifier: "PostUsersImportsRequest" });
   }
 }
-function __c457(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39644,7 +32979,7 @@ function __c457(j: number): any {
           name: S.String,
           type: S.String,
           dialect: S.String,
-          presentation: __S(11682, __c365, 2),
+          presentation: __S(8354, __c261, 2),
           custom_certificate_authority: S.optional(S.NullOr(S.String)),
           well_known_trusted_issuers: S.String,
         }).pipe(
@@ -39657,14 +32992,14 @@ function __c457(j: number): any {
       ).annotate({ identifier: "PostVcTemplatesRequest" });
   }
 }
-function __c458(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           user_id: S.String,
           client_id: S.optional(S.String),
-          identity: S.optional(__S(13216, __c413, 0)),
+          identity: S.optional(__S(9952, __c311, 0)),
           organization_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/jobs/verification-email", code: 200 })),
       ).annotate({ identifier: "PostVerificationEmailRequest" });
@@ -39682,7 +33017,7 @@ function __c458(j: number): any {
       ).annotate({ identifier: "CreateVerificationEmailResponseContent" });
   }
 }
-function __c459(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39700,16 +33035,16 @@ function __c459(j: number): any {
           type: S.String,
           cname_api_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
           origin_domain_name: S.optional(S.String),
-          verification: S.optional(__S(4098, __c128, 2)),
+          verification: S.optional(__S(1282, __c40, 2)),
           custom_client_ip_header: S.optional(S.NullOr(S.String)),
           tls_policy: S.optional(S.String),
-          domain_metadata: S.optional(__S(3072, __c96, 0)),
-          certificate: S.optional(__S(4099, __c128, 3)),
+          domain_metadata: S.optional(__S(64, __c2, 0)),
+          certificate: S.optional(__S(1283, __c40, 3)),
         }),
       ).annotate({ identifier: "VerifyCustomDomainResponseContent" });
   }
 }
-function __c460(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39727,7 +33062,7 @@ function __c460(j: number): any {
       ).annotate({ identifier: "PutApnsRequest" });
   }
 }
-function __c461(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39741,12 +33076,12 @@ function __c461(j: number): any {
         }),
       ).annotate({ identifier: "SetUserAuthenticationMethods" });
     case 1:
-      return S.Array(__S(14752, __c461, 0));
+      return S.Array(__S(11392, __c356, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(14753, __c461, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(11393, __c356, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PUT", uri: "/users/{id}/authentication-methods", code: 200 })),
       ).annotate({ identifier: "PutAuthenticationMethodsRequest" });
     case 3:
@@ -39758,7 +33093,7 @@ function __c461(j: number): any {
           totp_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           phone_number: S.optional(S.String),
           email: S.optional(S.String),
-          authentication_methods: S.optional(__S(2465, __c77, 1)),
+          authentication_methods: S.optional(__S(833, __c26, 1)),
           preferred_authentication_method: S.optional(S.String),
           key_id: S.optional(S.String),
           public_key: S.optional(S.String),
@@ -39768,193 +33103,38 @@ function __c461(j: number): any {
         }),
       ).annotate({ identifier: "SetUserAuthenticationMethodResponseContent" });
     case 4:
-      return S.Array(__S(14755, __c461, 3));
+      return S.Array(__S(11395, __c356, 3));
     case 5:
-      return S.suspend(() => __S(14756, __c461, 4).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(11396, __c356, 4).pipe(T.RawResponseRoot())).annotate({
         identifier: "PutAuthenticationMethodsResponse",
       });
   }
 }
-function __c462(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(4289, __c134, 1),
+          keys: __S(2369, __c74, 1),
         }).pipe(T.Http({ method: "PUT", uri: "/keys/custom-signing", code: 200 })),
       ).annotate({ identifier: "PutCustomSigningKeysRequest" });
   }
 }
-function __c463(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           prompt: S.String.pipe(T.Label()),
           language: S.String.pipe(T.Label()),
-          body: S.optional(__S(19488, __c609, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(14496, __c453, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({ method: "PUT", uri: "/prompts/{prompt}/custom-text/{language}", code: 200 }),
         ),
       ).annotate({ identifier: "PutCustomTextByLanguageRequest" });
   }
 }
-function __c464(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          identifier: S.String,
-          scopes: S.optional(__S(14914, __c466, 2)),
-          signing_alg: S.optional(S.String),
-          signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          allow_offline_access: S.optional(S.Boolean),
-          allow_online_access: S.optional(S.Boolean),
-          allow_online_access_with_ephemeral_sessions: S.optional(S.Boolean),
-          token_lifetime: S.optional(S.Number),
-          token_lifetime_for_anonymous_access_tokens: S.optional(S.NullOr(S.Number)),
-          token_dialect: S.optional(S.String),
-          skip_consent_for_verifiable_first_party_clients: S.optional(S.Boolean),
-          enforce_policies: S.optional(S.Boolean),
-          access_token: S.optional(S.NullOr(__S(14883, __c465, 3))),
-          token_encryption: S.optional(S.NullOr(__S(14916, __c466, 4))),
-          consent_policy: S.optional(S.NullOr(S.String)),
-          require_consent_non_repudiation: S.optional(S.Boolean),
-          authorization_details: S.optional(S.NullOr(__S(14912, __c466, 0))),
-          proof_of_possession: S.optional(S.NullOr(__S(14917, __c466, 5))),
-          subject_type_authorization: S.optional(__S(14919, __c466, 7)),
-          authorization_policy: S.optional(S.NullOr(__S(14920, __c466, 8))),
-          agent_subject_claims: S.optional(S.String),
-          type: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "POST", uri: "/resource-servers", code: 200 })),
-      ).annotate({ identifier: "CreateResourceServerRequest" });
-  }
-}
-function __c465(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          expression: S.String,
-        }),
-      ).annotate({ identifier: "ResourceServerAccessTokenCustomClaimsMappingRule" });
-    case 1:
-      return S.Array(__S(14880, __c465, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          custom_claims: S.optional(__S(14881, __c465, 1)),
-        }),
-      ).annotate({ identifier: "ResourceServerAccessTokenClaimsMapping" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          claims_mapping: S.optional(__S(14882, __c465, 2)),
-        }),
-      ).annotate({ identifier: "ResourceServerAccessToken" });
-  }
-}
-function __c466(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.String,
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResourceServerScope" });
-    case 2:
-      return S.Array(__S(14913, __c466, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          alg: S.String,
-          kid: S.optional(S.String),
-          pem: S.String,
-        }),
-      ).annotate({ identifier: "ResourceServerTokenEncryptionKey" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          format: S.String,
-          encryption_key: __S(14915, __c466, 3),
-        }),
-      ).annotate({ identifier: "ResourceServerTokenEncryption" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          mechanism: S.String,
-          required: S.Boolean,
-          required_for: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResourceServerProofOfPossession" });
-    case 6:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            policy: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "ResourceServerSubjectTypeAuthorizationUser" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          user: S.optional(__S(14918, __c466, 6)),
-          client: S.optional(__S(14918, __c466, 6)),
-          anonymous_user: S.optional(__S(14918, __c466, 6)),
-        }),
-      ).annotate({ identifier: "ResourceServerSubjectTypeAuthorization" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          policy_id: S.String,
-        }),
-      ).annotate({ identifier: "ResourceServerAuthorizationPolicy" });
-  }
-}
-function __c467(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          is_system: S.optional(S.Boolean),
-          identifier: S.optional(S.String),
-          scopes: S.optional(__S(14914, __c466, 2)),
-          signing_alg: S.optional(S.String),
-          signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          allow_offline_access: S.optional(S.Boolean),
-          allow_online_access: S.optional(S.Boolean),
-          allow_online_access_with_ephemeral_sessions: S.optional(S.Boolean),
-          skip_consent_for_verifiable_first_party_clients: S.optional(S.Boolean),
-          token_lifetime: S.optional(S.Number),
-          token_lifetime_for_web: S.optional(S.Number),
-          enforce_policies: S.optional(S.Boolean),
-          token_lifetime_for_anonymous_access_tokens: S.optional(S.Number),
-          token_dialect: S.optional(S.String),
-          access_token: S.optional(S.NullOr(__S(14883, __c465, 3))),
-          token_encryption: S.optional(S.NullOr(__S(14916, __c466, 4))),
-          consent_policy: S.optional(S.NullOr(S.String)),
-          require_consent_non_repudiation: S.optional(S.Boolean),
-          authorization_details: S.optional(S.NullOr(__S(14912, __c466, 0))),
-          proof_of_possession: S.optional(S.NullOr(__S(14917, __c466, 5))),
-          subject_type_authorization: S.optional(__S(14919, __c466, 7)),
-          authorization_policy: S.optional(S.NullOr(__S(14920, __c466, 8))),
-          client_id: S.optional(S.String),
-          agent_subject_claims: S.optional(S.String),
-          type: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "CreateResourceServerResponseContent" });
-  }
-}
-function __c468(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39973,7 +33153,39 @@ function __c468(j: number): any {
       ).annotate({ identifier: "PutEmailTemplateRequest" });
   }
 }
-function __c469(j: number): any {
+function __c360(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          subject_token_type: S.String,
+          action_id: S.String,
+          type: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/token-exchange-profiles", code: 200 })),
+      ).annotate({ identifier: "CreateTokenExchangeProfileRequest" });
+  }
+}
+function __c361(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.optional(S.String),
+            name: S.optional(S.String),
+            subject_token_type: S.optional(S.String),
+            action_id: S.optional(S.String),
+            type: S.optional(S.String),
+            created_at: S.optional(S.String),
+            updated_at: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreateTokenExchangeProfileResponseContent" });
+  }
+}
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39985,7 +33197,7 @@ function __c469(j: number): any {
       ).annotate({ identifier: "PutFactorDuoSettingsRequest" });
   }
 }
-function __c470(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -39996,7 +33208,7 @@ function __c470(j: number): any {
       ).annotate({ identifier: "PutFactorPhoneTemplatesRequest" });
   }
 }
-function __c471(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40007,7 +33219,7 @@ function __c471(j: number): any {
       ).annotate({ identifier: "PutFactorsByNameRequest" });
   }
 }
-function __c472(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40018,7 +33230,7 @@ function __c472(j: number): any {
       ).annotate({ identifier: "PutFactorSmsTemplatesRequest" });
   }
 }
-function __c473(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40034,7 +33246,7 @@ function __c473(j: number): any {
       ).annotate({ identifier: "PutFcmRequest" });
   }
 }
-function __c474(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40050,17 +33262,17 @@ function __c474(j: number): any {
       ).annotate({ identifier: "PutFcmv1Request" });
   }
 }
-function __c475(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          message_types: __S(512, __c16, 0),
+          message_types: __S(14400, __c450, 0),
         }).pipe(T.Http({ method: "PUT", uri: "/guardian/factors/phone/message-types", code: 200 })),
       ).annotate({ identifier: "PutMessageTypesRequest" });
   }
 }
-function __c476(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40069,50 +33281,23 @@ function __c476(j: number): any {
           description: S.String,
           active: S.Boolean,
           priority: S.optional(S.Number),
-          rule: __S(10147, __c317, 3),
+          rule: __S(6020, __c188, 4),
         }).pipe(T.Http({ method: "PUT", uri: "/network-acls/{id}", code: 200 })),
       ).annotate({ identifier: "PutNetworkAclRequest" });
   }
 }
-function __c477(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           prompt: S.String.pipe(T.Label()),
-          body: S.optional(__S(19488, __c609, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(14496, __c453, 0).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PUT", uri: "/prompts/{prompt}/partials", code: 200 })),
       ).annotate({ identifier: "PutPartialsRequest" });
   }
 }
-function __c478(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-          type: S.optional(S.String),
-          owner_id: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/roles", code: 200 })),
-      ).annotate({ identifier: "CreateRoleRequest" });
-  }
-}
-function __c479(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          type: S.optional(S.String),
-          owner_id: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "CreateRoleResponseContent" });
-  }
-}
-function __c480(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40124,7 +33309,103 @@ function __c480(j: number): any {
       ).annotate({ identifier: "PutPhoneProvidersRequest" });
   }
 }
-function __c481(j: number): any {
+function __c372(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          email: S.optional(S.String),
+          phone_number: S.optional(S.String),
+          user_metadata: S.optional(__S(14496, __c453, 0)),
+          blocked: S.optional(S.Boolean),
+          email_verified: S.optional(S.Boolean),
+          phone_verified: S.optional(S.Boolean),
+          app_metadata: S.optional(__S(14496, __c453, 0)),
+          given_name: S.optional(S.String),
+          family_name: S.optional(S.String),
+          name: S.optional(S.String),
+          nickname: S.optional(S.String),
+          picture: S.optional(S.String),
+          user_id: S.optional(S.String),
+          connection: S.String,
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          verify_email: S.optional(S.Boolean),
+          username: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/users", code: 200 })),
+      ).annotate({ identifier: "CreateUserRequest" });
+  }
+}
+function __c373(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            email: S.optional(S.String),
+            email_verified: S.optional(S.Boolean),
+            name: S.optional(S.String),
+            username: S.optional(S.String),
+            given_name: S.optional(S.String),
+            phone_number: S.optional(S.String),
+            phone_verified: S.optional(S.Boolean),
+            family_name: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "UserProfileData" });
+  }
+}
+function __c374(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connection: S.optional(S.String),
+          user_id: S.optional(S.Unknown),
+          provider: S.optional(S.String),
+          isSocial: S.optional(S.Boolean),
+          access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          access_token_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          profileData: S.optional(__S(11936, __c373, 0)),
+        }),
+      ).annotate({ identifier: "UserIdentitySchema" });
+    case 1:
+      return S.Array(__S(11968, __c374, 0));
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            user_id: S.optional(S.String),
+            email: S.optional(S.String),
+            email_verified: S.optional(S.Boolean),
+            username: S.optional(S.String),
+            phone_number: S.optional(S.String),
+            phone_verified: S.optional(S.Boolean),
+            created_at: S.optional(S.String),
+            updated_at: S.optional(S.String),
+            identities: S.optional(__S(11969, __c374, 1)),
+            app_metadata: S.optional(__S(14496, __c453, 0)),
+            user_metadata: S.optional(__S(14496, __c453, 0)),
+            picture: S.optional(S.String),
+            name: S.optional(S.String),
+            nickname: S.optional(S.String),
+            multifactor: S.optional(__S(14720, __c460, 0)),
+            multifactor_last_modified: S.optional(S.String),
+            last_ip: S.optional(S.String),
+            last_login: S.optional(S.String),
+            last_password_reset: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            logins_count: S.optional(S.Number),
+            blocked: S.optional(S.Boolean),
+            given_name: S.optional(S.String),
+            family_name: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreateUserResponseContent" });
+  }
+}
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40140,17 +33421,17 @@ function __c481(j: number): any {
       ).annotate({ identifier: "PutPnProvidersRequest" });
   }
 }
-function __c482(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.optional(__S(512, __c16, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(14400, __c450, 0).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PUT", uri: "/guardian/policies", code: 200 })),
       ).annotate({ identifier: "PutPoliciesRequest" });
   }
 }
-function __c483(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40171,7 +33452,7 @@ function __c483(j: number): any {
       ).annotate({ identifier: "SetRulesConfigResponseContent" });
   }
 }
-function __c484(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40179,7 +33460,7 @@ function __c484(j: number): any {
           id: S.String.pipe(T.Label()),
           language: S.String.pipe(T.Label()),
           page: S.String.pipe(T.Label()),
-          body: S.optional(__S(7872, __c246, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(4128, __c129, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -40190,7 +33471,7 @@ function __c484(j: number): any {
       ).annotate({ identifier: "PutSelfServiceProfileCustomTextRequest" });
   }
 }
-function __c485(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40200,7 +33481,7 @@ function __c485(j: number): any {
       ).annotate({ identifier: "PutSigningKeysRequest" });
   }
 }
-function __c486(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40212,7 +33493,7 @@ function __c486(j: number): any {
       ).annotate({ identifier: "PutSmsProvidersRequest" });
   }
 }
-function __c487(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40227,7 +33508,7 @@ function __c487(j: number): any {
       ).annotate({ identifier: "PutSmsTwilioFactorProviderRequest" });
   }
 }
-function __c488(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40247,13 +33528,13 @@ function __c488(j: number): any {
       ).annotate({ identifier: "PutSnsRequest" });
   }
 }
-function __c489(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          groups: __S(10465, __c327, 1),
+          groups: __S(7649, __c239, 1),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -40264,18 +33545,7 @@ function __c489(j: number): any {
       ).annotate({ identifier: "PutSynchronizedGroupsRequest" });
   }
 }
-function __c490(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          groups: __S(480, __c15, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/roles/{id}/groups", code: 200 })),
-      ).annotate({ identifier: "CreateRoleGroupRequest" });
-  }
-}
-function __c491(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40290,7 +33560,18 @@ function __c491(j: number): any {
       ).annotate({ identifier: "PutTwilioRequest" });
   }
 }
-function __c492(j: number): any {
+function __c385(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          roles: __S(14720, __c460, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/users/{id}/roles", code: 200 })),
+      ).annotate({ identifier: "CreateUserRoleRequest" });
+  }
+}
+function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40300,7 +33581,7 @@ function __c492(j: number): any {
       ).annotate({ identifier: "PutUniversalLoginRequest" });
   }
 }
-function __c493(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40312,20 +33593,7 @@ function __c493(j: number): any {
       ).annotate({ identifier: "ResetPhoneTemplateRequest" });
   }
 }
-function __c494(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ids: S.optional(__S(480, __c15, 0)),
-          user_id: S.optional(S.String),
-          client_id: S.optional(S.String),
-          audience: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/refresh-tokens/revoke", code: 200 })),
-      ).annotate({ identifier: "RevokeRefreshTokensRequest" });
-  }
-}
-function __c495(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40335,7 +33603,7 @@ function __c495(j: number): any {
       ).annotate({ identifier: "RevokeSessionRequest" });
   }
 }
-function __c496(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40347,7 +33615,7 @@ function __c496(j: number): any {
       ).annotate({ identifier: "RevokeUserAccessRequest" });
   }
 }
-function __c497(j: number): any {
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40358,7 +33626,7 @@ function __c497(j: number): any {
       ).annotate({ identifier: "SetEmailFactorSettingsRequest" });
   }
 }
-function __c498(j: number): any {
+function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40371,7 +33639,7 @@ function __c498(j: number): any {
       ).annotate({ identifier: "SetGuardianSettingsRequest" });
   }
 }
-function __c499(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40382,30 +33650,19 @@ function __c499(j: number): any {
       ).annotate({ identifier: "SetPhoneFactorSettingsRequest" });
   }
 }
-function __c500(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           from: S.optional(S.String.pipe(T.Query())),
           from_timestamp: S.optional(S.String.pipe(T.Query())),
-          event_type: S.optional(__S(512, __c16, 0).pipe(T.Query())),
+          event_type: S.optional(__S(14400, __c450, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/events", code: 200 })),
       ).annotate({ identifier: "SubscribeEventsRequest" });
   }
 }
-function __c501(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          users: __S(480, __c15, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/roles/{id}/users", code: 200 })),
-      ).annotate({ identifier: "CreateRoleUserRequest" });
-  }
-}
-function __c502(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40416,7 +33673,7 @@ function __c502(j: number): any {
       ).annotate({ identifier: "TenantSettingsRouteRequest" });
   }
 }
-function __c503(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40428,7 +33685,18 @@ function __c503(j: number): any {
       ).annotate({ identifier: "TryPhoneProviderRequest" });
   }
 }
-function __c504(j: number): any {
+function __c396(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          force: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/actions/actions/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteActionRequest" });
+  }
+}
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40440,32 +33708,7 @@ function __c504(j: number): any {
       ).annotate({ identifier: "TryPhoneTemplateRequest" });
   }
 }
-function __c505(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          code: S.optional(S.String),
-          secrets: S.optional(__S(18305, __c572, 1)),
-          dependencies: S.optional(__S(18307, __c572, 3)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/actions/modules/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateActionModuleRequest" });
-  }
-}
-function __c506(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          metadata: S.optional(S.NullOr(__S(19488, __c609, 0))),
-        }).pipe(T.Http({ method: "PATCH", uri: "/agents/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateAgentRequest" });
-  }
-}
-function __c507(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40483,45 +33726,45 @@ function __c507(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          colors: S.optional(S.NullOr(__S(16224, __c507, 0))),
+          colors: S.optional(S.NullOr(__S(12736, __c398, 0))),
           favicon_url: S.optional(S.NullOr(S.String)),
           logo_url: S.optional(S.NullOr(S.String)),
-          font: S.optional(S.NullOr(__S(16225, __c507, 1))),
+          font: S.optional(S.NullOr(__S(12737, __c398, 1))),
         }).pipe(T.Http({ method: "PATCH", uri: "/branding", code: 200 })),
       ).annotate({ identifier: "UpdateBrandingRequest" });
   }
 }
-function __c508(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           themeId: S.String.pipe(T.Label()),
-          borders: __S(64, __c2, 0),
-          colors: __S(65, __c2, 1),
+          borders: __S(14016, __c438, 0),
+          colors: __S(14017, __c438, 1),
           displayName: S.optional(S.String),
-          fonts: __S(67, __c2, 3),
-          identifiers: S.optional(__S(69, __c2, 5)),
-          page_background: __S(70, __c2, 6),
-          widget: __S(71, __c2, 7),
+          fonts: __S(14019, __c438, 3),
+          identifiers: S.optional(__S(14021, __c438, 5)),
+          page_background: __S(14022, __c438, 6),
+          widget: __S(14023, __c438, 7),
         }).pipe(T.Http({ method: "PATCH", uri: "/branding/themes/{themeId}", code: 200 })),
       ).annotate({ identifier: "UpdateBrandingThemeRequest" });
   }
 }
-function __c509(j: number): any {
+function __c400(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          apple: S.optional(S.NullOr(__S(672, __c21, 0))),
-          facebook: S.optional(S.NullOr(__S(672, __c21, 0))),
-          google: S.optional(S.NullOr(__S(672, __c21, 0))),
+          apple: S.optional(S.NullOr(__S(14464, __c452, 0))),
+          facebook: S.optional(S.NullOr(__S(14464, __c452, 0))),
+          google: S.optional(S.NullOr(__S(14464, __c452, 0))),
         }),
       ).annotate({ identifier: "NativeSocialLoginPatch" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          google: S.optional(S.NullOr(__S(586, __c18, 10))),
+          google: S.optional(S.NullOr(__S(14560, __c455, 0))),
         }),
       ).annotate({ identifier: "FedCMLoginPatch" });
     case 2:
@@ -40532,18 +33775,18 @@ function __c509(j: number): any {
           description: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           logo_uri: S.optional(S.String),
-          callbacks: S.optional(__S(480, __c15, 0)),
-          oidc_logout: S.optional(__S(578, __c18, 2)),
-          oidc_backchannel_logout: S.optional(__S(578, __c18, 2)),
-          session_transfer: S.optional(S.NullOr(__S(580, __c18, 4))),
-          allowed_origins: S.optional(__S(480, __c15, 0)),
-          web_origins: S.optional(__S(480, __c15, 0)),
-          grant_types: S.optional(__S(480, __c15, 0)),
-          client_aliases: S.optional(__S(480, __c15, 0)),
-          allowed_clients: S.optional(__S(480, __c15, 0)),
-          allowed_logout_urls: S.optional(__S(480, __c15, 0)),
-          jwt_configuration: S.optional(__S(581, __c18, 5)),
-          encryption_key: S.optional(S.NullOr(__S(608, __c19, 0))),
+          callbacks: S.optional(__S(14720, __c460, 0)),
+          oidc_logout: S.optional(__S(14530, __c454, 2)),
+          oidc_backchannel_logout: S.optional(__S(14530, __c454, 2)),
+          session_transfer: S.optional(S.NullOr(__S(14532, __c454, 4))),
+          allowed_origins: S.optional(__S(14720, __c460, 0)),
+          web_origins: S.optional(__S(14720, __c460, 0)),
+          grant_types: S.optional(__S(14720, __c460, 0)),
+          client_aliases: S.optional(__S(14720, __c460, 0)),
+          allowed_clients: S.optional(__S(14720, __c460, 0)),
+          allowed_logout_urls: S.optional(__S(14720, __c460, 0)),
+          jwt_configuration: S.optional(__S(14533, __c454, 5)),
+          encryption_key: S.optional(S.NullOr(__S(14534, __c454, 6))),
           sso: S.optional(S.Boolean),
           cross_origin_authentication: S.optional(S.Boolean),
           cross_origin_loc: S.optional(S.NullOr(S.String)),
@@ -40556,140 +33799,98 @@ function __c509(j: number): any {
           oidc_conformant: S.optional(S.Boolean),
           custom_login_page: S.optional(S.String),
           custom_login_page_preview: S.optional(S.String),
-          token_quota: S.optional(S.NullOr(__S(768, __c24, 0))),
-          identity_assertion_authorization_grant: S.optional(S.NullOr(__S(640, __c20, 0))),
-          anonymous_sessions: S.optional(S.NullOr(__S(640, __c20, 0))),
+          token_quota: S.optional(S.NullOr(__S(14656, __c458, 0))),
+          identity_assertion_authorization_grant: S.optional(S.NullOr(__S(14432, __c451, 0))),
+          anonymous_sessions: S.optional(S.NullOr(__S(14432, __c451, 0))),
           enforce_anon_session_transfer_network_binding: S.optional(S.String),
           form_template: S.optional(S.String),
-          addons: S.optional(__S(629, __c19, 21)),
-          client_metadata: S.optional(__S(19488, __c609, 0)),
-          mobile: S.optional(__S(584, __c18, 8)),
+          addons: S.optional(__S(14555, __c454, 27)),
+          client_metadata: S.optional(__S(14496, __c453, 0)),
+          mobile: S.optional(__S(14558, __c454, 30)),
           initiate_login_uri: S.optional(S.String),
-          native_social_login: S.optional(S.NullOr(__S(16288, __c509, 0))),
-          fedcm_login: S.optional(S.NullOr(__S(16289, __c509, 1))),
-          refresh_token: S.optional(S.NullOr(__S(590, __c18, 14))),
-          default_organization: S.optional(S.NullOr(__S(591, __c18, 15))),
+          native_social_login: S.optional(S.NullOr(__S(12800, __c400, 0))),
+          fedcm_login: S.optional(S.NullOr(__S(12801, __c400, 1))),
+          refresh_token: S.optional(S.NullOr(__S(14564, __c455, 4))),
+          default_organization: S.optional(S.NullOr(__S(14565, __c455, 5))),
           organization_usage: S.optional(S.NullOr(S.String)),
           organization_require_behavior: S.optional(S.NullOr(S.String)),
-          organization_discovery_methods: S.optional(S.NullOr(__S(512, __c16, 0))),
-          client_authentication_methods: S.optional(S.NullOr(__S(602, __c18, 26))),
+          organization_discovery_methods: S.optional(S.NullOr(__S(14400, __c450, 0))),
+          client_authentication_methods: S.optional(S.NullOr(__S(14578, __c455, 18))),
           require_pushed_authorization_requests: S.optional(S.Boolean),
           require_proof_of_possession: S.optional(S.Boolean),
-          signed_request_object: S.optional(__S(603, __c18, 27)),
-          token_vault_privileged_access: S.optional(__S(604, __c18, 28)),
+          signed_request_object: S.optional(__S(14579, __c455, 19)),
+          token_vault_privileged_access: S.optional(__S(14580, __c455, 20)),
           compliance_level: S.optional(S.NullOr(S.String)),
           skip_non_verifiable_callback_uri_confirmation_prompt: S.optional(S.NullOr(S.Boolean)),
-          token_exchange: S.optional(S.NullOr(__S(594, __c18, 18))),
+          token_exchange: S.optional(S.NullOr(__S(14568, __c455, 8))),
           par_request_expiry: S.optional(S.NullOr(S.Number)),
-          express_configuration: S.optional(S.NullOr(__S(597, __c18, 21))),
-          b2b_integration_configuration: S.optional(__S(598, __c18, 22)),
-          my_organization_configuration: S.optional(S.NullOr(__S(600, __c18, 24))),
-          async_approval_notification_channels: S.optional(S.NullOr(__S(512, __c16, 0))),
+          express_configuration: S.optional(S.NullOr(__S(14571, __c455, 11))),
+          b2b_integration_configuration: S.optional(__S(14572, __c455, 12)),
+          my_organization_configuration: S.optional(S.NullOr(__S(14574, __c455, 14))),
+          async_approval_notification_channels: S.optional(S.NullOr(__S(14400, __c450, 0))),
           third_party_security_mode: S.optional(S.String),
           redirection_policy: S.optional(S.String),
           agent_id: S.optional(S.NullOr(S.String)),
-          oidc_support: S.optional(S.NullOr(__S(544, __c17, 0))),
+          oidc_support: S.optional(S.NullOr(__S(14688, __c459, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/clients/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateClientRequest" });
   }
 }
-function __c510(j: number): any {
+function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          scope: S.optional(S.NullOr(__S(480, __c15, 0))),
+          scope: S.optional(S.NullOr(__S(14720, __c460, 0))),
           organization_usage: S.optional(S.NullOr(S.String)),
           allow_any_organization: S.optional(S.NullOr(S.Boolean)),
-          authorization_details_types: S.optional(__S(480, __c15, 0)),
+          authorization_details_types: S.optional(__S(14720, __c460, 0)),
           allow_all_scopes: S.optional(S.NullOr(S.Boolean)),
         }).pipe(T.Http({ method: "PATCH", uri: "/client-grants/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateClientGrantRequest" });
   }
 }
-function __c511(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.NullOr(S.String)),
-          client_configuration: S.optional(__S(1542, __c48, 6)),
-          apply_policy: S.optional(__S(1543, __c48, 7)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/client-profiles/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateClientProfileRequest" });
-  }
-}
-function __c512(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          script: S.String,
-          order: S.optional(S.Number),
-          enabled: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/rules", code: 200 })),
-      ).annotate({ identifier: "CreateRuleRequest" });
-  }
-}
-function __c513(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          id: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          script: S.optional(S.String),
-          order: S.optional(S.Number),
-          stage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateRuleResponseContent" });
-  }
-}
-function __c514(j: number): any {
+function __c402(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           display_name: S.optional(S.String),
-          options: S.optional(S.NullOr(__S(3135, __c97, 31))),
-          enabled_clients: S.optional(S.NullOr(__S(480, __c15, 0))),
+          options: S.optional(S.NullOr(__S(191, __c5, 31))),
+          enabled_clients: S.optional(S.NullOr(__S(14720, __c460, 0))),
           is_domain_connection: S.optional(S.Boolean),
           show_as_button: S.optional(S.Boolean),
-          realms: S.optional(__S(480, __c15, 0)),
-          metadata: S.optional(__S(3072, __c96, 0)),
-          authentication: S.optional(__S(640, __c20, 0)),
-          connected_accounts: S.optional(__S(3008, __c94, 0)),
-          cross_app_access_requesting_app: S.optional(__S(640, __c20, 0)),
-          cross_app_access_resource_app: S.optional(S.NullOr(__S(3009, __c94, 1))),
+          realms: S.optional(__S(14720, __c460, 0)),
+          metadata: S.optional(__S(64, __c2, 0)),
+          authentication: S.optional(__S(14432, __c451, 0)),
+          connected_accounts: S.optional(__S(96, __c3, 0)),
+          cross_app_access_requesting_app: S.optional(__S(14432, __c451, 0)),
+          cross_app_access_resource_app: S.optional(S.NullOr(__S(97, __c3, 1))),
         }).pipe(T.Http({ method: "PATCH", uri: "/connections/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateConnectionRequest" });
   }
 }
-function __c515(j: number): any {
+function __c403(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          organization: S.optional(__S(3488, __c109, 0)),
+          organization: S.optional(__S(672, __c21, 0)),
           connection_name_prefix_template: S.optional(S.String),
-          enabled_features: S.optional(__S(512, __c16, 0)),
+          enabled_features: S.optional(__S(14400, __c450, 0)),
           connection_config: S.optional(S.Unknown),
-          strategy_overrides: S.optional(__S(3494, __c109, 6)),
-          provisioning: S.optional(__S(3492, __c109, 4)),
-          cross_app_access_resource_app: S.optional(__S(3521, __c110, 1)),
+          strategy_overrides: S.optional(__S(678, __c21, 6)),
+          provisioning: S.optional(__S(676, __c21, 4)),
+          cross_app_access_resource_app: S.optional(__S(705, __c22, 1)),
         }).pipe(T.Http({ method: "PATCH", uri: "/connection-profiles/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateConnectionProfileRequest" });
   }
 }
-function __c516(j: number): any {
+function __c404(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40697,13 +33898,13 @@ function __c516(j: number): any {
           id: S.String.pipe(T.Label()),
           tls_policy: S.optional(S.String),
           custom_client_ip_header: S.optional(S.NullOr(S.String)),
-          domain_metadata: S.optional(__S(3072, __c96, 0)),
+          domain_metadata: S.optional(__S(64, __c2, 0)),
           relying_party_identifier: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PATCH", uri: "/custom-domains/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateCustomDomainRequest" });
   }
 }
-function __c517(j: number): any {
+function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40722,7 +33923,7 @@ function __c517(j: number): any {
       ).annotate({ identifier: "UpdateEmailTemplateRequest" });
   }
 }
-function __c518(j: number): any {
+function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40731,13 +33932,13 @@ function __c518(j: number): any {
         }),
       ).annotate({ identifier: "EventStreamSubscription" });
     case 1:
-      return S.Array(__S(16576, __c518, 0));
+      return S.Array(__S(12992, __c406, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          subscriptions: S.optional(__S(16577, __c518, 1)),
+          subscriptions: S.optional(__S(12993, __c406, 1)),
           destination: S.optional(S.Unknown),
           status: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/event-streams/{id}", code: 200 })),
@@ -40748,50 +33949,29 @@ function __c518(j: number): any {
       });
   }
 }
-function __c519(j: number): any {
+function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.NullOr(S.String)),
-          authentication_flow: S.optional(S.String),
-          allocations: S.optional(__S(5985, __c187, 1)),
-          default_config: S.optional(S.String),
-          levels: S.optional(__S(5952, __c186, 0)),
-          status: S.optional(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/experimentation/experiments/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateExperimentRequest" });
+        }).pipe(T.Http({ method: "DELETE", uri: "/users/{id}/authentication-methods", code: 200 })),
+      ).annotate({ identifier: "DeleteAuthenticationMethodsRequest" });
   }
 }
-function __c520(j: number): any {
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          description: S.optional(S.NullOr(S.String)),
-          parameters: S.optional(__S(6433, __c201, 1)),
-          status: S.optional(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/experimentation/feature-flags/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateFeatureFlagRequest" });
-  }
-}
-function __c521(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          actions: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          actions: S.optional(S.NullOr(__S(3264, __c102, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/flows/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateFlowRequest" });
   }
 }
-function __c522(j: number): any {
+function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40803,82 +33983,25 @@ function __c522(j: number): any {
       ).annotate({ identifier: "UpdateFlowsVaultConnectionRequest" });
   }
 }
-function __c523(j: number): any {
+function __c410(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          messages: S.optional(S.NullOr(__S(7840, __c245, 0))),
-          languages: S.optional(S.NullOr(__S(7841, __c245, 1))),
-          translations: S.optional(S.NullOr(__S(7842, __c245, 2))),
-          nodes: S.optional(S.NullOr(__S(7844, __c245, 4))),
-          start: S.optional(S.NullOr(__S(7847, __c245, 7))),
-          ending: S.optional(S.NullOr(__S(7850, __c245, 10))),
-          style: S.optional(S.NullOr(__S(7851, __c245, 11))),
+          messages: S.optional(S.NullOr(__S(4096, __c128, 0))),
+          languages: S.optional(S.NullOr(__S(4097, __c128, 1))),
+          translations: S.optional(S.NullOr(__S(4098, __c128, 2))),
+          nodes: S.optional(S.NullOr(__S(4100, __c128, 4))),
+          start: S.optional(S.NullOr(__S(4103, __c128, 7))),
+          ending: S.optional(S.NullOr(__S(4106, __c128, 10))),
+          style: S.optional(S.NullOr(__S(4107, __c128, 11))),
         }).pipe(T.Http({ method: "PATCH", uri: "/forms/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateFormRequest" });
   }
 }
-function __c524(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-          rules: __S(16802, __c525, 2),
-        }).pipe(T.Http({ method: "POST", uri: "/experimentation/segments", code: 200 })),
-      ).annotate({ identifier: "CreateSegmentRequest" });
-  }
-}
-function __c525(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            client_id: S.optional(S.Unknown),
-            connection: S.optional(S.Unknown),
-            connection_type: S.optional(S.Unknown),
-            organization_id: S.optional(S.Unknown),
-            domain: S.optional(S.Unknown),
-            device_type: S.optional(S.Unknown),
-            browser: S.optional(S.Unknown),
-            platform: S.optional(S.Unknown),
-            user_agent: S.optional(S.Unknown),
-            country: S.optional(S.Unknown),
-            region: S.optional(S.Unknown),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "SegmentMatchConditions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          match: S.optional(__S(16800, __c525, 0)),
-          not_match: S.optional(__S(16800, __c525, 0)),
-        }),
-      ).annotate({ identifier: "SegmentRule" });
-    case 2:
-      return S.Array(__S(16801, __c525, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.optional(S.String),
-          type: S.String,
-          status: S.String,
-          rules: __S(16802, __c525, 2),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "CreateSegmentResponseContent" });
-  }
-}
-function __c526(j: number): any {
+function __c411(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40887,12 +34010,12 @@ function __c526(j: number): any {
           name: S.optional(S.String),
           script: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          dependencies: S.optional(__S(7872, __c246, 0)),
+          dependencies: S.optional(__S(4128, __c129, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/hooks/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateHookRequest" });
   }
 }
-function __c527(j: number): any {
+function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40905,11 +34028,11 @@ function __c527(j: number): any {
         ),
       ).annotate({ identifier: "LogStreamFilter" });
     case 1:
-      return S.Array(__S(16864, __c527, 0));
+      return S.Array(__S(13184, __c412, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          log_fields: __S(512, __c16, 0),
+          log_fields: __S(14400, __c450, 0),
           method: S.optional(S.String),
           algorithm: S.optional(S.String),
         }),
@@ -40921,8 +34044,8 @@ function __c527(j: number): any {
           name: S.optional(S.String),
           status: S.optional(S.String),
           isPriority: S.optional(S.Boolean),
-          filters: S.optional(__S(16865, __c527, 1)),
-          pii_config: S.optional(__S(16866, __c527, 2)),
+          filters: S.optional(__S(13185, __c412, 1)),
+          pii_config: S.optional(__S(13186, __c412, 2)),
           sink: S.optional(S.Unknown),
         }).pipe(T.Http({ method: "PATCH", uri: "/log-streams/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateLogStreamRequest" });
@@ -40932,7 +34055,7 @@ function __c527(j: number): any {
       });
   }
 }
-function __c528(j: number): any {
+function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40941,12 +34064,12 @@ function __c528(j: number): any {
           description: S.optional(S.String),
           active: S.optional(S.Boolean),
           priority: S.optional(S.Number),
-          rule: S.optional(__S(10147, __c317, 3)),
+          rule: S.optional(__S(6020, __c188, 4)),
         }).pipe(T.Http({ method: "PATCH", uri: "/network-acls/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateNetworkAclRequest" });
   }
 }
-function __c529(j: number): any {
+function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40954,62 +34077,16 @@ function __c529(j: number): any {
           id: S.String.pipe(T.Label()),
           display_name: S.optional(S.String),
           name: S.optional(S.String),
-          branding: S.optional(__S(10657, __c333, 1)),
-          metadata: S.optional(__S(3072, __c96, 0)),
-          token_quota: S.optional(S.NullOr(__S(768, __c24, 0))),
+          branding: S.optional(__S(6625, __c207, 1)),
+          metadata: S.optional(__S(64, __c2, 0)),
+          token_quota: S.optional(S.NullOr(__S(14656, __c458, 0))),
           third_party_client_access: S.optional(S.String),
           is_app_entitlement_active: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/organizations/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateOrganizationRequest" });
   }
 }
-function __c530(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          client_id: S.String.pipe(T.Label()),
-          use_for_member_access: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({ method: "PATCH", uri: "/organizations/{id}/clients/{client_id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "UpdateOrganizationClientRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          client_id: S.String,
-          use_for_member_access: S.Boolean,
-          client: S.optional(__S(11232, __c351, 0)),
-        }),
-      ).annotate({ identifier: "UpdateOrganizationClientResponseContent" });
-  }
-}
-function __c531(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          connection_id: S.String.pipe(T.Label()),
-          organization_connection_name: S.optional(S.NullOr(S.String)),
-          assign_membership_on_login: S.optional(S.Boolean),
-          show_as_button: S.optional(S.Boolean),
-          is_signup_enabled: S.optional(S.Boolean),
-          organization_access_level: S.optional(S.NullOr(S.String)),
-          organization_member_access_level: S.optional(S.NullOr(S.String)),
-          is_enabled: S.optional(S.NullOr(S.Boolean)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/organizations/{id}/connections/{connection_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateOrganizationConnectionRequest" });
-  }
-}
-function __c532(j: number): any {
+function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41023,42 +34100,26 @@ function __c532(j: number): any {
       ).annotate({ identifier: "UpdatePhoneProviderRequest" });
   }
 }
-function __c533(j: number): any {
+function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           from: S.optional(S.String),
-          body: S.optional(__S(13664, __c427, 0)),
+          body: S.optional(__S(8768, __c274, 0)),
         }),
       ).annotate({ identifier: "PartialPhoneTemplateContent" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          content: S.optional(__S(17056, __c533, 0)),
+          content: S.optional(__S(13312, __c416, 0)),
           disabled: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/branding/phone/templates/{id}", code: 200 })),
       ).annotate({ identifier: "UpdatePhoneTemplateRequest" });
   }
 }
-function __c534(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          slug: S.optional(S.String),
-          name: S.optional(S.String),
-          client: S.optional(__S(14080, __c440, 0)),
-          navigation: S.optional(S.NullOr(__S(14050, __c439, 2))),
-          pages: S.optional(S.NullOr(__S(14054, __c439, 6))),
-          custom_code: S.optional(S.NullOr(__S(14055, __c439, 7))),
-        }).pipe(T.Http({ method: "PATCH", uri: "/portals/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdatePortalRequest" });
-  }
-}
-function __c535(j: number): any {
+function __c417(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41070,654 +34131,7 @@ function __c535(j: number): any {
       ).annotate({ identifier: "UpdatePromptsRequest" });
   }
 }
-function __c536(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(S.String),
-          branding: S.optional(__S(17185, __c537, 1)),
-          allowed_strategies: S.optional(__S(512, __c16, 0)),
-          user_attributes: S.optional(__S(17187, __c537, 3)),
-          user_attribute_profile_id: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/self-service-profiles", code: 200 })),
-      ).annotate({ identifier: "CreateSelfServiceProfileRequest" });
-  }
-}
-function __c537(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            primary: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "SelfServiceProfileBrandingColors" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            logo_url: S.optional(S.String),
-            colors: S.optional(__S(17184, __c537, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "SelfServiceProfileBrandingProperties" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.String,
-          is_optional: S.Boolean,
-        }),
-      ).annotate({ identifier: "SelfServiceProfileUserAttribute" });
-    case 3:
-      return S.Array(__S(17186, __c537, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          user_attributes: S.optional(__S(17187, __c537, 3)),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-          branding: S.optional(__S(17185, __c537, 1)),
-          allowed_strategies: S.optional(__S(512, __c16, 0)),
-          user_attribute_profile_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateSelfServiceProfileResponseContent" });
-  }
-}
-function __c538(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          configuration: S.Unknown,
-        }).pipe(T.Http({ method: "PATCH", uri: "/rate-limit-policies/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateRateLimitPolicyRequest" });
-  }
-}
-function __c539(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          refresh_token_metadata: S.optional(S.NullOr(__S(19488, __c609, 0))),
-        }).pipe(T.Http({ method: "PATCH", uri: "/refresh-tokens/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateRefreshTokenRequest" });
-  }
-}
-function __c540(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          scopes: S.optional(__S(14914, __c466, 2)),
-          signing_alg: S.optional(S.String),
-          signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          skip_consent_for_verifiable_first_party_clients: S.optional(S.Boolean),
-          allow_offline_access: S.optional(S.Boolean),
-          allow_online_access: S.optional(S.Boolean),
-          allow_online_access_with_ephemeral_sessions: S.optional(S.Boolean),
-          token_lifetime: S.optional(S.Number),
-          token_lifetime_for_anonymous_access_tokens: S.optional(S.NullOr(S.Number)),
-          token_dialect: S.optional(S.String),
-          enforce_policies: S.optional(S.Boolean),
-          access_token: S.optional(S.NullOr(__S(14883, __c465, 3))),
-          token_encryption: S.optional(S.NullOr(__S(14916, __c466, 4))),
-          consent_policy: S.optional(S.NullOr(S.String)),
-          require_consent_non_repudiation: S.optional(S.Boolean),
-          authorization_details: S.optional(S.NullOr(__S(14912, __c466, 0))),
-          proof_of_possession: S.optional(S.NullOr(__S(14917, __c466, 5))),
-          subject_type_authorization: S.optional(__S(14919, __c466, 7)),
-          authorization_policy: S.optional(S.NullOr(__S(14920, __c466, 8))),
-          agent_subject_claims: S.optional(S.String),
-          type: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/resource-servers/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateResourceServerRequest" });
-  }
-}
-function __c541(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-        }).pipe(T.Http({ method: "PATCH", uri: "/risk-assessments/settings", code: 200 })),
-      ).annotate({ identifier: "UpdateRiskAssessmentsSettingsRequest" });
-  }
-}
-function __c542(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/roles/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateRoleRequest" });
-  }
-}
-function __c543(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          script: S.optional(S.String),
-          name: S.optional(S.String),
-          order: S.optional(S.Number),
-          enabled: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "PATCH", uri: "/rules/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateRuleRequest" });
-  }
-}
-function __c544(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.NullOr(S.String)),
-          rules: S.optional(__S(16802, __c525, 2)),
-          status: S.optional(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/experimentation/segments/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateSegmentRequest" });
-  }
-}
-function __c545(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.NullOr(S.String)),
-          branding: S.optional(S.NullOr(__S(17185, __c537, 1))),
-          allowed_strategies: S.optional(__S(512, __c16, 0)),
-          user_attributes: S.optional(S.NullOr(__S(17187, __c537, 3))),
-          user_attribute_profile_id: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/self-service-profiles/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateSelfServiceProfileRequest" });
-  }
-}
-function __c546(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          session_metadata: S.optional(S.NullOr(__S(19488, __c609, 0))),
-        }).pipe(T.Http({ method: "PATCH", uri: "/sessions/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateSessionRequest" });
-  }
-}
-function __c547(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          akamai_enabled: S.Boolean,
-        }).pipe(T.Http({ method: "PATCH", uri: "/supplemental-signals", code: 200 })),
-      ).annotate({ identifier: "UpdateSupplementalSignalsRequest" });
-  }
-}
-function __c548(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          subject_token_type: S.String,
-          action_id: S.String,
-          type: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/token-exchange-profiles", code: 200 })),
-      ).annotate({ identifier: "CreateTokenExchangeProfileRequest" });
-  }
-}
-function __c549(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.optional(S.String),
-            name: S.optional(S.String),
-            subject_token_type: S.optional(S.String),
-            action_id: S.optional(S.String),
-            type: S.optional(S.String),
-            created_at: S.optional(S.String),
-            updated_at: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreateTokenExchangeProfileResponseContent" });
-  }
-}
-function __c550(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          subject_token_type: S.optional(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/token-exchange-profiles/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateTokenExchangeProfileRequest" });
-  }
-}
-function __c551(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          blocked: S.optional(S.Boolean),
-          email_verified: S.optional(S.Boolean),
-          email: S.optional(S.NullOr(S.String)),
-          phone_number: S.optional(S.NullOr(S.String)),
-          phone_verified: S.optional(S.Boolean),
-          user_metadata: S.optional(__S(19488, __c609, 0)),
-          app_metadata: S.optional(__S(19488, __c609, 0)),
-          given_name: S.optional(S.NullOr(S.String)),
-          family_name: S.optional(S.NullOr(S.String)),
-          name: S.optional(S.NullOr(S.String)),
-          nickname: S.optional(S.NullOr(S.String)),
-          picture: S.optional(S.NullOr(S.String)),
-          verify_email: S.optional(S.Boolean),
-          verify_phone_number: S.optional(S.Boolean),
-          password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          connection: S.optional(S.String),
-          client_id: S.optional(S.String),
-          username: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/users/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateUserRequest" });
-  }
-}
-function __c552(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          user_id: S.optional(S.NullOr(__S(17922, __c560, 2))),
-          user_attributes: S.optional(__S(17927, __c560, 7)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/user-attribute-profiles/{id}", code: 200 })),
-      ).annotate({ identifier: "UpdateUserAttributeProfileRequest" });
-  }
-}
-function __c553(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          vid: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          description: S.optional(S.NullOr(S.String)),
-          overrides: S.optional(S.NullOr(__S(19488, __c609, 0))),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/experimentation/feature-flags/{id}/variations/{vid}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateVariationRequest" });
-  }
-}
-function __c554(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/experimentation/experiments/{id}/validate", code: 200 }),
-        ),
-      ).annotate({ identifier: "ValidateExperimentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.String,
-          message: S.String,
-        }),
-      ).annotate({ identifier: "ExperimentValidationError" });
-    case 2:
-      return S.Array(__S(17729, __c554, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          is_valid: S.Boolean,
-          errors: __S(17730, __c554, 2),
-        }),
-      ).annotate({ identifier: "ValidateExperimentResponseContent" });
-  }
-}
-function __c555(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          target_level: S.Number,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/experimentation/experiments/{id}/advance-ramp",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AdvanceExperimentRampRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          experiment_id: S.String,
-          from_level: S.Number,
-          to_level: S.Number,
-          current_level: S.Number,
-        }),
-      ).annotate({ identifier: "AdvanceRampResponseContent" });
-  }
-}
-function __c556(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          email: S.optional(S.String),
-          phone_number: S.optional(S.String),
-          user_metadata: S.optional(__S(19488, __c609, 0)),
-          blocked: S.optional(S.Boolean),
-          email_verified: S.optional(S.Boolean),
-          phone_verified: S.optional(S.Boolean),
-          app_metadata: S.optional(__S(19488, __c609, 0)),
-          given_name: S.optional(S.String),
-          family_name: S.optional(S.String),
-          name: S.optional(S.String),
-          nickname: S.optional(S.String),
-          picture: S.optional(S.String),
-          user_id: S.optional(S.String),
-          connection: S.String,
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          verify_email: S.optional(S.Boolean),
-          username: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/users", code: 200 })),
-      ).annotate({ identifier: "CreateUserRequest" });
-  }
-}
-function __c557(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            email: S.optional(S.String),
-            email_verified: S.optional(S.Boolean),
-            name: S.optional(S.String),
-            username: S.optional(S.String),
-            given_name: S.optional(S.String),
-            phone_number: S.optional(S.String),
-            phone_verified: S.optional(S.Boolean),
-            family_name: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "UserProfileData" });
-  }
-}
-function __c558(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          connection: S.optional(S.String),
-          user_id: S.optional(S.Unknown),
-          provider: S.optional(S.String),
-          isSocial: S.optional(S.Boolean),
-          access_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          access_token_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          refresh_token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          profileData: S.optional(__S(17824, __c557, 0)),
-        }),
-      ).annotate({ identifier: "UserIdentitySchema" });
-    case 1:
-      return S.Array(__S(17856, __c558, 0));
-    case 2:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            user_id: S.optional(S.String),
-            email: S.optional(S.String),
-            email_verified: S.optional(S.Boolean),
-            username: S.optional(S.String),
-            phone_number: S.optional(S.String),
-            phone_verified: S.optional(S.Boolean),
-            created_at: S.optional(S.String),
-            updated_at: S.optional(S.String),
-            identities: S.optional(__S(17857, __c558, 1)),
-            app_metadata: S.optional(__S(19488, __c609, 0)),
-            user_metadata: S.optional(__S(19488, __c609, 0)),
-            picture: S.optional(S.String),
-            name: S.optional(S.String),
-            nickname: S.optional(S.String),
-            multifactor: S.optional(__S(480, __c15, 0)),
-            multifactor_last_modified: S.optional(S.String),
-            last_ip: S.optional(S.String),
-            last_login: S.optional(S.String),
-            last_password_reset: S.optional(S.String.pipe(T.SensitiveValue({}))),
-            logins_count: S.optional(S.Number),
-            blocked: S.optional(S.Boolean),
-            given_name: S.optional(S.String),
-            family_name: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "CreateUserResponseContent" });
-  }
-}
-function __c559(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          user_id: S.optional(__S(17922, __c560, 2)),
-          user_attributes: __S(17927, __c560, 7),
-        }).pipe(T.Http({ method: "POST", uri: "/user-attribute-profiles", code: 200 })),
-      ).annotate({ identifier: "CreateUserAttributeProfileRequest" });
-  }
-}
-function __c560(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          oidc_mapping: S.optional(S.String),
-          saml_mapping: S.optional(__S(480, __c15, 0)),
-          scim_mapping: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserAttributeProfileStrategyOverridesUserIdMapping" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          pingfederate: S.optional(__S(17920, __c560, 0)),
-          ad: S.optional(__S(17920, __c560, 0)),
-          adfs: S.optional(__S(17920, __c560, 0)),
-          waad: S.optional(__S(17920, __c560, 0)),
-          google_apps: S.optional(__S(17920, __c560, 0).pipe(T.Body("google-apps"))),
-          okta: S.optional(__S(17920, __c560, 0)),
-          oidc: S.optional(__S(17920, __c560, 0)),
-          samlp: S.optional(__S(17920, __c560, 0)),
-        }),
-      ).annotate({ identifier: "UserAttributeProfileStrategyOverridesUserId" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          oidc_mapping: S.optional(S.String),
-          saml_mapping: S.optional(__S(480, __c15, 0)),
-          scim_mapping: S.optional(S.String),
-          strategy_overrides: S.optional(__S(17921, __c560, 1)),
-        }),
-      ).annotate({ identifier: "UserAttributeProfileUserId" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          mapping: S.String,
-          display_name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserAttributeProfileOidcMapping" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          oidc_mapping: S.optional(__S(17923, __c560, 3)),
-          saml_mapping: S.optional(__S(480, __c15, 0)),
-          scim_mapping: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserAttributeProfileStrategyOverridesMapping" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          pingfederate: S.optional(__S(17924, __c560, 4)),
-          ad: S.optional(__S(17924, __c560, 4)),
-          adfs: S.optional(__S(17924, __c560, 4)),
-          waad: S.optional(__S(17924, __c560, 4)),
-          google_apps: S.optional(__S(17924, __c560, 4).pipe(T.Body("google-apps"))),
-          okta: S.optional(__S(17924, __c560, 4)),
-          oidc: S.optional(__S(17924, __c560, 4)),
-          samlp: S.optional(__S(17924, __c560, 4)),
-        }),
-      ).annotate({ identifier: "UserAttributeProfileStrategyOverrides" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.String,
-          label: S.String,
-          profile_required: S.Boolean,
-          auth0_mapping: S.String,
-          oidc_mapping: S.optional(__S(17923, __c560, 3)),
-          saml_mapping: S.optional(__S(480, __c15, 0)),
-          scim_mapping: S.optional(S.String),
-          strategy_overrides: S.optional(__S(17925, __c560, 5)),
-        }),
-      ).annotate({ identifier: "UserAttributeProfileUserAttributeAdditionalProperties" });
-    case 7:
-      return S.Record(S.String, __S(17926, __c560, 6));
-  }
-}
-function __c561(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          user_id: S.optional(__S(17922, __c560, 2)),
-          user_attributes: S.optional(__S(17927, __c560, 7)),
-        }),
-      ).annotate({ identifier: "CreateUserAttributeProfileResponseContent" });
-  }
-}
-function __c562(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          roles: __S(480, __c15, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/users/{id}/roles", code: 200 })),
-      ).annotate({ identifier: "CreateUserRoleRequest" });
-  }
-}
-function __c563(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          name: S.String,
-          description: S.optional(S.String),
-          overrides: __S(19488, __c609, 0),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/experimentation/feature-flags/{id}/variations",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateVariationRequest" });
-  }
-}
-function __c564(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          feature_flag_id: S.String,
-          name: S.String,
-          description: S.optional(S.String),
-          overrides: __S(19488, __c609, 0),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "CreateVariationResponseContent" });
-  }
-}
-function __c565(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "DELETE", uri: "/actions/actions/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteActionRequest" });
-  }
-}
-function __c566(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/actions/modules/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteActionModuleRequest" });
-  }
-}
-function __c567(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/agents/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteAgentRequest" });
-  }
-}
-function __c568(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/users/{id}/authentication-methods", code: 200 })),
-      ).annotate({ identifier: "DeleteAuthenticationMethodsRequest" });
-  }
-}
-function __c569(j: number): any {
+function __c418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41734,7 +34148,153 @@ function __c569(j: number): any {
       ).annotate({ identifier: "DeleteAuthenticationMethodsByAuthenticationMethodIdRequest" });
   }
 }
-function __c570(j: number): any {
+function __c419(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          refresh_token_metadata: S.optional(S.NullOr(__S(14496, __c453, 0))),
+        }).pipe(T.Http({ method: "PATCH", uri: "/refresh-tokens/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateRefreshTokenRequest" });
+  }
+}
+function __c420(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          scopes: S.optional(__S(9186, __c287, 2)),
+          signing_alg: S.optional(S.String),
+          signing_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          skip_consent_for_verifiable_first_party_clients: S.optional(S.Boolean),
+          allow_offline_access: S.optional(S.Boolean),
+          allow_online_access: S.optional(S.Boolean),
+          allow_online_access_with_ephemeral_sessions: S.optional(S.Boolean),
+          token_lifetime: S.optional(S.Number),
+          token_lifetime_for_anonymous_access_tokens: S.optional(S.NullOr(S.Number)),
+          token_dialect: S.optional(S.String),
+          enforce_policies: S.optional(S.Boolean),
+          access_token: S.optional(S.NullOr(__S(9155, __c286, 3))),
+          token_encryption: S.optional(S.NullOr(__S(9188, __c287, 4))),
+          consent_policy: S.optional(S.NullOr(S.String)),
+          require_consent_non_repudiation: S.optional(S.Boolean),
+          authorization_details: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          proof_of_possession: S.optional(S.NullOr(__S(9189, __c287, 5))),
+          subject_type_authorization: S.optional(__S(9191, __c287, 7)),
+          authorization_policy: S.optional(S.NullOr(__S(9192, __c287, 8))),
+          agent_subject_claims: S.optional(S.String),
+          type: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/resource-servers/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateResourceServerRequest" });
+  }
+}
+function __c421(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.Boolean,
+        }).pipe(T.Http({ method: "PATCH", uri: "/risk-assessments/settings", code: 200 })),
+      ).annotate({ identifier: "UpdateRiskAssessmentsSettingsRequest" });
+  }
+}
+function __c422(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+        }).pipe(T.Http({ method: "PATCH", uri: "/roles/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateRoleRequest" });
+  }
+}
+function __c423(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          script: S.optional(S.String),
+          name: S.optional(S.String),
+          order: S.optional(S.Number),
+          enabled: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "PATCH", uri: "/rules/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateRuleRequest" });
+  }
+}
+function __c424(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          description: S.optional(S.NullOr(S.String)),
+          branding: S.optional(S.NullOr(__S(11169, __c349, 1))),
+          allowed_strategies: S.optional(__S(14400, __c450, 0)),
+          user_attributes: S.optional(S.NullOr(__S(11171, __c349, 3))),
+          user_attribute_profile_id: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/self-service-profiles/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateSelfServiceProfileRequest" });
+  }
+}
+function __c425(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          session_metadata: S.optional(S.NullOr(__S(14496, __c453, 0))),
+        }).pipe(T.Http({ method: "PATCH", uri: "/sessions/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateSessionRequest" });
+  }
+}
+function __c426(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          subject_token_type: S.optional(S.String),
+        }).pipe(T.Http({ method: "PATCH", uri: "/token-exchange-profiles/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateTokenExchangeProfileRequest" });
+  }
+}
+function __c427(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          blocked: S.optional(S.Boolean),
+          email_verified: S.optional(S.Boolean),
+          email: S.optional(S.NullOr(S.String)),
+          phone_number: S.optional(S.NullOr(S.String)),
+          phone_verified: S.optional(S.Boolean),
+          user_metadata: S.optional(__S(14496, __c453, 0)),
+          app_metadata: S.optional(__S(14496, __c453, 0)),
+          given_name: S.optional(S.NullOr(S.String)),
+          family_name: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.NullOr(S.String)),
+          nickname: S.optional(S.NullOr(S.String)),
+          picture: S.optional(S.NullOr(S.String)),
+          verify_email: S.optional(S.Boolean),
+          verify_phone_number: S.optional(S.Boolean),
+          password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          connection: S.optional(S.String),
+          client_id: S.optional(S.String),
+          username: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/users/{id}", code: 200 })),
+      ).annotate({ identifier: "UpdateUserRequest" });
+  }
+}
+function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41744,97 +34304,7 @@ function __c570(j: number): any {
       ).annotate({ identifier: "DeleteAuthenticatorsRequest" });
   }
 }
-function __c571(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          code: S.String,
-          secrets: S.optional(__S(18305, __c572, 1)),
-          dependencies: S.optional(__S(18307, __c572, 3)),
-          api_version: S.optional(S.String),
-          publish: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/actions/modules", code: 200 })),
-      ).annotate({ identifier: "CreateActionModuleRequest" });
-  }
-}
-function __c572(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          value: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "ActionModuleSecretRequest" });
-    case 1:
-      return S.Array(__S(18304, __c572, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          version: S.String,
-        }),
-      ).annotate({ identifier: "ActionModuleDependencyRequest" });
-    case 3:
-      return S.Array(__S(18306, __c572, 2));
-  }
-}
-function __c573(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          version_number: S.optional(S.Number),
-          code: S.optional(S.String),
-          dependencies: S.optional(__S(18369, __c574, 1)),
-          secrets: S.optional(__S(18371, __c574, 3)),
-          created_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ActionModuleVersionReference" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          code: S.optional(S.String),
-          dependencies: S.optional(__S(18369, __c574, 1)),
-          secrets: S.optional(__S(18371, __c574, 3)),
-          actions_using_module_total: S.optional(S.Number),
-          all_changes_published: S.optional(S.Boolean),
-          latest_version_number: S.optional(S.Number),
-          created_at: S.optional(S.String),
-          updated_at: S.optional(S.String),
-          latest_version: S.optional(__S(18336, __c573, 0)),
-        }),
-      ).annotate({ identifier: "CreateActionModuleResponseContent" });
-  }
-}
-function __c574(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          version: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ActionModuleDependency" });
-    case 1:
-      return S.Array(__S(18368, __c574, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          updated_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ActionModuleSecret" });
-    case 3:
-      return S.Array(__S(18370, __c574, 2));
-  }
-}
-function __c575(j: number): any {
+function __c429(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41844,7 +34314,7 @@ function __c575(j: number): any {
       ).annotate({ identifier: "DeleteBrandingThemeRequest" });
   }
 }
-function __c576(j: number): any {
+function __c430(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41854,7 +34324,7 @@ function __c576(j: number): any {
       ).annotate({ identifier: "DeleteClientRequest" });
   }
 }
-function __c577(j: number): any {
+function __c431(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41864,7 +34334,7 @@ function __c577(j: number): any {
       ).annotate({ identifier: "DeleteClientGrantRequest" });
   }
 }
-function __c578(j: number): any {
+function __c432(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41881,17 +34351,7 @@ function __c578(j: number): any {
       ).annotate({ identifier: "DeleteClientGrantsByGrantIdRequest" });
   }
 }
-function __c579(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/client-profiles/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteClientProfileRequest" });
-  }
-}
-function __c580(j: number): any {
+function __c433(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41901,7 +34361,7 @@ function __c580(j: number): any {
       ).annotate({ identifier: "DeleteConnectionRequest" });
   }
 }
-function __c581(j: number): any {
+function __c434(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41911,7 +34371,7 @@ function __c581(j: number): any {
       ).annotate({ identifier: "DeleteConnectionProfileRequest" });
   }
 }
-function __c582(j: number): any {
+function __c435(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41928,7 +34388,7 @@ function __c582(j: number): any {
       ).annotate({ identifier: "DeleteCredentialsByCredentialIdRequest" });
   }
 }
-function __c583(j: number): any {
+function __c436(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41938,7 +34398,133 @@ function __c583(j: number): any {
       ).annotate({ identifier: "DeleteCustomDomainRequest" });
   }
 }
-function __c584(j: number): any {
+function __c437(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          borders: __S(14016, __c438, 0),
+          colors: __S(14017, __c438, 1),
+          displayName: S.optional(S.String),
+          fonts: __S(14019, __c438, 3),
+          identifiers: S.optional(__S(14021, __c438, 5)),
+          page_background: __S(14022, __c438, 6),
+          widget: __S(14023, __c438, 7),
+        }).pipe(T.Http({ method: "POST", uri: "/branding/themes", code: 200 })),
+      ).annotate({ identifier: "CreateBrandingThemeRequest" });
+  }
+}
+function __c438(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          button_border_radius: S.Number,
+          button_border_weight: S.Number,
+          buttons_style: S.String,
+          input_border_radius: S.Number,
+          input_border_weight: S.Number,
+          inputs_style: S.String,
+          show_widget_shadow: S.Boolean,
+          widget_border_weight: S.Number,
+          widget_corner_radius: S.Number,
+        }),
+      ).annotate({ identifier: "BrandingThemeBorders" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          base_focus_color: S.optional(S.String),
+          base_hover_color: S.optional(S.String),
+          body_text: S.String,
+          captcha_widget_theme: S.optional(S.String),
+          error: S.String,
+          header: S.String,
+          icons: S.String,
+          input_background: S.String,
+          input_border: S.String,
+          input_filled_text: S.String,
+          input_labels_placeholders: S.String,
+          links_focused_components: S.String,
+          primary_button: S.String,
+          primary_button_label: S.String,
+          read_only_background: S.optional(S.String),
+          secondary_button_border: S.String,
+          secondary_button_label: S.String,
+          success: S.String,
+          widget_background: S.String,
+          widget_border: S.String,
+        }),
+      ).annotate({ identifier: "BrandingThemeColors" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          bold: S.Boolean,
+          size: S.Number,
+        }),
+      ).annotate({ identifier: "BrandingThemeFontBodyText" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          body_text: __S(14018, __c438, 2),
+          buttons_text: __S(14018, __c438, 2),
+          font_url: S.String,
+          input_labels: __S(14018, __c438, 2),
+          links: __S(14018, __c438, 2),
+          links_style: S.String,
+          reference_text_size: S.Number,
+          subtitle: __S(14018, __c438, 2),
+          title: __S(14018, __c438, 2),
+        }),
+      ).annotate({ identifier: "BrandingThemeFonts" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          formatting: S.String,
+          masking: S.String,
+        }),
+      ).annotate({ identifier: "BrandingThemeIdentifiersPhoneDisplay" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          login_display: S.String,
+          otp_autocomplete: S.Boolean,
+          phone_display: __S(14020, __c438, 4),
+        }),
+      ).annotate({ identifier: "BrandingThemeIdentifiers" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          background_color: S.String,
+          background_image_url: S.String,
+          page_layout: S.String,
+        }),
+      ).annotate({ identifier: "BrandingThemePageBackground" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          header_text_alignment: S.String,
+          logo_height: S.Number,
+          logo_position: S.String,
+          logo_url: S.String,
+          social_buttons_layout: S.String,
+        }),
+      ).annotate({ identifier: "BrandingThemeWidget" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          borders: __S(14016, __c438, 0),
+          colors: __S(14017, __c438, 1),
+          displayName: S.String,
+          fonts: __S(14019, __c438, 3),
+          identifiers: S.optional(__S(14021, __c438, 5)),
+          page_background: __S(14022, __c438, 6),
+          themeId: S.String,
+          widget: __S(14023, __c438, 7),
+        }),
+      ).annotate({ identifier: "CreateBrandingThemeResponseContent" });
+  }
+}
+function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41946,18 +34532,7 @@ function __c584(j: number): any {
       ).annotate({ identifier: "DeleteCustomSigningKeysRequest" });
   }
 }
-function __c585(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          module_version_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/actions/modules/{id}/rollback", code: 200 })),
-      ).annotate({ identifier: "CreateActionModuleRollbackRequest" });
-  }
-}
-function __c586(j: number): any {
+function __c440(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41967,7 +34542,7 @@ function __c586(j: number): any {
       ).annotate({ identifier: "DeleteDeviceCredentialsRequest" });
   }
 }
-function __c587(j: number): any {
+function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41979,7 +34554,7 @@ function __c587(j: number): any {
       ).annotate({ identifier: "DeleteDirectoryProvisioningRequest" });
   }
 }
-function __c588(j: number): any {
+function __c442(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41996,7 +34571,7 @@ function __c588(j: number): any {
       ).annotate({ identifier: "DeleteDiscoveryDomainsByDiscoveryDomainIdRequest" });
   }
 }
-function __c589(j: number): any {
+function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42013,7 +34588,7 @@ function __c589(j: number): any {
       ).annotate({ identifier: "DeleteEnabledConnectionsByConnectionIdRequest" });
   }
 }
-function __c590(j: number): any {
+function __c444(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42023,7 +34598,7 @@ function __c590(j: number): any {
       ).annotate({ identifier: "DeleteEncryptionKeyRequest" });
   }
 }
-function __c591(j: number): any {
+function __c445(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42033,7 +34608,7 @@ function __c591(j: number): any {
       ).annotate({ identifier: "DeleteEnrollmentsByIdRequest" });
   }
 }
-function __c592(j: number): any {
+function __c446(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42043,29 +34618,7 @@ function __c592(j: number): any {
       ).annotate({ identifier: "DeleteEventStreamRequest" });
   }
 }
-function __c593(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/experimentation/experiments/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteExperimentRequest" });
-  }
-}
-function __c594(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/experimentation/feature-flags/{id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteFeatureFlagRequest" });
-  }
-}
-function __c595(j: number): any {
+function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42075,33 +34628,7 @@ function __c595(j: number): any {
       ).annotate({ identifier: "DeleteFlowRequest" });
   }
 }
-function __c596(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/actions/modules/{id}/versions", code: 200 })),
-      ).annotate({ identifier: "CreateActionModuleVersionRequest" });
-  }
-}
-function __c597(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          module_id: S.optional(S.String),
-          version_number: S.optional(S.Number),
-          code: S.optional(S.String),
-          secrets: S.optional(__S(18371, __c574, 3)),
-          dependencies: S.optional(__S(18369, __c574, 1)),
-          created_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateActionModuleVersionResponseContent" });
-  }
-}
-function __c598(j: number): any {
+function __c448(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42118,7 +34645,861 @@ function __c598(j: number): any {
       ).annotate({ identifier: "DeleteFlowsExecutionRequest" });
   }
 }
-function __c599(j: number): any {
+function __c449(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          credential_type: S.String,
+          name: S.optional(S.String),
+          pem: S.String,
+          alg: S.optional(S.String),
+          parse_expiry_from_cert: S.optional(S.Boolean),
+          expires_at: S.optional(S.String),
+          kid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PublicKeyCredential" });
+    case 1:
+      return S.Array(__S(14368, __c449, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          credentials: __S(14369, __c449, 1),
+        }),
+      ).annotate({ identifier: "ClientCreateAuthenticationMethodPrivateKeyJWT" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          credential_type: S.String,
+          name: S.optional(S.String),
+          subject_dn: S.optional(S.String),
+          pem: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CertificateSubjectDNCredential" });
+    case 4:
+      return S.Array(__S(14371, __c449, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          credentials: __S(14372, __c449, 4),
+        }),
+      ).annotate({ identifier: "ClientCreateAuthenticationMethodTLSClientAuth" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          credential_type: S.String,
+          name: S.optional(S.String),
+          pem: S.String,
+        }),
+      ).annotate({ identifier: "X509CertificateCredential" });
+    case 7:
+      return S.Array(__S(14374, __c449, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          credentials: __S(14375, __c449, 7),
+        }),
+      ).annotate({ identifier: "CreateClientAuthenticationMethodSelfSignedTLSClientAuth" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          private_key_jwt: S.optional(__S(14370, __c449, 2)),
+          tls_client_auth: S.optional(__S(14373, __c449, 5)),
+          self_signed_tls_client_auth: S.optional(__S(14376, __c449, 8)),
+        }),
+      ).annotate({ identifier: "ClientCreateAuthenticationMethod" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          required: S.optional(S.Boolean),
+          credentials: S.optional(__S(14369, __c449, 1)),
+        }),
+      ).annotate({ identifier: "ClientSignedRequestObjectWithPublicKey" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          credentials: __S(14369, __c449, 1),
+          ip_allowlist: S.optional(__S(14720, __c460, 0)),
+          grants: S.optional(__S(14567, __c455, 7)),
+        }),
+      ).annotate({ identifier: "ClientTokenVaultPrivilegedAccessWithPublicKey" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(S.String),
+          logo_uri: S.optional(S.String),
+          callbacks: S.optional(__S(14720, __c460, 0)),
+          oidc_logout: S.optional(__S(14530, __c454, 2)),
+          oidc_backchannel_logout: S.optional(__S(14530, __c454, 2)),
+          session_transfer: S.optional(S.NullOr(__S(14532, __c454, 4))),
+          allowed_origins: S.optional(__S(14720, __c460, 0)),
+          web_origins: S.optional(__S(14720, __c460, 0)),
+          client_aliases: S.optional(__S(14720, __c460, 0)),
+          allowed_clients: S.optional(__S(14720, __c460, 0)),
+          allowed_logout_urls: S.optional(__S(14720, __c460, 0)),
+          grant_types: S.optional(__S(14720, __c460, 0)),
+          token_endpoint_auth_method: S.optional(S.String),
+          is_token_endpoint_ip_header_trusted: S.optional(S.Boolean),
+          app_type: S.optional(S.String),
+          is_first_party: S.optional(S.Boolean),
+          oidc_conformant: S.optional(S.Boolean),
+          jwt_configuration: S.optional(__S(14533, __c454, 5)),
+          encryption_key: S.optional(S.NullOr(__S(14534, __c454, 6))),
+          sso: S.optional(S.Boolean),
+          cross_origin_authentication: S.optional(S.Boolean),
+          cross_origin_loc: S.optional(S.String),
+          sso_disabled: S.optional(S.Boolean),
+          custom_login_page_on: S.optional(S.Boolean),
+          custom_login_page: S.optional(S.String),
+          custom_login_page_preview: S.optional(S.String),
+          form_template: S.optional(S.String),
+          addons: S.optional(__S(14555, __c454, 27)),
+          client_metadata: S.optional(__S(14496, __c453, 0)),
+          mobile: S.optional(__S(14558, __c454, 30)),
+          initiate_login_uri: S.optional(S.String),
+          native_social_login: S.optional(__S(14559, __c454, 31)),
+          fedcm_login: S.optional(__S(14561, __c455, 1)),
+          refresh_token: S.optional(S.NullOr(__S(14564, __c455, 4))),
+          default_organization: S.optional(S.NullOr(__S(14565, __c455, 5))),
+          organization_usage: S.optional(S.String),
+          organization_require_behavior: S.optional(S.String),
+          organization_discovery_methods: S.optional(__S(14400, __c450, 0)),
+          client_authentication_methods: S.optional(__S(14377, __c449, 9)),
+          require_pushed_authorization_requests: S.optional(S.Boolean),
+          require_proof_of_possession: S.optional(S.Boolean),
+          signed_request_object: S.optional(__S(14378, __c449, 10)),
+          token_vault_privileged_access: S.optional(__S(14379, __c449, 11)),
+          compliance_level: S.optional(S.NullOr(S.String)),
+          skip_non_verifiable_callback_uri_confirmation_prompt: S.optional(S.Boolean),
+          token_exchange: S.optional(__S(14568, __c455, 8)),
+          par_request_expiry: S.optional(S.NullOr(S.Number)),
+          token_quota: S.optional(__S(14656, __c458, 0)),
+          resource_server_identifier: S.optional(S.String),
+          identity_assertion_authorization_grant: S.optional(__S(14432, __c451, 0)),
+          anonymous_sessions: S.optional(__S(14432, __c451, 0)),
+          enforce_anon_session_transfer_network_binding: S.optional(S.String),
+          third_party_security_mode: S.optional(S.String),
+          redirection_policy: S.optional(S.String),
+          express_configuration: S.optional(__S(14571, __c455, 11)),
+          b2b_integration_configuration: S.optional(__S(14572, __c455, 12)),
+          my_organization_configuration: S.optional(__S(14574, __c455, 14)),
+          async_approval_notification_channels: S.optional(__S(14400, __c450, 0)),
+          agent_id: S.optional(S.NullOr(S.String)),
+          oidc_support: S.optional(__S(14688, __c459, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/clients", code: 200 })),
+      ).annotate({ identifier: "CreateClientRequest" });
+  }
+}
+function __c450(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c451(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          active: S.Boolean,
+        }),
+      ).annotate({ identifier: "CreateIdentityAssertionAuthorizationGrant" });
+  }
+}
+function __c452(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "NativeSocialLoginApple" });
+  }
+}
+function __c453(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c454(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            mode: S.optional(S.String),
+            selected_initiators: S.optional(__S(14400, __c450, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientOIDCBackchannelLogoutInitiators" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            include: S.optional(S.Boolean),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientOIDCBackchannelLogoutSessionMetadata" });
+    case 2:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            backchannel_logout_urls: S.optional(__S(14720, __c460, 0)),
+            backchannel_logout_initiators: S.optional(__S(14528, __c454, 0)),
+            backchannel_logout_session_metadata: S.optional(S.NullOr(__S(14529, __c454, 1))),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientOIDCBackchannelLogoutSettings" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          allow_delegated_access: S.optional(S.Boolean),
+          enforce_device_binding: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ClientSessionTransferDelegationConfiguration" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          can_create_session_transfer_token: S.optional(S.Boolean),
+          enforce_cascade_revocation: S.optional(S.Boolean),
+          allowed_authentication_methods: S.optional(S.NullOr(__S(14400, __c450, 0))),
+          enforce_device_binding: S.optional(S.String),
+          allow_refresh_token: S.optional(S.Boolean),
+          enforce_online_refresh_tokens: S.optional(S.Boolean),
+          delegation: S.optional(S.NullOr(__S(14531, __c454, 3))),
+        }),
+      ).annotate({ identifier: "ClientSessionTransferConfiguration" });
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            lifetime_in_seconds: S.optional(S.Number),
+            secret_encoded: S.optional(S.Boolean),
+            scopes: S.optional(__S(14496, __c453, 0)),
+            alg: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientJwtConfiguration" });
+    case 6:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            pub: S.optional(S.String),
+            cert: S.optional(S.String),
+            subject: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientEncryptionKey" });
+    case 7:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            principal: S.optional(S.String),
+            role: S.optional(S.String),
+            lifetime_in_seconds: S.optional(S.Number),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonAWS" });
+    case 8:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            accountName: S.optional(S.String),
+            storageAccessKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            containerName: S.optional(S.String),
+            blobName: S.optional(S.String),
+            expiration: S.optional(S.Number),
+            signedIdentifier: S.optional(S.String),
+            blob_read: S.optional(S.Boolean),
+            blob_write: S.optional(S.Boolean),
+            blob_delete: S.optional(S.Boolean),
+            container_read: S.optional(S.Boolean),
+            container_write: S.optional(S.Boolean),
+            container_delete: S.optional(S.Boolean),
+            container_list: S.optional(S.Boolean),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonAzureBlob" });
+    case 9:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            namespace: S.optional(S.String),
+            sasKeyName: S.optional(S.String),
+            sasKey: S.optional(S.String),
+            entityPath: S.optional(S.String),
+            expiration: S.optional(S.Number),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonAzureSB" });
+    case 10:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            url: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonRMS" });
+    case 11:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            team: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonSlack" });
+    case 12:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            org_slug: S.optional(S.String),
+            base_url: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonSentry" });
+    case 13:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            domain: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonEchoSign" });
+    case 14:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            private_key_id: S.optional(S.String),
+            private_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            client_email: S.optional(S.String),
+            lifetime_in_seconds: S.optional(S.Number),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonFirebase" });
+    case 15:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            account: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonNewRelic" });
+    case 16:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            domain: S.optional(S.String),
+            connection: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonOffice365" });
+    case 17:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            entity_id: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonSalesforce" });
+    case 18:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            clientid: S.optional(S.String),
+            principal: S.optional(S.String),
+            communityName: S.optional(S.String),
+            community_url_section: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonSalesforceAPI" });
+    case 19:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            mappings: S.optional(__S(14496, __c453, 0)),
+            audience: S.optional(S.String),
+            recipient: S.optional(S.String),
+            createUpnClaim: S.optional(S.Boolean),
+            mapUnknownClaimsAsIs: S.optional(S.Boolean),
+            passthroughClaimsWithNoMapping: S.optional(S.Boolean),
+            mapIdentities: S.optional(S.Boolean),
+            signatureAlgorithm: S.optional(S.String),
+            digestAlgorithm: S.optional(S.String),
+            issuer: S.optional(S.String),
+            destination: S.optional(S.String),
+            lifetimeInSeconds: S.optional(S.Number),
+            signResponse: S.optional(S.Boolean),
+            nameIdentifierFormat: S.optional(S.String),
+            nameIdentifierProbes: S.optional(__S(14720, __c460, 0)),
+            authnContextClassRef: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonSAML" });
+    case 20:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            providerId: S.String,
+            keyId: S.String,
+            privateKey: S.String.pipe(T.SensitiveValue({})),
+            principal: S.optional(S.String),
+            expiration: S.optional(S.Number),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonLayer" });
+    case 21:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            clientid: S.optional(S.String),
+            usernameAttribute: S.optional(S.String),
+            tokenEndpointUrl: S.optional(S.String),
+            scope: S.optional(S.String),
+            servicePassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            nameIdentifierFormat: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonSAPAPI" });
+    case 22:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            url: S.optional(S.String),
+            external_url: S.optional(S.Unknown),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonSharePoint" });
+    case 23:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            acsurl: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonSpringCM" });
+    case 24:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            masterkey: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonWAMS" });
+    case 25:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            accountName: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonZendesk" });
+    case 26:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            name: S.optional(S.String),
+            version: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientAddonSSOIntegration" });
+    case 27:
+      return S.suspend(() =>
+        S.Struct({
+          aws: S.optional(__S(14535, __c454, 7)),
+          azure_blob: S.optional(__S(14536, __c454, 8)),
+          azure_sb: S.optional(__S(14537, __c454, 9)),
+          rms: S.optional(__S(14538, __c454, 10)),
+          mscrm: S.optional(__S(14538, __c454, 10)),
+          slack: S.optional(__S(14539, __c454, 11)),
+          sentry: S.optional(__S(14540, __c454, 12)),
+          box: S.optional(__S(14496, __c453, 0)),
+          cloudbees: S.optional(__S(14496, __c453, 0)),
+          concur: S.optional(__S(14496, __c453, 0)),
+          dropbox: S.optional(__S(14496, __c453, 0)),
+          echosign: S.optional(__S(14541, __c454, 13)),
+          egnyte: S.optional(__S(14541, __c454, 13)),
+          firebase: S.optional(__S(14542, __c454, 14)),
+          newrelic: S.optional(__S(14543, __c454, 15)),
+          office365: S.optional(__S(14544, __c454, 16)),
+          salesforce: S.optional(__S(14545, __c454, 17)),
+          salesforce_api: S.optional(__S(14546, __c454, 18)),
+          salesforce_sandbox_api: S.optional(__S(14546, __c454, 18)),
+          samlp: S.optional(__S(14547, __c454, 19)),
+          layer: S.optional(__S(14548, __c454, 20)),
+          sap_api: S.optional(__S(14549, __c454, 21)),
+          sharepoint: S.optional(__S(14550, __c454, 22)),
+          springcm: S.optional(__S(14551, __c454, 23)),
+          wams: S.optional(__S(14552, __c454, 24)),
+          wsfed: S.optional(__S(14496, __c453, 0)),
+          zendesk: S.optional(__S(14553, __c454, 25)),
+          zoom: S.optional(__S(14543, __c454, 15)),
+          sso_integration: S.optional(__S(14554, __c454, 26)),
+          oag: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "ClientAddons" });
+    case 28:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            app_package_name: S.optional(S.String),
+            sha256_cert_fingerprints: S.optional(__S(14720, __c460, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientMobileAndroid" });
+    case 29:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            team_id: S.optional(S.String),
+            app_bundle_identifier: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientMobileiOS" });
+    case 30:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            android: S.optional(__S(14556, __c454, 28)),
+            ios: S.optional(__S(14557, __c454, 29)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientMobile" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          apple: S.optional(__S(14464, __c452, 0)),
+          facebook: S.optional(__S(14464, __c452, 0)),
+          google: S.optional(__S(14464, __c452, 0)),
+        }),
+      ).annotate({ identifier: "NativeSocialLogin" });
+  }
+}
+function __c455(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          is_enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "FedCMLoginGoogle" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          google: S.optional(__S(14560, __c455, 0)),
+        }),
+      ).annotate({ identifier: "FedCMLogin" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          audience: S.String,
+          scope: __S(14720, __c460, 0),
+        }),
+      ).annotate({ identifier: "ClientRefreshTokenPolicy" });
+    case 3:
+      return S.Array(__S(14562, __c455, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          rotation_type: S.String,
+          expiration_type: S.String,
+          leeway: S.optional(S.Number),
+          token_lifetime: S.optional(S.Number),
+          infinite_token_lifetime: S.optional(S.Boolean),
+          idle_token_lifetime: S.optional(S.Number),
+          infinite_idle_token_lifetime: S.optional(S.Boolean),
+          policies: S.optional(S.NullOr(__S(14563, __c455, 3))),
+        }),
+      ).annotate({ identifier: "ClientRefreshTokenConfiguration" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          organization_id: S.String,
+          flows: __S(14400, __c450, 0),
+        }),
+      ).annotate({ identifier: "ClientDefaultOrganization" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          connection: S.String,
+          scopes: __S(14720, __c460, 0),
+        }),
+      ).annotate({ identifier: "TokenVaultPrivilegedAccessGrant" });
+    case 7:
+      return S.Array(__S(14566, __c455, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          allow_any_profile_of_type: S.optional(__S(14400, __c450, 0)),
+        }),
+      ).annotate({ identifier: "ClientTokenExchangeConfiguration" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.String,
+        }),
+      ).annotate({ identifier: "LinkedClientConfiguration" });
+    case 10:
+      return S.Array(__S(14569, __c455, 9));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          initiate_login_uri_template: S.String,
+          user_attribute_profile_id: S.String,
+          connection_profile_id: S.String,
+          enable_client: S.Boolean,
+          enable_organization: S.Boolean,
+          linked_clients: S.optional(__S(14570, __c455, 10)),
+          okta_oin_client_id: S.String,
+          admin_login_domain: S.String,
+          oin_submission_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExpressConfiguration" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          sso_profiles: S.optional(__S(14720, __c460, 0)),
+          integration_type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "B2bIntegrationConfiguration" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          default_value: S.String,
+          allowed_values: __S(14400, __c450, 0),
+        }),
+      ).annotate({ identifier: "ClientMyOrganizationThirdPartyClientAccessConfiguration" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          connection_profile_id: S.optional(S.String),
+          user_attribute_profile_id: S.optional(S.String),
+          allowed_strategies: __S(14400, __c450, 0),
+          third_party_client_access: S.optional(__S(14573, __c455, 13)),
+          connection_deletion_behavior: S.String,
+          invitation_landing_client_id: S.optional(S.String),
+          enforce_permission_ceiling: S.optional(S.Boolean),
+          enforce_self_assignment_restriction: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ClientMyOrganizationPostConfiguration" });
+    case 15:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            pkcs7: S.optional(S.String),
+            cert: S.optional(S.String),
+            subject: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientSigningKey" });
+    case 16:
+      return S.Array(__S(14575, __c455, 15));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          credentials: __S(14593, __c456, 1),
+        }),
+      ).annotate({ identifier: "ClientAuthenticationMethodPrivateKeyJWT" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          private_key_jwt: S.optional(__S(14577, __c455, 17)),
+          tls_client_auth: S.optional(__S(14577, __c455, 17)),
+          self_signed_tls_client_auth: S.optional(__S(14577, __c455, 17)),
+        }),
+      ).annotate({ identifier: "ClientAuthenticationMethod" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          required: S.optional(S.Boolean),
+          credentials: S.optional(__S(14593, __c456, 1)),
+        }),
+      ).annotate({ identifier: "ClientSignedRequestObjectWithCredentialId" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          credentials: __S(14593, __c456, 1),
+          ip_allowlist: S.optional(__S(14720, __c460, 0)),
+          grants: S.optional(__S(14567, __c455, 7)),
+        }),
+      ).annotate({ identifier: "ClientTokenVaultPrivilegedAccessWithCredentialId" });
+    case 21:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            is_allowed: S.optional(S.Boolean),
+            allow_all_scopes: S.optional(S.Boolean),
+            allowed_scopes: S.optional(__S(14400, __c450, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "ClientOidcSupport" });
+    case 22:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            client_id: S.optional(S.String),
+            created_at: S.optional(S.String),
+            updated_at: S.optional(S.String),
+            tenant: S.optional(S.String),
+            name: S.optional(S.String),
+            description: S.optional(S.String),
+            global: S.optional(S.Boolean),
+            client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+            app_type: S.optional(S.String),
+            logo_uri: S.optional(S.String),
+            is_first_party: S.optional(S.Boolean),
+            oidc_conformant: S.optional(S.Boolean),
+            callbacks: S.optional(__S(14720, __c460, 0)),
+            allowed_origins: S.optional(__S(14720, __c460, 0)),
+            web_origins: S.optional(__S(14720, __c460, 0)),
+            client_aliases: S.optional(__S(14720, __c460, 0)),
+            allowed_clients: S.optional(__S(14720, __c460, 0)),
+            allowed_logout_urls: S.optional(__S(14720, __c460, 0)),
+            session_transfer: S.optional(S.NullOr(__S(14532, __c454, 4))),
+            oidc_logout: S.optional(__S(14530, __c454, 2)),
+            grant_types: S.optional(__S(14720, __c460, 0)),
+            jwt_configuration: S.optional(__S(14533, __c454, 5)),
+            signing_keys: S.optional(S.NullOr(__S(14576, __c455, 16))),
+            encryption_key: S.optional(S.NullOr(__S(14534, __c454, 6))),
+            sso: S.optional(S.Boolean),
+            sso_disabled: S.optional(S.Boolean),
+            cross_origin_authentication: S.optional(S.Boolean),
+            cross_origin_loc: S.optional(S.String),
+            custom_login_page_on: S.optional(S.Boolean),
+            custom_login_page: S.optional(S.String),
+            custom_login_page_preview: S.optional(S.String),
+            form_template: S.optional(S.String),
+            addons: S.optional(__S(14555, __c454, 27)),
+            token_endpoint_auth_method: S.optional(S.String),
+            is_token_endpoint_ip_header_trusted: S.optional(S.Boolean),
+            client_metadata: S.optional(__S(14496, __c453, 0)),
+            mobile: S.optional(__S(14558, __c454, 30)),
+            initiate_login_uri: S.optional(S.String),
+            native_social_login: S.optional(__S(14559, __c454, 31)),
+            fedcm_login: S.optional(__S(14561, __c455, 1)),
+            refresh_token: S.optional(S.NullOr(__S(14564, __c455, 4))),
+            default_organization: S.optional(S.NullOr(__S(14565, __c455, 5))),
+            organization_usage: S.optional(S.String),
+            organization_require_behavior: S.optional(S.String),
+            organization_discovery_methods: S.optional(__S(14400, __c450, 0)),
+            client_authentication_methods: S.optional(S.NullOr(__S(14578, __c455, 18))),
+            require_pushed_authorization_requests: S.optional(S.Boolean),
+            require_proof_of_possession: S.optional(S.Boolean),
+            signed_request_object: S.optional(__S(14579, __c455, 19)),
+            token_vault_privileged_access: S.optional(__S(14580, __c455, 20)),
+            compliance_level: S.optional(S.NullOr(S.String)),
+            skip_non_verifiable_callback_uri_confirmation_prompt: S.optional(S.Boolean),
+            token_exchange: S.optional(__S(14568, __c455, 8)),
+            par_request_expiry: S.optional(S.NullOr(S.Number)),
+            token_quota: S.optional(__S(14656, __c458, 0)),
+            express_configuration: S.optional(__S(14571, __c455, 11)),
+            b2b_integration_configuration: S.optional(__S(14572, __c455, 12)),
+            my_organization_configuration: S.optional(__S(14574, __c455, 14)),
+            identity_assertion_authorization_grant: S.optional(__S(14432, __c451, 0)),
+            anonymous_sessions: S.optional(__S(14432, __c451, 0)),
+            enforce_anon_session_transfer_network_binding: S.optional(S.String),
+            third_party_security_mode: S.optional(S.String),
+            oidc_support: S.optional(__S(14581, __c455, 21)),
+            redirection_policy: S.optional(S.String),
+            resource_server_identifier: S.optional(S.String),
+            async_approval_notification_channels: S.optional(__S(14400, __c450, 0)),
+            external_metadata_type: S.optional(S.String),
+            external_metadata_created_by: S.optional(S.String),
+            external_metadata_status: S.optional(S.String),
+            agent_id: S.optional(S.String),
+            external_client_id: S.optional(S.String),
+            jwks_uri: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreateClientResponseContent" });
+  }
+}
+function __c456(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "CredentialId" });
+    case 1:
+      return S.Array(__S(14592, __c456, 0));
+  }
+}
+function __c457(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enforce: S.optional(S.Boolean),
+          per_day: S.optional(S.Number),
+          per_hour: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "TokenQuotaClientCredentials" });
+  }
+}
+function __c458(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_credentials: __S(14624, __c457, 0),
+        }),
+      ).annotate({ identifier: "CreateTokenQuota" });
+  }
+}
+function __c459(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          is_allowed: S.Boolean,
+          allow_all_scopes: S.optional(S.Boolean),
+          allowed_scopes: S.optional(__S(14400, __c450, 0)),
+        }),
+      ).annotate({ identifier: "ClientOidcSupportPost" });
+  }
+}
+function __c460(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c461(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42128,7 +35509,7 @@ function __c599(j: number): any {
       ).annotate({ identifier: "DeleteFlowsVaultConnectionRequest" });
   }
 }
-function __c600(j: number): any {
+function __c462(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42138,7 +35519,7 @@ function __c600(j: number): any {
       ).annotate({ identifier: "DeleteFormRequest" });
   }
 }
-function __c601(j: number): any {
+function __c463(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42148,7 +35529,7 @@ function __c601(j: number): any {
       ).annotate({ identifier: "DeleteGrantRequest" });
   }
 }
-function __c602(j: number): any {
+function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42158,7 +35539,7 @@ function __c602(j: number): any {
       ).annotate({ identifier: "DeleteGrantsByUserIdRequest" });
   }
 }
-function __c603(j: number): any {
+function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42168,18 +35549,18 @@ function __c603(j: number): any {
       ).annotate({ identifier: "DeleteGroupRequest" });
   }
 }
-function __c604(j: number): any {
+function __c466(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          roles: __S(480, __c15, 0),
+          roles: __S(14720, __c460, 0),
         }).pipe(T.Http({ method: "DELETE", uri: "/groups/{id}/roles", code: 200 })),
       ).annotate({ identifier: "DeleteGroupRolesRequest" });
   }
 }
-function __c605(j: number): any {
+function __c467(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42189,7 +35570,7 @@ function __c605(j: number): any {
       ).annotate({ identifier: "DeleteHookRequest" });
   }
 }
-function __c606(j: number): any {
+function __c468(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42206,7 +35587,7 @@ function __c606(j: number): any {
       ).annotate({ identifier: "DeleteInvitationsByInvitationIdRequest" });
   }
 }
-function __c607(j: number): any {
+function __c469(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42216,51 +35597,7 @@ function __c607(j: number): any {
       ).annotate({ identifier: "DeleteIpsByIdRequest" });
   }
 }
-function __c608(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          client_id: S.optional(S.String),
-          external_agent_id: S.optional(S.String),
-          metadata: S.optional(__S(19488, __c609, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/agents", code: 200 })),
-      ).annotate({ identifier: "CreateAgentRequest" });
-  }
-}
-function __c609(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c610(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agent_id: S.String,
-          name: S.String,
-          created_at: S.String,
-          updated_at: S.String,
-          external_agent_id: S.optional(S.String),
-          metadata: __S(19488, __c609, 0),
-        }),
-      ).annotate({ identifier: "AgentResponseContent" });
-  }
-}
-function __c611(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/keys/network-acls/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteKeysNetworkAclsRequest" });
-  }
-}
-function __c612(j: number): any {
+function __c470(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42270,18 +35607,56 @@ function __c612(j: number): any {
       ).annotate({ identifier: "DeleteLogStreamRequest" });
   }
 }
-function __c613(j: number): any {
+function __c471(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_id: S.optional(S.String),
+          audience: S.String,
+          default_for: S.optional(S.String),
+          organization_usage: S.optional(S.String),
+          allow_any_organization: S.optional(S.Boolean),
+          scope: S.optional(__S(14720, __c460, 0)),
+          subject_type: S.optional(S.String),
+          authorization_details_types: S.optional(__S(14720, __c460, 0)),
+          allow_all_scopes: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/client-grants", code: 200 })),
+      ).annotate({ identifier: "CreateClientGrantRequest" });
+  }
+}
+function __c472(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          client_id: S.optional(S.String),
+          audience: S.optional(S.String),
+          scope: S.optional(__S(14720, __c460, 0)),
+          organization_usage: S.optional(S.String),
+          allow_any_organization: S.optional(S.Boolean),
+          default_for: S.optional(S.String),
+          is_system: S.optional(S.Boolean),
+          subject_type: S.optional(S.String),
+          authorization_details_types: S.optional(__S(14720, __c460, 0)),
+          allow_all_scopes: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CreateClientGrantResponseContent" });
+  }
+}
+function __c473(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          members: __S(480, __c15, 0),
+          members: __S(14720, __c460, 0),
         }).pipe(T.Http({ method: "DELETE", uri: "/organizations/{id}/members", code: 200 })),
       ).annotate({ identifier: "DeleteMembersRequest" });
   }
 }
-function __c614(j: number): any {
+function __c474(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42292,7 +35667,7 @@ function __c614(j: number): any {
       ).annotate({ identifier: "DeleteMultifactorByProviderRequest" });
   }
 }
-function __c615(j: number): any {
+function __c475(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42302,7 +35677,7 @@ function __c615(j: number): any {
       ).annotate({ identifier: "DeleteNetworkAclRequest" });
   }
 }
-function __c616(j: number): any {
+function __c476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42312,42 +35687,14 @@ function __c616(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationRequest" });
   }
 }
-function __c617(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          clients: __S(480, __c15, 0),
-        }).pipe(T.Http({ method: "DELETE", uri: "/organizations/{id}/clients", code: 200 })),
-      ).annotate({ identifier: "DeleteOrganizationClientsRequest" });
-  }
-}
-function __c618(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          connection_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/organizations/{id}/connections/{connection_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "DeleteOrganizationConnectionRequest" });
-  }
-}
-function __c619(j: number): any {
+function __c477(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organization_id: S.String.pipe(T.Label()),
           group_id: S.String.pipe(T.Label()),
-          roles: __S(480, __c15, 0),
+          roles: __S(14720, __c460, 0),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -42358,14 +35705,14 @@ function __c619(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationGroupRolesRequest" });
   }
 }
-function __c620(j: number): any {
+function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           user_id: S.String.pipe(T.Label()),
-          roles: __S(480, __c15, 0),
+          roles: __S(14720, __c460, 0),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -42374,6 +35721,385 @@ function __c620(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteOrganizationMemberRolesRequest" });
+  }
+}
+function __c479(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          permissions: __S(15361, __c480, 1),
+        }).pipe(T.Http({ method: "DELETE", uri: "/users/{id}/permissions", code: 200 })),
+      ).annotate({ identifier: "DeletePermissionsRequest" });
+  }
+}
+function __c480(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resource_server_identifier: S.String,
+          permission_name: S.String,
+        }),
+      ).annotate({ identifier: "PermissionRequestPayload" });
+    case 1:
+      return S.Array(__S(15360, __c480, 0));
+  }
+}
+function __c481(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/branding/phone/providers/{id}", code: 200 })),
+      ).annotate({ identifier: "DeletePhoneProviderRequest" });
+  }
+}
+function __c482(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/branding/phone/templates/{id}", code: 200 })),
+      ).annotate({ identifier: "DeletePhoneTemplateRequest" });
+  }
+}
+function __c483(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "DELETE", uri: "/emails/provider", code: 200 })),
+      ).annotate({ identifier: "DeleteProviderRequest" });
+  }
+}
+function __c484(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          external_client_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/clients/cimd/preview", code: 200 })),
+      ).annotate({ identifier: "CreateClientsCimdPreviewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            client_id: S.optional(S.String),
+            external_metadata_created_by: S.optional(S.String),
+            errors: S.optional(__S(14720, __c460, 0)),
+            validation: S.optional(__S(15520, __c485, 0)),
+            mapped_fields: S.optional(__S(15525, __c485, 5)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "PreviewCimdMetadataResponseContent" });
+  }
+}
+function __c485(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            valid: S.Boolean,
+            violations: __S(14720, __c460, 0),
+            warnings: __S(14720, __c460, 0),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CimdValidationResult" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            credential_type: S.String,
+            kid: S.String,
+            alg: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CimdMappedPrivateKeyJwtCredential" });
+    case 2:
+      return S.Array(__S(15521, __c485, 1));
+    case 3:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            credentials: __S(15522, __c485, 2),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CimdMappedClientAuthenticationMethodsPrivateKeyJwt" });
+    case 4:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            private_key_jwt: S.optional(__S(15523, __c485, 3)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CimdMappedClientAuthenticationMethods" });
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            external_client_id: S.optional(S.String),
+            name: S.optional(S.String),
+            app_type: S.optional(S.String),
+            callbacks: S.optional(__S(14720, __c460, 0)),
+            logo_uri: S.optional(S.String),
+            description: S.optional(S.String),
+            grant_types: S.optional(__S(14720, __c460, 0)),
+            token_endpoint_auth_method: S.optional(S.String),
+            jwks_uri: S.optional(S.String),
+            client_authentication_methods: S.optional(__S(15524, __c485, 4)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CimdMappedClientFields" });
+  }
+}
+function __c486(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/refresh-tokens/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteRefreshTokenRequest" });
+  }
+}
+function __c487(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/users/{user_id}/refresh-tokens", code: 200 })),
+      ).annotate({ identifier: "DeleteRefreshTokensForUserRequest" });
+  }
+}
+function __c488(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/resource-servers/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteResourceServerRequest" });
+  }
+}
+function __c489(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/roles/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteRoleRequest" });
+  }
+}
+function __c490(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          groups: __S(14720, __c460, 0),
+        }).pipe(T.Http({ method: "DELETE", uri: "/roles/{id}/groups", code: 200 })),
+      ).annotate({ identifier: "DeleteRoleGroupsRequest" });
+  }
+}
+function __c491(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          permissions: __S(15361, __c480, 1),
+        }).pipe(T.Http({ method: "DELETE", uri: "/roles/{id}/permissions", code: 200 })),
+      ).annotate({ identifier: "DeleteRolePermissionAssignmentRequest" });
+  }
+}
+function __c492(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/rules/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteRuleRequest" });
+  }
+}
+function __c493(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/rules-configs/{key}", code: 200 })),
+      ).annotate({ identifier: "DeleteRulesConfigRequest" });
+  }
+}
+function __c494(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/connections/{id}/scim-configuration", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteScimConfigurationRequest" });
+  }
+}
+function __c495(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          body: S.optional(__S(14720, __c460, 0).pipe(T.HttpBody())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/hooks/{id}/secrets", code: 200 })),
+      ).annotate({ identifier: "DeleteSecretsRequest" });
+  }
+}
+function __c496(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          external_client_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/clients/cimd/register", code: 200 })),
+      ).annotate({ identifier: "CreateClientsCimdRegisterRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            client_id: S.String,
+            mapped_fields: __S(15525, __c485, 5),
+            validation: __S(15520, __c485, 0),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "RegisterCimdClientResponseContent" });
+  }
+}
+function __c497(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/self-service-profiles/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteSelfServiceProfileRequest" });
+  }
+}
+function __c498(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/sessions/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteSessionRequest" });
+  }
+}
+function __c499(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/users/{user_id}/sessions", code: 200 })),
+      ).annotate({ identifier: "DeleteSessionsForUserRequest" });
+  }
+}
+function __c500(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          groups: __S(14593, __c456, 1),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/connections/{id}/directory-provisioning/synchronized-groups",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteSynchronizedGroupsRequest" });
+  }
+}
+function __c501(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/token-exchange-profiles/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteTokenExchangeProfileRequest" });
+  }
+}
+function __c502(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          tokenId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/connections/{id}/scim-configuration/tokens/{tokenId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteTokensByTokenIdRequest" });
+  }
+}
+function __c503(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "DELETE", uri: "/branding/templates/universal-login", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteUniversalLoginRequest" });
+  }
+}
+function __c504(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/users/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteUserRequest" });
+  }
+}
+function __c505(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/user-blocks/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteUserBlockRequest" });
+  }
+}
+function __c506(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          identifier: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/user-blocks", code: 200 })),
+      ).annotate({ identifier: "DeleteUserBlocksRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.
