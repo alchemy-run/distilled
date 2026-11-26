@@ -7,8 +7,11 @@
  * `specs/spec-mirror-clickhouse-cloud/specs/openapi.json`. Everything else in
  * this folder is hand-written.
  *
- * One module per API tag (`service`, `apiKeys`, `clickPipes`, `postgres`,
- * ...), the split the API reference uses. Operations return the `result` of
+ * One module per API tag (`service`, `apiKeys`, `clickPipes`, ...), the
+ * split the API reference uses. A module whose every operation is Beta
+ * upstream is generated to `./unstable-services` and imported as
+ * `@distilled.cloud/clickhouse-cloud/unstable/<module>` (`postgres`,
+ * `click_stack`, ...). Operations return the `result` of
  * the API's `{ status, requestId, result }` envelope; a cursor page keeps the
  * envelope, with its `result` page beside `nextCursor`.
  *
