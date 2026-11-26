@@ -34,6 +34,8 @@ const makeCfSpec = (
   keyDictionary?: Record<string, string | ReadonlyArray<string>>,
   opAliases?: Array<{ alias: string; target: string }>,
 ): SdkSpec => ({
+  // Binary uploads are core `RawBody` (bytes, text, a Blob or a stream).
+  rawBodies: true,
   // Docs wire names are snake_case; the TS surface is camelCase.
   // Verbatim (emitted quoted) when camelizing would mangle the v0 surface:
   // dashed keys ("cve-2021-44228"), digit segments ("lan_1", "tls_1_3"),
@@ -90,16 +92,13 @@ const makeCfSpec = (
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
 
-  // Blob-targeted members accept binary-ish payload forms (v0 surface):
-  // a whole-body Blob is a raw object upload; a body-bound Blob is a
-  // binary form part (e.g. the KV value).
+  // A body-bound Blob is a binary form part (e.g. the KV value). A whole-body
+  // Blob (a raw object upload) is core's `RawBody`, set by the generator.
   memberTsType: (m) =>
     SENSITIVE_TRAIT in m.traits
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
       : m.target === "smithy.api#Blob"
-        ? m.binding === "rawBody"
-          ? "Blob | Uint8Array | ArrayBuffer | string"
-          : "string | File | Blob"
+        ? "string | File | Blob"
         : undefined,
 
   // Sensitive member types reference Redacted; pull the import in when used.

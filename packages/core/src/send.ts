@@ -9,8 +9,9 @@
  * them. A protocol that calls `client.execute` directly still retries, on
  * the plain backoff, outside the budget.
  *
- * A protocol passes `oneShot` for a body it cannot send twice (the caller's
- * own stream); the retry layer then never sends the call again.
+ * A body it cannot send twice (the caller's own stream) makes the call
+ * `oneShot`: the retry layer then never sends it again. A stream body is
+ * one-shot unless the protocol says otherwise (S3 replays a Blob's stream).
  */
 import type * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
@@ -30,7 +31,7 @@ export const send = (
   // Inside `suspend`: the retry layer runs this same effect again for each
   // attempt, and each attempt must record its own request.
   Effect.suspend(() => {
-    RetryState.recordRequest(request.url, oneShot === true);
+    RetryState.recordRequest(request.url, oneShot ?? request.body._tag === "Stream");
     return Effect.map(Telemetry.execute(context, client, request), (response) => {
       RetryState.recordResponse(
         response.status,

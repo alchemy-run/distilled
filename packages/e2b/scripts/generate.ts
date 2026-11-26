@@ -60,6 +60,8 @@ const protocolFor = (model: any) => {
 };
 
 const baseSpec: SdkSpec = {
+  // Binary uploads are core `RawBody` (bytes, text, a Blob or a stream).
+  rawBodies: true,
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
 
@@ -84,10 +86,7 @@ const baseSpec: SdkSpec = {
   memberTsType: (m) =>
     SENSITIVE_TRAIT in m.traits
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
-      : "smithy.api#httpPayload" in m.traits && m.target === "smithy.api#Blob"
-        ? // A file upload: bytes, text, a Blob, or a stream sent as it is pulled.
-          "Uint8Array | string | Blob | UploadStream"
-        : undefined,
+      : undefined,
 
   // Unions surface as TS type unions over an opaque schema — the protocol
   // passes union content through verbatim.

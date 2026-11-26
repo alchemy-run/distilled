@@ -23,6 +23,7 @@ import {
 } from "../src/errors.ts";
 import {
   BinaryResponse,
+  RawBody,
   RawResponse,
   RawResponseRoot,
   restProtocol,
@@ -453,6 +454,17 @@ describe("restProtocol raw request bodies", () => {
   test("with neither, a Blob body is sent under its own type", async () => {
     const request = await send(untypedUpload({ body: new Blob(["<p>"], { type: "text/html" }) }));
     expect(request.headers.get("content-type")).toBe("text/html");
+  });
+
+  test("a RawBody member's text is sent as bytes, also with no declared media type", async () => {
+    const binary = op(
+      S.Struct({ body: S.optional(RawBody.pipe(T.HttpBody())) }).pipe(
+        T.Http({ method: "PUT", uri: "/blob" }),
+      ),
+    );
+    const request = await send(binary({ body: "plain text" }));
+    expect(request.headers.get("content-type")).toBe("application/octet-stream");
+    expect(await request.text()).toBe("plain text");
   });
 
   test("a stream body is sent as a stream, chunked unless a Content-Length member is set", async () => {

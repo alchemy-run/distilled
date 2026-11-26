@@ -224,6 +224,8 @@ export interface EmittedMember {
   readonly nullable: boolean;
   readonly doc: string | undefined;
   readonly traits: Record<string, any>;
+  /** A binary upload's body: see {@link rawUploadBody}. */
+  readonly rawUpload?: boolean;
 }
 
 /**
@@ -233,8 +235,16 @@ export interface EmittedMember {
  * prelude is for requests. `finalizeConvert` gives its output a
  * `contentType` header member (`./binary-response.ts`).
  */
-/** Core `protocol-rest` types a generated module imports when it names them. */
-const STREAM_TYPES = ["BinaryStream", "UploadStream"] as const;
+/** Core `protocol-rest` schemas (and types) a generated module imports when it names them. */
+const CORE_BODY_SCHEMAS = ["BinaryStream", "RawBody"] as const;
+
+/**
+ * A binary upload's body: a `Blob` member sent as the whole request body
+ * (`smithy.api#httpPayload`) of an operation that is not multipart. It takes
+ * what core `buildRequest` sends verbatim, a stream included (core
+ * `RawBody`), whatever the SDK's `Blob` prelude is.
+ */
+export const rawUploadBody = (m: Pick<EmittedMember, "rawUpload">): boolean => m.rawUpload === true;
 
 export const binaryBody = (m: Pick<EmittedMember, "target" | "traits">): boolean =>
   m.target === "smithy.api#Blob" && RAW_RESPONSE_TRAIT in m.traits;
@@ -426,6 +436,12 @@ export interface SdkSpec {
   readonly memberPipes?: (m: EmittedMember) => string[];
   /** Override the value schema before nullability, bindings and optionality. */
   readonly memberSchema?: (m: EmittedMember, ref: (target: string) => string) => string | undefined;
+  /**
+   * The SDK builds requests with core `buildRequest`, so a binary upload's
+   * body (a non-multipart `Blob` payload) is core `RawBody`: bytes, text, a
+   * Blob or a stream. See {@link rawUploadBody}.
+   */
+  readonly rawBodies?: boolean;
   /** Function override for member TS types beyond the binding table. */
   readonly memberTsType?: (
     m: EmittedMember,
@@ -861,6 +877,13 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
             )) ||
           (DEFAULT_TRAIT in traits && ownerId !== undefined && !requestReachable.has(ownerId)),
         binding,
+        rawUpload:
+          spec.rawBodies === true &&
+          binding === "rawBody" &&
+          base.target === "smithy.api#Blob" &&
+          ownerId !== undefined &&
+          httpFor[ownerId] !== undefined &&
+          httpFor[ownerId].contentType !== "multipart",
         wire: smithyWireName(traits, base.name, wireKind(binding)),
         nullable:
           (spec.nullableTrait ? spec.nullableTrait in traits : false) ||
@@ -968,7 +991,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     info: EmittedMember,
     tsRefFn: (target: string) => string,
   ): string | undefined =>
-    (binaryBody(info) ? "BinaryStream" : undefined) ??
+    (binaryBody(info) ? "BinaryStream" : rawUploadBody(info) ? "RawBody" : undefined) ??
     spec.memberTsType?.(info, tsRefFn) ??
     (spec.extraBindings ?? []).find((b) => b.binding === info.binding && b.tsType !== undefined)
       ?.tsType;
@@ -976,8 +999,11 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   const memberExpr = (info: EmittedMember, selfIdx: number): string => {
     const binary = binaryBody(info);
     let expr = binary
-      ? "S.Unknown"
-      : (spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ?? ref(info.target, selfIdx));
+      ? "BinaryStream"
+      : rawUploadBody(info)
+        ? "RawBody"
+        : (spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ??
+          ref(info.target, selfIdx));
     if (info.nullable) expr = `S.NullOr(${expr})`;
     const pipes = [...memberPipes(info), ...(binary ? ["T.BinaryResponse()"] : [])];
     if (pipes.length) expr = `${expr}.pipe(${pipes.join(", ")})`;
@@ -1966,9 +1992,9 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   })();
   // After the header's last import (imports are hoisted either way).
   const withImport = (text: string): string => {
-    // Core's byte-stream types: `BinaryStream` for every binary download, and
-    // `UploadStream` for an upload body an SDK's `memberTsType` widens to one.
-    const streamTypes = STREAM_TYPES.filter((name) => new RegExp(`\\b${name}\\b`).test(text));
+    // Core's body schemas: `BinaryStream` for a binary download, `RawBody`
+    // for a binary upload.
+    const streamTypes = CORE_BODY_SCHEMAS.filter((name) => new RegExp(`\\b${name}\\b`).test(text));
     if (telemetryImports.size === 0 && streamTypes.length === 0) return text;
     const line =
       [...telemetryImports]
@@ -1976,7 +2002,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         .map(([ns, mod]) => `import * as ${ns} from "${mod}";\n`)
         .join("") +
       (streamTypes.length > 0
-        ? `import type { ${streamTypes.join(", ")} } from "@distilled.cloud/core/protocol-rest";\n`
+        ? `import { ${streamTypes.join(", ")} } from "@distilled.cloud/core/protocol-rest";\n`
         : "");
     const last = [...text.matchAll(/^import [^;]*;\n/gm)].pop();
     if (last === undefined) return line + text;

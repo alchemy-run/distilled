@@ -23,6 +23,8 @@ import { JSON_PRELUDE, TS_JSON_PRELUDE } from "@distilled.cloud/dev/codegen/prel
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
 const spec: SdkSpec = {
+  // Binary uploads are core `RawBody` (bytes, text, a Blob or a stream).
+  rawBodies: true,
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
 

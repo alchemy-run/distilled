@@ -4,14 +4,16 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
+import type * as Schema from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
 import type * as Stream from "effect/Stream";
 import { rawResponseRootSymbol, resolveNode } from "./annotations.ts";
 import * as API from "./api.ts";
 import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
 import { recordPageHeaders } from "./pagination.ts";
-import { unwrapRedactedDeep } from "./plain-values.ts";
+import { isEffectStream, unwrapRedactedDeep } from "./plain-values.ts";
 import {
+  binaryBodySymbol,
   buildRequest,
   getAnn,
   getProps,
@@ -35,6 +37,7 @@ import type {
 } from "./protocol.ts";
 import { checkResponse, withholdActual } from "./response-validation.ts";
 import { parseRetryAfterForStatus } from "./retry-after.ts";
+import * as Lite from "./schema-lite-impl.ts";
 import { SdkError } from "./sdk-error.ts";
 import * as Send from "./send.ts";
 import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive.ts";
@@ -126,12 +129,43 @@ export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
 export type BinaryStream = Stream.Stream<Uint8Array, HttpClientError.HttpClientError>;
 
 /**
+ * A lite declaration whose type guard strict validation applies. Lite
+ * `declare` keeps no guard, so the node carries it as `check`.
+ */
+const declared = <A>(check: (u: unknown) => boolean, annotations: Lite.Annotations) =>
+  Lite.fromNode({
+    _tag: "Declaration",
+    typeParameters: [],
+    check,
+    annotations,
+  }) as unknown as Schema.Schema<A>;
+
+/** The schema of a {@link BinaryStream}, for a binary download's body member. */
+export const BinaryStream = /*@__PURE__*/ declared<BinaryStream>(isEffectStream, {
+  identifier: "BinaryStream",
+});
+
+/**
  * A binary upload's body from a stream: a `T.HttpBody()` member may take
  * one, and the protocol sends it as it is pulled, without buffering it.
  * A stream can be sent once, so a call with one is never retried. With no
  * modeled `Content-Length` member set, the body goes out chunked.
  */
 export type UploadStream = Stream.Stream<Uint8Array, unknown>;
+
+/** A raw request body (`T.HttpBody()` on a binary member): what `buildRequest` sends verbatim. */
+export type RawBody = string | Uint8Array | ArrayBuffer | Blob | UploadStream;
+
+/** The schema of a {@link RawBody}, for a binary upload's body member. */
+export const RawBody = /*@__PURE__*/ declared<RawBody>(
+  (u) =>
+    typeof u === "string" ||
+    u instanceof Uint8Array ||
+    u instanceof ArrayBuffer ||
+    u instanceof Blob ||
+    isEffectStream(u),
+  { identifier: "RawBody", [binaryBodySymbol]: true },
+);
 
 // =============================================================================
 // Value helpers
@@ -774,10 +808,8 @@ export const restProtocolMethods = <
       return withCredentials(context, (creds) => {
         const client = Context.get(context, HttpClient.HttpClient);
         return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
-          Effect.flatMap(
-            // A stream body goes out once: the retry layer must not resend it.
-            Send.send(context, client, request, request.body._tag === "Stream"),
-            (response) => receive(context, response),
+          Effect.flatMap(Send.send(context, client, request), (response) =>
+            receive(context, response),
           ),
         );
       });
