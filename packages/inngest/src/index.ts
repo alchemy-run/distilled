@@ -9,7 +9,7 @@
  * ```ts
  * import * as Inngest from "@distilled.cloud/inngest";
  *
- * const account = yield* Inngest.v2FetchAccount({});
+ * const account = yield* Inngest.fetchV2Account({});
  * ```
  */
 export * from "./credentials.ts";

@@ -1314,7 +1314,7 @@
       "pkg": "inngest",
       "imports": {
         "Credentials": "pkg:credentials",
-        "Op": "pkg:services/inngest"
+        "Op": "pkg:unstable-services/inngest"
       },
       "auth": "Credentials.CredentialsFromEnv",
       "call": "Op.listV2Runs({})",
