@@ -1,4 +1,4 @@
-import type { ErrorOf } from "@distilled.cloud/core/protocol";
+import type { ErrorOf, Protocol } from "@distilled.cloud/core/protocol";
 import {
   restProtocol,
   type RestErrorInfo,
@@ -24,9 +24,13 @@ import {
  *
  * Neither data-plane protocol sends the team API key.
  */
+import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
+import type * as Fiber from "effect/Fiber";
 import type * as HttpClient from "effect/http/HttpClient";
 import * as Redacted from "effect/Redacted";
+import type * as AST from "effect/SchemaAST";
+import * as Stream from "effect/Stream";
 import {
   apiBaseUrlFor,
   Credentials,
@@ -40,6 +44,7 @@ import {
   type VolumeConnectionConfig,
 } from "./credentials.ts";
 import { E2BParseError, UnknownE2BError, type E2BServiceError } from "./errors.ts";
+import { basicAuthorization, RunAsUser, withRunAsUser } from "./run-as-user.ts";
 
 /**
  * What every generated E2B operation fails with besides its own errors: the
@@ -84,7 +89,41 @@ export const E2BProtocol = /*@__PURE__*/ restProtocol({
   parseError,
 });
 
-export const EnvdProtocol = /*@__PURE__*/ restProtocol({
+/**
+ * `base` with the {@link RunAsUser} layer's user filled in as the
+ * `username` of every call that takes one and sets none (see
+ * {@link withRunAsUser}). The layer is read from the calling fiber.
+ */
+const withLayerUser = <E, R>(base: Protocol<E, R>): Protocol<E, R> => {
+  const fill = <A>(
+    fiber: Fiber.Fiber<unknown, unknown>,
+    inputAst: AST.AST,
+    input: unknown,
+    f: (input: unknown) => A,
+  ) => f(withRunAsUser(inputAst, input, Context.getOrUndefined(fiber.context, RunAsUser)));
+  const { call, stream } = base;
+  return {
+    ...base,
+    encode: (args) =>
+      Effect.withFiber((fiber) =>
+        fill(fiber, args.inputAst, args.input, (input) => base.encode({ ...args, input })),
+      ),
+    ...(call && {
+      call: (op, input) =>
+        Effect.withFiber((fiber) => fill(fiber, op.inputAst, input, (filled) => call(op, filled))),
+    }),
+    ...(stream && {
+      stream: (op, input) =>
+        Stream.unwrap(
+          Effect.withFiber((fiber) =>
+            Effect.succeed(fill(fiber, op.inputAst, input, (filled) => stream(op, filled))),
+          ),
+        ),
+    }),
+  };
+};
+
+const envdRest = /*@__PURE__*/ restProtocol({
   // The sandbox is read as an option, so the protocol's type requires nothing.
   credentials: resolveSandboxConnection,
   baseUrl: (sandbox) => envdBaseUrlFor(sandbox),
@@ -104,9 +143,14 @@ export const EnvdProtocol = /*@__PURE__*/ restProtocol({
   // Connect unary calls POST a JSON body even when the message is empty
   // (`process.List`); envd answers a bodyless one with 415.
   emptyJsonBody: true,
+  // A `username` member (patched onto the filesystem calls) is the run-as
+  // user, sent as E2B's SDK sends it: `Authorization: Basic base64(user:)`.
+  mapMemberHeader: (name, value) => (name === "authorization" ? basicAuthorization(value) : value),
   unknownError,
   parseError,
 });
+
+export const EnvdProtocol = /*@__PURE__*/ withLayerUser(envdRest);
 
 export const VolumeContentProtocol = /*@__PURE__*/ restProtocol({
   // The volume is read as an option, so the protocol's type requires nothing.

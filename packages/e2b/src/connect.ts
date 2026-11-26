@@ -29,6 +29,7 @@ import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
+import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import {
@@ -48,6 +49,7 @@ import {
   Unauthorized,
   UnknownE2BError,
 } from "./errors.ts";
+import { basicAuthorization, RunAsUser } from "./run-as-user.ts";
 
 // =============================================================================
 // Messages
@@ -74,6 +76,8 @@ export interface StartProcessRequest {
   readonly tag?: string;
   /** Keep stdin open for `process.sendInput`. */
   readonly stdin?: boolean;
+  /** The Linux user to run the command as; else the `RunAsUser` layer's, else the template's default. */
+  readonly username?: string;
 }
 
 /** Selects a running process by pid or by the tag it was started with. */
@@ -105,6 +109,8 @@ export interface WatchDirRequest {
   readonly includeEntry?: boolean;
   /** Allow watching network mounts (NFS, CIFS, SMB, FUSE); events there may be unreliable. */
   readonly allowNetworkMounts?: boolean;
+  /** The Linux user to watch as (resolves a relative path); else the `RunAsUser` layer's. */
+  readonly username?: string;
 }
 
 export type FilesystemEventType =
@@ -241,11 +247,20 @@ const takeEnvelopesBounded =
   };
 
 /** `request` without the SDK-only `maxMessageBytes`, which envd does not know. */
+/** The request message without the members the SDK reads: `maxMessageBytes`, `username`. */
 const wireRequest = (request: unknown): unknown => {
-  if (request === null || typeof request !== "object" || !("maxMessageBytes" in request)) {
+  if (
+    request === null ||
+    typeof request !== "object" ||
+    !("maxMessageBytes" in request || "username" in request)
+  ) {
     return request;
   }
-  const { maxMessageBytes: _, ...rest } = request as MaxMessageBytes.MaxMessageBytesInput;
+  const {
+    maxMessageBytes: _,
+    username: __,
+    ...rest
+  } = request as MaxMessageBytes.MaxMessageBytesInput & { readonly username?: string };
   return rest;
 };
 
@@ -300,11 +315,14 @@ const errorOf = (json: unknown): { code?: string; message?: string } | undefined
 
 /**
  * Calls a server-streaming envd RPC and streams its decoded messages.
- * Exported for RPCs envd adds before this module models them.
+ * Exported for RPCs envd adds before this module models them. With
+ * `runAsUser`, the RPC takes a run-as user: the request's `username`, else
+ * the {@link RunAsUser} layer's, sent as `Authorization: Basic`.
  */
 export const serverStream = (
   method: string,
   request: unknown,
+  options?: { readonly runAsUser?: boolean },
 ): Stream.Stream<unknown, ConnectStreamError, SandboxConnection | HttpClient.HttpClient> =>
   Stream.unwrap(
     Effect.gen(function* () {
@@ -321,6 +339,12 @@ export const serverStream = (
       };
       if (sandbox.accessToken !== undefined) {
         headers["X-Access-Token"] = Redacted.value(sandbox.accessToken);
+      }
+      if (options?.runAsUser === true) {
+        const username =
+          (request as { readonly username?: string } | null)?.username ??
+          Option.getOrUndefined(yield* Effect.serviceOption(RunAsUser));
+        if (username !== undefined) headers.Authorization = basicAuthorization(username);
       }
       const response = yield* client.execute(
         HttpClientRequest.post(`${envdBaseUrlFor(sandbox)}/${method}`).pipe(
@@ -431,7 +455,7 @@ const decodeWith =
 export const startProcess = (
   request: StartProcessRequest & MaxMessageBytes.MaxMessageBytesInput,
 ): Stream.Stream<ProcessEvent, ConnectStreamError, SandboxConnection | HttpClient.HttpClient> =>
-  serverStream("process.Process/Start", request).pipe(
+  serverStream("process.Process/Start", request, { runAsUser: true }).pipe(
     Stream.mapEffect(decodeWith(decodeProcessEvent)),
   );
 
@@ -470,6 +494,6 @@ export const decodeWatchDirEvent = (message: unknown): WatchDirEvent | E2BParseE
 export const watchDir = (
   request: WatchDirRequest & MaxMessageBytes.MaxMessageBytesInput,
 ): Stream.Stream<WatchDirEvent, ConnectStreamError, SandboxConnection | HttpClient.HttpClient> =>
-  serverStream("filesystem.Filesystem/WatchDir", request).pipe(
+  serverStream("filesystem.Filesystem/WatchDir", request, { runAsUser: true }).pipe(
     Stream.mapEffect(decodeWith(decodeWatchDirEvent)),
   );

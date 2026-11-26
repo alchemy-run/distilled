@@ -67,6 +67,22 @@ E2B serves the `unstable` module's routes under `/unstable/` and says they
 "may change or disappear without notice", so it imports from
 `@distilled.cloud/e2b/unstable/<module>`, not `@distilled.cloud/e2b/<module>`.
 
+### Run as a user
+
+envd runs a call as the template's default user. To run it as another Linux
+user, pass `username` on the call, or provide `E2B.RunAsUser.of(...)` for a
+whole scope; the call's own `username` wins. It applies to
+`process.startProcess`, the `filesystem` calls (`statPath`, `listDir`,
+`makeDir`, `movePath`, `removePath`, `watchDir`) and the file calls
+(`envd.readFile`, `writeFiles`, `composeFiles`), as in E2B's SDK.
+
+```ts
+// One call:
+Process.startProcess({ process: { cmd: "whoami" }, username: "root" });
+// Every envd call in the scope:
+program.pipe(Effect.provide(E2B.RunAsUser.of("root")));
+```
+
 ## Auth
 
 `E2B_API_KEY` as `X-API-Key`. Optional: `E2B_ACCESS_TOKEN` (`Authorization: Bearer`) and `E2B_TEAM_ID` (`X-Team-ID`) for `apiKeys` and `auth`, `E2B_DOMAIN` (default `e2b.app`), `E2B_API_URL` (default `https://api.<domain>`).
