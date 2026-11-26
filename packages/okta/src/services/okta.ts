@@ -15082,186 +15082,9 @@ export interface GetDeviceIntegrationRequest {
   /** The ID of the device integration */
   deviceIntegrationId: string;
 }
-export type GetDeviceOSAccountRequestExpandItem = "users" | "account_linked_enrollments";
-export type GetDeviceOSAccountRequestExpandList = Array<
-  GetDeviceOSAccountRequestExpandItem | (string & {})
->;
-export interface GetDeviceOSAccountRequest {
-  /** `id` of the device */
-  deviceId: string;
-  /** The unique identifier for the OS account */
-  osAccountId: string;
-  /** Comma-separated list of related resources to include in the `_embedded` attribute. Supported values are `users` and `account_linked_enrollments`. */
-  expand?: GetDeviceOSAccountRequestExpandList | undefined;
-}
-/** OS platform for OS accounts (desktop platforms only) */
-export type OSAccountWindowsOutputPlatform = "WINDOWS";
-/** Display name of the OS account */
-export interface OSAccountDisplayName {
-  /** Indicates whether the associated value is Personal Identifiable Information (PII) and requires masking */
-  sensitive?: boolean | undefined;
-  /** Display name of the OS account */
-  value?: string | undefined;
-}
-/** Status of the OS account */
-export type OSAccountStatus = "ACTIVE" | "DELETED";
-/** Authentication method used for the enrollment */
-export type AccountLinkedEnrollmentProfileAuthenticationMethod = "PASSWORD" | "SECURE_ENCLAVE";
-/** Profile details for a linked enrollment */
-export interface AccountLinkedEnrollmentProfile {
-  /** Authentication method used for the enrollment */
-  authenticationMethod?: AccountLinkedEnrollmentProfileAuthenticationMethod | undefined;
-}
-/** Status of the enrollment. Possible values depend on `type`. For `platform_sso` - `ACTIVE`, `SUSPENDED`, `REVOKED`. For `desktop_mfa` - `ACTIVE`, `DELETED`. */
-export type AccountLinkedEnrollmentStatus = "ACTIVE" | "SUSPENDED" | "REVOKED" | "DELETED";
-/** Type of the linked enrollment */
-export type AccountLinkedEnrollmentType = "platform_sso" | "desktop_mfa";
-/** Embedded data for a linked enrollment */
-export interface AccountLinkedEnrollmentEmbedded {
-  /** Timestamp of the last successful authentication */
-  lastAuthenticatedOn?: string | undefined;
-}
-/** An enrollment linked to an OS account */
-export interface AccountLinkedEnrollment {
-  /** Timestamp when the enrollment was created */
-  created?: string | undefined;
-  /** Unique identifier of the enrollment */
-  id?: string | undefined;
-  /** Timestamp when the enrollment was last updated */
-  lastUpdated?: string | undefined;
-  profile?: AccountLinkedEnrollmentProfile | undefined;
-  /** Status of the enrollment. Possible values depend on `type`. For `platform_sso` - `ACTIVE`, `SUSPENDED`, `REVOKED`. For `desktop_mfa` - `ACTIVE`, `DELETED`. */
-  status?: AccountLinkedEnrollmentStatus | undefined;
-  /** Type of the linked enrollment */
-  type?: AccountLinkedEnrollmentType | undefined;
-  _embedded?: AccountLinkedEnrollmentEmbedded | undefined;
-}
-/** Enrollments linked to this OS account */
-export type OSAccountEmbeddedOutputAccountLinkedEnrollmentsList = Array<AccountLinkedEnrollment>;
-/** Users associated with this OS account */
-export type OSAccountEmbeddedOutputUsersList = Array<UserOutput>;
-/** Embedded resources related to the OS account */
-export interface OSAccountEmbeddedOutput {
-  /** Enrollments linked to this OS account */
-  accountLinkedEnrollments?: OSAccountEmbeddedOutputAccountLinkedEnrollmentsList | undefined;
-  /** Users associated with this OS account */
-  users?: OSAccountEmbeddedOutputUsersList | undefined;
-}
-export interface OSAccountLinks {
-  device?: HrefObjectSelfLink | undefined;
-  self?: HrefObjectSelfLink | undefined;
-}
-/** Profile type discriminator */
-export type WindowsOSAccountProfileType = "WINDOWS";
-export interface WindowsOSAccountProfile {
-  /** Active Directory join status */
-  directoryJoinStatus?: string | undefined;
-  /** Domain\username format (down-level logon name) */
-  downLevelUsername?: string | undefined;
-  /** Full name of the account user */
-  fullName?: string | undefined;
-  /** Globally Unique Identifier for the account */
-  GUID?: string | undefined;
-  /** Fully qualified username */
-  qualifiedUsername?: string | undefined;
-  /** Windows Security Identifier (SID) */
-  securityId?: string | undefined;
-  /** Profile type discriminator */
-  type?: WindowsOSAccountProfileType | undefined;
-  /** User principal name */
-  upn?: string | undefined;
-}
-export interface OSAccountWindowsOutput {
-  /** Timestamp when the OS account was created */
-  created: string;
-  /** Unique identifier of the device this OS account belongs to */
-  deviceId: string;
-  /** Unique identifier for the OS account */
-  id: string;
-  /** Timestamp when the OS account was last seen */
-  lastSeenAt?: string | null | undefined;
-  /** Timestamp when the OS account was last updated */
-  lastUpdated: string;
-  /** OS platform for OS accounts (desktop platforms only) */
-  platform: OSAccountWindowsOutputPlatform;
-  resourceAlternateId?: string | null | undefined;
-  resourceDisplayName?: OSAccountDisplayName | undefined;
-  /** Alternate key for the `id` */
-  resourceId?: string | undefined;
-  resourceType?: string | undefined;
-  /** Status of the OS account */
-  status: OSAccountStatus;
-  _embedded?: OSAccountEmbeddedOutput | undefined;
-  _links: OSAccountLinks;
-  profile: WindowsOSAccountProfile;
-}
-/** OS platform for OS accounts (desktop platforms only) */
-export type OSAccountMacOSOutputPlatform = "MACOS";
-/** Profile type discriminator */
-export type MacOSAccountProfileType = "MACOS";
-export interface MacOSAccountProfile {
-  /** Unique identifier for the macOS account */
-  accountUuid?: string | undefined;
-  /** Full name of the account user */
-  fullName?: string | undefined;
-  /** Profile type discriminator */
-  type?: MacOSAccountProfileType | undefined;
-  /** Username of the account */
-  username?: string | undefined;
-}
-export interface OSAccountMacOSOutput {
-  /** Timestamp when the OS account was created */
-  created: string;
-  /** Unique identifier of the device this OS account belongs to */
-  deviceId: string;
-  /** Unique identifier for the OS account */
-  id: string;
-  /** Timestamp when the OS account was last seen */
-  lastSeenAt?: string | null | undefined;
-  /** Timestamp when the OS account was last updated */
-  lastUpdated: string;
-  /** OS platform for OS accounts (desktop platforms only) */
-  platform: OSAccountMacOSOutputPlatform;
-  resourceAlternateId?: string | null | undefined;
-  resourceDisplayName?: OSAccountDisplayName | undefined;
-  /** Alternate key for the `id` */
-  resourceId?: string | undefined;
-  resourceType?: string | undefined;
-  /** Status of the OS account */
-  status: OSAccountStatus;
-  _embedded?: OSAccountEmbeddedOutput | undefined;
-  _links: OSAccountLinks;
-  profile: MacOSAccountProfile;
-}
-export type GetDeviceOSAccountResponseBody = OSAccountWindowsOutput | OSAccountMacOSOutput;
-export type GetDeviceOSAccountResponse = GetDeviceOSAccountResponseBody;
 export interface GetDevicePostureCheckRequest {
   /** ID of the device posture check */
   postureCheckId: string;
-}
-export interface GetDRStatusRequest {}
-/** Status whether a domain has been failed over or not */
-export interface DRStatusItem {
-  /** Domain for your org */
-  domain?: string | undefined;
-  /** Indicates if the domain has been failed over */
-  isFailedOver?: boolean | undefined;
-}
-/** List of domains and their disaster recovery status */
-export type GetDRStatusResponseStatusList = Array<DRStatusItem>;
-export interface GetDRStatusResponse {
-  /** List of domains and their disaster recovery status */
-  status?: GetDRStatusResponseStatusList | undefined;
-}
-export interface GetDRStatusByDomainRequest {
-  /** The Okta domain name of your org or one of your custom domains */
-  domain: string;
-}
-/** List of domains and their disaster recovery status */
-export type GetDRStatusByDomainResponseStatusList = Array<DRStatusItem>;
-export interface GetDRStatusByDomainResponse {
-  /** List of domains and their disaster recovery status */
-  status?: GetDRStatusByDomainResponseStatusList | undefined;
 }
 export interface GetEmailCustomizationRequest {
   /** The ID of the brand */
@@ -16948,17 +16771,6 @@ export interface RoleGovernance {
   grants?: RoleGovernanceGrantsList | undefined;
   _links?: LinksGovernanceSources | undefined;
 }
-export interface GetUserClassificationRequest {
-  /** ID of an existing Okta user */
-  userId: string;
-}
-/** The type of user classification */
-export type ClassificationType = "LITE" | "STANDARD";
-export interface UserClassification {
-  /** The timestamp when the user classification was last updated */
-  lastUpdated?: string | undefined;
-  type?: ClassificationType | undefined;
-}
 export interface GetUserGrantRequest {
   /** ID of an existing Okta user */
   userId: string;
@@ -17720,19 +17532,6 @@ export type ListDeviceAssurancePoliciesResponse = ListDeviceAssurancePoliciesRes
 export interface ListDeviceIntegrationsRequest {}
 export type ListDeviceIntegrationsResponseBodyList = Array<DeviceIntegrations>;
 export type ListDeviceIntegrationsResponse = ListDeviceIntegrationsResponseBodyList;
-export type ListDeviceOSAccountsRequestExpandItem = "users" | "account_linked_enrollments";
-export type ListDeviceOSAccountsRequestExpandList = Array<
-  ListDeviceOSAccountsRequestExpandItem | (string & {})
->;
-export interface ListDeviceOSAccountsRequest {
-  /** `id` of the device */
-  deviceId: string;
-  /** Comma-separated list of related resources to include in the `_embedded` attribute. Supported values are `users` and `account_linked_enrollments`. */
-  expand?: ListDeviceOSAccountsRequestExpandList | undefined;
-}
-export type ListDeviceOSAccountsResponseBodyItem = OSAccountWindowsOutput | OSAccountMacOSOutput;
-export type ListDeviceOSAccountsResponseBodyList = Array<ListDeviceOSAccountsResponseBodyItem>;
-export type ListDeviceOSAccountsResponse = ListDeviceOSAccountsResponseBodyList;
 export interface ListDevicePostureChecksRequest {}
 export type ListDevicePostureChecksResponseBodyList = Array<DevicePostureCheck>;
 export type ListDevicePostureChecksResponse = ListDevicePostureChecksResponseBodyList;
@@ -20278,11 +20077,6 @@ export interface ReplaceUserRequest {
   /** The ID of the user type. Add this value if you want to create a user with a non-default [User Type](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/UserType/). The user type determines which [schema](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/) applies to that user. After a user has been created, the user can only be assigned a different user type by an admin through a full replacement (`PUT`) operation. */
   type?: CreateUserRequestType | undefined;
 }
-export interface ReplaceUserClassificationRequest {
-  /** ID of an existing Okta user */
-  userId: string;
-  type?: ClassificationType | (string & {}) | undefined;
-}
 export interface ReplaceUserLockoutSettingsRequest {
   /** Prevents brute-force lockout from unknown devices for the password authenticator. */
   preventBruteForceLockoutFromUnknownDevices?: boolean | undefined;
@@ -20504,50 +20298,6 @@ export interface StartImportFromIdentitySourceRequest {
   identitySourceId: string;
   /** The ID of the identity source session */
   sessionId: string;
-}
-/** The Okta domain to failback */
-export type FailbackRequestSchemaDomainsList = Array<string>;
-export interface FailbackRequestSchema {
-  /** The Okta domain to failback */
-  domains?: FailbackRequestSchemaDomainsList | undefined;
-}
-export type StartOrgFailbackRequestBody = FailbackRequestSchema | unknown;
-export interface StartOrgFailbackRequest {
-  body?: StartOrgFailbackRequestBody | undefined;
-}
-export interface StartOrgFailbackResponseResultsItem {
-  /** Domain for your org */
-  domain?: string | undefined;
-  /** Domain failback message */
-  message?: string | undefined;
-}
-/** Results of the failback operation */
-export type StartOrgFailbackResponseResultsList = Array<StartOrgFailbackResponseResultsItem>;
-export interface StartOrgFailbackResponse {
-  /** Results of the failback operation */
-  results?: StartOrgFailbackResponseResultsList | undefined;
-}
-/** The Okta domain to failover */
-export type FailoverRequestSchemaDomainsList = Array<string>;
-export interface FailoverRequestSchema {
-  /** The Okta domain to failover */
-  domains?: FailoverRequestSchemaDomainsList | undefined;
-}
-export type StartOrgFailoverRequestBody = FailoverRequestSchema | unknown;
-export interface StartOrgFailoverRequest {
-  body?: StartOrgFailoverRequestBody | undefined;
-}
-export interface StartOrgFailoverResponseResultsItem {
-  /** Domain for your org */
-  domain?: string | undefined;
-  /** Domain failover message */
-  message?: string | undefined;
-}
-/** Results of the failover operation */
-export type StartOrgFailoverResponseResultsList = Array<StartOrgFailoverResponseResultsItem>;
-export interface StartOrgFailoverResponse {
-  /** Results of the failover operation */
-  results?: StartOrgFailoverResponseResultsList | undefined;
 }
 export interface StopAgentPoolsUpdateRequest {
   /** ID of the agent pool for which the settings apply to */
@@ -21777,8 +21527,8 @@ export const activateAgentPoolsUpdate: API.OperationMethod<
   ActivateAgentPoolsUpdateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18560, __c580, 0) as any as S.Schema<ActivateAgentPoolsUpdateRequest>,
-  output: __S(18721, __c585, 1) as any as S.Schema<AgentPoolUpdate>,
+  input: __S(18496, __c578, 0) as any as S.Schema<ActivateAgentPoolsUpdateRequest>,
+  output: __S(18657, __c583, 1) as any as S.Schema<AgentPoolUpdate>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -21796,11 +21546,11 @@ export const activateApiServiceIntegrationInstanceSecret: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22496,
-    __c703,
+    22432,
+    __c701,
     0,
   ) as any as S.Schema<ActivateApiServiceIntegrationInstanceSecretRequest>,
-  output: __S(22560, __c705, 0) as any as S.Schema<APIServiceIntegrationInstanceSecret>,
+  output: __S(22496, __c703, 0) as any as S.Schema<APIServiceIntegrationInstanceSecret>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -21817,8 +21567,8 @@ export const activateApplication: API.OperationMethod<
   ActivateApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26528, __c829, 0) as any as S.Schema<ActivateApplicationRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<ActivateApplicationResponse>,
+  input: __S(26464, __c827, 0) as any as S.Schema<ActivateApplicationRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<ActivateApplicationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -21835,8 +21585,8 @@ export const activateAuthenticator: API.OperationMethod<
   ActivateAuthenticatorError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28224, __c882, 0) as any as S.Schema<ActivateAuthenticatorRequest>,
-  output: __S(28256, __c883, 0) as any as S.Schema<ActivateAuthenticatorResponse>,
+  input: __S(27872, __c871, 0) as any as S.Schema<ActivateAuthenticatorRequest>,
+  output: __S(27904, __c872, 0) as any as S.Schema<ActivateAuthenticatorResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -21853,8 +21603,8 @@ export const activateAuthenticatorMethod: API.OperationMethod<
   ActivateAuthenticatorMethodError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29024, __c907, 0) as any as S.Schema<ActivateAuthenticatorMethodRequest>,
-  output: __S(29056, __c908, 0) as any as S.Schema<ActivateAuthenticatorMethodResponse>,
+  input: __S(28672, __c896, 0) as any as S.Schema<ActivateAuthenticatorMethodRequest>,
+  output: __S(28704, __c897, 0) as any as S.Schema<ActivateAuthenticatorMethodResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -21872,7 +21622,7 @@ export const activateAuthorizationServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<ActivateAuthorizationServerRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<ActivateAuthorizationServerResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<ActivateAuthorizationServerResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -21890,7 +21640,7 @@ export const activateAuthorizationServerPolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ActivateAuthorizationServerPolicyRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<ActivateAuthorizationServerPolicyResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<ActivateAuthorizationServerPolicyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -21908,7 +21658,7 @@ export const activateAuthorizationServerPolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ActivateAuthorizationServerPolicyRuleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<ActivateAuthorizationServerPolicyRuleResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<ActivateAuthorizationServerPolicyRuleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -21970,8 +21720,8 @@ export const activateDefaultProvisioningConnectionForApplication: API.OperationM
     0,
   ) as any as S.Schema<ActivateDefaultProvisioningConnectionForApplicationRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<ActivateDefaultProvisioningConnectionForApplicationResponse>,
   errors: [Forbidden, NotFound],
@@ -21991,7 +21741,7 @@ export const activateDevice: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<ActivateDeviceRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<ActivateDeviceResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<ActivateDeviceResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22063,7 +21813,7 @@ export const activateGroupRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<ActivateGroupRuleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<ActivateGroupRuleResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<ActivateGroupRuleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22207,7 +21957,7 @@ export const activatePolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8288, __c259, 0) as any as S.Schema<ActivatePolicyRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<ActivatePolicyResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<ActivatePolicyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22225,7 +21975,7 @@ export const activatePolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<ActivatePolicyRuleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<ActivatePolicyRuleResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<ActivatePolicyRuleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22246,8 +21996,8 @@ export const activatePreregistrationEnrollment: API.OperationMethod<
   ActivatePreregistrationEnrollmentError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9251, __c289, 3) as any as S.Schema<ActivatePreregistrationEnrollmentRequest>,
-  output: __S(9252, __c289, 4) as any as S.Schema<EnrollmentActivationResponse>,
+  input: __S(9219, __c288, 3) as any as S.Schema<ActivatePreregistrationEnrollmentRequest>,
+  output: __S(9220, __c288, 4) as any as S.Schema<EnrollmentActivationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22264,8 +22014,8 @@ export const activateRealmAssignment: API.OperationMethod<
   ActivateRealmAssignmentError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<ActivateRealmAssignmentRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<ActivateRealmAssignmentResponse>,
+  input: __S(9824, __c307, 0) as any as S.Schema<ActivateRealmAssignmentRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<ActivateRealmAssignmentResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22282,8 +22032,8 @@ export const activateSecurityEventsProviderInstance: API.OperationMethod<
   ActivateSecurityEventsProviderInstanceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10240, __c320, 0) as any as S.Schema<ActivateSecurityEventsProviderInstanceRequest>,
-  output: __S(10273, __c321, 1) as any as S.Schema<SecurityEventsProviderResponse>,
+  input: __S(10272, __c321, 0) as any as S.Schema<ActivateSecurityEventsProviderInstanceRequest>,
+  output: __S(10305, __c322, 1) as any as S.Schema<SecurityEventsProviderResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22300,8 +22050,8 @@ export const activateTrustedOrigin: API.OperationMethod<
   ActivateTrustedOriginError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10720, __c335, 0) as any as S.Schema<ActivateTrustedOriginRequest>,
-  output: __S(10754, __c336, 2) as any as S.Schema<TrustedOrigin>,
+  input: __S(10752, __c336, 0) as any as S.Schema<ActivateTrustedOriginRequest>,
+  output: __S(10786, __c337, 2) as any as S.Schema<TrustedOrigin>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22318,8 +22068,8 @@ export const activateUser: API.OperationMethod<
   ActivateUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11232, __c351, 0) as any as S.Schema<ActivateUserRequest>,
-  output: __S(11264, __c352, 0) as any as S.Schema<UserActivationToken>,
+  input: __S(11264, __c352, 0) as any as S.Schema<ActivateUserRequest>,
+  output: __S(11296, __c353, 0) as any as S.Schema<UserActivationToken>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22332,8 +22082,8 @@ export type AddGroupError = BadRequest | Forbidden | OktaOpError;
 /** Add a group Adds a new group with the `OKTA_GROUP` type to your org. > **Note:** App import operations are responsible for syncing groups with `APP_GROUP` type such as Active Directory groups. See [About groups](https://help.okta.com/okta_help.htm?id=Directory_Groups) in the help documentation. */
 export const addGroup: API.OperationMethod<AddGroupRequest, Group, AddGroupError, OktaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(11840, __c370, 0) as any as S.Schema<AddGroupRequest>,
-    output: __S(11876, __c371, 4) as any as S.Schema<Group>,
+    input: __S(11872, __c371, 0) as any as S.Schema<AddGroupRequest>,
+    output: __S(11908, __c372, 4) as any as S.Schema<Group>,
     errors: [BadRequest, Forbidden],
     serviceErrors: OktaServiceErrors,
     protocol: OktaProtocol,
@@ -22350,8 +22100,8 @@ export const addJwk: API.OperationMethod<
   AddJwkError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12416, __c388, 0) as any as S.Schema<AddJwkRequest>,
-  output: __S(12417, __c388, 1) as any as S.Schema<AddJwkResponse>,
+  input: __S(12480, __c390, 0) as any as S.Schema<AddJwkRequest>,
+  output: __S(12481, __c390, 1) as any as S.Schema<AddJwkResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22368,8 +22118,8 @@ export const addMembersToBinding: API.OperationMethod<
   AddMembersToBindingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12864, __c402, 0) as any as S.Schema<AddMembersToBindingRequest>,
-  output: __S(12897, __c403, 1) as any as S.Schema<ResourceSetBindingEditResponse>,
+  input: __S(12928, __c404, 0) as any as S.Schema<AddMembersToBindingRequest>,
+  output: __S(12961, __c405, 1) as any as S.Schema<ResourceSetBindingEditResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22386,7 +22136,7 @@ export const addOAuth2ResourceServerJsonWebKey: API.OperationMethod<
   AddOAuth2ResourceServerJsonWebKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13472, __c421, 0) as any as S.Schema<AddOAuth2ResourceServerJsonWebKeyRequest>,
+  input: __S(13440, __c420, 0) as any as S.Schema<AddOAuth2ResourceServerJsonWebKeyRequest>,
   output: __S(7745, __c242, 1) as any as S.Schema<OAuth2ResourceServerJsonWebKey>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
@@ -22440,8 +22190,8 @@ export const assignAllAppsAsTargetToRoleForUser: API.OperationMethod<
   AssignAllAppsAsTargetToRoleForUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14880, __c465, 0) as any as S.Schema<AssignAllAppsAsTargetToRoleForUserRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<AssignAllAppsAsTargetToRoleForUserResponse>,
+  input: __S(14848, __c464, 0) as any as S.Schema<AssignAllAppsAsTargetToRoleForUserRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<AssignAllAppsAsTargetToRoleForUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22459,13 +22209,13 @@ export const assignAppInstanceTargetToAppAdminRoleForGroup: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15328,
-    __c479,
+    15264,
+    __c477,
     0,
   ) as any as S.Schema<AssignAppInstanceTargetToAppAdminRoleForGroupRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<AssignAppInstanceTargetToAppAdminRoleForGroupResponse>,
   errors: [Forbidden, NotFound],
@@ -22485,13 +22235,13 @@ export const assignAppInstanceTargetToAppAdminRoleForUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15680,
-    __c490,
+    15648,
+    __c489,
     0,
   ) as any as S.Schema<AssignAppInstanceTargetToAppAdminRoleForUserRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<AssignAppInstanceTargetToAppAdminRoleForUserResponse>,
   errors: [Forbidden, NotFound],
@@ -22510,8 +22260,8 @@ export const assignApplicationPolicy: API.OperationMethod<
   AssignApplicationPolicyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16096, __c503, 0) as any as S.Schema<AssignApplicationPolicyRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<AssignApplicationPolicyResponse>,
+  input: __S(16032, __c501, 0) as any as S.Schema<AssignApplicationPolicyRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<AssignApplicationPolicyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22528,8 +22278,8 @@ export const assignAppTargetInstanceRoleForClient: API.OperationMethod<
   AssignAppTargetInstanceRoleForClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16480, __c515, 0) as any as S.Schema<AssignAppTargetInstanceRoleForClientRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<AssignAppTargetInstanceRoleForClientResponse>,
+  input: __S(16448, __c514, 0) as any as S.Schema<AssignAppTargetInstanceRoleForClientRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<AssignAppTargetInstanceRoleForClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22546,8 +22296,8 @@ export const assignAppTargetRoleToClient: API.OperationMethod<
   AssignAppTargetRoleToClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16896, __c528, 0) as any as S.Schema<AssignAppTargetRoleToClientRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<AssignAppTargetRoleToClientResponse>,
+  input: __S(16864, __c527, 0) as any as S.Schema<AssignAppTargetRoleToClientRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<AssignAppTargetRoleToClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22564,8 +22314,8 @@ export const assignAppTargetToAdminRoleForGroup: API.OperationMethod<
   AssignAppTargetToAdminRoleForGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17312, __c541, 0) as any as S.Schema<AssignAppTargetToAdminRoleForGroupRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<AssignAppTargetToAdminRoleForGroupResponse>,
+  input: __S(17280, __c540, 0) as any as S.Schema<AssignAppTargetToAdminRoleForGroupRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<AssignAppTargetToAdminRoleForGroupResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22582,8 +22332,8 @@ export const assignAppTargetToAdminRoleForUser: API.OperationMethod<
   AssignAppTargetToAdminRoleForUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17728, __c554, 0) as any as S.Schema<AssignAppTargetToAdminRoleForUserRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<AssignAppTargetToAdminRoleForUserResponse>,
+  input: __S(17664, __c552, 0) as any as S.Schema<AssignAppTargetToAdminRoleForUserRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<AssignAppTargetToAdminRoleForUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22600,8 +22350,8 @@ export const assignClientPrivilegesSetting: API.OperationMethod<
   AssignClientPrivilegesSettingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18080, __c565, 0) as any as S.Schema<AssignClientPrivilegesSettingRequest>,
-  output: __S(18112, __c566, 0) as any as S.Schema<ClientPrivilegesSetting>,
+  input: __S(18048, __c564, 0) as any as S.Schema<AssignClientPrivilegesSettingRequest>,
+  output: __S(18080, __c565, 0) as any as S.Schema<ClientPrivilegesSetting>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22622,13 +22372,13 @@ export const assignFulfillmentErrorWebAuthnPreregistrationFactor: API.OperationM
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18784,
-    __c587,
+    18720,
+    __c585,
     0,
   ) as any as S.Schema<AssignFulfillmentErrorWebAuthnPreregistrationFactorRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<AssignFulfillmentErrorWebAuthnPreregistrationFactorResponse>,
   errors: [Forbidden, NotFound],
@@ -22647,8 +22397,8 @@ export const assignGroupOwner: API.OperationMethod<
   AssignGroupOwnerError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19136, __c598, 0) as any as S.Schema<AssignGroupOwnerRequest>,
-  output: __S(19168, __c599, 0) as any as S.Schema<GroupOwner>,
+  input: __S(19104, __c597, 0) as any as S.Schema<AssignGroupOwnerRequest>,
+  output: __S(19136, __c598, 0) as any as S.Schema<GroupOwner>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22665,8 +22415,8 @@ export const assignGroupTargetRoleForClient: API.OperationMethod<
   AssignGroupTargetRoleForClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19552, __c611, 0) as any as S.Schema<AssignGroupTargetRoleForClientRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<AssignGroupTargetRoleForClientResponse>,
+  input: __S(19520, __c610, 0) as any as S.Schema<AssignGroupTargetRoleForClientRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<AssignGroupTargetRoleForClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22683,8 +22433,8 @@ export const assignGroupTargetToGroupAdminRole: API.OperationMethod<
   AssignGroupTargetToGroupAdminRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19936, __c623, 0) as any as S.Schema<AssignGroupTargetToGroupAdminRoleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<AssignGroupTargetToGroupAdminRoleResponse>,
+  input: __S(19872, __c621, 0) as any as S.Schema<AssignGroupTargetToGroupAdminRoleRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<AssignGroupTargetToGroupAdminRoleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22701,8 +22451,8 @@ export const assignGroupTargetToUserRole: API.OperationMethod<
   AssignGroupTargetToUserRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20288, __c634, 0) as any as S.Schema<AssignGroupTargetToUserRoleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<AssignGroupTargetToUserRoleResponse>,
+  input: __S(20224, __c632, 0) as any as S.Schema<AssignGroupTargetToUserRoleRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<AssignGroupTargetToUserRoleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22719,8 +22469,8 @@ export const assignGroupToApplication: API.OperationMethod<
   AssignGroupToApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20641, __c645, 1) as any as S.Schema<AssignGroupToApplicationRequest>,
-  output: __S(20673, __c646, 1) as any as S.Schema<ApplicationGroupAssignment>,
+  input: __S(20577, __c643, 1) as any as S.Schema<AssignGroupToApplicationRequest>,
+  output: __S(20609, __c644, 1) as any as S.Schema<ApplicationGroupAssignment>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22737,8 +22487,8 @@ export const assignLinkedObjectValueForPrimary: API.OperationMethod<
   AssignLinkedObjectValueForPrimaryError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21088, __c659, 0) as any as S.Schema<AssignLinkedObjectValueForPrimaryRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<AssignLinkedObjectValueForPrimaryResponse>,
+  input: __S(21024, __c657, 0) as any as S.Schema<AssignLinkedObjectValueForPrimaryRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<AssignLinkedObjectValueForPrimaryResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22755,8 +22505,8 @@ export const assignRoleToClient: API.OperationMethod<
   AssignRoleToClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21440, __c670, 0) as any as S.Schema<AssignRoleToClientRequest>,
-  output: __S(21441, __c670, 1) as any as S.Schema<AssignRoleToClientResponse>,
+  input: __S(21376, __c668, 0) as any as S.Schema<AssignRoleToClientRequest>,
+  output: __S(21377, __c668, 1) as any as S.Schema<AssignRoleToClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22773,8 +22523,8 @@ export const assignRoleToGroup: API.OperationMethod<
   AssignRoleToGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21792, __c681, 0) as any as S.Schema<AssignRoleToGroupRequest>,
-  output: __S(21793, __c681, 1) as any as S.Schema<AssignRoleToGroupResponse>,
+  input: __S(21728, __c679, 0) as any as S.Schema<AssignRoleToGroupRequest>,
+  output: __S(21729, __c679, 1) as any as S.Schema<AssignRoleToGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22791,8 +22541,8 @@ export const assignRoleToUser: API.OperationMethod<
   AssignRoleToUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22144, __c692, 0) as any as S.Schema<AssignRoleToUserRequest>,
-  output: __S(22145, __c692, 1) as any as S.Schema<AssignRoleToUserResponse>,
+  input: __S(22080, __c690, 0) as any as S.Schema<AssignRoleToUserRequest>,
+  output: __S(22081, __c690, 1) as any as S.Schema<AssignRoleToUserResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22809,8 +22559,8 @@ export const assignUserToApplication: API.OperationMethod<
   AssignUserToApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22593, __c706, 1) as any as S.Schema<AssignUserToApplicationRequest>,
-  output: __S(22626, __c707, 2) as any as S.Schema<AppUserOutput>,
+  input: __S(22529, __c704, 1) as any as S.Schema<AssignUserToApplicationRequest>,
+  output: __S(22562, __c705, 2) as any as S.Schema<AppUserOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22827,8 +22577,8 @@ export const assignUserToGroup: API.OperationMethod<
   AssignUserToGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23008, __c719, 0) as any as S.Schema<AssignUserToGroupRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<AssignUserToGroupResponse>,
+  input: __S(22976, __c718, 0) as any as S.Schema<AssignUserToGroupRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<AssignUserToGroupResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22845,8 +22595,8 @@ export const bulkRemoveEmailAddressBounces: API.OperationMethod<
   BulkRemoveEmailAddressBouncesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23392, __c731, 0) as any as S.Schema<BulkRemoveEmailAddressBouncesRequest>,
-  output: __S(23395, __c731, 3) as any as S.Schema<BouncesRemoveListResult>,
+  input: __S(23328, __c729, 0) as any as S.Schema<BulkRemoveEmailAddressBouncesRequest>,
+  output: __S(23331, __c729, 3) as any as S.Schema<BouncesRemoveListResult>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22863,8 +22613,8 @@ export const changePassword: API.OperationMethod<
   ChangePasswordError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23744, __c742, 0) as any as S.Schema<ChangePasswordRequest>,
-  output: __S(23781, __c743, 5) as any as S.Schema<UserCredentialsOutput>,
+  input: __S(23680, __c740, 0) as any as S.Schema<ChangePasswordRequest>,
+  output: __S(23717, __c741, 5) as any as S.Schema<UserCredentialsOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22881,8 +22631,8 @@ export const changeRecoveryQuestion: API.OperationMethod<
   ChangeRecoveryQuestionError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24160, __c755, 0) as any as S.Schema<ChangeRecoveryQuestionRequest>,
-  output: __S(23781, __c743, 5) as any as S.Schema<UserCredentialsOutput>,
+  input: __S(24096, __c753, 0) as any as S.Schema<ChangeRecoveryQuestionRequest>,
+  output: __S(23717, __c741, 5) as any as S.Schema<UserCredentialsOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22899,8 +22649,8 @@ export const cloneApplicationKey: API.OperationMethod<
   CloneApplicationKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24576, __c768, 0) as any as S.Schema<CloneApplicationKeyRequest>,
-  output: __S(24608, __c769, 0) as any as S.Schema<JsonWebKey>,
+  input: __S(24480, __c765, 0) as any as S.Schema<CloneApplicationKeyRequest>,
+  output: __S(24512, __c766, 0) as any as S.Schema<JsonWebKey>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22917,8 +22667,8 @@ export const cloneIdentityProviderKey: API.OperationMethod<
   CloneIdentityProviderKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24960, __c780, 0) as any as S.Schema<CloneIdentityProviderKeyRequest>,
-  output: __S(24992, __c781, 0) as any as S.Schema<IdPKeyCredential>,
+  input: __S(24864, __c777, 0) as any as S.Schema<CloneIdentityProviderKeyRequest>,
+  output: __S(24896, __c778, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22935,8 +22685,8 @@ export const clonePolicy: API.OperationMethod<
   ClonePolicyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25344, __c792, 0) as any as S.Schema<ClonePolicyRequest>,
-  output: __S(25376, __c793, 0) as any as S.Schema<ClonePolicyResponse>,
+  input: __S(25280, __c790, 0) as any as S.Schema<ClonePolicyRequest>,
+  output: __S(25312, __c791, 0) as any as S.Schema<ClonePolicyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22953,8 +22703,8 @@ export const createAgentPoolsUpdate: API.OperationMethod<
   CreateAgentPoolsUpdateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25760, __c805, 0) as any as S.Schema<CreateAgentPoolsUpdateRequest>,
-  output: __S(18721, __c585, 1) as any as S.Schema<AgentPoolUpdate>,
+  input: __S(25664, __c802, 0) as any as S.Schema<CreateAgentPoolsUpdateRequest>,
+  output: __S(18657, __c583, 1) as any as S.Schema<AgentPoolUpdate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22971,8 +22721,8 @@ export const createApiServiceIntegrationInstance: API.OperationMethod<
   CreateApiServiceIntegrationInstanceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26144, __c817, 0) as any as S.Schema<CreateApiServiceIntegrationInstanceRequest>,
-  output: __S(26145, __c817, 1) as any as S.Schema<CreateApiServiceIntegrationInstanceResponse>,
+  input: __S(26048, __c814, 0) as any as S.Schema<CreateApiServiceIntegrationInstanceRequest>,
+  output: __S(26049, __c814, 1) as any as S.Schema<CreateApiServiceIntegrationInstanceResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -22989,8 +22739,8 @@ export const createApiServiceIntegrationInstanceSecret: API.OperationMethod<
   CreateApiServiceIntegrationInstanceSecretError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26592, __c831, 0) as any as S.Schema<CreateApiServiceIntegrationInstanceSecretRequest>,
-  output: __S(22560, __c705, 0) as any as S.Schema<APIServiceIntegrationInstanceSecret>,
+  input: __S(26528, __c829, 0) as any as S.Schema<CreateApiServiceIntegrationInstanceSecretRequest>,
+  output: __S(22496, __c703, 0) as any as S.Schema<APIServiceIntegrationInstanceSecret>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23007,8 +22757,8 @@ export const createApplication: API.OperationMethod<
   CreateApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26976, __c843, 0) as any as S.Schema<CreateApplicationRequest>,
-  output: __S(27008, __c844, 0) as any as S.Schema<CreateApplicationResponse>,
+  input: __S(26912, __c841, 0) as any as S.Schema<CreateApplicationRequest>,
+  output: __S(26944, __c842, 0) as any as S.Schema<CreateApplicationResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23025,8 +22775,8 @@ export const createAppServiceAccount: API.OperationMethod<
   CreateAppServiceAccountError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27392, __c856, 0) as any as S.Schema<CreateAppServiceAccountRequest>,
-  output: __S(27424, __c857, 0) as any as S.Schema<AppServiceAccountOutput>,
+  input: __S(27264, __c852, 0) as any as S.Schema<CreateAppServiceAccountRequest>,
+  output: __S(27296, __c853, 0) as any as S.Schema<AppServiceAccountOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23043,8 +22793,8 @@ export const createAssociatedServers: API.OperationMethod<
   CreateAssociatedServersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27680, __c865, 0) as any as S.Schema<CreateAssociatedServersRequest>,
-  output: __S(27713, __c866, 1) as any as S.Schema<CreateAssociatedServersResponse>,
+  input: __S(27328, __c854, 0) as any as S.Schema<CreateAssociatedServersRequest>,
+  output: __S(27361, __c855, 1) as any as S.Schema<CreateAssociatedServersResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23061,8 +22811,8 @@ export const createAuthenticator: API.OperationMethod<
   CreateAuthenticatorError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27776, __c868, 0) as any as S.Schema<CreateAuthenticatorRequest>,
-  output: __S(28256, __c883, 0) as any as S.Schema<CreateAuthenticatorResponse>,
+  input: __S(27424, __c857, 0) as any as S.Schema<CreateAuthenticatorRequest>,
+  output: __S(27904, __c872, 0) as any as S.Schema<CreateAuthenticatorResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23079,8 +22829,8 @@ export const createAuthenticatorEnrollment: API.OperationMethod<
   CreateAuthenticatorEnrollmentError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27808, __c869, 0) as any as S.Schema<CreateAuthenticatorEnrollmentRequest>,
-  output: __S(27873, __c871, 1) as any as S.Schema<AuthenticatorEnrollment>,
+  input: __S(27456, __c858, 0) as any as S.Schema<CreateAuthenticatorEnrollmentRequest>,
+  output: __S(27521, __c860, 1) as any as S.Schema<AuthenticatorEnrollment>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23097,8 +22847,8 @@ export const createAuthorizationServer: API.OperationMethod<
   CreateAuthorizationServerError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27904, __c872, 0) as any as S.Schema<CreateAuthorizationServerRequest>,
-  output: __S(27750, __c867, 6) as any as S.Schema<AuthorizationServer>,
+  input: __S(27552, __c861, 0) as any as S.Schema<CreateAuthorizationServerRequest>,
+  output: __S(27398, __c856, 6) as any as S.Schema<AuthorizationServer>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23115,8 +22865,8 @@ export const createAuthorizationServerPolicy: API.OperationMethod<
   CreateAuthorizationServerPolicyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27968, __c874, 0) as any as S.Schema<CreateAuthorizationServerPolicyRequest>,
-  output: __S(28002, __c875, 2) as any as S.Schema<CreateAuthorizationServerPolicyResponse>,
+  input: __S(27616, __c863, 0) as any as S.Schema<CreateAuthorizationServerPolicyRequest>,
+  output: __S(27650, __c864, 2) as any as S.Schema<CreateAuthorizationServerPolicyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23137,8 +22887,8 @@ export const createAuthorizationServerPolicyRule: API.OperationMethod<
   CreateAuthorizationServerPolicyRuleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28064, __c877, 0) as any as S.Schema<CreateAuthorizationServerPolicyRuleRequest>,
-  output: __S(28132, __c879, 4) as any as S.Schema<AuthorizationServerPolicyRule>,
+  input: __S(27712, __c866, 0) as any as S.Schema<CreateAuthorizationServerPolicyRuleRequest>,
+  output: __S(27780, __c868, 4) as any as S.Schema<AuthorizationServerPolicyRule>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23155,7 +22905,7 @@ export const createBehaviorDetectionRule: API.OperationMethod<
   CreateBehaviorDetectionRuleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28192, __c881, 0) as any as S.Schema<CreateBehaviorDetectionRuleRequest>,
+  input: __S(27840, __c870, 0) as any as S.Schema<CreateBehaviorDetectionRuleRequest>,
   output: __S(1824, __c57, 0) as any as S.Schema<CreateBehaviorDetectionRuleResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
@@ -23173,8 +22923,8 @@ export const createBrand: API.OperationMethod<
   CreateBrandError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28288, __c884, 0) as any as S.Schema<CreateBrandRequest>,
-  output: __S(28352, __c886, 0) as any as S.Schema<Brand>,
+  input: __S(27936, __c873, 0) as any as S.Schema<CreateBrandRequest>,
+  output: __S(28000, __c875, 0) as any as S.Schema<Brand>,
   errors: [BadRequest, Forbidden, Conflict],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23191,8 +22941,8 @@ export const createCaptchaInstance: API.OperationMethod<
   CreateCaptchaInstanceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28384, __c887, 0) as any as S.Schema<CreateCaptchaInstanceRequest>,
-  output: __S(28416, __c888, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
+  input: __S(28032, __c876, 0) as any as S.Schema<CreateCaptchaInstanceRequest>,
+  output: __S(28064, __c877, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23209,8 +22959,8 @@ export const createChildOrg: API.OperationMethod<
   CreateChildOrgError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28451, __c889, 3) as any as S.Schema<CreateChildOrgRequest>,
-  output: __S(28452, __c889, 4) as any as S.Schema<ChildOrgOutput>,
+  input: __S(28099, __c878, 3) as any as S.Schema<CreateChildOrgRequest>,
+  output: __S(28100, __c878, 4) as any as S.Schema<ChildOrgOutput>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23227,8 +22977,8 @@ export const createCustomAAGUID: API.OperationMethod<
   CreateCustomAAGUIDError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28480, __c890, 0) as any as S.Schema<CreateCustomAAGUIDRequest>,
-  output: __S(28515, __c891, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
+  input: __S(28128, __c879, 0) as any as S.Schema<CreateCustomAAGUIDRequest>,
+  output: __S(28163, __c880, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23245,8 +22995,8 @@ export const createCustomDomain: API.OperationMethod<
   CreateCustomDomainError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28576, __c893, 0) as any as S.Schema<CreateCustomDomainRequest>,
-  output: __S(28612, __c894, 4) as any as S.Schema<DomainResponse>,
+  input: __S(28224, __c882, 0) as any as S.Schema<CreateCustomDomainRequest>,
+  output: __S(28260, __c883, 4) as any as S.Schema<DomainResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23263,7 +23013,7 @@ export const createCustomTelephonyProviderCredentials: API.OperationMethod<
   CreateCustomTelephonyProviderCredentialsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28640, __c895, 0) as any as S.Schema<CreateCustomTelephonyProviderCredentialsRequest>,
+  input: __S(28288, __c884, 0) as any as S.Schema<CreateCustomTelephonyProviderCredentialsRequest>,
   output: __S(2273, __c71, 1) as any as S.Schema<CustomTelephonyProviderCredentialResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
@@ -23281,8 +23031,8 @@ export const createDeviceAssurancePolicy: API.OperationMethod<
   CreateDeviceAssurancePolicyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28672, __c896, 0) as any as S.Schema<CreateDeviceAssurancePolicyRequest>,
-  output: __S(28704, __c897, 0) as any as S.Schema<CreateDeviceAssurancePolicyResponse>,
+  input: __S(28320, __c885, 0) as any as S.Schema<CreateDeviceAssurancePolicyRequest>,
+  output: __S(28352, __c886, 0) as any as S.Schema<CreateDeviceAssurancePolicyResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23299,8 +23049,8 @@ export const createDevicePostureCheck: API.OperationMethod<
   CreateDevicePostureCheckError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28736, __c898, 0) as any as S.Schema<CreateDevicePostureCheckRequest>,
-  output: __S(28771, __c899, 3) as any as S.Schema<DevicePostureCheck>,
+  input: __S(28384, __c887, 0) as any as S.Schema<CreateDevicePostureCheckRequest>,
+  output: __S(28419, __c888, 3) as any as S.Schema<DevicePostureCheck>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23322,8 +23072,8 @@ export const createEmailCustomization: API.OperationMethod<
   CreateEmailCustomizationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28800, __c900, 0) as any as S.Schema<CreateEmailCustomizationRequest>,
-  output: __S(28864, __c902, 0) as any as S.Schema<CreateEmailCustomizationResponse>,
+  input: __S(28448, __c889, 0) as any as S.Schema<CreateEmailCustomizationRequest>,
+  output: __S(28512, __c891, 0) as any as S.Schema<CreateEmailCustomizationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23340,8 +23090,8 @@ export const createEmailDomain: API.OperationMethod<
   CreateEmailDomainError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28928, __c904, 0) as any as S.Schema<CreateEmailDomainRequest>,
-  output: __S(28992, __c906, 0) as any as S.Schema<CreateEmailDomainResponse>,
+  input: __S(28576, __c893, 0) as any as S.Schema<CreateEmailDomainRequest>,
+  output: __S(28640, __c895, 0) as any as S.Schema<CreateEmailDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23358,8 +23108,8 @@ export const createEmailServer: API.OperationMethod<
   CreateEmailServerError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29088, __c909, 0) as any as S.Schema<CreateEmailServerRequest>,
-  output: __S(29120, __c910, 0) as any as S.Schema<CreateEmailServerResponse>,
+  input: __S(28736, __c898, 0) as any as S.Schema<CreateEmailServerRequest>,
+  output: __S(28768, __c899, 0) as any as S.Schema<CreateEmailServerResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23376,7 +23126,7 @@ export const createEventHook: API.OperationMethod<
   CreateEventHookError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29152, __c911, 0) as any as S.Schema<CreateEventHookRequest>,
+  input: __S(28800, __c900, 0) as any as S.Schema<CreateEventHookRequest>,
   output: __S(3787, __c118, 11) as any as S.Schema<EventHookOutput>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
@@ -23394,8 +23144,8 @@ export const createFederatedClaim: API.OperationMethod<
   CreateFederatedClaimError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29216, __c913, 0) as any as S.Schema<CreateFederatedClaimRequest>,
-  output: __S(29248, __c914, 0) as any as S.Schema<FederatedClaim>,
+  input: __S(28864, __c902, 0) as any as S.Schema<CreateFederatedClaimRequest>,
+  output: __S(28896, __c903, 0) as any as S.Schema<FederatedClaim>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23412,8 +23162,8 @@ export const createGovernanceBundle: API.OperationMethod<
   CreateGovernanceBundleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29280, __c915, 0) as any as S.Schema<CreateGovernanceBundleRequest>,
-  output: __S(29313, __c916, 1) as any as S.Schema<GovernanceBundle>,
+  input: __S(28928, __c904, 0) as any as S.Schema<CreateGovernanceBundleRequest>,
+  output: __S(28961, __c905, 1) as any as S.Schema<GovernanceBundle>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23430,8 +23180,8 @@ export const createGroupPushMapping: API.OperationMethod<
   CreateGroupPushMappingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29376, __c918, 0) as any as S.Schema<CreateGroupPushMappingRequest>,
-  output: __S(29410, __c919, 2) as any as S.Schema<GroupPushMapping>,
+  input: __S(29024, __c907, 0) as any as S.Schema<CreateGroupPushMappingRequest>,
+  output: __S(29058, __c908, 2) as any as S.Schema<GroupPushMapping>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23448,8 +23198,8 @@ export const createGroupRule: API.OperationMethod<
   CreateGroupRuleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29440, __c920, 0) as any as S.Schema<CreateGroupRuleRequest>,
-  output: __S(29542, __c923, 6) as any as S.Schema<GroupRule>,
+  input: __S(29088, __c909, 0) as any as S.Schema<CreateGroupRuleRequest>,
+  output: __S(29190, __c912, 6) as any as S.Schema<GroupRule>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23466,8 +23216,8 @@ export const createHookKey: API.OperationMethod<
   CreateHookKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29568, __c924, 0) as any as S.Schema<CreateHookKeyRequest>,
-  output: __S(29632, __c926, 0) as any as S.Schema<DetailedHookKeyInstance>,
+  input: __S(29216, __c913, 0) as any as S.Schema<CreateHookKeyRequest>,
+  output: __S(29280, __c915, 0) as any as S.Schema<DetailedHookKeyInstance>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23484,7 +23234,7 @@ export const createIdentityProvider: API.OperationMethod<
   CreateIdentityProviderError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29664, __c927, 0) as any as S.Schema<CreateIdentityProviderRequest>,
+  input: __S(29312, __c916, 0) as any as S.Schema<CreateIdentityProviderRequest>,
   output: __S(4909, __c153, 13) as any as S.Schema<IdentityProvider>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
@@ -23502,8 +23252,8 @@ export const createIdentityProviderKey: API.OperationMethod<
   CreateIdentityProviderKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29728, __c929, 0) as any as S.Schema<CreateIdentityProviderKeyRequest>,
-  output: __S(24992, __c781, 0) as any as S.Schema<IdPKeyCredential>,
+  input: __S(29376, __c918, 0) as any as S.Schema<CreateIdentityProviderKeyRequest>,
+  output: __S(24896, __c778, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23520,8 +23270,8 @@ export const createIdentitySourceGroups: API.OperationMethod<
   CreateIdentitySourceGroupsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29760, __c930, 0) as any as S.Schema<CreateIdentitySourceGroupsRequest>,
-  output: __S(29793, __c931, 1) as any as S.Schema<GroupsResponseSchema>,
+  input: __S(29408, __c919, 0) as any as S.Schema<CreateIdentitySourceGroupsRequest>,
+  output: __S(29441, __c920, 1) as any as S.Schema<GroupsResponseSchema>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23543,7 +23293,7 @@ export const createIdentitySourceGroupsMemberships: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<CreateIdentitySourceGroupsMembershipsRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<CreateIdentitySourceGroupsMembershipsResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<CreateIdentitySourceGroupsMembershipsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23579,7 +23329,7 @@ export const createIdentitySourceUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<CreateIdentitySourceUserRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<CreateIdentitySourceUserResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<CreateIdentitySourceUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23903,7 +23653,7 @@ export const createResourceSetBinding: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<CreateResourceSetBindingRequest>,
-  output: __S(12897, __c403, 1) as any as S.Schema<ResourceSetBindingEditResponse>,
+  output: __S(12961, __c405, 1) as any as S.Schema<ResourceSetBindingEditResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23939,7 +23689,7 @@ export const createRolePermission: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<CreateRolePermissionRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<CreateRolePermissionResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<CreateRolePermissionResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -23957,7 +23707,7 @@ export const createSecurityEventsProviderInstance: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<CreateSecurityEventsProviderInstanceRequest>,
-  output: __S(10273, __c321, 1) as any as S.Schema<SecurityEventsProviderResponse>,
+  output: __S(10305, __c322, 1) as any as S.Schema<SecurityEventsProviderResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24029,7 +23779,7 @@ export const createTrustedOrigin: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<CreateTrustedOriginRequest>,
-  output: __S(10754, __c336, 2) as any as S.Schema<TrustedOrigin>,
+  output: __S(10786, __c337, 2) as any as S.Schema<TrustedOrigin>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24101,7 +23851,7 @@ export const deactivateAgentPoolsUpdate: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<DeactivateAgentPoolsUpdateRequest>,
-  output: __S(18721, __c585, 1) as any as S.Schema<AgentPoolUpdate>,
+  output: __S(18657, __c583, 1) as any as S.Schema<AgentPoolUpdate>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24123,7 +23873,7 @@ export const deactivateApiServiceIntegrationInstanceSecret: API.OperationMethod<
     __c62,
     0,
   ) as any as S.Schema<DeactivateApiServiceIntegrationInstanceSecretRequest>,
-  output: __S(22560, __c705, 0) as any as S.Schema<APIServiceIntegrationInstanceSecret>,
+  output: __S(22496, __c703, 0) as any as S.Schema<APIServiceIntegrationInstanceSecret>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24141,7 +23891,7 @@ export const deactivateApplication: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<DeactivateApplicationRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeactivateApplicationResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateApplicationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24159,7 +23909,7 @@ export const deactivateAuthenticator: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<DeactivateAuthenticatorRequest>,
-  output: __S(28256, __c883, 0) as any as S.Schema<DeactivateAuthenticatorResponse>,
+  output: __S(27904, __c872, 0) as any as S.Schema<DeactivateAuthenticatorResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24177,7 +23927,7 @@ export const deactivateAuthenticatorMethod: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<DeactivateAuthenticatorMethodRequest>,
-  output: __S(29056, __c908, 0) as any as S.Schema<DeactivateAuthenticatorMethodResponse>,
+  output: __S(28704, __c897, 0) as any as S.Schema<DeactivateAuthenticatorMethodResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24195,7 +23945,7 @@ export const deactivateAuthorizationServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<DeactivateAuthorizationServerRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeactivateAuthorizationServerResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateAuthorizationServerResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24213,7 +23963,7 @@ export const deactivateAuthorizationServerPolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<DeactivateAuthorizationServerPolicyRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeactivateAuthorizationServerPolicyResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateAuthorizationServerPolicyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24231,7 +23981,7 @@ export const deactivateAuthorizationServerPolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<DeactivateAuthorizationServerPolicyRuleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeactivateAuthorizationServerPolicyRuleResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateAuthorizationServerPolicyRuleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24293,8 +24043,8 @@ export const deactivateDefaultProvisioningConnectionForApplication: API.Operatio
     0,
   ) as any as S.Schema<DeactivateDefaultProvisioningConnectionForApplicationRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<DeactivateDefaultProvisioningConnectionForApplicationResponse>,
   errors: [Forbidden, NotFound],
@@ -24314,7 +24064,7 @@ export const deactivateDevice: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<DeactivateDeviceRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeactivateDeviceResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateDeviceResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24368,7 +24118,7 @@ export const deactivateGroupRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<DeactivateGroupRuleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeactivateGroupRuleResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateGroupRuleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24516,7 +24266,7 @@ export const deactivatePolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<DeactivatePolicyRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeactivatePolicyResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeactivatePolicyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24534,7 +24284,7 @@ export const deactivatePolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<DeactivatePolicyRuleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeactivatePolicyRuleResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeactivatePolicyRuleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24552,7 +24302,7 @@ export const deactivateRealmAssignment: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<DeactivateRealmAssignmentRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeactivateRealmAssignmentResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateRealmAssignmentResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24570,7 +24320,7 @@ export const deactivateSecurityEventsProviderInstance: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<DeactivateSecurityEventsProviderInstanceRequest>,
-  output: __S(10273, __c321, 1) as any as S.Schema<SecurityEventsProviderResponse>,
+  output: __S(10305, __c322, 1) as any as S.Schema<SecurityEventsProviderResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24588,7 +24338,7 @@ export const deactivateTrustedOrigin: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<DeactivateTrustedOriginRequest>,
-  output: __S(10754, __c336, 2) as any as S.Schema<TrustedOrigin>,
+  output: __S(10786, __c337, 2) as any as S.Schema<TrustedOrigin>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24606,7 +24356,7 @@ export const deactivateUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<DeactivateUserRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeactivateUserResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeactivateUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24624,7 +24374,7 @@ export const deleteAgentPoolsUpdate: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<DeleteAgentPoolsUpdateRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteAgentPoolsUpdateResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAgentPoolsUpdateResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24642,7 +24392,7 @@ export const deleteAllCustomizations: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<DeleteAllCustomizationsRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteAllCustomizationsResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAllCustomizationsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24660,7 +24410,7 @@ export const deleteApiServiceIntegrationInstance: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<DeleteApiServiceIntegrationInstanceRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteApiServiceIntegrationInstanceResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteApiServiceIntegrationInstanceResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24679,8 +24429,8 @@ export const deleteApiServiceIntegrationInstanceSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<DeleteApiServiceIntegrationInstanceSecretRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<DeleteApiServiceIntegrationInstanceSecretResponse>,
   errors: [Forbidden, NotFound],
@@ -24700,7 +24450,7 @@ export const deleteApplication: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<DeleteApplicationRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteApplicationResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24718,7 +24468,7 @@ export const deleteAppServiceAccount: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<DeleteAppServiceAccountRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteAppServiceAccountResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAppServiceAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24736,7 +24486,7 @@ export const deleteAssociatedServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<DeleteAssociatedServerRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteAssociatedServerResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAssociatedServerResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24754,7 +24504,7 @@ export const deleteAuthenticatorEnrollment: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<DeleteAuthenticatorEnrollmentRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteAuthenticatorEnrollmentResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAuthenticatorEnrollmentResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24772,7 +24522,7 @@ export const deleteAuthorizationServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<DeleteAuthorizationServerRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteAuthorizationServerResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAuthorizationServerResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24790,7 +24540,7 @@ export const deleteAuthorizationServerPolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<DeleteAuthorizationServerPolicyRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteAuthorizationServerPolicyResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAuthorizationServerPolicyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24808,7 +24558,7 @@ export const deleteAuthorizationServerPolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<DeleteAuthorizationServerPolicyRuleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteAuthorizationServerPolicyRuleResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteAuthorizationServerPolicyRuleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24826,7 +24576,7 @@ export const deleteBehaviorDetectionRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<DeleteBehaviorDetectionRuleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteBehaviorDetectionRuleResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteBehaviorDetectionRuleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24844,7 +24594,7 @@ export const deleteBinding: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<DeleteBindingRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteBindingResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteBindingResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24862,7 +24612,7 @@ export const deleteBrand: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<DeleteBrandRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteBrandResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteBrandResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24880,7 +24630,7 @@ export const deleteBrandThemeBackgroundImage: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<DeleteBrandThemeBackgroundImageRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteBrandThemeBackgroundImageResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteBrandThemeBackgroundImageResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24898,7 +24648,7 @@ export const deleteBrandThemeFavicon: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<DeleteBrandThemeFaviconRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteBrandThemeFaviconResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteBrandThemeFaviconResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24916,7 +24666,7 @@ export const deleteBrandThemeLogo: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3584, __c112, 0) as any as S.Schema<DeleteBrandThemeLogoRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteBrandThemeLogoResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteBrandThemeLogoResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24934,7 +24684,7 @@ export const deleteCaptchaInstance: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3616, __c113, 0) as any as S.Schema<DeleteCaptchaInstanceRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteCaptchaInstanceResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteCaptchaInstanceResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24952,7 +24702,7 @@ export const deleteCustomAAGUID: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<DeleteCustomAAGUIDRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteCustomAAGUIDResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteCustomAAGUIDResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24970,7 +24720,7 @@ export const deleteCustomDomain: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<DeleteCustomDomainRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteCustomDomainResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteCustomDomainResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -24988,7 +24738,7 @@ export const deleteCustomizedErrorPage: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<DeleteCustomizedErrorPageRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteCustomizedErrorPageResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteCustomizedErrorPageResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25006,7 +24756,7 @@ export const deleteCustomizedSignInPage: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3808, __c119, 0) as any as S.Schema<DeleteCustomizedSignInPageRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteCustomizedSignInPageResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteCustomizedSignInPageResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25024,7 +24774,7 @@ export const deleteCustomTelephonyProviderCredential: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<DeleteCustomTelephonyProviderCredentialRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteCustomTelephonyProviderCredentialResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteCustomTelephonyProviderCredentialResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25042,7 +24792,7 @@ export const deleteDevice: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<DeleteDeviceRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteDeviceResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteDeviceResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25060,7 +24810,7 @@ export const deleteDeviceAssurancePolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<DeleteDeviceAssurancePolicyRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteDeviceAssurancePolicyResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteDeviceAssurancePolicyResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25078,7 +24828,7 @@ export const deleteDevicePostureCheck: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<DeleteDevicePostureCheckRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteDevicePostureCheckResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteDevicePostureCheckResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25096,7 +24846,7 @@ export const deleteEmailCustomization: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3968, __c124, 0) as any as S.Schema<DeleteEmailCustomizationRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteEmailCustomizationResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteEmailCustomizationResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25114,7 +24864,7 @@ export const deleteEmailDomain: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<DeleteEmailDomainRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteEmailDomainResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteEmailDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25132,7 +24882,7 @@ export const deleteEmailServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<DeleteEmailServerRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteEmailServerResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteEmailServerResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25150,7 +24900,7 @@ export const deleteEventHook: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<DeleteEventHookRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteEventHookResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteEventHookResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25168,7 +24918,7 @@ export const deleteFederatedClaim: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<DeleteFederatedClaimRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteFederatedClaimResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteFederatedClaimResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25186,7 +24936,7 @@ export const deleteGovernanceBundle: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<DeleteGovernanceBundleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteGovernanceBundleResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteGovernanceBundleResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25204,7 +24954,7 @@ export const deleteGroup: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4192, __c131, 0) as any as S.Schema<DeleteGroupRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteGroupResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteGroupResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25222,7 +24972,7 @@ export const deleteGroupOwner: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<DeleteGroupOwnerRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteGroupOwnerResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteGroupOwnerResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25240,7 +24990,7 @@ export const deleteGroupPushMapping: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<DeleteGroupPushMappingRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteGroupPushMappingResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteGroupPushMappingResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25258,7 +25008,7 @@ export const deleteGroupRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<DeleteGroupRuleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteGroupRuleResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteGroupRuleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25276,7 +25026,7 @@ export const deleteHookKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<DeleteHookKeyRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteHookKeyResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteHookKeyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25294,7 +25044,7 @@ export const deleteIdentityProvider: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<DeleteIdentityProviderRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteIdentityProviderResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteIdentityProviderResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25312,7 +25062,7 @@ export const deleteIdentityProviderKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<DeleteIdentityProviderKeyRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteIdentityProviderKeyResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteIdentityProviderKeyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25330,7 +25080,7 @@ export const deleteIdentitySourceGroup: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<DeleteIdentitySourceGroupRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteIdentitySourceGroupResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteIdentitySourceGroupResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25348,7 +25098,7 @@ export const deleteIdentitySourceGroupMemberships: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<DeleteIdentitySourceGroupMembershipsRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteIdentitySourceGroupMembershipsResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteIdentitySourceGroupMembershipsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25366,7 +25116,7 @@ export const deleteIdentitySourceSession: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<DeleteIdentitySourceSessionRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteIdentitySourceSessionResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteIdentitySourceSessionResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25384,7 +25134,7 @@ export const deleteIdentitySourceUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<DeleteIdentitySourceUserRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteIdentitySourceUserResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteIdentitySourceUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25402,7 +25152,7 @@ export const deleteInlineHook: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<DeleteInlineHookRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteInlineHookResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteInlineHookResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25420,7 +25170,7 @@ export const deleteInterclientTrustMapping: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4608, __c144, 0) as any as S.Schema<DeleteInterclientTrustMappingRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteInterclientTrustMappingResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteInterclientTrustMappingResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25438,7 +25188,7 @@ export const deletejwk: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<DeletejwkRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeletejwkResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeletejwkResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25456,7 +25206,7 @@ export const deleteLinkedObjectDefinition: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4672, __c146, 0) as any as S.Schema<DeleteLinkedObjectDefinitionRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteLinkedObjectDefinitionResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteLinkedObjectDefinitionResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25474,7 +25224,7 @@ export const deleteLinkedObjectForUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<DeleteLinkedObjectForUserRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteLinkedObjectForUserResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteLinkedObjectForUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25492,7 +25242,7 @@ export const deleteLogStream: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<DeleteLogStreamRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteLogStreamResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteLogStreamResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25510,7 +25260,7 @@ export const deleteNetworkZone: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<DeleteNetworkZoneRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteNetworkZoneResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteNetworkZoneResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25528,7 +25278,7 @@ export const deleteOAuth2Claim: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<DeleteOAuth2ClaimRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteOAuth2ClaimResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteOAuth2ClaimResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25546,7 +25296,7 @@ export const deleteOAuth2ClientSecret: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<DeleteOAuth2ClientSecretRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteOAuth2ClientSecretResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteOAuth2ClientSecretResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25568,7 +25318,7 @@ export const deleteOAuth2ResourceServerJsonWebKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<DeleteOAuth2ResourceServerJsonWebKeyRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteOAuth2ResourceServerJsonWebKeyResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteOAuth2ResourceServerJsonWebKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25586,7 +25336,7 @@ export const deleteOAuth2Scope: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<DeleteOAuth2ScopeRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteOAuth2ScopeResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteOAuth2ScopeResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25604,7 +25354,7 @@ export const deleteOktaManagedUserAccount: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<DeleteOktaManagedUserAccountRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteOktaManagedUserAccountResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteOktaManagedUserAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25622,7 +25372,7 @@ export const deleteOrgCaptchaSettings: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<DeleteOrgCaptchaSettingsRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteOrgCaptchaSettingsResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteOrgCaptchaSettingsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25640,7 +25390,7 @@ export const deletePolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<DeletePolicyRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeletePolicyResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeletePolicyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25658,7 +25408,7 @@ export const deletePolicyResourceMapping: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<DeletePolicyResourceMappingRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeletePolicyResourceMappingResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeletePolicyResourceMappingResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25676,7 +25426,7 @@ export const deletePolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<DeletePolicyRuleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeletePolicyRuleResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeletePolicyRuleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25694,7 +25444,7 @@ export const deletePreviewErrorPage: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<DeletePreviewErrorPageRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeletePreviewErrorPageResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeletePreviewErrorPageResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25712,7 +25462,7 @@ export const deletePreviewSignInPage: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<DeletePreviewSignInPageRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeletePreviewSignInPageResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeletePreviewSignInPageResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25730,7 +25480,7 @@ export const deletePushProvider: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<DeletePushProviderRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeletePushProviderResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeletePushProviderResponse>,
   errors: [Forbidden, NotFound, Conflict],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25748,7 +25498,7 @@ export const deleteRealm: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<DeleteRealmRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteRealmResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteRealmResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25766,7 +25516,7 @@ export const deleteRealmAssignment: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<DeleteRealmAssignmentRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteRealmAssignmentResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteRealmAssignmentResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25784,7 +25534,7 @@ export const deleteResourceSet: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<DeleteResourceSetRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteResourceSetResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteResourceSetResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25802,7 +25552,7 @@ export const deleteResourceSetResource: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<DeleteResourceSetResourceRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteResourceSetResourceResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteResourceSetResourceResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25820,7 +25570,7 @@ export const deleteRole: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<DeleteRoleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteRoleResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteRoleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25838,7 +25588,7 @@ export const deleteRoleFromClient: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<DeleteRoleFromClientRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteRoleFromClientResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteRoleFromClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25856,7 +25606,7 @@ export const deleteRolePermission: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<DeleteRolePermissionRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteRolePermissionResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteRolePermissionResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25874,7 +25624,7 @@ export const deleteSecurityEventsProviderInstance: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<DeleteSecurityEventsProviderInstanceRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteSecurityEventsProviderInstanceResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteSecurityEventsProviderInstanceResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25892,7 +25642,7 @@ export const deleteSmsTemplate: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<DeleteSmsTemplateRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteSmsTemplateResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteSmsTemplateResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25910,7 +25660,7 @@ export const deleteSsfStream: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<DeleteSsfStreamRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteSsfStreamResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteSsfStreamResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25928,7 +25678,7 @@ export const deleteTrustedOrigin: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<DeleteTrustedOriginRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteTrustedOriginResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteTrustedOriginResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25946,7 +25696,7 @@ export const deleteUISchemas: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<DeleteUISchemasRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteUISchemasResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteUISchemasResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25964,7 +25714,7 @@ export const deleteUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteUserResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -25982,7 +25732,7 @@ export const deleteUserType: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<DeleteUserTypeRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteUserTypeResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteUserTypeResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26000,7 +25750,7 @@ export const deleteWebAuthnPreregistrationFactor: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<DeleteWebAuthnPreregistrationFactorRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<DeleteWebAuthnPreregistrationFactorResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<DeleteWebAuthnPreregistrationFactorResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26144,7 +25894,7 @@ export const forgotPasswordSetNewPassword: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<ForgotPasswordSetNewPasswordRequest>,
-  output: __S(23781, __c743, 5) as any as S.Schema<UserCredentialsOutput>,
+  output: __S(23717, __c741, 5) as any as S.Schema<UserCredentialsOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26162,7 +25912,7 @@ export const generateApplicationKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<GenerateApplicationKeyRequest>,
-  output: __S(24608, __c769, 0) as any as S.Schema<JsonWebKey>,
+  output: __S(24512, __c766, 0) as any as S.Schema<JsonWebKey>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26216,7 +25966,7 @@ export const generateFulfillmentRequest: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6498, __c203, 2) as any as S.Schema<GenerateFulfillmentRequestRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<GenerateFulfillmentRequestResponse>,
+  output: __S(26496, __c828, 0) as any as S.Schema<GenerateFulfillmentRequestResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26234,7 +25984,7 @@ export const generateIdentityProviderSigningKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6528, __c204, 0) as any as S.Schema<GenerateIdentityProviderSigningKeyRequest>,
-  output: __S(24992, __c781, 0) as any as S.Schema<IdPKeyCredential>,
+  output: __S(24896, __c778, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26270,7 +26020,7 @@ export const getAgentPoolsUpdateInstance: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<GetAgentPoolsUpdateInstanceRequest>,
-  output: __S(18721, __c585, 1) as any as S.Schema<AgentPoolUpdate>,
+  output: __S(18657, __c583, 1) as any as S.Schema<AgentPoolUpdate>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26378,7 +26128,7 @@ export const getApplication: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<GetApplicationRequest>,
-  output: __S(27008, __c844, 0) as any as S.Schema<GetApplicationResponse>,
+  output: __S(26944, __c842, 0) as any as S.Schema<GetApplicationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26396,7 +26146,7 @@ export const getApplicationGroupAssignment: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<GetApplicationGroupAssignmentRequest>,
-  output: __S(20673, __c646, 1) as any as S.Schema<ApplicationGroupAssignment>,
+  output: __S(20609, __c644, 1) as any as S.Schema<ApplicationGroupAssignment>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26414,7 +26164,7 @@ export const getApplicationKey: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<GetApplicationKeyRequest>,
-  output: __S(24608, __c769, 0) as any as S.Schema<JsonWebKey>,
+  output: __S(24512, __c766, 0) as any as S.Schema<JsonWebKey>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26432,7 +26182,7 @@ export const getApplicationUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<GetApplicationUserRequest>,
-  output: __S(22626, __c707, 2) as any as S.Schema<AppUserOutput>,
+  output: __S(22562, __c705, 2) as any as S.Schema<AppUserOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26468,7 +26218,7 @@ export const getAppServiceAccount: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7360, __c230, 0) as any as S.Schema<GetAppServiceAccountRequest>,
-  output: __S(27424, __c857, 0) as any as S.Schema<AppServiceAccountOutput>,
+  output: __S(27296, __c853, 0) as any as S.Schema<AppServiceAccountOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26504,7 +26254,7 @@ export const getAuthenticator: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<GetAuthenticatorRequest>,
-  output: __S(28256, __c883, 0) as any as S.Schema<GetAuthenticatorResponse>,
+  output: __S(27904, __c872, 0) as any as S.Schema<GetAuthenticatorResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26522,7 +26272,7 @@ export const getAuthenticatorEnrollment: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<GetAuthenticatorEnrollmentRequest>,
-  output: __S(27873, __c871, 1) as any as S.Schema<AuthenticatorEnrollment>,
+  output: __S(27521, __c860, 1) as any as S.Schema<AuthenticatorEnrollment>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26540,7 +26290,7 @@ export const getAuthenticatorMethod: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<GetAuthenticatorMethodRequest>,
-  output: __S(29056, __c908, 0) as any as S.Schema<GetAuthenticatorMethodResponse>,
+  output: __S(28704, __c897, 0) as any as S.Schema<GetAuthenticatorMethodResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26576,7 +26326,7 @@ export const getAuthorizationServer: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7584, __c237, 0) as any as S.Schema<GetAuthorizationServerRequest>,
-  output: __S(27750, __c867, 6) as any as S.Schema<AuthorizationServer>,
+  output: __S(27398, __c856, 6) as any as S.Schema<AuthorizationServer>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26612,7 +26362,7 @@ export const getAuthorizationServerPolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<GetAuthorizationServerPolicyRequest>,
-  output: __S(28002, __c875, 2) as any as S.Schema<GetAuthorizationServerPolicyResponse>,
+  output: __S(27650, __c864, 2) as any as S.Schema<GetAuthorizationServerPolicyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26630,7 +26380,7 @@ export const getAuthorizationServerPolicyRule: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<GetAuthorizationServerPolicyRuleRequest>,
-  output: __S(28132, __c879, 4) as any as S.Schema<AuthorizationServerPolicyRule>,
+  output: __S(27780, __c868, 4) as any as S.Schema<AuthorizationServerPolicyRule>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26774,7 +26524,7 @@ export const getCaptchaInstance: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<GetCaptchaInstanceRequest>,
-  output: __S(28416, __c888, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
+  output: __S(28064, __c877, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26792,7 +26542,7 @@ export const getClientPrivilegesSetting: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<GetClientPrivilegesSettingRequest>,
-  output: __S(18112, __c566, 0) as any as S.Schema<ClientPrivilegesSetting>,
+  output: __S(18080, __c565, 0) as any as S.Schema<ClientPrivilegesSetting>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26882,7 +26632,7 @@ export const getCustomAAGUID: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<GetCustomAAGUIDRequest>,
-  output: __S(28515, __c891, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
+  output: __S(28163, __c880, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -26900,7 +26650,7 @@ export const getCustomDomain: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<GetCustomDomainRequest>,
-  output: __S(28612, __c894, 4) as any as S.Schema<DomainResponse>,
+  output: __S(28260, __c883, 4) as any as S.Schema<DomainResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27069,7 +26819,7 @@ export const getDeviceAssurancePolicy: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<GetDeviceAssurancePolicyRequest>,
-  output: __S(28704, __c897, 0) as any as S.Schema<GetDeviceAssurancePolicyResponse>,
+  output: __S(28352, __c886, 0) as any as S.Schema<GetDeviceAssurancePolicyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27096,24 +26846,6 @@ export const getDeviceIntegration: API.OperationMethod<
   span: "GetDeviceIntegration",
 }));
 
-export type GetDeviceOSAccountError = Forbidden | NotFound | OktaOpError;
-/** Retrieve an OS account Retrieves an OS account by `osAccountId` for a device */
-export const getDeviceOSAccount: API.OperationMethod<
-  GetDeviceOSAccountRequest,
-  GetDeviceOSAccountResponse,
-  GetDeviceOSAccountError,
-  OktaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<GetDeviceOSAccountRequest>,
-  output: __S(9089, __c284, 1) as any as S.Schema<GetDeviceOSAccountResponse>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: OktaServiceErrors,
-  protocol: OktaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetDeviceOSAccount",
-}));
-
 export type GetDevicePostureCheckError = Forbidden | NotFound | OktaOpError;
 /** Retrieve a device posture check Retrieves a device posture check by `postureCheckId` */
 export const getDevicePostureCheck: API.OperationMethod<
@@ -27122,50 +26854,14 @@ export const getDevicePostureCheck: API.OperationMethod<
   GetDevicePostureCheckError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<GetDevicePostureCheckRequest>,
-  output: __S(28771, __c899, 3) as any as S.Schema<DevicePostureCheck>,
+  input: __S(9088, __c284, 0) as any as S.Schema<GetDevicePostureCheckRequest>,
+  output: __S(28419, __c888, 3) as any as S.Schema<DevicePostureCheck>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDevicePostureCheck",
-}));
-
-export type GetDRStatusError = BadRequest | Forbidden | OktaOpError;
-/** Retrieve the disaster recovery status for all domains Retrieves the failover or failback status for all the domains for your org */
-export const getDRStatus: API.OperationMethod<
-  GetDRStatusRequest,
-  GetDRStatusResponse,
-  GetDRStatusError,
-  OktaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<GetDRStatusRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<GetDRStatusResponse>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: OktaServiceErrors,
-  protocol: OktaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetDRStatus",
-}));
-
-export type GetDRStatusByDomainError = BadRequest | Forbidden | OktaOpError;
-/** Retrieve the disaster recovery status for a domain Retrieves the failover or failback status for the domain specified in the request path */
-export const getDRStatusByDomain: API.OperationMethod<
-  GetDRStatusByDomainRequest,
-  GetDRStatusByDomainResponse,
-  GetDRStatusByDomainError,
-  OktaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<GetDRStatusByDomainRequest>,
-  output: __S(9186, __c287, 2) as any as S.Schema<GetDRStatusByDomainResponse>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: OktaServiceErrors,
-  protocol: OktaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetDRStatusByDomain",
 }));
 
 export type GetEmailCustomizationError = Forbidden | NotFound | OktaOpError;
@@ -27176,8 +26872,8 @@ export const getEmailCustomization: API.OperationMethod<
   GetEmailCustomizationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<GetEmailCustomizationRequest>,
-  output: __S(28864, __c902, 0) as any as S.Schema<GetEmailCustomizationResponse>,
+  input: __S(9120, __c285, 0) as any as S.Schema<GetEmailCustomizationRequest>,
+  output: __S(28512, __c891, 0) as any as S.Schema<GetEmailCustomizationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27194,8 +26890,8 @@ export const getEmailDefaultContent: API.OperationMethod<
   GetEmailDefaultContentError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<GetEmailDefaultContentRequest>,
-  output: __S(9345, __c292, 1) as any as S.Schema<GetEmailDefaultContentResponse>,
+  input: __S(9152, __c286, 0) as any as S.Schema<GetEmailDefaultContentRequest>,
+  output: __S(9153, __c286, 1) as any as S.Schema<GetEmailDefaultContentResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27212,7 +26908,7 @@ export const getEmailDefaultPreview: API.OperationMethod<
   GetEmailDefaultPreviewError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<GetEmailDefaultPreviewRequest>,
+  input: __S(9184, __c287, 0) as any as S.Schema<GetEmailDefaultPreviewRequest>,
   output: __S(8577, __c268, 1) as any as S.Schema<EmailPreview>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27230,8 +26926,8 @@ export const getEmailDomain: API.OperationMethod<
   GetEmailDomainError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<GetEmailDomainRequest>,
-  output: __S(9442, __c295, 2) as any as S.Schema<GetEmailDomainResponse>,
+  input: __S(9280, __c290, 0) as any as S.Schema<GetEmailDomainRequest>,
+  output: __S(9314, __c291, 2) as any as S.Schema<GetEmailDomainResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27248,8 +26944,8 @@ export const getEmailServer: API.OperationMethod<
   GetEmailServerError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<GetEmailServerRequest>,
-  output: __S(29120, __c910, 0) as any as S.Schema<GetEmailServerResponse>,
+  input: __S(9344, __c292, 0) as any as S.Schema<GetEmailServerRequest>,
+  output: __S(28768, __c899, 0) as any as S.Schema<GetEmailServerResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27266,8 +26962,8 @@ export const getEmailSettings: API.OperationMethod<
   GetEmailSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<GetEmailSettingsRequest>,
-  output: __S(9537, __c298, 1) as any as S.Schema<EmailSettingsResponse>,
+  input: __S(9376, __c293, 0) as any as S.Schema<GetEmailSettingsRequest>,
+  output: __S(9409, __c294, 1) as any as S.Schema<EmailSettingsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27284,8 +26980,8 @@ export const getEmailTemplate: API.OperationMethod<
   GetEmailTemplateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<GetEmailTemplateRequest>,
-  output: __S(9602, __c300, 2) as any as S.Schema<EmailTemplateResponse>,
+  input: __S(9440, __c295, 0) as any as S.Schema<GetEmailTemplateRequest>,
+  output: __S(9474, __c296, 2) as any as S.Schema<EmailTemplateResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27302,8 +26998,8 @@ export const getErrorPage: API.OperationMethod<
   GetErrorPageError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<GetErrorPageRequest>,
-  output: __S(9667, __c302, 3) as any as S.Schema<PageRoot>,
+  input: __S(9504, __c297, 0) as any as S.Schema<GetErrorPageRequest>,
+  output: __S(9539, __c298, 3) as any as S.Schema<PageRoot>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27320,7 +27016,7 @@ export const getEventHook: API.OperationMethod<
   GetEventHookError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<GetEventHookRequest>,
+  input: __S(9568, __c299, 0) as any as S.Schema<GetEventHookRequest>,
   output: __S(3787, __c118, 11) as any as S.Schema<EventHookOutput>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27338,7 +27034,7 @@ export const getFactor: API.OperationMethod<
   GetFactorError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<GetFactorRequest>,
+  input: __S(9600, __c300, 0) as any as S.Schema<GetFactorRequest>,
   output: __S(5920, __c185, 0) as any as S.Schema<GetFactorResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27356,8 +27052,8 @@ export const getFactorTransactionStatus: API.OperationMethod<
   GetFactorTransactionStatusError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<GetFactorTransactionStatusRequest>,
-  output: __S(9793, __c306, 1) as any as S.Schema<GetFactorTransactionStatusResponse>,
+  input: __S(9632, __c301, 0) as any as S.Schema<GetFactorTransactionStatusRequest>,
+  output: __S(9633, __c301, 1) as any as S.Schema<GetFactorTransactionStatusResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27374,8 +27070,8 @@ export const getFeature: API.OperationMethod<
   GetFeatureError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<GetFeatureRequest>,
-  output: __S(9890, __c309, 2) as any as S.Schema<Feature>,
+  input: __S(9664, __c302, 0) as any as S.Schema<GetFeatureRequest>,
+  output: __S(9730, __c304, 2) as any as S.Schema<Feature>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27392,8 +27088,8 @@ export const getFeatureForApplication: API.OperationMethod<
   GetFeatureForApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<GetFeatureForApplicationRequest>,
-  output: __S(9952, __c311, 0) as any as S.Schema<GetFeatureForApplicationResponse>,
+  input: __S(9760, __c305, 0) as any as S.Schema<GetFeatureForApplicationRequest>,
+  output: __S(9792, __c306, 0) as any as S.Schema<GetFeatureForApplicationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27410,8 +27106,8 @@ export const getFederatedClaim: API.OperationMethod<
   GetFederatedClaimError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9984, __c312, 0) as any as S.Schema<GetFederatedClaimRequest>,
-  output: __S(9985, __c312, 1) as any as S.Schema<FederatedClaimRequestBody>,
+  input: __S(9856, __c308, 0) as any as S.Schema<GetFederatedClaimRequest>,
+  output: __S(9857, __c308, 1) as any as S.Schema<FederatedClaimRequestBody>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27428,8 +27124,8 @@ export const getFirstPartyAppSettings: API.OperationMethod<
   GetFirstPartyAppSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<GetFirstPartyAppSettingsRequest>,
-  output: __S(10048, __c314, 0) as any as S.Schema<AdminConsoleSettings>,
+  input: __S(9888, __c309, 0) as any as S.Schema<GetFirstPartyAppSettingsRequest>,
+  output: __S(9920, __c310, 0) as any as S.Schema<AdminConsoleSettings>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27446,8 +27142,8 @@ export const getGovernanceBundle: API.OperationMethod<
   GetGovernanceBundleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10080, __c315, 0) as any as S.Schema<GetGovernanceBundleRequest>,
-  output: __S(29313, __c916, 1) as any as S.Schema<GovernanceBundle>,
+  input: __S(9952, __c311, 0) as any as S.Schema<GetGovernanceBundleRequest>,
+  output: __S(28961, __c905, 1) as any as S.Schema<GovernanceBundle>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27460,8 +27156,8 @@ export type GetGroupError = Forbidden | NotFound | OktaOpError;
 /** Retrieve a group Retrieves a specific group by `id` from your org */
 export const getGroup: API.OperationMethod<GetGroupRequest, Group, GetGroupError, OktaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(10112, __c316, 0) as any as S.Schema<GetGroupRequest>,
-    output: __S(11876, __c371, 4) as any as S.Schema<Group>,
+    input: __S(9984, __c312, 0) as any as S.Schema<GetGroupRequest>,
+    output: __S(11908, __c372, 4) as any as S.Schema<Group>,
     errors: [Forbidden, NotFound],
     serviceErrors: OktaServiceErrors,
     protocol: OktaProtocol,
@@ -27478,8 +27174,8 @@ export const getGroupAssignedRole: API.OperationMethod<
   GetGroupAssignedRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10144, __c317, 0) as any as S.Schema<GetGroupAssignedRoleRequest>,
-  output: __S(10145, __c317, 1) as any as S.Schema<GetGroupAssignedRoleResponse>,
+  input: __S(10016, __c313, 0) as any as S.Schema<GetGroupAssignedRoleRequest>,
+  output: __S(10017, __c313, 1) as any as S.Schema<GetGroupAssignedRoleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27496,8 +27192,8 @@ export const getGroupAttributeQueryResult: API.OperationMethod<
   GetGroupAttributeQueryResultError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<GetGroupAttributeQueryResultRequest>,
-  output: __S(10177, __c318, 1) as any as S.Schema<GroupProfileResult>,
+  input: __S(10048, __c314, 0) as any as S.Schema<GetGroupAttributeQueryResultRequest>,
+  output: __S(10049, __c314, 1) as any as S.Schema<GroupProfileResult>,
   errors: [NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27514,8 +27210,8 @@ export const getGroupPushMapping: API.OperationMethod<
   GetGroupPushMappingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10208, __c319, 0) as any as S.Schema<GetGroupPushMappingRequest>,
-  output: __S(29410, __c919, 2) as any as S.Schema<GroupPushMapping>,
+  input: __S(10080, __c315, 0) as any as S.Schema<GetGroupPushMappingRequest>,
+  output: __S(29058, __c908, 2) as any as S.Schema<GroupPushMapping>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27532,8 +27228,8 @@ export const getGroupRule: API.OperationMethod<
   GetGroupRuleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10304, __c322, 0) as any as S.Schema<GetGroupRuleRequest>,
-  output: __S(29542, __c923, 6) as any as S.Schema<GroupRule>,
+  input: __S(10112, __c316, 0) as any as S.Schema<GetGroupRuleRequest>,
+  output: __S(29190, __c912, 6) as any as S.Schema<GroupRule>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27550,8 +27246,8 @@ export const getGroupSchema: API.OperationMethod<
   GetGroupSchemaError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10336, __c323, 0) as any as S.Schema<GetGroupSchemaRequest>,
-  output: __S(10376, __c324, 8) as any as S.Schema<GroupSchema>,
+  input: __S(10144, __c317, 0) as any as S.Schema<GetGroupSchemaRequest>,
+  output: __S(10184, __c318, 8) as any as S.Schema<GroupSchema>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27568,8 +27264,8 @@ export const getHookKey: API.OperationMethod<
   GetHookKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10400, __c325, 0) as any as S.Schema<GetHookKeyRequest>,
-  output: __S(10432, __c326, 0) as any as S.Schema<HookKey>,
+  input: __S(10208, __c319, 0) as any as S.Schema<GetHookKeyRequest>,
+  output: __S(10240, __c320, 0) as any as S.Schema<HookKey>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27586,7 +27282,7 @@ export const getIdentityProvider: API.OperationMethod<
   GetIdentityProviderError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10464, __c327, 0) as any as S.Schema<GetIdentityProviderRequest>,
+  input: __S(10336, __c323, 0) as any as S.Schema<GetIdentityProviderRequest>,
   output: __S(4909, __c153, 13) as any as S.Schema<IdentityProvider>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27604,8 +27300,8 @@ export const getIdentityProviderApplicationUser: API.OperationMethod<
   GetIdentityProviderApplicationUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10496, __c328, 0) as any as S.Schema<GetIdentityProviderApplicationUserRequest>,
-  output: __S(10529, __c329, 1) as any as S.Schema<IdentityProviderApplicationUser>,
+  input: __S(10368, __c324, 0) as any as S.Schema<GetIdentityProviderApplicationUserRequest>,
+  output: __S(10401, __c325, 1) as any as S.Schema<IdentityProviderApplicationUser>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27622,8 +27318,8 @@ export const getIdentityProviderKey: API.OperationMethod<
   GetIdentityProviderKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10560, __c330, 0) as any as S.Schema<GetIdentityProviderKeyRequest>,
-  output: __S(24992, __c781, 0) as any as S.Schema<IdPKeyCredential>,
+  input: __S(10432, __c326, 0) as any as S.Schema<GetIdentityProviderKeyRequest>,
+  output: __S(24896, __c778, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27640,8 +27336,8 @@ export const getIdentityProviderSigningKey: API.OperationMethod<
   GetIdentityProviderSigningKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10592, __c331, 0) as any as S.Schema<GetIdentityProviderSigningKeyRequest>,
-  output: __S(24992, __c781, 0) as any as S.Schema<IdPKeyCredential>,
+  input: __S(10464, __c327, 0) as any as S.Schema<GetIdentityProviderSigningKeyRequest>,
+  output: __S(24896, __c778, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27658,8 +27354,8 @@ export const getIdentitySourceGroup: API.OperationMethod<
   GetIdentitySourceGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10624, __c332, 0) as any as S.Schema<GetIdentitySourceGroupRequest>,
-  output: __S(29793, __c931, 1) as any as S.Schema<GroupsResponseSchema>,
+  input: __S(10496, __c328, 0) as any as S.Schema<GetIdentitySourceGroupRequest>,
+  output: __S(29441, __c920, 1) as any as S.Schema<GroupsResponseSchema>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27676,8 +27372,8 @@ export const getIdentitySourceGroupMemberships: API.OperationMethod<
   GetIdentitySourceGroupMembershipsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10656, __c333, 0) as any as S.Schema<GetIdentitySourceGroupMembershipsRequest>,
-  output: __S(10657, __c333, 1) as any as S.Schema<GroupMembershipsResponseSchema>,
+  input: __S(10528, __c329, 0) as any as S.Schema<GetIdentitySourceGroupMembershipsRequest>,
+  output: __S(10529, __c329, 1) as any as S.Schema<GroupMembershipsResponseSchema>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27694,7 +27390,7 @@ export const getIdentitySourceSession: API.OperationMethod<
   GetIdentitySourceSessionError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10688, __c334, 0) as any as S.Schema<GetIdentitySourceSessionRequest>,
+  input: __S(10560, __c330, 0) as any as S.Schema<GetIdentitySourceSessionRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<IdentitySourceSession>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27712,8 +27408,8 @@ export const getIdentitySourceUser: API.OperationMethod<
   GetIdentitySourceUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10784, __c337, 0) as any as S.Schema<GetIdentitySourceUserRequest>,
-  output: __S(10816, __c338, 0) as any as S.Schema<UserResponseSchema>,
+  input: __S(10592, __c331, 0) as any as S.Schema<GetIdentitySourceUserRequest>,
+  output: __S(10624, __c332, 0) as any as S.Schema<UserResponseSchema>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27730,7 +27426,7 @@ export const getInlineHook: API.OperationMethod<
   GetInlineHookError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10880, __c340, 0) as any as S.Schema<GetInlineHookRequest>,
+  input: __S(10688, __c334, 0) as any as S.Schema<GetInlineHookRequest>,
   output: __S(5281, __c165, 1) as any as S.Schema<InlineHook>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27748,8 +27444,8 @@ export const getJwk: API.OperationMethod<
   GetJwkError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10912, __c341, 0) as any as S.Schema<GetJwkRequest>,
-  output: __S(10913, __c341, 1) as any as S.Schema<GetJwkResponse>,
+  input: __S(10720, __c335, 0) as any as S.Schema<GetJwkRequest>,
+  output: __S(10721, __c335, 1) as any as S.Schema<GetJwkResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27766,7 +27462,7 @@ export const getLinkedObjectDefinition: API.OperationMethod<
   GetLinkedObjectDefinitionError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10944, __c342, 0) as any as S.Schema<GetLinkedObjectDefinitionRequest>,
+  input: __S(10816, __c338, 0) as any as S.Schema<GetLinkedObjectDefinitionRequest>,
   output: __S(418, __c13, 2) as any as S.Schema<LinkedObject>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27784,7 +27480,7 @@ export const getLogStream: API.OperationMethod<
   GetLogStreamError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10976, __c343, 0) as any as S.Schema<GetLogStreamRequest>,
+  input: __S(10848, __c339, 0) as any as S.Schema<GetLogStreamRequest>,
   output: __S(5664, __c177, 0) as any as S.Schema<GetLogStreamResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27802,8 +27498,8 @@ export const getLogStreamSchema: API.OperationMethod<
   GetLogStreamSchemaError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11008, __c344, 0) as any as S.Schema<GetLogStreamSchemaRequest>,
-  output: __S(11040, __c345, 0) as any as S.Schema<LogStreamSchema>,
+  input: __S(10880, __c340, 0) as any as S.Schema<GetLogStreamSchemaRequest>,
+  output: __S(10912, __c341, 0) as any as S.Schema<LogStreamSchema>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27820,8 +27516,8 @@ export const getMemberOfBinding: API.OperationMethod<
   GetMemberOfBindingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11072, __c346, 0) as any as S.Schema<GetMemberOfBindingRequest>,
-  output: __S(11104, __c347, 0) as any as S.Schema<ResourceSetBindingMember>,
+  input: __S(10944, __c342, 0) as any as S.Schema<GetMemberOfBindingRequest>,
+  output: __S(10976, __c343, 0) as any as S.Schema<ResourceSetBindingMember>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27838,7 +27534,7 @@ export const getNetworkZone: API.OperationMethod<
   GetNetworkZoneError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11136, __c348, 0) as any as S.Schema<GetNetworkZoneRequest>,
+  input: __S(11008, __c344, 0) as any as S.Schema<GetNetworkZoneRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<GetNetworkZoneResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27856,7 +27552,7 @@ export const getOAuth2Claim: API.OperationMethod<
   GetOAuth2ClaimError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11168, __c349, 0) as any as S.Schema<GetOAuth2ClaimRequest>,
+  input: __S(11040, __c345, 0) as any as S.Schema<GetOAuth2ClaimRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<OAuth2Claim>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27874,7 +27570,7 @@ export const getOAuth2ClientSecret: API.OperationMethod<
   GetOAuth2ClientSecretError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11200, __c350, 0) as any as S.Schema<GetOAuth2ClientSecretRequest>,
+  input: __S(11072, __c346, 0) as any as S.Schema<GetOAuth2ClientSecretRequest>,
   output: __S(7200, __c225, 0) as any as S.Schema<OAuth2ClientSecret>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27892,7 +27588,7 @@ export const getOAuth2ResourceServerJsonWebKey: API.OperationMethod<
   GetOAuth2ResourceServerJsonWebKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11296, __c353, 0) as any as S.Schema<GetOAuth2ResourceServerJsonWebKeyRequest>,
+  input: __S(11104, __c347, 0) as any as S.Schema<GetOAuth2ResourceServerJsonWebKeyRequest>,
   output: __S(7745, __c242, 1) as any as S.Schema<OAuth2ResourceServerJsonWebKey>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27910,7 +27606,7 @@ export const getOAuth2Scope: API.OperationMethod<
   GetOAuth2ScopeError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11328, __c354, 0) as any as S.Schema<GetOAuth2ScopeRequest>,
+  input: __S(11136, __c348, 0) as any as S.Schema<GetOAuth2ScopeRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<OAuth2Scope>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27928,8 +27624,8 @@ export const getOAuth2TokenForApplication: API.OperationMethod<
   GetOAuth2TokenForApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11360, __c355, 0) as any as S.Schema<GetOAuth2TokenForApplicationRequest>,
-  output: __S(11431, __c357, 7) as any as S.Schema<OAuth2RefreshToken>,
+  input: __S(11168, __c349, 0) as any as S.Schema<GetOAuth2TokenForApplicationRequest>,
+  output: __S(11239, __c351, 7) as any as S.Schema<OAuth2RefreshToken>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27946,8 +27642,8 @@ export const getOktaCommunicationSettings: API.OperationMethod<
   GetOktaCommunicationSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11456, __c358, 0) as any as S.Schema<GetOktaCommunicationSettingsRequest>,
-  output: __S(11489, __c359, 1) as any as S.Schema<OrgOktaCommunicationSetting>,
+  input: __S(11328, __c354, 0) as any as S.Schema<GetOktaCommunicationSettingsRequest>,
+  output: __S(11361, __c355, 1) as any as S.Schema<OrgOktaCommunicationSetting>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -27964,7 +27660,7 @@ export const getOktaManagedUserAccount: API.OperationMethod<
   GetOktaManagedUserAccountError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11520, __c360, 0) as any as S.Schema<GetOktaManagedUserAccountRequest>,
+  input: __S(11392, __c356, 0) as any as S.Schema<GetOktaManagedUserAccountRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<OktaManagedUserAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -27982,8 +27678,8 @@ export const getOptInStatus: API.OperationMethod<
   GetOptInStatusError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11552, __c361, 0) as any as S.Schema<GetOptInStatusRequest>,
-  output: __S(11585, __c362, 1) as any as S.Schema<OptInStatusResponse>,
+  input: __S(11424, __c357, 0) as any as S.Schema<GetOptInStatusRequest>,
+  output: __S(11457, __c358, 1) as any as S.Schema<OptInStatusResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28000,8 +27696,8 @@ export const getOrgCaptchaSettings: API.OperationMethod<
   GetOrgCaptchaSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11616, __c363, 0) as any as S.Schema<GetOrgCaptchaSettingsRequest>,
-  output: __S(11648, __c364, 0) as any as S.Schema<OrgCAPTCHASettings>,
+  input: __S(11488, __c359, 0) as any as S.Schema<GetOrgCaptchaSettingsRequest>,
+  output: __S(11520, __c360, 0) as any as S.Schema<OrgCAPTCHASettings>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28018,8 +27714,8 @@ export const getOrgContactUser: API.OperationMethod<
   GetOrgContactUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11680, __c365, 0) as any as S.Schema<GetOrgContactUserRequest>,
-  output: __S(11713, __c366, 1) as any as S.Schema<OrgContactUser>,
+  input: __S(11552, __c361, 0) as any as S.Schema<GetOrgContactUserRequest>,
+  output: __S(11585, __c362, 1) as any as S.Schema<OrgContactUser>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28036,8 +27732,8 @@ export const getOrgOktaSupportSettings: API.OperationMethod<
   GetOrgOktaSupportSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11744, __c367, 0) as any as S.Schema<GetOrgOktaSupportSettingsRequest>,
-  output: __S(11746, __c367, 2) as any as S.Schema<OrgOktaSupportSettingsObj>,
+  input: __S(11616, __c363, 0) as any as S.Schema<GetOrgOktaSupportSettingsRequest>,
+  output: __S(11618, __c363, 2) as any as S.Schema<OrgOktaSupportSettingsObj>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28054,8 +27750,8 @@ export const getOrgPreferences: API.OperationMethod<
   GetOrgPreferencesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11776, __c368, 0) as any as S.Schema<GetOrgPreferencesRequest>,
-  output: __S(11809, __c369, 1) as any as S.Schema<OrgPreferences>,
+  input: __S(11648, __c364, 0) as any as S.Schema<GetOrgPreferencesRequest>,
+  output: __S(11681, __c365, 1) as any as S.Schema<OrgPreferences>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28072,8 +27768,8 @@ export const getOrgSettings: API.OperationMethod<
   GetOrgSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11968, __c374, 0) as any as S.Schema<GetOrgSettingsRequest>,
-  output: __S(12001, __c375, 1) as any as S.Schema<OrgSetting>,
+  input: __S(11712, __c366, 0) as any as S.Schema<GetOrgSettingsRequest>,
+  output: __S(11745, __c367, 1) as any as S.Schema<OrgSetting>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28090,8 +27786,8 @@ export const getPolicy: API.OperationMethod<
   GetPolicyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12032, __c376, 0) as any as S.Schema<GetPolicyRequest>,
-  output: __S(25376, __c793, 0) as any as S.Schema<GetPolicyResponse>,
+  input: __S(11776, __c368, 0) as any as S.Schema<GetPolicyRequest>,
+  output: __S(25312, __c791, 0) as any as S.Schema<GetPolicyResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28108,8 +27804,8 @@ export const getPolicyMapping: API.OperationMethod<
   GetPolicyMappingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12064, __c377, 0) as any as S.Schema<GetPolicyMappingRequest>,
-  output: __S(12097, __c378, 1) as any as S.Schema<PolicyMapping>,
+  input: __S(11808, __c369, 0) as any as S.Schema<GetPolicyMappingRequest>,
+  output: __S(11841, __c370, 1) as any as S.Schema<PolicyMapping>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28126,7 +27822,7 @@ export const getPolicyRule: API.OperationMethod<
   GetPolicyRuleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12128, __c379, 0) as any as S.Schema<GetPolicyRuleRequest>,
+  input: __S(12000, __c375, 0) as any as S.Schema<GetPolicyRuleRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<GetPolicyRuleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28144,7 +27840,7 @@ export const getPreviewErrorPage: API.OperationMethod<
   GetPreviewErrorPageError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12160, __c380, 0) as any as S.Schema<GetPreviewErrorPageRequest>,
+  input: __S(12032, __c376, 0) as any as S.Schema<GetPreviewErrorPageRequest>,
   output: __S(8672, __c271, 0) as any as S.Schema<GetPreviewErrorPageResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28162,7 +27858,7 @@ export const getPreviewSignInPage: API.OperationMethod<
   GetPreviewSignInPageError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12192, __c381, 0) as any as S.Schema<GetPreviewSignInPageRequest>,
+  input: __S(12064, __c377, 0) as any as S.Schema<GetPreviewSignInPageRequest>,
   output: __S(8751, __c273, 15) as any as S.Schema<GetPreviewSignInPageResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28180,7 +27876,7 @@ export const getPrincipalRateLimitEntity: API.OperationMethod<
   GetPrincipalRateLimitEntityError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12224, __c382, 0) as any as S.Schema<GetPrincipalRateLimitEntityRequest>,
+  input: __S(12096, __c378, 0) as any as S.Schema<GetPrincipalRateLimitEntityRequest>,
   output: __S(928, __c29, 0) as any as S.Schema<PrincipalRateLimitEntity>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28198,8 +27894,8 @@ export const getProfileMapping: API.OperationMethod<
   GetProfileMappingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12256, __c383, 0) as any as S.Schema<GetProfileMappingRequest>,
-  output: __S(12321, __c385, 1) as any as S.Schema<ProfileMapping>,
+  input: __S(12128, __c379, 0) as any as S.Schema<GetProfileMappingRequest>,
+  output: __S(12193, __c381, 1) as any as S.Schema<ProfileMapping>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28216,8 +27912,8 @@ export const getPublicKey: API.OperationMethod<
   GetPublicKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12352, __c386, 0) as any as S.Schema<GetPublicKeyRequest>,
-  output: __S(29600, __c925, 0) as any as S.Schema<Embedded>,
+  input: __S(12224, __c382, 0) as any as S.Schema<GetPublicKeyRequest>,
+  output: __S(29248, __c914, 0) as any as S.Schema<Embedded>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28234,7 +27930,7 @@ export const getPushProvider: API.OperationMethod<
   GetPushProviderError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12384, __c387, 0) as any as S.Schema<GetPushProviderRequest>,
+  input: __S(12256, __c383, 0) as any as S.Schema<GetPushProviderRequest>,
   output: __S(992, __c31, 0) as any as S.Schema<GetPushProviderResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28252,8 +27948,8 @@ export const getRateLimitSettingsAdminNotifications: API.OperationMethod<
   GetRateLimitSettingsAdminNotificationsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12448, __c389, 0) as any as S.Schema<GetRateLimitSettingsAdminNotificationsRequest>,
-  output: __S(12480, __c390, 0) as any as S.Schema<RateLimitAdminNotifications>,
+  input: __S(12288, __c384, 0) as any as S.Schema<GetRateLimitSettingsAdminNotificationsRequest>,
+  output: __S(12320, __c385, 0) as any as S.Schema<RateLimitAdminNotifications>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28270,8 +27966,8 @@ export const getRateLimitSettingsPerClient: API.OperationMethod<
   GetRateLimitSettingsPerClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12512, __c391, 0) as any as S.Schema<GetRateLimitSettingsPerClientRequest>,
-  output: __S(12545, __c392, 1) as any as S.Schema<PerClientRateLimitSettings>,
+  input: __S(12352, __c386, 0) as any as S.Schema<GetRateLimitSettingsPerClientRequest>,
+  output: __S(12385, __c387, 1) as any as S.Schema<PerClientRateLimitSettings>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28288,8 +27984,8 @@ export const getRateLimitSettingsWarningThreshold: API.OperationMethod<
   GetRateLimitSettingsWarningThresholdError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12576, __c393, 0) as any as S.Schema<GetRateLimitSettingsWarningThresholdRequest>,
-  output: __S(12608, __c394, 0) as any as S.Schema<RateLimitWarningThresholdResponse>,
+  input: __S(12416, __c388, 0) as any as S.Schema<GetRateLimitSettingsWarningThresholdRequest>,
+  output: __S(12448, __c389, 0) as any as S.Schema<RateLimitWarningThresholdResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28302,7 +27998,7 @@ export type GetRealmError = BadRequest | Forbidden | NotFound | OktaOpError;
 /** Retrieve a realm Retrieves a realm */
 export const getRealm: API.OperationMethod<GetRealmRequest, Realm, GetRealmError, OktaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(12640, __c395, 0) as any as S.Schema<GetRealmRequest>,
+    input: __S(12512, __c391, 0) as any as S.Schema<GetRealmRequest>,
     output: __S(1057, __c33, 1) as any as S.Schema<Realm>,
     errors: [BadRequest, Forbidden, NotFound],
     serviceErrors: OktaServiceErrors,
@@ -28320,7 +28016,7 @@ export const getRealmAssignment: API.OperationMethod<
   GetRealmAssignmentError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12672, __c396, 0) as any as S.Schema<GetRealmAssignmentRequest>,
+  input: __S(12544, __c392, 0) as any as S.Schema<GetRealmAssignmentRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<RealmAssignment>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28342,11 +28038,11 @@ export const getRefreshTokenForAuthorizationServerAndClient: API.OperationMethod
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    12704,
-    __c397,
+    12576,
+    __c393,
     0,
   ) as any as S.Schema<GetRefreshTokenForAuthorizationServerAndClientRequest>,
-  output: __S(11431, __c357, 7) as any as S.Schema<OAuth2RefreshToken>,
+  output: __S(11239, __c351, 7) as any as S.Schema<OAuth2RefreshToken>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28363,8 +28059,8 @@ export const getRefreshTokenForUserAndClient: API.OperationMethod<
   GetRefreshTokenForUserAndClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12736, __c398, 0) as any as S.Schema<GetRefreshTokenForUserAndClientRequest>,
-  output: __S(11431, __c357, 7) as any as S.Schema<OAuth2RefreshToken>,
+  input: __S(12608, __c394, 0) as any as S.Schema<GetRefreshTokenForUserAndClientRequest>,
+  output: __S(11239, __c351, 7) as any as S.Schema<OAuth2RefreshToken>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28381,7 +28077,7 @@ export const getResourceSet: API.OperationMethod<
   GetResourceSetError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12768, __c399, 0) as any as S.Schema<GetResourceSetRequest>,
+  input: __S(12640, __c395, 0) as any as S.Schema<GetResourceSetRequest>,
   output: __S(14433, __c451, 1) as any as S.Schema<ResourceSet>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28399,7 +28095,7 @@ export const getResourceSetResource: API.OperationMethod<
   GetResourceSetResourceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12800, __c400, 0) as any as S.Schema<GetResourceSetResourceRequest>,
+  input: __S(12672, __c396, 0) as any as S.Schema<GetResourceSetResourceRequest>,
   output: __S(13955, __c436, 3) as any as S.Schema<ResourceSetResource>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28413,7 +28109,7 @@ export type GetRoleError = Forbidden | NotFound | OktaOpError;
 /** Retrieve a role Retrieves a role by `roleIdOrLabel` */
 export const getRole: API.OperationMethod<GetRoleRequest, IamRole, GetRoleError, OktaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(12832, __c401, 0) as any as S.Schema<GetRoleRequest>,
+    input: __S(12704, __c397, 0) as any as S.Schema<GetRoleRequest>,
     output: __S(1313, __c41, 1) as any as S.Schema<IamRole>,
     errors: [Forbidden, NotFound],
     serviceErrors: OktaServiceErrors,
@@ -28431,8 +28127,8 @@ export const getRoleAssignmentGovernanceGrant: API.OperationMethod<
   GetRoleAssignmentGovernanceGrantError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12928, __c404, 0) as any as S.Schema<GetRoleAssignmentGovernanceGrantRequest>,
-  output: __S(12961, __c405, 1) as any as S.Schema<RoleGovernanceSource>,
+  input: __S(12736, __c398, 0) as any as S.Schema<GetRoleAssignmentGovernanceGrantRequest>,
+  output: __S(12769, __c399, 1) as any as S.Schema<RoleGovernanceSource>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28449,8 +28145,8 @@ export const getRoleAssignmentGovernanceGrantResources: API.OperationMethod<
   GetRoleAssignmentGovernanceGrantResourcesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12992, __c406, 0) as any as S.Schema<GetRoleAssignmentGovernanceGrantResourcesRequest>,
-  output: __S(12995, __c406, 3) as any as S.Schema<RoleGovernanceResources>,
+  input: __S(12800, __c400, 0) as any as S.Schema<GetRoleAssignmentGovernanceGrantResourcesRequest>,
+  output: __S(12803, __c400, 3) as any as S.Schema<RoleGovernanceResources>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28467,8 +28163,8 @@ export const getRolePermission: API.OperationMethod<
   GetRolePermissionError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13056, __c408, 0) as any as S.Schema<GetRolePermissionRequest>,
-  output: __S(13089, __c409, 1) as any as S.Schema<Permission>,
+  input: __S(12864, __c402, 0) as any as S.Schema<GetRolePermissionRequest>,
+  output: __S(12897, __c403, 1) as any as S.Schema<Permission>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28485,8 +28181,8 @@ export const getRoleTargetsByUserIdAndRoleId: API.OperationMethod<
   GetRoleTargetsByUserIdAndRoleIdError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13120, __c410, 0) as any as S.Schema<GetRoleTargetsByUserIdAndRoleIdRequest>,
-  output: __S(13123, __c410, 3) as any as S.Schema<GetRoleTargetsByUserIdAndRoleIdResponse>,
+  input: __S(12992, __c406, 0) as any as S.Schema<GetRoleTargetsByUserIdAndRoleIdRequest>,
+  output: __S(12995, __c406, 3) as any as S.Schema<GetRoleTargetsByUserIdAndRoleIdResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28503,7 +28199,7 @@ export const getRootBrandWellKnownURI: API.OperationMethod<
   GetRootBrandWellKnownURIError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13152, __c411, 0) as any as S.Schema<GetRootBrandWellKnownURIRequest>,
+  input: __S(13024, __c407, 0) as any as S.Schema<GetRootBrandWellKnownURIRequest>,
   output: __S(6816, __c213, 0) as any as S.Schema<WellKnownURIObjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28521,8 +28217,8 @@ export const getScopeConsentGrant: API.OperationMethod<
   GetScopeConsentGrantError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13184, __c412, 0) as any as S.Schema<GetScopeConsentGrantRequest>,
-  output: __S(13250, __c414, 2) as any as S.Schema<OAuth2ScopeConsentGrant>,
+  input: __S(13056, __c408, 0) as any as S.Schema<GetScopeConsentGrantRequest>,
+  output: __S(13122, __c410, 2) as any as S.Schema<OAuth2ScopeConsentGrant>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28539,8 +28235,8 @@ export const getSecurityEventsProviderInstance: API.OperationMethod<
   GetSecurityEventsProviderInstanceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13280, __c415, 0) as any as S.Schema<GetSecurityEventsProviderInstanceRequest>,
-  output: __S(10273, __c321, 1) as any as S.Schema<SecurityEventsProviderResponse>,
+  input: __S(13152, __c411, 0) as any as S.Schema<GetSecurityEventsProviderInstanceRequest>,
+  output: __S(10305, __c322, 1) as any as S.Schema<SecurityEventsProviderResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28557,8 +28253,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13312, __c416, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(13345, __c417, 1) as any as S.Schema<Session>,
+  input: __S(13184, __c412, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(13217, __c413, 1) as any as S.Schema<Session>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28575,8 +28271,8 @@ export const getSignInPage: API.OperationMethod<
   GetSignInPageError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13376, __c418, 0) as any as S.Schema<GetSignInPageRequest>,
-  output: __S(9667, __c302, 3) as any as S.Schema<PageRoot>,
+  input: __S(13248, __c414, 0) as any as S.Schema<GetSignInPageRequest>,
+  output: __S(9539, __c298, 3) as any as S.Schema<PageRoot>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28593,8 +28289,8 @@ export const getSignOutPageSettings: API.OperationMethod<
   GetSignOutPageSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13408, __c419, 0) as any as S.Schema<GetSignOutPageSettingsRequest>,
-  output: __S(13440, __c420, 0) as any as S.Schema<HostedPage>,
+  input: __S(13280, __c415, 0) as any as S.Schema<GetSignOutPageSettingsRequest>,
+  output: __S(13312, __c416, 0) as any as S.Schema<HostedPage>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28611,7 +28307,7 @@ export const getSmsTemplate: API.OperationMethod<
   GetSmsTemplateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13504, __c422, 0) as any as S.Schema<GetSmsTemplateRequest>,
+  input: __S(13344, __c417, 0) as any as S.Schema<GetSmsTemplateRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<SmsTemplate>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28629,8 +28325,8 @@ export const getSsfStreams: API.OperationMethod<
   GetSsfStreamsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13536, __c423, 0) as any as S.Schema<GetSsfStreamsRequest>,
-  output: __S(13537, __c423, 1) as any as S.Schema<GetSsfStreamsResponse>,
+  input: __S(13376, __c418, 0) as any as S.Schema<GetSsfStreamsRequest>,
+  output: __S(13377, __c418, 1) as any as S.Schema<GetSsfStreamsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28647,8 +28343,8 @@ export const getSsfStreamStatus: API.OperationMethod<
   GetSsfStreamStatusError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13568, __c424, 0) as any as S.Schema<GetSsfStreamStatusRequest>,
-  output: __S(13569, __c424, 1) as any as S.Schema<StreamStatus>,
+  input: __S(13408, __c419, 0) as any as S.Schema<GetSsfStreamStatusRequest>,
+  output: __S(13409, __c419, 1) as any as S.Schema<StreamStatus>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28665,8 +28361,8 @@ export const getSubscriptionsNotificationTypeRole: API.OperationMethod<
   GetSubscriptionsNotificationTypeRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13600, __c425, 0) as any as S.Schema<GetSubscriptionsNotificationTypeRoleRequest>,
-  output: __S(13632, __c426, 0) as any as S.Schema<Subscription>,
+  input: __S(13472, __c421, 0) as any as S.Schema<GetSubscriptionsNotificationTypeRoleRequest>,
+  output: __S(13504, __c422, 0) as any as S.Schema<Subscription>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28683,8 +28379,8 @@ export const getSubscriptionsNotificationTypeUser: API.OperationMethod<
   GetSubscriptionsNotificationTypeUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13664, __c427, 0) as any as S.Schema<GetSubscriptionsNotificationTypeUserRequest>,
-  output: __S(13632, __c426, 0) as any as S.Schema<Subscription>,
+  input: __S(13536, __c423, 0) as any as S.Schema<GetSubscriptionsNotificationTypeUserRequest>,
+  output: __S(13504, __c422, 0) as any as S.Schema<Subscription>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28701,8 +28397,8 @@ export const getThirdPartyAdminSetting: API.OperationMethod<
   GetThirdPartyAdminSettingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13696, __c428, 0) as any as S.Schema<GetThirdPartyAdminSettingRequest>,
-  output: __S(13728, __c429, 0) as any as S.Schema<ThirdPartyAdminSetting>,
+  input: __S(13568, __c424, 0) as any as S.Schema<GetThirdPartyAdminSettingRequest>,
+  output: __S(13600, __c425, 0) as any as S.Schema<ThirdPartyAdminSetting>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28719,8 +28415,8 @@ export const getTrustedOrigin: API.OperationMethod<
   GetTrustedOriginError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13760, __c430, 0) as any as S.Schema<GetTrustedOriginRequest>,
-  output: __S(10754, __c336, 2) as any as S.Schema<TrustedOrigin>,
+  input: __S(13632, __c426, 0) as any as S.Schema<GetTrustedOriginRequest>,
+  output: __S(10786, __c337, 2) as any as S.Schema<TrustedOrigin>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28737,7 +28433,7 @@ export const getUISchema: API.OperationMethod<
   GetUISchemaError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13792, __c431, 0) as any as S.Schema<GetUISchemaRequest>,
+  input: __S(13664, __c427, 0) as any as S.Schema<GetUISchemaRequest>,
   output: __S(1668, __c52, 4) as any as S.Schema<UISchemasResponseObject>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28755,8 +28451,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13824, __c432, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(13826, __c432, 2) as any as S.Schema<GetUserResponse>,
+  input: __S(13696, __c428, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(13698, __c428, 2) as any as S.Schema<GetUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28773,8 +28469,8 @@ export const getUserAssignedRole: API.OperationMethod<
   GetUserAssignedRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13888, __c434, 0) as any as S.Schema<GetUserAssignedRoleRequest>,
-  output: __S(13889, __c434, 1) as any as S.Schema<GetUserAssignedRoleResponse>,
+  input: __S(13760, __c430, 0) as any as S.Schema<GetUserAssignedRoleRequest>,
+  output: __S(13761, __c430, 1) as any as S.Schema<GetUserAssignedRoleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28791,32 +28487,14 @@ export const getUserAssignedRoleGovernance: API.OperationMethod<
   GetUserAssignedRoleGovernanceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13984, __c437, 0) as any as S.Schema<GetUserAssignedRoleGovernanceRequest>,
-  output: __S(13987, __c437, 3) as any as S.Schema<RoleGovernance>,
+  input: __S(13792, __c431, 0) as any as S.Schema<GetUserAssignedRoleGovernanceRequest>,
+  output: __S(13795, __c431, 3) as any as S.Schema<RoleGovernance>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetUserAssignedRoleGovernance",
-}));
-
-export type GetUserClassificationError = Forbidden | NotFound | OktaOpError;
-/** Retrieve a user's classification Retrieves a user's classification */
-export const getUserClassification: API.OperationMethod<
-  GetUserClassificationRequest,
-  UserClassification,
-  GetUserClassificationError,
-  OktaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(14016, __c438, 0) as any as S.Schema<GetUserClassificationRequest>,
-  output: __S(14048, __c439, 0) as any as S.Schema<UserClassification>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: OktaServiceErrors,
-  protocol: OktaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetUserClassification",
 }));
 
 export type GetUserGrantError = Forbidden | NotFound | OktaOpError;
@@ -28827,8 +28505,8 @@ export const getUserGrant: API.OperationMethod<
   GetUserGrantError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14080, __c440, 0) as any as S.Schema<GetUserGrantRequest>,
-  output: __S(13250, __c414, 2) as any as S.Schema<OAuth2ScopeConsentGrant>,
+  input: __S(13824, __c432, 0) as any as S.Schema<GetUserGrantRequest>,
+  output: __S(13122, __c410, 2) as any as S.Schema<OAuth2ScopeConsentGrant>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28845,8 +28523,8 @@ export const getUserLockoutSettings: API.OperationMethod<
   GetUserLockoutSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14112, __c441, 0) as any as S.Schema<GetUserLockoutSettingsRequest>,
-  output: __S(14144, __c442, 0) as any as S.Schema<UserLockoutSettings>,
+  input: __S(13856, __c433, 0) as any as S.Schema<GetUserLockoutSettingsRequest>,
+  output: __S(13888, __c434, 0) as any as S.Schema<UserLockoutSettings>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28863,8 +28541,8 @@ export const getUserProvisioningConnectionJWKS: API.OperationMethod<
   GetUserProvisioningConnectionJWKSError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14176, __c443, 0) as any as S.Schema<GetUserProvisioningConnectionJWKSRequest>,
-  output: __S(14178, __c443, 2) as any as S.Schema<AppConnectionUserProvisionJWKResponse>,
+  input: __S(13984, __c437, 0) as any as S.Schema<GetUserProvisioningConnectionJWKSRequest>,
+  output: __S(13986, __c437, 2) as any as S.Schema<AppConnectionUserProvisionJWKResponse>,
   errors: [NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28881,8 +28559,8 @@ export const getUserRisk: API.OperationMethod<
   GetUserRiskError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14240, __c445, 0) as any as S.Schema<GetUserRiskRequest>,
-  output: __S(14241, __c445, 1) as any as S.Schema<GetUserRiskResponse>,
+  input: __S(14048, __c439, 0) as any as S.Schema<GetUserRiskRequest>,
+  output: __S(14049, __c439, 1) as any as S.Schema<GetUserRiskResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28899,7 +28577,7 @@ export const getUserSchema: API.OperationMethod<
   GetUserSchemaError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14272, __c446, 0) as any as S.Schema<GetUserSchemaRequest>,
+  input: __S(14080, __c440, 0) as any as S.Schema<GetUserSchemaRequest>,
   output: __S(7335, __c229, 7) as any as S.Schema<UserSchema>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28917,7 +28595,7 @@ export const getUserType: API.OperationMethod<
   GetUserTypeError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14304, __c447, 0) as any as S.Schema<GetUserTypeRequest>,
+  input: __S(14112, __c441, 0) as any as S.Schema<GetUserTypeRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<UserType>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28935,7 +28613,7 @@ export const getWebAuthnWellKnownURI: API.OperationMethod<
   GetWebAuthnWellKnownURIError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14336, __c448, 0) as any as S.Schema<GetWebAuthnWellKnownURIRequest>,
+  input: __S(14144, __c442, 0) as any as S.Schema<GetWebAuthnWellKnownURIRequest>,
   output: __S(7008, __c219, 0) as any as S.Schema<GetWebAuthnWellKnownURIResponse>,
   errors: [NotFound],
   serviceErrors: OktaServiceErrors,
@@ -28953,10 +28631,10 @@ export const getWellKnownAppAuthenticatorConfiguration: API.OperationMethod<
   GetWellKnownAppAuthenticatorConfigurationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14368, __c449, 0) as any as S.Schema<GetWellKnownAppAuthenticatorConfigurationRequest>,
+  input: __S(14176, __c443, 0) as any as S.Schema<GetWellKnownAppAuthenticatorConfigurationRequest>,
   output: __S(
-    14375,
-    __c449,
+    14183,
+    __c443,
     7,
   ) as any as S.Schema<GetWellKnownAppAuthenticatorConfigurationResponse>,
   errors: [BadRequest],
@@ -28975,8 +28653,8 @@ export const getWellknownOrgMetadata: API.OperationMethod<
   GetWellknownOrgMetadataError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14464, __c452, 0) as any as S.Schema<GetWellknownOrgMetadataRequest>,
-  output: __S(14466, __c452, 2) as any as S.Schema<WellKnownOrgMetadata>,
+  input: __S(14208, __c444, 0) as any as S.Schema<GetWellknownOrgMetadataRequest>,
+  output: __S(14210, __c444, 2) as any as S.Schema<WellKnownOrgMetadata>,
   errors: [],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -28993,8 +28671,8 @@ export const getWellknownSsfMetadata: API.OperationMethod<
   GetWellknownSsfMetadataError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14496, __c453, 0) as any as S.Schema<GetWellknownSsfMetadataRequest>,
-  output: __S(14499, __c453, 3) as any as S.Schema<WellKnownSSFMetadata>,
+  input: __S(14240, __c445, 0) as any as S.Schema<GetWellknownSsfMetadataRequest>,
+  output: __S(14243, __c445, 3) as any as S.Schema<WellKnownSSFMetadata>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29011,8 +28689,8 @@ export const getYubikeyOtpTokenById: API.OperationMethod<
   GetYubikeyOtpTokenByIdError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14528, __c454, 0) as any as S.Schema<GetYubikeyOtpTokenByIdRequest>,
-  output: __S(14592, __c456, 0) as any as S.Schema<UserFactorYubikeyOtpToken>,
+  input: __S(14272, __c446, 0) as any as S.Schema<GetYubikeyOtpTokenByIdRequest>,
+  output: __S(14336, __c448, 0) as any as S.Schema<UserFactorYubikeyOtpToken>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29029,7 +28707,7 @@ export const grantAerialConsent: API.OperationMethod<
   GrantAerialConsentError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14624, __c457, 0) as any as S.Schema<GrantAerialConsentRequest>,
+  input: __S(14368, __c449, 0) as any as S.Schema<GrantAerialConsentRequest>,
   output: __S(6593, __c206, 1) as any as S.Schema<OrgAerialConsentDetails>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
@@ -29047,8 +28725,8 @@ export const grantConsentToScope: API.OperationMethod<
   GrantConsentToScopeError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14657, __c458, 1) as any as S.Schema<GrantConsentToScopeRequest>,
-  output: __S(13250, __c414, 2) as any as S.Schema<OAuth2ScopeConsentGrant>,
+  input: __S(14465, __c452, 1) as any as S.Schema<GrantConsentToScopeRequest>,
+  output: __S(13122, __c410, 2) as any as S.Schema<OAuth2ScopeConsentGrant>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29065,8 +28743,8 @@ export const linkUserToIdentityProvider: API.OperationMethod<
   LinkUserToIdentityProviderError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14688, __c459, 0) as any as S.Schema<LinkUserToIdentityProviderRequest>,
-  output: __S(10529, __c329, 1) as any as S.Schema<IdentityProviderApplicationUser>,
+  input: __S(14496, __c453, 0) as any as S.Schema<LinkUserToIdentityProviderRequest>,
+  output: __S(10401, __c325, 1) as any as S.Schema<IdentityProviderApplicationUser>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29083,8 +28761,8 @@ export const listActiveIdentityProviderSigningKey: API.OperationMethod<
   ListActiveIdentityProviderSigningKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14720, __c460, 0) as any as S.Schema<ListActiveIdentityProviderSigningKeyRequest>,
-  output: __S(14753, __c461, 1) as any as S.Schema<ListActiveIdentityProviderSigningKeyResponse>,
+  input: __S(14528, __c454, 0) as any as S.Schema<ListActiveIdentityProviderSigningKeyRequest>,
+  output: __S(14561, __c455, 1) as any as S.Schema<ListActiveIdentityProviderSigningKeyResponse>,
   errors: [],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29101,8 +28779,8 @@ export const listAgentPools: API.OperationMethod<
   ListAgentPoolsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14784, __c462, 0) as any as S.Schema<ListAgentPoolsRequest>,
-  output: __S(14787, __c462, 3) as any as S.Schema<ListAgentPoolsResponse>,
+  input: __S(14592, __c456, 0) as any as S.Schema<ListAgentPoolsRequest>,
+  output: __S(14595, __c456, 3) as any as S.Schema<ListAgentPoolsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29119,8 +28797,8 @@ export const listAgentPoolsUpdates: API.OperationMethod<
   ListAgentPoolsUpdatesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14816, __c463, 0) as any as S.Schema<ListAgentPoolsUpdatesRequest>,
-  output: __S(14818, __c463, 2) as any as S.Schema<ListAgentPoolsUpdatesResponse>,
+  input: __S(14624, __c457, 0) as any as S.Schema<ListAgentPoolsUpdatesRequest>,
+  output: __S(14626, __c457, 2) as any as S.Schema<ListAgentPoolsUpdatesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29137,8 +28815,8 @@ export const listAllCustomAAGUIDs: API.OperationMethod<
   ListAllCustomAAGUIDsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14848, __c464, 0) as any as S.Schema<ListAllCustomAAGUIDsRequest>,
-  output: __S(14850, __c464, 2) as any as S.Schema<ListAllCustomAAGUIDsResponse>,
+  input: __S(14656, __c458, 0) as any as S.Schema<ListAllCustomAAGUIDsRequest>,
+  output: __S(14658, __c458, 2) as any as S.Schema<ListAllCustomAAGUIDsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29155,10 +28833,10 @@ export const listAllCustomTelephonyProviderCredentials: API.OperationMethod<
   ListAllCustomTelephonyProviderCredentialsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14912, __c466, 0) as any as S.Schema<ListAllCustomTelephonyProviderCredentialsRequest>,
+  input: __S(14688, __c459, 0) as any as S.Schema<ListAllCustomTelephonyProviderCredentialsRequest>,
   output: __S(
-    14914,
-    __c466,
+    14690,
+    __c459,
     2,
   ) as any as S.Schema<ListAllCustomTelephonyProviderCredentialsResponse>,
   errors: [Forbidden, NotFound],
@@ -29177,8 +28855,8 @@ export const listAllSignInWidgetVersions: API.OperationMethod<
   ListAllSignInWidgetVersionsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14944, __c467, 0) as any as S.Schema<ListAllSignInWidgetVersionsRequest>,
-  output: __S(14976, __c468, 0) as any as S.Schema<ListAllSignInWidgetVersionsResponse>,
+  input: __S(14720, __c460, 0) as any as S.Schema<ListAllSignInWidgetVersionsRequest>,
+  output: __S(14752, __c461, 0) as any as S.Schema<ListAllSignInWidgetVersionsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29195,8 +28873,8 @@ export const listApiServiceIntegrationInstances: API.OperationMethod<
   ListApiServiceIntegrationInstancesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15008, __c469, 0) as any as S.Schema<ListApiServiceIntegrationInstancesRequest>,
-  output: __S(15010, __c469, 2) as any as S.Schema<ListApiServiceIntegrationInstancesResponse>,
+  input: __S(14784, __c462, 0) as any as S.Schema<ListApiServiceIntegrationInstancesRequest>,
+  output: __S(14786, __c462, 2) as any as S.Schema<ListApiServiceIntegrationInstancesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29213,10 +28891,10 @@ export const listApiServiceIntegrationInstanceSecrets: API.OperationMethod<
   ListApiServiceIntegrationInstanceSecretsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15040, __c470, 0) as any as S.Schema<ListApiServiceIntegrationInstanceSecretsRequest>,
+  input: __S(14816, __c463, 0) as any as S.Schema<ListApiServiceIntegrationInstanceSecretsRequest>,
   output: __S(
-    15042,
-    __c470,
+    14818,
+    __c463,
     2,
   ) as any as S.Schema<ListApiServiceIntegrationInstanceSecretsResponse>,
   errors: [Forbidden, NotFound],
@@ -29235,8 +28913,8 @@ export const listApiTokens: API.OperationMethod<
   ListApiTokensError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15072, __c471, 0) as any as S.Schema<ListApiTokensRequest>,
-  output: __S(15074, __c471, 2) as any as S.Schema<ListApiTokensResponse>,
+  input: __S(14880, __c465, 0) as any as S.Schema<ListApiTokensRequest>,
+  output: __S(14882, __c465, 2) as any as S.Schema<ListApiTokensResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29253,8 +28931,8 @@ export const listApplicationGroupAssignments: API.OperationMethod<
   ListApplicationGroupAssignmentsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15104, __c472, 0) as any as S.Schema<ListApplicationGroupAssignmentsRequest>,
-  output: __S(15106, __c472, 2) as any as S.Schema<ListApplicationGroupAssignmentsResponse>,
+  input: __S(14912, __c466, 0) as any as S.Schema<ListApplicationGroupAssignmentsRequest>,
+  output: __S(14914, __c466, 2) as any as S.Schema<ListApplicationGroupAssignmentsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29271,8 +28949,8 @@ export const listApplicationKeys: API.OperationMethod<
   ListApplicationKeysError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15136, __c473, 0) as any as S.Schema<ListApplicationKeysRequest>,
-  output: __S(15137, __c473, 1) as any as S.Schema<ListApplicationKeysResponse>,
+  input: __S(14944, __c467, 0) as any as S.Schema<ListApplicationKeysRequest>,
+  output: __S(14945, __c467, 1) as any as S.Schema<ListApplicationKeysResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29289,8 +28967,8 @@ export const listApplications: API.OperationMethod<
   ListApplicationsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15168, __c474, 0) as any as S.Schema<ListApplicationsRequest>,
-  output: __S(15201, __c475, 1) as any as S.Schema<ListApplicationsResponse>,
+  input: __S(14976, __c468, 0) as any as S.Schema<ListApplicationsRequest>,
+  output: __S(15009, __c469, 1) as any as S.Schema<ListApplicationsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29311,13 +28989,13 @@ export const listApplicationTargetsForApplicationAdministratorRoleForGroup: API.
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15232,
-    __c476,
+    15040,
+    __c470,
     0,
   ) as any as S.Schema<ListApplicationTargetsForApplicationAdministratorRoleForGroupRequest>,
   output: __S(
-    15267,
-    __c477,
+    15075,
+    __c471,
     3,
   ) as any as S.Schema<ListApplicationTargetsForApplicationAdministratorRoleForGroupResponse>,
   errors: [Forbidden, NotFound],
@@ -29340,13 +29018,13 @@ export const listApplicationTargetsForApplicationAdministratorRoleForUser: API.O
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    15296,
-    __c478,
+    15104,
+    __c472,
     0,
   ) as any as S.Schema<ListApplicationTargetsForApplicationAdministratorRoleForUserRequest>,
   output: __S(
-    15267,
-    __c477,
+    15075,
+    __c471,
     3,
   ) as any as S.Schema<ListApplicationTargetsForApplicationAdministratorRoleForUserResponse>,
   errors: [Forbidden, NotFound],
@@ -29365,8 +29043,8 @@ export const listApplicationUsers: API.OperationMethod<
   ListApplicationUsersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15360, __c480, 0) as any as S.Schema<ListApplicationUsersRequest>,
-  output: __S(15362, __c480, 2) as any as S.Schema<ListApplicationUsersResponse>,
+  input: __S(15136, __c473, 0) as any as S.Schema<ListApplicationUsersRequest>,
+  output: __S(15138, __c473, 2) as any as S.Schema<ListApplicationUsersResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29383,8 +29061,8 @@ export const listAppLinks: API.OperationMethod<
   ListAppLinksError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15392, __c481, 0) as any as S.Schema<ListAppLinksRequest>,
-  output: __S(15395, __c481, 3) as any as S.Schema<ListAppLinksResponse>,
+  input: __S(15168, __c474, 0) as any as S.Schema<ListAppLinksRequest>,
+  output: __S(15171, __c474, 3) as any as S.Schema<ListAppLinksResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29401,8 +29079,8 @@ export const listAppServiceAccounts: API.OperationMethod<
   ListAppServiceAccountsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15424, __c482, 0) as any as S.Schema<ListAppServiceAccountsRequest>,
-  output: __S(15426, __c482, 2) as any as S.Schema<ListAppServiceAccountsResponse>,
+  input: __S(15200, __c475, 0) as any as S.Schema<ListAppServiceAccountsRequest>,
+  output: __S(15202, __c475, 2) as any as S.Schema<ListAppServiceAccountsResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29419,8 +29097,8 @@ export const listAppTargetRoleToClient: API.OperationMethod<
   ListAppTargetRoleToClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15456, __c483, 0) as any as S.Schema<ListAppTargetRoleToClientRequest>,
-  output: __S(15267, __c477, 3) as any as S.Schema<ListAppTargetRoleToClientResponse>,
+  input: __S(15232, __c476, 0) as any as S.Schema<ListAppTargetRoleToClientRequest>,
+  output: __S(15075, __c471, 3) as any as S.Schema<ListAppTargetRoleToClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29437,8 +29115,8 @@ export const listAssignedApplicationsForGroup: API.OperationMethod<
   ListAssignedApplicationsForGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15488, __c484, 0) as any as S.Schema<ListAssignedApplicationsForGroupRequest>,
-  output: __S(15201, __c475, 1) as any as S.Schema<ListAssignedApplicationsForGroupResponse>,
+  input: __S(15296, __c478, 0) as any as S.Schema<ListAssignedApplicationsForGroupRequest>,
+  output: __S(15009, __c469, 1) as any as S.Schema<ListAssignedApplicationsForGroupResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29455,8 +29133,8 @@ export const listAssignedRolesForUser: API.OperationMethod<
   ListAssignedRolesForUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15520, __c485, 0) as any as S.Schema<ListAssignedRolesForUserRequest>,
-  output: __S(15522, __c485, 2) as any as S.Schema<ListAssignedRolesForUserResponse>,
+  input: __S(15328, __c479, 0) as any as S.Schema<ListAssignedRolesForUserRequest>,
+  output: __S(15330, __c479, 2) as any as S.Schema<ListAssignedRolesForUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29473,8 +29151,8 @@ export const listAssociatedServersByTrustedType: API.OperationMethod<
   ListAssociatedServersByTrustedTypeError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15552, __c486, 0) as any as S.Schema<ListAssociatedServersByTrustedTypeRequest>,
-  output: __S(27713, __c866, 1) as any as S.Schema<ListAssociatedServersByTrustedTypeResponse>,
+  input: __S(15360, __c480, 0) as any as S.Schema<ListAssociatedServersByTrustedTypeRequest>,
+  output: __S(27361, __c855, 1) as any as S.Schema<ListAssociatedServersByTrustedTypeResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29491,8 +29169,8 @@ export const listAuthenticatorEnrollments: API.OperationMethod<
   ListAuthenticatorEnrollmentsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15584, __c487, 0) as any as S.Schema<ListAuthenticatorEnrollmentsRequest>,
-  output: __S(27873, __c871, 1) as any as S.Schema<AuthenticatorEnrollment>,
+  input: __S(15392, __c481, 0) as any as S.Schema<ListAuthenticatorEnrollmentsRequest>,
+  output: __S(27521, __c860, 1) as any as S.Schema<AuthenticatorEnrollment>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29509,8 +29187,8 @@ export const listAuthenticatorMethods: API.OperationMethod<
   ListAuthenticatorMethodsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15616, __c488, 0) as any as S.Schema<ListAuthenticatorMethodsRequest>,
-  output: __S(15618, __c488, 2) as any as S.Schema<ListAuthenticatorMethodsResponse>,
+  input: __S(15424, __c482, 0) as any as S.Schema<ListAuthenticatorMethodsRequest>,
+  output: __S(15426, __c482, 2) as any as S.Schema<ListAuthenticatorMethodsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29527,8 +29205,8 @@ export const listAuthenticators: API.OperationMethod<
   ListAuthenticatorsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15648, __c489, 0) as any as S.Schema<ListAuthenticatorsRequest>,
-  output: __S(15650, __c489, 2) as any as S.Schema<ListAuthenticatorsResponse>,
+  input: __S(15456, __c483, 0) as any as S.Schema<ListAuthenticatorsRequest>,
+  output: __S(15458, __c483, 2) as any as S.Schema<ListAuthenticatorsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29545,8 +29223,8 @@ export const listAuthorizationServerKeys: API.OperationMethod<
   ListAuthorizationServerKeysError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15712, __c491, 0) as any as S.Schema<ListAuthorizationServerKeysRequest>,
-  output: __S(15745, __c492, 1) as any as S.Schema<ListAuthorizationServerKeysResponse>,
+  input: __S(15488, __c484, 0) as any as S.Schema<ListAuthorizationServerKeysRequest>,
+  output: __S(15521, __c485, 1) as any as S.Schema<ListAuthorizationServerKeysResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29563,8 +29241,8 @@ export const listAuthorizationServerPolicies: API.OperationMethod<
   ListAuthorizationServerPoliciesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15776, __c493, 0) as any as S.Schema<ListAuthorizationServerPoliciesRequest>,
-  output: __S(15778, __c493, 2) as any as S.Schema<ListAuthorizationServerPoliciesResponse>,
+  input: __S(15552, __c486, 0) as any as S.Schema<ListAuthorizationServerPoliciesRequest>,
+  output: __S(15554, __c486, 2) as any as S.Schema<ListAuthorizationServerPoliciesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29581,8 +29259,8 @@ export const listAuthorizationServerPolicyRules: API.OperationMethod<
   ListAuthorizationServerPolicyRulesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15808, __c494, 0) as any as S.Schema<ListAuthorizationServerPolicyRulesRequest>,
-  output: __S(15810, __c494, 2) as any as S.Schema<ListAuthorizationServerPolicyRulesResponse>,
+  input: __S(15584, __c487, 0) as any as S.Schema<ListAuthorizationServerPolicyRulesRequest>,
+  output: __S(15586, __c487, 2) as any as S.Schema<ListAuthorizationServerPolicyRulesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29599,8 +29277,8 @@ export const listAuthorizationServers: API.OperationMethod<
   ListAuthorizationServersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15840, __c495, 0) as any as S.Schema<ListAuthorizationServersRequest>,
-  output: __S(27713, __c866, 1) as any as S.Schema<ListAuthorizationServersResponse>,
+  input: __S(15616, __c488, 0) as any as S.Schema<ListAuthorizationServersRequest>,
+  output: __S(27361, __c855, 1) as any as S.Schema<ListAuthorizationServersResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29617,8 +29295,8 @@ export const listBehaviorDetectionRules: API.OperationMethod<
   ListBehaviorDetectionRulesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15872, __c496, 0) as any as S.Schema<ListBehaviorDetectionRulesRequest>,
-  output: __S(15874, __c496, 2) as any as S.Schema<ListBehaviorDetectionRulesResponse>,
+  input: __S(15680, __c490, 0) as any as S.Schema<ListBehaviorDetectionRulesRequest>,
+  output: __S(15682, __c490, 2) as any as S.Schema<ListBehaviorDetectionRulesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29635,8 +29313,8 @@ export const listBindings: API.OperationMethod<
   ListBindingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15904, __c497, 0) as any as S.Schema<ListBindingsRequest>,
-  output: __S(15909, __c497, 5) as any as S.Schema<ResourceSetBindings>,
+  input: __S(15712, __c491, 0) as any as S.Schema<ListBindingsRequest>,
+  output: __S(15717, __c491, 5) as any as S.Schema<ResourceSetBindings>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29653,8 +29331,8 @@ export const listBrandDomains: API.OperationMethod<
   ListBrandDomainsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15936, __c498, 0) as any as S.Schema<ListBrandDomainsRequest>,
-  output: __S(15968, __c499, 0) as any as S.Schema<BrandDomains>,
+  input: __S(15744, __c492, 0) as any as S.Schema<ListBrandDomainsRequest>,
+  output: __S(15776, __c493, 0) as any as S.Schema<BrandDomains>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29671,8 +29349,8 @@ export const listBrands: API.OperationMethod<
   ListBrandsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16000, __c500, 0) as any as S.Schema<ListBrandsRequest>,
-  output: __S(16002, __c500, 2) as any as S.Schema<ListBrandsResponse>,
+  input: __S(15808, __c494, 0) as any as S.Schema<ListBrandsRequest>,
+  output: __S(15810, __c494, 2) as any as S.Schema<ListBrandsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29689,8 +29367,8 @@ export const listBrandThemes: API.OperationMethod<
   ListBrandThemesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16032, __c501, 0) as any as S.Schema<ListBrandThemesRequest>,
-  output: __S(16033, __c501, 1) as any as S.Schema<ListBrandThemesResponse>,
+  input: __S(15840, __c495, 0) as any as S.Schema<ListBrandThemesRequest>,
+  output: __S(15841, __c495, 1) as any as S.Schema<ListBrandThemesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29707,8 +29385,8 @@ export const listBundleEntitlements: API.OperationMethod<
   ListBundleEntitlementsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16064, __c502, 0) as any as S.Schema<ListBundleEntitlementsRequest>,
-  output: __S(16069, __c502, 5) as any as S.Schema<BundleEntitlementsResponse>,
+  input: __S(15872, __c496, 0) as any as S.Schema<ListBundleEntitlementsRequest>,
+  output: __S(15877, __c496, 5) as any as S.Schema<BundleEntitlementsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29725,8 +29403,8 @@ export const listBundleEntitlementValues: API.OperationMethod<
   ListBundleEntitlementValuesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16128, __c504, 0) as any as S.Schema<ListBundleEntitlementValuesRequest>,
-  output: __S(16133, __c504, 5) as any as S.Schema<EntitlementValuesResponse>,
+  input: __S(15904, __c497, 0) as any as S.Schema<ListBundleEntitlementValuesRequest>,
+  output: __S(15909, __c497, 5) as any as S.Schema<EntitlementValuesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29743,8 +29421,8 @@ export const listCaptchaInstances: API.OperationMethod<
   ListCaptchaInstancesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16160, __c505, 0) as any as S.Schema<ListCaptchaInstancesRequest>,
-  output: __S(16162, __c505, 2) as any as S.Schema<ListCaptchaInstancesResponse>,
+  input: __S(15936, __c498, 0) as any as S.Schema<ListCaptchaInstancesRequest>,
+  output: __S(15938, __c498, 2) as any as S.Schema<ListCaptchaInstancesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29761,8 +29439,8 @@ export const listCsrsForApplication: API.OperationMethod<
   ListCsrsForApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16192, __c506, 0) as any as S.Schema<ListCsrsForApplicationRequest>,
-  output: __S(16194, __c506, 2) as any as S.Schema<ListCsrsForApplicationResponse>,
+  input: __S(15968, __c499, 0) as any as S.Schema<ListCsrsForApplicationRequest>,
+  output: __S(15970, __c499, 2) as any as S.Schema<ListCsrsForApplicationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29779,8 +29457,8 @@ export const listCsrsForIdentityProvider: API.OperationMethod<
   ListCsrsForIdentityProviderError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16224, __c507, 0) as any as S.Schema<ListCsrsForIdentityProviderRequest>,
-  output: __S(16226, __c507, 2) as any as S.Schema<ListCsrsForIdentityProviderResponse>,
+  input: __S(16000, __c500, 0) as any as S.Schema<ListCsrsForIdentityProviderRequest>,
+  output: __S(16002, __c500, 2) as any as S.Schema<ListCsrsForIdentityProviderResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29797,8 +29475,8 @@ export const listCustomDomains: API.OperationMethod<
   ListCustomDomainsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16256, __c508, 0) as any as S.Schema<ListCustomDomainsRequest>,
-  output: __S(15968, __c499, 0) as any as S.Schema<DomainListResponse>,
+  input: __S(16064, __c502, 0) as any as S.Schema<ListCustomDomainsRequest>,
+  output: __S(15776, __c493, 0) as any as S.Schema<DomainListResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29815,8 +29493,8 @@ export const listDefaultDevicePostureChecks: API.OperationMethod<
   ListDefaultDevicePostureChecksError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16288, __c509, 0) as any as S.Schema<ListDefaultDevicePostureChecksRequest>,
-  output: __S(16321, __c510, 1) as any as S.Schema<ListDefaultDevicePostureChecksResponse>,
+  input: __S(16096, __c503, 0) as any as S.Schema<ListDefaultDevicePostureChecksRequest>,
+  output: __S(16129, __c504, 1) as any as S.Schema<ListDefaultDevicePostureChecksResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29833,8 +29511,8 @@ export const listDeviceAssurancePolicies: API.OperationMethod<
   ListDeviceAssurancePoliciesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16352, __c511, 0) as any as S.Schema<ListDeviceAssurancePoliciesRequest>,
-  output: __S(16354, __c511, 2) as any as S.Schema<ListDeviceAssurancePoliciesResponse>,
+  input: __S(16160, __c505, 0) as any as S.Schema<ListDeviceAssurancePoliciesRequest>,
+  output: __S(16162, __c505, 2) as any as S.Schema<ListDeviceAssurancePoliciesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29851,32 +29529,14 @@ export const listDeviceIntegrations: API.OperationMethod<
   ListDeviceIntegrationsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16384, __c512, 0) as any as S.Schema<ListDeviceIntegrationsRequest>,
-  output: __S(16386, __c512, 2) as any as S.Schema<ListDeviceIntegrationsResponse>,
+  input: __S(16192, __c506, 0) as any as S.Schema<ListDeviceIntegrationsRequest>,
+  output: __S(16194, __c506, 2) as any as S.Schema<ListDeviceIntegrationsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeviceIntegrations",
-}));
-
-export type ListDeviceOSAccountsError = Forbidden | NotFound | OktaOpError;
-/** List all OS accounts for a device Lists all OS accounts for a device by `deviceId` */
-export const listDeviceOSAccounts: API.OperationMethod<
-  ListDeviceOSAccountsRequest,
-  ListDeviceOSAccountsResponse,
-  ListDeviceOSAccountsError,
-  OktaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16416, __c513, 0) as any as S.Schema<ListDeviceOSAccountsRequest>,
-  output: __S(16418, __c513, 2) as any as S.Schema<ListDeviceOSAccountsResponse>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: OktaServiceErrors,
-  protocol: OktaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ListDeviceOSAccounts",
 }));
 
 export type ListDevicePostureChecksError = Forbidden | OktaOpError;
@@ -29887,8 +29547,8 @@ export const listDevicePostureChecks: API.OperationMethod<
   ListDevicePostureChecksError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16448, __c514, 0) as any as S.Schema<ListDevicePostureChecksRequest>,
-  output: __S(16321, __c510, 1) as any as S.Schema<ListDevicePostureChecksResponse>,
+  input: __S(16224, __c507, 0) as any as S.Schema<ListDevicePostureChecksRequest>,
+  output: __S(16129, __c504, 1) as any as S.Schema<ListDevicePostureChecksResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29905,8 +29565,8 @@ export const listDevices: API.OperationMethod<
   ListDevicesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16512, __c516, 0) as any as S.Schema<ListDevicesRequest>,
-  output: __S(16516, __c516, 4) as any as S.Schema<ListDevicesResponse>,
+  input: __S(16256, __c508, 0) as any as S.Schema<ListDevicesRequest>,
+  output: __S(16260, __c508, 4) as any as S.Schema<ListDevicesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29923,8 +29583,8 @@ export const listDeviceUsers: API.OperationMethod<
   ListDeviceUsersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16576, __c518, 0) as any as S.Schema<ListDeviceUsersRequest>,
-  output: __S(16577, __c518, 1) as any as S.Schema<ListDeviceUsersResponse>,
+  input: __S(16320, __c510, 0) as any as S.Schema<ListDeviceUsersRequest>,
+  output: __S(16321, __c510, 1) as any as S.Schema<ListDeviceUsersResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29941,8 +29601,8 @@ export const listEmailCustomizations: API.OperationMethod<
   ListEmailCustomizationsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16608, __c519, 0) as any as S.Schema<ListEmailCustomizationsRequest>,
-  output: __S(16610, __c519, 2) as any as S.Schema<ListEmailCustomizationsResponse>,
+  input: __S(16352, __c511, 0) as any as S.Schema<ListEmailCustomizationsRequest>,
+  output: __S(16354, __c511, 2) as any as S.Schema<ListEmailCustomizationsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29959,8 +29619,8 @@ export const listEmailDomains: API.OperationMethod<
   ListEmailDomainsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16640, __c520, 0) as any as S.Schema<ListEmailDomainsRequest>,
-  output: __S(16642, __c520, 2) as any as S.Schema<ListEmailDomainsResponse>,
+  input: __S(16384, __c512, 0) as any as S.Schema<ListEmailDomainsRequest>,
+  output: __S(16386, __c512, 2) as any as S.Schema<ListEmailDomainsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29977,8 +29637,8 @@ export const listEmailServers: API.OperationMethod<
   ListEmailServersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16672, __c521, 0) as any as S.Schema<ListEmailServersRequest>,
-  output: __S(16674, __c521, 2) as any as S.Schema<EmailServerListResponse>,
+  input: __S(16416, __c513, 0) as any as S.Schema<ListEmailServersRequest>,
+  output: __S(16418, __c513, 2) as any as S.Schema<EmailServerListResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -29995,8 +29655,8 @@ export const listEmailTemplates: API.OperationMethod<
   ListEmailTemplatesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16704, __c522, 0) as any as S.Schema<ListEmailTemplatesRequest>,
-  output: __S(16706, __c522, 2) as any as S.Schema<ListEmailTemplatesResponse>,
+  input: __S(16480, __c515, 0) as any as S.Schema<ListEmailTemplatesRequest>,
+  output: __S(16482, __c515, 2) as any as S.Schema<ListEmailTemplatesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30013,8 +29673,8 @@ export const listEventHooks: API.OperationMethod<
   ListEventHooksError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16736, __c523, 0) as any as S.Schema<ListEventHooksRequest>,
-  output: __S(16738, __c523, 2) as any as S.Schema<ListEventHooksResponse>,
+  input: __S(16512, __c516, 0) as any as S.Schema<ListEventHooksRequest>,
+  output: __S(16514, __c516, 2) as any as S.Schema<ListEventHooksResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30031,8 +29691,8 @@ export const listFactors: API.OperationMethod<
   ListFactorsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16768, __c524, 0) as any as S.Schema<ListFactorsRequest>,
-  output: __S(16770, __c524, 2) as any as S.Schema<ListFactorsResponse>,
+  input: __S(16544, __c517, 0) as any as S.Schema<ListFactorsRequest>,
+  output: __S(16546, __c517, 2) as any as S.Schema<ListFactorsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30049,8 +29709,8 @@ export const listFeatureDependencies: API.OperationMethod<
   ListFeatureDependenciesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16800, __c525, 0) as any as S.Schema<ListFeatureDependenciesRequest>,
-  output: __S(16833, __c526, 1) as any as S.Schema<ListFeatureDependenciesResponse>,
+  input: __S(16576, __c518, 0) as any as S.Schema<ListFeatureDependenciesRequest>,
+  output: __S(16609, __c519, 1) as any as S.Schema<ListFeatureDependenciesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30067,8 +29727,8 @@ export const listFeatureDependents: API.OperationMethod<
   ListFeatureDependentsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16864, __c527, 0) as any as S.Schema<ListFeatureDependentsRequest>,
-  output: __S(16833, __c526, 1) as any as S.Schema<ListFeatureDependentsResponse>,
+  input: __S(16640, __c520, 0) as any as S.Schema<ListFeatureDependentsRequest>,
+  output: __S(16609, __c519, 1) as any as S.Schema<ListFeatureDependentsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30085,8 +29745,8 @@ export const listFeatures: API.OperationMethod<
   ListFeaturesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16928, __c529, 0) as any as S.Schema<ListFeaturesRequest>,
-  output: __S(16833, __c526, 1) as any as S.Schema<ListFeaturesResponse>,
+  input: __S(16672, __c521, 0) as any as S.Schema<ListFeaturesRequest>,
+  output: __S(16609, __c519, 1) as any as S.Schema<ListFeaturesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30103,8 +29763,8 @@ export const listFeaturesForApplication: API.OperationMethod<
   ListFeaturesForApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16960, __c530, 0) as any as S.Schema<ListFeaturesForApplicationRequest>,
-  output: __S(16962, __c530, 2) as any as S.Schema<ListFeaturesForApplicationResponse>,
+  input: __S(16704, __c522, 0) as any as S.Schema<ListFeaturesForApplicationRequest>,
+  output: __S(16706, __c522, 2) as any as S.Schema<ListFeaturesForApplicationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30121,8 +29781,8 @@ export const listFederatedClaims: API.OperationMethod<
   ListFederatedClaimsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16992, __c531, 0) as any as S.Schema<ListFederatedClaimsRequest>,
-  output: __S(16994, __c531, 2) as any as S.Schema<ListFederatedClaimsResponse>,
+  input: __S(16736, __c523, 0) as any as S.Schema<ListFederatedClaimsRequest>,
+  output: __S(16738, __c523, 2) as any as S.Schema<ListFederatedClaimsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30139,8 +29799,8 @@ export const listGovernanceBundles: API.OperationMethod<
   ListGovernanceBundlesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17024, __c532, 0) as any as S.Schema<ListGovernanceBundlesRequest>,
-  output: __S(17026, __c532, 2) as any as S.Schema<GovernanceBundlesResponse>,
+  input: __S(16768, __c524, 0) as any as S.Schema<ListGovernanceBundlesRequest>,
+  output: __S(16770, __c524, 2) as any as S.Schema<GovernanceBundlesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30157,8 +29817,8 @@ export const listGrantsForUserAndClient: API.OperationMethod<
   ListGrantsForUserAndClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17056, __c533, 0) as any as S.Schema<ListGrantsForUserAndClientRequest>,
-  output: __S(17089, __c534, 1) as any as S.Schema<ListGrantsForUserAndClientResponse>,
+  input: __S(16800, __c525, 0) as any as S.Schema<ListGrantsForUserAndClientRequest>,
+  output: __S(16833, __c526, 1) as any as S.Schema<ListGrantsForUserAndClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30175,8 +29835,8 @@ export const listGroupAssignedRoles: API.OperationMethod<
   ListGroupAssignedRolesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17120, __c535, 0) as any as S.Schema<ListGroupAssignedRolesRequest>,
-  output: __S(17122, __c535, 2) as any as S.Schema<ListGroupAssignedRolesResponse>,
+  input: __S(16896, __c528, 0) as any as S.Schema<ListGroupAssignedRolesRequest>,
+  output: __S(16898, __c528, 2) as any as S.Schema<ListGroupAssignedRolesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30193,8 +29853,8 @@ export const listGroupOwners: API.OperationMethod<
   ListGroupOwnersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17152, __c536, 0) as any as S.Schema<ListGroupOwnersRequest>,
-  output: __S(17154, __c536, 2) as any as S.Schema<ListGroupOwnersResponse>,
+  input: __S(16928, __c529, 0) as any as S.Schema<ListGroupOwnersRequest>,
+  output: __S(16930, __c529, 2) as any as S.Schema<ListGroupOwnersResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30211,8 +29871,8 @@ export const listGroupPushMappings: API.OperationMethod<
   ListGroupPushMappingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17184, __c537, 0) as any as S.Schema<ListGroupPushMappingsRequest>,
-  output: __S(17186, __c537, 2) as any as S.Schema<ListGroupPushMappingsResponse>,
+  input: __S(16960, __c530, 0) as any as S.Schema<ListGroupPushMappingsRequest>,
+  output: __S(16962, __c530, 2) as any as S.Schema<ListGroupPushMappingsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30229,8 +29889,8 @@ export const listGroupRules: API.OperationMethod<
   ListGroupRulesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17216, __c538, 0) as any as S.Schema<ListGroupRulesRequest>,
-  output: __S(17218, __c538, 2) as any as S.Schema<ListGroupRulesResponse>,
+  input: __S(16992, __c531, 0) as any as S.Schema<ListGroupRulesRequest>,
+  output: __S(16994, __c531, 2) as any as S.Schema<ListGroupRulesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30247,8 +29907,8 @@ export const listGroups: API.OperationMethod<
   ListGroupsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17248, __c539, 0) as any as S.Schema<ListGroupsRequest>,
-  output: __S(17281, __c540, 1) as any as S.Schema<ListGroupsResponse>,
+  input: __S(17024, __c532, 0) as any as S.Schema<ListGroupsRequest>,
+  output: __S(17057, __c533, 1) as any as S.Schema<ListGroupsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30265,8 +29925,8 @@ export const listGroupTargetRoleForClient: API.OperationMethod<
   ListGroupTargetRoleForClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17344, __c542, 0) as any as S.Schema<ListGroupTargetRoleForClientRequest>,
-  output: __S(17281, __c540, 1) as any as S.Schema<ListGroupTargetRoleForClientResponse>,
+  input: __S(17088, __c534, 0) as any as S.Schema<ListGroupTargetRoleForClientRequest>,
+  output: __S(17057, __c533, 1) as any as S.Schema<ListGroupTargetRoleForClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30283,8 +29943,8 @@ export const listGroupTargetsForGroupRole: API.OperationMethod<
   ListGroupTargetsForGroupRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17376, __c543, 0) as any as S.Schema<ListGroupTargetsForGroupRoleRequest>,
-  output: __S(17281, __c540, 1) as any as S.Schema<ListGroupTargetsForGroupRoleResponse>,
+  input: __S(17120, __c535, 0) as any as S.Schema<ListGroupTargetsForGroupRoleRequest>,
+  output: __S(17057, __c533, 1) as any as S.Schema<ListGroupTargetsForGroupRoleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30301,8 +29961,8 @@ export const listGroupTargetsForRole: API.OperationMethod<
   ListGroupTargetsForRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17408, __c544, 0) as any as S.Schema<ListGroupTargetsForRoleRequest>,
-  output: __S(17281, __c540, 1) as any as S.Schema<ListGroupTargetsForRoleResponse>,
+  input: __S(17152, __c536, 0) as any as S.Schema<ListGroupTargetsForRoleRequest>,
+  output: __S(17057, __c533, 1) as any as S.Schema<ListGroupTargetsForRoleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30319,8 +29979,8 @@ export const listGroupUsers: API.OperationMethod<
   ListGroupUsersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17440, __c545, 0) as any as S.Schema<ListGroupUsersRequest>,
-  output: __S(17473, __c546, 1) as any as S.Schema<ListGroupUsersResponse>,
+  input: __S(17184, __c537, 0) as any as S.Schema<ListGroupUsersRequest>,
+  output: __S(17217, __c538, 1) as any as S.Schema<ListGroupUsersResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30337,8 +29997,8 @@ export const listHookKeys: API.OperationMethod<
   ListHookKeysError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17504, __c547, 0) as any as S.Schema<ListHookKeysRequest>,
-  output: __S(17506, __c547, 2) as any as S.Schema<ListHookKeysResponse>,
+  input: __S(17248, __c539, 0) as any as S.Schema<ListHookKeysRequest>,
+  output: __S(17250, __c539, 2) as any as S.Schema<ListHookKeysResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30355,8 +30015,8 @@ export const listIdentityProviderApplicationUsers: API.OperationMethod<
   ListIdentityProviderApplicationUsersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17536, __c548, 0) as any as S.Schema<ListIdentityProviderApplicationUsersRequest>,
-  output: __S(17538, __c548, 2) as any as S.Schema<ListIdentityProviderApplicationUsersResponse>,
+  input: __S(17312, __c541, 0) as any as S.Schema<ListIdentityProviderApplicationUsersRequest>,
+  output: __S(17314, __c541, 2) as any as S.Schema<ListIdentityProviderApplicationUsersResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30373,8 +30033,8 @@ export const listIdentityProviderKeys: API.OperationMethod<
   ListIdentityProviderKeysError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17568, __c549, 0) as any as S.Schema<ListIdentityProviderKeysRequest>,
-  output: __S(14753, __c461, 1) as any as S.Schema<ListIdentityProviderKeysResponse>,
+  input: __S(17344, __c542, 0) as any as S.Schema<ListIdentityProviderKeysRequest>,
+  output: __S(14561, __c455, 1) as any as S.Schema<ListIdentityProviderKeysResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30391,8 +30051,8 @@ export const listIdentityProviders: API.OperationMethod<
   ListIdentityProvidersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17600, __c550, 0) as any as S.Schema<ListIdentityProvidersRequest>,
-  output: __S(17633, __c551, 1) as any as S.Schema<ListIdentityProvidersResponse>,
+  input: __S(17376, __c543, 0) as any as S.Schema<ListIdentityProvidersRequest>,
+  output: __S(17409, __c544, 1) as any as S.Schema<ListIdentityProvidersResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30409,8 +30069,8 @@ export const listIdentityProviderSigningKeys: API.OperationMethod<
   ListIdentityProviderSigningKeysError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17664, __c552, 0) as any as S.Schema<ListIdentityProviderSigningKeysRequest>,
-  output: __S(14753, __c461, 1) as any as S.Schema<ListIdentityProviderSigningKeysResponse>,
+  input: __S(17440, __c545, 0) as any as S.Schema<ListIdentityProviderSigningKeysRequest>,
+  output: __S(14561, __c455, 1) as any as S.Schema<ListIdentityProviderSigningKeysResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30427,8 +30087,8 @@ export const listIdentitySourceSessions: API.OperationMethod<
   ListIdentitySourceSessionsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17696, __c553, 0) as any as S.Schema<ListIdentitySourceSessionsRequest>,
-  output: __S(17698, __c553, 2) as any as S.Schema<ListIdentitySourceSessionsResponse>,
+  input: __S(17472, __c546, 0) as any as S.Schema<ListIdentitySourceSessionsRequest>,
+  output: __S(17474, __c546, 2) as any as S.Schema<ListIdentitySourceSessionsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30445,8 +30105,8 @@ export const listInlineHooks: API.OperationMethod<
   ListInlineHooksError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17760, __c555, 0) as any as S.Schema<ListInlineHooksRequest>,
-  output: __S(17762, __c555, 2) as any as S.Schema<ListInlineHooksResponse>,
+  input: __S(17504, __c547, 0) as any as S.Schema<ListInlineHooksRequest>,
+  output: __S(17506, __c547, 2) as any as S.Schema<ListInlineHooksResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30463,8 +30123,8 @@ export const listInterclientAllowedApplications: API.OperationMethod<
   ListInterclientAllowedApplicationsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17792, __c556, 0) as any as S.Schema<ListInterclientAllowedApplicationsRequest>,
-  output: __S(14976, __c468, 0) as any as S.Schema<ListInterclientAllowedApplicationsResponse>,
+  input: __S(17536, __c548, 0) as any as S.Schema<ListInterclientAllowedApplicationsRequest>,
+  output: __S(14752, __c461, 0) as any as S.Schema<ListInterclientAllowedApplicationsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30481,8 +30141,8 @@ export const listInterclientTargetApplications: API.OperationMethod<
   ListInterclientTargetApplicationsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17824, __c557, 0) as any as S.Schema<ListInterclientTargetApplicationsRequest>,
-  output: __S(14976, __c468, 0) as any as S.Schema<ListInterclientTargetApplicationsResponse>,
+  input: __S(17568, __c549, 0) as any as S.Schema<ListInterclientTargetApplicationsRequest>,
+  output: __S(14752, __c461, 0) as any as S.Schema<ListInterclientTargetApplicationsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30499,8 +30159,8 @@ export const listJwk: API.OperationMethod<
   ListJwkError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17856, __c558, 0) as any as S.Schema<ListJwkRequest>,
-  output: __S(17858, __c558, 2) as any as S.Schema<ListJwkResponse>,
+  input: __S(17600, __c550, 0) as any as S.Schema<ListJwkRequest>,
+  output: __S(17602, __c550, 2) as any as S.Schema<ListJwkResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30517,8 +30177,8 @@ export const listLinkedObjectDefinitions: API.OperationMethod<
   ListLinkedObjectDefinitionsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17888, __c559, 0) as any as S.Schema<ListLinkedObjectDefinitionsRequest>,
-  output: __S(17890, __c559, 2) as any as S.Schema<ListLinkedObjectDefinitionsResponse>,
+  input: __S(17632, __c551, 0) as any as S.Schema<ListLinkedObjectDefinitionsRequest>,
+  output: __S(17634, __c551, 2) as any as S.Schema<ListLinkedObjectDefinitionsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30535,8 +30195,8 @@ export const listLinkedObjectsForUser: API.OperationMethod<
   ListLinkedObjectsForUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17920, __c560, 0) as any as S.Schema<ListLinkedObjectsForUserRequest>,
-  output: __S(17923, __c560, 3) as any as S.Schema<ListLinkedObjectsForUserResponse>,
+  input: __S(17696, __c553, 0) as any as S.Schema<ListLinkedObjectsForUserRequest>,
+  output: __S(17699, __c553, 3) as any as S.Schema<ListLinkedObjectsForUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30553,8 +30213,8 @@ export const listLogEvents: API.OperationMethod<
   ListLogEventsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17952, __c561, 0) as any as S.Schema<ListLogEventsRequest>,
-  output: __S(17978, __c561, 26) as any as S.Schema<ListLogEventsResponse>,
+  input: __S(17728, __c554, 0) as any as S.Schema<ListLogEventsRequest>,
+  output: __S(17754, __c554, 26) as any as S.Schema<ListLogEventsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30571,8 +30231,8 @@ export const listLogStreams: API.OperationMethod<
   ListLogStreamsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17984, __c562, 0) as any as S.Schema<ListLogStreamsRequest>,
-  output: __S(17986, __c562, 2) as any as S.Schema<ListLogStreamsResponse>,
+  input: __S(17760, __c555, 0) as any as S.Schema<ListLogStreamsRequest>,
+  output: __S(17762, __c555, 2) as any as S.Schema<ListLogStreamsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30589,8 +30249,8 @@ export const listLogStreamSchemas: API.OperationMethod<
   ListLogStreamSchemasError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18016, __c563, 0) as any as S.Schema<ListLogStreamSchemasRequest>,
-  output: __S(18018, __c563, 2) as any as S.Schema<ListLogStreamSchemasResponse>,
+  input: __S(17792, __c556, 0) as any as S.Schema<ListLogStreamSchemasRequest>,
+  output: __S(17794, __c556, 2) as any as S.Schema<ListLogStreamSchemasResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30607,8 +30267,8 @@ export const listMembersOfBinding: API.OperationMethod<
   ListMembersOfBindingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18048, __c564, 0) as any as S.Schema<ListMembersOfBindingRequest>,
-  output: __S(18051, __c564, 3) as any as S.Schema<ResourceSetBindingMembers>,
+  input: __S(17824, __c557, 0) as any as S.Schema<ListMembersOfBindingRequest>,
+  output: __S(17827, __c557, 3) as any as S.Schema<ResourceSetBindingMembers>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30625,8 +30285,8 @@ export const listNetworkZones: API.OperationMethod<
   ListNetworkZonesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18144, __c567, 0) as any as S.Schema<ListNetworkZonesRequest>,
-  output: __S(18146, __c567, 2) as any as S.Schema<ListNetworkZonesResponse>,
+  input: __S(17856, __c558, 0) as any as S.Schema<ListNetworkZonesRequest>,
+  output: __S(17858, __c558, 2) as any as S.Schema<ListNetworkZonesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30643,8 +30303,8 @@ export const listOAuth2Claims: API.OperationMethod<
   ListOAuth2ClaimsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18176, __c568, 0) as any as S.Schema<ListOAuth2ClaimsRequest>,
-  output: __S(18178, __c568, 2) as any as S.Schema<ListOAuth2ClaimsResponse>,
+  input: __S(17888, __c559, 0) as any as S.Schema<ListOAuth2ClaimsRequest>,
+  output: __S(17890, __c559, 2) as any as S.Schema<ListOAuth2ClaimsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30661,8 +30321,8 @@ export const listOAuth2ClientSecrets: API.OperationMethod<
   ListOAuth2ClientSecretsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18208, __c569, 0) as any as S.Schema<ListOAuth2ClientSecretsRequest>,
-  output: __S(18210, __c569, 2) as any as S.Schema<ListOAuth2ClientSecretsResponse>,
+  input: __S(17920, __c560, 0) as any as S.Schema<ListOAuth2ClientSecretsRequest>,
+  output: __S(17922, __c560, 2) as any as S.Schema<ListOAuth2ClientSecretsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30679,8 +30339,8 @@ export const listOAuth2ClientsForAuthorizationServer: API.OperationMethod<
   ListOAuth2ClientsForAuthorizationServerError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18240, __c570, 0) as any as S.Schema<ListOAuth2ClientsForAuthorizationServerRequest>,
-  output: __S(18275, __c571, 3) as any as S.Schema<ListOAuth2ClientsForAuthorizationServerResponse>,
+  input: __S(17952, __c561, 0) as any as S.Schema<ListOAuth2ClientsForAuthorizationServerRequest>,
+  output: __S(17987, __c562, 3) as any as S.Schema<ListOAuth2ClientsForAuthorizationServerResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30697,8 +30357,8 @@ export const listOAuth2ResourceServerJsonWebKeys: API.OperationMethod<
   ListOAuth2ResourceServerJsonWebKeysError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18304, __c572, 0) as any as S.Schema<ListOAuth2ResourceServerJsonWebKeysRequest>,
-  output: __S(18306, __c572, 2) as any as S.Schema<ListOAuth2ResourceServerJsonWebKeysResponse>,
+  input: __S(18016, __c563, 0) as any as S.Schema<ListOAuth2ResourceServerJsonWebKeysRequest>,
+  output: __S(18018, __c563, 2) as any as S.Schema<ListOAuth2ResourceServerJsonWebKeysResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30715,8 +30375,8 @@ export const listOAuth2Scopes: API.OperationMethod<
   ListOAuth2ScopesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18336, __c573, 0) as any as S.Schema<ListOAuth2ScopesRequest>,
-  output: __S(18338, __c573, 2) as any as S.Schema<ListOAuth2ScopesResponse>,
+  input: __S(18112, __c566, 0) as any as S.Schema<ListOAuth2ScopesRequest>,
+  output: __S(18114, __c566, 2) as any as S.Schema<ListOAuth2ScopesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30733,8 +30393,8 @@ export const listOAuth2TokensForApplication: API.OperationMethod<
   ListOAuth2TokensForApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18368, __c574, 0) as any as S.Schema<ListOAuth2TokensForApplicationRequest>,
-  output: __S(18401, __c575, 1) as any as S.Schema<ListOAuth2TokensForApplicationResponse>,
+  input: __S(18144, __c567, 0) as any as S.Schema<ListOAuth2TokensForApplicationRequest>,
+  output: __S(18177, __c568, 1) as any as S.Schema<ListOAuth2TokensForApplicationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30751,8 +30411,8 @@ export const listOktaManagedUserAccounts: API.OperationMethod<
   ListOktaManagedUserAccountsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18432, __c576, 0) as any as S.Schema<ListOktaManagedUserAccountsRequest>,
-  output: __S(18434, __c576, 2) as any as S.Schema<ListOktaManagedUserAccountsResponse>,
+  input: __S(18208, __c569, 0) as any as S.Schema<ListOktaManagedUserAccountsRequest>,
+  output: __S(18210, __c569, 2) as any as S.Schema<ListOktaManagedUserAccountsResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30769,8 +30429,8 @@ export const listOktaSupportCases: API.OperationMethod<
   ListOktaSupportCasesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18464, __c577, 0) as any as S.Schema<ListOktaSupportCasesRequest>,
-  output: __S(18466, __c577, 2) as any as S.Schema<OktaSupportCases>,
+  input: __S(18240, __c570, 0) as any as S.Schema<ListOktaSupportCasesRequest>,
+  output: __S(18242, __c570, 2) as any as S.Schema<OktaSupportCases>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30787,8 +30447,8 @@ export const listOrgContactTypes: API.OperationMethod<
   ListOrgContactTypesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18528, __c579, 0) as any as S.Schema<ListOrgContactTypesRequest>,
-  output: __S(18530, __c579, 2) as any as S.Schema<ListOrgContactTypesResponse>,
+  input: __S(18304, __c572, 0) as any as S.Schema<ListOrgContactTypesRequest>,
+  output: __S(18306, __c572, 2) as any as S.Schema<ListOrgContactTypesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30805,8 +30465,8 @@ export const listPolicies: API.OperationMethod<
   ListPoliciesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18816, __c588, 0) as any as S.Schema<ListPoliciesRequest>,
-  output: __S(18818, __c588, 2) as any as S.Schema<ListPoliciesResponse>,
+  input: __S(18336, __c573, 0) as any as S.Schema<ListPoliciesRequest>,
+  output: __S(18338, __c573, 2) as any as S.Schema<ListPoliciesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30823,8 +30483,8 @@ export const listPolicyMappings: API.OperationMethod<
   ListPolicyMappingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18848, __c589, 0) as any as S.Schema<ListPolicyMappingsRequest>,
-  output: __S(18850, __c589, 2) as any as S.Schema<ListPolicyMappingsResponse>,
+  input: __S(18368, __c574, 0) as any as S.Schema<ListPolicyMappingsRequest>,
+  output: __S(18370, __c574, 2) as any as S.Schema<ListPolicyMappingsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30841,8 +30501,8 @@ export const listPolicyRules: API.OperationMethod<
   ListPolicyRulesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18880, __c590, 0) as any as S.Schema<ListPolicyRulesRequest>,
-  output: __S(18882, __c590, 2) as any as S.Schema<ListPolicyRulesResponse>,
+  input: __S(18400, __c575, 0) as any as S.Schema<ListPolicyRulesRequest>,
+  output: __S(18402, __c575, 2) as any as S.Schema<ListPolicyRulesResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30859,8 +30519,8 @@ export const listPrincipalRateLimitEntities: API.OperationMethod<
   ListPrincipalRateLimitEntitiesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18912, __c591, 0) as any as S.Schema<ListPrincipalRateLimitEntitiesRequest>,
-  output: __S(18914, __c591, 2) as any as S.Schema<ListPrincipalRateLimitEntitiesResponse>,
+  input: __S(18432, __c576, 0) as any as S.Schema<ListPrincipalRateLimitEntitiesRequest>,
+  output: __S(18434, __c576, 2) as any as S.Schema<ListPrincipalRateLimitEntitiesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30877,8 +30537,8 @@ export const listProfileMappings2: API.OperationMethod<
   ListProfileMappings2Error,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18944, __c592, 0) as any as S.Schema<ListProfileMappingsRequest>,
-  output: __S(18947, __c592, 3) as any as S.Schema<ListProfileMappingsResponse>,
+  input: __S(18464, __c577, 0) as any as S.Schema<ListProfileMappingsRequest>,
+  output: __S(18467, __c577, 3) as any as S.Schema<ListProfileMappingsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30895,8 +30555,8 @@ export const listPushProviders: API.OperationMethod<
   ListPushProvidersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18976, __c593, 0) as any as S.Schema<ListPushProvidersRequest>,
-  output: __S(18978, __c593, 2) as any as S.Schema<ListPushProvidersResponse>,
+  input: __S(18752, __c586, 0) as any as S.Schema<ListPushProvidersRequest>,
+  output: __S(18754, __c586, 2) as any as S.Schema<ListPushProvidersResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30913,8 +30573,8 @@ export const listRealmAssignmentOperations: API.OperationMethod<
   ListRealmAssignmentOperationsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19008, __c594, 0) as any as S.Schema<ListRealmAssignmentOperationsRequest>,
-  output: __S(19010, __c594, 2) as any as S.Schema<ListRealmAssignmentOperationsResponse>,
+  input: __S(18784, __c587, 0) as any as S.Schema<ListRealmAssignmentOperationsRequest>,
+  output: __S(18786, __c587, 2) as any as S.Schema<ListRealmAssignmentOperationsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30931,8 +30591,8 @@ export const listRealmAssignments: API.OperationMethod<
   ListRealmAssignmentsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19040, __c595, 0) as any as S.Schema<ListRealmAssignmentsRequest>,
-  output: __S(19042, __c595, 2) as any as S.Schema<ListRealmAssignmentsResponse>,
+  input: __S(18816, __c588, 0) as any as S.Schema<ListRealmAssignmentsRequest>,
+  output: __S(18818, __c588, 2) as any as S.Schema<ListRealmAssignmentsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30949,8 +30609,8 @@ export const listRealms: API.OperationMethod<
   ListRealmsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19072, __c596, 0) as any as S.Schema<ListRealmsRequest>,
-  output: __S(19074, __c596, 2) as any as S.Schema<ListRealmsResponse>,
+  input: __S(18848, __c589, 0) as any as S.Schema<ListRealmsRequest>,
+  output: __S(18850, __c589, 2) as any as S.Schema<ListRealmsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -30971,13 +30631,13 @@ export const listRefreshTokensForAuthorizationServerAndClient: API.OperationMeth
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19104,
-    __c597,
+    18880,
+    __c590,
     0,
   ) as any as S.Schema<ListRefreshTokensForAuthorizationServerAndClientRequest>,
   output: __S(
-    18401,
-    __c575,
+    18177,
+    __c568,
     1,
   ) as any as S.Schema<ListRefreshTokensForAuthorizationServerAndClientResponse>,
   errors: [Forbidden, NotFound],
@@ -30996,8 +30656,8 @@ export const listRefreshTokensForUserAndClient: API.OperationMethod<
   ListRefreshTokensForUserAndClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19200, __c600, 0) as any as S.Schema<ListRefreshTokensForUserAndClientRequest>,
-  output: __S(18401, __c575, 1) as any as S.Schema<ListRefreshTokensForUserAndClientResponse>,
+  input: __S(18912, __c591, 0) as any as S.Schema<ListRefreshTokensForUserAndClientRequest>,
+  output: __S(18177, __c568, 1) as any as S.Schema<ListRefreshTokensForUserAndClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31014,8 +30674,8 @@ export const listResourceSetResources: API.OperationMethod<
   ListResourceSetResourcesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19232, __c601, 0) as any as S.Schema<ListResourceSetResourcesRequest>,
-  output: __S(19235, __c601, 3) as any as S.Schema<ResourceSetResources>,
+  input: __S(18944, __c592, 0) as any as S.Schema<ListResourceSetResourcesRequest>,
+  output: __S(18947, __c592, 3) as any as S.Schema<ResourceSetResources>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31032,8 +30692,8 @@ export const listResourceSets: API.OperationMethod<
   ListResourceSetsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19264, __c602, 0) as any as S.Schema<ListResourceSetsRequest>,
-  output: __S(19266, __c602, 2) as any as S.Schema<ResourceSets>,
+  input: __S(18976, __c593, 0) as any as S.Schema<ListResourceSetsRequest>,
+  output: __S(18978, __c593, 2) as any as S.Schema<ResourceSets>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31050,8 +30710,8 @@ export const listRolePermissions: API.OperationMethod<
   ListRolePermissionsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19328, __c604, 0) as any as S.Schema<ListRolePermissionsRequest>,
-  output: __S(19330, __c604, 2) as any as S.Schema<Permissions>,
+  input: __S(19040, __c595, 0) as any as S.Schema<ListRolePermissionsRequest>,
+  output: __S(19042, __c595, 2) as any as S.Schema<Permissions>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31068,8 +30728,8 @@ export const listRoles: API.OperationMethod<
   ListRolesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19360, __c605, 0) as any as S.Schema<ListRolesRequest>,
-  output: __S(19362, __c605, 2) as any as S.Schema<IamRoles>,
+  input: __S(19072, __c596, 0) as any as S.Schema<ListRolesRequest>,
+  output: __S(19074, __c596, 2) as any as S.Schema<IamRoles>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31086,8 +30746,8 @@ export const listRolesForClient: API.OperationMethod<
   ListRolesForClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19392, __c606, 0) as any as S.Schema<ListRolesForClientRequest>,
-  output: __S(19394, __c606, 2) as any as S.Schema<ListRolesForClientResponse>,
+  input: __S(19168, __c599, 0) as any as S.Schema<ListRolesForClientRequest>,
+  output: __S(19170, __c599, 2) as any as S.Schema<ListRolesForClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31104,8 +30764,8 @@ export const listScopeConsentGrants: API.OperationMethod<
   ListScopeConsentGrantsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19424, __c607, 0) as any as S.Schema<ListScopeConsentGrantsRequest>,
-  output: __S(17089, __c534, 1) as any as S.Schema<ListScopeConsentGrantsResponse>,
+  input: __S(19200, __c600, 0) as any as S.Schema<ListScopeConsentGrantsRequest>,
+  output: __S(16833, __c526, 1) as any as S.Schema<ListScopeConsentGrantsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31122,8 +30782,8 @@ export const listSecurityEventsProviderInstances: API.OperationMethod<
   ListSecurityEventsProviderInstancesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19456, __c608, 0) as any as S.Schema<ListSecurityEventsProviderInstancesRequest>,
-  output: __S(19458, __c608, 2) as any as S.Schema<ListSecurityEventsProviderInstancesResponse>,
+  input: __S(19232, __c601, 0) as any as S.Schema<ListSecurityEventsProviderInstancesRequest>,
+  output: __S(19234, __c601, 2) as any as S.Schema<ListSecurityEventsProviderInstancesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31140,8 +30800,8 @@ export const listSmsTemplates: API.OperationMethod<
   ListSmsTemplatesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19488, __c609, 0) as any as S.Schema<ListSmsTemplatesRequest>,
-  output: __S(19490, __c609, 2) as any as S.Schema<ListSmsTemplatesResponse>,
+  input: __S(19264, __c602, 0) as any as S.Schema<ListSmsTemplatesRequest>,
+  output: __S(19266, __c602, 2) as any as S.Schema<ListSmsTemplatesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31158,8 +30818,8 @@ export const listSocialAuthTokens: API.OperationMethod<
   ListSocialAuthTokensError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19520, __c610, 0) as any as S.Schema<ListSocialAuthTokensRequest>,
-  output: __S(19523, __c610, 3) as any as S.Schema<ListSocialAuthTokensResponse>,
+  input: __S(19296, __c603, 0) as any as S.Schema<ListSocialAuthTokensRequest>,
+  output: __S(19299, __c603, 3) as any as S.Schema<ListSocialAuthTokensResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31176,8 +30836,8 @@ export const listSubscriptionsRole: API.OperationMethod<
   ListSubscriptionsRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19584, __c612, 0) as any as S.Schema<ListSubscriptionsRoleRequest>,
-  output: __S(19617, __c613, 1) as any as S.Schema<ListSubscriptionsRoleResponse>,
+  input: __S(19328, __c604, 0) as any as S.Schema<ListSubscriptionsRoleRequest>,
+  output: __S(19361, __c605, 1) as any as S.Schema<ListSubscriptionsRoleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31194,8 +30854,8 @@ export const listSubscriptionsUser: API.OperationMethod<
   ListSubscriptionsUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19648, __c614, 0) as any as S.Schema<ListSubscriptionsUserRequest>,
-  output: __S(19617, __c613, 1) as any as S.Schema<ListSubscriptionsUserResponse>,
+  input: __S(19392, __c606, 0) as any as S.Schema<ListSubscriptionsUserRequest>,
+  output: __S(19361, __c605, 1) as any as S.Schema<ListSubscriptionsUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31212,8 +30872,8 @@ export const listSupportedFactors: API.OperationMethod<
   ListSupportedFactorsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19680, __c615, 0) as any as S.Schema<ListSupportedFactorsRequest>,
-  output: __S(19683, __c615, 3) as any as S.Schema<ListSupportedFactorsResponse>,
+  input: __S(19424, __c607, 0) as any as S.Schema<ListSupportedFactorsRequest>,
+  output: __S(19427, __c607, 3) as any as S.Schema<ListSupportedFactorsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31230,8 +30890,8 @@ export const listSupportedSecurityQuestions: API.OperationMethod<
   ListSupportedSecurityQuestionsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19713, __c616, 1) as any as S.Schema<ListSupportedSecurityQuestionsRequest>,
-  output: __S(19715, __c616, 3) as any as S.Schema<ListSupportedSecurityQuestionsResponse>,
+  input: __S(19457, __c608, 1) as any as S.Schema<ListSupportedSecurityQuestionsRequest>,
+  output: __S(19459, __c608, 3) as any as S.Schema<ListSupportedSecurityQuestionsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31248,8 +30908,8 @@ export const listTrustedOrigins: API.OperationMethod<
   ListTrustedOriginsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19744, __c617, 0) as any as S.Schema<ListTrustedOriginsRequest>,
-  output: __S(19746, __c617, 2) as any as S.Schema<ListTrustedOriginsResponse>,
+  input: __S(19488, __c609, 0) as any as S.Schema<ListTrustedOriginsRequest>,
+  output: __S(19490, __c609, 2) as any as S.Schema<ListTrustedOriginsResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31266,8 +30926,8 @@ export const listUISchemas: API.OperationMethod<
   ListUISchemasError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19776, __c618, 0) as any as S.Schema<ListUISchemasRequest>,
-  output: __S(19778, __c618, 2) as any as S.Schema<ListUISchemasResponse>,
+  input: __S(19552, __c611, 0) as any as S.Schema<ListUISchemasRequest>,
+  output: __S(19554, __c611, 2) as any as S.Schema<ListUISchemasResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31284,8 +30944,8 @@ export const listUserBlocks: API.OperationMethod<
   ListUserBlocksError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19808, __c619, 0) as any as S.Schema<ListUserBlocksRequest>,
-  output: __S(19809, __c619, 1) as any as S.Schema<ListUserBlocksResponse>,
+  input: __S(19584, __c612, 0) as any as S.Schema<ListUserBlocksRequest>,
+  output: __S(19585, __c612, 1) as any as S.Schema<ListUserBlocksResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31302,8 +30962,8 @@ export const listUserClients: API.OperationMethod<
   ListUserClientsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19840, __c620, 0) as any as S.Schema<ListUserClientsRequest>,
-  output: __S(18275, __c571, 3) as any as S.Schema<ListUserClientsResponse>,
+  input: __S(19616, __c613, 0) as any as S.Schema<ListUserClientsRequest>,
+  output: __S(17987, __c562, 3) as any as S.Schema<ListUserClientsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31320,8 +30980,8 @@ export const listUserDevices: API.OperationMethod<
   ListUserDevicesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19872, __c621, 0) as any as S.Schema<ListUserDevicesRequest>,
-  output: __S(19876, __c621, 4) as any as S.Schema<ListUserDevicesResponse>,
+  input: __S(19648, __c614, 0) as any as S.Schema<ListUserDevicesRequest>,
+  output: __S(19652, __c614, 4) as any as S.Schema<ListUserDevicesResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31338,8 +30998,8 @@ export const listUserGrants: API.OperationMethod<
   ListUserGrantsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19904, __c622, 0) as any as S.Schema<ListUserGrantsRequest>,
-  output: __S(17089, __c534, 1) as any as S.Schema<ListUserGrantsResponse>,
+  input: __S(19680, __c615, 0) as any as S.Schema<ListUserGrantsRequest>,
+  output: __S(16833, __c526, 1) as any as S.Schema<ListUserGrantsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31356,8 +31016,8 @@ export const listUserGroups: API.OperationMethod<
   ListUserGroupsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19968, __c624, 0) as any as S.Schema<ListUserGroupsRequest>,
-  output: __S(17281, __c540, 1) as any as S.Schema<ListUserGroupsResponse>,
+  input: __S(19712, __c616, 0) as any as S.Schema<ListUserGroupsRequest>,
+  output: __S(17057, __c533, 1) as any as S.Schema<ListUserGroupsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31374,8 +31034,8 @@ export const listUserIdentityProviders: API.OperationMethod<
   ListUserIdentityProvidersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20000, __c625, 0) as any as S.Schema<ListUserIdentityProvidersRequest>,
-  output: __S(17633, __c551, 1) as any as S.Schema<ListUserIdentityProvidersResponse>,
+  input: __S(19744, __c617, 0) as any as S.Schema<ListUserIdentityProvidersRequest>,
+  output: __S(17409, __c544, 1) as any as S.Schema<ListUserIdentityProvidersResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31392,8 +31052,8 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20032, __c626, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(17473, __c546, 1) as any as S.Schema<ListUsersResponse>,
+  input: __S(19776, __c618, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(17217, __c538, 1) as any as S.Schema<ListUsersResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31410,8 +31070,8 @@ export const listUsersWithRoleAssignments: API.OperationMethod<
   ListUsersWithRoleAssignmentsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20064, __c627, 0) as any as S.Schema<ListUsersWithRoleAssignmentsRequest>,
-  output: __S(20068, __c627, 4) as any as S.Schema<RoleAssignedUsers>,
+  input: __S(19808, __c619, 0) as any as S.Schema<ListUsersWithRoleAssignmentsRequest>,
+  output: __S(19812, __c619, 4) as any as S.Schema<RoleAssignedUsers>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31428,8 +31088,8 @@ export const listUserTypes: API.OperationMethod<
   ListUserTypesError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20096, __c628, 0) as any as S.Schema<ListUserTypesRequest>,
-  output: __S(20098, __c628, 2) as any as S.Schema<ListUserTypesResponse>,
+  input: __S(19840, __c620, 0) as any as S.Schema<ListUserTypesRequest>,
+  output: __S(19842, __c620, 2) as any as S.Schema<ListUserTypesResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31446,8 +31106,8 @@ export const listWebAuthnPreregistrationFactors: API.OperationMethod<
   ListWebAuthnPreregistrationFactorsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20128, __c629, 0) as any as S.Schema<ListWebAuthnPreregistrationFactorsRequest>,
-  output: __S(20131, __c629, 3) as any as S.Schema<ListWebAuthnPreregistrationFactorsResponse>,
+  input: __S(19904, __c622, 0) as any as S.Schema<ListWebAuthnPreregistrationFactorsRequest>,
+  output: __S(19907, __c622, 3) as any as S.Schema<ListWebAuthnPreregistrationFactorsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31464,8 +31124,8 @@ export const listYubikeyOtpTokens: API.OperationMethod<
   ListYubikeyOtpTokensError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20160, __c630, 0) as any as S.Schema<ListYubikeyOtpTokensRequest>,
-  output: __S(20162, __c630, 2) as any as S.Schema<ListYubikeyOtpTokensResponse>,
+  input: __S(19936, __c623, 0) as any as S.Schema<ListYubikeyOtpTokensRequest>,
+  output: __S(19938, __c623, 2) as any as S.Schema<ListYubikeyOtpTokensResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31482,8 +31142,8 @@ export const mapResourceToPolicy: API.OperationMethod<
   MapResourceToPolicyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20192, __c631, 0) as any as S.Schema<MapResourceToPolicyRequest>,
-  output: __S(12097, __c378, 1) as any as S.Schema<PolicyMapping>,
+  input: __S(19968, __c624, 0) as any as S.Schema<MapResourceToPolicyRequest>,
+  output: __S(11841, __c370, 1) as any as S.Schema<PolicyMapping>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31500,8 +31160,8 @@ export const optIn: API.OperationMethod<
   OptInError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20224, __c632, 0) as any as S.Schema<OptInRequest>,
-  output: __S(11585, __c362, 1) as any as S.Schema<OptInStatusResponse>,
+  input: __S(20000, __c625, 0) as any as S.Schema<OptInRequest>,
+  output: __S(11457, __c358, 1) as any as S.Schema<OptInStatusResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31518,8 +31178,8 @@ export const optInUsersToOktaCommunicationEmails: API.OperationMethod<
   OptInUsersToOktaCommunicationEmailsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20256, __c633, 0) as any as S.Schema<OptInUsersToOktaCommunicationEmailsRequest>,
-  output: __S(11489, __c359, 1) as any as S.Schema<OrgOktaCommunicationSetting>,
+  input: __S(20032, __c626, 0) as any as S.Schema<OptInUsersToOktaCommunicationEmailsRequest>,
+  output: __S(11361, __c355, 1) as any as S.Schema<OrgOktaCommunicationSetting>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31536,8 +31196,8 @@ export const optOut: API.OperationMethod<
   OptOutError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20320, __c635, 0) as any as S.Schema<OptOutRequest>,
-  output: __S(11585, __c362, 1) as any as S.Schema<OptInStatusResponse>,
+  input: __S(20064, __c627, 0) as any as S.Schema<OptOutRequest>,
+  output: __S(11457, __c358, 1) as any as S.Schema<OptInStatusResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31554,8 +31214,8 @@ export const optOutUsersFromOktaCommunicationEmails: API.OperationMethod<
   OptOutUsersFromOktaCommunicationEmailsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20352, __c636, 0) as any as S.Schema<OptOutUsersFromOktaCommunicationEmailsRequest>,
-  output: __S(11489, __c359, 1) as any as S.Schema<OrgOktaCommunicationSetting>,
+  input: __S(20096, __c628, 0) as any as S.Schema<OptOutUsersFromOktaCommunicationEmailsRequest>,
+  output: __S(11361, __c355, 1) as any as S.Schema<OrgOktaCommunicationSetting>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31572,8 +31232,8 @@ export const previewSAMLmetadataForApplication: API.OperationMethod<
   PreviewSAMLmetadataForApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20384, __c637, 0) as any as S.Schema<PreviewSAMLmetadataForApplicationRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<PreviewSAMLmetadataForApplicationResponse>,
+  input: __S(20128, __c629, 0) as any as S.Schema<PreviewSAMLmetadataForApplicationRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<PreviewSAMLmetadataForApplicationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31590,8 +31250,8 @@ export const publishCsrForIdentityProvider: API.OperationMethod<
   PublishCsrForIdentityProviderError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20416, __c638, 0) as any as S.Schema<PublishCsrForIdentityProviderRequest>,
-  output: __S(24992, __c781, 0) as any as S.Schema<IdPKeyCredential>,
+  input: __S(20160, __c630, 0) as any as S.Schema<PublishCsrForIdentityProviderRequest>,
+  output: __S(24896, __c778, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31608,8 +31268,8 @@ export const publishCsrFromApplication: API.OperationMethod<
   PublishCsrFromApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20448, __c639, 0) as any as S.Schema<PublishCsrFromApplicationRequest>,
-  output: __S(24608, __c769, 0) as any as S.Schema<JsonWebKey>,
+  input: __S(20192, __c631, 0) as any as S.Schema<PublishCsrFromApplicationRequest>,
+  output: __S(24512, __c766, 0) as any as S.Schema<JsonWebKey>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31626,8 +31286,8 @@ export const publishSecurityEventTokens: API.OperationMethod<
   PublishSecurityEventTokensError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20480, __c640, 0) as any as S.Schema<PublishSecurityEventTokensRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<PublishSecurityEventTokensResponse>,
+  input: __S(20256, __c633, 0) as any as S.Schema<PublishSecurityEventTokensRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<PublishSecurityEventTokensResponse>,
   errors: [BadRequest],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31644,8 +31304,8 @@ export const reactivateUser: API.OperationMethod<
   ReactivateUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20512, __c641, 0) as any as S.Schema<ReactivateUserRequest>,
-  output: __S(11264, __c352, 0) as any as S.Schema<UserActivationToken>,
+  input: __S(20288, __c634, 0) as any as S.Schema<ReactivateUserRequest>,
+  output: __S(11296, __c353, 0) as any as S.Schema<UserActivationToken>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31662,8 +31322,8 @@ export const refreshSession: API.OperationMethod<
   RefreshSessionError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20544, __c642, 0) as any as S.Schema<RefreshSessionRequest>,
-  output: __S(13345, __c417, 1) as any as S.Schema<Session>,
+  input: __S(20320, __c635, 0) as any as S.Schema<RefreshSessionRequest>,
+  output: __S(13217, __c413, 1) as any as S.Schema<Session>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31680,8 +31340,8 @@ export const removeAppTargetInstanceRoleForClient: API.OperationMethod<
   RemoveAppTargetInstanceRoleForClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20576, __c643, 0) as any as S.Schema<RemoveAppTargetInstanceRoleForClientRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RemoveAppTargetInstanceRoleForClientResponse>,
+  input: __S(20352, __c636, 0) as any as S.Schema<RemoveAppTargetInstanceRoleForClientRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RemoveAppTargetInstanceRoleForClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31698,8 +31358,8 @@ export const removeAppTargetRoleFromClient: API.OperationMethod<
   RemoveAppTargetRoleFromClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20608, __c644, 0) as any as S.Schema<RemoveAppTargetRoleFromClientRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RemoveAppTargetRoleFromClientResponse>,
+  input: __S(20384, __c637, 0) as any as S.Schema<RemoveAppTargetRoleFromClientRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RemoveAppTargetRoleFromClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31716,8 +31376,8 @@ export const removeGroupTargetRoleFromClient: API.OperationMethod<
   RemoveGroupTargetRoleFromClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20768, __c649, 0) as any as S.Schema<RemoveGroupTargetRoleFromClientRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RemoveGroupTargetRoleFromClientResponse>,
+  input: __S(20416, __c638, 0) as any as S.Schema<RemoveGroupTargetRoleFromClientRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RemoveGroupTargetRoleFromClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31734,8 +31394,8 @@ export const replaceApplication: API.OperationMethod<
   ReplaceApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20800, __c650, 0) as any as S.Schema<ReplaceApplicationRequest>,
-  output: __S(27008, __c844, 0) as any as S.Schema<ReplaceApplicationResponse>,
+  input: __S(20448, __c639, 0) as any as S.Schema<ReplaceApplicationRequest>,
+  output: __S(26944, __c842, 0) as any as S.Schema<ReplaceApplicationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31752,8 +31412,8 @@ export const replaceAuthenticator: API.OperationMethod<
   ReplaceAuthenticatorError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20832, __c651, 0) as any as S.Schema<ReplaceAuthenticatorRequest>,
-  output: __S(28256, __c883, 0) as any as S.Schema<ReplaceAuthenticatorResponse>,
+  input: __S(20480, __c640, 0) as any as S.Schema<ReplaceAuthenticatorRequest>,
+  output: __S(27904, __c872, 0) as any as S.Schema<ReplaceAuthenticatorResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31770,8 +31430,8 @@ export const replaceAuthenticatorMethod: API.OperationMethod<
   ReplaceAuthenticatorMethodError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20864, __c652, 0) as any as S.Schema<ReplaceAuthenticatorMethodRequest>,
-  output: __S(29056, __c908, 0) as any as S.Schema<ReplaceAuthenticatorMethodResponse>,
+  input: __S(20512, __c641, 0) as any as S.Schema<ReplaceAuthenticatorMethodRequest>,
+  output: __S(28704, __c897, 0) as any as S.Schema<ReplaceAuthenticatorMethodResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31788,7 +31448,7 @@ export const replaceAuthenticatorSettings: API.OperationMethod<
   ReplaceAuthenticatorSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20896, __c653, 0) as any as S.Schema<ReplaceAuthenticatorSettingsRequest>,
+  input: __S(20544, __c642, 0) as any as S.Schema<ReplaceAuthenticatorSettingsRequest>,
   output: __S(7552, __c236, 0) as any as S.Schema<AttackProtectionAuthenticatorSettings>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
@@ -31806,8 +31466,8 @@ export const replaceAuthorizationServer: API.OperationMethod<
   ReplaceAuthorizationServerError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20928, __c654, 0) as any as S.Schema<ReplaceAuthorizationServerRequest>,
-  output: __S(27750, __c867, 6) as any as S.Schema<AuthorizationServer>,
+  input: __S(20704, __c647, 0) as any as S.Schema<ReplaceAuthorizationServerRequest>,
+  output: __S(27398, __c856, 6) as any as S.Schema<AuthorizationServer>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31824,8 +31484,8 @@ export const replaceAuthorizationServerPolicy: API.OperationMethod<
   ReplaceAuthorizationServerPolicyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20960, __c655, 0) as any as S.Schema<ReplaceAuthorizationServerPolicyRequest>,
-  output: __S(28002, __c875, 2) as any as S.Schema<ReplaceAuthorizationServerPolicyResponse>,
+  input: __S(20736, __c648, 0) as any as S.Schema<ReplaceAuthorizationServerPolicyRequest>,
+  output: __S(27650, __c864, 2) as any as S.Schema<ReplaceAuthorizationServerPolicyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31846,8 +31506,8 @@ export const replaceAuthorizationServerPolicyRule: API.OperationMethod<
   ReplaceAuthorizationServerPolicyRuleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20992, __c656, 0) as any as S.Schema<ReplaceAuthorizationServerPolicyRuleRequest>,
-  output: __S(28132, __c879, 4) as any as S.Schema<AuthorizationServerPolicyRule>,
+  input: __S(20768, __c649, 0) as any as S.Schema<ReplaceAuthorizationServerPolicyRuleRequest>,
+  output: __S(27780, __c868, 4) as any as S.Schema<AuthorizationServerPolicyRule>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31864,7 +31524,7 @@ export const replaceBehaviorDetectionRule: API.OperationMethod<
   ReplaceBehaviorDetectionRuleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21024, __c657, 0) as any as S.Schema<ReplaceBehaviorDetectionRuleRequest>,
+  input: __S(20800, __c650, 0) as any as S.Schema<ReplaceBehaviorDetectionRuleRequest>,
   output: __S(1824, __c57, 0) as any as S.Schema<ReplaceBehaviorDetectionRuleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -31882,8 +31542,8 @@ export const replaceBrand: API.OperationMethod<
   ReplaceBrandError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21056, __c658, 0) as any as S.Schema<ReplaceBrandRequest>,
-  output: __S(28352, __c886, 0) as any as S.Schema<Brand>,
+  input: __S(20832, __c651, 0) as any as S.Schema<ReplaceBrandRequest>,
+  output: __S(28000, __c875, 0) as any as S.Schema<Brand>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31900,7 +31560,7 @@ export const replaceBrandTheme: API.OperationMethod<
   ReplaceBrandThemeError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21120, __c660, 0) as any as S.Schema<ReplaceBrandThemeRequest>,
+  input: __S(20864, __c652, 0) as any as S.Schema<ReplaceBrandThemeRequest>,
   output: __S(8032, __c251, 0) as any as S.Schema<ThemeResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -31918,7 +31578,7 @@ export const replaceBrandWellKnownURI: API.OperationMethod<
   ReplaceBrandWellKnownURIError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21152, __c661, 0) as any as S.Schema<ReplaceBrandWellKnownURIRequest>,
+  input: __S(20896, __c653, 0) as any as S.Schema<ReplaceBrandWellKnownURIRequest>,
   output: __S(6816, __c213, 0) as any as S.Schema<WellKnownURIObjectResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -31936,8 +31596,8 @@ export const replaceCaptchaInstance: API.OperationMethod<
   ReplaceCaptchaInstanceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21184, __c662, 0) as any as S.Schema<ReplaceCaptchaInstanceRequest>,
-  output: __S(28416, __c888, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
+  input: __S(20928, __c654, 0) as any as S.Schema<ReplaceCaptchaInstanceRequest>,
+  output: __S(28064, __c877, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31954,8 +31614,8 @@ export const replaceCustomAAGUID: API.OperationMethod<
   ReplaceCustomAAGUIDError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21216, __c663, 0) as any as S.Schema<ReplaceCustomAAGUIDRequest>,
-  output: __S(28515, __c891, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
+  input: __S(20960, __c655, 0) as any as S.Schema<ReplaceCustomAAGUIDRequest>,
+  output: __S(28163, __c880, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31972,8 +31632,8 @@ export const replaceCustomDomain: API.OperationMethod<
   ReplaceCustomDomainError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21248, __c664, 0) as any as S.Schema<ReplaceCustomDomainRequest>,
-  output: __S(28612, __c894, 4) as any as S.Schema<DomainResponse>,
+  input: __S(20992, __c656, 0) as any as S.Schema<ReplaceCustomDomainRequest>,
+  output: __S(28260, __c883, 4) as any as S.Schema<DomainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -31990,7 +31650,7 @@ export const replaceCustomizedErrorPage: API.OperationMethod<
   ReplaceCustomizedErrorPageError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21280, __c665, 0) as any as S.Schema<ReplaceCustomizedErrorPageRequest>,
+  input: __S(21056, __c658, 0) as any as S.Schema<ReplaceCustomizedErrorPageRequest>,
   output: __S(8672, __c271, 0) as any as S.Schema<ReplaceCustomizedErrorPageResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32008,7 +31668,7 @@ export const replaceCustomizedSignInPage: API.OperationMethod<
   ReplaceCustomizedSignInPageError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21312, __c666, 0) as any as S.Schema<ReplaceCustomizedSignInPageRequest>,
+  input: __S(21088, __c659, 0) as any as S.Schema<ReplaceCustomizedSignInPageRequest>,
   output: __S(8751, __c273, 15) as any as S.Schema<ReplaceCustomizedSignInPageResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32026,8 +31686,8 @@ export const replaceDeviceAssurancePolicy: API.OperationMethod<
   ReplaceDeviceAssurancePolicyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21344, __c667, 0) as any as S.Schema<ReplaceDeviceAssurancePolicyRequest>,
-  output: __S(28704, __c897, 0) as any as S.Schema<ReplaceDeviceAssurancePolicyResponse>,
+  input: __S(21120, __c660, 0) as any as S.Schema<ReplaceDeviceAssurancePolicyRequest>,
+  output: __S(28352, __c886, 0) as any as S.Schema<ReplaceDeviceAssurancePolicyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32044,8 +31704,8 @@ export const replaceDevicePostureCheck: API.OperationMethod<
   ReplaceDevicePostureCheckError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21376, __c668, 0) as any as S.Schema<ReplaceDevicePostureCheckRequest>,
-  output: __S(28771, __c899, 3) as any as S.Schema<DevicePostureCheck>,
+  input: __S(21152, __c661, 0) as any as S.Schema<ReplaceDevicePostureCheckRequest>,
+  output: __S(28419, __c888, 3) as any as S.Schema<DevicePostureCheck>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32067,8 +31727,8 @@ export const replaceEmailCustomization: API.OperationMethod<
   ReplaceEmailCustomizationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21408, __c669, 0) as any as S.Schema<ReplaceEmailCustomizationRequest>,
-  output: __S(28864, __c902, 0) as any as S.Schema<ReplaceEmailCustomizationResponse>,
+  input: __S(21184, __c662, 0) as any as S.Schema<ReplaceEmailCustomizationRequest>,
+  output: __S(28512, __c891, 0) as any as S.Schema<ReplaceEmailCustomizationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32085,8 +31745,8 @@ export const replaceEmailDomain: API.OperationMethod<
   ReplaceEmailDomainError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21472, __c671, 0) as any as S.Schema<ReplaceEmailDomainRequest>,
-  output: __S(28992, __c906, 0) as any as S.Schema<ReplaceEmailDomainResponse>,
+  input: __S(21216, __c663, 0) as any as S.Schema<ReplaceEmailDomainRequest>,
+  output: __S(28640, __c895, 0) as any as S.Schema<ReplaceEmailDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32109,8 +31769,8 @@ export const replaceEmailSettings: API.OperationMethod<
   ReplaceEmailSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21504, __c672, 0) as any as S.Schema<ReplaceEmailSettingsRequest>,
-  output: __S(21505, __c672, 1) as any as S.Schema<EmailSettings>,
+  input: __S(21248, __c664, 0) as any as S.Schema<ReplaceEmailSettingsRequest>,
+  output: __S(21249, __c664, 1) as any as S.Schema<EmailSettings>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32127,7 +31787,7 @@ export const replaceEventHook: API.OperationMethod<
   ReplaceEventHookError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21536, __c673, 0) as any as S.Schema<ReplaceEventHookRequest>,
+  input: __S(21280, __c665, 0) as any as S.Schema<ReplaceEventHookRequest>,
   output: __S(3787, __c118, 11) as any as S.Schema<EventHookOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32145,8 +31805,8 @@ export const replaceExistingIdentitySourceUser: API.OperationMethod<
   ReplaceExistingIdentitySourceUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21568, __c674, 0) as any as S.Schema<ReplaceExistingIdentitySourceUserRequest>,
-  output: __S(10816, __c338, 0) as any as S.Schema<UserResponseSchema>,
+  input: __S(21312, __c666, 0) as any as S.Schema<ReplaceExistingIdentitySourceUserRequest>,
+  output: __S(10624, __c332, 0) as any as S.Schema<UserResponseSchema>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32163,8 +31823,8 @@ export const replaceFederatedClaim: API.OperationMethod<
   ReplaceFederatedClaimError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21600, __c675, 0) as any as S.Schema<ReplaceFederatedClaimRequest>,
-  output: __S(29248, __c914, 0) as any as S.Schema<FederatedClaim>,
+  input: __S(21344, __c667, 0) as any as S.Schema<ReplaceFederatedClaimRequest>,
+  output: __S(28896, __c903, 0) as any as S.Schema<FederatedClaim>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32181,8 +31841,8 @@ export const replaceFirstPartyAppSettings: API.OperationMethod<
   ReplaceFirstPartyAppSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21632, __c676, 0) as any as S.Schema<ReplaceFirstPartyAppSettingsRequest>,
-  output: __S(10048, __c314, 0) as any as S.Schema<AdminConsoleSettings>,
+  input: __S(21408, __c669, 0) as any as S.Schema<ReplaceFirstPartyAppSettingsRequest>,
+  output: __S(9920, __c310, 0) as any as S.Schema<AdminConsoleSettings>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32199,8 +31859,8 @@ export const replaceGovernanceBundle: API.OperationMethod<
   ReplaceGovernanceBundleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21664, __c677, 0) as any as S.Schema<ReplaceGovernanceBundleRequest>,
-  output: __S(29313, __c916, 1) as any as S.Schema<GovernanceBundle>,
+  input: __S(21440, __c670, 0) as any as S.Schema<ReplaceGovernanceBundleRequest>,
+  output: __S(28961, __c905, 1) as any as S.Schema<GovernanceBundle>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32217,8 +31877,8 @@ export const replaceGroup: API.OperationMethod<
   ReplaceGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21696, __c678, 0) as any as S.Schema<ReplaceGroupRequest>,
-  output: __S(11876, __c371, 4) as any as S.Schema<Group>,
+  input: __S(21472, __c671, 0) as any as S.Schema<ReplaceGroupRequest>,
+  output: __S(11908, __c372, 4) as any as S.Schema<Group>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32235,8 +31895,8 @@ export const replaceGroupRule: API.OperationMethod<
   ReplaceGroupRuleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21728, __c679, 0) as any as S.Schema<ReplaceGroupRuleRequest>,
-  output: __S(29542, __c923, 6) as any as S.Schema<GroupRule>,
+  input: __S(21504, __c672, 0) as any as S.Schema<ReplaceGroupRuleRequest>,
+  output: __S(29190, __c912, 6) as any as S.Schema<GroupRule>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32253,8 +31913,8 @@ export const replaceHookKey: API.OperationMethod<
   ReplaceHookKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21760, __c680, 0) as any as S.Schema<ReplaceHookKeyRequest>,
-  output: __S(29632, __c926, 0) as any as S.Schema<DetailedHookKeyInstance>,
+  input: __S(21536, __c673, 0) as any as S.Schema<ReplaceHookKeyRequest>,
+  output: __S(29280, __c915, 0) as any as S.Schema<DetailedHookKeyInstance>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32271,7 +31931,7 @@ export const replaceIdentityProvider: API.OperationMethod<
   ReplaceIdentityProviderError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21824, __c682, 0) as any as S.Schema<ReplaceIdentityProviderRequest>,
+  input: __S(21568, __c674, 0) as any as S.Schema<ReplaceIdentityProviderRequest>,
   output: __S(4909, __c153, 13) as any as S.Schema<IdentityProvider>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32289,8 +31949,8 @@ export const replaceIdentityProviderKey: API.OperationMethod<
   ReplaceIdentityProviderKeyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21856, __c683, 0) as any as S.Schema<ReplaceIdentityProviderKeyRequest>,
-  output: __S(24992, __c781, 0) as any as S.Schema<IdPKeyCredential>,
+  input: __S(21600, __c675, 0) as any as S.Schema<ReplaceIdentityProviderKeyRequest>,
+  output: __S(24896, __c778, 0) as any as S.Schema<IdPKeyCredential>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32307,7 +31967,7 @@ export const replaceInlineHook: API.OperationMethod<
   ReplaceInlineHookError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21888, __c684, 0) as any as S.Schema<ReplaceInlineHookRequest>,
+  input: __S(21632, __c676, 0) as any as S.Schema<ReplaceInlineHookRequest>,
   output: __S(5281, __c165, 1) as any as S.Schema<InlineHook>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32325,7 +31985,7 @@ export const replaceLogStream: API.OperationMethod<
   ReplaceLogStreamError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21920, __c685, 0) as any as S.Schema<ReplaceLogStreamRequest>,
+  input: __S(21664, __c677, 0) as any as S.Schema<ReplaceLogStreamRequest>,
   output: __S(5664, __c177, 0) as any as S.Schema<ReplaceLogStreamResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32343,7 +32003,7 @@ export const replaceNetworkZone: API.OperationMethod<
   ReplaceNetworkZoneError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21952, __c686, 0) as any as S.Schema<ReplaceNetworkZoneRequest>,
+  input: __S(21696, __c678, 0) as any as S.Schema<ReplaceNetworkZoneRequest>,
   output: __S(6112, __c191, 0) as any as S.Schema<ReplaceNetworkZoneResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32361,7 +32021,7 @@ export const replaceOAuth2Claim: API.OperationMethod<
   ReplaceOAuth2ClaimError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21984, __c687, 0) as any as S.Schema<ReplaceOAuth2ClaimRequest>,
+  input: __S(21760, __c680, 0) as any as S.Schema<ReplaceOAuth2ClaimRequest>,
   output: __S(545, __c17, 1) as any as S.Schema<OAuth2Claim>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32379,7 +32039,7 @@ export const replaceOAuth2Scope: API.OperationMethod<
   ReplaceOAuth2ScopeError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22016, __c688, 0) as any as S.Schema<ReplaceOAuth2ScopeRequest>,
+  input: __S(21792, __c681, 0) as any as S.Schema<ReplaceOAuth2ScopeRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<OAuth2Scope>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32397,8 +32057,8 @@ export const replaceOrgContactUser: API.OperationMethod<
   ReplaceOrgContactUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22048, __c689, 0) as any as S.Schema<ReplaceOrgContactUserRequest>,
-  output: __S(11713, __c366, 1) as any as S.Schema<OrgContactUser>,
+  input: __S(21824, __c682, 0) as any as S.Schema<ReplaceOrgContactUserRequest>,
+  output: __S(11585, __c362, 1) as any as S.Schema<OrgContactUser>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32415,8 +32075,8 @@ export const replaceOrgSettings: API.OperationMethod<
   ReplaceOrgSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22080, __c690, 0) as any as S.Schema<ReplaceOrgSettingsRequest>,
-  output: __S(12001, __c375, 1) as any as S.Schema<OrgSetting>,
+  input: __S(21856, __c683, 0) as any as S.Schema<ReplaceOrgSettingsRequest>,
+  output: __S(11745, __c367, 1) as any as S.Schema<OrgSetting>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32433,8 +32093,8 @@ export const replacePolicy: API.OperationMethod<
   ReplacePolicyError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22112, __c691, 0) as any as S.Schema<ReplacePolicyRequest>,
-  output: __S(25376, __c793, 0) as any as S.Schema<ReplacePolicyResponse>,
+  input: __S(21888, __c684, 0) as any as S.Schema<ReplacePolicyRequest>,
+  output: __S(25312, __c791, 0) as any as S.Schema<ReplacePolicyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32451,7 +32111,7 @@ export const replacePolicyRule: API.OperationMethod<
   ReplacePolicyRuleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22176, __c693, 0) as any as S.Schema<ReplacePolicyRuleRequest>,
+  input: __S(21920, __c685, 0) as any as S.Schema<ReplacePolicyRuleRequest>,
   output: __S(832, __c26, 0) as any as S.Schema<ReplacePolicyRuleResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32469,7 +32129,7 @@ export const replacePreviewErrorPage: API.OperationMethod<
   ReplacePreviewErrorPageError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22208, __c694, 0) as any as S.Schema<ReplacePreviewErrorPageRequest>,
+  input: __S(21952, __c686, 0) as any as S.Schema<ReplacePreviewErrorPageRequest>,
   output: __S(8672, __c271, 0) as any as S.Schema<ReplacePreviewErrorPageResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32487,7 +32147,7 @@ export const replacePreviewSignInPage: API.OperationMethod<
   ReplacePreviewSignInPageError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22240, __c695, 0) as any as S.Schema<ReplacePreviewSignInPageRequest>,
+  input: __S(21984, __c687, 0) as any as S.Schema<ReplacePreviewSignInPageRequest>,
   output: __S(8751, __c273, 15) as any as S.Schema<ReplacePreviewSignInPageResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32505,7 +32165,7 @@ export const replacePrincipalRateLimitEntity: API.OperationMethod<
   ReplacePrincipalRateLimitEntityError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22272, __c696, 0) as any as S.Schema<ReplacePrincipalRateLimitEntityRequest>,
+  input: __S(22016, __c688, 0) as any as S.Schema<ReplacePrincipalRateLimitEntityRequest>,
   output: __S(928, __c29, 0) as any as S.Schema<PrincipalRateLimitEntity>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32523,7 +32183,7 @@ export const replacePushProvider: API.OperationMethod<
   ReplacePushProviderError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22304, __c697, 0) as any as S.Schema<ReplacePushProviderRequest>,
+  input: __S(22048, __c689, 0) as any as S.Schema<ReplacePushProviderRequest>,
   output: __S(992, __c31, 0) as any as S.Schema<ReplacePushProviderResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32542,11 +32202,11 @@ export const replaceRateLimitSettingsAdminNotifications: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22336,
-    __c698,
+    22112,
+    __c691,
     0,
   ) as any as S.Schema<ReplaceRateLimitSettingsAdminNotificationsRequest>,
-  output: __S(12480, __c390, 0) as any as S.Schema<RateLimitAdminNotifications>,
+  output: __S(12320, __c385, 0) as any as S.Schema<RateLimitAdminNotifications>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32563,8 +32223,8 @@ export const replaceRateLimitSettingsPerClient: API.OperationMethod<
   ReplaceRateLimitSettingsPerClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22368, __c699, 0) as any as S.Schema<ReplaceRateLimitSettingsPerClientRequest>,
-  output: __S(12545, __c392, 1) as any as S.Schema<PerClientRateLimitSettings>,
+  input: __S(22144, __c692, 0) as any as S.Schema<ReplaceRateLimitSettingsPerClientRequest>,
+  output: __S(12385, __c387, 1) as any as S.Schema<PerClientRateLimitSettings>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32581,8 +32241,8 @@ export const replaceRateLimitSettingsWarningThreshold: API.OperationMethod<
   ReplaceRateLimitSettingsWarningThresholdError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22400, __c700, 0) as any as S.Schema<ReplaceRateLimitSettingsWarningThresholdRequest>,
-  output: __S(12608, __c394, 0) as any as S.Schema<RateLimitWarningThresholdResponse>,
+  input: __S(22176, __c693, 0) as any as S.Schema<ReplaceRateLimitSettingsWarningThresholdRequest>,
+  output: __S(12448, __c389, 0) as any as S.Schema<RateLimitWarningThresholdResponse>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32599,7 +32259,7 @@ export const replaceRealm: API.OperationMethod<
   ReplaceRealmError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22432, __c701, 0) as any as S.Schema<ReplaceRealmRequest>,
+  input: __S(22208, __c694, 0) as any as S.Schema<ReplaceRealmRequest>,
   output: __S(1057, __c33, 1) as any as S.Schema<Realm>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32617,7 +32277,7 @@ export const replaceRealmAssignment: API.OperationMethod<
   ReplaceRealmAssignmentError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22464, __c702, 0) as any as S.Schema<ReplaceRealmAssignmentRequest>,
+  input: __S(22240, __c695, 0) as any as S.Schema<ReplaceRealmAssignmentRequest>,
   output: __S(1152, __c36, 0) as any as S.Schema<RealmAssignment>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32635,7 +32295,7 @@ export const replaceResourceSet: API.OperationMethod<
   ReplaceResourceSetError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22689, __c709, 1) as any as S.Schema<ReplaceResourceSetRequest>,
+  input: __S(22273, __c696, 1) as any as S.Schema<ReplaceResourceSetRequest>,
   output: __S(14433, __c451, 1) as any as S.Schema<ResourceSet>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32653,7 +32313,7 @@ export const replaceResourceSetResource: API.OperationMethod<
   ReplaceResourceSetResourceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22720, __c710, 0) as any as S.Schema<ReplaceResourceSetResourceRequest>,
+  input: __S(22304, __c697, 0) as any as S.Schema<ReplaceResourceSetResourceRequest>,
   output: __S(13955, __c436, 3) as any as S.Schema<ResourceSetResource>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32671,7 +32331,7 @@ export const replaceRole: API.OperationMethod<
   ReplaceRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22752, __c711, 0) as any as S.Schema<ReplaceRoleRequest>,
+  input: __S(22336, __c698, 0) as any as S.Schema<ReplaceRoleRequest>,
   output: __S(1313, __c41, 1) as any as S.Schema<IamRole>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32689,8 +32349,8 @@ export const replaceRolePermission: API.OperationMethod<
   ReplaceRolePermissionError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22784, __c712, 0) as any as S.Schema<ReplaceRolePermissionRequest>,
-  output: __S(13089, __c409, 1) as any as S.Schema<Permission>,
+  input: __S(22368, __c699, 0) as any as S.Schema<ReplaceRolePermissionRequest>,
+  output: __S(12897, __c403, 1) as any as S.Schema<Permission>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32711,8 +32371,8 @@ export const replaceSecurityEventsProviderInstance: API.OperationMethod<
   ReplaceSecurityEventsProviderInstanceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22816, __c713, 0) as any as S.Schema<ReplaceSecurityEventsProviderInstanceRequest>,
-  output: __S(10273, __c321, 1) as any as S.Schema<SecurityEventsProviderResponse>,
+  input: __S(22400, __c700, 0) as any as S.Schema<ReplaceSecurityEventsProviderInstanceRequest>,
+  output: __S(10305, __c322, 1) as any as S.Schema<SecurityEventsProviderResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32729,8 +32389,8 @@ export const replaceSignOutPageSettings: API.OperationMethod<
   ReplaceSignOutPageSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22848, __c714, 0) as any as S.Schema<ReplaceSignOutPageSettingsRequest>,
-  output: __S(13440, __c420, 0) as any as S.Schema<HostedPage>,
+  input: __S(22624, __c707, 0) as any as S.Schema<ReplaceSignOutPageSettingsRequest>,
+  output: __S(13312, __c416, 0) as any as S.Schema<HostedPage>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32747,7 +32407,7 @@ export const replaceSmsTemplate: API.OperationMethod<
   ReplaceSmsTemplateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22880, __c715, 0) as any as S.Schema<ReplaceSmsTemplateRequest>,
+  input: __S(22656, __c708, 0) as any as S.Schema<ReplaceSmsTemplateRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<SmsTemplate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32765,8 +32425,8 @@ export const replacesOrgCaptchaSettings: API.OperationMethod<
   ReplacesOrgCaptchaSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22912, __c716, 0) as any as S.Schema<ReplacesOrgCaptchaSettingsRequest>,
-  output: __S(11648, __c364, 0) as any as S.Schema<OrgCAPTCHASettings>,
+  input: __S(22688, __c709, 0) as any as S.Schema<ReplacesOrgCaptchaSettingsRequest>,
+  output: __S(11520, __c360, 0) as any as S.Schema<OrgCAPTCHASettings>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32783,7 +32443,7 @@ export const replaceSsfStream: API.OperationMethod<
   ReplaceSsfStreamError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22944, __c717, 0) as any as S.Schema<ReplaceSsfStreamRequest>,
+  input: __S(22720, __c710, 0) as any as S.Schema<ReplaceSsfStreamRequest>,
   output: __S(1537, __c48, 1) as any as S.Schema<StreamConfiguration>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32801,8 +32461,8 @@ export const replaceTrustedOrigin: API.OperationMethod<
   ReplaceTrustedOriginError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22976, __c718, 0) as any as S.Schema<ReplaceTrustedOriginRequest>,
-  output: __S(10754, __c336, 2) as any as S.Schema<TrustedOrigin>,
+  input: __S(22752, __c711, 0) as any as S.Schema<ReplaceTrustedOriginRequest>,
+  output: __S(10786, __c337, 2) as any as S.Schema<TrustedOrigin>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32819,7 +32479,7 @@ export const replaceUISchemas: API.OperationMethod<
   ReplaceUISchemasError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23040, __c720, 0) as any as S.Schema<ReplaceUISchemasRequest>,
+  input: __S(22784, __c712, 0) as any as S.Schema<ReplaceUISchemasRequest>,
   output: __S(1668, __c52, 4) as any as S.Schema<UISchemasResponseObject>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32837,7 +32497,7 @@ export const replaceUser: API.OperationMethod<
   ReplaceUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23072, __c721, 0) as any as S.Schema<ReplaceUserRequest>,
+  input: __S(22816, __c713, 0) as any as S.Schema<ReplaceUserRequest>,
   output: __S(1760, __c55, 0) as any as S.Schema<UserOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32845,24 +32505,6 @@ export const replaceUser: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplaceUser",
-}));
-
-export type ReplaceUserClassificationError = Forbidden | NotFound | OktaOpError;
-/** Replace the user's classification Replaces the user's classification */
-export const replaceUserClassification: API.OperationMethod<
-  ReplaceUserClassificationRequest,
-  UserClassification,
-  ReplaceUserClassificationError,
-  OktaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(23136, __c723, 0) as any as S.Schema<ReplaceUserClassificationRequest>,
-  output: __S(14048, __c439, 0) as any as S.Schema<UserClassification>,
-  errors: [Forbidden, NotFound],
-  serviceErrors: OktaServiceErrors,
-  protocol: OktaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "ReplaceUserClassification",
 }));
 
 export type ReplaceUserLockoutSettingsError = BadRequest | Forbidden | OktaOpError;
@@ -32873,8 +32515,8 @@ export const replaceUserLockoutSettings: API.OperationMethod<
   ReplaceUserLockoutSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23168, __c724, 0) as any as S.Schema<ReplaceUserLockoutSettingsRequest>,
-  output: __S(14144, __c442, 0) as any as S.Schema<UserLockoutSettings>,
+  input: __S(22880, __c715, 0) as any as S.Schema<ReplaceUserLockoutSettingsRequest>,
+  output: __S(13888, __c434, 0) as any as S.Schema<UserLockoutSettings>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32891,7 +32533,7 @@ export const replaceUserType: API.OperationMethod<
   ReplaceUserTypeError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23200, __c725, 0) as any as S.Schema<ReplaceUserTypeRequest>,
+  input: __S(22912, __c716, 0) as any as S.Schema<ReplaceUserTypeRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<UserType>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32909,8 +32551,8 @@ export const resendEnrollFactor: API.OperationMethod<
   ResendEnrollFactorError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23232, __c726, 0) as any as S.Schema<ResendEnrollFactorRequest>,
-  output: __S(23233, __c726, 1) as any as S.Schema<ResendEnrollFactorResponse>,
+  input: __S(22944, __c717, 0) as any as S.Schema<ResendEnrollFactorRequest>,
+  output: __S(22945, __c717, 1) as any as S.Schema<ResendEnrollFactorResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32927,8 +32569,8 @@ export const resetFactors: API.OperationMethod<
   ResetFactorsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23264, __c727, 0) as any as S.Schema<ResetFactorsRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<ResetFactorsResponse>,
+  input: __S(23008, __c719, 0) as any as S.Schema<ResetFactorsRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<ResetFactorsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32945,7 +32587,7 @@ export const resetPassword: API.OperationMethod<
   ResetPasswordError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23296, __c728, 0) as any as S.Schema<ResetPasswordRequest>,
+  input: __S(23040, __c720, 0) as any as S.Schema<ResetPasswordRequest>,
   output: __S(6240, __c195, 0) as any as S.Schema<ResetPasswordToken>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -32963,8 +32605,8 @@ export const resumeAgentPoolsUpdate: API.OperationMethod<
   ResumeAgentPoolsUpdateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23328, __c729, 0) as any as S.Schema<ResumeAgentPoolsUpdateRequest>,
-  output: __S(18721, __c585, 1) as any as S.Schema<AgentPoolUpdate>,
+  input: __S(23072, __c721, 0) as any as S.Schema<ResumeAgentPoolsUpdateRequest>,
+  output: __S(18657, __c583, 1) as any as S.Schema<AgentPoolUpdate>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32981,8 +32623,8 @@ export const retryAgentPoolsUpdate: API.OperationMethod<
   RetryAgentPoolsUpdateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23360, __c730, 0) as any as S.Schema<RetryAgentPoolsUpdateRequest>,
-  output: __S(18721, __c585, 1) as any as S.Schema<AgentPoolUpdate>,
+  input: __S(23104, __c722, 0) as any as S.Schema<RetryAgentPoolsUpdateRequest>,
+  output: __S(18657, __c583, 1) as any as S.Schema<AgentPoolUpdate>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -32999,8 +32641,8 @@ export const revokeAerialConsent: API.OperationMethod<
   RevokeAerialConsentError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23424, __c732, 0) as any as S.Schema<RevokeAerialConsentRequest>,
-  output: __S(23426, __c732, 2) as any as S.Schema<OrgAerialConsentRevoked>,
+  input: __S(23136, __c723, 0) as any as S.Schema<RevokeAerialConsentRequest>,
+  output: __S(23138, __c723, 2) as any as S.Schema<OrgAerialConsentRevoked>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33017,8 +32659,8 @@ export const revokeApiToken: API.OperationMethod<
   RevokeApiTokenError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23456, __c733, 0) as any as S.Schema<RevokeApiTokenRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeApiTokenResponse>,
+  input: __S(23168, __c724, 0) as any as S.Schema<RevokeApiTokenRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeApiTokenResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33035,8 +32677,8 @@ export const revokeCsrForIdentityProvider: API.OperationMethod<
   RevokeCsrForIdentityProviderError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23488, __c734, 0) as any as S.Schema<RevokeCsrForIdentityProviderRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeCsrForIdentityProviderResponse>,
+  input: __S(23200, __c725, 0) as any as S.Schema<RevokeCsrForIdentityProviderRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeCsrForIdentityProviderResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33053,8 +32695,8 @@ export const revokeCsrFromApplication: API.OperationMethod<
   RevokeCsrFromApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23520, __c735, 0) as any as S.Schema<RevokeCsrFromApplicationRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeCsrFromApplicationResponse>,
+  input: __S(23232, __c726, 0) as any as S.Schema<RevokeCsrFromApplicationRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeCsrFromApplicationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33071,8 +32713,8 @@ export const revokeCurrentApiToken: API.OperationMethod<
   RevokeCurrentApiTokenError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23552, __c736, 0) as any as S.Schema<RevokeCurrentApiTokenRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeCurrentApiTokenResponse>,
+  input: __S(23264, __c727, 0) as any as S.Schema<RevokeCurrentApiTokenRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeCurrentApiTokenResponse>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33089,8 +32731,8 @@ export const revokeGrantsForUserAndClient: API.OperationMethod<
   RevokeGrantsForUserAndClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23584, __c737, 0) as any as S.Schema<RevokeGrantsForUserAndClientRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeGrantsForUserAndClientResponse>,
+  input: __S(23296, __c728, 0) as any as S.Schema<RevokeGrantsForUserAndClientRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeGrantsForUserAndClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33107,8 +32749,8 @@ export const revokeOAuth2TokenForApplication: API.OperationMethod<
   RevokeOAuth2TokenForApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23616, __c738, 0) as any as S.Schema<RevokeOAuth2TokenForApplicationRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeOAuth2TokenForApplicationResponse>,
+  input: __S(23360, __c730, 0) as any as S.Schema<RevokeOAuth2TokenForApplicationRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeOAuth2TokenForApplicationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33125,8 +32767,8 @@ export const revokeOAuth2TokensForApplication: API.OperationMethod<
   RevokeOAuth2TokensForApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23648, __c739, 0) as any as S.Schema<RevokeOAuth2TokensForApplicationRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeOAuth2TokensForApplicationResponse>,
+  input: __S(23392, __c731, 0) as any as S.Schema<RevokeOAuth2TokensForApplicationRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeOAuth2TokensForApplicationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33147,13 +32789,13 @@ export const revokeRefreshTokenForAuthorizationServerAndClient: API.OperationMet
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23680,
-    __c740,
+    23424,
+    __c732,
     0,
   ) as any as S.Schema<RevokeRefreshTokenForAuthorizationServerAndClientRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<RevokeRefreshTokenForAuthorizationServerAndClientResponse>,
   errors: [Forbidden, NotFound],
@@ -33176,13 +32818,13 @@ export const revokeRefreshTokensForAuthorizationServerAndClient: API.OperationMe
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23712,
-    __c741,
+    23456,
+    __c733,
     0,
   ) as any as S.Schema<RevokeRefreshTokensForAuthorizationServerAndClientRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<RevokeRefreshTokensForAuthorizationServerAndClientResponse>,
   errors: [Forbidden, NotFound],
@@ -33201,8 +32843,8 @@ export const revokeScopeConsentGrant: API.OperationMethod<
   RevokeScopeConsentGrantError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23840, __c745, 0) as any as S.Schema<RevokeScopeConsentGrantRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeScopeConsentGrantResponse>,
+  input: __S(23488, __c734, 0) as any as S.Schema<RevokeScopeConsentGrantRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeScopeConsentGrantResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33219,8 +32861,8 @@ export const revokeSession: API.OperationMethod<
   RevokeSessionError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23872, __c746, 0) as any as S.Schema<RevokeSessionRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeSessionResponse>,
+  input: __S(23520, __c735, 0) as any as S.Schema<RevokeSessionRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeSessionResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33237,8 +32879,8 @@ export const revokeTokenForUserAndClient: API.OperationMethod<
   RevokeTokenForUserAndClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23904, __c747, 0) as any as S.Schema<RevokeTokenForUserAndClientRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeTokenForUserAndClientResponse>,
+  input: __S(23552, __c736, 0) as any as S.Schema<RevokeTokenForUserAndClientRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeTokenForUserAndClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33255,8 +32897,8 @@ export const revokeTokensForUserAndClient: API.OperationMethod<
   RevokeTokensForUserAndClientError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23936, __c748, 0) as any as S.Schema<RevokeTokensForUserAndClientRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeTokensForUserAndClientResponse>,
+  input: __S(23584, __c737, 0) as any as S.Schema<RevokeTokensForUserAndClientRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeTokensForUserAndClientResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33273,8 +32915,8 @@ export const revokeUserGrant: API.OperationMethod<
   RevokeUserGrantError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23968, __c749, 0) as any as S.Schema<RevokeUserGrantRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeUserGrantResponse>,
+  input: __S(23616, __c738, 0) as any as S.Schema<RevokeUserGrantRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeUserGrantResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33291,8 +32933,8 @@ export const revokeUserGrants: API.OperationMethod<
   RevokeUserGrantsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24000, __c750, 0) as any as S.Schema<RevokeUserGrantsRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeUserGrantsResponse>,
+  input: __S(23648, __c739, 0) as any as S.Schema<RevokeUserGrantsRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeUserGrantsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33309,8 +32951,8 @@ export const revokeUserSessions: API.OperationMethod<
   RevokeUserSessionsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24032, __c751, 0) as any as S.Schema<RevokeUserSessionsRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<RevokeUserSessionsResponse>,
+  input: __S(23776, __c743, 0) as any as S.Schema<RevokeUserSessionsRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<RevokeUserSessionsResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33327,8 +32969,8 @@ export const rotateAuthorizationServerKeys: API.OperationMethod<
   RotateAuthorizationServerKeysError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24064, __c752, 0) as any as S.Schema<RotateAuthorizationServerKeysRequest>,
-  output: __S(15745, __c492, 1) as any as S.Schema<RotateAuthorizationServerKeysResponse>,
+  input: __S(23808, __c744, 0) as any as S.Schema<RotateAuthorizationServerKeysRequest>,
+  output: __S(15521, __c485, 1) as any as S.Schema<RotateAuthorizationServerKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33345,8 +32987,8 @@ export const sendPin: API.OperationMethod<
   SendPinError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24096, __c753, 0) as any as S.Schema<SendPinRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<SendPinResponse>,
+  input: __S(23840, __c745, 0) as any as S.Schema<SendPinRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<SendPinResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33363,10 +33005,10 @@ export const sendTestCustomTelephonyProviderCredential: API.OperationMethod<
   SendTestCustomTelephonyProviderCredentialError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24128, __c754, 0) as any as S.Schema<SendTestCustomTelephonyProviderCredentialRequest>,
+  input: __S(23872, __c746, 0) as any as S.Schema<SendTestCustomTelephonyProviderCredentialRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<SendTestCustomTelephonyProviderCredentialResponse>,
   errors: [BadRequest, Forbidden],
@@ -33385,8 +33027,8 @@ export const sendTestEmail: API.OperationMethod<
   SendTestEmailError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24224, __c757, 0) as any as S.Schema<SendTestEmailRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<SendTestEmailResponse>,
+  input: __S(23904, __c747, 0) as any as S.Schema<SendTestEmailRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<SendTestEmailResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33403,7 +33045,7 @@ export const setAsPrimaryCustomTelephonyCredential: API.OperationMethod<
   SetAsPrimaryCustomTelephonyCredentialError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24256, __c758, 0) as any as S.Schema<SetAsPrimaryCustomTelephonyCredentialRequest>,
+  input: __S(23936, __c748, 0) as any as S.Schema<SetAsPrimaryCustomTelephonyCredentialRequest>,
   output: __S(2273, __c71, 1) as any as S.Schema<CustomTelephonyProviderCredentialResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -33421,8 +33063,8 @@ export const setOrgHideOktaUIFooter: API.OperationMethod<
   SetOrgHideOktaUIFooterError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24288, __c759, 0) as any as S.Schema<SetOrgHideOktaUIFooterRequest>,
-  output: __S(11809, __c369, 1) as any as S.Schema<OrgPreferences>,
+  input: __S(23968, __c749, 0) as any as S.Schema<SetOrgHideOktaUIFooterRequest>,
+  output: __S(11681, __c365, 1) as any as S.Schema<OrgPreferences>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33439,8 +33081,8 @@ export const setOrgShowOktaUIFooter: API.OperationMethod<
   SetOrgShowOktaUIFooterError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24320, __c760, 0) as any as S.Schema<SetOrgShowOktaUIFooterRequest>,
-  output: __S(11809, __c369, 1) as any as S.Schema<OrgPreferences>,
+  input: __S(24000, __c750, 0) as any as S.Schema<SetOrgShowOktaUIFooterRequest>,
+  output: __S(11681, __c365, 1) as any as S.Schema<OrgPreferences>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33457,7 +33099,7 @@ export const startImportFromIdentitySource: API.OperationMethod<
   StartImportFromIdentitySourceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24352, __c761, 0) as any as S.Schema<StartImportFromIdentitySourceRequest>,
+  input: __S(24032, __c751, 0) as any as S.Schema<StartImportFromIdentitySourceRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<IdentitySourceSession>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -33465,42 +33107,6 @@ export const startImportFromIdentitySource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartImportFromIdentitySource",
-}));
-
-export type StartOrgFailbackError = BadRequest | Forbidden | OktaOpError;
-/** Start the failback of your org Starts the failback of your org */
-export const startOrgFailback: API.OperationMethod<
-  StartOrgFailbackRequest,
-  StartOrgFailbackResponse,
-  StartOrgFailbackError,
-  OktaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(24384, __c762, 0) as any as S.Schema<StartOrgFailbackRequest>,
-  output: __S(24418, __c763, 2) as any as S.Schema<StartOrgFailbackResponse>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: OktaServiceErrors,
-  protocol: OktaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "StartOrgFailback",
-}));
-
-export type StartOrgFailoverError = BadRequest | Forbidden | OktaOpError;
-/** Start the failover of your org Starts the failover of your org */
-export const startOrgFailover: API.OperationMethod<
-  StartOrgFailoverRequest,
-  StartOrgFailoverResponse,
-  StartOrgFailoverError,
-  OktaOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(24448, __c764, 0) as any as S.Schema<StartOrgFailoverRequest>,
-  output: __S(24418, __c763, 2) as any as S.Schema<StartOrgFailoverResponse>,
-  errors: [BadRequest, Forbidden],
-  serviceErrors: OktaServiceErrors,
-  protocol: OktaProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "StartOrgFailover",
 }));
 
 export type StopAgentPoolsUpdateError = Forbidden | NotFound | OktaOpError;
@@ -33511,8 +33117,8 @@ export const stopAgentPoolsUpdate: API.OperationMethod<
   StopAgentPoolsUpdateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24480, __c765, 0) as any as S.Schema<StopAgentPoolsUpdateRequest>,
-  output: __S(18721, __c585, 1) as any as S.Schema<AgentPoolUpdate>,
+  input: __S(24064, __c752, 0) as any as S.Schema<StopAgentPoolsUpdateRequest>,
+  output: __S(18657, __c583, 1) as any as S.Schema<AgentPoolUpdate>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33529,8 +33135,8 @@ export const submitGroupAttributeQuery: API.OperationMethod<
   SubmitGroupAttributeQueryError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24512, __c766, 0) as any as S.Schema<SubmitGroupAttributeQueryRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<SubmitGroupAttributeQueryResponse>,
+  input: __S(24160, __c755, 0) as any as S.Schema<SubmitGroupAttributeQueryRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<SubmitGroupAttributeQueryResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33547,8 +33153,8 @@ export const subscribeByNotificationTypeRole: API.OperationMethod<
   SubscribeByNotificationTypeRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24544, __c767, 0) as any as S.Schema<SubscribeByNotificationTypeRoleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<SubscribeByNotificationTypeRoleResponse>,
+  input: __S(24192, __c756, 0) as any as S.Schema<SubscribeByNotificationTypeRoleRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<SubscribeByNotificationTypeRoleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33565,8 +33171,8 @@ export const subscribeByNotificationTypeUser: API.OperationMethod<
   SubscribeByNotificationTypeUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24640, __c770, 0) as any as S.Schema<SubscribeByNotificationTypeUserRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<SubscribeByNotificationTypeUserResponse>,
+  input: __S(24224, __c757, 0) as any as S.Schema<SubscribeByNotificationTypeUserRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<SubscribeByNotificationTypeUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33583,8 +33189,8 @@ export const suspendDevice: API.OperationMethod<
   SuspendDeviceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24672, __c771, 0) as any as S.Schema<SuspendDeviceRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<SuspendDeviceResponse>,
+  input: __S(24256, __c758, 0) as any as S.Schema<SuspendDeviceRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<SuspendDeviceResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33601,8 +33207,8 @@ export const suspendUser: API.OperationMethod<
   SuspendUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24704, __c772, 0) as any as S.Schema<SuspendUserRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<SuspendUserResponse>,
+  input: __S(24288, __c759, 0) as any as S.Schema<SuspendUserRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<SuspendUserResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33619,8 +33225,8 @@ export const testEmailServer: API.OperationMethod<
   TestEmailServerError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24736, __c773, 0) as any as S.Schema<TestEmailServerRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<TestEmailServerResponse>,
+  input: __S(24320, __c760, 0) as any as S.Schema<TestEmailServerRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<TestEmailServerResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33638,13 +33244,13 @@ export const unassignAppInstanceTargetFromAdminRoleForUser: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24768,
-    __c774,
+    24352,
+    __c761,
     0,
   ) as any as S.Schema<UnassignAppInstanceTargetFromAdminRoleForUserRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<UnassignAppInstanceTargetFromAdminRoleForUserResponse>,
   errors: [Forbidden, NotFound],
@@ -33667,13 +33273,13 @@ export const unassignAppInstanceTargetToAppAdminRoleForGroup: API.OperationMetho
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    24800,
-    __c775,
+    24384,
+    __c762,
     0,
   ) as any as S.Schema<UnassignAppInstanceTargetToAppAdminRoleForGroupRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<UnassignAppInstanceTargetToAppAdminRoleForGroupResponse>,
   errors: [Forbidden, NotFound],
@@ -33692,8 +33298,8 @@ export const unassignApplicationFromGroup: API.OperationMethod<
   UnassignApplicationFromGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24832, __c776, 0) as any as S.Schema<UnassignApplicationFromGroupRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnassignApplicationFromGroupResponse>,
+  input: __S(24416, __c763, 0) as any as S.Schema<UnassignApplicationFromGroupRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnassignApplicationFromGroupResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33710,10 +33316,10 @@ export const unassignAppTargetFromAppAdminRoleForUser: API.OperationMethod<
   UnassignAppTargetFromAppAdminRoleForUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24864, __c777, 0) as any as S.Schema<UnassignAppTargetFromAppAdminRoleForUserRequest>,
+  input: __S(24448, __c764, 0) as any as S.Schema<UnassignAppTargetFromAppAdminRoleForUserRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<UnassignAppTargetFromAppAdminRoleForUserResponse>,
   errors: [Forbidden, NotFound],
@@ -33732,8 +33338,8 @@ export const unassignAppTargetToAdminRoleForGroup: API.OperationMethod<
   UnassignAppTargetToAdminRoleForGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24896, __c778, 0) as any as S.Schema<UnassignAppTargetToAdminRoleForGroupRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnassignAppTargetToAdminRoleForGroupResponse>,
+  input: __S(24544, __c767, 0) as any as S.Schema<UnassignAppTargetToAdminRoleForGroupRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnassignAppTargetToAdminRoleForGroupResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33750,8 +33356,8 @@ export const unassignGroupTargetFromGroupAdminRole: API.OperationMethod<
   UnassignGroupTargetFromGroupAdminRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24928, __c779, 0) as any as S.Schema<UnassignGroupTargetFromGroupAdminRoleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnassignGroupTargetFromGroupAdminRoleResponse>,
+  input: __S(24576, __c768, 0) as any as S.Schema<UnassignGroupTargetFromGroupAdminRoleRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnassignGroupTargetFromGroupAdminRoleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33768,8 +33374,8 @@ export const unassignGroupTargetFromUserAdminRole: API.OperationMethod<
   UnassignGroupTargetFromUserAdminRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25024, __c782, 0) as any as S.Schema<UnassignGroupTargetFromUserAdminRoleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnassignGroupTargetFromUserAdminRoleResponse>,
+  input: __S(24608, __c769, 0) as any as S.Schema<UnassignGroupTargetFromUserAdminRoleRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnassignGroupTargetFromUserAdminRoleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33786,8 +33392,8 @@ export const unassignMemberFromBinding: API.OperationMethod<
   UnassignMemberFromBindingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25056, __c783, 0) as any as S.Schema<UnassignMemberFromBindingRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnassignMemberFromBindingResponse>,
+  input: __S(24640, __c770, 0) as any as S.Schema<UnassignMemberFromBindingRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnassignMemberFromBindingResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33804,8 +33410,8 @@ export const unassignRoleFromGroup: API.OperationMethod<
   UnassignRoleFromGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25088, __c784, 0) as any as S.Schema<UnassignRoleFromGroupRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnassignRoleFromGroupResponse>,
+  input: __S(24672, __c771, 0) as any as S.Schema<UnassignRoleFromGroupRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnassignRoleFromGroupResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33822,8 +33428,8 @@ export const unassignRoleFromUser: API.OperationMethod<
   UnassignRoleFromUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25120, __c785, 0) as any as S.Schema<UnassignRoleFromUserRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnassignRoleFromUserResponse>,
+  input: __S(24704, __c772, 0) as any as S.Schema<UnassignRoleFromUserRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnassignRoleFromUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33840,8 +33446,8 @@ export const unassignUserFromApplication: API.OperationMethod<
   UnassignUserFromApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25152, __c786, 0) as any as S.Schema<UnassignUserFromApplicationRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnassignUserFromApplicationResponse>,
+  input: __S(24736, __c773, 0) as any as S.Schema<UnassignUserFromApplicationRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnassignUserFromApplicationResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33858,8 +33464,8 @@ export const unassignUserFromGroup: API.OperationMethod<
   UnassignUserFromGroupError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25184, __c787, 0) as any as S.Schema<UnassignUserFromGroupRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnassignUserFromGroupResponse>,
+  input: __S(24768, __c774, 0) as any as S.Schema<UnassignUserFromGroupRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnassignUserFromGroupResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33876,8 +33482,8 @@ export const unenrollFactor: API.OperationMethod<
   UnenrollFactorError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25216, __c788, 0) as any as S.Schema<UnenrollFactorRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnenrollFactorResponse>,
+  input: __S(24800, __c775, 0) as any as S.Schema<UnenrollFactorRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnenrollFactorResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33894,8 +33500,8 @@ export const unlinkUserFromIdentityProvider: API.OperationMethod<
   UnlinkUserFromIdentityProviderError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25248, __c789, 0) as any as S.Schema<UnlinkUserFromIdentityProviderRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnlinkUserFromIdentityProviderResponse>,
+  input: __S(24832, __c776, 0) as any as S.Schema<UnlinkUserFromIdentityProviderRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnlinkUserFromIdentityProviderResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33912,8 +33518,8 @@ export const unlockUser: API.OperationMethod<
   UnlockUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25280, __c790, 0) as any as S.Schema<UnlockUserRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnlockUserResponse>,
+  input: __S(24928, __c779, 0) as any as S.Schema<UnlockUserRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnlockUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33930,8 +33536,8 @@ export const unsubscribeByNotificationTypeRole: API.OperationMethod<
   UnsubscribeByNotificationTypeRoleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25312, __c791, 0) as any as S.Schema<UnsubscribeByNotificationTypeRoleRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnsubscribeByNotificationTypeRoleResponse>,
+  input: __S(24960, __c780, 0) as any as S.Schema<UnsubscribeByNotificationTypeRoleRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnsubscribeByNotificationTypeRoleResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33948,8 +33554,8 @@ export const unsubscribeByNotificationTypeUser: API.OperationMethod<
   UnsubscribeByNotificationTypeUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25408, __c794, 0) as any as S.Schema<UnsubscribeByNotificationTypeUserRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnsubscribeByNotificationTypeUserResponse>,
+  input: __S(24992, __c781, 0) as any as S.Schema<UnsubscribeByNotificationTypeUserRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnsubscribeByNotificationTypeUserResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33966,8 +33572,8 @@ export const unsuspendDevice: API.OperationMethod<
   UnsuspendDeviceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25440, __c795, 0) as any as S.Schema<UnsuspendDeviceRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnsuspendDeviceResponse>,
+  input: __S(25024, __c782, 0) as any as S.Schema<UnsuspendDeviceRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnsuspendDeviceResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -33984,8 +33590,8 @@ export const unsuspendUser: API.OperationMethod<
   UnsuspendUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25472, __c796, 0) as any as S.Schema<UnsuspendUserRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UnsuspendUserResponse>,
+  input: __S(25056, __c783, 0) as any as S.Schema<UnsuspendUserRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UnsuspendUserResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34002,8 +33608,8 @@ export const updateAgentPoolsUpdate: API.OperationMethod<
   UpdateAgentPoolsUpdateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25504, __c797, 0) as any as S.Schema<UpdateAgentPoolsUpdateRequest>,
-  output: __S(18721, __c585, 1) as any as S.Schema<AgentPoolUpdate>,
+  input: __S(25088, __c784, 0) as any as S.Schema<UpdateAgentPoolsUpdateRequest>,
+  output: __S(18657, __c583, 1) as any as S.Schema<AgentPoolUpdate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34020,7 +33626,7 @@ export const updateAgentPoolsUpdateSettings: API.OperationMethod<
   UpdateAgentPoolsUpdateSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25536, __c798, 0) as any as S.Schema<UpdateAgentPoolsUpdateSettingsRequest>,
+  input: __S(25120, __c785, 0) as any as S.Schema<UpdateAgentPoolsUpdateSettingsRequest>,
   output: __S(6720, __c210, 0) as any as S.Schema<AgentPoolUpdateSettingResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -34038,8 +33644,8 @@ export const updateApplicationUser: API.OperationMethod<
   UpdateApplicationUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25568, __c799, 0) as any as S.Schema<UpdateApplicationUserRequest>,
-  output: __S(22626, __c707, 2) as any as S.Schema<AppUserOutput>,
+  input: __S(25152, __c786, 0) as any as S.Schema<UpdateApplicationUserRequest>,
+  output: __S(22562, __c705, 2) as any as S.Schema<AppUserOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34056,7 +33662,7 @@ export const updateApplicationUserProfile: API.OperationMethod<
   UpdateApplicationUserProfileError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25600, __c800, 0) as any as S.Schema<UpdateApplicationUserProfileRequest>,
+  input: __S(25184, __c787, 0) as any as S.Schema<UpdateApplicationUserProfileRequest>,
   output: __S(7335, __c229, 7) as any as S.Schema<UserSchema>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -34074,8 +33680,8 @@ export const updateAppServiceAccount: API.OperationMethod<
   UpdateAppServiceAccountError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25664, __c802, 0) as any as S.Schema<UpdateAppServiceAccountRequest>,
-  output: __S(27424, __c857, 0) as any as S.Schema<AppServiceAccountOutput>,
+  input: __S(25248, __c789, 0) as any as S.Schema<UpdateAppServiceAccountRequest>,
+  output: __S(27296, __c853, 0) as any as S.Schema<AppServiceAccountOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34092,7 +33698,7 @@ export const updateAutoAssignAdminAppSetting: API.OperationMethod<
   UpdateAutoAssignAdminAppSettingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25696, __c803, 0) as any as S.Schema<UpdateAutoAssignAdminAppSettingRequest>,
+  input: __S(25344, __c792, 0) as any as S.Schema<UpdateAutoAssignAdminAppSettingRequest>,
   output: __S(7840, __c245, 0) as any as S.Schema<AutoAssignAdminAppSetting>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
@@ -34110,7 +33716,7 @@ export const updateBotProtectionConfiguration: API.OperationMethod<
   UpdateBotProtectionConfigurationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25728, __c804, 0) as any as S.Schema<UpdateBotProtectionConfigurationRequest>,
+  input: __S(25376, __c793, 0) as any as S.Schema<UpdateBotProtectionConfigurationRequest>,
   output: __S(7968, __c249, 0) as any as S.Schema<BotProtectionConfiguration>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
@@ -34128,8 +33734,8 @@ export const updateCaptchaInstance: API.OperationMethod<
   UpdateCaptchaInstanceError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25824, __c807, 0) as any as S.Schema<UpdateCaptchaInstanceRequest>,
-  output: __S(28416, __c888, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
+  input: __S(25408, __c794, 0) as any as S.Schema<UpdateCaptchaInstanceRequest>,
+  output: __S(28064, __c877, 0) as any as S.Schema<CAPTCHAInstanceOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34146,7 +33752,7 @@ export const updateConfiguration: API.OperationMethod<
   UpdateConfigurationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25856, __c808, 0) as any as S.Schema<UpdateConfigurationRequest>,
+  input: __S(25440, __c795, 0) as any as S.Schema<UpdateConfigurationRequest>,
   output: __S(8448, __c264, 0) as any as S.Schema<ThreatInsightConfiguration>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
@@ -34164,8 +33770,8 @@ export const updateCustomAAGUID: API.OperationMethod<
   UpdateCustomAAGUIDError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25888, __c809, 0) as any as S.Schema<UpdateCustomAAGUIDRequest>,
-  output: __S(28515, __c891, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
+  input: __S(25472, __c796, 0) as any as S.Schema<UpdateCustomAAGUIDRequest>,
+  output: __S(28163, __c880, 3) as any as S.Schema<CustomAAGUIDResponseObject>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34182,7 +33788,7 @@ export const updateCustomTelephonyProviderCredential: API.OperationMethod<
   UpdateCustomTelephonyProviderCredentialError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25920, __c810, 0) as any as S.Schema<UpdateCustomTelephonyProviderCredentialRequest>,
+  input: __S(25504, __c797, 0) as any as S.Schema<UpdateCustomTelephonyProviderCredentialRequest>,
   output: __S(2273, __c71, 1) as any as S.Schema<CustomTelephonyProviderCredentialResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -34205,8 +33811,8 @@ export const updateDefaultProvisioningConnectionForApplication: API.OperationMet
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    25952,
-    __c811,
+    25536,
+    __c798,
     0,
   ) as any as S.Schema<UpdateDefaultProvisioningConnectionForApplicationRequest>,
   output: __S(8901, __c278, 5) as any as S.Schema<ProvisioningConnectionResponse>,
@@ -34226,8 +33832,8 @@ export const updateEmailServer: API.OperationMethod<
   UpdateEmailServerError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25984, __c812, 0) as any as S.Schema<UpdateEmailServerRequest>,
-  output: __S(29120, __c910, 0) as any as S.Schema<UpdateEmailServerResponse>,
+  input: __S(25568, __c799, 0) as any as S.Schema<UpdateEmailServerRequest>,
+  output: __S(28768, __c899, 0) as any as S.Schema<UpdateEmailServerResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34244,8 +33850,8 @@ export const updateFeatureForApplication: API.OperationMethod<
   UpdateFeatureForApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26016, __c813, 0) as any as S.Schema<UpdateFeatureForApplicationRequest>,
-  output: __S(9952, __c311, 0) as any as S.Schema<UpdateFeatureForApplicationResponse>,
+  input: __S(25600, __c800, 0) as any as S.Schema<UpdateFeatureForApplicationRequest>,
+  output: __S(9792, __c306, 0) as any as S.Schema<UpdateFeatureForApplicationResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34262,8 +33868,8 @@ export const updateFeatureLifecycle: API.OperationMethod<
   UpdateFeatureLifecycleError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26048, __c814, 0) as any as S.Schema<UpdateFeatureLifecycleRequest>,
-  output: __S(9890, __c309, 2) as any as S.Schema<Feature>,
+  input: __S(25632, __c801, 0) as any as S.Schema<UpdateFeatureLifecycleRequest>,
+  output: __S(9730, __c304, 2) as any as S.Schema<Feature>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34284,8 +33890,8 @@ export const updateGroupAssignmentToApplication: API.OperationMethod<
   UpdateGroupAssignmentToApplicationError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26082, __c815, 2) as any as S.Schema<UpdateGroupAssignmentToApplicationRequest>,
-  output: __S(20673, __c646, 1) as any as S.Schema<ApplicationGroupAssignment>,
+  input: __S(25730, __c804, 2) as any as S.Schema<UpdateGroupAssignmentToApplicationRequest>,
+  output: __S(20609, __c644, 1) as any as S.Schema<ApplicationGroupAssignment>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34302,8 +33908,8 @@ export const updateGroupMembership: API.OperationMethod<
   UpdateGroupMembershipError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26113, __c816, 1) as any as S.Schema<UpdateGroupMembershipRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UpdateGroupMembershipResponse>,
+  input: __S(25761, __c805, 1) as any as S.Schema<UpdateGroupMembershipRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UpdateGroupMembershipResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34320,8 +33926,8 @@ export const updateGroupPushMapping: API.OperationMethod<
   UpdateGroupPushMappingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26208, __c819, 0) as any as S.Schema<UpdateGroupPushMappingRequest>,
-  output: __S(29410, __c919, 2) as any as S.Schema<GroupPushMapping>,
+  input: __S(25792, __c806, 0) as any as S.Schema<UpdateGroupPushMappingRequest>,
+  output: __S(29058, __c908, 2) as any as S.Schema<GroupPushMapping>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34338,8 +33944,8 @@ export const updateGroupSchema: API.OperationMethod<
   UpdateGroupSchemaError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26243, __c820, 3) as any as S.Schema<UpdateGroupSchemaRequest>,
-  output: __S(10376, __c324, 8) as any as S.Schema<GroupSchema>,
+  input: __S(25827, __c807, 3) as any as S.Schema<UpdateGroupSchemaRequest>,
+  output: __S(10184, __c318, 8) as any as S.Schema<GroupSchema>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34356,8 +33962,8 @@ export const updateIdentitySourceGroups: API.OperationMethod<
   UpdateIdentitySourceGroupsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26272, __c821, 0) as any as S.Schema<UpdateIdentitySourceGroupsRequest>,
-  output: __S(29793, __c931, 1) as any as S.Schema<GroupsResponseSchema>,
+  input: __S(25856, __c808, 0) as any as S.Schema<UpdateIdentitySourceGroupsRequest>,
+  output: __S(29441, __c920, 1) as any as S.Schema<GroupsResponseSchema>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34374,8 +33980,8 @@ export const updateIdentitySourceUsers: API.OperationMethod<
   UpdateIdentitySourceUsersError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26304, __c822, 0) as any as S.Schema<UpdateIdentitySourceUsersRequest>,
-  output: __S(10816, __c338, 0) as any as S.Schema<UserResponseSchema>,
+  input: __S(25888, __c809, 0) as any as S.Schema<UpdateIdentitySourceUsersRequest>,
+  output: __S(10624, __c332, 0) as any as S.Schema<UserResponseSchema>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34392,7 +33998,7 @@ export const updateInlineHook: API.OperationMethod<
   UpdateInlineHookError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26336, __c823, 0) as any as S.Schema<UpdateInlineHookRequest>,
+  input: __S(25920, __c810, 0) as any as S.Schema<UpdateInlineHookRequest>,
   output: __S(5281, __c165, 1) as any as S.Schema<InlineHook>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -34410,7 +34016,7 @@ export const updateOktaManagedUserAccount: API.OperationMethod<
   UpdateOktaManagedUserAccountError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26368, __c824, 0) as any as S.Schema<UpdateOktaManagedUserAccountRequest>,
+  input: __S(25952, __c811, 0) as any as S.Schema<UpdateOktaManagedUserAccountRequest>,
   output: __S(736, __c23, 0) as any as S.Schema<OktaManagedUserAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -34428,8 +34034,8 @@ export const updateOktaSupportCase: API.OperationMethod<
   UpdateOktaSupportCaseError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26400, __c825, 0) as any as S.Schema<UpdateOktaSupportCaseRequest>,
-  output: __S(18498, __c578, 2) as any as S.Schema<OktaSupportCase>,
+  input: __S(25984, __c812, 0) as any as S.Schema<UpdateOktaSupportCaseRequest>,
+  output: __S(18274, __c571, 2) as any as S.Schema<OktaSupportCase>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34446,8 +34052,8 @@ export const updateOrgSettings: API.OperationMethod<
   UpdateOrgSettingsError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26432, __c826, 0) as any as S.Schema<UpdateOrgSettingsRequest>,
-  output: __S(12001, __c375, 1) as any as S.Schema<OrgSetting>,
+  input: __S(26016, __c813, 0) as any as S.Schema<UpdateOrgSettingsRequest>,
+  output: __S(11745, __c367, 1) as any as S.Schema<OrgSetting>,
   errors: [BadRequest, Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34464,8 +34070,8 @@ export const updatePauseAgentPool: API.OperationMethod<
   UpdatePauseAgentPoolError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26464, __c827, 0) as any as S.Schema<UpdatePauseAgentPoolRequest>,
-  output: __S(18721, __c585, 1) as any as S.Schema<AgentPoolUpdate>,
+  input: __S(26112, __c816, 0) as any as S.Schema<UpdatePauseAgentPoolRequest>,
+  output: __S(18657, __c583, 1) as any as S.Schema<AgentPoolUpdate>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34482,8 +34088,8 @@ export const updateProfileMapping: API.OperationMethod<
   UpdateProfileMappingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26496, __c828, 0) as any as S.Schema<UpdateProfileMappingRequest>,
-  output: __S(12321, __c385, 1) as any as S.Schema<ProfileMapping>,
+  input: __S(26144, __c817, 0) as any as S.Schema<UpdateProfileMappingRequest>,
+  output: __S(12193, __c381, 1) as any as S.Schema<ProfileMapping>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34500,7 +34106,7 @@ export const updateSmsTemplate: API.OperationMethod<
   UpdateSmsTemplateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26624, __c832, 0) as any as S.Schema<UpdateSmsTemplateRequest>,
+  input: __S(26176, __c818, 0) as any as S.Schema<UpdateSmsTemplateRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<SmsTemplate>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -34518,7 +34124,7 @@ export const updateSsfStream: API.OperationMethod<
   UpdateSsfStreamError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26656, __c833, 0) as any as S.Schema<UpdateSsfStreamRequest>,
+  input: __S(26208, __c819, 0) as any as S.Schema<UpdateSsfStreamRequest>,
   output: __S(1537, __c48, 1) as any as S.Schema<StreamConfiguration>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -34536,8 +34142,8 @@ export const updateThirdPartyAdminSetting: API.OperationMethod<
   UpdateThirdPartyAdminSettingError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26688, __c834, 0) as any as S.Schema<UpdateThirdPartyAdminSettingRequest>,
-  output: __S(13728, __c429, 0) as any as S.Schema<ThirdPartyAdminSetting>,
+  input: __S(26240, __c820, 0) as any as S.Schema<UpdateThirdPartyAdminSettingRequest>,
+  output: __S(13600, __c425, 0) as any as S.Schema<ThirdPartyAdminSetting>,
   errors: [Forbidden],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34554,7 +34160,7 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26720, __c835, 0) as any as S.Schema<UpdateUserRequest>,
+  input: __S(26272, __c821, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(1760, __c55, 0) as any as S.Schema<UserOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -34572,7 +34178,7 @@ export const updateUserProfile: API.OperationMethod<
   UpdateUserProfileError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26752, __c836, 0) as any as S.Schema<UpdateUserProfileRequest>,
+  input: __S(26304, __c822, 0) as any as S.Schema<UpdateUserProfileRequest>,
   output: __S(7335, __c229, 7) as any as S.Schema<UserSchema>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -34590,7 +34196,7 @@ export const updateUserType: API.OperationMethod<
   UpdateUserTypeError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26784, __c837, 0) as any as S.Schema<UpdateUserTypeRequest>,
+  input: __S(26336, __c823, 0) as any as S.Schema<UpdateUserTypeRequest>,
   output: __S(1920, __c60, 0) as any as S.Schema<UserType>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -34608,8 +34214,8 @@ export const uploadApplicationLogo: API.OperationMethod<
   UploadApplicationLogoError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26816, __c838, 0) as any as S.Schema<UploadApplicationLogoRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UploadApplicationLogoResponse>,
+  input: __S(26368, __c824, 0) as any as S.Schema<UploadApplicationLogoRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UploadApplicationLogoResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34626,8 +34232,8 @@ export const uploadBrandThemeBackgroundImage: API.OperationMethod<
   UploadBrandThemeBackgroundImageError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26848, __c839, 0) as any as S.Schema<UploadBrandThemeBackgroundImageRequest>,
-  output: __S(26880, __c840, 0) as any as S.Schema<ImageUploadResponse>,
+  input: __S(26400, __c825, 0) as any as S.Schema<UploadBrandThemeBackgroundImageRequest>,
+  output: __S(26432, __c826, 0) as any as S.Schema<ImageUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34644,8 +34250,8 @@ export const uploadBrandThemeFavicon: API.OperationMethod<
   UploadBrandThemeFaviconError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26912, __c841, 0) as any as S.Schema<UploadBrandThemeFaviconRequest>,
-  output: __S(26880, __c840, 0) as any as S.Schema<ImageUploadResponse>,
+  input: __S(26560, __c830, 0) as any as S.Schema<UploadBrandThemeFaviconRequest>,
+  output: __S(26432, __c826, 0) as any as S.Schema<ImageUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34662,8 +34268,8 @@ export const uploadBrandThemeLogo: API.OperationMethod<
   UploadBrandThemeLogoError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26944, __c842, 0) as any as S.Schema<UploadBrandThemeLogoRequest>,
-  output: __S(26880, __c840, 0) as any as S.Schema<ImageUploadResponse>,
+  input: __S(26592, __c831, 0) as any as S.Schema<UploadBrandThemeLogoRequest>,
+  output: __S(26432, __c826, 0) as any as S.Schema<ImageUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34684,8 +34290,8 @@ export const uploadIdentitySourceDataForDelete: API.OperationMethod<
   UploadIdentitySourceDataForDeleteError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27042, __c845, 2) as any as S.Schema<UploadIdentitySourceDataForDeleteRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UploadIdentitySourceDataForDeleteResponse>,
+  input: __S(26626, __c832, 2) as any as S.Schema<UploadIdentitySourceDataForDeleteRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UploadIdentitySourceDataForDeleteResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34706,8 +34312,8 @@ export const uploadIdentitySourceDataForUpsert: API.OperationMethod<
   UploadIdentitySourceDataForUpsertError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27074, __c846, 2) as any as S.Schema<UploadIdentitySourceDataForUpsertRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UploadIdentitySourceDataForUpsertResponse>,
+  input: __S(26658, __c833, 2) as any as S.Schema<UploadIdentitySourceDataForUpsertRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UploadIdentitySourceDataForUpsertResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34729,13 +34335,13 @@ export const uploadIdentitySourceGroupMembershipsForDelete: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27104,
-    __c847,
+    26688,
+    __c834,
     0,
   ) as any as S.Schema<UploadIdentitySourceGroupMembershipsForDeleteRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<UploadIdentitySourceGroupMembershipsForDeleteResponse>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -34759,13 +34365,13 @@ export const uploadIdentitySourceGroupMembershipsForUpsert: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27168,
-    __c849,
+    26752,
+    __c836,
     0,
   ) as any as S.Schema<UploadIdentitySourceGroupMembershipsForUpsertRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<UploadIdentitySourceGroupMembershipsForUpsertResponse>,
   errors: [BadRequest, Forbidden, NotFound],
@@ -34788,8 +34394,8 @@ export const uploadIdentitySourceGroupsDataForDelete: API.OperationMethod<
   UploadIdentitySourceGroupsDataForDeleteError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27200, __c850, 0) as any as S.Schema<UploadIdentitySourceGroupsDataForDeleteRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UploadIdentitySourceGroupsDataForDeleteResponse>,
+  input: __S(26784, __c837, 0) as any as S.Schema<UploadIdentitySourceGroupsDataForDeleteRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UploadIdentitySourceGroupsDataForDeleteResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34810,8 +34416,8 @@ export const uploadIdentitySourceGroupsForUpsert: API.OperationMethod<
   UploadIdentitySourceGroupsForUpsertError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27234, __c851, 2) as any as S.Schema<UploadIdentitySourceGroupsForUpsertRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UploadIdentitySourceGroupsForUpsertResponse>,
+  input: __S(26818, __c838, 2) as any as S.Schema<UploadIdentitySourceGroupsForUpsertRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UploadIdentitySourceGroupsForUpsertResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34828,8 +34434,8 @@ export const uploadYubikeyOtpTokenSeed: API.OperationMethod<
   UploadYubikeyOtpTokenSeedError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27264, __c852, 0) as any as S.Schema<UploadYubikeyOtpTokenSeedRequest>,
-  output: __S(14592, __c456, 0) as any as S.Schema<UserFactorYubikeyOtpToken>,
+  input: __S(26848, __c839, 0) as any as S.Schema<UploadYubikeyOtpTokenSeedRequest>,
+  output: __S(14336, __c448, 0) as any as S.Schema<UserFactorYubikeyOtpToken>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34846,7 +34452,7 @@ export const upsertApiToken: API.OperationMethod<
   UpsertApiTokenError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27296, __c853, 0) as any as S.Schema<UpsertApiTokenRequest>,
+  input: __S(26880, __c840, 0) as any as S.Schema<UpsertApiTokenRequest>,
   output: __S(6945, __c217, 1) as any as S.Schema<ApiToken>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -34864,8 +34470,8 @@ export const upsertCertificate: API.OperationMethod<
   UpsertCertificateError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27328, __c854, 0) as any as S.Schema<UpsertCertificateRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<UpsertCertificateResponse>,
+  input: __S(26976, __c843, 0) as any as S.Schema<UpsertCertificateRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<UpsertCertificateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34882,8 +34488,8 @@ export const upsertUserRisk: API.OperationMethod<
   UpsertUserRiskError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27361, __c855, 1) as any as S.Schema<UpsertUserRiskRequest>,
-  output: __S(27362, __c855, 2) as any as S.Schema<UserRiskPutResponse>,
+  input: __S(27009, __c844, 1) as any as S.Schema<UpsertUserRiskRequest>,
+  output: __S(27010, __c844, 2) as any as S.Schema<UserRiskPutResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34900,8 +34506,8 @@ export const verifyDomain: API.OperationMethod<
   VerifyDomainError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27456, __c858, 0) as any as S.Schema<VerifyDomainRequest>,
-  output: __S(28612, __c894, 4) as any as S.Schema<DomainResponse>,
+  input: __S(27040, __c845, 0) as any as S.Schema<VerifyDomainRequest>,
+  output: __S(28260, __c883, 4) as any as S.Schema<DomainResponse>,
   errors: [Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34918,8 +34524,8 @@ export const verifyEmailDomain: API.OperationMethod<
   VerifyEmailDomainError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27488, __c859, 0) as any as S.Schema<VerifyEmailDomainRequest>,
-  output: __S(28992, __c906, 0) as any as S.Schema<VerifyEmailDomainResponse>,
+  input: __S(27072, __c846, 0) as any as S.Schema<VerifyEmailDomainRequest>,
+  output: __S(28640, __c895, 0) as any as S.Schema<VerifyEmailDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34936,7 +34542,7 @@ export const verifyEventHook: API.OperationMethod<
   VerifyEventHookError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27520, __c860, 0) as any as S.Schema<VerifyEventHookRequest>,
+  input: __S(27104, __c847, 0) as any as S.Schema<VerifyEventHookRequest>,
   output: __S(3787, __c118, 11) as any as S.Schema<EventHookOutput>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
@@ -34954,8 +34560,8 @@ export const verifyFactor: API.OperationMethod<
   VerifyFactorError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27552, __c861, 0) as any as S.Schema<VerifyFactorRequest>,
-  output: __S(27554, __c861, 2) as any as S.Schema<UserFactorVerifyResponse>,
+  input: __S(27136, __c848, 0) as any as S.Schema<VerifyFactorRequest>,
+  output: __S(27138, __c848, 2) as any as S.Schema<UserFactorVerifyResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -34973,13 +34579,13 @@ export const verifyProvisioningConnectionForApplication: API.OperationMethod<
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    27584,
-    __c862,
+    27168,
+    __c849,
     0,
   ) as any as S.Schema<VerifyProvisioningConnectionForApplicationRequest>,
   output: __S(
-    26560,
-    __c830,
+    26496,
+    __c828,
     0,
   ) as any as S.Schema<VerifyProvisioningConnectionForApplicationResponse>,
   errors: [Forbidden, NotFound],
@@ -34998,8 +34604,8 @@ export const verifyRpIdDomain: API.OperationMethod<
   VerifyRpIdDomainError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27616, __c863, 0) as any as S.Schema<VerifyRpIdDomainRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<VerifyRpIdDomainResponse>,
+  input: __S(27200, __c850, 0) as any as S.Schema<VerifyRpIdDomainRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<VerifyRpIdDomainResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -35016,8 +34622,8 @@ export const verifySsfStream: API.OperationMethod<
   VerifySsfStreamError,
   OktaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27648, __c864, 0) as any as S.Schema<VerifySsfStreamRequest>,
-  output: __S(26560, __c830, 0) as any as S.Schema<VerifySsfStreamResponse>,
+  input: __S(27232, __c851, 0) as any as S.Schema<VerifySsfStreamRequest>,
+  output: __S(26496, __c828, 0) as any as S.Schema<VerifySsfStreamResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   serviceErrors: OktaServiceErrors,
   protocol: OktaProtocol,
@@ -35193,9 +34799,9 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          deactivate: S.optional(__S(18656, __c583, 0)),
-          execute: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          deactivate: S.optional(__S(18592, __c581, 0)),
+          execute: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "InlineHookLinksCreate" });
     case 2:
@@ -35250,7 +34856,7 @@ function __c12(j: number): any {
         S.Struct({
           associated: S.optional(__S(416, __c13, 0)),
           primary: S.optional(__S(416, __c13, 0)),
-          _links: S.optional(__S(26560, __c830, 0)),
+          _links: S.optional(__S(26496, __c828, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/v1/meta/schemas/user/linkedObjects", code: 200 }),
         ),
@@ -35271,7 +34877,7 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(20736, __c648, 0)),
+          self: S.optional(__S(20672, __c646, 0)),
         }),
       ).annotate({ identifier: "LinkedObjectLinksSelf" });
     case 2:
@@ -35350,7 +34956,7 @@ function __c17(j: number): any {
           system: S.optional(S.Boolean),
           value: S.optional(S.String),
           valueType: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "OAuth2Claim" });
   }
@@ -35424,7 +35030,7 @@ function __c21(j: number): any {
           name: S.String,
           optional: S.optional(S.Boolean),
           system: S.optional(S.Boolean),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "OAuth2Scope" });
   }
@@ -35558,7 +35164,7 @@ function __c27(j: number): any {
         S.Struct({
           appInstance: S.String,
           policyContext: S.optional(__S(869, __c27, 5)),
-          policyTypes: S.optional(__S(18592, __c581, 0)),
+          policyTypes: S.optional(__S(18528, __c579, 0)),
         }),
       ).annotate({ identifier: "SimulatePolicyBody" });
     case 7:
@@ -35612,7 +35218,7 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           evaluated: S.optional(__S(879, __c27, 15)),
-          policyType: S.optional(__S(18592, __c581, 0)),
+          policyType: S.optional(__S(18528, __c579, 0)),
           result: S.optional(__S(879, __c27, 15)),
           status: S.optional(S.String),
           undefined: S.optional(__S(879, __c27, 15)),
@@ -35704,7 +35310,7 @@ function __c33(j: number): any {
           isDefault: S.optional(S.Boolean),
           lastUpdated: S.optional(S.String),
           profile: S.optional(__S(1056, __c33, 0)),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "Realm" });
   }
@@ -35766,7 +35372,7 @@ function __c36(j: number): any {
           name: S.optional(S.String),
           priority: S.optional(S.Number),
           status: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "RealmAssignment" });
   }
@@ -35836,8 +35442,8 @@ function __c41(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          permissions: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          permissions: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "IamRoleLinks" });
     case 1:
@@ -35876,8 +35482,8 @@ function __c43(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exclude: S.optional(S.NullOr(__S(20704, __c647, 0))),
-          include: S.optional(S.NullOr(__S(20704, __c647, 0))),
+          exclude: S.optional(S.NullOr(__S(20640, __c645, 0))),
+          include: S.optional(S.NullOr(__S(20640, __c645, 0))),
         }),
       ).annotate({ identifier: "PermissionConditions" });
   }
@@ -36004,7 +35610,7 @@ function __c49(j: number): any {
           profile: S.optional(__S(1570, __c49, 2)),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(27840, __c870, 0)),
+          _links: S.optional(__S(27488, __c859, 0)),
         }),
       ).annotate({ identifier: "TacAuthenticatorEnrollment" });
   }
@@ -36016,7 +35622,7 @@ function __c50(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           origin: S.optional(S.String),
-          scopes: S.optional(__S(10753, __c336, 1)),
+          scopes: S.optional(__S(10785, __c337, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/trustedOrigins", code: 200 })),
       ).annotate({ identifier: "CreateTrustedOriginRequest" });
   }
@@ -36066,7 +35672,7 @@ function __c52(j: number): any {
           id: S.String,
           lastUpdated: S.String,
           uiSchema: __S(1667, __c52, 3),
-          _links: __S(18752, __c586, 0),
+          _links: __S(18688, __c584, 0),
         }),
       ).annotate({ identifier: "UISchemasResponseObject" });
   }
@@ -36076,9 +35682,9 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          password: S.optional(__S(23808, __c744, 0)),
-          provider: S.optional(__S(23779, __c743, 3)),
-          recovery_question: S.optional(__S(24192, __c756, 0)),
+          password: S.optional(__S(23744, __c742, 0)),
+          provider: S.optional(__S(23715, __c741, 3)),
+          recovery_question: S.optional(__S(24128, __c754, 0)),
         }),
       ).annotate({ identifier: "UserCredentialsWritable" });
     case 1:
@@ -36091,7 +35697,7 @@ function __c53(j: number): any {
           groupIds: S.optional(__S(64, __c2, 0)),
           profile: __S(1728, __c54, 0),
           realmId: S.optional(S.String),
-          type: S.optional(__S(28096, __c878, 0)),
+          type: S.optional(__S(27744, __c867, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/users", code: 200 })),
       ).annotate({ identifier: "CreateUserRequest" });
   }
@@ -36140,21 +35746,21 @@ function __c54(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          activate: S.optional(__S(18656, __c583, 0)),
-          resetPassword: S.optional(__S(18656, __c583, 0)),
-          resetFactors: S.optional(__S(18656, __c583, 0)),
-          expirePassword: S.optional(__S(18656, __c583, 0)),
-          forgotPassword: S.optional(__S(18656, __c583, 0)),
-          changeRecoveryQuestion: S.optional(__S(18656, __c583, 0)),
-          deactivate: S.optional(__S(18656, __c583, 0)),
-          reactivate: S.optional(__S(18656, __c583, 0)),
-          changePassword: S.optional(__S(18656, __c583, 0)),
-          schema: S.optional(__S(18656, __c583, 0)),
-          suspend: S.optional(__S(18656, __c583, 0)),
-          unsuspend: S.optional(__S(18656, __c583, 0)),
-          unlock: S.optional(__S(18656, __c583, 0)),
-          type: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          activate: S.optional(__S(18592, __c581, 0)),
+          resetPassword: S.optional(__S(18592, __c581, 0)),
+          resetFactors: S.optional(__S(18592, __c581, 0)),
+          expirePassword: S.optional(__S(18592, __c581, 0)),
+          forgotPassword: S.optional(__S(18592, __c581, 0)),
+          changeRecoveryQuestion: S.optional(__S(18592, __c581, 0)),
+          deactivate: S.optional(__S(18592, __c581, 0)),
+          reactivate: S.optional(__S(18592, __c581, 0)),
+          changePassword: S.optional(__S(18592, __c581, 0)),
+          schema: S.optional(__S(18592, __c581, 0)),
+          suspend: S.optional(__S(18592, __c581, 0)),
+          unsuspend: S.optional(__S(18592, __c581, 0)),
+          unlock: S.optional(__S(18592, __c581, 0)),
+          type: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "UserOutputLinks" });
   }
@@ -36166,7 +35772,7 @@ function __c55(j: number): any {
         S.Struct({
           activated: S.optional(S.NullOr(S.String)),
           created: S.optional(S.String),
-          credentials: S.optional(__S(23781, __c743, 5)),
+          credentials: S.optional(__S(23717, __c741, 5)),
           id: S.optional(S.String),
           lastLogin: S.optional(S.NullOr(S.String)),
           lastUpdated: S.optional(S.String),
@@ -36176,8 +35782,8 @@ function __c55(j: number): any {
           status: S.optional(S.String),
           statusChanged: S.optional(S.NullOr(S.String)),
           transitioningToStatus: S.optional(S.NullOr(S.String)),
-          type: S.optional(__S(28096, __c878, 0)),
-          _embedded: S.optional(__S(20704, __c647, 0)),
+          type: S.optional(__S(27744, __c867, 0)),
+          _embedded: S.optional(__S(20640, __c645, 0)),
           _links: S.optional(__S(1729, __c54, 1)),
         }),
       ).annotate({ identifier: "UserOutput" });
@@ -36212,8 +35818,8 @@ function __c58(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(20736, __c648, 0)),
-          schema: S.optional(__S(20736, __c648, 0)),
+          self: S.optional(__S(20672, __c646, 0)),
+          schema: S.optional(__S(20672, __c646, 0)),
         }),
       ).annotate({ identifier: "UserTypeLinksInput" });
     case 1:
@@ -36232,8 +35838,8 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          schema: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          schema: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "UserTypeLinks" });
   }
@@ -36990,9 +36596,9 @@ function __c106(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          activate: S.optional(__S(18656, __c583, 0)),
-          deactivate: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          activate: S.optional(__S(18592, __c581, 0)),
+          deactivate: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "LinksSelfAndLifecycle" });
   }
@@ -37223,9 +36829,9 @@ function __c118(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          deactivate: S.optional(__S(18656, __c583, 0)),
-          verify: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          deactivate: S.optional(__S(18592, __c581, 0)),
+          verify: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "EventHookOutputLinks" });
     case 11:
@@ -37344,7 +36950,7 @@ function __c125(j: number): any {
       return S.suspend(() =>
         S.Struct({
           emailDomainId: S.String.pipe(T.Label()),
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          expand: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/api/v1/email-domains/{emailDomainId}", code: 200 }),
         ),
@@ -37820,7 +37426,7 @@ function __c153(j: number): any {
       return S.suspend(() =>
         S.Struct({
           aalValue: S.optional(S.NullOr(S.String)),
-          additionalAmr: S.optional(S.NullOr(__S(18592, __c581, 0))),
+          additionalAmr: S.optional(S.NullOr(__S(18528, __c579, 0))),
           allowDynamicUserMatching: S.optional(S.Boolean),
           allowUserUpdates: S.optional(S.Boolean),
           ialValue: S.optional(S.NullOr(S.String)),
@@ -37832,15 +37438,15 @@ function __c153(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            self: S.optional(__S(18656, __c583, 0)),
-            acs: S.optional(__S(18656, __c583, 0)),
-            authorize: S.optional(__S(18656, __c583, 0)),
-            clientRedirectUri: S.optional(__S(18656, __c583, 0)),
-            metadata: S.optional(__S(18656, __c583, 0)),
-            users: S.optional(__S(18656, __c583, 0)),
-            deactivate: S.optional(__S(18656, __c583, 0)),
-            activate: S.optional(__S(18656, __c583, 0)),
-            keys: S.optional(__S(18656, __c583, 0)),
+            self: S.optional(__S(18592, __c581, 0)),
+            acs: S.optional(__S(18592, __c581, 0)),
+            authorize: S.optional(__S(18592, __c581, 0)),
+            clientRedirectUri: S.optional(__S(18592, __c581, 0)),
+            metadata: S.optional(__S(18592, __c581, 0)),
+            users: S.optional(__S(18592, __c581, 0)),
+            deactivate: S.optional(__S(18592, __c581, 0)),
+            activate: S.optional(__S(18592, __c581, 0)),
+            keys: S.optional(__S(18592, __c581, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -38035,11 +37641,11 @@ function __c165(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          activate: S.optional(__S(18656, __c583, 0)),
-          deactivate: S.optional(__S(18656, __c583, 0)),
-          delete: S.optional(__S(18656, __c583, 0)),
-          execute: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          activate: S.optional(__S(18592, __c581, 0)),
+          deactivate: S.optional(__S(18592, __c581, 0)),
+          delete: S.optional(__S(18592, __c581, 0)),
+          execute: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "InlineHookLinks" });
     case 1:
@@ -38320,7 +37926,7 @@ function __c186(j: number): any {
           enrollmentRpIds: S.optional(__S(64, __c2, 0)),
           fulfillmentProvider: S.optional(S.String),
           userId: S.optional(S.String),
-          yubicoTransportKeyJWK: S.optional(__S(9280, __c290, 0)),
+          yubicoTransportKeyJWK: S.optional(__S(9248, __c289, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/webauthn-registration/api/v1/enroll", code: 200 })),
       ).annotate({ identifier: "EnrollPreregistrationEnrollmentRequest" });
     case 1:
@@ -38401,7 +38007,7 @@ function __c189(j: number): any {
           numUserMoved: S.optional(S.Number),
           realmId: S.optional(S.String),
           realmName: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "ExecuteRealmAssignmentResponse" });
   }
@@ -38499,8 +38105,8 @@ function __c196(j: number): any {
         S.Struct({
           userId: S.String.pipe(T.Label()),
           sendEmail: S.optional(S.Boolean.pipe(T.Query())),
-          password: S.optional(__S(23808, __c744, 0)),
-          recovery_question: S.optional(__S(24192, __c756, 0)),
+          password: S.optional(__S(23744, __c742, 0)),
+          recovery_question: S.optional(__S(24128, __c754, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -38568,7 +38174,7 @@ function __c200(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hints: S.optional(__S(18624, __c582, 0)),
+          hints: S.optional(__S(18560, __c580, 0)),
           href: S.String,
         }),
       ).annotate({ identifier: "HrefCsrPublishLink" });
@@ -38611,8 +38217,8 @@ function __c202(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            self: S.optional(__S(18656, __c583, 0)),
-            publish: S.optional(__S(18656, __c583, 0)),
+            self: S.optional(__S(18592, __c581, 0)),
+            publish: S.optional(__S(18592, __c581, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -38687,8 +38293,8 @@ function __c206(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          revoke: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          revoke: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "LinksAerialConsentGranted" });
     case 1:
@@ -38774,7 +38380,7 @@ function __c211(j: number): any {
       return S.suspend(() =>
         S.Struct({
           brandId: S.String.pipe(T.Label()),
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          expand: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/well-known-uris", code: 200 }),
         ),
@@ -38789,7 +38395,7 @@ function __c211(j: number): any {
       return S.suspend(() =>
         S.Struct({
           representation: S.optional(__S(6784, __c212, 0)),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "WellKnownURIArrayResponse" });
     case 3:
@@ -38811,12 +38417,12 @@ function __c211(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
           apple_app_site_association: S.optional(
-            __S(18656, __c583, 0).pipe(T.Body("apple-app-site-association")),
+            __S(18592, __c581, 0).pipe(T.Body("apple-app-site-association")),
           ),
-          assetlinks_json: S.optional(__S(18656, __c583, 0).pipe(T.Body("assetlinks.json"))),
-          webauthn: S.optional(__S(18656, __c583, 0)),
+          assetlinks_json: S.optional(__S(18592, __c581, 0).pipe(T.Body("assetlinks.json"))),
+          webauthn: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "WellKnownURIsRootLinks" });
     case 6:
@@ -38840,7 +38446,7 @@ function __c213(j: number): any {
       return S.suspend(() =>
         S.Struct({
           representation: S.optional(S.Unknown),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "WellKnownURIObjectResponse" });
   }
@@ -38872,9 +38478,9 @@ function __c215(j: number): any {
           grantedScopes: S.optional(__S(64, __c2, 0)),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          properties: S.optional(__S(26177, __c818, 1)),
+          properties: S.optional(__S(26081, __c815, 1)),
           type: S.optional(S.String),
-          _links: S.optional(__S(26178, __c818, 2)),
+          _links: S.optional(__S(26082, __c815, 2)),
         }),
       ).annotate({ identifier: "APIServiceIntegrationInstance" });
   }
@@ -38911,7 +38517,7 @@ function __c217(j: number): any {
           network: S.optional(__S(6944, __c217, 0)),
           tokenWindow: S.optional(S.String),
           userId: S.optional(S.String),
-          _link: S.optional(__S(18752, __c586, 0)),
+          _link: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "ApiToken" });
   }
@@ -39014,7 +38620,7 @@ function __c225(j: number): any {
           lastUpdated: S.optional(S.String),
           secret_hash: S.optional(S.String),
           status: S.optional(S.String),
-          _links: S.optional(__S(22528, __c704, 0)),
+          _links: S.optional(__S(22464, __c702, 0)),
         }),
       ).annotate({ identifier: "OAuth2ClientSecret" });
   }
@@ -39047,7 +38653,7 @@ function __c227(j: number): any {
 function __c228(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(29472, __c921, 0));
+      return S.Array(__S(29120, __c910, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -39188,7 +38794,7 @@ function __c229(j: number): any {
           properties: S.optional(__S(7303, __c228, 7)),
           title: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "UserSchema" });
   }
@@ -39242,7 +38848,7 @@ function __c233(j: number): any {
         S.Struct({
           userId: S.String.pipe(T.Label()),
           enrollmentId: S.String.pipe(T.Label()),
-          discloseIdentifiers: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          discloseIdentifiers: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -39335,7 +38941,7 @@ function __c239(j: number): any {
           n: S.optional(S.String),
           status: S.optional(S.String),
           use: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "AuthorizationServerJsonWebKey" });
   }
@@ -39379,8 +38985,8 @@ function __c242(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          activate: S.optional(__S(18656, __c583, 0)),
-          delete: S.optional(__S(18656, __c583, 0)),
+          activate: S.optional(__S(18592, __c581, 0)),
+          delete: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "OAuthResourceServerKeyLinks" });
     case 1:
@@ -39470,9 +39076,9 @@ function __c247(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          resource_set: S.optional(__S(18656, __c583, 0).pipe(T.Body("resource-set"))),
-          members: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          resource_set: S.optional(__S(18592, __c581, 0).pipe(T.Body("resource-set"))),
+          members: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "ResourceSetBindingResponseLinks" });
     case 2:
@@ -39502,8 +39108,8 @@ function __c249(j: number): any {
           enforcementType: S.optional(S.String),
           level: S.String,
           mode: S.String,
-          supportedFlows: S.optional(__S(18592, __c581, 0)),
-          _links: S.optional(__S(18752, __c586, 0)),
+          supportedFlows: S.optional(__S(18528, __c579, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "BotProtectionConfiguration" });
   }
@@ -39514,7 +39120,7 @@ function __c250(j: number): any {
       return S.suspend(() =>
         S.Struct({
           brandId: S.String.pipe(T.Label()),
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          expand: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}", code: 200 })),
       ).annotate({ identifier: "GetBrandRequest" });
   }
@@ -39537,7 +39143,7 @@ function __c251(j: number): any {
           secondaryColorContrastHex: S.optional(S.String),
           secondaryColorHex: S.optional(S.String),
           signInPageTouchPointVariant: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "ThemeResponse" });
   }
@@ -39545,7 +39151,7 @@ function __c251(j: number): any {
 function __c252(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(28612, __c894, 4));
+      return S.Array(__S(28260, __c883, 4));
   }
 }
 function __c253(j: number): any {
@@ -39555,14 +39161,14 @@ function __c253(j: number): any {
         S.Struct({
           themes: S.optional(__S(8128, __c254, 0)),
           domains: S.optional(__S(8064, __c252, 0)),
-          emailDomain: S.optional(__S(28992, __c906, 0)),
+          emailDomain: S.optional(__S(28640, __c895, 0)),
         }),
       ).annotate({ identifier: "GetBrandResponseEmbedded" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          themes: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          themes: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "GetBrandResponseLinks" });
     case 2:
@@ -39570,7 +39176,7 @@ function __c253(j: number): any {
         S.Struct({
           agreeToCustomPrivacyPolicy: S.optional(S.Boolean),
           customPrivacyPolicyUrl: S.optional(S.String),
-          defaultApp: S.optional(__S(28320, __c885, 0)),
+          defaultApp: S.optional(__S(27968, __c874, 0)),
           emailDomainId: S.optional(S.String),
           id: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
@@ -39729,7 +39335,7 @@ function __c264(j: number): any {
           created: S.optional(S.String),
           excludeZones: S.optional(__S(64, __c2, 0)),
           lastUpdated: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "ThreatInsightConfiguration" });
   }
@@ -39784,11 +39390,11 @@ function __c268(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          contentSource: S.optional(__S(18656, __c583, 0)),
-          template: S.optional(__S(18656, __c583, 0)),
-          test: S.optional(__S(18656, __c583, 0)),
-          defaultContent: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          contentSource: S.optional(__S(18592, __c581, 0)),
+          template: S.optional(__S(18592, __c581, 0)),
+          test: S.optional(__S(18592, __c581, 0)),
+          defaultContent: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "EmailPreviewLinks" });
     case 1:
@@ -39903,7 +39509,7 @@ function __c273(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scriptSource: S.optional(S.String),
-          scriptParams: S.optional(__S(29504, __c922, 0)),
+          scriptParams: S.optional(__S(29152, __c911, 0)),
         }),
       ).annotate({ identifier: "WidgetConfigurationHcaptcha" });
     case 4:
@@ -39927,7 +39533,7 @@ function __c273(j: number): any {
         }),
       ).annotate({ identifier: "WidgetConfigurationHelpLinks" });
     case 7:
-      return S.Record(S.String, __S(29504, __c922, 0));
+      return S.Record(S.String, __S(29152, __c911, 0));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -40243,7 +39849,7 @@ function __c278(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          allow: S.optional(__S(18592, __c581, 0)),
+          allow: S.optional(__S(18528, __c579, 0)),
           guidance: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "HrefHintsGuidanceObject" });
@@ -40257,9 +39863,9 @@ function __c278(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          activate: S.optional(__S(18656, __c583, 0)),
-          deactivate: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          activate: S.optional(__S(18592, __c581, 0)),
+          deactivate: S.optional(__S(18592, __c581, 0)),
           authorize: S.optional(__S(8899, __c278, 3)),
         }),
       ).annotate({ identifier: "LinksSelfLifecycleAndAuthorize" });
@@ -40366,12 +39972,12 @@ function __c281(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          activate: S.optional(__S(18656, __c583, 0)),
-          deactivate: S.optional(__S(18656, __c583, 0)),
-          suspend: S.optional(__S(18656, __c583, 0)),
-          unsuspend: S.optional(__S(18656, __c583, 0)),
-          users: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          activate: S.optional(__S(18592, __c581, 0)),
+          deactivate: S.optional(__S(18592, __c581, 0)),
+          suspend: S.optional(__S(18592, __c581, 0)),
+          unsuspend: S.optional(__S(18592, __c581, 0)),
+          users: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "LinksSelfAndFullUsersLifecycle" });
   }
@@ -40413,28 +40019,6 @@ function __c284(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deviceId: S.String.pipe(T.Label()),
-          osAccountId: S.String.pipe(T.Label()),
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/devices/{deviceId}/os-accounts/{osAccountId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetDeviceOSAccountRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetDeviceOSAccountResponse",
-      });
-  }
-}
-function __c285(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           postureCheckId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -40446,96 +40030,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "GetDevicePostureCheckRequest" });
   }
 }
-function __c286(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/dr/status", code: 200 })),
-      ).annotate({ identifier: "GetDRStatusRequest" });
-  }
-}
-function __c287(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.optional(S.String),
-          isFailedOver: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DRStatusItem" });
-    case 1:
-      return S.Array(__S(9184, __c287, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(__S(9185, __c287, 1)),
-        }),
-      ).annotate({ identifier: "GetDRStatusResponse" });
-  }
-}
-function __c288(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/dr/status/{domain}", code: 200 })),
-      ).annotate({ identifier: "GetDRStatusByDomainRequest" });
-  }
-}
-function __c289(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          authenticatorEnrollmentId: S.optional(S.String),
-          credResponseJwe: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WebAuthnCredResponse" });
-    case 1:
-      return S.Array(__S(9248, __c289, 0));
-    case 2:
-      return S.Array(__S(9280, __c290, 0));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          credResponses: S.optional(__S(9249, __c289, 1)),
-          fulfillmentProvider: S.optional(S.String),
-          pinResponseJwe: S.optional(S.String),
-          serial: S.optional(S.String),
-          userId: S.optional(S.String),
-          version: S.optional(S.String),
-          yubicoSigningJwks: S.optional(__S(9250, __c289, 2)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/webauthn-registration/api/v1/activate", code: 200 }),
-        ),
-      ).annotate({ identifier: "ActivatePreregistrationEnrollmentRequest" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          authenticatorEnrollmentIds: S.optional(__S(64, __c2, 0)),
-          fulfillmentProvider: S.optional(S.String),
-          userId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnrollmentActivationResponse" });
-  }
-}
-function __c290(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          crv: S.String,
-          kid: S.String,
-          kty: S.String,
-          use: S.String,
-          x: S.String,
-          y: S.String,
-        }),
-      ).annotate({ identifier: "ECKeyJWK" });
-  }
-}
-function __c291(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40553,7 +40048,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "GetEmailCustomizationRequest" });
   }
 }
-function __c292(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40574,12 +40069,12 @@ function __c292(j: number): any {
         S.Struct({
           body: S.String,
           subject: S.String,
-          _links: S.optional(__S(28832, __c901, 0)),
+          _links: S.optional(__S(28480, __c890, 0)),
         }),
       ).annotate({ identifier: "GetEmailDefaultContentResponse" });
   }
 }
-function __c293(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40597,25 +40092,77 @@ function __c293(j: number): any {
       ).annotate({ identifier: "GetEmailDefaultPreviewRequest" });
   }
 }
-function __c294(j: number): any {
+function __c288(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          authenticatorEnrollmentId: S.optional(S.String),
+          credResponseJwe: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WebAuthnCredResponse" });
+    case 1:
+      return S.Array(__S(9216, __c288, 0));
+    case 2:
+      return S.Array(__S(9248, __c289, 0));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          credResponses: S.optional(__S(9217, __c288, 1)),
+          fulfillmentProvider: S.optional(S.String),
+          pinResponseJwe: S.optional(S.String),
+          serial: S.optional(S.String),
+          userId: S.optional(S.String),
+          version: S.optional(S.String),
+          yubicoSigningJwks: S.optional(__S(9218, __c288, 2)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/webauthn-registration/api/v1/activate", code: 200 }),
+        ),
+      ).annotate({ identifier: "ActivatePreregistrationEnrollmentRequest" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          authenticatorEnrollmentIds: S.optional(__S(64, __c2, 0)),
+          fulfillmentProvider: S.optional(S.String),
+          userId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnrollmentActivationResponse" });
+  }
+}
+function __c289(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          crv: S.String,
+          kid: S.String,
+          kty: S.String,
+          use: S.String,
+          x: S.String,
+          y: S.String,
+        }),
+      ).annotate({ identifier: "ECKeyJWK" });
+  }
+}
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           emailDomainId: S.String.pipe(T.Label()),
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          expand: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/email-domains/{emailDomainId}", code: 200 })),
       ).annotate({ identifier: "GetEmailDomainRequest" });
   }
 }
-function __c295(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(28352, __c886, 0));
+      return S.Array(__S(28000, __c875, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          brands: S.optional(__S(9440, __c295, 0)),
+          brands: S.optional(__S(9312, __c291, 0)),
         }),
       ).annotate({ identifier: "GetEmailDomainResponseEmbedded" });
     case 2:
@@ -40623,17 +40170,17 @@ function __c295(j: number): any {
         S.Struct({
           displayName: S.String,
           userName: S.String,
-          dnsValidationRecords: S.optional(__S(28961, __c905, 1)),
+          dnsValidationRecords: S.optional(__S(28609, __c894, 1)),
           domain: S.optional(S.String),
           id: S.optional(S.String),
           validationStatus: S.optional(S.String),
           validationSubdomain: S.optional(S.String),
-          _embedded: S.optional(__S(9441, __c295, 1)),
+          _embedded: S.optional(__S(9313, __c291, 1)),
         }),
       ).annotate({ identifier: "GetEmailDomainResponse" });
   }
 }
-function __c296(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40643,7 +40190,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "GetEmailServerRequest" });
   }
 }
-function __c297(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40660,32 +40207,32 @@ function __c297(j: number): any {
       ).annotate({ identifier: "GetEmailSettingsRequest" });
   }
 }
-function __c298(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          template: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          template: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "EmailSettingsResponseLinks" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           recipients: S.optional(S.String),
-          _links: S.optional(__S(9536, __c298, 0)),
+          _links: S.optional(__S(9408, __c294, 0)),
         }),
       ).annotate({ identifier: "EmailSettingsResponse" });
   }
 }
-function __c299(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           brandId: S.String.pipe(T.Label()),
           templateName: S.String.pipe(T.Label()),
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          expand: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -40696,47 +40243,47 @@ function __c299(j: number): any {
       ).annotate({ identifier: "GetEmailTemplateRequest" });
   }
 }
-function __c300(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          settings: S.optional(__S(9537, __c298, 1)),
+          settings: S.optional(__S(9409, __c294, 1)),
           customizationCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "EmailTemplateResponseEmbedded" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          settings: S.optional(__S(18656, __c583, 0)),
-          defaultContent: S.optional(__S(18656, __c583, 0)),
-          customizations: S.optional(__S(18656, __c583, 0)),
-          test: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          settings: S.optional(__S(18592, __c581, 0)),
+          defaultContent: S.optional(__S(18592, __c581, 0)),
+          customizations: S.optional(__S(18592, __c581, 0)),
+          test: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "EmailTemplateResponseLinks" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          _embedded: S.optional(__S(9600, __c300, 0)),
-          _links: S.optional(__S(9601, __c300, 1)),
+          _embedded: S.optional(__S(9472, __c296, 0)),
+          _links: S.optional(__S(9473, __c296, 1)),
         }),
       ).annotate({ identifier: "EmailTemplateResponse" });
   }
 }
-function __c301(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           brandId: S.String.pipe(T.Label()),
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          expand: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/pages/error", code: 200 })),
       ).annotate({ identifier: "GetErrorPageRequest" });
   }
 }
-function __c302(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40747,32 +40294,32 @@ function __c302(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          default: S.optional(__S(9664, __c302, 0)),
-          customized: S.optional(__S(9664, __c302, 0)),
+          default: S.optional(__S(9536, __c298, 0)),
+          customized: S.optional(__S(9536, __c298, 0)),
           customizedUrl: S.optional(S.String),
-          preview: S.optional(__S(9664, __c302, 0)),
+          preview: S.optional(__S(9536, __c298, 0)),
           previewUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "PageRootEmbedded" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          default: S.optional(__S(18656, __c583, 0)),
-          customized: S.optional(__S(18656, __c583, 0)),
-          preview: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          default: S.optional(__S(18592, __c581, 0)),
+          customized: S.optional(__S(18592, __c581, 0)),
+          preview: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "PageRootLinks" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _embedded: S.optional(__S(9665, __c302, 1)),
-          _links: S.optional(__S(9666, __c302, 2)),
+          _embedded: S.optional(__S(9537, __c298, 1)),
+          _links: S.optional(__S(9538, __c298, 2)),
         }),
       ).annotate({ identifier: "PageRoot" });
   }
 }
-function __c303(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40782,7 +40329,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "GetEventHookRequest" });
   }
 }
-function __c304(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40795,23 +40342,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "GetFactorRequest" });
   }
 }
-function __c305(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          assignmentId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/realm-assignments/{assignmentId}/lifecycle/activate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ActivateRealmAssignmentRequest" });
-  }
-}
-function __c306(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40833,7 +40364,7 @@ function __c306(j: number): any {
       });
   }
 }
-function __c307(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40843,7 +40374,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "GetFeatureRequest" });
   }
 }
-function __c308(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40853,7 +40384,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "FeatureLinksDependents" });
   }
 }
-function __c309(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40865,9 +40396,9 @@ function __c309(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          dependents: S.optional(__S(9856, __c308, 0)),
-          dependencies: S.optional(__S(9856, __c308, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          dependents: S.optional(__S(9696, __c303, 0)),
+          dependencies: S.optional(__S(9696, __c303, 0)),
         }),
       ).annotate({ identifier: "FeatureLinks" });
     case 2:
@@ -40876,15 +40407,15 @@ function __c309(j: number): any {
           description: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          stage: S.optional(__S(9888, __c309, 0)),
+          stage: S.optional(__S(9728, __c304, 0)),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(9889, __c309, 1)),
+          _links: S.optional(__S(9729, __c304, 1)),
         }),
       ).annotate({ identifier: "Feature" });
   }
 }
-function __c310(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40897,7 +40428,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "GetFeatureForApplicationRequest" });
   }
 }
-function __c311(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -40905,7 +40436,23 @@ function __c311(j: number): any {
       });
   }
 }
-function __c312(j: number): any {
+function __c307(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          assignmentId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/realm-assignments/{assignmentId}/lifecycle/activate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ActivateRealmAssignmentRequest" });
+  }
+}
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40929,7 +40476,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "FederatedClaimRequestBody" });
   }
 }
-function __c313(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40941,7 +40488,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "GetFirstPartyAppSettingsRequest" });
   }
 }
-function __c314(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40952,7 +40499,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "AdminConsoleSettings" });
   }
 }
-function __c315(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40964,7 +40511,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "GetGovernanceBundleRequest" });
   }
 }
-function __c316(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40974,7 +40521,7 @@ function __c316(j: number): any {
       ).annotate({ identifier: "GetGroupRequest" });
   }
 }
-function __c317(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -40995,7 +40542,7 @@ function __c317(j: number): any {
       });
   }
 }
-function __c318(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41015,12 +40562,12 @@ function __c318(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          profile: S.optional(__S(20704, __c647, 0)),
+          profile: S.optional(__S(20640, __c645, 0)),
         }),
       ).annotate({ identifier: "GroupProfileResult" });
   }
 }
-function __c319(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41037,46 +40584,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "GetGroupPushMappingRequest" });
   }
 }
-function __c320(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          securityEventProviderId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/security-events-providers/{securityEventProviderId}/lifecycle/activate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ActivateSecurityEventsProviderInstanceRequest" });
-  }
-}
-function __c321(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          issuer: S.optional(S.String),
-          jwks_url: S.optional(S.String),
-          well_known_url: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "SecurityEventsProviderSettingsResponse" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          settings: S.optional(__S(10272, __c321, 0)),
-          status: S.optional(S.String),
-          type: S.optional(S.String),
-          _links: S.optional(__S(3392, __c106, 0)),
-        }),
-      ).annotate({ identifier: "SecurityEventsProviderResponse" });
-  }
-}
-function __c322(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41087,7 +40595,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "GetGroupRuleRequest" });
   }
 }
-function __c323(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41097,7 +40605,7 @@ function __c323(j: number): any {
       ).annotate({ identifier: "GetGroupSchemaRequest" });
   }
 }
-function __c324(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -41113,11 +40621,11 @@ function __c324(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          enum: S.optional(S.NullOr(__S(10368, __c324, 0))),
+          enum: S.optional(S.NullOr(__S(10176, __c318, 0))),
           externalName: S.optional(S.String),
           externalNamespace: S.optional(S.String),
           format: S.optional(S.String),
-          items: S.optional(S.NullOr(__S(10369, __c324, 1))),
+          items: S.optional(S.NullOr(__S(10177, __c318, 1))),
           master: S.optional(S.NullOr(__S(7297, __c228, 1))),
           maxLength: S.optional(S.NullOr(S.Number)),
           minLength: S.optional(S.NullOr(S.Number)),
@@ -41134,26 +40642,26 @@ function __c324(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(__S(10370, __c324, 2)),
-          name: S.optional(__S(10370, __c324, 2)),
+          description: S.optional(__S(10178, __c318, 2)),
+          name: S.optional(__S(10178, __c318, 2)),
         }),
       ).annotate({ identifier: "GroupSchemaBaseProperties" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          properties: S.optional(__S(10371, __c324, 3)),
+          properties: S.optional(__S(10179, __c318, 3)),
           required: S.optional(__S(64, __c2, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "GroupSchemaBase" });
     case 5:
-      return S.Record(S.String, __S(10370, __c324, 2));
+      return S.Record(S.String, __S(10178, __c318, 2));
     case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          properties: S.optional(__S(10373, __c324, 5)),
+          properties: S.optional(__S(10181, __c318, 5)),
           required: S.optional(__S(64, __c2, 0)),
           type: S.optional(S.String),
         }),
@@ -41161,8 +40669,8 @@ function __c324(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          base: S.optional(__S(10372, __c324, 4)),
-          custom: S.optional(__S(10374, __c324, 6)),
+          base: S.optional(__S(10180, __c318, 4)),
+          custom: S.optional(__S(10182, __c318, 6)),
         }),
       ).annotate({ identifier: "GroupSchemaDefinitions" });
     case 8:
@@ -41170,7 +40678,7 @@ function __c324(j: number): any {
         S.Struct({
           _schema: S.optional(S.String.pipe(T.Body("$schema"))),
           created: S.optional(S.String),
-          definitions: S.optional(__S(10375, __c324, 7)),
+          definitions: S.optional(__S(10183, __c318, 7)),
           description: S.optional(S.String),
           id: S.optional(S.String),
           lastUpdated: S.optional(S.String),
@@ -41178,12 +40686,12 @@ function __c324(j: number): any {
           properties: S.optional(__S(7303, __c228, 7)),
           title: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "GroupSchema" });
   }
 }
-function __c325(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41193,7 +40701,7 @@ function __c325(j: number): any {
       ).annotate({ identifier: "GetHookKeyRequest" });
   }
 }
-function __c326(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41208,7 +40716,46 @@ function __c326(j: number): any {
       ).annotate({ identifier: "HookKey" });
   }
 }
-function __c327(j: number): any {
+function __c321(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          securityEventProviderId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/security-events-providers/{securityEventProviderId}/lifecycle/activate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ActivateSecurityEventsProviderInstanceRequest" });
+  }
+}
+function __c322(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          issuer: S.optional(S.String),
+          jwks_url: S.optional(S.String),
+          well_known_url: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "SecurityEventsProviderSettingsResponse" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          settings: S.optional(__S(10304, __c322, 0)),
+          status: S.optional(S.String),
+          type: S.optional(S.String),
+          _links: S.optional(__S(3392, __c106, 0)),
+        }),
+      ).annotate({ identifier: "SecurityEventsProviderResponse" });
+  }
+}
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41218,7 +40765,7 @@ function __c327(j: number): any {
       ).annotate({ identifier: "GetIdentityProviderRequest" });
   }
 }
-function __c328(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41229,16 +40776,16 @@ function __c328(j: number): any {
       ).annotate({ identifier: "GetIdentityProviderApplicationUserRequest" });
   }
 }
-function __c329(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            self: S.optional(__S(18656, __c583, 0)),
-            next: S.optional(__S(18656, __c583, 0)),
-            idp: S.optional(__S(18656, __c583, 0)),
-            user: S.optional(__S(18656, __c583, 0)),
+            self: S.optional(__S(18592, __c581, 0)),
+            next: S.optional(__S(18592, __c581, 0)),
+            idp: S.optional(__S(18592, __c581, 0)),
+            user: S.optional(__S(18592, __c581, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -41250,14 +40797,14 @@ function __c329(j: number): any {
           externalId: S.optional(S.String),
           id: S.optional(S.String),
           lastUpdated: S.optional(S.String),
-          profile: S.optional(__S(20704, __c647, 0)),
-          _embedded: S.optional(__S(20704, __c647, 0)),
-          _links: S.optional(__S(10528, __c329, 0)),
+          profile: S.optional(__S(20640, __c645, 0)),
+          _embedded: S.optional(__S(20640, __c645, 0)),
+          _links: S.optional(__S(10400, __c325, 0)),
         }),
       ).annotate({ identifier: "IdentityProviderApplicationUser" });
   }
 }
-function __c330(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41267,7 +40814,7 @@ function __c330(j: number): any {
       ).annotate({ identifier: "GetIdentityProviderKeyRequest" });
   }
 }
-function __c331(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41280,7 +40827,7 @@ function __c331(j: number): any {
       ).annotate({ identifier: "GetIdentityProviderSigningKeyRequest" });
   }
 }
-function __c332(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41297,7 +40844,7 @@ function __c332(j: number): any {
       ).annotate({ identifier: "GetIdentitySourceGroupRequest" });
   }
 }
-function __c333(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41322,7 +40869,7 @@ function __c333(j: number): any {
       ).annotate({ identifier: "GroupMembershipsResponseSchema" });
   }
 }
-function __c334(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41339,51 +40886,7 @@ function __c334(j: number): any {
       ).annotate({ identifier: "GetIdentitySourceSessionRequest" });
   }
 }
-function __c335(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          trustedOriginId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/trustedOrigins/{trustedOriginId}/lifecycle/activate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ActivateTrustedOriginRequest" });
-  }
-}
-function __c336(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allowedOktaApps: S.optional(__S(18592, __c581, 0)),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TrustedOriginScope" });
-    case 1:
-      return S.Array(__S(10752, __c336, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.optional(S.String),
-          createdBy: S.optional(S.String),
-          id: S.optional(S.String),
-          lastUpdated: S.optional(S.String),
-          lastUpdatedBy: S.optional(S.String),
-          name: S.optional(S.String),
-          origin: S.optional(S.String),
-          scopes: S.optional(__S(10753, __c336, 1)),
-          status: S.optional(S.String),
-          _links: S.optional(__S(3392, __c106, 0)),
-        }),
-      ).annotate({ identifier: "TrustedOrigin" });
-  }
-}
-function __c337(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41400,7 +40903,7 @@ function __c337(j: number): any {
       ).annotate({ identifier: "GetIdentitySourceUserRequest" });
   }
 }
-function __c338(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41409,12 +40912,12 @@ function __c338(j: number): any {
           externalId: S.optional(S.String),
           id: S.optional(S.String),
           lastUpdated: S.optional(S.String),
-          profile: S.optional(__S(10848, __c339, 0)),
+          profile: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "UserResponseSchema" });
   }
 }
-function __c339(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41430,7 +40933,7 @@ function __c339(j: number): any {
       ).annotate({ identifier: "IdentitySourceUserProfileForUpsert" });
   }
 }
-function __c340(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41440,7 +40943,7 @@ function __c340(j: number): any {
       ).annotate({ identifier: "GetInlineHookRequest" });
   }
 }
-function __c341(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41461,7 +40964,51 @@ function __c341(j: number): any {
       });
   }
 }
-function __c342(j: number): any {
+function __c336(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          trustedOriginId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/trustedOrigins/{trustedOriginId}/lifecycle/activate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ActivateTrustedOriginRequest" });
+  }
+}
+function __c337(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allowedOktaApps: S.optional(__S(18528, __c579, 0)),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TrustedOriginScope" });
+    case 1:
+      return S.Array(__S(10784, __c337, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.optional(S.String),
+          createdBy: S.optional(S.String),
+          id: S.optional(S.String),
+          lastUpdated: S.optional(S.String),
+          lastUpdatedBy: S.optional(S.String),
+          name: S.optional(S.String),
+          origin: S.optional(S.String),
+          scopes: S.optional(__S(10785, __c337, 1)),
+          status: S.optional(S.String),
+          _links: S.optional(__S(3392, __c106, 0)),
+        }),
+      ).annotate({ identifier: "TrustedOrigin" });
+  }
+}
+function __c338(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41477,7 +41024,7 @@ function __c342(j: number): any {
       ).annotate({ identifier: "GetLinkedObjectDefinitionRequest" });
   }
 }
-function __c343(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41487,7 +41034,7 @@ function __c343(j: number): any {
       ).annotate({ identifier: "GetLogStreamRequest" });
   }
 }
-function __c344(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41503,7 +41050,7 @@ function __c344(j: number): any {
       ).annotate({ identifier: "GetLogStreamSchemaRequest" });
   }
 }
-function __c345(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41517,12 +41064,12 @@ function __c345(j: number): any {
           required: S.optional(__S(64, __c2, 0)),
           title: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "LogStreamSchema" });
   }
 }
-function __c346(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41540,7 +41087,7 @@ function __c346(j: number): any {
       ).annotate({ identifier: "GetMemberOfBindingRequest" });
   }
 }
-function __c347(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41548,12 +41095,12 @@ function __c347(j: number): any {
           created: S.optional(S.String),
           id: S.optional(S.String),
           lastUpdated: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "ResourceSetBindingMember" });
   }
 }
-function __c348(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41563,7 +41110,7 @@ function __c348(j: number): any {
       ).annotate({ identifier: "GetNetworkZoneRequest" });
   }
 }
-function __c349(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41580,7 +41127,7 @@ function __c349(j: number): any {
       ).annotate({ identifier: "GetOAuth2ClaimRequest" });
   }
 }
-function __c350(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41597,31 +41144,7 @@ function __c350(j: number): any {
       ).annotate({ identifier: "GetOAuth2ClientSecretRequest" });
   }
 }
-function __c351(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          sendEmail: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/v1/users/{id}/lifecycle/activate", code: 200 }),
-        ),
-      ).annotate({ identifier: "ActivateUserRequest" });
-  }
-}
-function __c352(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          activationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          activationUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserActivationToken" });
-  }
-}
-function __c353(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41638,7 +41161,7 @@ function __c353(j: number): any {
       ).annotate({ identifier: "GetOAuth2ResourceServerJsonWebKeyRequest" });
   }
 }
-function __c354(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41655,7 +41178,7 @@ function __c354(j: number): any {
       ).annotate({ identifier: "GetOAuth2ScopeRequest" });
   }
 }
-function __c355(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41667,7 +41190,7 @@ function __c355(j: number): any {
       ).annotate({ identifier: "GetOAuth2TokenForApplicationRequest" });
   }
 }
-function __c356(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41678,12 +41201,12 @@ function __c356(j: number): any {
       ).annotate({ identifier: "OfflineAccessScopeResourceHrefObject" });
   }
 }
-function __c357(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scope: S.optional(__S(11392, __c356, 0)),
+          scope: S.optional(__S(11200, __c350, 0)),
         }),
       ).annotate({ identifier: "OAuth2RefreshTokenScopeLinks" });
     case 1:
@@ -41693,15 +41216,15 @@ function __c357(j: number): any {
           displayName: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          _links: S.optional(__S(11424, __c357, 0)),
+          _links: S.optional(__S(11232, __c351, 0)),
         }),
       ).annotate({ identifier: "OAuth2RefreshTokenScope" });
     case 2:
-      return S.Array(__S(11425, __c357, 1));
+      return S.Array(__S(11233, __c351, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          scopes: S.optional(__S(11426, __c357, 2)),
+          scopes: S.optional(__S(11234, __c351, 2)),
         }),
       ).annotate({ identifier: "OAuth2RefreshTokenEmbedded" });
     case 4:
@@ -41714,18 +41237,18 @@ function __c357(j: number): any {
       return S.suspend(() =>
         S.Struct({
           href: S.optional(S.String),
-          hints: S.optional(__S(11428, __c357, 4)),
+          hints: S.optional(__S(11236, __c351, 4)),
         }),
       ).annotate({ identifier: "OAuth2RefreshTokenLinksRevoke" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          app: S.optional(__S(11392, __c356, 0)),
-          revoke: S.optional(__S(11429, __c357, 5)),
-          client: S.optional(__S(11392, __c356, 0)),
-          user: S.optional(__S(11392, __c356, 0)),
-          authorizationServer: S.optional(__S(11392, __c356, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          app: S.optional(__S(11200, __c350, 0)),
+          revoke: S.optional(__S(11237, __c351, 5)),
+          client: S.optional(__S(11200, __c350, 0)),
+          user: S.optional(__S(11200, __c350, 0)),
+          authorizationServer: S.optional(__S(11200, __c350, 0)),
         }),
       ).annotate({ identifier: "OAuth2RefreshTokenLinks" });
     case 7:
@@ -41740,13 +41263,37 @@ function __c357(j: number): any {
           scopes: S.optional(__S(64, __c2, 0)),
           status: S.optional(S.String),
           userId: S.optional(S.String),
-          _embedded: S.optional(__S(11427, __c357, 3)),
-          _links: S.optional(__S(11430, __c357, 6)),
+          _embedded: S.optional(__S(11235, __c351, 3)),
+          _links: S.optional(__S(11238, __c351, 6)),
         }),
       ).annotate({ identifier: "OAuth2RefreshToken" });
   }
 }
-function __c358(j: number): any {
+function __c352(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          sendEmail: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/v1/users/{id}/lifecycle/activate", code: 200 }),
+        ),
+      ).annotate({ identifier: "ActivateUserRequest" });
+  }
+}
+function __c353(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          activationToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          activationUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UserActivationToken" });
+  }
+}
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41756,25 +41303,25 @@ function __c358(j: number): any {
       ).annotate({ identifier: "GetOktaCommunicationSettingsRequest" });
   }
 }
-function __c359(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          optIn: S.optional(__S(18656, __c583, 0)),
-          optOut: S.optional(__S(18656, __c583, 0)),
+          optIn: S.optional(__S(18592, __c581, 0)),
+          optOut: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "OrgOktaCommunicationSettingLinks" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           optOutEmailUsers: S.optional(S.Boolean),
-          _links: S.optional(__S(11488, __c359, 0)),
+          _links: S.optional(__S(11360, __c355, 0)),
         }),
       ).annotate({ identifier: "OrgOktaCommunicationSetting" });
   }
 }
-function __c360(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41790,7 +41337,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "GetOktaManagedUserAccountRequest" });
   }
 }
-function __c361(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41800,24 +41347,24 @@ function __c361(j: number): any {
       ).annotate({ identifier: "GetOptInStatusRequest" });
   }
 }
-function __c362(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          optInStatus: S.optional(__S(18656, __c583, 0)),
+          optInStatus: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "OptInStatusResponseLinks" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           optInStatus: S.optional(S.String),
-          _links: S.optional(__S(11584, __c362, 0)),
+          _links: S.optional(__S(11456, __c358, 0)),
         }),
       ).annotate({ identifier: "OptInStatusResponse" });
   }
 }
-function __c363(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41825,19 +41372,19 @@ function __c363(j: number): any {
       ).annotate({ identifier: "GetOrgCaptchaSettingsRequest" });
   }
 }
-function __c364(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           captchaId: S.optional(S.String),
-          enabledPages: S.optional(__S(18592, __c581, 0)),
-          _links: S.optional(__S(18752, __c586, 0)),
+          enabledPages: S.optional(__S(18528, __c579, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "OrgCAPTCHASettings" });
   }
 }
-function __c365(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41847,24 +41394,24 @@ function __c365(j: number): any {
       ).annotate({ identifier: "GetOrgContactUserRequest" });
   }
 }
-function __c366(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user: S.optional(__S(18656, __c583, 0)),
+          user: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "OrgContactUserLinks" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           userId: S.optional(S.String),
-          _links: S.optional(__S(11712, __c366, 0)),
+          _links: S.optional(__S(11584, __c362, 0)),
         }),
       ).annotate({ identifier: "OrgContactUser" });
   }
 }
-function __c367(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41875,11 +41422,11 @@ function __c367(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          extend: S.optional(__S(18656, __c583, 0)),
-          revoke: S.optional(__S(18656, __c583, 0)),
-          grant: S.optional(__S(18656, __c583, 0)),
-          case: S.optional(__S(18656, __c583, 0)),
-          cases: S.optional(__S(18656, __c583, 0)),
+          extend: S.optional(__S(18592, __c581, 0)),
+          revoke: S.optional(__S(18592, __c581, 0)),
+          grant: S.optional(__S(18592, __c581, 0)),
+          case: S.optional(__S(18592, __c581, 0)),
+          cases: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "OrgOktaSupportSettingsObjLinks" });
     case 2:
@@ -41888,12 +41435,12 @@ function __c367(j: number): any {
           caseNumber: S.optional(S.NullOr(S.String)),
           expiration: S.optional(S.NullOr(S.String)),
           support: S.optional(S.String),
-          _links: S.optional(__S(11745, __c367, 1)),
+          _links: S.optional(__S(11617, __c363, 1)),
         }),
       ).annotate({ identifier: "OrgOktaSupportSettingsObj" });
   }
 }
-function __c368(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -41901,105 +41448,25 @@ function __c368(j: number): any {
       ).annotate({ identifier: "GetOrgPreferencesRequest" });
   }
 }
-function __c369(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hideEndUserFooter: S.optional(__S(18656, __c583, 0)),
-          showEndUserFooter: S.optional(__S(18656, __c583, 0)),
+          hideEndUserFooter: S.optional(__S(18592, __c581, 0)),
+          showEndUserFooter: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "OrgPreferencesLinks" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           showEndUserFooter: S.optional(S.Boolean),
-          _links: S.optional(__S(11808, __c369, 0)),
+          _links: S.optional(__S(11680, __c365, 0)),
         }),
       ).annotate({ identifier: "OrgPreferences" });
   }
 }
-function __c370(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          profile: S.optional(__S(11904, __c372, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/groups", code: 200 })),
-      ).annotate({ identifier: "AddGroupRequest" });
-  }
-}
-function __c371(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          usersCount: S.optional(S.Number),
-          appsCount: S.optional(S.Number),
-          groupPushMappingsCount: S.optional(S.Number),
-          hasAdminPrivlege: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GroupEmbeddedStats" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          label: S.optional(S.String),
-          signOnMode: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GroupEmbeddedApp" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          stats: S.optional(__S(11872, __c371, 0)),
-          app: S.optional(__S(11873, __c371, 1)),
-        }),
-      ).annotate({ identifier: "GroupEmbedded" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          apps: S.optional(__S(18656, __c583, 0)),
-          logo: S.optional(__S(11936, __c373, 0)),
-          source: S.optional(__S(18656, __c583, 0)),
-          users: S.optional(__S(18656, __c583, 0)),
-        }),
-      ).annotate({ identifier: "GroupLinks" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.optional(S.String),
-          id: S.optional(S.String),
-          lastMembershipUpdated: S.optional(S.String),
-          lastUpdated: S.optional(S.String),
-          objectClass: S.optional(__S(64, __c2, 0)),
-          profile: S.optional(S.Unknown),
-          type: S.optional(S.String),
-          _embedded: S.optional(__S(11874, __c371, 2)),
-          _links: S.optional(__S(11875, __c371, 3)),
-        }),
-      ).annotate({ identifier: "Group" });
-  }
-}
-function __c372(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          description: S.optional(S.String),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OktaUserGroupProfile" });
-  }
-}
-function __c373(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(18656, __c583, 0));
-  }
-}
-function __c374(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42007,17 +41474,17 @@ function __c374(j: number): any {
       ).annotate({ identifier: "GetOrgSettingsRequest" });
   }
 }
-function __c375(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contacts: S.optional(__S(18656, __c583, 0)),
-          logo: S.optional(__S(18656, __c583, 0)),
-          oktaCommunication: S.optional(__S(18656, __c583, 0)),
-          oktaSupport: S.optional(__S(18656, __c583, 0)),
-          preferences: S.optional(__S(18656, __c583, 0)),
-          uploadLogo: S.optional(__S(18656, __c583, 0)),
+          contacts: S.optional(__S(18592, __c581, 0)),
+          logo: S.optional(__S(18592, __c581, 0)),
+          oktaCommunication: S.optional(__S(18592, __c581, 0)),
+          oktaSupport: S.optional(__S(18592, __c581, 0)),
+          preferences: S.optional(__S(18592, __c581, 0)),
+          uploadLogo: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "OrgGeneralSettingLinks" });
     case 1:
@@ -42040,12 +41507,12 @@ function __c375(j: number): any {
           subdomain: S.optional(S.String),
           supportPhoneNumber: S.optional(S.String),
           website: S.optional(S.String),
-          _links: S.optional(__S(12000, __c375, 0)),
+          _links: S.optional(__S(11744, __c367, 0)),
         }),
       ).annotate({ identifier: "OrgSetting" });
   }
 }
-function __c376(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42056,7 +41523,7 @@ function __c376(j: number): any {
       ).annotate({ identifier: "GetPolicyRequest" });
   }
 }
-function __c377(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42073,26 +41540,106 @@ function __c377(j: number): any {
       ).annotate({ identifier: "GetPolicyMappingRequest" });
   }
 }
-function __c378(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          application: S.optional(__S(18656, __c583, 0)),
-          policy: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          application: S.optional(__S(18592, __c581, 0)),
+          policy: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "PolicyMappingLinks" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          _links: S.optional(__S(12096, __c378, 0)),
+          _links: S.optional(__S(11840, __c370, 0)),
         }),
       ).annotate({ identifier: "PolicyMapping" });
   }
 }
-function __c379(j: number): any {
+function __c371(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profile: S.optional(__S(11936, __c373, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/groups", code: 200 })),
+      ).annotate({ identifier: "AddGroupRequest" });
+  }
+}
+function __c372(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          usersCount: S.optional(S.Number),
+          appsCount: S.optional(S.Number),
+          groupPushMappingsCount: S.optional(S.Number),
+          hasAdminPrivlege: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "GroupEmbeddedStats" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          label: S.optional(S.String),
+          signOnMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GroupEmbeddedApp" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          stats: S.optional(__S(11904, __c372, 0)),
+          app: S.optional(__S(11905, __c372, 1)),
+        }),
+      ).annotate({ identifier: "GroupEmbedded" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          self: S.optional(__S(18592, __c581, 0)),
+          apps: S.optional(__S(18592, __c581, 0)),
+          logo: S.optional(__S(11968, __c374, 0)),
+          source: S.optional(__S(18592, __c581, 0)),
+          users: S.optional(__S(18592, __c581, 0)),
+        }),
+      ).annotate({ identifier: "GroupLinks" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.optional(S.String),
+          id: S.optional(S.String),
+          lastMembershipUpdated: S.optional(S.String),
+          lastUpdated: S.optional(S.String),
+          objectClass: S.optional(__S(64, __c2, 0)),
+          profile: S.optional(S.Unknown),
+          type: S.optional(S.String),
+          _embedded: S.optional(__S(11906, __c372, 2)),
+          _links: S.optional(__S(11907, __c372, 3)),
+        }),
+      ).annotate({ identifier: "Group" });
+  }
+}
+function __c373(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OktaUserGroupProfile" });
+  }
+}
+function __c374(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(18592, __c581, 0));
+  }
+}
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42105,7 +41652,7 @@ function __c379(j: number): any {
       ).annotate({ identifier: "GetPolicyRuleRequest" });
   }
 }
-function __c380(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42117,7 +41664,7 @@ function __c380(j: number): any {
       ).annotate({ identifier: "GetPreviewErrorPageRequest" });
   }
 }
-function __c381(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42133,7 +41680,7 @@ function __c381(j: number): any {
       ).annotate({ identifier: "GetPreviewSignInPageRequest" });
   }
 }
-function __c382(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42149,7 +41696,7 @@ function __c382(j: number): any {
       ).annotate({ identifier: "GetPrincipalRateLimitEntityRequest" });
   }
 }
-function __c383(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42159,7 +41706,7 @@ function __c383(j: number): any {
       ).annotate({ identifier: "GetProfileMappingRequest" });
   }
 }
-function __c384(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42172,7 +41719,7 @@ function __c384(j: number): any {
       ).annotate({ identifier: "ProfileMappingSource" });
   }
 }
-function __c385(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42185,15 +41732,15 @@ function __c385(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          properties: S.optional(__S(12320, __c385, 0)),
-          source: S.optional(__S(12288, __c384, 0)),
-          target: S.optional(__S(12288, __c384, 0)),
-          _links: S.optional(__S(18752, __c586, 0)),
+          properties: S.optional(__S(12192, __c381, 0)),
+          source: S.optional(__S(12160, __c380, 0)),
+          target: S.optional(__S(12160, __c380, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "ProfileMapping" });
   }
 }
-function __c386(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42203,7 +41750,7 @@ function __c386(j: number): any {
       ).annotate({ identifier: "GetPublicKeyRequest" });
   }
 }
-function __c387(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42215,7 +41762,84 @@ function __c387(j: number): any {
       ).annotate({ identifier: "GetPushProviderRequest" });
   }
 }
+function __c384(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/rate-limit-settings/admin-notifications",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetRateLimitSettingsAdminNotificationsRequest" });
+  }
+}
+function __c385(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          notificationsEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "RateLimitAdminNotifications" });
+  }
+}
+function __c386(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/rate-limit-settings/per-client", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetRateLimitSettingsPerClientRequest" });
+  }
+}
+function __c387(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          LOGIN_PAGE: S.optional(S.String),
+          OAUTH2_AUTHORIZE: S.optional(S.String),
+          OIE_APP_INTENT: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PerClientRateLimitSettingsUseCaseModeOverrides" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          defaultMode: S.String,
+          useCaseModeOverrides: S.optional(__S(12384, __c387, 0)),
+        }),
+      ).annotate({ identifier: "PerClientRateLimitSettings" });
+  }
+}
 function __c388(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/rate-limit-settings/warning-threshold",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetRateLimitSettingsWarningThresholdRequest" });
+  }
+}
+function __c389(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          warningThreshold: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RateLimitWarningThresholdResponse" });
+  }
+}
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42232,84 +41856,7 @@ function __c388(j: number): any {
       });
   }
 }
-function __c389(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/rate-limit-settings/admin-notifications",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetRateLimitSettingsAdminNotificationsRequest" });
-  }
-}
-function __c390(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          notificationsEnabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "RateLimitAdminNotifications" });
-  }
-}
 function __c391(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/rate-limit-settings/per-client", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetRateLimitSettingsPerClientRequest" });
-  }
-}
-function __c392(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          LOGIN_PAGE: S.optional(S.String),
-          OAUTH2_AUTHORIZE: S.optional(S.String),
-          OIE_APP_INTENT: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PerClientRateLimitSettingsUseCaseModeOverrides" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          defaultMode: S.String,
-          useCaseModeOverrides: S.optional(__S(12544, __c392, 0)),
-        }),
-      ).annotate({ identifier: "PerClientRateLimitSettings" });
-  }
-}
-function __c393(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/rate-limit-settings/warning-threshold",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetRateLimitSettingsWarningThresholdRequest" });
-  }
-}
-function __c394(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          warningThreshold: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "RateLimitWarningThresholdResponse" });
-  }
-}
-function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42319,7 +41866,7 @@ function __c395(j: number): any {
       ).annotate({ identifier: "GetRealmRequest" });
   }
 }
-function __c396(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42331,7 +41878,7 @@ function __c396(j: number): any {
       ).annotate({ identifier: "GetRealmAssignmentRequest" });
   }
 }
-function __c397(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42350,7 +41897,7 @@ function __c397(j: number): any {
       ).annotate({ identifier: "GetRefreshTokenForAuthorizationServerAndClientRequest" });
   }
 }
-function __c398(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42369,7 +41916,7 @@ function __c398(j: number): any {
       ).annotate({ identifier: "GetRefreshTokenForUserAndClientRequest" });
   }
 }
-function __c399(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42385,7 +41932,7 @@ function __c399(j: number): any {
       ).annotate({ identifier: "GetResourceSetRequest" });
   }
 }
-function __c400(j: number): any {
+function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42402,7 +41949,7 @@ function __c400(j: number): any {
       ).annotate({ identifier: "GetResourceSetResourceRequest" });
   }
 }
-function __c401(j: number): any {
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42412,43 +41959,7 @@ function __c401(j: number): any {
       ).annotate({ identifier: "GetRoleRequest" });
   }
 }
-function __c402(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resourceSetIdOrLabel: S.String.pipe(T.Label()),
-          roleIdOrLabel: S.String.pipe(T.Label()),
-          additions: S.optional(__S(64, __c2, 0)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/v1/iam/resource-sets/{resourceSetIdOrLabel}/bindings/{roleIdOrLabel}/members",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddMembersToBindingRequest" });
-  }
-}
-function __c403(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          resource_set: S.optional(__S(18656, __c583, 0).pipe(T.Body("resource-set"))),
-          bindings: S.optional(__S(18656, __c583, 0)),
-        }),
-      ).annotate({ identifier: "ResourceSetBindingEditResponseLinks" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          _links: S.optional(__S(12896, __c403, 0)),
-        }),
-      ).annotate({ identifier: "ResourceSetBindingEditResponse" });
-  }
-}
-function __c404(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42466,13 +41977,13 @@ function __c404(j: number): any {
       ).annotate({ identifier: "GetRoleAssignmentGovernanceGrantRequest" });
   }
 }
-function __c405(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(18656, __c583, 0)),
-          self: S.optional(__S(18656, __c583, 0)),
+          resources: S.optional(__S(18592, __c581, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "RoleGovernanceSourceLinks" });
     case 1:
@@ -42482,12 +41993,12 @@ function __c405(j: number): any {
           expirationDate: S.optional(S.String),
           grantId: S.String,
           type: S.String,
-          _links: S.optional(__S(12960, __c405, 0)),
+          _links: S.optional(__S(12768, __c399, 0)),
         }),
       ).annotate({ identifier: "RoleGovernanceSource" });
   }
 }
-function __c406(j: number): any {
+function __c400(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42511,28 +42022,28 @@ function __c406(j: number): any {
         }),
       ).annotate({ identifier: "RoleGovernanceResource" });
     case 2:
-      return S.Array(__S(12993, __c406, 1));
+      return S.Array(__S(12801, __c400, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(12994, __c406, 2)),
-          _links: S.optional(__S(13024, __c407, 0)),
+          resources: S.optional(__S(12802, __c400, 2)),
+          _links: S.optional(__S(12832, __c401, 0)),
         }),
       ).annotate({ identifier: "RoleGovernanceResources" });
   }
 }
-function __c407(j: number): any {
+function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          next: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          next: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "RoleGovernanceResourcesLinks" });
   }
 }
-function __c408(j: number): any {
+function __c402(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42549,13 +42060,13 @@ function __c408(j: number): any {
       ).annotate({ identifier: "GetRolePermissionRequest" });
   }
 }
-function __c409(j: number): any {
+function __c403(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          role: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          role: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "PermissionLinks" });
     case 1:
@@ -42565,12 +42076,48 @@ function __c409(j: number): any {
           created: S.optional(S.String),
           label: S.optional(S.String),
           lastUpdated: S.optional(S.String),
-          _links: S.optional(__S(13088, __c409, 0)),
+          _links: S.optional(__S(12896, __c403, 0)),
         }),
       ).annotate({ identifier: "Permission" });
   }
 }
-function __c410(j: number): any {
+function __c404(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceSetIdOrLabel: S.String.pipe(T.Label()),
+          roleIdOrLabel: S.String.pipe(T.Label()),
+          additions: S.optional(__S(64, __c2, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/v1/iam/resource-sets/{resourceSetIdOrLabel}/bindings/{roleIdOrLabel}/members",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddMembersToBindingRequest" });
+  }
+}
+function __c405(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          self: S.optional(__S(18592, __c581, 0)),
+          resource_set: S.optional(__S(18592, __c581, 0).pipe(T.Body("resource-set"))),
+          bindings: S.optional(__S(18592, __c581, 0)),
+        }),
+      ).annotate({ identifier: "ResourceSetBindingEditResponseLinks" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          _links: S.optional(__S(12960, __c405, 0)),
+        }),
+      ).annotate({ identifier: "ResourceSetBindingEditResponse" });
+  }
+}
+function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42594,25 +42141,25 @@ function __c410(j: number): any {
           assignmentType: S.optional(S.String),
           expiration: S.optional(S.String),
           orn: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "RoleTarget" });
     case 2:
-      return S.Array(__S(13121, __c410, 1));
+      return S.Array(__S(12993, __c406, 1));
     case 3:
-      return S.suspend(() => __S(13122, __c410, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(12994, __c406, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetRoleTargetsByUserIdAndRoleIdResponse",
       });
   }
 }
-function __c411(j: number): any {
+function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           brandId: S.String.pipe(T.Label()),
           path: S.String.pipe(T.Label()),
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          expand: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -42623,7 +42170,7 @@ function __c411(j: number): any {
       ).annotate({ identifier: "GetRootBrandWellKnownURIRequest" });
   }
 }
-function __c412(j: number): any {
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42635,7 +42182,7 @@ function __c412(j: number): any {
       ).annotate({ identifier: "GetScopeConsentGrantRequest" });
   }
 }
-function __c413(j: number): any {
+function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42646,23 +42193,23 @@ function __c413(j: number): any {
       ).annotate({ identifier: "UserImportRequestDataContextJob" });
   }
 }
-function __c414(j: number): any {
+function __c410(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scope: S.optional(__S(28096, __c878, 0)),
+          scope: S.optional(__S(27744, __c867, 0)),
         }),
       ).annotate({ identifier: "OAuth2ScopeConsentGrantEmbedded" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          app: S.optional(__S(11392, __c356, 0)),
-          client: S.optional(__S(11392, __c356, 0)),
-          scope: S.optional(__S(11392, __c356, 0)),
-          user: S.optional(__S(11392, __c356, 0)),
-          authorizationServer: S.optional(__S(11392, __c356, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          app: S.optional(__S(11200, __c350, 0)),
+          client: S.optional(__S(11200, __c350, 0)),
+          scope: S.optional(__S(11200, __c350, 0)),
+          user: S.optional(__S(11200, __c350, 0)),
+          authorizationServer: S.optional(__S(11200, __c350, 0)),
         }),
       ).annotate({ identifier: "OAuth2ScopeConsentGrantLinks" });
     case 2:
@@ -42670,7 +42217,7 @@ function __c414(j: number): any {
         S.Struct({
           clientId: S.optional(S.String),
           created: S.optional(S.String),
-          createdBy: S.optional(__S(13216, __c413, 0)),
+          createdBy: S.optional(__S(13088, __c409, 0)),
           id: S.optional(S.String),
           issuer: S.String,
           lastUpdated: S.optional(S.String),
@@ -42678,13 +42225,13 @@ function __c414(j: number): any {
           source: S.optional(S.String),
           status: S.optional(S.String),
           userId: S.optional(S.String),
-          _embedded: S.optional(__S(13248, __c414, 0)),
-          _links: S.optional(__S(13249, __c414, 1)),
+          _embedded: S.optional(__S(13120, __c410, 0)),
+          _links: S.optional(__S(13121, __c410, 1)),
         }),
       ).annotate({ identifier: "OAuth2ScopeConsentGrant" });
   }
 }
-function __c415(j: number): any {
+function __c411(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42700,7 +42247,7 @@ function __c415(j: number): any {
       ).annotate({ identifier: "GetSecurityEventsProviderInstanceRequest" });
   }
 }
-function __c416(j: number): any {
+function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42710,7 +42257,7 @@ function __c416(j: number): any {
       ).annotate({ identifier: "GetSessionRequest" });
   }
 }
-function __c417(j: number): any {
+function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42722,35 +42269,35 @@ function __c417(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          amr: S.optional(__S(18592, __c581, 0)),
+          amr: S.optional(__S(18528, __c579, 0)),
           createdAt: S.optional(S.String),
           expiresAt: S.optional(S.String),
           id: S.optional(S.String),
-          idp: S.optional(__S(13344, __c417, 0)),
+          idp: S.optional(__S(13216, __c413, 0)),
           lastFactorVerification: S.optional(S.String),
           lastPasswordVerification: S.optional(S.String.pipe(T.SensitiveValue({}))),
           login: S.optional(S.String),
           status: S.optional(S.String),
           userId: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "Session" });
   }
 }
-function __c418(j: number): any {
+function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           brandId: S.String.pipe(T.Label()),
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          expand: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/pages/sign-in", code: 200 }),
         ),
       ).annotate({ identifier: "GetSignInPageRequest" });
   }
 }
-function __c419(j: number): any {
+function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42766,7 +42313,7 @@ function __c419(j: number): any {
       ).annotate({ identifier: "GetSignOutPageSettingsRequest" });
   }
 }
-function __c420(j: number): any {
+function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42777,7 +42324,48 @@ function __c420(j: number): any {
       ).annotate({ identifier: "HostedPage" });
   }
 }
-function __c421(j: number): any {
+function __c417(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          templateId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/templates/sms/{templateId}", code: 200 })),
+      ).annotate({ identifier: "GetSmsTemplateRequest" });
+  }
+}
+function __c418(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          stream_id: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/ssf/stream", code: 200 })),
+      ).annotate({ identifier: "GetSsfStreamsRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetSsfStreamsResponse",
+      });
+  }
+}
+function __c419(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          stream_id: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/ssf/stream/status", code: 200 })),
+      ).annotate({ identifier: "GetSsfStreamStatusRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          stream_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StreamStatus" });
+  }
+}
+function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42799,48 +42387,7 @@ function __c421(j: number): any {
       ).annotate({ identifier: "AddOAuth2ResourceServerJsonWebKeyRequest" });
   }
 }
-function __c422(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          templateId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/templates/sms/{templateId}", code: 200 })),
-      ).annotate({ identifier: "GetSmsTemplateRequest" });
-  }
-}
-function __c423(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          stream_id: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/ssf/stream", code: 200 })),
-      ).annotate({ identifier: "GetSsfStreamsRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "GetSsfStreamsResponse",
-      });
-  }
-}
-function __c424(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          stream_id: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/ssf/stream/status", code: 200 })),
-      ).annotate({ identifier: "GetSsfStreamStatusRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          stream_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StreamStatus" });
-  }
-}
-function __c425(j: number): any {
+function __c421(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42857,7 +42404,7 @@ function __c425(j: number): any {
       ).annotate({ identifier: "GetSubscriptionsNotificationTypeRoleRequest" });
   }
 }
-function __c426(j: number): any {
+function __c422(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42865,12 +42412,12 @@ function __c426(j: number): any {
           channels: S.optional(__S(64, __c2, 0)),
           notificationType: S.optional(S.String),
           status: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "Subscription" });
   }
 }
-function __c427(j: number): any {
+function __c423(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42887,7 +42434,7 @@ function __c427(j: number): any {
       ).annotate({ identifier: "GetSubscriptionsNotificationTypeUserRequest" });
   }
 }
-function __c428(j: number): any {
+function __c424(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42901,7 +42448,7 @@ function __c428(j: number): any {
       ).annotate({ identifier: "GetThirdPartyAdminSettingRequest" });
   }
 }
-function __c429(j: number): any {
+function __c425(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42911,7 +42458,7 @@ function __c429(j: number): any {
       ).annotate({ identifier: "ThirdPartyAdminSetting" });
   }
 }
-function __c430(j: number): any {
+function __c426(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42923,7 +42470,7 @@ function __c430(j: number): any {
       ).annotate({ identifier: "GetTrustedOriginRequest" });
   }
 }
-function __c431(j: number): any {
+function __c427(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42933,7 +42480,7 @@ function __c431(j: number): any {
       ).annotate({ identifier: "GetUISchemaRequest" });
   }
 }
-function __c432(j: number): any {
+function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42946,7 +42493,7 @@ function __c432(j: number): any {
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            blocks: S.optional(__S(13857, __c433, 1)),
+            blocks: S.optional(__S(13729, __c429, 1)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -42956,7 +42503,7 @@ function __c432(j: number): any {
         S.Struct({
           activated: S.optional(S.NullOr(S.String)),
           created: S.optional(S.String),
-          credentials: S.optional(__S(23781, __c743, 5)),
+          credentials: S.optional(__S(23717, __c741, 5)),
           id: S.optional(S.String),
           lastLogin: S.optional(S.NullOr(S.String)),
           lastUpdated: S.optional(S.String),
@@ -42966,14 +42513,14 @@ function __c432(j: number): any {
           status: S.optional(S.String),
           statusChanged: S.optional(S.NullOr(S.String)),
           transitioningToStatus: S.optional(S.NullOr(S.String)),
-          type: S.optional(__S(28096, __c878, 0)),
-          _embedded: S.optional(__S(13825, __c432, 1)),
+          type: S.optional(__S(27744, __c867, 0)),
+          _embedded: S.optional(__S(13697, __c428, 1)),
           _links: S.optional(__S(1729, __c54, 1)),
         }),
       ).annotate({ identifier: "GetUserResponse" });
   }
 }
-function __c433(j: number): any {
+function __c429(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -42983,10 +42530,10 @@ function __c433(j: number): any {
         }),
       ).annotate({ identifier: "UserBlock" });
     case 1:
-      return S.Array(__S(13856, __c433, 0));
+      return S.Array(__S(13728, __c429, 0));
   }
 }
-function __c434(j: number): any {
+function __c430(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43005,6 +42552,77 @@ function __c434(j: number): any {
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
         identifier: "GetUserAssignedRoleResponse",
       });
+  }
+}
+function __c431(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          roleAssignmentId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/users/{userId}/roles/{roleAssignmentId}/governance",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetUserAssignedRoleGovernanceRequest" });
+    case 1:
+      return S.Array(__S(12769, __c399, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          assignee: S.optional(__S(18592, __c581, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+        }),
+      ).annotate({ identifier: "LinksGovernanceSources" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          grants: S.optional(__S(13793, __c431, 1)),
+          _links: S.optional(__S(13794, __c431, 2)),
+        }),
+      ).annotate({ identifier: "RoleGovernance" });
+  }
+}
+function __c432(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          grantId: S.String.pipe(T.Label()),
+          expand: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/users/{userId}/grants/{grantId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetUserGrantRequest" });
+  }
+}
+function __c433(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/attack-protection/api/v1/user-lockout-settings",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetUserLockoutSettingsRequest" });
+  }
+}
+function __c434(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          preventBruteForceLockoutFromUnknownDevices: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "UserLockoutSettings" });
   }
 }
 function __c435(j: number): any {
@@ -43042,10 +42660,10 @@ function __c436(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          resource: S.optional(__S(18656, __c583, 0)),
-          groups: S.optional(__S(18656, __c583, 0)),
-          users: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          resource: S.optional(__S(18592, __c581, 0)),
+          groups: S.optional(__S(18592, __c581, 0)),
+          users: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "ResourceSetResourceLinks" });
     case 3:
@@ -43066,98 +42684,6 @@ function __c437(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.String.pipe(T.Label()),
-          roleAssignmentId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/users/{userId}/roles/{roleAssignmentId}/governance",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetUserAssignedRoleGovernanceRequest" });
-    case 1:
-      return S.Array(__S(12961, __c405, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          assignee: S.optional(__S(18656, __c583, 0)),
-          self: S.optional(__S(18656, __c583, 0)),
-        }),
-      ).annotate({ identifier: "LinksGovernanceSources" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          grants: S.optional(__S(13985, __c437, 1)),
-          _links: S.optional(__S(13986, __c437, 2)),
-        }),
-      ).annotate({ identifier: "RoleGovernance" });
-  }
-}
-function __c438(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{userId}/classification", code: 200 })),
-      ).annotate({ identifier: "GetUserClassificationRequest" });
-  }
-}
-function __c439(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          lastUpdated: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UserClassification" });
-  }
-}
-function __c440(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          grantId: S.String.pipe(T.Label()),
-          expand: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/users/{userId}/grants/{grantId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetUserGrantRequest" });
-  }
-}
-function __c441(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/attack-protection/api/v1/user-lockout-settings",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetUserLockoutSettingsRequest" });
-  }
-}
-function __c442(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          preventBruteForceLockoutFromUnknownDevices: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "UserLockoutSettings" });
-  }
-}
-function __c443(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           appId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -43170,24 +42696,24 @@ function __c443(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(14208, __c444, 0),
+          keys: __S(14016, __c438, 0),
         }),
       ).annotate({ identifier: "AppConnectionUserProvisionJWKList" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          jwks: __S(14177, __c443, 1),
+          jwks: __S(13985, __c437, 1),
         }),
       ).annotate({ identifier: "AppConnectionUserProvisionJWKResponse" });
   }
 }
-function __c444(j: number): any {
+function __c438(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(24608, __c769, 0));
+      return S.Array(__S(24512, __c766, 0));
   }
 }
-function __c445(j: number): any {
+function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43201,7 +42727,7 @@ function __c445(j: number): any {
       });
   }
 }
-function __c446(j: number): any {
+function __c440(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43211,7 +42737,7 @@ function __c446(j: number): any {
       ).annotate({ identifier: "GetUserSchemaRequest" });
   }
 }
-function __c447(j: number): any {
+function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43221,7 +42747,7 @@ function __c447(j: number): any {
       ).annotate({ identifier: "GetUserTypeRequest" });
   }
 }
-function __c448(j: number): any {
+function __c442(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43229,7 +42755,7 @@ function __c448(j: number): any {
       ).annotate({ identifier: "GetWebAuthnWellKnownURIRequest" });
   }
 }
-function __c449(j: number): any {
+function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43249,20 +42775,20 @@ function __c449(j: number): any {
       return S.suspend(() =>
         S.Struct({
           keyProtection: S.optional(S.String),
-          algorithms: S.optional(__S(18592, __c581, 0)),
-          transactionTypes: S.optional(__S(18592, __c581, 0)),
+          algorithms: S.optional(__S(18528, __c579, 0)),
+          transactionTypes: S.optional(__S(18528, __c579, 0)),
         }),
       ).annotate({ identifier: "SupportedMethodsSettings" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          settings: S.optional(__S(14370, __c449, 2)),
+          settings: S.optional(__S(14178, __c443, 2)),
           status: S.optional(S.Unknown),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "SupportedMethods" });
     case 4:
-      return S.Array(__S(14371, __c449, 3));
+      return S.Array(__S(14179, __c443, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -43273,17 +42799,138 @@ function __c449(j: number): any {
           lastUpdated: S.optional(S.String),
           name: S.optional(S.String),
           orgId: S.optional(S.String),
-          settings: S.optional(__S(14369, __c449, 1)),
-          supportedMethods: S.optional(__S(14372, __c449, 4)),
+          settings: S.optional(__S(14177, __c443, 1)),
+          supportedMethods: S.optional(__S(14180, __c443, 4)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "WellKnownAppAuthenticatorConfiguration" });
     case 6:
-      return S.Array(__S(14373, __c449, 5));
+      return S.Array(__S(14181, __c443, 5));
     case 7:
-      return S.suspend(() => __S(14374, __c449, 6).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14182, __c443, 6).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetWellKnownAppAuthenticatorConfigurationResponse",
       });
+  }
+}
+function __c444(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/.well-known/okta-organization", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetWellknownOrgMetadataRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          alternate: S.optional(__S(18592, __c581, 0)),
+          organization: S.optional(__S(18592, __c581, 0)),
+        }),
+      ).annotate({ identifier: "WellKnownOrgMetadataLinks" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          pipeline: S.optional(S.String),
+          _links: S.optional(__S(14209, __c444, 1)),
+        }),
+      ).annotate({ identifier: "WellKnownOrgMetadata" });
+  }
+}
+function __c445(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/.well-known/ssf-configuration", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetWellknownSsfMetadataRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          spec_urn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WellKnownSSFMetadataSpecUrn" });
+    case 2:
+      return S.Array(__S(14241, __c445, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          authorization_schemes: S.optional(__S(14242, __c445, 2)),
+          configuration_endpoint: S.optional(S.String),
+          default_subjects: S.optional(S.String),
+          delivery_methods_supported: S.optional(__S(64, __c2, 0)),
+          issuer: S.optional(S.String),
+          jwks_uri: S.optional(S.String),
+          spec_version: S.optional(S.String),
+          verification_endpoint: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WellKnownSSFMetadata" });
+  }
+}
+function __c446(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tokenId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/org/factors/yubikey_token/tokens/{tokenId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetYubikeyOtpTokenByIdRequest" });
+  }
+}
+function __c447(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          activate: S.optional(__S(18592, __c581, 0)),
+          cancel: S.optional(__S(18592, __c581, 0)),
+          deactivate: S.optional(__S(18592, __c581, 0)),
+          enroll: S.optional(__S(18592, __c581, 0)),
+          factor: S.optional(__S(18592, __c581, 0)),
+          poll: S.optional(__S(18592, __c581, 0)),
+          qrcode: S.optional(__S(18592, __c581, 0)),
+          question: S.optional(__S(18592, __c581, 0)),
+          resend: S.optional(__S(18592, __c581, 0)),
+          send: S.optional(__S(18592, __c581, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          user: S.optional(__S(18592, __c581, 0)),
+          verify: S.optional(__S(18592, __c581, 0)),
+        }),
+      ).annotate({ identifier: "UserFactorLinks" });
+  }
+}
+function __c448(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.optional(S.String),
+          id: S.optional(S.String),
+          lastUpdated: S.optional(S.String),
+          lastVerified: S.optional(S.String),
+          profile: S.optional(__S(20640, __c645, 0)),
+          status: S.optional(S.String),
+          _embedded: S.optional(__S(20640, __c645, 0)),
+          _links: S.optional(__S(14304, __c447, 0)),
+        }),
+      ).annotate({ identifier: "UserFactorYubikeyOtpToken" });
+  }
+}
+function __c449(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/org/privacy/aerial/grant", code: 200 })),
+      ).annotate({ identifier: "GrantAerialConsentRequest" });
   }
 }
 function __c450(j: number): any {
@@ -43308,9 +42955,9 @@ function __c451(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          resources: S.optional(__S(18656, __c583, 0)),
-          bindings: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          resources: S.optional(__S(18592, __c581, 0)),
+          bindings: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "ResourceSetLinks" });
     case 1:
@@ -43330,134 +42977,13 @@ function __c452(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/.well-known/okta-organization", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetWellknownOrgMetadataRequest" });
-    case 1:
-      return S.suspend(() =>
         S.Struct({
-          alternate: S.optional(__S(18656, __c583, 0)),
-          organization: S.optional(__S(18656, __c583, 0)),
-        }),
-      ).annotate({ identifier: "WellKnownOrgMetadataLinks" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          pipeline: S.optional(S.String),
-          _links: S.optional(__S(14465, __c452, 1)),
-        }),
-      ).annotate({ identifier: "WellKnownOrgMetadata" });
-  }
-}
-function __c453(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/.well-known/ssf-configuration", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetWellknownSsfMetadataRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          spec_urn: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WellKnownSSFMetadataSpecUrn" });
-    case 2:
-      return S.Array(__S(14497, __c453, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          authorization_schemes: S.optional(__S(14498, __c453, 2)),
-          configuration_endpoint: S.optional(S.String),
-          default_subjects: S.optional(S.String),
-          delivery_methods_supported: S.optional(__S(64, __c2, 0)),
-          issuer: S.optional(S.String),
-          jwks_uri: S.optional(S.String),
-          spec_version: S.optional(S.String),
-          verification_endpoint: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WellKnownSSFMetadata" });
-  }
-}
-function __c454(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tokenId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/org/factors/yubikey_token/tokens/{tokenId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetYubikeyOtpTokenByIdRequest" });
-  }
-}
-function __c455(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          activate: S.optional(__S(18656, __c583, 0)),
-          cancel: S.optional(__S(18656, __c583, 0)),
-          deactivate: S.optional(__S(18656, __c583, 0)),
-          enroll: S.optional(__S(18656, __c583, 0)),
-          factor: S.optional(__S(18656, __c583, 0)),
-          poll: S.optional(__S(18656, __c583, 0)),
-          qrcode: S.optional(__S(18656, __c583, 0)),
-          question: S.optional(__S(18656, __c583, 0)),
-          resend: S.optional(__S(18656, __c583, 0)),
-          send: S.optional(__S(18656, __c583, 0)),
-          self: S.optional(__S(18656, __c583, 0)),
-          user: S.optional(__S(18656, __c583, 0)),
-          verify: S.optional(__S(18656, __c583, 0)),
-        }),
-      ).annotate({ identifier: "UserFactorLinks" });
-  }
-}
-function __c456(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.optional(S.String),
-          id: S.optional(S.String),
-          lastUpdated: S.optional(S.String),
-          lastVerified: S.optional(S.String),
-          profile: S.optional(__S(20704, __c647, 0)),
-          status: S.optional(S.String),
-          _embedded: S.optional(__S(20704, __c647, 0)),
-          _links: S.optional(__S(14560, __c455, 0)),
-        }),
-      ).annotate({ identifier: "UserFactorYubikeyOtpToken" });
-  }
-}
-function __c457(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/org/privacy/aerial/grant", code: 200 })),
-      ).annotate({ identifier: "GrantAerialConsentRequest" });
-  }
-}
-function __c458(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          self: S.optional(__S(20736, __c648, 0)),
-          app: S.optional(__S(11392, __c356, 0)),
-          client: S.optional(__S(11392, __c356, 0)),
-          scope: S.optional(__S(11392, __c356, 0)),
-          user: S.optional(__S(11392, __c356, 0)),
-          authorizationServer: S.optional(__S(11392, __c356, 0)),
+          self: S.optional(__S(20672, __c646, 0)),
+          app: S.optional(__S(11200, __c350, 0)),
+          client: S.optional(__S(11200, __c350, 0)),
+          scope: S.optional(__S(11200, __c350, 0)),
+          user: S.optional(__S(11200, __c350, 0)),
+          authorizationServer: S.optional(__S(11200, __c350, 0)),
         }),
       ).annotate({ identifier: "GrantConsentToScopeRequestLinks" });
     case 1:
@@ -43466,12 +42992,12 @@ function __c458(j: number): any {
           appId: S.String.pipe(T.Label()),
           issuer: S.String,
           scopeId: S.String,
-          _links: S.optional(__S(14656, __c458, 0)),
+          _links: S.optional(__S(14464, __c452, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/grants", code: 200 })),
       ).annotate({ identifier: "GrantConsentToScopeRequest" });
   }
 }
-function __c459(j: number): any {
+function __c453(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43483,7 +43009,7 @@ function __c459(j: number): any {
       ).annotate({ identifier: "LinkUserToIdentityProviderRequest" });
   }
 }
-function __c460(j: number): any {
+function __c454(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43495,17 +43021,17 @@ function __c460(j: number): any {
       ).annotate({ identifier: "ListActiveIdentityProviderSigningKeyRequest" });
   }
 }
-function __c461(j: number): any {
+function __c455(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(24992, __c781, 0));
+      return S.Array(__S(24896, __c778, 0));
     case 1:
-      return S.suspend(() => __S(14752, __c461, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14560, __c455, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListActiveIdentityProviderSigningKeyResponse",
       });
   }
 }
-function __c462(j: number): any {
+function __c456(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43518,25 +43044,25 @@ function __c462(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          agents: S.optional(__S(18689, __c584, 1)),
+          agents: S.optional(__S(18625, __c582, 1)),
           disruptedAgents: S.optional(S.Number),
           id: S.optional(S.String),
           inactiveAgents: S.optional(S.Number),
           name: S.optional(S.String),
           operationalStatus: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "AgentPool" });
     case 2:
-      return S.Array(__S(14785, __c462, 1));
+      return S.Array(__S(14593, __c456, 1));
     case 3:
-      return S.suspend(() => __S(14786, __c462, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14594, __c456, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAgentPoolsResponse",
       });
   }
 }
-function __c463(j: number): any {
+function __c457(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43546,14 +43072,14 @@ function __c463(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/agentPools/{poolId}/updates", code: 200 })),
       ).annotate({ identifier: "ListAgentPoolsUpdatesRequest" });
     case 1:
-      return S.Array(__S(18721, __c585, 1));
+      return S.Array(__S(18657, __c583, 1));
     case 2:
-      return S.suspend(() => __S(14817, __c463, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14625, __c457, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAgentPoolsUpdatesResponse",
       });
   }
 }
-function __c464(j: number): any {
+function __c458(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43568,14 +43094,90 @@ function __c464(j: number): any {
         ),
       ).annotate({ identifier: "ListAllCustomAAGUIDsRequest" });
     case 1:
-      return S.Array(__S(28515, __c891, 3));
+      return S.Array(__S(28163, __c880, 3));
     case 2:
-      return S.suspend(() => __S(14849, __c464, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14657, __c458, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAllCustomAAGUIDsResponse",
       });
   }
 }
-function __c465(j: number): any {
+function __c459(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/telephony-providers", code: 200 })),
+      ).annotate({ identifier: "ListAllCustomTelephonyProviderCredentialsRequest" });
+    case 1:
+      return S.Array(__S(2273, __c71, 1));
+    case 2:
+      return S.suspend(() => __S(14689, __c459, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAllCustomTelephonyProviderCredentialsResponse",
+      });
+  }
+}
+function __c460(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          brandId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/brands/{brandId}/pages/sign-in/widget-versions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListAllSignInWidgetVersionsRequest" });
+  }
+}
+function __c461(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(64, __c2, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAllSignInWidgetVersionsResponse",
+      });
+  }
+}
+function __c462(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          after: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/integrations/api/v1/api-services", code: 200 })),
+      ).annotate({ identifier: "ListApiServiceIntegrationInstancesRequest" });
+    case 1:
+      return S.Array(__S(6880, __c215, 0));
+    case 2:
+      return S.suspend(() => __S(14785, __c462, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListApiServiceIntegrationInstancesResponse",
+      });
+  }
+}
+function __c463(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apiServiceId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/integrations/api/v1/api-services/{apiServiceId}/credentials/secrets",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListApiServiceIntegrationInstanceSecretsRequest" });
+    case 1:
+      return S.Array(__S(22496, __c703, 0));
+    case 2:
+      return S.suspend(() => __S(14817, __c463, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListApiServiceIntegrationInstanceSecretsResponse",
+      });
+  }
+}
+function __c464(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43592,83 +43194,7 @@ function __c465(j: number): any {
       ).annotate({ identifier: "AssignAllAppsAsTargetToRoleForUserRequest" });
   }
 }
-function __c466(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/telephony-providers", code: 200 })),
-      ).annotate({ identifier: "ListAllCustomTelephonyProviderCredentialsRequest" });
-    case 1:
-      return S.Array(__S(2273, __c71, 1));
-    case 2:
-      return S.suspend(() => __S(14913, __c466, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListAllCustomTelephonyProviderCredentialsResponse",
-      });
-  }
-}
-function __c467(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          brandId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/brands/{brandId}/pages/sign-in/widget-versions",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListAllSignInWidgetVersionsRequest" });
-  }
-}
-function __c468(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => __S(64, __c2, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListAllSignInWidgetVersionsResponse",
-      });
-  }
-}
-function __c469(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          after: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/integrations/api/v1/api-services", code: 200 })),
-      ).annotate({ identifier: "ListApiServiceIntegrationInstancesRequest" });
-    case 1:
-      return S.Array(__S(6880, __c215, 0));
-    case 2:
-      return S.suspend(() => __S(15009, __c469, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListApiServiceIntegrationInstancesResponse",
-      });
-  }
-}
-function __c470(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          apiServiceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/integrations/api/v1/api-services/{apiServiceId}/credentials/secrets",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListApiServiceIntegrationInstanceSecretsRequest" });
-    case 1:
-      return S.Array(__S(22560, __c705, 0));
-    case 2:
-      return S.suspend(() => __S(15041, __c470, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListApiServiceIntegrationInstanceSecretsResponse",
-      });
-  }
-}
-function __c471(j: number): any {
+function __c465(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43677,12 +43203,12 @@ function __c471(j: number): any {
     case 1:
       return S.Array(__S(6945, __c217, 1));
     case 2:
-      return S.suspend(() => __S(15073, __c471, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14881, __c465, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListApiTokensResponse",
       });
   }
 }
-function __c472(j: number): any {
+function __c466(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43695,14 +43221,14 @@ function __c472(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/groups", code: 200 })),
       ).annotate({ identifier: "ListApplicationGroupAssignmentsRequest" });
     case 1:
-      return S.Array(__S(20673, __c646, 1));
+      return S.Array(__S(20609, __c644, 1));
     case 2:
-      return S.suspend(() => __S(15105, __c472, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14913, __c466, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListApplicationGroupAssignmentsResponse",
       });
   }
 }
-function __c473(j: number): any {
+function __c467(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43711,12 +43237,12 @@ function __c473(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/credentials/keys", code: 200 })),
       ).annotate({ identifier: "ListApplicationKeysRequest" });
     case 1:
-      return S.suspend(() => __S(14208, __c444, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(14016, __c438, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListApplicationKeysResponse",
       });
   }
 }
-function __c474(j: number): any {
+function __c468(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43733,17 +43259,17 @@ function __c474(j: number): any {
       ).annotate({ identifier: "ListApplicationsRequest" });
   }
 }
-function __c475(j: number): any {
+function __c469(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
-      return S.suspend(() => __S(15200, __c475, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15008, __c469, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListApplicationsResponse",
       });
   }
 }
-function __c476(j: number): any {
+function __c470(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43764,13 +43290,13 @@ function __c476(j: number): any {
       });
   }
 }
-function __c477(j: number): any {
+function __c471(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          logo: S.optional(__S(11936, __c373, 0)),
-          self: S.optional(__S(18656, __c583, 0)),
+          logo: S.optional(__S(11968, __c374, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "CatalogApplicationLinks" });
     case 1:
@@ -43787,18 +43313,18 @@ function __c477(j: number): any {
           status: S.optional(S.String),
           verificationStatus: S.optional(S.String),
           website: S.optional(S.String),
-          _links: S.optional(__S(15264, __c477, 0)),
+          _links: S.optional(__S(15072, __c471, 0)),
         }),
       ).annotate({ identifier: "CatalogApplication" });
     case 2:
-      return S.Array(__S(15265, __c477, 1));
+      return S.Array(__S(15073, __c471, 1));
     case 3:
-      return S.suspend(() => __S(15266, __c477, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15074, __c471, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListApplicationTargetsForApplicationAdministratorRoleForGroupResponse",
       });
   }
 }
-function __c478(j: number): any {
+function __c472(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43819,26 +43345,7 @@ function __c478(j: number): any {
       });
   }
 }
-function __c479(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          groupId: S.String.pipe(T.Label()),
-          roleAssignmentId: S.String.pipe(T.Label()),
-          appName: S.String.pipe(T.Label()),
-          appId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/groups/{groupId}/roles/{roleAssignmentId}/targets/catalog/apps/{appName}/{appId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AssignAppInstanceTargetToAppAdminRoleForGroupRequest" });
-  }
-}
-function __c480(j: number): any {
+function __c473(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43851,14 +43358,14 @@ function __c480(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/users", code: 200 })),
       ).annotate({ identifier: "ListApplicationUsersRequest" });
     case 1:
-      return S.Array(__S(22626, __c707, 2));
+      return S.Array(__S(22562, __c705, 2));
     case 2:
-      return S.suspend(() => __S(15361, __c480, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15137, __c473, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListApplicationUsersResponse",
       });
   }
 }
-function __c481(j: number): any {
+function __c474(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43882,14 +43389,14 @@ function __c481(j: number): any {
         }),
       ).annotate({ identifier: "AssignedAppLink" });
     case 2:
-      return S.Array(__S(15393, __c481, 1));
+      return S.Array(__S(15169, __c474, 1));
     case 3:
-      return S.suspend(() => __S(15394, __c481, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15170, __c474, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAppLinksResponse",
       });
   }
 }
-function __c482(j: number): any {
+function __c475(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43902,14 +43409,14 @@ function __c482(j: number): any {
         ),
       ).annotate({ identifier: "ListAppServiceAccountsRequest" });
     case 1:
-      return S.Array(__S(27424, __c857, 0));
+      return S.Array(__S(27296, __c853, 0));
     case 2:
-      return S.suspend(() => __S(15425, __c482, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15201, __c475, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAppServiceAccountsResponse",
       });
   }
 }
-function __c483(j: number): any {
+function __c476(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43928,7 +43435,26 @@ function __c483(j: number): any {
       ).annotate({ identifier: "ListAppTargetRoleToClientRequest" });
   }
 }
-function __c484(j: number): any {
+function __c477(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          groupId: S.String.pipe(T.Label()),
+          roleAssignmentId: S.String.pipe(T.Label()),
+          appName: S.String.pipe(T.Label()),
+          appId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/groups/{groupId}/roles/{roleAssignmentId}/targets/catalog/apps/{appName}/{appId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AssignAppInstanceTargetToAppAdminRoleForGroupRequest" });
+  }
+}
+function __c478(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43940,7 +43466,7 @@ function __c484(j: number): any {
       ).annotate({ identifier: "ListAssignedApplicationsForGroupRequest" });
   }
 }
-function __c485(j: number): any {
+function __c479(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43952,12 +43478,12 @@ function __c485(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(15521, __c485, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15329, __c479, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAssignedRolesForUserResponse",
       });
   }
 }
-function __c486(j: number): any {
+function __c480(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -43977,13 +43503,13 @@ function __c486(j: number): any {
       ).annotate({ identifier: "ListAssociatedServersByTrustedTypeRequest" });
   }
 }
-function __c487(j: number): any {
+function __c481(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           userId: S.String.pipe(T.Label()),
-          discloseIdentifiers: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          discloseIdentifiers: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -43994,7 +43520,7 @@ function __c487(j: number): any {
       ).annotate({ identifier: "ListAuthenticatorEnrollmentsRequest" });
   }
 }
-function __c488(j: number): any {
+function __c482(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44011,12 +43537,12 @@ function __c488(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(15617, __c488, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15425, __c482, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAuthenticatorMethodsResponse",
       });
   }
 }
-function __c489(j: number): any {
+function __c483(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44025,12 +43551,95 @@ function __c489(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(15649, __c489, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15457, __c483, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAuthenticatorsResponse",
       });
   }
 }
-function __c490(j: number): any {
+function __c484(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          authServerId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/authorizationServers/{authServerId}/credentials/keys",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListAuthorizationServerKeysRequest" });
+  }
+}
+function __c485(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(7648, __c239, 0));
+    case 1:
+      return S.suspend(() => __S(15520, __c485, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAuthorizationServerKeysResponse",
+      });
+  }
+}
+function __c486(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          authServerId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/authorizationServers/{authServerId}/policies",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListAuthorizationServerPoliciesRequest" });
+    case 1:
+      return S.Array(__S(27650, __c864, 2));
+    case 2:
+      return S.suspend(() => __S(15553, __c486, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAuthorizationServerPoliciesResponse",
+      });
+  }
+}
+function __c487(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          authServerId: S.String.pipe(T.Label()),
+          policyId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/authorizationServers/{authServerId}/policies/{policyId}/rules",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListAuthorizationServerPolicyRulesRequest" });
+    case 1:
+      return S.Array(__S(27780, __c868, 4));
+    case 2:
+      return S.suspend(() => __S(15585, __c487, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListAuthorizationServerPolicyRulesResponse",
+      });
+  }
+}
+function __c488(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          q: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          after: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/authorizationServers", code: 200 })),
+      ).annotate({ identifier: "ListAuthorizationServersRequest" });
+  }
+}
+function __c489(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44049,90 +43658,7 @@ function __c490(j: number): any {
       ).annotate({ identifier: "AssignAppInstanceTargetToAppAdminRoleForUserRequest" });
   }
 }
-function __c491(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          authServerId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/authorizationServers/{authServerId}/credentials/keys",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListAuthorizationServerKeysRequest" });
-  }
-}
-function __c492(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(7648, __c239, 0));
-    case 1:
-      return S.suspend(() => __S(15744, __c492, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListAuthorizationServerKeysResponse",
-      });
-  }
-}
-function __c493(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          authServerId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/authorizationServers/{authServerId}/policies",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListAuthorizationServerPoliciesRequest" });
-    case 1:
-      return S.Array(__S(28002, __c875, 2));
-    case 2:
-      return S.suspend(() => __S(15777, __c493, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListAuthorizationServerPoliciesResponse",
-      });
-  }
-}
-function __c494(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          authServerId: S.String.pipe(T.Label()),
-          policyId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/authorizationServers/{authServerId}/policies/{policyId}/rules",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListAuthorizationServerPolicyRulesRequest" });
-    case 1:
-      return S.Array(__S(28132, __c879, 4));
-    case 2:
-      return S.suspend(() => __S(15809, __c494, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListAuthorizationServerPolicyRulesResponse",
-      });
-  }
-}
-function __c495(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          q: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          after: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/authorizationServers", code: 200 })),
-      ).annotate({ identifier: "ListAuthorizationServersRequest" });
-  }
-}
-function __c496(j: number): any {
+function __c490(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44141,12 +43667,12 @@ function __c496(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(15873, __c496, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15681, __c490, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListBehaviorDetectionRulesResponse",
       });
   }
 }
-function __c497(j: number): any {
+function __c491(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44164,37 +43690,37 @@ function __c497(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          members: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          members: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "ResourceSetBindingRoleLinks" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          _links: S.optional(__S(15905, __c497, 1)),
+          _links: S.optional(__S(15713, __c491, 1)),
         }),
       ).annotate({ identifier: "ResourceSetBindingRole" });
     case 3:
-      return S.Array(__S(15906, __c497, 2));
+      return S.Array(__S(15714, __c491, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          next: S.optional(__S(18656, __c583, 0)),
-          resource_set: S.optional(__S(18656, __c583, 0).pipe(T.Body("resource-set"))),
+          self: S.optional(__S(18592, __c581, 0)),
+          next: S.optional(__S(18592, __c581, 0)),
+          resource_set: S.optional(__S(18592, __c581, 0).pipe(T.Body("resource-set"))),
         }),
       ).annotate({ identifier: "ResourceSetBindingsLinks" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          roles: S.optional(__S(15907, __c497, 3)),
-          _links: S.optional(__S(15908, __c497, 4)),
+          roles: S.optional(__S(15715, __c491, 3)),
+          _links: S.optional(__S(15716, __c491, 4)),
         }),
       ).annotate({ identifier: "ResourceSetBindings" });
   }
 }
-function __c498(j: number): any {
+function __c492(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44204,7 +43730,7 @@ function __c498(j: number): any {
       ).annotate({ identifier: "ListBrandDomainsRequest" });
   }
 }
-function __c499(j: number): any {
+function __c493(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44214,12 +43740,12 @@ function __c499(j: number): any {
       ).annotate({ identifier: "BrandDomains" });
   }
 }
-function __c500(j: number): any {
+function __c494(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          expand: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
           after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           q: S.optional(S.String.pipe(T.Query())),
@@ -44228,12 +43754,12 @@ function __c500(j: number): any {
     case 1:
       return S.Array(__S(8098, __c253, 2));
     case 2:
-      return S.suspend(() => __S(16001, __c500, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15809, __c494, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListBrandsResponse",
       });
   }
 }
-function __c501(j: number): any {
+function __c495(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44247,7 +43773,7 @@ function __c501(j: number): any {
       });
   }
 }
-function __c502(j: number): any {
+function __c496(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44266,7 +43792,7 @@ function __c502(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          values: S.optional(__S(18656, __c583, 0)),
+          values: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "BundleEntitlementLinks" });
     case 2:
@@ -44276,42 +43802,29 @@ function __c502(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           role: S.optional(S.String),
-          _links: S.optional(__S(16065, __c502, 1)),
+          _links: S.optional(__S(15873, __c496, 1)),
         }),
       ).annotate({ identifier: "BundleEntitlement" });
     case 3:
-      return S.Array(__S(16066, __c502, 2));
+      return S.Array(__S(15874, __c496, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          next: S.optional(__S(18656, __c583, 0)),
-          bundle: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          next: S.optional(__S(18592, __c581, 0)),
+          bundle: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "BundleEntitlementsResponseLinks" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          entitlements: S.optional(__S(16067, __c502, 3)),
-          _links: S.optional(__S(16068, __c502, 4)),
+          entitlements: S.optional(__S(15875, __c496, 3)),
+          _links: S.optional(__S(15876, __c496, 4)),
         }),
       ).annotate({ identifier: "BundleEntitlementsResponse" });
   }
 }
-function __c503(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String.pipe(T.Label()),
-          policyId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/api/v1/apps/{appId}/policies/{policyId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "AssignApplicationPolicyRequest" });
-  }
-}
-function __c504(j: number): any {
+function __c497(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44331,9 +43844,9 @@ function __c504(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          group: S.optional(__S(18656, __c583, 0)),
-          app: S.optional(__S(18656, __c583, 0)),
-          resource_set: S.optional(__S(18656, __c583, 0).pipe(T.Body("resource-set"))),
+          group: S.optional(__S(18592, __c581, 0)),
+          app: S.optional(__S(18592, __c581, 0)),
+          resource_set: S.optional(__S(18592, __c581, 0).pipe(T.Body("resource-set"))),
         }),
       ).annotate({ identifier: "EntitlementValueLinks" });
     case 2:
@@ -44342,44 +43855,44 @@ function __c504(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           value: S.optional(S.String),
-          _links: S.optional(__S(16129, __c504, 1)),
+          _links: S.optional(__S(15905, __c497, 1)),
         }),
       ).annotate({ identifier: "EntitlementValue" });
     case 3:
-      return S.Array(__S(16130, __c504, 2));
+      return S.Array(__S(15906, __c497, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          bundle: S.optional(__S(18656, __c583, 0)),
-          entitlements: S.optional(__S(18656, __c583, 0)),
-          next: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          bundle: S.optional(__S(18592, __c581, 0)),
+          entitlements: S.optional(__S(18592, __c581, 0)),
+          next: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "EntitlementValuesResponseLinks" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          entitlementValues: S.optional(__S(16131, __c504, 3)),
-          _links: S.optional(__S(16132, __c504, 4)),
+          entitlementValues: S.optional(__S(15907, __c497, 3)),
+          _links: S.optional(__S(15908, __c497, 4)),
         }),
       ).annotate({ identifier: "EntitlementValuesResponse" });
   }
 }
-function __c505(j: number): any {
+function __c498(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/captchas", code: 200 })),
       ).annotate({ identifier: "ListCaptchaInstancesRequest" });
     case 1:
-      return S.Array(__S(28416, __c888, 0));
+      return S.Array(__S(28064, __c877, 0));
     case 2:
-      return S.suspend(() => __S(16161, __c505, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15937, __c498, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCaptchaInstancesResponse",
       });
   }
 }
-function __c506(j: number): any {
+function __c499(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44390,12 +43903,12 @@ function __c506(j: number): any {
     case 1:
       return S.Array(__S(6402, __c200, 2));
     case 2:
-      return S.suspend(() => __S(16193, __c506, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(15969, __c499, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCsrsForApplicationResponse",
       });
   }
 }
-function __c507(j: number): any {
+function __c500(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44406,12 +43919,25 @@ function __c507(j: number): any {
     case 1:
       return S.Array(__S(6465, __c202, 1));
     case 2:
-      return S.suspend(() => __S(16225, __c507, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16001, __c500, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCsrsForIdentityProviderResponse",
       });
   }
 }
-function __c508(j: number): any {
+function __c501(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+          policyId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/api/v1/apps/{appId}/policies/{policyId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "AssignApplicationPolicyRequest" });
+  }
+}
+function __c502(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44419,7 +43945,7 @@ function __c508(j: number): any {
       ).annotate({ identifier: "ListCustomDomainsRequest" });
   }
 }
-function __c509(j: number): any {
+function __c503(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44429,17 +43955,17 @@ function __c509(j: number): any {
       ).annotate({ identifier: "ListDefaultDevicePostureChecksRequest" });
   }
 }
-function __c510(j: number): any {
+function __c504(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(28771, __c899, 3));
+      return S.Array(__S(28419, __c888, 3));
     case 1:
-      return S.suspend(() => __S(16320, __c510, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16128, __c504, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDefaultDevicePostureChecksResponse",
       });
   }
 }
-function __c511(j: number): any {
+function __c505(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44448,12 +43974,12 @@ function __c511(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(16353, __c511, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16161, __c505, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDeviceAssurancePoliciesResponse",
       });
   }
 }
-function __c512(j: number): any {
+function __c506(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44462,31 +43988,12 @@ function __c512(j: number): any {
     case 1:
       return S.Array(__S(3360, __c105, 0));
     case 2:
-      return S.suspend(() => __S(16385, __c512, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16193, __c506, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDeviceIntegrationsResponse",
       });
   }
 }
-function __c513(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deviceId: S.String.pipe(T.Label()),
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/devices/{deviceId}/os-accounts", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListDeviceOSAccountsRequest" });
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() => __S(16417, __c513, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListDeviceOSAccountsResponse",
-      });
-  }
-}
-function __c514(j: number): any {
+function __c507(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44496,7 +44003,134 @@ function __c514(j: number): any {
       ).annotate({ identifier: "ListDevicePostureChecksRequest" });
   }
 }
-function __c515(j: number): any {
+function __c508(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          after: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          search: S.optional(S.String.pipe(T.Query())),
+          expand: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/devices", code: 200 })),
+      ).annotate({ identifier: "ListDevicesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          users: S.optional(__S(16289, __c509, 1)),
+        }),
+      ).annotate({ identifier: "DeviceListOutputEmbedded" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.optional(S.String),
+          id: S.optional(S.String),
+          lastUpdated: S.optional(S.String),
+          profile: S.optional(__S(8992, __c281, 0)),
+          resourceAlternateId: S.optional(S.String),
+          resourceDisplayName: S.optional(__S(8993, __c281, 1)),
+          resourceId: S.optional(S.String),
+          resourceType: S.optional(S.String),
+          status: S.optional(S.String),
+          _links: S.optional(__S(8994, __c281, 2)),
+          _embedded: S.optional(__S(16257, __c508, 1)),
+        }),
+      ).annotate({ identifier: "DeviceListOutput" });
+    case 3:
+      return S.Array(__S(16258, __c508, 2));
+    case 4:
+      return S.suspend(() => __S(16259, __c508, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListDevicesResponse",
+      });
+  }
+}
+function __c509(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.optional(S.String),
+          managementStatus: S.optional(S.String),
+          screenLockType: S.optional(S.String),
+          user: S.optional(__S(1760, __c55, 0)),
+        }),
+      ).annotate({ identifier: "DeviceUserOutput" });
+    case 1:
+      return S.Array(__S(16288, __c509, 0));
+  }
+}
+function __c510(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deviceId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/devices/{deviceId}/users", code: 200 })),
+      ).annotate({ identifier: "ListDeviceUsersRequest" });
+    case 1:
+      return S.suspend(() => __S(16289, __c509, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListDeviceUsersResponse",
+      });
+  }
+}
+function __c511(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          brandId: S.String.pipe(T.Label()),
+          templateName: S.String.pipe(T.Label()),
+          after: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/brands/{brandId}/templates/email/{templateName}/customizations",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListEmailCustomizationsRequest" });
+    case 1:
+      return S.Array(__S(28512, __c891, 0));
+    case 2:
+      return S.suspend(() => __S(16353, __c511, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListEmailCustomizationsResponse",
+      });
+  }
+}
+function __c512(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          expand: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/email-domains", code: 200 })),
+      ).annotate({ identifier: "ListEmailDomainsRequest" });
+    case 1:
+      return S.Array(__S(9314, __c291, 2));
+    case 2:
+      return S.suspend(() => __S(16385, __c512, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListEmailDomainsResponse",
+      });
+  }
+}
+function __c513(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/email-servers", code: 200 })),
+      ).annotate({ identifier: "ListEmailServersRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          email_servers: S.optional(__S(16417, __c513, 1).pipe(T.Body("email-servers"))),
+        }),
+      ).annotate({ identifier: "EmailServerListResponse" });
+  }
+}
+function __c514(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44515,134 +44149,7 @@ function __c515(j: number): any {
       ).annotate({ identifier: "AssignAppTargetInstanceRoleForClientRequest" });
   }
 }
-function __c516(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          after: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          search: S.optional(S.String.pipe(T.Query())),
-          expand: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/devices", code: 200 })),
-      ).annotate({ identifier: "ListDevicesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          users: S.optional(__S(16545, __c517, 1)),
-        }),
-      ).annotate({ identifier: "DeviceListOutputEmbedded" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.optional(S.String),
-          id: S.optional(S.String),
-          lastUpdated: S.optional(S.String),
-          profile: S.optional(__S(8992, __c281, 0)),
-          resourceAlternateId: S.optional(S.String),
-          resourceDisplayName: S.optional(__S(8993, __c281, 1)),
-          resourceId: S.optional(S.String),
-          resourceType: S.optional(S.String),
-          status: S.optional(S.String),
-          _links: S.optional(__S(8994, __c281, 2)),
-          _embedded: S.optional(__S(16513, __c516, 1)),
-        }),
-      ).annotate({ identifier: "DeviceListOutput" });
-    case 3:
-      return S.Array(__S(16514, __c516, 2));
-    case 4:
-      return S.suspend(() => __S(16515, __c516, 3).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListDevicesResponse",
-      });
-  }
-}
-function __c517(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.optional(S.String),
-          managementStatus: S.optional(S.String),
-          screenLockType: S.optional(S.String),
-          user: S.optional(__S(1760, __c55, 0)),
-        }),
-      ).annotate({ identifier: "DeviceUserOutput" });
-    case 1:
-      return S.Array(__S(16544, __c517, 0));
-  }
-}
-function __c518(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deviceId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/devices/{deviceId}/users", code: 200 })),
-      ).annotate({ identifier: "ListDeviceUsersRequest" });
-    case 1:
-      return S.suspend(() => __S(16545, __c517, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListDeviceUsersResponse",
-      });
-  }
-}
-function __c519(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          brandId: S.String.pipe(T.Label()),
-          templateName: S.String.pipe(T.Label()),
-          after: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/brands/{brandId}/templates/email/{templateName}/customizations",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListEmailCustomizationsRequest" });
-    case 1:
-      return S.Array(__S(28864, __c902, 0));
-    case 2:
-      return S.suspend(() => __S(16609, __c519, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListEmailCustomizationsResponse",
-      });
-  }
-}
-function __c520(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/email-domains", code: 200 })),
-      ).annotate({ identifier: "ListEmailDomainsRequest" });
-    case 1:
-      return S.Array(__S(9442, __c295, 2));
-    case 2:
-      return S.suspend(() => __S(16641, __c520, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListEmailDomainsResponse",
-      });
-  }
-}
-function __c521(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/email-servers", code: 200 })),
-      ).annotate({ identifier: "ListEmailServersRequest" });
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          email_servers: S.optional(__S(16673, __c521, 1).pipe(T.Body("email-servers"))),
-        }),
-      ).annotate({ identifier: "EmailServerListResponse" });
-  }
-}
-function __c522(j: number): any {
+function __c515(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44650,20 +44157,20 @@ function __c522(j: number): any {
           brandId: S.String.pipe(T.Label()),
           after: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          expand: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "/api/v1/brands/{brandId}/templates/email", code: 200 }),
         ),
       ).annotate({ identifier: "ListEmailTemplatesRequest" });
     case 1:
-      return S.Array(__S(9602, __c300, 2));
+      return S.Array(__S(9474, __c296, 2));
     case 2:
-      return S.suspend(() => __S(16705, __c522, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16481, __c515, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEmailTemplatesResponse",
       });
   }
 }
-function __c523(j: number): any {
+function __c516(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44672,12 +44179,12 @@ function __c523(j: number): any {
     case 1:
       return S.Array(__S(3787, __c118, 11));
     case 2:
-      return S.suspend(() => __S(16737, __c523, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16513, __c516, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEventHooksResponse",
       });
   }
 }
-function __c524(j: number): any {
+function __c517(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44688,12 +44195,12 @@ function __c524(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(16769, __c524, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16545, __c517, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListFactorsResponse",
       });
   }
 }
-function __c525(j: number): any {
+function __c518(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44705,17 +44212,17 @@ function __c525(j: number): any {
       ).annotate({ identifier: "ListFeatureDependenciesRequest" });
   }
 }
-function __c526(j: number): any {
+function __c519(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9890, __c309, 2));
+      return S.Array(__S(9730, __c304, 2));
     case 1:
-      return S.suspend(() => __S(16832, __c526, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16608, __c519, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListFeatureDependenciesResponse",
       });
   }
 }
-function __c527(j: number): any {
+function __c520(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44727,25 +44234,7 @@ function __c527(j: number): any {
       ).annotate({ identifier: "ListFeatureDependentsRequest" });
   }
 }
-function __c528(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          clientId: S.String.pipe(T.Label()),
-          roleAssignmentId: S.String.pipe(T.Label()),
-          appName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/oauth2/v1/clients/{clientId}/roles/{roleAssignmentId}/targets/catalog/apps/{appName}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AssignAppTargetRoleToClientRequest" });
-  }
-}
-function __c529(j: number): any {
+function __c521(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44753,7 +44242,7 @@ function __c529(j: number): any {
       ).annotate({ identifier: "ListFeaturesRequest" });
   }
 }
-function __c530(j: number): any {
+function __c522(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44764,12 +44253,12 @@ function __c530(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(16961, __c530, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16705, __c522, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListFeaturesForApplicationResponse",
       });
   }
 }
-function __c531(j: number): any {
+function __c523(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44778,14 +44267,14 @@ function __c531(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/federated-claims", code: 200 })),
       ).annotate({ identifier: "ListFederatedClaimsRequest" });
     case 1:
-      return S.Array(__S(29248, __c914, 0));
+      return S.Array(__S(28896, __c903, 0));
     case 2:
-      return S.suspend(() => __S(16993, __c531, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16737, __c523, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListFederatedClaimsResponse",
       });
   }
 }
-function __c532(j: number): any {
+function __c524(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44795,17 +44284,17 @@ function __c532(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/iam/governance/bundles", code: 200 })),
       ).annotate({ identifier: "ListGovernanceBundlesRequest" });
     case 1:
-      return S.Array(__S(29313, __c916, 1));
+      return S.Array(__S(28961, __c905, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          bundles: S.optional(__S(17025, __c532, 1)),
-          _links: S.optional(__S(13024, __c407, 0)),
+          bundles: S.optional(__S(16769, __c524, 1)),
+          _links: S.optional(__S(12832, __c401, 0)),
         }),
       ).annotate({ identifier: "GovernanceBundlesResponse" });
   }
 }
-function __c533(j: number): any {
+function __c525(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44825,17 +44314,35 @@ function __c533(j: number): any {
       ).annotate({ identifier: "ListGrantsForUserAndClientRequest" });
   }
 }
-function __c534(j: number): any {
+function __c526(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(13250, __c414, 2));
+      return S.Array(__S(13122, __c410, 2));
     case 1:
-      return S.suspend(() => __S(17088, __c534, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16832, __c526, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGrantsForUserAndClientResponse",
       });
   }
 }
-function __c535(j: number): any {
+function __c527(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.String.pipe(T.Label()),
+          roleAssignmentId: S.String.pipe(T.Label()),
+          appName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/oauth2/v1/clients/{clientId}/roles/{roleAssignmentId}/targets/catalog/apps/{appName}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AssignAppTargetRoleToClientRequest" });
+  }
+}
+function __c528(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44847,12 +44354,12 @@ function __c535(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(17121, __c535, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16897, __c528, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGroupAssignedRolesResponse",
       });
   }
 }
-function __c536(j: number): any {
+function __c529(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44864,14 +44371,14 @@ function __c536(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/groups/{groupId}/owners", code: 200 })),
       ).annotate({ identifier: "ListGroupOwnersRequest" });
     case 1:
-      return S.Array(__S(19168, __c599, 0));
+      return S.Array(__S(19136, __c598, 0));
     case 2:
-      return S.suspend(() => __S(17153, __c536, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16929, __c529, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGroupOwnersResponse",
       });
   }
 }
-function __c537(j: number): any {
+function __c530(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44887,14 +44394,14 @@ function __c537(j: number): any {
         ),
       ).annotate({ identifier: "ListGroupPushMappingsRequest" });
     case 1:
-      return S.Array(__S(29410, __c919, 2));
+      return S.Array(__S(29058, __c908, 2));
     case 2:
-      return S.suspend(() => __S(17185, __c537, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16961, __c530, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGroupPushMappingsResponse",
       });
   }
 }
-function __c538(j: number): any {
+function __c531(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44906,14 +44413,14 @@ function __c538(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/groups/rules", code: 200 })),
       ).annotate({ identifier: "ListGroupRulesRequest" });
     case 1:
-      return S.Array(__S(29542, __c923, 6));
+      return S.Array(__S(29190, __c912, 6));
     case 2:
-      return S.suspend(() => __S(17217, __c538, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(16993, __c531, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGroupRulesResponse",
       });
   }
 }
-function __c539(j: number): any {
+function __c532(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44930,35 +44437,17 @@ function __c539(j: number): any {
       ).annotate({ identifier: "ListGroupsRequest" });
   }
 }
-function __c540(j: number): any {
+function __c533(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11876, __c371, 4));
+      return S.Array(__S(11908, __c372, 4));
     case 1:
-      return S.suspend(() => __S(17280, __c540, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17056, __c533, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGroupsResponse",
       });
   }
 }
-function __c541(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          groupId: S.String.pipe(T.Label()),
-          roleAssignmentId: S.String.pipe(T.Label()),
-          appName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/groups/{groupId}/roles/{roleAssignmentId}/targets/catalog/apps/{appName}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AssignAppTargetToAdminRoleForGroupRequest" });
-  }
-}
-function __c542(j: number): any {
+function __c534(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44977,7 +44466,7 @@ function __c542(j: number): any {
       ).annotate({ identifier: "ListGroupTargetRoleForClientRequest" });
   }
 }
-function __c543(j: number): any {
+function __c535(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -44996,7 +44485,7 @@ function __c543(j: number): any {
       ).annotate({ identifier: "ListGroupTargetsForGroupRoleRequest" });
   }
 }
-function __c544(j: number): any {
+function __c536(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45015,7 +44504,7 @@ function __c544(j: number): any {
       ).annotate({ identifier: "ListGroupTargetsForRoleRequest" });
   }
 }
-function __c545(j: number): any {
+function __c537(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45027,31 +44516,49 @@ function __c545(j: number): any {
       ).annotate({ identifier: "ListGroupUsersRequest" });
   }
 }
-function __c546(j: number): any {
+function __c538(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1760, __c55, 0));
     case 1:
-      return S.suspend(() => __S(17472, __c546, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17216, __c538, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGroupUsersResponse",
       });
   }
 }
-function __c547(j: number): any {
+function __c539(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api/v1/hook-keys", code: 200 })),
       ).annotate({ identifier: "ListHookKeysRequest" });
     case 1:
-      return S.Array(__S(10432, __c326, 0));
+      return S.Array(__S(10240, __c320, 0));
     case 2:
-      return S.suspend(() => __S(17505, __c547, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17249, __c539, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListHookKeysResponse",
       });
   }
 }
-function __c548(j: number): any {
+function __c540(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          groupId: S.String.pipe(T.Label()),
+          roleAssignmentId: S.String.pipe(T.Label()),
+          appName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/groups/{groupId}/roles/{roleAssignmentId}/targets/catalog/apps/{appName}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AssignAppTargetToAdminRoleForGroupRequest" });
+  }
+}
+function __c541(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45064,14 +44571,14 @@ function __c548(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/idps/{idpId}/users", code: 200 })),
       ).annotate({ identifier: "ListIdentityProviderApplicationUsersRequest" });
     case 1:
-      return S.Array(__S(10529, __c329, 1));
+      return S.Array(__S(10401, __c325, 1));
     case 2:
-      return S.suspend(() => __S(17537, __c548, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17313, __c541, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListIdentityProviderApplicationUsersResponse",
       });
   }
 }
-function __c549(j: number): any {
+function __c542(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45082,7 +44589,7 @@ function __c549(j: number): any {
       ).annotate({ identifier: "ListIdentityProviderKeysRequest" });
   }
 }
-function __c550(j: number): any {
+function __c543(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45095,17 +44602,17 @@ function __c550(j: number): any {
       ).annotate({ identifier: "ListIdentityProvidersRequest" });
   }
 }
-function __c551(j: number): any {
+function __c544(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(4909, __c153, 13));
     case 1:
-      return S.suspend(() => __S(17632, __c551, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17408, __c544, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListIdentityProvidersResponse",
       });
   }
 }
-function __c552(j: number): any {
+function __c545(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45115,7 +44622,7 @@ function __c552(j: number): any {
       ).annotate({ identifier: "ListIdentityProviderSigningKeysRequest" });
   }
 }
-function __c553(j: number): any {
+function __c546(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45132,12 +44639,88 @@ function __c553(j: number): any {
     case 1:
       return S.Array(__S(224, __c7, 0));
     case 2:
-      return S.suspend(() => __S(17697, __c553, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17473, __c546, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListIdentitySourceSessionsResponse",
       });
   }
 }
-function __c554(j: number): any {
+function __c547(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/inlineHooks", code: 200 })),
+      ).annotate({ identifier: "ListInlineHooksRequest" });
+    case 1:
+      return S.Array(__S(5281, __c165, 1));
+    case 2:
+      return S.suspend(() => __S(17505, __c547, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListInlineHooksResponse",
+      });
+  }
+}
+function __c548(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/v1/apps/{appId}/interclient-allowed-apps",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListInterclientAllowedApplicationsRequest" });
+  }
+}
+function __c549(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/interclient-target-apps", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListInterclientTargetApplicationsRequest" });
+  }
+}
+function __c550(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/credentials/jwks", code: 200 })),
+      ).annotate({ identifier: "ListJwkRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() => __S(17601, __c550, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListJwkResponse",
+      });
+  }
+}
+function __c551(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/meta/schemas/user/linkedObjects", code: 200 }),
+        ),
+      ).annotate({ identifier: "ListLinkedObjectDefinitionsRequest" });
+    case 1:
+      return S.Array(__S(418, __c13, 2));
+    case 2:
+      return S.suspend(() => __S(17633, __c551, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListLinkedObjectDefinitionsResponse",
+      });
+  }
+}
+function __c552(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45155,83 +44738,7 @@ function __c554(j: number): any {
       ).annotate({ identifier: "AssignAppTargetToAdminRoleForUserRequest" });
   }
 }
-function __c555(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/inlineHooks", code: 200 })),
-      ).annotate({ identifier: "ListInlineHooksRequest" });
-    case 1:
-      return S.Array(__S(5281, __c165, 1));
-    case 2:
-      return S.suspend(() => __S(17761, __c555, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListInlineHooksResponse",
-      });
-  }
-}
-function __c556(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/v1/apps/{appId}/interclient-allowed-apps",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListInterclientAllowedApplicationsRequest" });
-  }
-}
-function __c557(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/interclient-target-apps", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListInterclientTargetApplicationsRequest" });
-  }
-}
-function __c558(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/credentials/jwks", code: 200 })),
-      ).annotate({ identifier: "ListJwkRequest" });
-    case 1:
-      return S.Array(S.Unknown);
-    case 2:
-      return S.suspend(() => __S(17857, __c558, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListJwkResponse",
-      });
-  }
-}
-function __c559(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/meta/schemas/user/linkedObjects", code: 200 }),
-        ),
-      ).annotate({ identifier: "ListLinkedObjectDefinitionsRequest" });
-    case 1:
-      return S.Array(__S(418, __c13, 2));
-    case 2:
-      return S.suspend(() => __S(17889, __c559, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListLinkedObjectDefinitionsResponse",
-      });
-  }
-}
-function __c560(j: number): any {
+function __c553(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45249,18 +44756,18 @@ function __c560(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "ResponseLinks" });
     case 2:
-      return S.Array(__S(17921, __c560, 1));
+      return S.Array(__S(17697, __c553, 1));
     case 3:
-      return S.suspend(() => __S(17922, __c560, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17698, __c553, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLinkedObjectsForUserResponse",
       });
   }
 }
-function __c561(j: number): any {
+function __c554(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45278,7 +44785,7 @@ function __c561(j: number): any {
       return S.suspend(() =>
         S.Struct({
           alternateId: S.optional(S.String),
-          detailEntry: S.optional(__S(20704, __c647, 0)),
+          detailEntry: S.optional(__S(20640, __c645, 0)),
           displayName: S.optional(S.String),
           id: S.optional(S.String),
           type: S.optional(S.String),
@@ -45293,7 +44800,7 @@ function __c561(j: number): any {
           credentialType: S.optional(S.String),
           externalSessionId: S.optional(S.String),
           interface: S.optional(S.String),
-          issuer: S.optional(__S(13216, __c413, 0)),
+          issuer: S.optional(__S(13088, __c409, 0)),
         }),
       ).annotate({ identifier: "LogAuthenticationContext" });
     case 3:
@@ -45308,7 +44815,7 @@ function __c561(j: number): any {
         S.Struct({
           city: S.optional(S.String),
           country: S.optional(S.String),
-          geolocation: S.optional(__S(17955, __c561, 3)),
+          geolocation: S.optional(__S(17731, __c554, 3)),
           postalCode: S.optional(S.String),
           state: S.optional(S.String),
         }),
@@ -45325,17 +44832,17 @@ function __c561(j: number): any {
       return S.suspend(() =>
         S.Struct({
           device: S.optional(S.String),
-          geographicalContext: S.optional(__S(17956, __c561, 4)),
+          geographicalContext: S.optional(__S(17732, __c554, 4)),
           id: S.optional(S.String),
           ipAddress: S.optional(S.String),
-          userAgent: S.optional(__S(17957, __c561, 5)),
+          userAgent: S.optional(__S(17733, __c554, 5)),
           zone: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogClient" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          debugData: S.optional(__S(20704, __c647, 0)),
+          debugData: S.optional(__S(20640, __c645, 0)),
         }),
       ).annotate({ identifier: "LogDebugContext" });
     case 8:
@@ -45354,33 +44861,33 @@ function __c561(j: number): any {
         }),
       ).annotate({ identifier: "LogIpServiceCategory" });
     case 10:
-      return S.Array(__S(17961, __c561, 9));
+      return S.Array(__S(17737, __c554, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           asNumber: S.optional(S.NullOr(S.Number)),
           asOrg: S.optional(S.NullOr(S.String)),
           domain: S.optional(S.NullOr(S.String)),
-          ipServiceCategories: S.optional(S.NullOr(__S(17962, __c561, 10))),
+          ipServiceCategories: S.optional(S.NullOr(__S(17738, __c554, 10))),
           isp: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "LogIpDetails" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          geographicalContext: S.optional(__S(17956, __c561, 4)),
+          geographicalContext: S.optional(__S(17732, __c554, 4)),
           ip: S.optional(S.String),
-          ipDetails: S.optional(S.NullOr(__S(17963, __c561, 11))),
+          ipDetails: S.optional(S.NullOr(__S(17739, __c554, 11))),
           source: S.optional(S.String),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogIpAddress" });
     case 13:
-      return S.Array(__S(17964, __c561, 12));
+      return S.Array(__S(17740, __c554, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          ipChain: S.optional(__S(17965, __c561, 13)),
+          ipChain: S.optional(__S(17741, __c554, 13)),
         }),
       ).annotate({ identifier: "LogRequest" });
     case 15:
@@ -45408,45 +44915,45 @@ function __c561(j: number): any {
         }),
       ).annotate({ identifier: "LogUserBehavior" });
     case 18:
-      return S.Array(__S(17969, __c561, 17));
+      return S.Array(__S(17745, __c554, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
           asNumber: S.optional(S.NullOr(S.Number)),
           asOrg: S.optional(S.NullOr(S.String)),
-          botProtection: S.optional(S.NullOr(__S(17967, __c561, 15))),
+          botProtection: S.optional(S.NullOr(__S(17743, __c554, 15))),
           domain: S.optional(S.NullOr(S.String)),
-          ipDetails: S.optional(S.NullOr(__S(17963, __c561, 11))),
+          ipDetails: S.optional(S.NullOr(__S(17739, __c554, 11))),
           isp: S.optional(S.NullOr(S.String)),
           isProxy: S.optional(S.NullOr(S.Boolean)),
-          risk: S.optional(S.NullOr(__S(17968, __c561, 16))),
-          userBehaviors: S.optional(S.NullOr(__S(17970, __c561, 18))),
+          risk: S.optional(S.NullOr(__S(17744, __c554, 16))),
+          userBehaviors: S.optional(S.NullOr(__S(17746, __c554, 18))),
         }),
       ).annotate({ identifier: "LogSecurityContext" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          from: S.optional(__S(20704, __c647, 0)),
-          to: S.optional(__S(20704, __c647, 0)),
+          from: S.optional(__S(20640, __c645, 0)),
+          to: S.optional(__S(20640, __c645, 0)),
         }),
       ).annotate({ identifier: "LogTargetChangeDetails" });
     case 21:
       return S.suspend(() =>
         S.Struct({
           alternateId: S.optional(S.String),
-          changeDetails: S.optional(__S(17972, __c561, 20)),
-          detailEntry: S.optional(__S(20704, __c647, 0)),
+          changeDetails: S.optional(__S(17748, __c554, 20)),
+          detailEntry: S.optional(__S(20640, __c645, 0)),
           displayName: S.optional(S.String),
           id: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogTarget" });
     case 22:
-      return S.Array(__S(17973, __c561, 21));
+      return S.Array(__S(17749, __c554, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          detail: S.optional(__S(20704, __c647, 0)),
+          detail: S.optional(__S(20640, __c645, 0)),
           id: S.optional(S.String),
           type: S.optional(S.String),
         }),
@@ -45454,33 +44961,33 @@ function __c561(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          actor: S.optional(__S(17953, __c561, 1)),
-          authenticationContext: S.optional(__S(17954, __c561, 2)),
-          client: S.optional(__S(17958, __c561, 6)),
-          debugContext: S.optional(__S(17959, __c561, 7)),
+          actor: S.optional(__S(17729, __c554, 1)),
+          authenticationContext: S.optional(__S(17730, __c554, 2)),
+          client: S.optional(__S(17734, __c554, 6)),
+          debugContext: S.optional(__S(17735, __c554, 7)),
           displayMessage: S.optional(S.String),
           eventType: S.optional(S.String),
           legacyEventType: S.optional(S.String),
-          outcome: S.optional(__S(17960, __c561, 8)),
+          outcome: S.optional(__S(17736, __c554, 8)),
           published: S.optional(S.String),
-          request: S.optional(__S(17966, __c561, 14)),
-          securityContext: S.optional(__S(17971, __c561, 19)),
+          request: S.optional(__S(17742, __c554, 14)),
+          securityContext: S.optional(__S(17747, __c554, 19)),
           severity: S.optional(S.String),
-          target: S.optional(__S(17974, __c561, 22)),
-          transaction: S.optional(__S(17975, __c561, 23)),
+          target: S.optional(__S(17750, __c554, 22)),
+          transaction: S.optional(__S(17751, __c554, 23)),
           uuid: S.optional(S.String),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogEvent" });
     case 25:
-      return S.Array(__S(17976, __c561, 24));
+      return S.Array(__S(17752, __c554, 24));
     case 26:
-      return S.suspend(() => __S(17977, __c561, 25).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17753, __c554, 25).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLogEventsResponse",
       });
   }
 }
-function __c562(j: number): any {
+function __c555(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45493,12 +45000,12 @@ function __c562(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(17985, __c562, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17761, __c555, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLogStreamsResponse",
       });
   }
 }
-function __c563(j: number): any {
+function __c556(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45507,14 +45014,14 @@ function __c563(j: number): any {
         ),
       ).annotate({ identifier: "ListLogStreamSchemasRequest" });
     case 1:
-      return S.Array(__S(11040, __c345, 0));
+      return S.Array(__S(10912, __c341, 0));
     case 2:
-      return S.suspend(() => __S(18017, __c563, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17793, __c556, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLogStreamSchemasResponse",
       });
   }
 }
-function __c564(j: number): any {
+function __c557(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45531,47 +45038,25 @@ function __c564(j: number): any {
         ),
       ).annotate({ identifier: "ListMembersOfBindingRequest" });
     case 1:
-      return S.Array(__S(11104, __c347, 0));
+      return S.Array(__S(10976, __c343, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          next: S.optional(__S(18656, __c583, 0)),
-          binding: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          next: S.optional(__S(18592, __c581, 0)),
+          binding: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "ResourceSetBindingMembersLinks" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          members: S.optional(__S(18049, __c564, 1)),
-          _links: S.optional(__S(18050, __c564, 2)),
+          members: S.optional(__S(17825, __c557, 1)),
+          _links: S.optional(__S(17826, __c557, 2)),
         }),
       ).annotate({ identifier: "ResourceSetBindingMembers" });
   }
 }
-function __c565(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          clientPrivilegesSetting: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/api/v1/org/settings/clientPrivilegesSetting", code: 200 }),
-        ),
-      ).annotate({ identifier: "AssignClientPrivilegesSettingRequest" });
-  }
-}
-function __c566(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          clientPrivilegesSetting: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ClientPrivilegesSetting" });
-  }
-}
-function __c567(j: number): any {
+function __c558(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45584,12 +45069,12 @@ function __c567(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(18145, __c567, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17857, __c558, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListNetworkZonesResponse",
       });
   }
 }
-function __c568(j: number): any {
+function __c559(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45606,12 +45091,12 @@ function __c568(j: number): any {
     case 1:
       return S.Array(__S(545, __c17, 1));
     case 2:
-      return S.suspend(() => __S(18177, __c568, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17889, __c559, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOAuth2ClaimsResponse",
       });
   }
 }
-function __c569(j: number): any {
+function __c560(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45624,12 +45109,12 @@ function __c569(j: number): any {
     case 1:
       return S.Array(__S(7200, __c225, 0));
     case 2:
-      return S.suspend(() => __S(18209, __c569, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17921, __c560, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOAuth2ClientSecretsResponse",
       });
   }
 }
-function __c570(j: number): any {
+function __c561(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45645,14 +45130,14 @@ function __c570(j: number): any {
       ).annotate({ identifier: "ListOAuth2ClientsForAuthorizationServerRequest" });
   }
 }
-function __c571(j: number): any {
+function __c562(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          grants: S.optional(__S(9856, __c308, 0)),
-          tokens: S.optional(__S(9856, __c308, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          grants: S.optional(__S(9696, __c303, 0)),
+          tokens: S.optional(__S(9696, __c303, 0)),
         }),
       ).annotate({ identifier: "OAuth2ClientLinks" });
     case 1:
@@ -45662,18 +45147,18 @@ function __c571(j: number): any {
           client_name: S.optional(S.String),
           client_uri: S.optional(S.String),
           logo_uri: S.optional(S.String),
-          _links: S.optional(__S(18272, __c571, 0)),
+          _links: S.optional(__S(17984, __c562, 0)),
         }),
       ).annotate({ identifier: "OAuth2Client" });
     case 2:
-      return S.Array(__S(18273, __c571, 1));
+      return S.Array(__S(17985, __c562, 1));
     case 3:
-      return S.suspend(() => __S(18274, __c571, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17986, __c562, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOAuth2ClientsForAuthorizationServerResponse",
       });
   }
 }
-function __c572(j: number): any {
+function __c563(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45690,12 +45175,34 @@ function __c572(j: number): any {
     case 1:
       return S.Array(__S(7745, __c242, 1));
     case 2:
-      return S.suspend(() => __S(18305, __c572, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18017, __c563, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOAuth2ResourceServerJsonWebKeysResponse",
       });
   }
 }
-function __c573(j: number): any {
+function __c564(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientPrivilegesSetting: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/api/v1/org/settings/clientPrivilegesSetting", code: 200 }),
+        ),
+      ).annotate({ identifier: "AssignClientPrivilegesSettingRequest" });
+  }
+}
+function __c565(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientPrivilegesSetting: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ClientPrivilegesSetting" });
+  }
+}
+function __c566(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45716,12 +45223,12 @@ function __c573(j: number): any {
     case 1:
       return S.Array(__S(672, __c21, 0));
     case 2:
-      return S.suspend(() => __S(18337, __c573, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18113, __c566, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOAuth2ScopesResponse",
       });
   }
 }
-function __c574(j: number): any {
+function __c567(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45734,17 +45241,17 @@ function __c574(j: number): any {
       ).annotate({ identifier: "ListOAuth2TokensForApplicationRequest" });
   }
 }
-function __c575(j: number): any {
+function __c568(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11431, __c357, 7));
+      return S.Array(__S(11239, __c351, 7));
     case 1:
-      return S.suspend(() => __S(18400, __c575, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18176, __c568, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOAuth2TokensForApplicationResponse",
       });
   }
 }
-function __c576(j: number): any {
+function __c569(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45763,12 +45270,12 @@ function __c576(j: number): any {
     case 1:
       return S.Array(__S(736, __c23, 0));
     case 2:
-      return S.suspend(() => __S(18433, __c576, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18209, __c569, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOktaManagedUserAccountsResponse",
       });
   }
 }
-function __c577(j: number): any {
+function __c570(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45777,16 +45284,16 @@ function __c577(j: number): any {
         ),
       ).annotate({ identifier: "ListOktaSupportCasesRequest" });
     case 1:
-      return S.Array(__S(18498, __c578, 2));
+      return S.Array(__S(18274, __c571, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          supportCases: S.optional(__S(18465, __c577, 1)),
+          supportCases: S.optional(__S(18241, __c570, 1)),
         }),
       ).annotate({ identifier: "OktaSupportCases" });
   }
 }
-function __c578(j: number): any {
+function __c571(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45805,14 +45312,14 @@ function __c578(j: number): any {
       return S.suspend(() =>
         S.Struct({
           caseNumber: S.optional(S.String),
-          impersonation: S.optional(__S(18496, __c578, 0)),
-          selfAssigned: S.optional(__S(18497, __c578, 1)),
+          impersonation: S.optional(__S(18272, __c571, 0)),
+          selfAssigned: S.optional(__S(18273, __c571, 1)),
           subject: S.optional(S.String),
         }),
       ).annotate({ identifier: "OktaSupportCase" });
   }
 }
-function __c579(j: number): any {
+function __c572(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45821,143 +45328,12 @@ function __c579(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(18529, __c579, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18305, __c572, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListOrgContactTypesResponse",
       });
   }
 }
-function __c580(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          poolId: S.String.pipe(T.Label()),
-          updateId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/agentPools/{poolId}/updates/{updateId}/activate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ActivateAgentPoolsUpdateRequest" });
-  }
-}
-function __c581(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c582(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          allow: S.optional(__S(18592, __c581, 0)),
-        }),
-      ).annotate({ identifier: "HrefHints" });
-  }
-}
-function __c583(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            hints: S.optional(__S(18624, __c582, 0)),
-            href: S.String,
-            name: S.optional(S.String),
-            templated: S.optional(S.Boolean),
-            type: S.optional(S.String),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "HrefObjectSelfLink" });
-  }
-}
-function __c584(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          isHidden: S.optional(S.Boolean),
-          isLatestGAedVersion: S.optional(S.Boolean),
-          lastConnection: S.optional(S.Number),
-          name: S.optional(S.String),
-          operationalStatus: S.optional(S.String),
-          poolId: S.optional(S.String),
-          type: S.optional(S.String),
-          updateMessage: S.optional(S.String),
-          updateStatus: S.optional(S.String),
-          version: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
-        }),
-      ).annotate({ identifier: "Agent" });
-    case 1:
-      return S.Array(__S(18688, __c584, 0));
-  }
-}
-function __c585(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          cron: S.optional(S.String),
-          delay: S.optional(S.Number),
-          duration: S.optional(S.Number),
-          lastUpdated: S.optional(S.String),
-          timezone: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AutoUpdateSchedule" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          agents: S.optional(__S(18689, __c584, 1)),
-          agentType: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          notifyAdmin: S.optional(S.Boolean),
-          reason: S.optional(S.String),
-          schedule: S.optional(__S(18720, __c585, 0)),
-          sortOrder: S.optional(S.Number),
-          status: S.optional(S.String),
-          targetVersion: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
-        }),
-      ).annotate({ identifier: "AgentPoolUpdate" });
-  }
-}
-function __c586(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-        }),
-      ).annotate({ identifier: "LinksSelf" });
-  }
-}
-function __c587(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          authenticatorEnrollmentId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/webauthn-registration/api/v1/users/{userId}/enrollments/{authenticatorEnrollmentId}/mark-error",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AssignFulfillmentErrorWebAuthnPreregistrationFactorRequest" });
-  }
-}
-function __c588(j: number): any {
+function __c573(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45975,12 +45351,12 @@ function __c588(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(18817, __c588, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18337, __c573, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPoliciesResponse",
       });
   }
 }
-function __c589(j: number): any {
+function __c574(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -45989,14 +45365,14 @@ function __c589(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/policies/{policyId}/mappings", code: 200 })),
       ).annotate({ identifier: "ListPolicyMappingsRequest" });
     case 1:
-      return S.Array(__S(12097, __c378, 1));
+      return S.Array(__S(11841, __c370, 1));
     case 2:
-      return S.suspend(() => __S(18849, __c589, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18369, __c574, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPolicyMappingsResponse",
       });
   }
 }
-function __c590(j: number): any {
+function __c575(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46008,12 +45384,12 @@ function __c590(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(18881, __c590, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18401, __c575, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPolicyRulesResponse",
       });
   }
 }
-function __c591(j: number): any {
+function __c576(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46026,12 +45402,12 @@ function __c591(j: number): any {
     case 1:
       return S.Array(__S(928, __c29, 0));
     case 2:
-      return S.suspend(() => __S(18913, __c591, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18433, __c576, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPrincipalRateLimitEntitiesResponse",
       });
   }
 }
-function __c592(j: number): any {
+function __c577(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46046,20 +45422,151 @@ function __c592(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          source: S.optional(__S(12288, __c384, 0)),
-          target: S.optional(__S(12288, __c384, 0)),
-          _links: S.optional(__S(18752, __c586, 0)),
+          source: S.optional(__S(12160, __c380, 0)),
+          target: S.optional(__S(12160, __c380, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "ListProfileMappings" });
     case 2:
-      return S.Array(__S(18945, __c592, 1));
+      return S.Array(__S(18465, __c577, 1));
     case 3:
-      return S.suspend(() => __S(18946, __c592, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18466, __c577, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListProfileMappingsResponse",
       });
   }
 }
-function __c593(j: number): any {
+function __c578(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          poolId: S.String.pipe(T.Label()),
+          updateId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/agentPools/{poolId}/updates/{updateId}/activate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ActivateAgentPoolsUpdateRequest" });
+  }
+}
+function __c579(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c580(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          allow: S.optional(__S(18528, __c579, 0)),
+        }),
+      ).annotate({ identifier: "HrefHints" });
+  }
+}
+function __c581(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            hints: S.optional(__S(18560, __c580, 0)),
+            href: S.String,
+            name: S.optional(S.String),
+            templated: S.optional(S.Boolean),
+            type: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "HrefObjectSelfLink" });
+  }
+}
+function __c582(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          isHidden: S.optional(S.Boolean),
+          isLatestGAedVersion: S.optional(S.Boolean),
+          lastConnection: S.optional(S.Number),
+          name: S.optional(S.String),
+          operationalStatus: S.optional(S.String),
+          poolId: S.optional(S.String),
+          type: S.optional(S.String),
+          updateMessage: S.optional(S.String),
+          updateStatus: S.optional(S.String),
+          version: S.optional(S.String),
+          _links: S.optional(__S(18688, __c584, 0)),
+        }),
+      ).annotate({ identifier: "Agent" });
+    case 1:
+      return S.Array(__S(18624, __c582, 0));
+  }
+}
+function __c583(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cron: S.optional(S.String),
+          delay: S.optional(S.Number),
+          duration: S.optional(S.Number),
+          lastUpdated: S.optional(S.String),
+          timezone: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AutoUpdateSchedule" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          agents: S.optional(__S(18625, __c582, 1)),
+          agentType: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          notifyAdmin: S.optional(S.Boolean),
+          reason: S.optional(S.String),
+          schedule: S.optional(__S(18656, __c583, 0)),
+          sortOrder: S.optional(S.Number),
+          status: S.optional(S.String),
+          targetVersion: S.optional(S.String),
+          _links: S.optional(__S(18688, __c584, 0)),
+        }),
+      ).annotate({ identifier: "AgentPoolUpdate" });
+  }
+}
+function __c584(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          self: S.optional(__S(18592, __c581, 0)),
+        }),
+      ).annotate({ identifier: "LinksSelf" });
+  }
+}
+function __c585(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          authenticatorEnrollmentId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/webauthn-registration/api/v1/users/{userId}/enrollments/{authenticatorEnrollmentId}/mark-error",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AssignFulfillmentErrorWebAuthnPreregistrationFactorRequest" });
+  }
+}
+function __c586(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46070,12 +45577,12 @@ function __c593(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(18977, __c593, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18753, __c586, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPushProvidersResponse",
       });
   }
 }
-function __c594(j: number): any {
+function __c587(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46087,12 +45594,12 @@ function __c594(j: number): any {
     case 1:
       return S.Array(__S(6050, __c189, 2));
     case 2:
-      return S.suspend(() => __S(19009, __c594, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18785, __c587, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRealmAssignmentOperationsResponse",
       });
   }
 }
-function __c595(j: number): any {
+function __c588(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46104,12 +45611,12 @@ function __c595(j: number): any {
     case 1:
       return S.Array(__S(1152, __c36, 0));
     case 2:
-      return S.suspend(() => __S(19041, __c595, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18817, __c588, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRealmAssignmentsResponse",
       });
   }
 }
-function __c596(j: number): any {
+function __c589(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46124,12 +45631,12 @@ function __c596(j: number): any {
     case 1:
       return S.Array(__S(1057, __c33, 1));
     case 2:
-      return S.suspend(() => __S(19073, __c596, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(18849, __c589, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRealmsResponse",
       });
   }
 }
-function __c597(j: number): any {
+function __c590(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46149,35 +45656,7 @@ function __c597(j: number): any {
       ).annotate({ identifier: "ListRefreshTokensForAuthorizationServerAndClientRequest" });
   }
 }
-function __c598(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          groupId: S.String.pipe(T.Label()),
-          id: S.optional(S.String),
-          type: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/groups/{groupId}/owners", code: 200 })),
-      ).annotate({ identifier: "AssignGroupOwnerRequest" });
-  }
-}
-function __c599(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          displayName: S.optional(S.String),
-          id: S.optional(S.String),
-          lastUpdated: S.optional(S.String),
-          originId: S.optional(S.String),
-          originType: S.optional(S.String),
-          resolved: S.optional(S.Boolean),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GroupOwner" });
-  }
-}
-function __c600(j: number): any {
+function __c591(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46197,7 +45676,7 @@ function __c600(j: number): any {
       ).annotate({ identifier: "ListRefreshTokensForUserAndClientRequest" });
   }
 }
-function __c601(j: number): any {
+function __c592(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46218,20 +45697,20 @@ function __c601(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          next: S.optional(__S(18656, __c583, 0)),
-          resource_set: S.optional(__S(18656, __c583, 0).pipe(T.Body("resource-set"))),
+          next: S.optional(__S(18592, __c581, 0)),
+          resource_set: S.optional(__S(18592, __c581, 0).pipe(T.Body("resource-set"))),
         }),
       ).annotate({ identifier: "ResourceSetResourcesLinks" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(19233, __c601, 1)),
-          _links: S.optional(__S(19234, __c601, 2)),
+          resources: S.optional(__S(18945, __c592, 1)),
+          _links: S.optional(__S(18946, __c592, 2)),
         }),
       ).annotate({ identifier: "ResourceSetResources" });
   }
 }
-function __c602(j: number): any {
+function __c593(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46244,23 +45723,23 @@ function __c602(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resource_sets: S.optional(__S(19265, __c602, 1).pipe(T.Body("resource-sets"))),
-          _links: S.optional(__S(19296, __c603, 0)),
+          resource_sets: S.optional(__S(18977, __c593, 1).pipe(T.Body("resource-sets"))),
+          _links: S.optional(__S(19008, __c594, 0)),
         }),
       ).annotate({ identifier: "ResourceSets" });
   }
 }
-function __c603(j: number): any {
+function __c594(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          next: S.optional(__S(18656, __c583, 0)),
+          next: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "LinksNext" });
   }
 }
-function __c604(j: number): any {
+function __c595(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46275,16 +45754,16 @@ function __c604(j: number): any {
         ),
       ).annotate({ identifier: "ListRolePermissionsRequest" });
     case 1:
-      return S.Array(__S(13089, __c409, 1));
+      return S.Array(__S(12897, __c403, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(19329, __c604, 1)),
+          permissions: S.optional(__S(19041, __c595, 1)),
         }),
       ).annotate({ identifier: "Permissions" });
   }
 }
-function __c605(j: number): any {
+function __c596(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46297,13 +45776,41 @@ function __c605(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          roles: S.optional(__S(19361, __c605, 1)),
-          _links: S.optional(__S(19296, __c603, 0)),
+          roles: S.optional(__S(19073, __c596, 1)),
+          _links: S.optional(__S(19008, __c594, 0)),
         }),
       ).annotate({ identifier: "IamRoles" });
   }
 }
-function __c606(j: number): any {
+function __c597(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          groupId: S.String.pipe(T.Label()),
+          id: S.optional(S.String),
+          type: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/groups/{groupId}/owners", code: 200 })),
+      ).annotate({ identifier: "AssignGroupOwnerRequest" });
+  }
+}
+function __c598(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          displayName: S.optional(S.String),
+          id: S.optional(S.String),
+          lastUpdated: S.optional(S.String),
+          originId: S.optional(S.String),
+          originType: S.optional(S.String),
+          resolved: S.optional(S.Boolean),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GroupOwner" });
+  }
+}
+function __c599(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46314,12 +45821,12 @@ function __c606(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(19393, __c606, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19169, __c599, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRolesForClientResponse",
       });
   }
 }
-function __c607(j: number): any {
+function __c600(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46330,7 +45837,7 @@ function __c607(j: number): any {
       ).annotate({ identifier: "ListScopeConsentGrantsRequest" });
   }
 }
-function __c608(j: number): any {
+function __c601(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46339,14 +45846,14 @@ function __c608(j: number): any {
         ),
       ).annotate({ identifier: "ListSecurityEventsProviderInstancesRequest" });
     case 1:
-      return S.Array(__S(10273, __c321, 1));
+      return S.Array(__S(10305, __c322, 1));
     case 2:
-      return S.suspend(() => __S(19457, __c608, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19233, __c601, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSecurityEventsProviderInstancesResponse",
       });
   }
 }
-function __c609(j: number): any {
+function __c602(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46357,12 +45864,12 @@ function __c609(j: number): any {
     case 1:
       return S.Array(__S(1472, __c46, 0));
     case 2:
-      return S.suspend(() => __S(19489, __c609, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19265, __c602, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSmsTemplatesResponse",
       });
   }
 }
-function __c610(j: number): any {
+function __c603(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46389,32 +45896,14 @@ function __c610(j: number): any {
         }),
       ).annotate({ identifier: "SocialAuthToken" });
     case 2:
-      return S.Array(__S(19521, __c610, 1));
+      return S.Array(__S(19297, __c603, 1));
     case 3:
-      return S.suspend(() => __S(19522, __c610, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19298, __c603, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSocialAuthTokensResponse",
       });
   }
 }
-function __c611(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          clientId: S.String.pipe(T.Label()),
-          roleAssignmentId: S.String.pipe(T.Label()),
-          groupId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/oauth2/v1/clients/{clientId}/roles/{roleAssignmentId}/targets/groups/{groupId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AssignGroupTargetRoleForClientRequest" });
-  }
-}
-function __c612(j: number): any {
+function __c604(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46424,17 +45913,17 @@ function __c612(j: number): any {
       ).annotate({ identifier: "ListSubscriptionsRoleRequest" });
   }
 }
-function __c613(j: number): any {
+function __c605(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(13632, __c426, 0));
+      return S.Array(__S(13504, __c422, 0));
     case 1:
-      return S.suspend(() => __S(19616, __c613, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19360, __c605, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSubscriptionsRoleResponse",
       });
   }
 }
-function __c614(j: number): any {
+function __c606(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46444,7 +45933,7 @@ function __c614(j: number): any {
       ).annotate({ identifier: "ListSubscriptionsUserRequest" });
   }
 }
-function __c615(j: number): any {
+function __c607(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46462,19 +45951,19 @@ function __c615(j: number): any {
           provider: S.optional(S.String),
           status: S.optional(S.String),
           vendorName: S.optional(S.String),
-          _embedded: S.optional(__S(20704, __c647, 0)),
-          _links: S.optional(__S(14560, __c455, 0)),
+          _embedded: S.optional(__S(20640, __c645, 0)),
+          _links: S.optional(__S(14304, __c447, 0)),
         }),
       ).annotate({ identifier: "UserFactorSupported" });
     case 2:
-      return S.Array(__S(19681, __c615, 1));
+      return S.Array(__S(19425, __c607, 1));
     case 3:
-      return S.suspend(() => __S(19682, __c615, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19426, __c607, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSupportedFactorsResponse",
       });
   }
 }
-function __c616(j: number): any {
+function __c608(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46492,14 +45981,14 @@ function __c616(j: number): any {
         ),
       ).annotate({ identifier: "ListSupportedSecurityQuestionsRequest" });
     case 2:
-      return S.Array(__S(19712, __c616, 0));
+      return S.Array(__S(19456, __c608, 0));
     case 3:
-      return S.suspend(() => __S(19714, __c616, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19458, __c608, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSupportedSecurityQuestionsResponse",
       });
   }
 }
-function __c617(j: number): any {
+function __c609(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46511,14 +46000,32 @@ function __c617(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/trustedOrigins", code: 200 })),
       ).annotate({ identifier: "ListTrustedOriginsRequest" });
     case 1:
-      return S.Array(__S(10754, __c336, 2));
+      return S.Array(__S(10786, __c337, 2));
     case 2:
-      return S.suspend(() => __S(19745, __c617, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19489, __c609, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTrustedOriginsResponse",
       });
   }
 }
-function __c618(j: number): any {
+function __c610(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.String.pipe(T.Label()),
+          roleAssignmentId: S.String.pipe(T.Label()),
+          groupId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/oauth2/v1/clients/{clientId}/roles/{roleAssignmentId}/targets/groups/{groupId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AssignGroupTargetRoleForClientRequest" });
+  }
+}
+function __c611(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46527,12 +46034,12 @@ function __c618(j: number): any {
     case 1:
       return S.Array(__S(1668, __c52, 4));
     case 2:
-      return S.suspend(() => __S(19777, __c618, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19553, __c611, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListUISchemasResponse",
       });
   }
 }
-function __c619(j: number): any {
+function __c612(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46541,12 +46048,12 @@ function __c619(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/v1/users/{id}/blocks", code: 200 })),
       ).annotate({ identifier: "ListUserBlocksRequest" });
     case 1:
-      return S.suspend(() => __S(13857, __c433, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(13729, __c429, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListUserBlocksResponse",
       });
   }
 }
-function __c620(j: number): any {
+function __c613(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46556,7 +46063,7 @@ function __c620(j: number): any {
       ).annotate({ identifier: "ListUserClientsRequest" });
   }
 }
-function __c621(j: number): any {
+function __c614(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46583,19 +46090,19 @@ function __c621(j: number): any {
       return S.suspend(() =>
         S.Struct({
           created: S.optional(S.String),
-          device: S.optional(__S(19873, __c621, 1)),
+          device: S.optional(__S(19649, __c614, 1)),
           deviceUserId: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserDevice" });
     case 3:
-      return S.Array(__S(19874, __c621, 2));
+      return S.Array(__S(19650, __c614, 2));
     case 4:
-      return S.suspend(() => __S(19875, __c621, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19651, __c614, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListUserDevicesResponse",
       });
   }
 }
-function __c622(j: number): any {
+function __c615(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46609,25 +46116,7 @@ function __c622(j: number): any {
       ).annotate({ identifier: "ListUserGrantsRequest" });
   }
 }
-function __c623(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          groupId: S.String.pipe(T.Label()),
-          roleAssignmentId: S.String.pipe(T.Label()),
-          targetGroupId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/groups/{groupId}/roles/{roleAssignmentId}/targets/groups/{targetGroupId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AssignGroupTargetToGroupAdminRoleRequest" });
-  }
-}
-function __c624(j: number): any {
+function __c616(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46637,7 +46126,7 @@ function __c624(j: number): any {
       ).annotate({ identifier: "ListUserGroupsRequest" });
   }
 }
-function __c625(j: number): any {
+function __c617(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46647,7 +46136,7 @@ function __c625(j: number): any {
       ).annotate({ identifier: "ListUserIdentityProvidersRequest" });
   }
 }
-function __c626(j: number): any {
+function __c618(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46665,7 +46154,7 @@ function __c626(j: number): any {
       ).annotate({ identifier: "ListUsersRequest" });
   }
 }
-function __c627(j: number): any {
+function __c619(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46677,8 +46166,8 @@ function __c627(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          roles: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          roles: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "LinksSelfAndRoles" });
     case 2:
@@ -46686,21 +46175,21 @@ function __c627(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           orn: S.optional(S.String),
-          _links: S.optional(__S(20065, __c627, 1)),
+          _links: S.optional(__S(19809, __c619, 1)),
         }),
       ).annotate({ identifier: "RoleAssignedUser" });
     case 3:
-      return S.Array(__S(20066, __c627, 2));
+      return S.Array(__S(19810, __c619, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(20067, __c627, 3)),
-          _links: S.optional(__S(19296, __c603, 0)),
+          value: S.optional(__S(19811, __c619, 3)),
+          _links: S.optional(__S(19008, __c594, 0)),
         }),
       ).annotate({ identifier: "RoleAssignedUsers" });
   }
 }
-function __c628(j: number): any {
+function __c620(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46709,12 +46198,30 @@ function __c628(j: number): any {
     case 1:
       return S.Array(__S(1920, __c60, 0));
     case 2:
-      return S.suspend(() => __S(20097, __c628, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19841, __c620, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListUserTypesResponse",
       });
   }
 }
-function __c629(j: number): any {
+function __c621(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          groupId: S.String.pipe(T.Label()),
+          roleAssignmentId: S.String.pipe(T.Label()),
+          targetGroupId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/groups/{groupId}/roles/{roleAssignmentId}/targets/groups/{targetGroupId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AssignGroupTargetToGroupAdminRoleRequest" });
+  }
+}
+function __c622(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46739,18 +46246,18 @@ function __c629(j: number): any {
           provider: S.optional(S.String),
           status: S.optional(S.String),
           vendorName: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "WebAuthnPreregistrationFactor" });
     case 2:
-      return S.Array(__S(20129, __c629, 1));
+      return S.Array(__S(19905, __c622, 1));
     case 3:
-      return S.suspend(() => __S(20130, __c629, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19906, __c622, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListWebAuthnPreregistrationFactorsResponse",
       });
   }
 }
-function __c630(j: number): any {
+function __c623(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46767,14 +46274,14 @@ function __c630(j: number): any {
         ),
       ).annotate({ identifier: "ListYubikeyOtpTokensRequest" });
     case 1:
-      return S.Array(__S(14592, __c456, 0));
+      return S.Array(__S(14336, __c448, 0));
     case 2:
-      return S.suspend(() => __S(20161, __c630, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(19937, __c623, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListYubikeyOtpTokensResponse",
       });
   }
 }
-function __c631(j: number): any {
+function __c624(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46786,7 +46293,7 @@ function __c631(j: number): any {
       ).annotate({ identifier: "MapResourceToPolicyRequest" });
   }
 }
-function __c632(j: number): any {
+function __c625(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46796,7 +46303,7 @@ function __c632(j: number): any {
       ).annotate({ identifier: "OptInRequest" });
   }
 }
-function __c633(j: number): any {
+function __c626(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46806,7 +46313,78 @@ function __c633(j: number): any {
       ).annotate({ identifier: "OptInUsersToOktaCommunicationEmailsRequest" });
   }
 }
-function __c634(j: number): any {
+function __c627(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "POST", uri: "/api/v1/iam/governance/optOut", code: 200 }),
+        ),
+      ).annotate({ identifier: "OptOutRequest" });
+  }
+}
+function __c628(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/org/privacy/oktaCommunication/optOut",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "OptOutUsersFromOktaCommunicationEmailsRequest" });
+  }
+}
+function __c629(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+          kid: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/sso/saml/metadata", code: 200 }),
+        ),
+      ).annotate({ identifier: "PreviewSAMLmetadataForApplicationRequest" });
+  }
+}
+function __c630(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          idpId: S.String.pipe(T.Label()),
+          idpCsrId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/idps/{idpId}/credentials/csrs/{idpCsrId}/lifecycle/publish",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PublishCsrForIdentityProviderRequest" });
+  }
+}
+function __c631(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+          csrId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/apps/{appId}/credentials/csrs/{csrId}/lifecycle/publish",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PublishCsrFromApplicationRequest" });
+  }
+}
+function __c632(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46824,78 +46402,7 @@ function __c634(j: number): any {
       ).annotate({ identifier: "AssignGroupTargetToUserRoleRequest" });
   }
 }
-function __c635(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "POST", uri: "/api/v1/iam/governance/optOut", code: 200 }),
-        ),
-      ).annotate({ identifier: "OptOutRequest" });
-  }
-}
-function __c636(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/org/privacy/oktaCommunication/optOut",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "OptOutUsersFromOktaCommunicationEmailsRequest" });
-  }
-}
-function __c637(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String.pipe(T.Label()),
-          kid: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/api/v1/apps/{appId}/sso/saml/metadata", code: 200 }),
-        ),
-      ).annotate({ identifier: "PreviewSAMLmetadataForApplicationRequest" });
-  }
-}
-function __c638(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          idpId: S.String.pipe(T.Label()),
-          idpCsrId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/idps/{idpId}/credentials/csrs/{idpCsrId}/lifecycle/publish",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PublishCsrForIdentityProviderRequest" });
-  }
-}
-function __c639(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String.pipe(T.Label()),
-          csrId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/apps/{appId}/credentials/csrs/{csrId}/lifecycle/publish",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PublishCsrFromApplicationRequest" });
-  }
-}
-function __c640(j: number): any {
+function __c633(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46905,7 +46412,7 @@ function __c640(j: number): any {
       ).annotate({ identifier: "PublishSecurityEventTokensRequest" });
   }
 }
-function __c641(j: number): any {
+function __c634(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46918,7 +46425,7 @@ function __c641(j: number): any {
       ).annotate({ identifier: "ReactivateUserRequest" });
   }
 }
-function __c642(j: number): any {
+function __c635(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46934,7 +46441,7 @@ function __c642(j: number): any {
       ).annotate({ identifier: "RefreshSessionRequest" });
   }
 }
-function __c643(j: number): any {
+function __c636(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46953,7 +46460,7 @@ function __c643(j: number): any {
       ).annotate({ identifier: "RemoveAppTargetInstanceRoleForClientRequest" });
   }
 }
-function __c644(j: number): any {
+function __c637(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -46971,72 +46478,7 @@ function __c644(j: number): any {
       ).annotate({ identifier: "RemoveAppTargetRoleFromClientRequest" });
   }
 }
-function __c645(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          self: S.optional(__S(20736, __c648, 0)),
-          app: S.optional(__S(20736, __c648, 0)),
-          group: S.optional(__S(20736, __c648, 0)),
-        }),
-      ).annotate({ identifier: "AssignGroupToApplicationRequestLinks" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String.pipe(T.Label()),
-          groupId: S.String.pipe(T.Label()),
-          lastUpdated: S.optional(S.Unknown),
-          priority: S.optional(S.Number),
-          profile: S.optional(__S(20704, __c647, 0)),
-          _links: S.optional(__S(20640, __c645, 0)),
-        }).pipe(T.Http({ method: "PUT", uri: "/api/v1/apps/{appId}/groups/{groupId}", code: 200 })),
-      ).annotate({ identifier: "AssignGroupToApplicationRequest" });
-  }
-}
-function __c646(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          app: S.optional(__S(18656, __c583, 0)),
-          group: S.optional(__S(18656, __c583, 0)),
-        }),
-      ).annotate({ identifier: "ApplicationGroupAssignmentLinks" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          lastUpdated: S.optional(S.Unknown),
-          priority: S.optional(S.Number),
-          profile: S.optional(__S(20704, __c647, 0)),
-          _embedded: S.optional(__S(20704, __c647, 0)),
-          _links: S.optional(__S(20672, __c646, 0)),
-        }),
-      ).annotate({ identifier: "ApplicationGroupAssignment" });
-  }
-}
-function __c647(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c648(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            href: S.String,
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "HrefObjectSelfLinkInput" });
-  }
-}
-function __c649(j: number): any {
+function __c638(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47054,7 +46496,7 @@ function __c649(j: number): any {
       ).annotate({ identifier: "RemoveGroupTargetRoleFromClientRequest" });
   }
 }
-function __c650(j: number): any {
+function __c639(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47065,7 +46507,7 @@ function __c650(j: number): any {
       ).annotate({ identifier: "ReplaceApplicationRequest" });
   }
 }
-function __c651(j: number): any {
+function __c640(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47078,7 +46520,7 @@ function __c651(j: number): any {
       ).annotate({ identifier: "ReplaceAuthenticatorRequest" });
   }
 }
-function __c652(j: number): any {
+function __c641(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47096,7 +46538,7 @@ function __c652(j: number): any {
       ).annotate({ identifier: "ReplaceAuthenticatorMethodRequest" });
   }
 }
-function __c653(j: number): any {
+function __c642(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47112,7 +46554,72 @@ function __c653(j: number): any {
       ).annotate({ identifier: "ReplaceAuthenticatorSettingsRequest" });
   }
 }
-function __c654(j: number): any {
+function __c643(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          self: S.optional(__S(20672, __c646, 0)),
+          app: S.optional(__S(20672, __c646, 0)),
+          group: S.optional(__S(20672, __c646, 0)),
+        }),
+      ).annotate({ identifier: "AssignGroupToApplicationRequestLinks" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+          groupId: S.String.pipe(T.Label()),
+          lastUpdated: S.optional(S.Unknown),
+          priority: S.optional(S.Number),
+          profile: S.optional(__S(20640, __c645, 0)),
+          _links: S.optional(__S(20576, __c643, 0)),
+        }).pipe(T.Http({ method: "PUT", uri: "/api/v1/apps/{appId}/groups/{groupId}", code: 200 })),
+      ).annotate({ identifier: "AssignGroupToApplicationRequest" });
+  }
+}
+function __c644(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          self: S.optional(__S(18592, __c581, 0)),
+          app: S.optional(__S(18592, __c581, 0)),
+          group: S.optional(__S(18592, __c581, 0)),
+        }),
+      ).annotate({ identifier: "ApplicationGroupAssignmentLinks" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          lastUpdated: S.optional(S.Unknown),
+          priority: S.optional(S.Number),
+          profile: S.optional(__S(20640, __c645, 0)),
+          _embedded: S.optional(__S(20640, __c645, 0)),
+          _links: S.optional(__S(20608, __c644, 0)),
+        }),
+      ).annotate({ identifier: "ApplicationGroupAssignment" });
+  }
+}
+function __c645(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c646(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            href: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "HrefObjectSelfLinkInput" });
+  }
+}
+function __c647(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47120,22 +46627,22 @@ function __c654(j: number): any {
           authServerId: S.String.pipe(T.Label()),
           accessTokenEncryptedResponseAlgorithm: S.optional(S.String),
           audiences: S.optional(__S(64, __c2, 0)),
-          credentials: S.optional(__S(27937, __c873, 1)),
+          credentials: S.optional(__S(27585, __c862, 1)),
           description: S.optional(S.String),
           issuer: S.optional(S.String),
           issuerMode: S.optional(S.String),
-          jwks: S.optional(__S(27748, __c867, 4)),
+          jwks: S.optional(__S(27396, __c856, 4)),
           jwks_uri: S.optional(S.String),
           name: S.optional(S.String),
           status: S.optional(S.String),
-          _links: S.optional(__S(27939, __c873, 3)),
+          _links: S.optional(__S(27587, __c862, 3)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/authorizationServers/{authServerId}", code: 200 }),
         ),
       ).annotate({ identifier: "ReplaceAuthorizationServerRequest" });
   }
 }
-function __c655(j: number): any {
+function __c648(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47145,12 +46652,12 @@ function __c655(j: number): any {
           id: S.optional(S.String),
           type: S.optional(S.String),
           name: S.optional(S.String),
-          conditions: S.optional(__S(28000, __c875, 0)),
+          conditions: S.optional(__S(27648, __c864, 0)),
           description: S.optional(S.String),
           priority: S.optional(S.Number),
           status: S.optional(S.String),
           system: S.optional(S.Boolean),
-          _links: S.optional(__S(28032, __c876, 0)),
+          _links: S.optional(__S(27680, __c865, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47161,7 +46668,7 @@ function __c655(j: number): any {
       ).annotate({ identifier: "ReplaceAuthorizationServerPolicyRequest" });
   }
 }
-function __c656(j: number): any {
+function __c649(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47169,14 +46676,14 @@ function __c656(j: number): any {
           authServerId: S.String.pipe(T.Label()),
           policyId: S.String.pipe(T.Label()),
           ruleId: S.String.pipe(T.Label()),
-          actions: S.optional(__S(28129, __c879, 1)),
-          conditions: __S(28131, __c879, 3),
+          actions: S.optional(__S(27777, __c868, 1)),
+          conditions: __S(27779, __c868, 3),
           name: S.String,
           priority: S.optional(S.Number),
           status: S.optional(S.String),
           system: S.optional(S.Boolean),
           type: S.String,
-          _links: S.optional(__S(28160, __c880, 0)),
+          _links: S.optional(__S(27808, __c869, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47187,7 +46694,7 @@ function __c656(j: number): any {
       ).annotate({ identifier: "ReplaceAuthorizationServerPolicyRuleRequest" });
   }
 }
-function __c657(j: number): any {
+function __c650(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47198,7 +46705,7 @@ function __c657(j: number): any {
       ).annotate({ identifier: "ReplaceBehaviorDetectionRuleRequest" });
   }
 }
-function __c658(j: number): any {
+function __c651(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47206,7 +46713,7 @@ function __c658(j: number): any {
           brandId: S.String.pipe(T.Label()),
           agreeToCustomPrivacyPolicy: S.optional(S.Boolean),
           customPrivacyPolicyUrl: S.optional(S.String),
-          defaultApp: S.optional(__S(28320, __c885, 0)),
+          defaultApp: S.optional(__S(27968, __c874, 0)),
           emailDomainId: S.optional(S.String),
           locale: S.optional(S.String),
           name: S.String,
@@ -47215,25 +46722,7 @@ function __c658(j: number): any {
       ).annotate({ identifier: "ReplaceBrandRequest" });
   }
 }
-function __c659(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userIdOrLogin: S.String.pipe(T.Label()),
-          primaryRelationshipName: S.String.pipe(T.Label()),
-          primaryUserId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/api/v1/users/{userIdOrLogin}/linkedObjects/{primaryRelationshipName}/{primaryUserId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AssignLinkedObjectValueForPrimaryRequest" });
-  }
-}
-function __c660(j: number): any {
+function __c652(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47255,7 +46744,7 @@ function __c660(j: number): any {
       ).annotate({ identifier: "ReplaceBrandThemeRequest" });
   }
 }
-function __c661(j: number): any {
+function __c653(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47273,7 +46762,7 @@ function __c661(j: number): any {
       ).annotate({ identifier: "ReplaceBrandWellKnownURIRequest" });
   }
 }
-function __c662(j: number): any {
+function __c654(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47287,15 +46776,15 @@ function __c662(j: number): any {
       ).annotate({ identifier: "ReplaceCaptchaInstanceRequest" });
   }
 }
-function __c663(j: number): any {
+function __c655(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           authenticatorId: S.String.pipe(T.Label()),
           aaguid: S.String.pipe(T.Label()),
-          attestationRootCertificates: S.optional(__S(28545, __c892, 1)),
-          authenticatorCharacteristics: S.optional(__S(28512, __c891, 0)),
+          attestationRootCertificates: S.optional(__S(28193, __c881, 1)),
+          authenticatorCharacteristics: S.optional(__S(28160, __c880, 0)),
           name: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -47307,7 +46796,7 @@ function __c663(j: number): any {
       ).annotate({ identifier: "ReplaceCustomAAGUIDRequest" });
   }
 }
-function __c664(j: number): any {
+function __c656(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47318,7 +46807,25 @@ function __c664(j: number): any {
       ).annotate({ identifier: "ReplaceCustomDomainRequest" });
   }
 }
-function __c665(j: number): any {
+function __c657(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userIdOrLogin: S.String.pipe(T.Label()),
+          primaryRelationshipName: S.String.pipe(T.Label()),
+          primaryUserId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/v1/users/{userIdOrLogin}/linkedObjects/{primaryRelationshipName}/{primaryUserId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AssignLinkedObjectValueForPrimaryRequest" });
+  }
+}
+function __c658(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47336,7 +46843,7 @@ function __c665(j: number): any {
       ).annotate({ identifier: "ReplaceCustomizedErrorPageRequest" });
   }
 }
-function __c666(j: number): any {
+function __c659(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47357,7 +46864,7 @@ function __c666(j: number): any {
       ).annotate({ identifier: "ReplaceCustomizedSignInPageRequest" });
   }
 }
-function __c667(j: number): any {
+function __c660(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47374,7 +46881,7 @@ function __c667(j: number): any {
       ).annotate({ identifier: "ReplaceDeviceAssurancePolicyRequest" });
   }
 }
-function __c668(j: number): any {
+function __c661(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47385,7 +46892,7 @@ function __c668(j: number): any {
           name: S.optional(S.String),
           platform: S.optional(S.String),
           query: S.optional(S.String),
-          remediationSettings: S.optional(__S(28770, __c899, 2)),
+          remediationSettings: S.optional(__S(28418, __c888, 2)),
           type: S.optional(S.String),
           variableName: S.optional(S.String),
         }).pipe(
@@ -47398,7 +46905,7 @@ function __c668(j: number): any {
       ).annotate({ identifier: "ReplaceDevicePostureCheckRequest" });
   }
 }
-function __c669(j: number): any {
+function __c662(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47410,7 +46917,7 @@ function __c669(j: number): any {
           subject: S.String,
           isDefault: S.optional(S.Boolean),
           language: S.String,
-          _links: S.optional(__S(28896, __c903, 0)),
+          _links: S.optional(__S(28544, __c892, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -47421,35 +46928,20 @@ function __c669(j: number): any {
       ).annotate({ identifier: "ReplaceEmailCustomizationRequest" });
   }
 }
-function __c670(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          clientId: S.String.pipe(T.Label()),
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/oauth2/v1/clients/{clientId}/roles", code: 200 })),
-      ).annotate({ identifier: "AssignRoleToClientRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "AssignRoleToClientResponse",
-      });
-  }
-}
-function __c671(j: number): any {
+function __c663(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           emailDomainId: S.String.pipe(T.Label()),
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          expand: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
           displayName: S.String,
           userName: S.String,
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/email-domains/{emailDomainId}", code: 200 })),
       ).annotate({ identifier: "ReplaceEmailDomainRequest" });
   }
 }
-function __c672(j: number): any {
+function __c664(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47473,22 +46965,22 @@ function __c672(j: number): any {
       ).annotate({ identifier: "EmailSettings" });
   }
 }
-function __c673(j: number): any {
+function __c665(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           eventHookId: S.String.pipe(T.Label()),
-          channel: __S(29186, __c912, 2),
+          channel: __S(28834, __c901, 2),
           description: S.optional(S.NullOr(S.String)),
-          events: __S(29191, __c912, 7),
+          events: __S(28839, __c901, 7),
           name: S.String,
-          _links: S.optional(__S(29192, __c912, 8)),
+          _links: S.optional(__S(28840, __c901, 8)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/eventHooks/{eventHookId}", code: 200 })),
       ).annotate({ identifier: "ReplaceEventHookRequest" });
   }
 }
-function __c674(j: number): any {
+function __c666(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47506,7 +46998,7 @@ function __c674(j: number): any {
       ).annotate({ identifier: "ReplaceExistingIdentitySourceUserRequest" });
   }
 }
-function __c675(j: number): any {
+function __c667(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47525,7 +47017,22 @@ function __c675(j: number): any {
       ).annotate({ identifier: "ReplaceFederatedClaimRequest" });
   }
 }
-function __c676(j: number): any {
+function __c668(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          clientId: S.String.pipe(T.Label()),
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/oauth2/v1/clients/{clientId}/roles", code: 200 })),
+      ).annotate({ identifier: "AssignRoleToClientRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "AssignRoleToClientResponse",
+      });
+  }
+}
+function __c669(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47539,14 +47046,14 @@ function __c676(j: number): any {
       ).annotate({ identifier: "ReplaceFirstPartyAppSettingsRequest" });
   }
 }
-function __c677(j: number): any {
+function __c670(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           bundleId: S.String.pipe(T.Label()),
           description: S.optional(S.String),
-          entitlements: S.optional(__S(29345, __c917, 1)),
+          entitlements: S.optional(__S(28993, __c906, 1)),
           name: S.optional(S.String),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/iam/governance/bundles/{bundleId}", code: 200 }),
@@ -47554,25 +47061,25 @@ function __c677(j: number): any {
       ).annotate({ identifier: "ReplaceGovernanceBundleRequest" });
   }
 }
-function __c678(j: number): any {
+function __c671(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           groupId: S.String.pipe(T.Label()),
-          profile: S.optional(__S(11904, __c372, 0)),
+          profile: S.optional(__S(11936, __c373, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/groups/{groupId}", code: 200 })),
       ).annotate({ identifier: "ReplaceGroupRequest" });
   }
 }
-function __c679(j: number): any {
+function __c672(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           groupRuleId: S.String.pipe(T.Label()),
-          actions: S.optional(__S(29537, __c923, 1)),
-          conditions: S.optional(__S(29540, __c923, 4)),
+          actions: S.optional(__S(29185, __c912, 1)),
+          conditions: S.optional(__S(29188, __c912, 4)),
           name: S.optional(S.String),
           status: S.optional(S.String),
           type: S.optional(S.String),
@@ -47580,7 +47087,7 @@ function __c679(j: number): any {
       ).annotate({ identifier: "ReplaceGroupRuleRequest" });
   }
 }
-function __c680(j: number): any {
+function __c673(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47591,23 +47098,7 @@ function __c680(j: number): any {
       ).annotate({ identifier: "ReplaceHookKeyRequest" });
   }
 }
-function __c681(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          groupId: S.String.pipe(T.Label()),
-          disableNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/groups/{groupId}/roles", code: 200 })),
-      ).annotate({ identifier: "AssignRoleToGroupRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "AssignRoleToGroupResponse",
-      });
-  }
-}
-function __c682(j: number): any {
+function __c674(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47620,12 +47111,12 @@ function __c682(j: number): any {
           protocol: S.optional(S.Unknown),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(29696, __c928, 0)),
+          _links: S.optional(__S(29344, __c917, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/idps/{idpId}", code: 200 })),
       ).annotate({ identifier: "ReplaceIdentityProviderRequest" });
   }
 }
-function __c683(j: number): any {
+function __c675(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47641,7 +47132,7 @@ function __c683(j: number): any {
       ).annotate({ identifier: "ReplaceIdentityProviderKeyRequest" });
   }
 }
-function __c684(j: number): any {
+function __c676(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47654,7 +47145,7 @@ function __c684(j: number): any {
       ).annotate({ identifier: "ReplaceInlineHookRequest" });
   }
 }
-function __c685(j: number): any {
+function __c677(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47665,7 +47156,7 @@ function __c685(j: number): any {
       ).annotate({ identifier: "ReplaceLogStreamRequest" });
   }
 }
-function __c686(j: number): any {
+function __c678(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47676,7 +47167,23 @@ function __c686(j: number): any {
       ).annotate({ identifier: "ReplaceNetworkZoneRequest" });
   }
 }
-function __c687(j: number): any {
+function __c679(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          groupId: S.String.pipe(T.Label()),
+          disableNotifications: S.optional(S.Boolean.pipe(T.Query())),
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/groups/{groupId}/roles", code: 200 })),
+      ).annotate({ identifier: "AssignRoleToGroupRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "AssignRoleToGroupResponse",
+      });
+  }
+}
+function __c680(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47702,7 +47209,7 @@ function __c687(j: number): any {
       ).annotate({ identifier: "ReplaceOAuth2ClaimRequest" });
   }
 }
-function __c688(j: number): any {
+function __c681(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47727,7 +47234,7 @@ function __c688(j: number): any {
       ).annotate({ identifier: "ReplaceOAuth2ScopeRequest" });
   }
 }
-function __c689(j: number): any {
+function __c682(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47738,7 +47245,7 @@ function __c689(j: number): any {
       ).annotate({ identifier: "ReplaceOrgContactUserRequest" });
   }
 }
-function __c690(j: number): any {
+function __c683(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47758,7 +47265,7 @@ function __c690(j: number): any {
       ).annotate({ identifier: "ReplaceOrgSettingsRequest" });
   }
 }
-function __c691(j: number): any {
+function __c684(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47769,23 +47276,7 @@ function __c691(j: number): any {
       ).annotate({ identifier: "ReplacePolicyRequest" });
   }
 }
-function __c692(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          disableNotifications: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{userId}/roles", code: 200 })),
-      ).annotate({ identifier: "AssignRoleToUserRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "AssignRoleToUserResponse",
-      });
-  }
-}
-function __c693(j: number): any {
+function __c685(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47799,7 +47290,7 @@ function __c693(j: number): any {
       ).annotate({ identifier: "ReplacePolicyRuleRequest" });
   }
 }
-function __c694(j: number): any {
+function __c686(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47813,7 +47304,7 @@ function __c694(j: number): any {
       ).annotate({ identifier: "ReplacePreviewErrorPageRequest" });
   }
 }
-function __c695(j: number): any {
+function __c687(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47834,7 +47325,7 @@ function __c695(j: number): any {
       ).annotate({ identifier: "ReplacePreviewSignInPageRequest" });
   }
 }
-function __c696(j: number): any {
+function __c688(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47854,7 +47345,7 @@ function __c696(j: number): any {
       ).annotate({ identifier: "ReplacePrincipalRateLimitEntityRequest" });
   }
 }
-function __c697(j: number): any {
+function __c689(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47867,7 +47358,23 @@ function __c697(j: number): any {
       ).annotate({ identifier: "ReplacePushProviderRequest" });
   }
 }
-function __c698(j: number): any {
+function __c690(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          disableNotifications: S.optional(S.Boolean.pipe(T.Query())),
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{userId}/roles", code: 200 })),
+      ).annotate({ identifier: "AssignRoleToUserRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "AssignRoleToUserResponse",
+      });
+  }
+}
+function __c691(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47883,20 +47390,20 @@ function __c698(j: number): any {
       ).annotate({ identifier: "ReplaceRateLimitSettingsAdminNotificationsRequest" });
   }
 }
-function __c699(j: number): any {
+function __c692(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           defaultMode: S.String,
-          useCaseModeOverrides: S.optional(__S(12544, __c392, 0)),
+          useCaseModeOverrides: S.optional(__S(12384, __c387, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/rate-limit-settings/per-client", code: 200 }),
         ),
       ).annotate({ identifier: "ReplaceRateLimitSettingsPerClientRequest" });
   }
 }
-function __c700(j: number): any {
+function __c693(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47912,7 +47419,7 @@ function __c700(j: number): any {
       ).annotate({ identifier: "ReplaceRateLimitSettingsWarningThresholdRequest" });
   }
 }
-function __c701(j: number): any {
+function __c694(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47923,7 +47430,7 @@ function __c701(j: number): any {
       ).annotate({ identifier: "ReplaceRealmRequest" });
   }
 }
-function __c702(j: number): any {
+function __c695(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -47939,130 +47446,14 @@ function __c702(j: number): any {
       ).annotate({ identifier: "ReplaceRealmAssignmentRequest" });
   }
 }
-function __c703(j: number): any {
+function __c696(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          apiServiceId: S.String.pipe(T.Label()),
-          secretId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/integrations/api/v1/api-services/{apiServiceId}/credentials/secrets/{secretId}/lifecycle/activate",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ActivateApiServiceIntegrationInstanceSecretRequest" });
-  }
-}
-function __c704(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          activate: S.optional(__S(18656, __c583, 0)),
-          deactivate: S.optional(__S(18656, __c583, 0)),
-          delete: S.optional(__S(18656, __c583, 0)),
-        }),
-      ).annotate({ identifier: "APIServiceIntegrationSecretLinks" });
-  }
-}
-function __c705(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          client_secret: S.String.pipe(T.SensitiveValue({})),
-          created: S.String,
-          id: S.String,
-          lastUpdated: S.String,
-          secret_hash: S.String,
-          status: S.String,
-          _links: __S(22528, __c704, 0),
-        }),
-      ).annotate({ identifier: "APIServiceIntegrationInstanceSecret" });
-  }
-}
-function __c706(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          password: S.optional(__S(22656, __c708, 0)),
-          userName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AppUserCredentials" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String.pipe(T.Label()),
-          created: S.optional(S.Unknown),
-          credentials: S.optional(__S(22592, __c706, 0)),
-          id: S.String,
-          lastUpdated: S.optional(S.Unknown),
-          profile: S.optional(__S(20704, __c647, 0)),
-          scope: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/users", code: 200 })),
-      ).annotate({ identifier: "AssignUserToApplicationRequest" });
-  }
-}
-function __c707(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          password: S.optional(__S(26560, __c830, 0)),
-          userName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AppUserCredentialsOutput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          app: S.optional(__S(18656, __c583, 0)),
-          group: S.optional(__S(18656, __c583, 0)),
-          user: S.optional(__S(18656, __c583, 0)),
-        }),
-      ).annotate({ identifier: "LinksAppAndUser" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.optional(S.Unknown),
-          credentials: S.optional(__S(22624, __c707, 0)),
-          externalId: S.optional(S.String),
-          id: S.optional(S.String),
-          lastSync: S.optional(S.String),
-          lastUpdated: S.optional(S.Unknown),
-          passwordChanged: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
-          profile: S.optional(__S(20704, __c647, 0)),
-          scope: S.optional(S.String),
-          status: S.optional(S.String),
-          statusChanged: S.optional(S.String),
-          syncState: S.optional(S.String),
-          _embedded: S.optional(__S(20704, __c647, 0)),
-          _links: S.optional(__S(22625, __c707, 1)),
-        }),
-      ).annotate({ identifier: "AppUserOutput" });
-  }
-}
-function __c708(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }),
-      ).annotate({ identifier: "AppUserPasswordCredential" });
-  }
-}
-function __c709(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          self: S.optional(__S(20736, __c648, 0)),
-          resources: S.optional(__S(20736, __c648, 0)),
-          bindings: S.optional(__S(20736, __c648, 0)),
+          self: S.optional(__S(20672, __c646, 0)),
+          resources: S.optional(__S(20672, __c646, 0)),
+          bindings: S.optional(__S(20672, __c646, 0)),
         }),
       ).annotate({ identifier: "ReplaceResourceSetRequestLinks" });
     case 1:
@@ -48071,7 +47462,7 @@ function __c709(j: number): any {
           resourceSetIdOrLabel: S.String.pipe(T.Label()),
           description: S.optional(S.String),
           label: S.optional(S.String),
-          _links: S.optional(__S(22688, __c709, 0)),
+          _links: S.optional(__S(22272, __c696, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -48082,7 +47473,7 @@ function __c709(j: number): any {
       ).annotate({ identifier: "ReplaceResourceSetRequest" });
   }
 }
-function __c710(j: number): any {
+function __c697(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48100,7 +47491,7 @@ function __c710(j: number): any {
       ).annotate({ identifier: "ReplaceResourceSetResourceRequest" });
   }
 }
-function __c711(j: number): any {
+function __c698(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48112,7 +47503,7 @@ function __c711(j: number): any {
       ).annotate({ identifier: "ReplaceRoleRequest" });
   }
 }
-function __c712(j: number): any {
+function __c699(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48130,7 +47521,7 @@ function __c712(j: number): any {
       ).annotate({ identifier: "ReplaceRolePermissionRequest" });
   }
 }
-function __c713(j: number): any {
+function __c700(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48149,7 +47540,123 @@ function __c713(j: number): any {
       ).annotate({ identifier: "ReplaceSecurityEventsProviderInstanceRequest" });
   }
 }
-function __c714(j: number): any {
+function __c701(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apiServiceId: S.String.pipe(T.Label()),
+          secretId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/integrations/api/v1/api-services/{apiServiceId}/credentials/secrets/{secretId}/lifecycle/activate",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ActivateApiServiceIntegrationInstanceSecretRequest" });
+  }
+}
+function __c702(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          activate: S.optional(__S(18592, __c581, 0)),
+          deactivate: S.optional(__S(18592, __c581, 0)),
+          delete: S.optional(__S(18592, __c581, 0)),
+        }),
+      ).annotate({ identifier: "APIServiceIntegrationSecretLinks" });
+  }
+}
+function __c703(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          client_secret: S.String.pipe(T.SensitiveValue({})),
+          created: S.String,
+          id: S.String,
+          lastUpdated: S.String,
+          secret_hash: S.String,
+          status: S.String,
+          _links: __S(22464, __c702, 0),
+        }),
+      ).annotate({ identifier: "APIServiceIntegrationInstanceSecret" });
+  }
+}
+function __c704(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          password: S.optional(__S(22592, __c706, 0)),
+          userName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AppUserCredentials" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+          created: S.optional(S.Unknown),
+          credentials: S.optional(__S(22528, __c704, 0)),
+          id: S.String,
+          lastUpdated: S.optional(S.Unknown),
+          profile: S.optional(__S(20640, __c645, 0)),
+          scope: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/users", code: 200 })),
+      ).annotate({ identifier: "AssignUserToApplicationRequest" });
+  }
+}
+function __c705(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          password: S.optional(__S(26496, __c828, 0)),
+          userName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AppUserCredentialsOutput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          app: S.optional(__S(18592, __c581, 0)),
+          group: S.optional(__S(18592, __c581, 0)),
+          user: S.optional(__S(18592, __c581, 0)),
+        }),
+      ).annotate({ identifier: "LinksAppAndUser" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.optional(S.Unknown),
+          credentials: S.optional(__S(22560, __c705, 0)),
+          externalId: S.optional(S.String),
+          id: S.optional(S.String),
+          lastSync: S.optional(S.String),
+          lastUpdated: S.optional(S.Unknown),
+          passwordChanged: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+          profile: S.optional(__S(20640, __c645, 0)),
+          scope: S.optional(S.String),
+          status: S.optional(S.String),
+          statusChanged: S.optional(S.String),
+          syncState: S.optional(S.String),
+          _embedded: S.optional(__S(20640, __c645, 0)),
+          _links: S.optional(__S(22561, __c705, 1)),
+        }),
+      ).annotate({ identifier: "AppUserOutput" });
+  }
+}
+function __c706(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "AppUserPasswordCredential" });
+  }
+}
+function __c707(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48167,7 +47674,7 @@ function __c714(j: number): any {
       ).annotate({ identifier: "ReplaceSignOutPageSettingsRequest" });
   }
 }
-function __c715(j: number): any {
+function __c708(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48181,18 +47688,18 @@ function __c715(j: number): any {
       ).annotate({ identifier: "ReplaceSmsTemplateRequest" });
   }
 }
-function __c716(j: number): any {
+function __c709(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           captchaId: S.optional(S.String),
-          enabledPages: S.optional(__S(18592, __c581, 0)),
+          enabledPages: S.optional(__S(18528, __c579, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/org/captcha", code: 200 })),
       ).annotate({ identifier: "ReplacesOrgCaptchaSettingsRequest" });
   }
 }
-function __c717(j: number): any {
+function __c710(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48210,7 +47717,7 @@ function __c717(j: number): any {
       ).annotate({ identifier: "ReplaceSsfStreamRequest" });
   }
 }
-function __c718(j: number): any {
+function __c711(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48220,29 +47727,16 @@ function __c718(j: number): any {
           lastUpdatedBy: S.optional(S.String),
           name: S.optional(S.String),
           origin: S.optional(S.String),
-          scopes: S.optional(__S(10753, __c336, 1)),
+          scopes: S.optional(__S(10785, __c337, 1)),
           status: S.optional(S.String),
-          _links: S.optional(__S(28160, __c880, 0)),
+          _links: S.optional(__S(27808, __c869, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/v1/trustedOrigins/{trustedOriginId}", code: 200 }),
         ),
       ).annotate({ identifier: "ReplaceTrustedOriginRequest" });
   }
 }
-function __c719(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          groupId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/api/v1/groups/{groupId}/users/{userId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "AssignUserToGroupRequest" });
-  }
-}
-function __c720(j: number): any {
+function __c712(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48253,44 +47747,33 @@ function __c720(j: number): any {
       ).annotate({ identifier: "ReplaceUISchemasRequest" });
   }
 }
-function __c721(j: number): any {
+function __c713(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           strict: S.optional(S.Boolean.pipe(T.Query())),
-          credentials: S.optional(__S(23104, __c722, 0)),
+          credentials: S.optional(__S(22848, __c714, 0)),
           profile: S.optional(__S(1728, __c54, 0)),
           realmId: S.optional(S.String),
-          type: S.optional(__S(28096, __c878, 0)),
+          type: S.optional(__S(27744, __c867, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/api/v1/users/{id}", code: 200 })),
       ).annotate({ identifier: "ReplaceUserRequest" });
   }
 }
-function __c722(j: number): any {
+function __c714(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          password: S.optional(__S(23808, __c744, 0)),
-          recovery_question: S.optional(__S(24192, __c756, 0)),
+          password: S.optional(__S(23744, __c742, 0)),
+          recovery_question: S.optional(__S(24128, __c754, 0)),
         }),
       ).annotate({ identifier: "UserCredentialsInput" });
   }
 }
-function __c723(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          type: S.optional(S.String),
-        }).pipe(T.Http({ method: "PUT", uri: "/api/v1/users/{userId}/classification", code: 200 })),
-      ).annotate({ identifier: "ReplaceUserClassificationRequest" });
-  }
-}
-function __c724(j: number): any {
+function __c715(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48306,7 +47789,7 @@ function __c724(j: number): any {
       ).annotate({ identifier: "ReplaceUserLockoutSettingsRequest" });
   }
 }
-function __c725(j: number): any {
+function __c716(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48319,7 +47802,7 @@ function __c725(j: number): any {
       ).annotate({ identifier: "ReplaceUserTypeRequest" });
   }
 }
-function __c726(j: number): any {
+function __c717(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48342,7 +47825,20 @@ function __c726(j: number): any {
       });
   }
 }
-function __c727(j: number): any {
+function __c718(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          groupId: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/api/v1/groups/{groupId}/users/{userId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "AssignUserToGroupRequest" });
+  }
+}
+function __c719(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48354,7 +47850,7 @@ function __c727(j: number): any {
       ).annotate({ identifier: "ResetFactorsRequest" });
   }
 }
-function __c728(j: number): any {
+function __c720(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48368,7 +47864,7 @@ function __c728(j: number): any {
       ).annotate({ identifier: "ResetPasswordRequest" });
   }
 }
-function __c729(j: number): any {
+function __c721(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48385,7 +47881,7 @@ function __c729(j: number): any {
       ).annotate({ identifier: "ResumeAgentPoolsUpdateRequest" });
   }
 }
-function __c730(j: number): any {
+function __c722(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48402,7 +47898,100 @@ function __c730(j: number): any {
       ).annotate({ identifier: "RetryAgentPoolsUpdateRequest" });
   }
 }
-function __c731(j: number): any {
+function __c723(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/org/privacy/aerial/revoke", code: 200 })),
+      ).annotate({ identifier: "RevokeAerialConsentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          grant: S.optional(__S(18592, __c581, 0)),
+        }),
+      ).annotate({ identifier: "LinksAerialConsentRevoked" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          _links: S.optional(__S(23137, __c723, 1)),
+        }),
+      ).annotate({ identifier: "OrgAerialConsentRevoked" });
+  }
+}
+function __c724(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apiTokenId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/api-tokens/{apiTokenId}", code: 200 })),
+      ).annotate({ identifier: "RevokeApiTokenRequest" });
+  }
+}
+function __c725(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          idpId: S.String.pipe(T.Label()),
+          idpCsrId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/idps/{idpId}/credentials/csrs/{idpCsrId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RevokeCsrForIdentityProviderRequest" });
+  }
+}
+function __c726(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+          csrId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/apps/{appId}/credentials/csrs/{csrId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RevokeCsrFromApplicationRequest" });
+  }
+}
+function __c727(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(
+          T.Http({ method: "DELETE", uri: "/api/v1/api-tokens/current", code: 200 }),
+        ),
+      ).annotate({ identifier: "RevokeCurrentApiTokenRequest" });
+  }
+}
+function __c728(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          clientId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/users/{userId}/clients/{clientId}/grants",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RevokeGrantsForUserAndClientRequest" });
+  }
+}
+function __c729(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48420,109 +48009,16 @@ function __c731(j: number): any {
         }),
       ).annotate({ identifier: "BouncesRemoveListError" });
     case 2:
-      return S.Array(__S(23393, __c731, 1));
+      return S.Array(__S(23329, __c729, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(23394, __c731, 2)),
+          errors: S.optional(__S(23330, __c729, 2)),
         }),
       ).annotate({ identifier: "BouncesRemoveListResult" });
   }
 }
-function __c732(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/org/privacy/aerial/revoke", code: 200 })),
-      ).annotate({ identifier: "RevokeAerialConsentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          grant: S.optional(__S(18656, __c583, 0)),
-        }),
-      ).annotate({ identifier: "LinksAerialConsentRevoked" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          _links: S.optional(__S(23425, __c732, 1)),
-        }),
-      ).annotate({ identifier: "OrgAerialConsentRevoked" });
-  }
-}
-function __c733(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          apiTokenId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/api-tokens/{apiTokenId}", code: 200 })),
-      ).annotate({ identifier: "RevokeApiTokenRequest" });
-  }
-}
-function __c734(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          idpId: S.String.pipe(T.Label()),
-          idpCsrId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v1/idps/{idpId}/credentials/csrs/{idpCsrId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RevokeCsrForIdentityProviderRequest" });
-  }
-}
-function __c735(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String.pipe(T.Label()),
-          csrId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v1/apps/{appId}/credentials/csrs/{csrId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RevokeCsrFromApplicationRequest" });
-  }
-}
-function __c736(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "DELETE", uri: "/api/v1/api-tokens/current", code: 200 }),
-        ),
-      ).annotate({ identifier: "RevokeCurrentApiTokenRequest" });
-  }
-}
-function __c737(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          clientId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v1/users/{userId}/clients/{clientId}/grants",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RevokeGrantsForUserAndClientRequest" });
-  }
-}
-function __c738(j: number): any {
+function __c730(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48535,7 +48031,7 @@ function __c738(j: number): any {
       ).annotate({ identifier: "RevokeOAuth2TokenForApplicationRequest" });
   }
 }
-function __c739(j: number): any {
+function __c731(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48545,7 +48041,7 @@ function __c739(j: number): any {
       ).annotate({ identifier: "RevokeOAuth2TokensForApplicationRequest" });
   }
 }
-function __c740(j: number): any {
+function __c732(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48563,7 +48059,7 @@ function __c740(j: number): any {
       ).annotate({ identifier: "RevokeRefreshTokenForAuthorizationServerAndClientRequest" });
   }
 }
-function __c741(j: number): any {
+function __c733(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48580,15 +48076,96 @@ function __c741(j: number): any {
       ).annotate({ identifier: "RevokeRefreshTokensForAuthorizationServerAndClientRequest" });
   }
 }
-function __c742(j: number): any {
+function __c734(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+          grantId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/api/v1/apps/{appId}/grants/{grantId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "RevokeScopeConsentGrantRequest" });
+  }
+}
+function __c735(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sessionId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/sessions/{sessionId}", code: 200 })),
+      ).annotate({ identifier: "RevokeSessionRequest" });
+  }
+}
+function __c736(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          clientId: S.String.pipe(T.Label()),
+          tokenId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/users/{userId}/clients/{clientId}/tokens/{tokenId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RevokeTokenForUserAndClientRequest" });
+  }
+}
+function __c737(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          clientId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/users/{userId}/clients/{clientId}/tokens",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RevokeTokensForUserAndClientRequest" });
+  }
+}
+function __c738(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          grantId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/api/v1/users/{userId}/grants/{grantId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "RevokeUserGrantRequest" });
+  }
+}
+function __c739(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/users/{userId}/grants", code: 200 })),
+      ).annotate({ identifier: "RevokeUserGrantsRequest" });
+  }
+}
+function __c740(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           userId: S.String.pipe(T.Label()),
           strict: S.optional(S.Boolean.pipe(T.Query())),
-          newPassword: S.optional(__S(23808, __c744, 0)),
-          oldPassword: S.optional(__S(23808, __c744, 0)),
+          newPassword: S.optional(__S(23744, __c742, 0)),
+          oldPassword: S.optional(__S(23744, __c742, 0)),
           revokeSessions: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -48600,7 +48177,7 @@ function __c742(j: number): any {
       ).annotate({ identifier: "ChangePasswordRequest" });
   }
 }
-function __c743(j: number): any {
+function __c741(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48624,8 +48201,8 @@ function __c743(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          hash: S.optional(__S(23776, __c743, 0)),
-          hook: S.optional(__S(23777, __c743, 1)),
+          hash: S.optional(__S(23712, __c741, 0)),
+          hook: S.optional(__S(23713, __c741, 1)),
         }),
       ).annotate({ identifier: "PasswordCredentialOutput" });
     case 3:
@@ -48644,107 +48221,26 @@ function __c743(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          password: S.optional(__S(23778, __c743, 2)),
-          provider: S.optional(__S(23779, __c743, 3)),
-          recovery_question: S.optional(__S(23780, __c743, 4)),
+          password: S.optional(__S(23714, __c741, 2)),
+          provider: S.optional(__S(23715, __c741, 3)),
+          recovery_question: S.optional(__S(23716, __c741, 4)),
         }),
       ).annotate({ identifier: "UserCredentialsOutput" });
   }
 }
-function __c744(j: number): any {
+function __c742(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          hash: S.optional(__S(23776, __c743, 0)),
-          hook: S.optional(__S(23777, __c743, 1)),
+          hash: S.optional(__S(23712, __c741, 0)),
+          hook: S.optional(__S(23713, __c741, 1)),
           value: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "PasswordCredential" });
   }
 }
-function __c745(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String.pipe(T.Label()),
-          grantId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/v1/apps/{appId}/grants/{grantId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "RevokeScopeConsentGrantRequest" });
-  }
-}
-function __c746(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sessionId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/sessions/{sessionId}", code: 200 })),
-      ).annotate({ identifier: "RevokeSessionRequest" });
-  }
-}
-function __c747(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          clientId: S.String.pipe(T.Label()),
-          tokenId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v1/users/{userId}/clients/{clientId}/tokens/{tokenId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RevokeTokenForUserAndClientRequest" });
-  }
-}
-function __c748(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          clientId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v1/users/{userId}/clients/{clientId}/tokens",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RevokeTokensForUserAndClientRequest" });
-  }
-}
-function __c749(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          grantId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/v1/users/{userId}/grants/{grantId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "RevokeUserGrantRequest" });
-  }
-}
-function __c750(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/api/v1/users/{userId}/grants", code: 200 })),
-      ).annotate({ identifier: "RevokeUserGrantsRequest" });
-  }
-}
-function __c751(j: number): any {
+function __c743(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48756,7 +48252,7 @@ function __c751(j: number): any {
       ).annotate({ identifier: "RevokeUserSessionsRequest" });
   }
 }
-function __c752(j: number): any {
+function __c744(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48773,7 +48269,7 @@ function __c752(j: number): any {
       ).annotate({ identifier: "RotateAuthorizationServerKeysRequest" });
   }
 }
-function __c753(j: number): any {
+function __c745(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48787,7 +48283,7 @@ function __c753(j: number): any {
       ).annotate({ identifier: "SendPinRequest" });
   }
 }
-function __c754(j: number): any {
+function __c746(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48806,36 +48302,7 @@ function __c754(j: number): any {
       ).annotate({ identifier: "SendTestCustomTelephonyProviderCredentialRequest" });
   }
 }
-function __c755(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          password: S.optional(__S(23808, __c744, 0)),
-          recovery_question: S.optional(__S(24192, __c756, 0)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/users/{userId}/credentials/change_recovery_question",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ChangeRecoveryQuestionRequest" });
-  }
-}
-function __c756(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          answer: S.optional(S.String),
-          question: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RecoveryQuestionCredential" });
-  }
-}
-function __c757(j: number): any {
+function __c747(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48853,7 +48320,7 @@ function __c757(j: number): any {
       ).annotate({ identifier: "SendTestEmailRequest" });
   }
 }
-function __c758(j: number): any {
+function __c748(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48869,7 +48336,7 @@ function __c758(j: number): any {
       ).annotate({ identifier: "SetAsPrimaryCustomTelephonyCredentialRequest" });
   }
 }
-function __c759(j: number): any {
+function __c749(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48879,7 +48346,7 @@ function __c759(j: number): any {
       ).annotate({ identifier: "SetOrgHideOktaUIFooterRequest" });
   }
 }
-function __c760(j: number): any {
+function __c750(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48889,7 +48356,7 @@ function __c760(j: number): any {
       ).annotate({ identifier: "SetOrgShowOktaUIFooterRequest" });
   }
 }
-function __c761(j: number): any {
+function __c751(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48906,46 +48373,7 @@ function __c761(j: number): any {
       ).annotate({ identifier: "StartImportFromIdentitySourceRequest" });
   }
 }
-function __c762(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(S.Unknown.pipe(T.HttpBody())),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/dr/failback", code: 200 })),
-      ).annotate({ identifier: "StartOrgFailbackRequest" });
-  }
-}
-function __c763(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StartOrgFailbackResponseResultsItem" });
-    case 1:
-      return S.Array(__S(24416, __c763, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          results: S.optional(__S(24417, __c763, 1)),
-        }),
-      ).annotate({ identifier: "StartOrgFailbackResponse" });
-  }
-}
-function __c764(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(S.Unknown.pipe(T.HttpBody())),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/dr/failover", code: 200 })),
-      ).annotate({ identifier: "StartOrgFailoverRequest" });
-  }
-}
-function __c765(j: number): any {
+function __c752(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48962,7 +48390,36 @@ function __c765(j: number): any {
       ).annotate({ identifier: "StopAgentPoolsUpdateRequest" });
   }
 }
-function __c766(j: number): any {
+function __c753(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          password: S.optional(__S(23744, __c742, 0)),
+          recovery_question: S.optional(__S(24128, __c754, 0)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/users/{userId}/credentials/change_recovery_question",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ChangeRecoveryQuestionRequest" });
+  }
+}
+function __c754(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          answer: S.optional(S.String),
+          question: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecoveryQuestionCredential" });
+  }
+}
+function __c755(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48980,7 +48437,7 @@ function __c766(j: number): any {
       ).annotate({ identifier: "SubmitGroupAttributeQueryRequest" });
   }
 }
-function __c767(j: number): any {
+function __c756(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -48997,44 +48454,7 @@ function __c767(j: number): any {
       ).annotate({ identifier: "SubscribeByNotificationTypeRoleRequest" });
   }
 }
-function __c768(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String.pipe(T.Label()),
-          keyId: S.String.pipe(T.Label()),
-          targetAid: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/v1/apps/{appId}/credentials/keys/{keyId}/clone",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CloneApplicationKeyRequest" });
-  }
-}
-function __c769(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.optional(S.String),
-          e: S.optional(S.String),
-          expiresAt: S.optional(S.String),
-          kid: S.optional(S.String),
-          kty: S.optional(S.String),
-          lastUpdated: S.optional(S.String),
-          n: S.optional(S.String),
-          use: S.optional(S.String),
-          x5c: S.optional(__S(64, __c2, 0)),
-          x5t_S256: S.optional(S.String.pipe(T.Body("x5t#S256"))),
-        }),
-      ).annotate({ identifier: "JsonWebKey" });
-  }
-}
-function __c770(j: number): any {
+function __c757(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49051,7 +48471,7 @@ function __c770(j: number): any {
       ).annotate({ identifier: "SubscribeByNotificationTypeUserRequest" });
   }
 }
-function __c771(j: number): any {
+function __c758(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49067,7 +48487,7 @@ function __c771(j: number): any {
       ).annotate({ identifier: "SuspendDeviceRequest" });
   }
 }
-function __c772(j: number): any {
+function __c759(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49077,7 +48497,7 @@ function __c772(j: number): any {
       ).annotate({ identifier: "SuspendUserRequest" });
   }
 }
-function __c773(j: number): any {
+function __c760(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49091,7 +48511,7 @@ function __c773(j: number): any {
       ).annotate({ identifier: "TestEmailServerRequest" });
   }
 }
-function __c774(j: number): any {
+function __c761(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49110,7 +48530,7 @@ function __c774(j: number): any {
       ).annotate({ identifier: "UnassignAppInstanceTargetFromAdminRoleForUserRequest" });
   }
 }
-function __c775(j: number): any {
+function __c762(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49129,7 +48549,7 @@ function __c775(j: number): any {
       ).annotate({ identifier: "UnassignAppInstanceTargetToAppAdminRoleForGroupRequest" });
   }
 }
-function __c776(j: number): any {
+function __c763(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49142,7 +48562,7 @@ function __c776(j: number): any {
       ).annotate({ identifier: "UnassignApplicationFromGroupRequest" });
   }
 }
-function __c777(j: number): any {
+function __c764(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49160,7 +48580,44 @@ function __c777(j: number): any {
       ).annotate({ identifier: "UnassignAppTargetFromAppAdminRoleForUserRequest" });
   }
 }
-function __c778(j: number): any {
+function __c765(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+          keyId: S.String.pipe(T.Label()),
+          targetAid: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/v1/apps/{appId}/credentials/keys/{keyId}/clone",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CloneApplicationKeyRequest" });
+  }
+}
+function __c766(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.optional(S.String),
+          e: S.optional(S.String),
+          expiresAt: S.optional(S.String),
+          kid: S.optional(S.String),
+          kty: S.optional(S.String),
+          lastUpdated: S.optional(S.String),
+          n: S.optional(S.String),
+          use: S.optional(S.String),
+          x5c: S.optional(__S(64, __c2, 0)),
+          x5t_S256: S.optional(S.String.pipe(T.Body("x5t#S256"))),
+        }),
+      ).annotate({ identifier: "JsonWebKey" });
+  }
+}
+function __c767(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49178,7 +48635,7 @@ function __c778(j: number): any {
       ).annotate({ identifier: "UnassignAppTargetToAdminRoleForGroupRequest" });
   }
 }
-function __c779(j: number): any {
+function __c768(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49196,7 +48653,131 @@ function __c779(j: number): any {
       ).annotate({ identifier: "UnassignGroupTargetFromGroupAdminRoleRequest" });
   }
 }
-function __c780(j: number): any {
+function __c769(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          roleAssignmentId: S.String.pipe(T.Label()),
+          groupId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/users/{userId}/roles/{roleAssignmentId}/targets/groups/{groupId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UnassignGroupTargetFromUserAdminRoleRequest" });
+  }
+}
+function __c770(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceSetIdOrLabel: S.String.pipe(T.Label()),
+          roleIdOrLabel: S.String.pipe(T.Label()),
+          memberId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/iam/resource-sets/{resourceSetIdOrLabel}/bindings/{roleIdOrLabel}/members/{memberId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UnassignMemberFromBindingRequest" });
+  }
+}
+function __c771(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          groupId: S.String.pipe(T.Label()),
+          roleAssignmentId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/groups/{groupId}/roles/{roleAssignmentId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UnassignRoleFromGroupRequest" });
+  }
+}
+function __c772(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          roleAssignmentId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/v1/users/{userId}/roles/{roleAssignmentId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UnassignRoleFromUserRequest" });
+  }
+}
+function __c773(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
+          sendEmail: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/api/v1/apps/{appId}/users/{userId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "UnassignUserFromApplicationRequest" });
+  }
+}
+function __c774(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          groupId: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/api/v1/groups/{groupId}/users/{userId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "UnassignUserFromGroupRequest" });
+  }
+}
+function __c775(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          userId: S.String.pipe(T.Label()),
+          factorId: S.String.pipe(T.Label()),
+          removeRecoveryEnrollment: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/api/v1/users/{userId}/factors/{factorId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "UnenrollFactorRequest" });
+  }
+}
+function __c776(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          idpId: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/api/v1/idps/{idpId}/users/{userId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "UnlinkUserFromIdentityProviderRequest" });
+  }
+}
+function __c777(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49214,7 +48795,7 @@ function __c780(j: number): any {
       ).annotate({ identifier: "CloneIdentityProviderKeyRequest" });
   }
 }
-function __c781(j: number): any {
+function __c778(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49236,131 +48817,7 @@ function __c781(j: number): any {
       ).annotate({ identifier: "IdPKeyCredential" });
   }
 }
-function __c782(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          roleAssignmentId: S.String.pipe(T.Label()),
-          groupId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v1/users/{userId}/roles/{roleAssignmentId}/targets/groups/{groupId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UnassignGroupTargetFromUserAdminRoleRequest" });
-  }
-}
-function __c783(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resourceSetIdOrLabel: S.String.pipe(T.Label()),
-          roleIdOrLabel: S.String.pipe(T.Label()),
-          memberId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v1/iam/resource-sets/{resourceSetIdOrLabel}/bindings/{roleIdOrLabel}/members/{memberId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UnassignMemberFromBindingRequest" });
-  }
-}
-function __c784(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          groupId: S.String.pipe(T.Label()),
-          roleAssignmentId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v1/groups/{groupId}/roles/{roleAssignmentId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UnassignRoleFromGroupRequest" });
-  }
-}
-function __c785(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          roleAssignmentId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/api/v1/users/{userId}/roles/{roleAssignmentId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UnassignRoleFromUserRequest" });
-  }
-}
-function __c786(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-          sendEmail: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/v1/apps/{appId}/users/{userId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "UnassignUserFromApplicationRequest" });
-  }
-}
-function __c787(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          groupId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/v1/groups/{groupId}/users/{userId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "UnassignUserFromGroupRequest" });
-  }
-}
-function __c788(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          userId: S.String.pipe(T.Label()),
-          factorId: S.String.pipe(T.Label()),
-          removeRecoveryEnrollment: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/v1/users/{userId}/factors/{factorId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "UnenrollFactorRequest" });
-  }
-}
-function __c789(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          idpId: S.String.pipe(T.Label()),
-          userId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/api/v1/idps/{idpId}/users/{userId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "UnlinkUserFromIdentityProviderRequest" });
-  }
-}
-function __c790(j: number): any {
+function __c779(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49370,7 +48827,7 @@ function __c790(j: number): any {
       ).annotate({ identifier: "UnlockUserRequest" });
   }
 }
-function __c791(j: number): any {
+function __c780(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49387,25 +48844,7 @@ function __c791(j: number): any {
       ).annotate({ identifier: "UnsubscribeByNotificationTypeRoleRequest" });
   }
 }
-function __c792(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          policyId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/policies/{policyId}/clone", code: 200 })),
-      ).annotate({ identifier: "ClonePolicyRequest" });
-  }
-}
-function __c793(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "ClonePolicyResponse",
-      });
-  }
-}
-function __c794(j: number): any {
+function __c781(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49422,7 +48861,7 @@ function __c794(j: number): any {
       ).annotate({ identifier: "UnsubscribeByNotificationTypeUserRequest" });
   }
 }
-function __c795(j: number): any {
+function __c782(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49438,7 +48877,7 @@ function __c795(j: number): any {
       ).annotate({ identifier: "UnsuspendDeviceRequest" });
   }
 }
-function __c796(j: number): any {
+function __c783(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49450,20 +48889,20 @@ function __c796(j: number): any {
       ).annotate({ identifier: "UnsuspendUserRequest" });
   }
 }
-function __c797(j: number): any {
+function __c784(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           poolId: S.String.pipe(T.Label()),
           updateId: S.String.pipe(T.Label()),
-          agents: S.optional(__S(25793, __c806, 1)),
+          agents: S.optional(__S(25697, __c803, 1)),
           agentType: S.optional(S.String),
           enabled: S.optional(S.Boolean),
           name: S.optional(S.String),
           notifyAdmin: S.optional(S.Boolean),
           reason: S.optional(S.String),
-          schedule: S.optional(__S(18720, __c585, 0)),
+          schedule: S.optional(__S(18656, __c583, 0)),
           sortOrder: S.optional(S.Number),
           status: S.optional(S.String),
           targetVersion: S.optional(S.String),
@@ -49477,7 +48916,7 @@ function __c797(j: number): any {
       ).annotate({ identifier: "UpdateAgentPoolsUpdateRequest" });
   }
 }
-function __c798(j: number): any {
+function __c785(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49499,7 +48938,7 @@ function __c798(j: number): any {
       ).annotate({ identifier: "UpdateAgentPoolsUpdateSettingsRequest" });
   }
 }
-function __c799(j: number): any {
+function __c786(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49511,13 +48950,13 @@ function __c799(j: number): any {
       ).annotate({ identifier: "UpdateApplicationUserRequest" });
   }
 }
-function __c800(j: number): any {
+function __c787(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           appId: S.String.pipe(T.Label()),
-          definitions: S.optional(__S(25634, __c801, 2)),
+          definitions: S.optional(__S(25218, __c788, 2)),
           properties: S.optional(__S(7303, __c228, 7)),
           title: S.optional(S.String),
         }).pipe(
@@ -49526,7 +48965,7 @@ function __c800(j: number): any {
       ).annotate({ identifier: "UpdateApplicationUserProfileRequest" });
   }
 }
-function __c801(j: number): any {
+function __c788(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49543,13 +48982,13 @@ function __c801(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          base: S.optional(__S(25632, __c801, 0)),
-          custom: S.optional(__S(25633, __c801, 1)),
+          base: S.optional(__S(25216, __c788, 0)),
+          custom: S.optional(__S(25217, __c788, 1)),
         }),
       ).annotate({ identifier: "UserSchemaDefinitionsInput" });
   }
 }
-function __c802(j: number): any {
+function __c789(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49569,7 +49008,25 @@ function __c802(j: number): any {
       ).annotate({ identifier: "UpdateAppServiceAccountRequest" });
   }
 }
-function __c803(j: number): any {
+function __c790(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          policyId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/policies/{policyId}/clone", code: 200 })),
+      ).annotate({ identifier: "ClonePolicyRequest" });
+  }
+}
+function __c791(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "ClonePolicyResponse",
+      });
+  }
+}
+function __c792(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49585,7 +49042,7 @@ function __c803(j: number): any {
       ).annotate({ identifier: "UpdateAutoAssignAdminAppSettingRequest" });
   }
 }
-function __c804(j: number): any {
+function __c793(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49593,53 +49050,12 @@ function __c804(j: number): any {
           enforcementType: S.optional(S.String),
           level: S.String,
           mode: S.String,
-          supportedFlows: S.optional(__S(18592, __c581, 0)),
+          supportedFlows: S.optional(__S(18528, __c579, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/bot-protection/configuration", code: 200 })),
       ).annotate({ identifier: "UpdateBotProtectionConfigurationRequest" });
   }
 }
-function __c805(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          poolId: S.String.pipe(T.Label()),
-          agents: S.optional(__S(25793, __c806, 1)),
-          agentType: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          notifyAdmin: S.optional(S.Boolean),
-          reason: S.optional(S.String),
-          schedule: S.optional(__S(18720, __c585, 0)),
-          sortOrder: S.optional(S.Number),
-          status: S.optional(S.String),
-          targetVersion: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/agentPools/{poolId}/updates", code: 200 })),
-      ).annotate({ identifier: "CreateAgentPoolsUpdateRequest" });
-  }
-}
-function __c806(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          isHidden: S.optional(S.Boolean),
-          isLatestGAedVersion: S.optional(S.Boolean),
-          lastConnection: S.optional(S.Number),
-          name: S.optional(S.String),
-          operationalStatus: S.optional(S.String),
-          poolId: S.optional(S.String),
-          type: S.optional(S.String),
-          updateMessage: S.optional(S.String),
-          updateStatus: S.optional(S.String),
-          version: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AgentInput" });
-    case 1:
-      return S.Array(__S(25792, __c806, 0));
-  }
-}
-function __c807(j: number): any {
+function __c794(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49653,7 +49069,7 @@ function __c807(j: number): any {
       ).annotate({ identifier: "UpdateCaptchaInstanceRequest" });
   }
 }
-function __c808(j: number): any {
+function __c795(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49664,7 +49080,7 @@ function __c808(j: number): any {
       ).annotate({ identifier: "UpdateConfigurationRequest" });
   }
 }
-function __c809(j: number): any {
+function __c796(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49681,7 +49097,7 @@ function __c809(j: number): any {
       ).annotate({ identifier: "UpdateCustomAAGUIDRequest" });
   }
 }
-function __c810(j: number): any {
+function __c797(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49701,7 +49117,7 @@ function __c810(j: number): any {
       ).annotate({ identifier: "UpdateCustomTelephonyProviderCredentialRequest" });
   }
 }
-function __c811(j: number): any {
+function __c798(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49715,7 +49131,7 @@ function __c811(j: number): any {
       ).annotate({ identifier: "UpdateDefaultProvisioningConnectionForApplicationRequest" });
   }
 }
-function __c812(j: number): any {
+function __c799(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49728,7 +49144,7 @@ function __c812(j: number): any {
       ).annotate({ identifier: "UpdateEmailServerRequest" });
   }
 }
-function __c813(j: number): any {
+function __c800(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49742,7 +49158,7 @@ function __c813(j: number): any {
       ).annotate({ identifier: "UpdateFeatureForApplicationRequest" });
   }
 }
-function __c814(j: number): any {
+function __c801(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49756,7 +49172,48 @@ function __c814(j: number): any {
       ).annotate({ identifier: "UpdateFeatureLifecycleRequest" });
   }
 }
-function __c815(j: number): any {
+function __c802(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          poolId: S.String.pipe(T.Label()),
+          agents: S.optional(__S(25697, __c803, 1)),
+          agentType: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          notifyAdmin: S.optional(S.Boolean),
+          reason: S.optional(S.String),
+          schedule: S.optional(__S(18656, __c583, 0)),
+          sortOrder: S.optional(S.Number),
+          status: S.optional(S.String),
+          targetVersion: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/agentPools/{poolId}/updates", code: 200 })),
+      ).annotate({ identifier: "CreateAgentPoolsUpdateRequest" });
+  }
+}
+function __c803(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          isHidden: S.optional(S.Boolean),
+          isLatestGAedVersion: S.optional(S.Boolean),
+          lastConnection: S.optional(S.Number),
+          name: S.optional(S.String),
+          operationalStatus: S.optional(S.String),
+          poolId: S.optional(S.String),
+          type: S.optional(S.String),
+          updateMessage: S.optional(S.String),
+          updateStatus: S.optional(S.String),
+          version: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AgentInput" });
+    case 1:
+      return S.Array(__S(25696, __c803, 0));
+  }
+}
+function __c804(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49767,20 +49224,20 @@ function __c815(j: number): any {
         }),
       ).annotate({ identifier: "JsonPatchOperation" });
     case 1:
-      return S.Array(__S(26080, __c815, 0));
+      return S.Array(__S(25728, __c804, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           appId: S.String.pipe(T.Label()),
           groupId: S.String.pipe(T.Label()),
-          body: S.optional(__S(26081, __c815, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(25729, __c804, 1).pipe(T.HttpBody())),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/api/v1/apps/{appId}/groups/{groupId}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateGroupAssignmentToApplicationRequest" });
   }
 }
-function __c816(j: number): any {
+function __c805(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49795,7 +49252,7 @@ function __c816(j: number): any {
         S.Struct({
           appInstanceId: S.String.pipe(T.Label()),
           id: S.String,
-          parameters: __S(26112, __c816, 0),
+          parameters: __S(25760, __c805, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -49806,55 +49263,7 @@ function __c816(j: number): any {
       ).annotate({ identifier: "UpdateGroupMembershipRequest" });
   }
 }
-function __c817(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          grantedScopes: __S(64, __c2, 0),
-          properties: S.optional(__S(26177, __c818, 1)),
-          type: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/integrations/api/v1/api-services", code: 200 })),
-      ).annotate({ identifier: "CreateApiServiceIntegrationInstanceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          configGuideUrl: S.optional(S.String),
-          createdAt: S.optional(S.String),
-          createdBy: S.optional(S.String),
-          grantedScopes: S.optional(__S(64, __c2, 0)),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          properties: S.optional(__S(26177, __c818, 1)),
-          type: S.optional(S.String),
-          _links: S.optional(__S(26178, __c818, 2)),
-          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-        }),
-      ).annotate({ identifier: "CreateApiServiceIntegrationInstanceResponse" });
-  }
-}
-function __c818(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AppPropertiesValue" });
-    case 1:
-      return S.Record(S.String, __S(26176, __c818, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          client: S.optional(__S(18656, __c583, 0)),
-          logo: S.optional(__S(18656, __c583, 0)),
-          self: S.optional(__S(18656, __c583, 0)),
-        }),
-      ).annotate({ identifier: "APIServiceIntegrationLinks" });
-  }
-}
-function __c819(j: number): any {
+function __c806(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49872,31 +49281,31 @@ function __c819(j: number): any {
       ).annotate({ identifier: "UpdateGroupPushMappingRequest" });
   }
 }
-function __c820(j: number): any {
+function __c807(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(10371, __c324, 3)),
+          properties: S.optional(__S(10179, __c318, 3)),
         }),
       ).annotate({ identifier: "GroupSchemaBaseInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(10373, __c324, 5)),
+          properties: S.optional(__S(10181, __c318, 5)),
         }),
       ).annotate({ identifier: "GroupSchemaCustomInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          base: S.optional(__S(26240, __c820, 0)),
-          custom: S.optional(__S(26241, __c820, 1)),
+          base: S.optional(__S(25824, __c807, 0)),
+          custom: S.optional(__S(25825, __c807, 1)),
         }),
       ).annotate({ identifier: "GroupSchemaDefinitionsInput" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          definitions: S.optional(__S(26242, __c820, 2)),
+          definitions: S.optional(__S(25826, __c807, 2)),
           description: S.optional(S.String),
           properties: S.optional(__S(7303, __c228, 7)),
           title: S.optional(S.String),
@@ -49904,7 +49313,7 @@ function __c820(j: number): any {
       ).annotate({ identifier: "UpdateGroupSchemaRequest" });
   }
 }
-function __c821(j: number): any {
+function __c808(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49912,7 +49321,7 @@ function __c821(j: number): any {
           identitySourceId: S.String.pipe(T.Label()),
           groupOrExternalId: S.String.pipe(T.Label()),
           externalId: S.optional(S.String),
-          profile: S.optional(__S(29824, __c932, 0)),
+          profile: S.optional(__S(29472, __c921, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -49923,7 +49332,7 @@ function __c821(j: number): any {
       ).annotate({ identifier: "UpdateIdentitySourceGroupsRequest" });
   }
 }
-function __c822(j: number): any {
+function __c809(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49941,7 +49350,7 @@ function __c822(j: number): any {
       ).annotate({ identifier: "UpdateIdentitySourceUsersRequest" });
   }
 }
-function __c823(j: number): any {
+function __c810(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49954,7 +49363,7 @@ function __c823(j: number): any {
       ).annotate({ identifier: "UpdateInlineHookRequest" });
   }
 }
-function __c824(j: number): any {
+function __c811(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -49974,14 +49383,14 @@ function __c824(j: number): any {
       ).annotate({ identifier: "UpdateOktaManagedUserAccountRequest" });
   }
 }
-function __c825(j: number): any {
+function __c812(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           caseNumber: S.String.pipe(T.Label()),
-          impersonation: S.optional(__S(18496, __c578, 0)),
-          selfAssigned: S.optional(__S(18497, __c578, 1)),
+          impersonation: S.optional(__S(18272, __c571, 0)),
+          selfAssigned: S.optional(__S(18273, __c571, 1)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -49992,7 +49401,7 @@ function __c825(j: number): any {
       ).annotate({ identifier: "UpdateOktaSupportCaseRequest" });
   }
 }
-function __c826(j: number): any {
+function __c813(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50012,7 +49421,55 @@ function __c826(j: number): any {
       ).annotate({ identifier: "UpdateOrgSettingsRequest" });
   }
 }
-function __c827(j: number): any {
+function __c814(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          grantedScopes: __S(64, __c2, 0),
+          properties: S.optional(__S(26081, __c815, 1)),
+          type: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/integrations/api/v1/api-services", code: 200 })),
+      ).annotate({ identifier: "CreateApiServiceIntegrationInstanceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          configGuideUrl: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          createdBy: S.optional(S.String),
+          grantedScopes: S.optional(__S(64, __c2, 0)),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          properties: S.optional(__S(26081, __c815, 1)),
+          type: S.optional(S.String),
+          _links: S.optional(__S(26082, __c815, 2)),
+          clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "CreateApiServiceIntegrationInstanceResponse" });
+  }
+}
+function __c815(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AppPropertiesValue" });
+    case 1:
+      return S.Record(S.String, __S(26080, __c815, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          client: S.optional(__S(18592, __c581, 0)),
+          logo: S.optional(__S(18592, __c581, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+        }),
+      ).annotate({ identifier: "APIServiceIntegrationLinks" });
+  }
+}
+function __c816(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50029,52 +49486,18 @@ function __c827(j: number): any {
       ).annotate({ identifier: "UpdatePauseAgentPoolRequest" });
   }
 }
-function __c828(j: number): any {
+function __c817(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           mappingId: S.String.pipe(T.Label()),
-          properties: __S(12320, __c385, 0),
+          properties: __S(12192, __c381, 0),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/mappings/{mappingId}", code: 200 })),
       ).annotate({ identifier: "UpdateProfileMappingRequest" });
   }
 }
-function __c829(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/lifecycle/activate", code: 200 }),
-        ),
-      ).annotate({ identifier: "ActivateApplicationRequest" });
-  }
-}
-function __c830(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "ActivateApplicationResponse" });
-  }
-}
-function __c831(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          apiServiceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/integrations/api/v1/api-services/{apiServiceId}/credentials/secrets",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CreateApiServiceIntegrationInstanceSecretRequest" });
-  }
-}
-function __c832(j: number): any {
+function __c818(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50088,7 +49511,7 @@ function __c832(j: number): any {
       ).annotate({ identifier: "UpdateSmsTemplateRequest" });
   }
 }
-function __c833(j: number): any {
+function __c819(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50106,7 +49529,7 @@ function __c833(j: number): any {
       ).annotate({ identifier: "UpdateSsfStreamRequest" });
   }
 }
-function __c834(j: number): any {
+function __c820(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50122,35 +49545,35 @@ function __c834(j: number): any {
       ).annotate({ identifier: "UpdateThirdPartyAdminSettingRequest" });
   }
 }
-function __c835(j: number): any {
+function __c821(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           strict: S.optional(S.Boolean.pipe(T.Query())),
-          credentials: S.optional(__S(23104, __c722, 0)),
+          credentials: S.optional(__S(22848, __c714, 0)),
           profile: S.optional(__S(1728, __c54, 0)),
           realmId: S.optional(S.String),
-          type: S.optional(__S(28096, __c878, 0)),
+          type: S.optional(__S(27744, __c867, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/users/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c836(j: number): any {
+function __c822(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           schemaId: S.String.pipe(T.Label()),
-          definitions: S.optional(__S(25634, __c801, 2)),
+          definitions: S.optional(__S(25218, __c788, 2)),
           properties: S.optional(__S(7303, __c228, 7)),
           title: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/meta/schemas/user/{schemaId}", code: 200 })),
       ).annotate({ identifier: "UpdateUserProfileRequest" });
   }
 }
-function __c837(j: number): any {
+function __c823(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50162,7 +49585,7 @@ function __c837(j: number): any {
       ).annotate({ identifier: "UpdateUserTypeRequest" });
   }
 }
-function __c838(j: number): any {
+function __c824(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50180,7 +49603,7 @@ function __c838(j: number): any {
       ).annotate({ identifier: "UploadApplicationLogoRequest" });
   }
 }
-function __c839(j: number): any {
+function __c825(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50199,7 +49622,7 @@ function __c839(j: number): any {
       ).annotate({ identifier: "UploadBrandThemeBackgroundImageRequest" });
   }
 }
-function __c840(j: number): any {
+function __c826(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50209,7 +49632,41 @@ function __c840(j: number): any {
       ).annotate({ identifier: "OidcSloEndpoint" });
   }
 }
-function __c841(j: number): any {
+function __c827(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/api/v1/apps/{appId}/lifecycle/activate", code: 200 }),
+        ),
+      ).annotate({ identifier: "ActivateApplicationRequest" });
+  }
+}
+function __c828(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "ActivateApplicationResponse" });
+  }
+}
+function __c829(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apiServiceId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/integrations/api/v1/api-services/{apiServiceId}/credentials/secrets",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateApiServiceIntegrationInstanceSecretRequest" });
+  }
+}
+function __c830(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50228,7 +49685,7 @@ function __c841(j: number): any {
       ).annotate({ identifier: "UploadBrandThemeFaviconRequest" });
   }
 }
-function __c842(j: number): any {
+function __c831(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50247,26 +49704,7 @@ function __c842(j: number): any {
       ).annotate({ identifier: "UploadBrandThemeLogoRequest" });
   }
 }
-function __c843(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          activate: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps", code: 200 })),
-      ).annotate({ identifier: "CreateApplicationRequest" });
-  }
-}
-function __c844(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "CreateApplicationResponse",
-      });
-  }
-}
-function __c845(j: number): any {
+function __c832(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50275,14 +49713,14 @@ function __c845(j: number): any {
         }),
       ).annotate({ identifier: "IdentitySourceUserProfileForDelete" });
     case 1:
-      return S.Array(__S(27040, __c845, 0));
+      return S.Array(__S(26624, __c832, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           identitySourceId: S.String.pipe(T.Label()),
           sessionId: S.String.pipe(T.Label()),
           entityType: S.optional(S.String),
-          profiles: S.optional(__S(27041, __c845, 1)),
+          profiles: S.optional(__S(26625, __c832, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50293,24 +49731,24 @@ function __c845(j: number): any {
       ).annotate({ identifier: "UploadIdentitySourceDataForDeleteRequest" });
   }
 }
-function __c846(j: number): any {
+function __c833(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           externalId: S.optional(S.String),
-          profile: S.optional(__S(10848, __c339, 0)),
+          profile: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "UploadIdentitySourceDataForUpsertRequestProfilesItem" });
     case 1:
-      return S.Array(__S(27072, __c846, 0));
+      return S.Array(__S(26656, __c833, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           identitySourceId: S.String.pipe(T.Label()),
           sessionId: S.String.pipe(T.Label()),
           entityType: S.optional(S.String),
-          profiles: S.optional(__S(27073, __c846, 1)),
+          profiles: S.optional(__S(26657, __c833, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50321,14 +49759,14 @@ function __c846(j: number): any {
       ).annotate({ identifier: "UploadIdentitySourceDataForUpsertRequest" });
   }
 }
-function __c847(j: number): any {
+function __c834(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           identitySourceId: S.String.pipe(T.Label()),
           sessionId: S.String.pipe(T.Label()),
-          memberships: S.optional(__S(27137, __c848, 1)),
+          memberships: S.optional(__S(26721, __c835, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50339,7 +49777,7 @@ function __c847(j: number): any {
       ).annotate({ identifier: "UploadIdentitySourceGroupMembershipsForDeleteRequest" });
   }
 }
-function __c848(j: number): any {
+function __c835(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50349,17 +49787,17 @@ function __c848(j: number): any {
         }),
       ).annotate({ identifier: "IdentitySourceGroupMembershipsDeleteProfileItem" });
     case 1:
-      return S.Array(__S(27136, __c848, 0));
+      return S.Array(__S(26720, __c835, 0));
   }
 }
-function __c849(j: number): any {
+function __c836(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           identitySourceId: S.String.pipe(T.Label()),
           sessionId: S.String.pipe(T.Label()),
-          memberships: S.optional(__S(27137, __c848, 1)),
+          memberships: S.optional(__S(26721, __c835, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50370,7 +49808,7 @@ function __c849(j: number): any {
       ).annotate({ identifier: "UploadIdentitySourceGroupMembershipsForUpsertRequest" });
   }
 }
-function __c850(j: number): any {
+function __c837(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50388,23 +49826,23 @@ function __c850(j: number): any {
       ).annotate({ identifier: "UploadIdentitySourceGroupsDataForDeleteRequest" });
   }
 }
-function __c851(j: number): any {
+function __c838(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           externalId: S.optional(S.String),
-          profile: S.optional(__S(29824, __c932, 0)),
+          profile: S.optional(__S(29472, __c921, 0)),
         }),
       ).annotate({ identifier: "UploadIdentitySourceGroupsForUpsertRequestProfilesItem" });
     case 1:
-      return S.Array(__S(27232, __c851, 0));
+      return S.Array(__S(26816, __c838, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           identitySourceId: S.String.pipe(T.Label()),
           sessionId: S.String.pipe(T.Label()),
-          profiles: S.optional(__S(27233, __c851, 1)),
+          profiles: S.optional(__S(26817, __c838, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50415,7 +49853,7 @@ function __c851(j: number): any {
       ).annotate({ identifier: "UploadIdentitySourceGroupsForUpsertRequest" });
   }
 }
-function __c852(j: number): any {
+function __c839(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50437,7 +49875,7 @@ function __c852(j: number): any {
       ).annotate({ identifier: "UploadYubikeyOtpTokenSeedRequest" });
   }
 }
-function __c853(j: number): any {
+function __c840(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50450,7 +49888,26 @@ function __c853(j: number): any {
       ).annotate({ identifier: "UpsertApiTokenRequest" });
   }
 }
-function __c854(j: number): any {
+function __c841(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          activate: S.optional(S.Boolean.pipe(T.Query())),
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/api/v1/apps", code: 200 })),
+      ).annotate({ identifier: "CreateApplicationRequest" });
+  }
+}
+function __c842(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateApplicationResponse",
+      });
+  }
+}
+function __c843(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50466,13 +49923,13 @@ function __c854(j: number): any {
       ).annotate({ identifier: "UpsertCertificateRequest" });
   }
 }
-function __c855(j: number): any {
+function __c844(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          user: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          user: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "UserRiskLevelExistsLinks" });
     case 1:
@@ -50488,52 +49945,12 @@ function __c855(j: number): any {
         S.Struct({
           reason: S.optional(S.String),
           riskLevel: S.optional(S.String),
-          _links: S.optional(__S(27360, __c855, 0)),
+          _links: S.optional(__S(27008, __c844, 0)),
         }),
       ).annotate({ identifier: "UserRiskPutResponse" });
   }
 }
-function __c856(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          containerOrn: S.String,
-          description: S.optional(S.String),
-          name: S.String,
-          ownerGroupIds: S.optional(__S(64, __c2, 0)),
-          ownerUserIds: S.optional(__S(64, __c2, 0)),
-          password: S.String.pipe(T.SensitiveValue({})),
-          username: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/privileged-access/api/v1/service-accounts", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateAppServiceAccountRequest" });
-  }
-}
-function __c857(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          containerGlobalName: S.optional(S.String),
-          containerInstanceName: S.optional(S.String),
-          containerOrn: S.String,
-          created: S.optional(S.String),
-          description: S.optional(S.String),
-          id: S.optional(S.String),
-          lastUpdated: S.optional(S.String),
-          name: S.String,
-          ownerGroupIds: S.optional(__S(64, __c2, 0)),
-          ownerUserIds: S.optional(__S(64, __c2, 0)),
-          status: S.optional(S.String),
-          statusDetail: S.optional(S.String),
-          username: S.String,
-        }),
-      ).annotate({ identifier: "AppServiceAccountOutput" });
-  }
-}
-function __c858(j: number): any {
+function __c845(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50543,7 +49960,7 @@ function __c858(j: number): any {
       ).annotate({ identifier: "VerifyDomainRequest" });
   }
 }
-function __c859(j: number): any {
+function __c846(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50559,7 +49976,7 @@ function __c859(j: number): any {
       ).annotate({ identifier: "VerifyEmailDomainRequest" });
   }
 }
-function __c860(j: number): any {
+function __c847(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50575,7 +49992,7 @@ function __c860(j: number): any {
       ).annotate({ identifier: "VerifyEventHookRequest" });
   }
 }
-function __c861(j: number): any {
+function __c848(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50601,14 +50018,14 @@ function __c861(j: number): any {
           expiresAt: S.optional(S.String),
           factorMessage: S.optional(S.NullOr(S.String)),
           factorResult: S.optional(S.String),
-          profile: S.optional(__S(20704, __c647, 0)),
-          _embedded: S.optional(__S(27553, __c861, 1)),
-          _links: S.optional(__S(14560, __c455, 0)),
+          profile: S.optional(__S(20640, __c645, 0)),
+          _embedded: S.optional(__S(27137, __c848, 1)),
+          _links: S.optional(__S(14304, __c447, 0)),
         }),
       ).annotate({ identifier: "UserFactorVerifyResponse" });
   }
 }
-function __c862(j: number): any {
+function __c849(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50627,7 +50044,7 @@ function __c862(j: number): any {
       ).annotate({ identifier: "VerifyProvisioningConnectionForApplicationRequest" });
   }
 }
-function __c863(j: number): any {
+function __c850(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50644,7 +50061,7 @@ function __c863(j: number): any {
       ).annotate({ identifier: "VerifyRpIdDomainRequest" });
   }
 }
-function __c864(j: number): any {
+function __c851(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50655,7 +50072,47 @@ function __c864(j: number): any {
       ).annotate({ identifier: "VerifySsfStreamRequest" });
   }
 }
-function __c865(j: number): any {
+function __c852(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          containerOrn: S.String,
+          description: S.optional(S.String),
+          name: S.String,
+          ownerGroupIds: S.optional(__S(64, __c2, 0)),
+          ownerUserIds: S.optional(__S(64, __c2, 0)),
+          password: S.String.pipe(T.SensitiveValue({})),
+          username: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/privileged-access/api/v1/service-accounts", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateAppServiceAccountRequest" });
+  }
+}
+function __c853(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          containerGlobalName: S.optional(S.String),
+          containerInstanceName: S.optional(S.String),
+          containerOrn: S.String,
+          created: S.optional(S.String),
+          description: S.optional(S.String),
+          id: S.optional(S.String),
+          lastUpdated: S.optional(S.String),
+          name: S.String,
+          ownerGroupIds: S.optional(__S(64, __c2, 0)),
+          ownerUserIds: S.optional(__S(64, __c2, 0)),
+          status: S.optional(S.String),
+          statusDetail: S.optional(S.String),
+          username: S.String,
+        }),
+      ).annotate({ identifier: "AppServiceAccountOutput" });
+  }
+}
+function __c854(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50672,17 +50129,17 @@ function __c865(j: number): any {
       ).annotate({ identifier: "CreateAssociatedServersRequest" });
   }
 }
-function __c866(j: number): any {
+function __c855(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(27750, __c867, 6));
+      return S.Array(__S(27398, __c856, 6));
     case 1:
-      return S.suspend(() => __S(27712, __c866, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(27360, __c855, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateAssociatedServersResponse",
       });
   }
 }
-function __c867(j: number): any {
+function __c856(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50697,7 +50154,7 @@ function __c867(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          signing: S.optional(__S(27744, __c867, 0)),
+          signing: S.optional(__S(27392, __c856, 0)),
         }),
       ).annotate({ identifier: "AuthorizationServerCredentials" });
     case 2:
@@ -50712,23 +50169,23 @@ function __c867(j: number): any {
         }),
       ).annotate({ identifier: "ResourceServerJsonWebKey" });
     case 3:
-      return S.Array(__S(27746, __c867, 2));
+      return S.Array(__S(27394, __c856, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(27747, __c867, 3)),
+          keys: S.optional(__S(27395, __c856, 3)),
         }),
       ).annotate({ identifier: "ResourceServerJsonWebKeys" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          claims: S.optional(__S(18656, __c583, 0)),
-          deactivate: S.optional(__S(18656, __c583, 0)),
-          metadata: S.optional(__S(11936, __c373, 0)),
-          policies: S.optional(__S(18656, __c583, 0)),
-          rotateKey: S.optional(__S(18656, __c583, 0)),
-          scopes: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          claims: S.optional(__S(18592, __c581, 0)),
+          deactivate: S.optional(__S(18592, __c581, 0)),
+          metadata: S.optional(__S(11968, __c374, 0)),
+          policies: S.optional(__S(18592, __c581, 0)),
+          rotateKey: S.optional(__S(18592, __c581, 0)),
+          scopes: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "AuthServerLinks" });
     case 6:
@@ -50737,22 +50194,22 @@ function __c867(j: number): any {
           accessTokenEncryptedResponseAlgorithm: S.optional(S.String),
           audiences: S.optional(__S(64, __c2, 0)),
           created: S.optional(S.String),
-          credentials: S.optional(__S(27745, __c867, 1)),
+          credentials: S.optional(__S(27393, __c856, 1)),
           description: S.optional(S.String),
           id: S.optional(S.String),
           issuer: S.optional(S.String),
           issuerMode: S.optional(S.String),
-          jwks: S.optional(__S(27748, __c867, 4)),
+          jwks: S.optional(__S(27396, __c856, 4)),
           jwks_uri: S.optional(S.String),
           lastUpdated: S.optional(S.String),
           name: S.optional(S.String),
           status: S.optional(S.String),
-          _links: S.optional(__S(27749, __c867, 5)),
+          _links: S.optional(__S(27397, __c856, 5)),
         }),
       ).annotate({ identifier: "AuthorizationServer" });
   }
 }
-function __c868(j: number): any {
+function __c857(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50763,14 +50220,14 @@ function __c868(j: number): any {
       ).annotate({ identifier: "CreateAuthenticatorRequest" });
   }
 }
-function __c869(j: number): any {
+function __c858(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           userId: S.String.pipe(T.Label()),
           authenticatorId: S.String,
-          profile: __S(27872, __c871, 0),
+          profile: __S(27520, __c860, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50781,19 +50238,19 @@ function __c869(j: number): any {
       ).annotate({ identifier: "CreateAuthenticatorEnrollmentRequest" });
   }
 }
-function __c870(j: number): any {
+function __c859(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          user: S.optional(__S(18656, __c583, 0)),
-          authenticator: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          user: S.optional(__S(18592, __c581, 0)),
+          authenticator: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "AuthenticatorEnrollmentLinks" });
   }
 }
-function __c871(j: number): any {
+function __c860(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50809,35 +50266,35 @@ function __c871(j: number): any {
           key: S.optional(S.String),
           lastUpdated: S.optional(S.String),
           name: S.optional(S.String),
-          profile: S.optional(__S(27872, __c871, 0)),
+          profile: S.optional(__S(27520, __c860, 0)),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(27840, __c870, 0)),
+          _links: S.optional(__S(27488, __c859, 0)),
         }),
       ).annotate({ identifier: "AuthenticatorEnrollment" });
   }
 }
-function __c872(j: number): any {
+function __c861(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accessTokenEncryptedResponseAlgorithm: S.optional(S.String),
           audiences: S.optional(__S(64, __c2, 0)),
-          credentials: S.optional(__S(27937, __c873, 1)),
+          credentials: S.optional(__S(27585, __c862, 1)),
           description: S.optional(S.String),
           issuer: S.optional(S.String),
           issuerMode: S.optional(S.String),
-          jwks: S.optional(__S(27748, __c867, 4)),
+          jwks: S.optional(__S(27396, __c856, 4)),
           jwks_uri: S.optional(S.String),
           name: S.optional(S.String),
           status: S.optional(S.String),
-          _links: S.optional(__S(27939, __c873, 3)),
+          _links: S.optional(__S(27587, __c862, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/authorizationServers", code: 200 })),
       ).annotate({ identifier: "CreateAuthorizationServerRequest" });
   }
 }
-function __c873(j: number): any {
+function __c862(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50849,26 +50306,26 @@ function __c873(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          signing: S.optional(__S(27936, __c873, 0)),
+          signing: S.optional(__S(27584, __c862, 0)),
         }),
       ).annotate({ identifier: "AuthorizationServerCredentialsInput" });
     case 2:
-      return S.Array(__S(20736, __c648, 0));
+      return S.Array(__S(20672, __c646, 0));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(20736, __c648, 0)),
-          claims: S.optional(__S(20736, __c648, 0)),
-          deactivate: S.optional(__S(20736, __c648, 0)),
-          metadata: S.optional(__S(27938, __c873, 2)),
-          policies: S.optional(__S(20736, __c648, 0)),
-          rotateKey: S.optional(__S(20736, __c648, 0)),
-          scopes: S.optional(__S(20736, __c648, 0)),
+          self: S.optional(__S(20672, __c646, 0)),
+          claims: S.optional(__S(20672, __c646, 0)),
+          deactivate: S.optional(__S(20672, __c646, 0)),
+          metadata: S.optional(__S(27586, __c862, 2)),
+          policies: S.optional(__S(20672, __c646, 0)),
+          rotateKey: S.optional(__S(20672, __c646, 0)),
+          scopes: S.optional(__S(20672, __c646, 0)),
         }),
       ).annotate({ identifier: "AuthServerLinksInput" });
   }
 }
-function __c874(j: number): any {
+function __c863(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50877,12 +50334,12 @@ function __c874(j: number): any {
           id: S.optional(S.String),
           type: S.optional(S.String),
           name: S.optional(S.String),
-          conditions: S.optional(__S(28000, __c875, 0)),
+          conditions: S.optional(__S(27648, __c864, 0)),
           description: S.optional(S.String),
           priority: S.optional(S.Number),
           status: S.optional(S.String),
           system: S.optional(S.Boolean),
-          _links: S.optional(__S(28032, __c876, 0)),
+          _links: S.optional(__S(27680, __c865, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50893,7 +50350,7 @@ function __c874(j: number): any {
       ).annotate({ identifier: "CreateAuthorizationServerPolicyRequest" });
   }
 }
-function __c875(j: number): any {
+function __c864(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50904,10 +50361,10 @@ function __c875(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          activate: S.optional(__S(18656, __c583, 0)),
-          deactivate: S.optional(__S(18656, __c583, 0)),
-          rules: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          activate: S.optional(__S(18592, __c581, 0)),
+          deactivate: S.optional(__S(18592, __c581, 0)),
+          rules: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "CreateAuthorizationServerPolicyResponseLinks" });
     case 2:
@@ -50916,46 +50373,46 @@ function __c875(j: number): any {
           id: S.optional(S.String),
           type: S.optional(S.String),
           name: S.optional(S.String),
-          conditions: S.optional(__S(28000, __c875, 0)),
+          conditions: S.optional(__S(27648, __c864, 0)),
           description: S.optional(S.String),
           priority: S.optional(S.Number),
           status: S.optional(S.String),
           system: S.optional(S.Boolean),
           created: S.optional(S.String),
           lastUpdated: S.optional(S.String),
-          _links: S.optional(__S(28001, __c875, 1)),
+          _links: S.optional(__S(27649, __c864, 1)),
         }),
       ).annotate({ identifier: "CreateAuthorizationServerPolicyResponse" });
   }
 }
-function __c876(j: number): any {
+function __c865(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(20736, __c648, 0)),
-          activate: S.optional(__S(20736, __c648, 0)),
-          deactivate: S.optional(__S(20736, __c648, 0)),
-          rules: S.optional(__S(20736, __c648, 0)),
+          self: S.optional(__S(20672, __c646, 0)),
+          activate: S.optional(__S(20672, __c646, 0)),
+          deactivate: S.optional(__S(20672, __c646, 0)),
+          rules: S.optional(__S(20672, __c646, 0)),
         }),
       ).annotate({ identifier: "CreateAuthorizationServerPolicyRequestLinks" });
   }
 }
-function __c877(j: number): any {
+function __c866(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           authServerId: S.String.pipe(T.Label()),
           policyId: S.String.pipe(T.Label()),
-          actions: S.optional(__S(28129, __c879, 1)),
-          conditions: __S(28131, __c879, 3),
+          actions: S.optional(__S(27777, __c868, 1)),
+          conditions: __S(27779, __c868, 3),
           name: S.String,
           priority: S.optional(S.Number),
           status: S.optional(S.String),
           system: S.optional(S.Boolean),
           type: S.String,
-          _links: S.optional(__S(28160, __c880, 0)),
+          _links: S.optional(__S(27808, __c869, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -50966,7 +50423,7 @@ function __c877(j: number): any {
       ).annotate({ identifier: "CreateAuthorizationServerPolicyRuleRequest" });
   }
 }
-function __c878(j: number): any {
+function __c867(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -50976,13 +50433,13 @@ function __c878(j: number): any {
       ).annotate({ identifier: "AuthenticatorKeyCustomAppProviderConfigurationFcm" });
   }
 }
-function __c879(j: number): any {
+function __c868(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accessTokenLifetimeMinutes: S.optional(S.Number),
-          inlineHook: S.optional(__S(28096, __c878, 0)),
+          inlineHook: S.optional(__S(27744, __c867, 0)),
           refreshTokenLifetimeMinutes: S.optional(S.Number),
           refreshTokenWindowMinutes: S.optional(S.Number),
         }),
@@ -50990,7 +50447,7 @@ function __c879(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(__S(28128, __c879, 0)),
+          token: S.optional(__S(27776, __c868, 0)),
         }),
       ).annotate({ identifier: "AuthorizationServerPolicyRuleActions" });
     case 2:
@@ -51004,15 +50461,15 @@ function __c879(j: number): any {
       return S.suspend(() =>
         S.Struct({
           grantTypes: S.optional(__S(4864, __c152, 0)),
-          people: S.optional(__S(28130, __c879, 2)),
+          people: S.optional(__S(27778, __c868, 2)),
           scopes: S.optional(__S(4864, __c152, 0)),
         }),
       ).annotate({ identifier: "AuthorizationServerPolicyRuleConditions" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(28129, __c879, 1)),
-          conditions: S.optional(__S(28131, __c879, 3)),
+          actions: S.optional(__S(27777, __c868, 1)),
+          conditions: S.optional(__S(27779, __c868, 3)),
           created: S.optional(S.String),
           id: S.optional(S.String),
           lastUpdated: S.optional(S.String),
@@ -51026,19 +50483,19 @@ function __c879(j: number): any {
       ).annotate({ identifier: "AuthorizationServerPolicyRule" });
   }
 }
-function __c880(j: number): any {
+function __c869(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(20736, __c648, 0)),
-          activate: S.optional(__S(20736, __c648, 0)),
-          deactivate: S.optional(__S(20736, __c648, 0)),
+          self: S.optional(__S(20672, __c646, 0)),
+          activate: S.optional(__S(20672, __c646, 0)),
+          deactivate: S.optional(__S(20672, __c646, 0)),
         }),
       ).annotate({ identifier: "LinksSelfAndLifecycleInput" });
   }
 }
-function __c881(j: number): any {
+function __c870(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51048,7 +50505,7 @@ function __c881(j: number): any {
       ).annotate({ identifier: "CreateBehaviorDetectionRuleRequest" });
   }
 }
-function __c882(j: number): any {
+function __c871(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51064,7 +50521,7 @@ function __c882(j: number): any {
       ).annotate({ identifier: "ActivateAuthenticatorRequest" });
   }
 }
-function __c883(j: number): any {
+function __c872(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -51072,7 +50529,7 @@ function __c883(j: number): any {
       });
   }
 }
-function __c884(j: number): any {
+function __c873(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51082,7 +50539,7 @@ function __c884(j: number): any {
       ).annotate({ identifier: "CreateBrandRequest" });
   }
 }
-function __c885(j: number): any {
+function __c874(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51094,14 +50551,14 @@ function __c885(j: number): any {
       ).annotate({ identifier: "DefaultApp" });
   }
 }
-function __c886(j: number): any {
+function __c875(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           agreeToCustomPrivacyPolicy: S.optional(S.Boolean),
           customPrivacyPolicyUrl: S.optional(S.String),
-          defaultApp: S.optional(__S(28320, __c885, 0)),
+          defaultApp: S.optional(__S(27968, __c874, 0)),
           emailDomainId: S.optional(S.String),
           id: S.optional(S.String),
           isDefault: S.optional(S.Boolean),
@@ -51112,7 +50569,7 @@ function __c886(j: number): any {
       ).annotate({ identifier: "Brand" });
   }
 }
-function __c887(j: number): any {
+function __c876(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51125,7 +50582,7 @@ function __c887(j: number): any {
       ).annotate({ identifier: "CreateCaptchaInstanceRequest" });
   }
 }
-function __c888(j: number): any {
+function __c877(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51134,18 +50591,18 @@ function __c888(j: number): any {
           name: S.optional(S.String),
           siteKey: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "CAPTCHAInstanceOutput" });
   }
 }
-function __c889(j: number): any {
+function __c878(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          password: S.optional(__S(22656, __c708, 0)),
-          recovery_question: S.optional(__S(24192, __c756, 0)),
+          password: S.optional(__S(22592, __c706, 0)),
+          recovery_question: S.optional(__S(24128, __c754, 0)),
         }),
       ).annotate({ identifier: "OrgCreationAdminCredentials" });
     case 1:
@@ -51163,14 +50620,14 @@ function __c889(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          credentials: S.optional(__S(28448, __c889, 0)),
-          profile: __S(28449, __c889, 1),
+          credentials: S.optional(__S(28096, __c878, 0)),
+          profile: __S(28097, __c878, 1),
         }),
       ).annotate({ identifier: "OrgCreationAdmin" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          admin: __S(28450, __c889, 2),
+          admin: __S(28098, __c878, 2),
           edition: S.String,
           name: S.String,
           subdomain: S.String,
@@ -51185,26 +50642,26 @@ function __c889(j: number): any {
           id: S.optional(S.String),
           lastUpdated: S.optional(S.String),
           name: S.String,
-          settings: S.optional(__S(20704, __c647, 0)),
+          settings: S.optional(__S(20640, __c645, 0)),
           status: S.optional(S.String),
           subdomain: S.String,
           token: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tokenType: S.optional(S.String),
           website: S.optional(S.String),
-          _links: S.optional(__S(20704, __c647, 0)),
+          _links: S.optional(__S(20640, __c645, 0)),
         }),
       ).annotate({ identifier: "ChildOrgOutput" });
   }
 }
-function __c890(j: number): any {
+function __c879(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           authenticatorId: S.String.pipe(T.Label()),
           aaguid: S.optional(S.String),
-          attestationRootCertificates: S.optional(__S(28545, __c892, 1)),
-          authenticatorCharacteristics: S.optional(__S(28512, __c891, 0)),
+          attestationRootCertificates: S.optional(__S(28193, __c881, 1)),
+          authenticatorCharacteristics: S.optional(__S(28160, __c880, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -51215,7 +50672,7 @@ function __c890(j: number): any {
       ).annotate({ identifier: "CreateCustomAAGUIDRequest" });
   }
 }
-function __c891(j: number): any {
+function __c880(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51235,20 +50692,20 @@ function __c891(j: number): any {
         }),
       ).annotate({ identifier: "AttestationRootCertificatesResponseItem" });
     case 2:
-      return S.Array(__S(28513, __c891, 1));
+      return S.Array(__S(28161, __c880, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           aaguid: S.optional(S.String),
-          attestationRootCertificates: S.optional(__S(28514, __c891, 2)),
-          authenticatorCharacteristics: S.optional(__S(28512, __c891, 0)),
+          attestationRootCertificates: S.optional(__S(28162, __c880, 2)),
+          authenticatorCharacteristics: S.optional(__S(28160, __c880, 0)),
           name: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "CustomAAGUIDResponseObject" });
   }
 }
-function __c892(j: number): any {
+function __c881(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51257,10 +50714,10 @@ function __c892(j: number): any {
         }),
       ).annotate({ identifier: "AttestationRootCertificatesRequestItem" });
     case 1:
-      return S.Array(__S(28544, __c892, 0));
+      return S.Array(__S(28192, __c881, 0));
   }
 }
-function __c893(j: number): any {
+function __c882(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51271,7 +50728,7 @@ function __c893(j: number): any {
       ).annotate({ identifier: "CreateCustomDomainRequest" });
   }
 }
-function __c894(j: number): any {
+function __c883(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51283,7 +50740,7 @@ function __c894(j: number): any {
         }),
       ).annotate({ identifier: "DNSRecordDomains" });
     case 1:
-      return S.Array(__S(28608, __c894, 0));
+      return S.Array(__S(28256, __c883, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -51295,10 +50752,10 @@ function __c894(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          brand: S.optional(__S(18656, __c583, 0)),
-          certificate: S.optional(__S(18656, __c583, 0)),
-          verify: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          brand: S.optional(__S(18592, __c581, 0)),
+          certificate: S.optional(__S(18592, __c581, 0)),
+          verify: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "DomainLinks" });
     case 4:
@@ -51306,17 +50763,17 @@ function __c894(j: number): any {
         S.Struct({
           brandId: S.optional(S.String),
           certificateSourceType: S.optional(S.String),
-          dnsRecords: S.optional(__S(28609, __c894, 1)),
+          dnsRecords: S.optional(__S(28257, __c883, 1)),
           domain: S.optional(S.String),
           id: S.optional(S.String),
-          publicCertificate: S.optional(__S(28610, __c894, 2)),
+          publicCertificate: S.optional(__S(28258, __c883, 2)),
           validationStatus: S.optional(S.String),
-          _links: S.optional(__S(28611, __c894, 3)),
+          _links: S.optional(__S(28259, __c883, 3)),
         }),
       ).annotate({ identifier: "DomainResponse" });
   }
 }
-function __c895(j: number): any {
+function __c884(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51330,7 +50787,7 @@ function __c895(j: number): any {
       ).annotate({ identifier: "CreateCustomTelephonyProviderCredentialsRequest" });
   }
 }
-function __c896(j: number): any {
+function __c885(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51340,7 +50797,7 @@ function __c896(j: number): any {
       ).annotate({ identifier: "CreateDeviceAssurancePolicyRequest" });
   }
 }
-function __c897(j: number): any {
+function __c886(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -51348,7 +50805,7 @@ function __c897(j: number): any {
       });
   }
 }
-function __c898(j: number): any {
+function __c887(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51358,14 +50815,14 @@ function __c898(j: number): any {
           name: S.optional(S.String),
           platform: S.optional(S.String),
           query: S.optional(S.String),
-          remediationSettings: S.optional(__S(28770, __c899, 2)),
+          remediationSettings: S.optional(__S(28418, __c888, 2)),
           type: S.optional(S.String),
           variableName: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/device-posture-checks", code: 200 })),
       ).annotate({ identifier: "CreateDevicePostureCheckRequest" });
   }
 }
-function __c899(j: number): any {
+function __c888(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51384,8 +50841,8 @@ function __c899(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          link: S.optional(__S(28768, __c899, 0)),
-          message: S.optional(__S(28769, __c899, 1)),
+          link: S.optional(__S(28416, __c888, 0)),
+          message: S.optional(__S(28417, __c888, 1)),
         }),
       ).annotate({ identifier: "DevicePostureChecksRemediationSettings" });
     case 3:
@@ -51401,15 +50858,15 @@ function __c899(j: number): any {
           name: S.optional(S.String),
           platform: S.optional(S.String),
           query: S.optional(S.String),
-          remediationSettings: S.optional(__S(28770, __c899, 2)),
+          remediationSettings: S.optional(__S(28418, __c888, 2)),
           type: S.optional(S.String),
           variableName: S.optional(S.String),
-          _links: S.optional(__S(18752, __c586, 0)),
+          _links: S.optional(__S(18688, __c584, 0)),
         }),
       ).annotate({ identifier: "DevicePostureCheck" });
   }
 }
-function __c900(j: number): any {
+function __c889(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51420,7 +50877,7 @@ function __c900(j: number): any {
           subject: S.String,
           isDefault: S.optional(S.Boolean),
           language: S.String,
-          _links: S.optional(__S(28896, __c903, 0)),
+          _links: S.optional(__S(28544, __c892, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -51431,20 +50888,20 @@ function __c900(j: number): any {
       ).annotate({ identifier: "CreateEmailCustomizationRequest" });
   }
 }
-function __c901(j: number): any {
+function __c890(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(18656, __c583, 0)),
-          template: S.optional(__S(18656, __c583, 0)),
-          preview: S.optional(__S(18656, __c583, 0)),
-          test: S.optional(__S(18656, __c583, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
+          template: S.optional(__S(18592, __c581, 0)),
+          preview: S.optional(__S(18592, __c581, 0)),
+          test: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "CreateEmailCustomizationResponseLinks" });
   }
 }
-function __c902(j: number): any {
+function __c891(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51456,30 +50913,30 @@ function __c902(j: number): any {
           isDefault: S.optional(S.Boolean),
           language: S.String,
           lastUpdated: S.optional(S.String),
-          _links: S.optional(__S(28832, __c901, 0)),
+          _links: S.optional(__S(28480, __c890, 0)),
         }),
       ).annotate({ identifier: "CreateEmailCustomizationResponse" });
   }
 }
-function __c903(j: number): any {
+function __c892(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(20736, __c648, 0)),
-          template: S.optional(__S(20736, __c648, 0)),
-          preview: S.optional(__S(20736, __c648, 0)),
-          test: S.optional(__S(20736, __c648, 0)),
+          self: S.optional(__S(20672, __c646, 0)),
+          template: S.optional(__S(20672, __c646, 0)),
+          preview: S.optional(__S(20672, __c646, 0)),
+          test: S.optional(__S(20672, __c646, 0)),
         }),
       ).annotate({ identifier: "CreateEmailCustomizationRequestLinks" });
   }
 }
-function __c904(j: number): any {
+function __c893(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expand: S.optional(__S(18592, __c581, 0).pipe(T.Query())),
+          expand: S.optional(__S(18528, __c579, 0).pipe(T.Query())),
           displayName: S.String,
           userName: S.String,
           brandId: S.String,
@@ -51489,7 +50946,7 @@ function __c904(j: number): any {
       ).annotate({ identifier: "CreateEmailDomainRequest" });
   }
 }
-function __c905(j: number): any {
+function __c894(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51500,17 +50957,17 @@ function __c905(j: number): any {
         }),
       ).annotate({ identifier: "WebAuthnRpIdDomainDnsRecord" });
     case 1:
-      return S.Array(__S(28960, __c905, 0));
+      return S.Array(__S(28608, __c894, 0));
   }
 }
-function __c906(j: number): any {
+function __c895(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           displayName: S.String,
           userName: S.String,
-          dnsValidationRecords: S.optional(__S(28961, __c905, 1)),
+          dnsValidationRecords: S.optional(__S(28609, __c894, 1)),
           domain: S.optional(S.String),
           id: S.optional(S.String),
           validationStatus: S.optional(S.String),
@@ -51519,7 +50976,7 @@ function __c906(j: number): any {
       ).annotate({ identifier: "CreateEmailDomainResponse" });
   }
 }
-function __c907(j: number): any {
+function __c896(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51536,7 +50993,7 @@ function __c907(j: number): any {
       ).annotate({ identifier: "ActivateAuthenticatorMethodRequest" });
   }
 }
-function __c908(j: number): any {
+function __c897(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -51544,7 +51001,7 @@ function __c908(j: number): any {
       });
   }
 }
-function __c909(j: number): any {
+function __c898(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51554,7 +51011,7 @@ function __c909(j: number): any {
       ).annotate({ identifier: "CreateEmailServerRequest" });
   }
 }
-function __c910(j: number): any {
+function __c899(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -51562,21 +51019,21 @@ function __c910(j: number): any {
       });
   }
 }
-function __c911(j: number): any {
+function __c900(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          channel: __S(29186, __c912, 2),
+          channel: __S(28834, __c901, 2),
           description: S.optional(S.NullOr(S.String)),
-          events: __S(29191, __c912, 7),
+          events: __S(28839, __c901, 7),
           name: S.String,
-          _links: S.optional(__S(29192, __c912, 8)),
+          _links: S.optional(__S(28840, __c901, 8)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/eventHooks", code: 200 })),
       ).annotate({ identifier: "CreateEventHookRequest" });
   }
 }
-function __c912(j: number): any {
+function __c901(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51589,7 +51046,7 @@ function __c912(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          authScheme: S.optional(__S(29184, __c912, 0)),
+          authScheme: S.optional(__S(28832, __c901, 0)),
           headers: S.optional(__S(3778, __c118, 2)),
           uri: S.String,
         }),
@@ -51597,7 +51054,7 @@ function __c912(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          config: __S(29185, __c912, 1),
+          config: __S(28833, __c901, 1),
           type: S.String,
           version: S.String,
         }),
@@ -51611,22 +51068,22 @@ function __c912(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(29187, __c912, 3)),
+          condition: S.optional(__S(28835, __c901, 3)),
           event: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventHookFilterMapObjectInput" });
     case 5:
-      return S.Array(__S(29188, __c912, 4));
+      return S.Array(__S(28836, __c901, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          eventFilterMap: S.optional(__S(29189, __c912, 5)),
+          eventFilterMap: S.optional(__S(28837, __c901, 5)),
         }),
       ).annotate({ identifier: "EventHookFiltersInput" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.NullOr(__S(29190, __c912, 6))),
+          filter: S.optional(S.NullOr(__S(28838, __c901, 6))),
           items: __S(64, __c2, 0),
           type: S.String,
         }),
@@ -51634,14 +51091,14 @@ function __c912(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          self: S.optional(__S(20736, __c648, 0)),
-          deactivate: S.optional(__S(20736, __c648, 0)),
-          verify: S.optional(__S(20736, __c648, 0)),
+          self: S.optional(__S(20672, __c646, 0)),
+          deactivate: S.optional(__S(20672, __c646, 0)),
+          verify: S.optional(__S(20672, __c646, 0)),
         }),
       ).annotate({ identifier: "CreateEventHookRequestLinks" });
   }
 }
-function __c913(j: number): any {
+function __c902(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51655,7 +51112,7 @@ function __c913(j: number): any {
       ).annotate({ identifier: "CreateFederatedClaimRequest" });
   }
 }
-function __c914(j: number): any {
+function __c903(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51669,25 +51126,25 @@ function __c914(j: number): any {
       ).annotate({ identifier: "FederatedClaim" });
   }
 }
-function __c915(j: number): any {
+function __c904(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          entitlements: S.optional(__S(29345, __c917, 1)),
+          entitlements: S.optional(__S(28993, __c906, 1)),
           name: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/iam/governance/bundles", code: 200 })),
       ).annotate({ identifier: "CreateGovernanceBundleRequest" });
   }
 }
-function __c916(j: number): any {
+function __c905(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          entitlements: S.optional(__S(18656, __c583, 0)),
-          self: S.optional(__S(18656, __c583, 0)),
+          entitlements: S.optional(__S(18592, __c581, 0)),
+          self: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "GovernanceBundleLinks" });
     case 1:
@@ -51698,12 +51155,12 @@ function __c916(j: number): any {
           name: S.optional(S.String),
           orn: S.optional(S.String),
           status: S.optional(S.String),
-          _links: S.optional(__S(29312, __c916, 0)),
+          _links: S.optional(__S(28960, __c905, 0)),
         }),
       ).annotate({ identifier: "GovernanceBundle" });
   }
 }
-function __c917(j: number): any {
+function __c906(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51714,16 +51171,16 @@ function __c917(j: number): any {
         }),
       ).annotate({ identifier: "IAMBundleEntitlement" });
     case 1:
-      return S.Array(__S(29344, __c917, 0));
+      return S.Array(__S(28992, __c906, 0));
   }
 }
-function __c918(j: number): any {
+function __c907(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           appId: S.String.pipe(T.Label()),
-          appConfig: S.optional(__S(29408, __c919, 0)),
+          appConfig: S.optional(__S(29056, __c908, 0)),
           sourceGroupId: S.String,
           status: S.optional(S.String),
           targetGroupId: S.optional(S.String),
@@ -51734,7 +51191,7 @@ function __c918(j: number): any {
       ).annotate({ identifier: "CreateGroupPushMappingRequest" });
   }
 }
-function __c919(j: number): any {
+function __c908(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51749,15 +51206,15 @@ function __c919(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          app: S.optional(__S(18656, __c583, 0)),
-          sourceGroup: S.optional(__S(18656, __c583, 0)),
-          targetGroup: S.optional(__S(18656, __c583, 0)),
+          app: S.optional(__S(18592, __c581, 0)),
+          sourceGroup: S.optional(__S(18592, __c581, 0)),
+          targetGroup: S.optional(__S(18592, __c581, 0)),
         }),
       ).annotate({ identifier: "GroupPushMappingLinks" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          appConfig: S.optional(__S(29408, __c919, 0)),
+          appConfig: S.optional(__S(29056, __c908, 0)),
           created: S.optional(S.String),
           errorSummary: S.optional(S.String),
           id: S.optional(S.String),
@@ -51766,25 +51223,25 @@ function __c919(j: number): any {
           sourceGroupId: S.optional(S.String),
           status: S.optional(S.String),
           targetGroupId: S.optional(S.String),
-          _links: S.optional(__S(29409, __c919, 1)),
+          _links: S.optional(__S(29057, __c908, 1)),
         }),
       ).annotate({ identifier: "GroupPushMapping" });
   }
 }
-function __c920(j: number): any {
+function __c909(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(29537, __c923, 1)),
-          conditions: S.optional(__S(29540, __c923, 4)),
+          actions: S.optional(__S(29185, __c912, 1)),
+          conditions: S.optional(__S(29188, __c912, 4)),
           name: S.optional(S.String),
           type: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/groups/rules", code: 200 })),
       ).annotate({ identifier: "CreateGroupRuleRequest" });
   }
 }
-function __c921(j: number): any {
+function __c910(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51795,13 +51252,13 @@ function __c921(j: number): any {
       ).annotate({ identifier: "GroupRuleExpression" });
   }
 }
-function __c922(j: number): any {
+function __c911(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c923(j: number): any {
+function __c912(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51812,7 +51269,7 @@ function __c923(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          assignUserToGroups: S.optional(__S(29536, __c923, 0)),
+          assignUserToGroups: S.optional(__S(29184, __c912, 0)),
         }),
       ).annotate({ identifier: "GroupRuleAction" });
     case 2:
@@ -51824,40 +51281,40 @@ function __c923(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(29538, __c923, 2)),
-          users: S.optional(__S(29538, __c923, 2)),
+          groups: S.optional(__S(29186, __c912, 2)),
+          users: S.optional(__S(29186, __c912, 2)),
         }),
       ).annotate({ identifier: "GroupRulePeopleCondition" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(__S(29472, __c921, 0)),
-          people: S.optional(__S(29539, __c923, 3)),
+          expression: S.optional(__S(29120, __c910, 0)),
+          people: S.optional(__S(29187, __c912, 3)),
         }),
       ).annotate({ identifier: "GroupRuleConditions" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          groupIdToGroupNameMap: S.optional(__S(29504, __c922, 0)),
+          groupIdToGroupNameMap: S.optional(__S(29152, __c911, 0)),
         }),
       ).annotate({ identifier: "GroupRuleEmbedded" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(29537, __c923, 1)),
-          conditions: S.optional(__S(29540, __c923, 4)),
+          actions: S.optional(__S(29185, __c912, 1)),
+          conditions: S.optional(__S(29188, __c912, 4)),
           created: S.optional(S.String),
           id: S.optional(S.String),
           lastUpdated: S.optional(S.String),
           name: S.optional(S.String),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          _embedded: S.optional(__S(29541, __c923, 5)),
+          _embedded: S.optional(__S(29189, __c912, 5)),
         }),
       ).annotate({ identifier: "GroupRule" });
   }
 }
-function __c924(j: number): any {
+function __c913(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51867,7 +51324,7 @@ function __c924(j: number): any {
       ).annotate({ identifier: "CreateHookKeyRequest" });
   }
 }
-function __c925(j: number): any {
+function __c914(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51882,7 +51339,7 @@ function __c925(j: number): any {
       ).annotate({ identifier: "Embedded" });
   }
 }
-function __c926(j: number): any {
+function __c915(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51893,12 +51350,12 @@ function __c926(j: number): any {
           keyId: S.optional(S.String),
           lastUpdated: S.optional(S.NullOr(S.String)),
           name: S.optional(S.String),
-          _embedded: S.optional(__S(29600, __c925, 0)),
+          _embedded: S.optional(__S(29248, __c914, 0)),
         }),
       ).annotate({ identifier: "DetailedHookKeyInstance" });
   }
 }
-function __c927(j: number): any {
+function __c916(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51910,33 +51367,33 @@ function __c927(j: number): any {
           protocol: S.optional(S.Unknown),
           status: S.optional(S.String),
           type: S.optional(S.String),
-          _links: S.optional(__S(29696, __c928, 0)),
+          _links: S.optional(__S(29344, __c917, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api/v1/idps", code: 200 })),
       ).annotate({ identifier: "CreateIdentityProviderRequest" });
   }
 }
-function __c928(j: number): any {
+function __c917(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.StructWithRest(
           S.Struct({
-            self: S.optional(__S(20736, __c648, 0)),
-            acs: S.optional(__S(20736, __c648, 0)),
-            authorize: S.optional(__S(20736, __c648, 0)),
-            clientRedirectUri: S.optional(__S(20736, __c648, 0)),
-            metadata: S.optional(__S(20736, __c648, 0)),
-            users: S.optional(__S(20736, __c648, 0)),
-            deactivate: S.optional(__S(20736, __c648, 0)),
-            activate: S.optional(__S(20736, __c648, 0)),
-            keys: S.optional(__S(20736, __c648, 0)),
+            self: S.optional(__S(20672, __c646, 0)),
+            acs: S.optional(__S(20672, __c646, 0)),
+            authorize: S.optional(__S(20672, __c646, 0)),
+            clientRedirectUri: S.optional(__S(20672, __c646, 0)),
+            metadata: S.optional(__S(20672, __c646, 0)),
+            users: S.optional(__S(20672, __c646, 0)),
+            deactivate: S.optional(__S(20672, __c646, 0)),
+            activate: S.optional(__S(20672, __c646, 0)),
+            keys: S.optional(__S(20672, __c646, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
       ).annotate({ identifier: "CreateIdentityProviderRequestLinks" });
   }
 }
-function __c929(j: number): any {
+function __c918(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51946,14 +51403,14 @@ function __c929(j: number): any {
       ).annotate({ identifier: "CreateIdentityProviderKeyRequest" });
   }
 }
-function __c930(j: number): any {
+function __c919(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           identitySourceId: S.String.pipe(T.Label()),
           externalId: S.optional(S.String),
-          profile: S.optional(__S(29824, __c932, 0)),
+          profile: S.optional(__S(29472, __c921, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -51964,12 +51421,12 @@ function __c930(j: number): any {
       ).annotate({ identifier: "CreateIdentitySourceGroupsRequest" });
   }
 }
-function __c931(j: number): any {
+function __c920(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          profile: S.optional(__S(29824, __c932, 0)),
+          profile: S.optional(__S(29472, __c921, 0)),
         }),
       ).annotate({ identifier: "GroupsResponseSchemaProfile" });
     case 1:
@@ -51977,12 +51434,12 @@ function __c931(j: number): any {
         S.Struct({
           externalId: S.optional(S.String),
           id: S.optional(S.String),
-          profile: S.optional(__S(29792, __c931, 0)),
+          profile: S.optional(__S(29440, __c920, 0)),
         }),
       ).annotate({ identifier: "GroupsResponseSchema" });
   }
 }
-function __c932(j: number): any {
+function __c921(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
