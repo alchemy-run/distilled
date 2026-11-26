@@ -190,6 +190,7 @@ runGeneratorCli({
   root: `${import.meta.dirname}/..`,
   excludeModel: (f) => f === "cloudflare.protocols.json",
   manualSpecsDir: "manual-specs",
+  unstableOutDir: "src/unstable-services",
   // Per-service fallback key dictionary and route aliases arrive via the
   // model's metadata (baked into .generated-specs by spec-to-smithy).
   spec: (model) => makeCfSpec(model.metadata?.keyDictionary, model.metadata?.opAliases),

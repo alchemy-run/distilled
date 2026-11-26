@@ -41,6 +41,7 @@
 import { writeModel } from "@distilled.cloud/dev/codegen/models";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { markOperationUnstable } from "@distilled.cloud/dev/codegen/stability";
 import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Effect } from "effect";
 import { Flag } from "effect/cli";
@@ -2033,6 +2034,24 @@ const opIdentity = (relPath: string): { top: string; opName: string } => {
   return { top, opName: pascal(rest.join("_")) };
 };
 
+/**
+ * Stability levels the API reference uses as a resource name: every method
+ * page under `workers/subresources/beta/` documents a beta API. Such a page's
+ * operations are marked `smithy.api#unstable`, so generate writes them to the
+ * resource's module under `unstable/`. `preview` is not in the list: the
+ * reference uses it for features (`email_security/…/investigate/subresources/preview`
+ * previews a message), not for a stability level.
+ */
+const PRE_GA_RESOURCE_NAMES = new Set(["alpha", "beta", "experimental", "unstable"]);
+
+/** Whether a method page sits under a resource named for a pre-GA level. */
+const isUnderPreGaResource = (relPath: string): boolean => {
+  const segs = relPath.replace(/\\/g, "/").split("/");
+  return segs.some(
+    (seg, i) => (i === 0 || segs[i - 1] === "subresources") && PRE_GA_RESOURCE_NAMES.has(seg),
+  );
+};
+
 // ============================================================================
 // CLI command
 // ============================================================================
@@ -2142,8 +2161,10 @@ const run = (config: ConvertConfig) =>
       }
 
       try {
+        const unstable = isUnderPreGaResource(rel);
         for (const variant of splitDualScope(opName, parsed)) {
           const opId = buildOperation(bag, variant.opName, variant.parsed);
+          if (unstable) markOperationUnstable(bag.shapes[opId]);
           serviceOps.get(top)!.push({ target: opId });
         }
         converted++;
