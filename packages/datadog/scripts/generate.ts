@@ -5,7 +5,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * Datadog Effect SDK.
  *
  * Input:  .generated-specs/{v1,v2}.json  (written by scripts/convert.ts)
- * Output: src/services/{v1,v2}.ts  +  src/services/index.ts
+ * Output: src/services/{v1,v2}.ts  +  src/services/index.ts, and the
+ *         operations convert marks unstable in src/unstable-services/v2.ts
  *
  * The smithy→SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Datadog's provider spec.
@@ -88,5 +89,6 @@ runGeneratorCli({
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: () => datadogSpec,
 });
