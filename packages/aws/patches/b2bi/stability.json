@@ -1,0 +1,9 @@
+{
+  "description": "B2BI (AWS B2B Data Interchange) is generally available since 2023-11-27 (https://aws.amazon.com/about-aws/whats-new/2023/11/aws-b2b-data-interchange/), but its Smithy model marks the service shape smithy.api#unstable. Generate places a marked module under unstable/, so remove the mark and keep @distilled.cloud/aws/b2bi on the stable path.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.b2bi#B2BI/traits/smithy.api#unstable"
+    }
+  ]
+}
