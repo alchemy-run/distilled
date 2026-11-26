@@ -89,6 +89,16 @@ plans, webhooks, app properties and the Atlassian Connect routes.
 The Jira Software (agile: boards, sprints) and Jira Service Management APIs have their own specs
 and are not in this package.
 
+Atlassian marks 126 of these operations experimental (`x-experimental: true`), for example
+`createDashboard`, `getPlans` and `getSecurityLevels`. They import from `unstable/jira`; the
+package root exports the other 475:
+
+```ts
+import * as JiraUnstable from "@distilled.cloud/jira/unstable/jira";
+
+const plans = yield* JiraUnstable.getPlans({});
+```
+
 ## Pagination
 
 List operations are plain calls (one page) and also expose streams that walk the pages as you

@@ -4,7 +4,8 @@
  * Jira Cloud Effect SDK.
  *
  * Input:  .generated-specs/jira.json  (written by scripts/convert.ts)
- * Output: src/services/jira.ts  +  src/services/index.ts
+ * Output: src/services/jira.ts  +  src/services/index.ts, and the
+ *         operations convert marks unstable in src/unstable-services/jira.ts
  *
  * Jira is REST JSON. Lists page by `startAt` (most) or by `nextPageToken`
  * (JQL search, bulk changelogs, usages); `patches/pagination.json` marks
@@ -96,5 +97,6 @@ runGeneratorCli({
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: () => spec,
 });
