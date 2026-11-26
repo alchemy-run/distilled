@@ -82,5 +82,6 @@ runGeneratorCli({
   // patches/ holds OpenAPI-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   spec: () => netbirdSpec,
 });
