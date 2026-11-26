@@ -11,6 +11,10 @@ export {
 } from "./credential-providers/from-authorized-user.ts";
 export { CredentialsFromEnv } from "./credential-providers/from-env.ts";
 export {
+  fromImpersonatedServiceAccount,
+  type ImpersonatedServiceAccountConfig,
+} from "./credential-providers/from-impersonated-service-account.ts";
+export {
   fromMetadataServer,
   type MetadataServerConfig,
 } from "./credential-providers/from-metadata-server.ts";

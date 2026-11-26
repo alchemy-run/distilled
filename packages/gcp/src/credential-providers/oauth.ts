@@ -3,9 +3,10 @@
  * endpoint, turn its error body into a `GCPCredentialsError`, and read the
  * OAuth2 token response.
  */
+import { encodeLabel, InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientRequest from "effect/http/HttpClientRequest";
+import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import * as Redacted from "effect/Redacted";
 import type { Token } from "../credentials-service.ts";
 import { GCPCredentialsError } from "../errors.ts";
@@ -83,6 +84,64 @@ export const requestJson = (step: string, request: HttpClientRequest.HttpClientR
           );
     }),
   );
+
+/**
+ * The claims of a service account's JWT bearer assertion. `subject` makes
+ * the token act as that Google Workspace user (domain-wide delegation).
+ */
+export const jwtBearerClaims = (
+  options: {
+    readonly clientEmail: string;
+    readonly scopes?: ReadonlyArray<string> | undefined;
+    readonly tokenUrl: string;
+    readonly subject?: string | undefined;
+  },
+  issuedAtSeconds: number,
+) => ({
+  iss: options.clientEmail,
+  scope: (options.scopes ?? [CLOUD_PLATFORM_SCOPE]).join(" "),
+  aud: options.tokenUrl,
+  iat: issuedAtSeconds,
+  exp: issuedAtSeconds + 3600,
+  ...(options.subject && { sub: options.subject }),
+});
+
+/** Trade a signed JWT bearer assertion for an access token at `tokenUrl`. */
+export const exchangeJwtBearer = (
+  step: string,
+  tokenUrl: string,
+  assertion: string,
+  issuedAt: number,
+): Effect.Effect<Token, GCPCredentialsError, HttpClient.HttpClient> =>
+  requestJson(
+    step,
+    HttpClientRequest.post(tokenUrl).pipe(
+      HttpClientRequest.bodyUrlParams({
+        grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
+        assertion,
+      }),
+    ),
+  ).pipe(Effect.flatMap((body) => oauthToken(step, body, issuedAt)));
+
+/**
+ * The IAM Credentials URL of `method` on `serviceAccountEmail`, e.g.
+ * `generateAccessToken` or `signJwt`.
+ */
+export const iamCredentialsUrl = (
+  serviceAccountEmail: string,
+  method: string,
+): Effect.Effect<string, GCPCredentialsError> => {
+  const account = encodeLabel("serviceAccountEmail", serviceAccountEmail);
+  return account instanceof InvalidInput
+    ? Effect.fail(
+        new GCPCredentialsError({
+          message: `The service account ${JSON.stringify(serviceAccountEmail)} cannot be a URL path segment.`,
+        }),
+      )
+    : Effect.succeed(
+        `https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/${account}:${method}`,
+      );
+};
 
 /**
  * An OAuth2 token response (`access_token`, `expires_in`). `issuedAt` is
