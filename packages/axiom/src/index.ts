@@ -6,15 +6,19 @@
  * specs/docs/restapi/versions. Everything else in this folder is hand-written.
  *
  * The v2 control-plane operations are on the package root; the v1 edge APIs
- * are under their own subpath imports:
+ * are under their own subpath imports. The v2 operations the spec marks
+ * `x-axiom-preview` (datasets, monitors, notifiers, users) are generated to
+ * `./unstable-services` and imported as `@distilled.cloud/axiom/unstable/v2`:
  *
  * @example
  * ```ts
  * import * as Axiom from "@distilled.cloud/axiom";
+ * import * as AxiomPreview from "@distilled.cloud/axiom/unstable/v2";
  * import * as EdgeIngest from "@distilled.cloud/axiom/edge-ingest";
  * import * as EdgeQuery from "@distilled.cloud/axiom/edge-query";
  *
- * const datasets = yield* Axiom.getDatasets({});
+ * const dashboards = yield* Axiom.listDashboards({});
+ * const datasets = yield* AxiomPreview.getDatasets({});
  * ```
  */
 export * from "./credentials.ts";
