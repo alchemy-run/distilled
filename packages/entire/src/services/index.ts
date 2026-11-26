@@ -7,7 +7,6 @@ export * as checks from "./checks.ts";
 export * as clusters from "./clusters.ts";
 export * as code from "./code.ts";
 export * as environments from "./environments.ts";
-export * as experimental from "./experimental.ts";
 export * as experts from "./experts.ts";
 export * as gitMeta from "./git_meta.ts";
 export * as identity from "./identity.ts";

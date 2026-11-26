@@ -6,7 +6,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  *
  * Input:  .generated-specs/<module>.json  (one model per API tag, written by
  *         scripts/convert.ts from the Core and cell specs)
- * Output: src/services/<module>.ts  +  src/services/index.ts
+ * Output: src/services/<module>.ts  +  src/services/index.ts, and
+ *         src/unstable-services/ for models convert marks unstable
  *
  * Each model's namespace names its API (`com.entire.core.*` /
  * `com.entire.cell.*`), and the operations bind that API's protocol —
@@ -119,6 +120,7 @@ runGeneratorCli({
   // RFC-6902 patches apply to the Smithy models via finalizeConvert in
   // scripts/convert.ts — never here.
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   barrelExportName: camel,
   spec: (model) => (planeOf(model) === "core" ? coreSpec : cellSpec),
 });
