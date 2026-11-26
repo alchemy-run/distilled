@@ -9,9 +9,16 @@
  * The OpenAPI→Smithy converter lives in
  * `@distilled.cloud/dev/codegen/openapi`; this script is Sentry's pipeline
  * config. `scripts/generate.ts` compiles the model into src/services.
+ *
+ * Sentry marks its experimental endpoints `x-sentry-experimental: true`.
+ * Each one is marked `smithy.api#unstable`, so generate writes it to
+ * `unstable/sentry` and the other operations to the stable `sentry` module.
  */
 import * as path from "node:path";
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
+
+/** An endpoint Sentry marks experimental. */
+const isExperimental = (op: Record<string, any>): boolean => op["x-sentry-experimental"] === true;
 
 await runOpenApiConvert({
   root: path.resolve(import.meta.dirname, ".."),
@@ -28,5 +35,6 @@ await runOpenApiConvert({
     namespace: "com.sentry.api",
     serviceName: "Sentry",
     skipDeprecated: true,
+    unstableOperation: isExperimental,
   },
 });

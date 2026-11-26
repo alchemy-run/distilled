@@ -28,6 +28,19 @@ const Live = Layer.mergeAll(
 program.pipe(Effect.provide(Live), Effect.runPromise);
 ```
 
+## Experimental endpoints
+
+Sentry marks some endpoints experimental (`x-sentry-experimental: true` in its
+OpenAPI spec). Those operations import from `unstable/`:
+
+```ts
+import * as SentryUnstable from "@distilled.cloud/sentry/unstable/sentry";
+
+const metrics = yield* SentryUnstable.listOrganizationTraceMetrics({
+  organization_id_or_slug: "my-org",
+});
+```
+
 ## Auth
 
 Required: `SENTRY_API_KEY`, `SENTRY_AUTH_TOKEN`. Optional: `SENTRY_API_BASE_URL`, `SENTRY_URL`. Sent as `Authorization: Bearer`.
