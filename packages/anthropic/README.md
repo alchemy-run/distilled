@@ -25,9 +25,9 @@ session's events back:
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Anthropic from "@distilled.cloud/anthropic";
-import * as BetaAgents from "@distilled.cloud/anthropic/beta_agents";
-import * as BetaEnvironments from "@distilled.cloud/anthropic/beta_environments";
-import * as BetaSessions from "@distilled.cloud/anthropic/beta_sessions";
+import * as BetaAgents from "@distilled.cloud/anthropic/unstable/beta_agents";
+import * as BetaEnvironments from "@distilled.cloud/anthropic/unstable/beta_environments";
+import * as BetaSessions from "@distilled.cloud/anthropic/unstable/beta_sessions";
 
 // Every managed agents call names its beta.
 const anthropicBeta = ["managed-agents-2026-04-01"];
@@ -113,6 +113,10 @@ One module per API area: `messages`, `models`, `files`, `skills`, `userProfiles`
 (`betaMessages`, `betaAgents`, `betaEnvironments`, `betaSessions`, `betaVaults`,
 `betaMemoryStores`, `betaDeployments`, `betaOrganizations`, …), as the official SDKs put
 them under `client.beta`.
+
+A module that holds only beta routes is unstable: it is imported from
+`@distilled.cloud/anthropic/unstable/<module>`, for example
+`@distilled.cloud/anthropic/unstable/beta_messages`. Today every `beta*` module is one.
 
 Lists paginate with `.pages()` / `.items()`: models and message batches follow `last_id`
 while `has_more` is true, and every other list follows `next_page`.

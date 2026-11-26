@@ -31,6 +31,7 @@ import { convertOpenApiToSmithy, RAW_RESPONSE_TRAIT } from "@distilled.cloud/dev
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { convertProtoToSmithy, parseProto } from "@distilled.cloud/dev/codegen/proto";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { markUnstable } from "@distilled.cloud/dev/codegen/stability";
 import { parse as parseYaml } from "yaml";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
@@ -314,6 +315,9 @@ const stampCommaDelimited = (model: Record<string, any>, spec: Record<string, an
   }
 };
 
+/** The route prefix of E2B's not-yet-stable APIs. */
+const UNSTABLE_PREFIX = "/unstable/";
+
 type PathBucket = Record<string, Record<string, unknown>>;
 
 /** Buckets a spec's operations by primary tag (or a fixed slug). */
@@ -367,6 +371,12 @@ const writeOpenApi = (slug: string, spec: Record<string, any>, paths: PathBucket
   stampBinaryBodies(model);
   stampHeaderPagination(model, spec);
   stampCommaDelimited(model, spec);
+  // E2B serves APIs that "may change or disappear without notice" under
+  // `/unstable/`. A module goes to `unstable/` only when all its routes do.
+  const routes = Object.keys(paths);
+  if (routes.length > 0 && routes.every((route) => route.startsWith(UNSTABLE_PREFIX))) {
+    markUnstable(model);
+  }
   const operations = Object.values<any>(model.shapes).filter((s) => s.type === "operation");
   if (operations.length === 0) {
     console.warn(`   ⚠️  ${slug}: no operations — bucket dropped`);

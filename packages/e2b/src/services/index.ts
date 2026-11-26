@@ -11,7 +11,6 @@ export * as secrets from "./secrets.ts";
 export * as snapshots from "./snapshots.ts";
 export * as tags from "./tags.ts";
 export * as templates from "./templates.ts";
-export * as unstable from "./unstable.ts";
 export * as volumeContent from "./volume_content.ts";
 export * as volumes from "./volumes.ts";
 export * as webhooks from "./webhooks.ts";

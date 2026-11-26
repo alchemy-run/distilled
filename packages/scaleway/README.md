@@ -48,6 +48,15 @@ portal except the `test` API, which `api.scaleway.com` does not serve.
 Operations deprecated upstream are not generated. Member names are
 Scaleway's wire names (`project_id`, `commercial_type`, `page_size`).
 
+Alpha and beta API versions (the version in the document's `info.version`,
+such as `v1alpha1` or `v2beta1`) are under `unstable/`; GA versions (`v1`,
+`v2`, `v3`) are not:
+
+```ts
+import * as InstanceV1 from "@distilled.cloud/scaleway/instance_v1";
+import * as DomainV2beta1 from "@distilled.cloud/scaleway/unstable/domain_v2beta1";
+```
+
 Some APIs have no document on the portal and are **derived from Scaleway's
 official JS SDK** (its generated client, built from the same API
 definitions); their docs say so, and the mirror switches to a portal

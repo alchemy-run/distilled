@@ -5,7 +5,8 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * Effect SDK.
  *
  * Input:  .generated-specs/<module>.json  (written by scripts/convert.ts)
- * Output: src/services/<module>.ts  +  src/services/index.ts
+ * Output: src/services/<module>.ts  +  src/services/index.ts, and
+ *         src/unstable-services/ for models convert marks unstable
  *
  * E2B serves three hosts with three credentials, so each module is
  * compiled against the protocol for the host it talks to:
@@ -159,6 +160,7 @@ runGeneratorCli({
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
+  unstableOutDir: "src/unstable-services",
   barrelExportName: camel,
   spec: (model) => {
     const streaming = STREAMING_EXPORTS[namespaceOf(model)];

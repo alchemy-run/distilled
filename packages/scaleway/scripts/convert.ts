@@ -50,6 +50,9 @@
  *      scaleway-sdk-js (`x-distilled-raw-download`, a `Blob` response there)
  *      — see {@link addRawDownload}. Downloads in the published documents
  *      get theirs from `patches/<slug>/raw-downloads.json`.
+ *   8. Mark an alpha or beta API version (`info.version` `v1alpha1`,
+ *      `v2beta1`) `smithy.api#unstable`, so generate writes it to
+ *      `src/unstable-services/`. A patch can add or remove the mark.
  *
  * Operation names are verbNoun from Scaleway's PascalCase operationIds
  * (`ListServers` → `listServers`). Patches live in
@@ -68,6 +71,7 @@ import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { RENAME_METADATA_KEY } from "@distilled.cloud/dev/codegen/rewrite-operation-ids";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { markUnstable } from "@distilled.cloud/dev/codegen/stability";
 
 const root = path.resolve(import.meta.dirname, "..");
 const manifestPath = resolveSpecPath(root, "specs/spec-mirror-scaleway/specs/_manifest.json");
@@ -482,6 +486,9 @@ for (const entry of manifest) {
     addRawDownload(model, `com.scaleway.${slug}`, found[0]);
     rawDownloads++;
   }
+  // Scaleway labels a version that is not GA in its name (`v1alpha1`,
+  // `v2beta1`), the `info.version` of the document; GA versions are `vN`.
+  if (/alpha|beta/i.test(String(spec.info?.version))) markUnstable(model);
   writeModel(modelPath, model);
 }
 

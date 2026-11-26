@@ -45,7 +45,8 @@ program.pipe(Effect.provide(Live), Effect.runPromise).then(console.log);
 
 | Module | Host | Credential |
 | --- | --- | --- |
-| `sandboxes`, `templates`, `tags`, `volumes`, `secrets`, `snapshots`, `events`, `webhooks`, `auth`, `health`, `unstable` | `https://api.e2b.app` | team API key (`X-API-Key`) |
+| `sandboxes`, `templates`, `tags`, `volumes`, `secrets`, `snapshots`, `events`, `webhooks`, `auth`, `health` | `https://api.e2b.app` | team API key (`X-API-Key`) |
+| `unstable` (import `@distilled.cloud/e2b/unstable/unstable`) | `https://api.e2b.app` | team API key (`X-API-Key`) |
 | `apiKeys` | `https://api.e2b.app` | access token (`Authorization: Bearer`) + team id (`X-Team-ID`) |
 | `envd`, `process`, `filesystem` | `https://sandbox.e2b.app` | the sandbox's envd access token — `sandboxConnection(...)` |
 | `volumeContent` | `https://api.e2b.app/volumecontent` | the volume's token — `volumeConnection(...)` |
@@ -61,6 +62,10 @@ arrive (`Stream.mkUint8Array` collects them). File writes
 (`envd.writeFiles`, `volumeContent.writeVolumeFile`) take `body` as bytes,
 text, a `Blob` or a `Stream<Uint8Array>`, sent as it is pulled and never
 retried.
+
+E2B serves the `unstable` module's routes under `/unstable/` and says they
+"may change or disappear without notice", so it imports from
+`@distilled.cloud/e2b/unstable/<module>`, not `@distilled.cloud/e2b/<module>`.
 
 ## Auth
 
